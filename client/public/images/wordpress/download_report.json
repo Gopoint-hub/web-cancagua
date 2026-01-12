@@ -1,0 +1,350 @@
+{
+  "total_urls": 68,
+  "downloaded": 68,
+  "failed": 0,
+  "skipped": 0,
+  "downloaded_list": [
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2026/01/Cancagua-Hot-Tub-alternativa-termas-sur-de-chile.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Cancagua-Hot-Tub-alternativa-termas-sur-de-chile.webp",
+      "size": 711472
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/12/sauna1.jpeg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/sauna1.jpeg",
+      "size": 100293
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/11/header.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/header.webp",
+      "size": 87436
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/10/nueva-2.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/nueva-2.avif",
+      "size": 65321
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/10/nueva.png",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/nueva.png",
+      "size": 1498553
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/10/nueva.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/nueva.avif",
+      "size": 75288
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/tamara.png",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/tamara.png",
+      "size": 247423
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/Shakshuka_cafeteria_saludable_cancagua_frutillar.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Shakshuka_cafeteria_saludable_cancagua_frutillar.avif",
+      "size": 206387
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/Tostada_Salmon_Ahumado_cafeteria_saludable_cancagua_frutillar.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Tostada_Salmon_Ahumado_cafeteria_saludable_cancagua_frutillar.avif",
+      "size": 129210
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/Mechada_cafeteria_saludable_cancagua_frutillar.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Mechada_cafeteria_saludable_cancagua_frutillar.avif",
+      "size": 134517
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/Cancagua-Cafeteria-Frutillar.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Cancagua-Cafeteria-Frutillar.avif",
+      "size": 26173
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/Maqui-Bowl_cafeteria_saludable_cancagua_frutillar.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Maqui-Bowl_cafeteria_saludable_cancagua_frutillar.avif",
+      "size": 203579
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/Tostada-Dulce_cafeteria_saludable_cancagua_frutillar.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Tostada-Dulce_cafeteria_saludable_cancagua_frutillar.avif",
+      "size": 105231
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/banner.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/banner.avif",
+      "size": 53147
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/bajaa.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/bajaa.avif",
+      "size": 45426
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/Mejor-masajistas-frutillar-chile.jpeg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Mejor-masajistas-frutillar-chile.jpeg",
+      "size": 93680
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/Cafeteria-Cancagua-Frutillar-1-1.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Cafeteria-Cancagua-Frutillar-1-1.jpg",
+      "size": 715532
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/Cafeteria-Cancagua-Frutillar-1.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Cafeteria-Cancagua-Frutillar-1.jpg",
+      "size": 7910912
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/5C2A6846-1.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/5C2A6846-1.jpg",
+      "size": 30507796
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/09/5C2A6847-1.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/5C2A6847-1.jpg",
+      "size": 18316276
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/07/IMG_3046.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_3046.jpg",
+      "size": 1219172
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/04/horariosclasescancagua.png",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/horariosclasescancagua.png",
+      "size": 2689724
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/03/2-4.png",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/2-4.png",
+      "size": 699792
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/02/4-3.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/4-3.avif",
+      "size": 182725
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/02/biopisinas.avif",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/biopisinas.avif",
+      "size": 94616
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/01/biopiscinas-2.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/biopiscinas-2.webp",
+      "size": 69698
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/01/biopiscinas-3.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/biopiscinas-3.webp",
+      "size": 73744
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/01/biopiscinas.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/biopiscinas.jpg",
+      "size": 429878
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/01/IMG_1278-2.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_1278-2.jpg",
+      "size": 11978511
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/01/IMG_1278.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_1278.jpg",
+      "size": 15532285
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/01/IMG_1283.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_1283.jpg",
+      "size": 9034244
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/01/IMG_0989.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_0989.jpg",
+      "size": 6024018
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/01/IMG_9092.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_9092.jpg",
+      "size": 7732834
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/01/2.png",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/2.png",
+      "size": 3615141
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2025/01/Sin-titulo.png",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Sin-titulo.png",
+      "size": 2527208
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/10/IMG_9498.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_9498.jpg",
+      "size": 898358
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/comida.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/comida.webp",
+      "size": 44924
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/cancagua-sup.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/cancagua-sup.jpg",
+      "size": 24344
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/5C2A0530-1-scaled-1.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/5C2A0530-1-scaled-1.webp",
+      "size": 13930
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/Yoga-en-Cancagua2-1024x616-1.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Yoga-en-Cancagua2-1024x616-1.webp",
+      "size": 54356
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/CancaguaPro-5.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/CancaguaPro-5.webp",
+      "size": 93234
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/CancaguaPro-5-2-2.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/CancaguaPro-5-2-2.webp",
+      "size": 20194
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/maxresdefault.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/maxresdefault.webp",
+      "size": 112690
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/impulso.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/impulso.webp",
+      "size": 59920
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/IMG_3465-2.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_3465-2.webp",
+      "size": 144500
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/CancaguaPro-5-2.webp",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/CancaguaPro-5-2.webp",
+      "size": 175488
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/09/CancaguaPro-5-2.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/CancaguaPro-5-2.jpg",
+      "size": 163230
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/08/yoga-cancagua-agosto24.png",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/yoga-cancagua-agosto24.png",
+      "size": 76862
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/07/impulso_Mesa-de-trabajo-1.png",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/impulso_Mesa-de-trabajo-1.png",
+      "size": 2961334
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/06/IMG_9532.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_9532.jpg",
+      "size": 234264
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/05/Mi-Musica-Interna.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Mi-Musica-Interna.jpg",
+      "size": 60521
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/04/IMG_3465.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_3465.jpg",
+      "size": 403987
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/04/IMG_9267.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_9267.jpg",
+      "size": 388493
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/04/renaSer-01.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/renaSer-01.jpg",
+      "size": 367411
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/03/ANIMAL-FLOW_Impresion-a4.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/ANIMAL-FLOW_Impresion-a4.jpg",
+      "size": 178315
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/03/ANIMAL-FLOW_Feed.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/ANIMAL-FLOW_Feed.jpg",
+      "size": 257591
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/03/danza-y-coreografia-2.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/danza-y-coreografia-2.jpg",
+      "size": 45599
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/03/Danza-y-coreografia.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Danza-y-coreografia.jpg",
+      "size": 48249
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/03/DSC_0669.jpeg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/DSC_0669.jpeg",
+      "size": 235580
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/03/DSC_0774.jpeg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/DSC_0774.jpeg",
+      "size": 219568
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/03/horario-yoga-2024.png",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/horario-yoga-2024.png",
+      "size": 65873
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/03/IMG_6475.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/IMG_6475.jpg",
+      "size": 444297
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/03/constelaciones-familiares_Feed.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/constelaciones-familiares_Feed.jpg",
+      "size": 512919
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/03/sala-masaje-Cancagua.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/sala-masaje-Cancagua.jpg",
+      "size": 64488
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/02/WhatsApp-Image-2024-02-15-at-09.16.26.jpeg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/WhatsApp-Image-2024-02-15-at-09.16.26.jpeg",
+      "size": 248363
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/02/kungfu-dance_Impresion-a4.jpg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/kungfu-dance_Impresion-a4.jpg",
+      "size": 564375
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/02/horario-yoga-cancagua-3.png",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/horario-yoga-cancagua-3.png",
+      "size": 62215
+    },
+    {
+      "url": "https://cancagua.cl/wp-content/uploads/2024/02/Rosario.jpeg",
+      "path": "/home/ubuntu/cancagua/client/public/images/wordpress/Rosario.jpeg",
+      "size": 30990
+    }
+  ],
+  "failed_list": [],
+  "skipped_list": []
+}

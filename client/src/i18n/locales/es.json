@@ -1,0 +1,233 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "events": "Eventos",
+    "cafeteria": "Cafetería",
+    "giftCards": "Gift Cards",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "reserve": "Reservar"
+  },
+  "hero": {
+    "biopiscinas": {
+      "title": "Primeras Biopiscinas Geotermales del Mundo",
+      "subtitle": "¡Cuatro horas de una maravillosa experiencia a 37º-40º!",
+      "cta1": "Reservar Biopiscinas",
+      "cta2": "Ver Todos los Servicios"
+    },
+    "masajes": {
+      "title": "Masajes & Terapias",
+      "subtitle": "Reconforta tu cuerpo y mente con nuestras terapias holísticas",
+      "cta1": "Reservar Masaje",
+      "cta2": "Ver Terapias"
+    },
+    "clases": {
+      "title": "Clases Regulares",
+      "subtitle": "Yoga, Pilates, Aikido y más. Movimiento consciente a orillas del lago",
+      "cta1": "Ver Horarios",
+      "cta2": "Conocer Clases"
+    },
+    "hotTubs": {
+      "title": "Hot Tubs al Aire Libre",
+      "subtitle": "Disfruta de un spa privado bajo las estrellas",
+      "cta1": "Reservar Hot Tub",
+      "cta2": "Más Información"
+    },
+    "cafeteria": {
+      "title": "Cafetería Saludable",
+      "subtitle": "Comida consciente con productos locales y opciones para todos",
+      "cta1": "Ver Carta",
+      "cta2": "Reservar Mesa"
+    },
+    "eventos": {
+      "title": "Eventos & Talleres",
+      "subtitle": "Sonoterapia, conciertos, workshops y experiencias transformadoras",
+      "cta1": "Ver Eventos",
+      "cta2": "Conocer Cartelera"
+    }
+  },
+  "home": {
+    "welcome": "Spa & Retreat Center",
+    "welcomeSubtitle": "Servicios que invitan a la calma, a la conexión con la naturaleza, y con lo profundo del Ser.",
+    "servicesTitle": "Nuestros Servicios",
+    "servicesSubtitle": "Descubre experiencias únicas de bienestar y conexión",
+    "eventsTitle": "Próximos Eventos",
+    "eventsSubtitle": "Talleres, ceremonias y experiencias transformadoras",
+    "seeAllEvents": "Ver Todos los Eventos",
+    "cafeteriaTitle": "Cafetería Saludable",
+    "cafeteriaDescription": "Disfruta de martes a domingo de 10:00 a 21:00 nuestra cafetería saludable con opciones de comida consciente y en base a productos locales. Contamos con brunch todo el día y exquisitas opciones para beber. Nuestra carta incluye alternativas veganas, vegetarianas, keto, sin lácteos y sin gluten.",
+    "cafeteriaOpen": "Cafetería abierta al público",
+    "cafeteriaSchedule": "Horario: Martes a domingo, de 10:00 a 21:30 hrs",
+    "seeMenu": "Ver Carta Completa",
+    "giftCardsTitle": "Regala Cancagua",
+    "giftCardsDescription": "Tarjeta de regalo Cancagua es una excelente opción para que elijan lo que quieran y cuando quieran. Es la mejor alternativa para regalar a tus seres queridos un regalo con sentido.",
+    "buyGiftCard": "Comprar Tarjeta de Regalo",
+    "newsletterTitle": "Quiero enterarme de las novedades de Cancagua",
+    "newsletterPlaceholder": "Tu correo electrónico",
+    "newsletterButton": "Suscribirme",
+    "newsletterSuccess": "¡Gracias por suscribirte!",
+    "newsletterError": "Error al suscribirse. Intenta nuevamente."
+  },
+  "services": {
+    "title": "Nuestros Servicios",
+    "subtitle": "Experiencias de bienestar diseñadas para reconectar con tu esencia",
+    "biopiscinas": {
+      "name": "Biopiscinas Geotermales",
+      "badge": "Primeras del Mundo",
+      "description": "Sumérgete en las primeras biopiscinas geotermales del mundo. Agua termal natural a 37º-40º, rodeado de naturaleza y vistas al lago.",
+      "details": "4 horas de experiencia completa"
+    },
+    "hotTubs": {
+      "name": "Hot Tubs",
+      "description": "Spa privado al aire libre con vista al lago. Perfecto para parejas o grupos pequeños que buscan intimidad y relajación.",
+      "details": "Sesiones de 1-2 horas"
+    },
+    "masajes": {
+      "name": "Masajes & Terapias",
+      "description": "Terapias holísticas que reconfortan cuerpo y mente. Masajes terapéuticos, relajantes y tratamientos especializados.",
+      "details": "Sesiones de 60-90 minutos"
+    },
+    "clases": {
+      "name": "Clases Regulares",
+      "description": "Yoga, Pilates, Aikido y meditación. Clases regulares para todos los niveles en un espacio único frente al lago.",
+      "details": "Horarios semanales disponibles"
+    },
+    "paseReconecta": {
+      "name": "Pase Reconecta",
+      "description": "Medio día completo de relajo. Combina biopiscinas, masaje y acceso a todas nuestras instalaciones.",
+      "details": "Experiencia de 4-5 horas"
+    },
+    "sup": {
+      "name": "Stand Up Paddle (SUP)",
+      "description": "Explora el lago Llanquihue en paddle board. Actividad perfecta para conectar con la naturaleza y hacer ejercicio.",
+      "details": "Alquiler por hora"
+    }
+  },
+  "events": {
+    "title": "Eventos & Talleres",
+    "subtitle": "Experiencias transformadoras que nutren el alma",
+    "upcomingEvents": "Próximos Eventos",
+    "noEvents": "No hay eventos programados en este momento. Vuelve pronto para ver nuestras próximas actividades.",
+    "filterAll": "Todos",
+    "filterWorkshop": "Talleres",
+    "filterCeremony": "Ceremonias",
+    "filterConcert": "Conciertos",
+    "filterTherapy": "Terapias",
+    "spotsAvailable": "cupos disponibles",
+    "soldOut": "Agotado",
+    "reserve": "Reservar",
+    "moreInfo": "Más Información"
+  },
+  "cafeteria": {
+    "title": "Cafetería Saludable",
+    "subtitle": "Comida consciente con productos locales",
+    "description": "Disfruta de nuestra cafetería abierta al público con opciones para todos los gustos y necesidades dietéticas.",
+    "schedule": "Horario",
+    "scheduleDetails": "Martes a domingo, de 10:00 a 21:30 hrs",
+    "maxStay": "Permanencia máxima: 2 horas por cliente",
+    "menuTitle": "Nuestra Carta",
+    "filterAll": "Todo",
+    "filterVegan": "Vegano",
+    "filterVegetarian": "Vegetariano",
+    "filterKeto": "Keto",
+    "filterGlutenFree": "Sin Gluten",
+    "filterDairyFree": "Sin Lácteos",
+    "reserveTable": "Reservar Mesa",
+    "gallery": "Galería"
+  },
+  "giftCards": {
+    "title": "Tarjetas de Regalo Cancagua",
+    "subtitle": "Regala experiencias de bienestar y conexión",
+    "description": "La tarjeta de regalo Cancagua es la mejor opción para regalar momentos inolvidables. El destinatario puede elegir el servicio que prefiera y la fecha que más le convenga.",
+    "selectAmount": "Selecciona el Monto",
+    "customAmount": "Monto Personalizado",
+    "customAmountPlaceholder": "Ingresa el monto",
+    "recipientName": "Nombre del Destinatario",
+    "recipientNamePlaceholder": "¿Para quién es el regalo?",
+    "message": "Mensaje Personalizado (Opcional)",
+    "messagePlaceholder": "Escribe un mensaje especial...",
+    "preview": "Vista Previa",
+    "previewCard": "Así se verá tu tarjeta de regalo",
+    "for": "Para",
+    "from": "De",
+    "buyNow": "Comprar Ahora",
+    "terms": "Términos y Condiciones",
+    "termsText": "Las tarjetas de regalo tienen validez de 12 meses desde la fecha de compra. No son reembolsables y pueden usarse para cualquier servicio de Cancagua. El saldo no utilizado permanece disponible hasta la fecha de vencimiento."
+  },
+  "about": {
+    "title": "Sobre Cancagua",
+    "subtitle": "Spa & Retreat Center en Frutillar, Chile",
+    "story": "Nuestra Historia",
+    "storyText": "Cancagua nace del sueño de crear un espacio de bienestar integral a orillas del lago Llanquihue. Somos pioneros en traer las primeras biopiscinas geotermales del mundo a Chile, combinando tecnología innovadora con respeto por la naturaleza.",
+    "mission": "Nuestra Misión",
+    "missionText": "Invitar a la calma, a la conexión con la naturaleza y con lo profundo del Ser. Ofrecemos servicios y experiencias que nutren cuerpo, mente y espíritu en un entorno único.",
+    "values": "Nuestros Valores",
+    "value1": "Conexión con la naturaleza",
+    "value2": "Bienestar integral",
+    "value3": "Sostenibilidad",
+    "value4": "Comunidad consciente",
+    "location": "Ubicación",
+    "locationText": "Estamos ubicados en Frutillar, Región de Los Lagos, Chile. A orillas del lago Llanquihue, con vistas privilegiadas al volcán Osorno."
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Estamos aquí para ayudarte",
+    "getInTouch": "Ponte en Contacto",
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre completo",
+    "email": "Correo Electrónico",
+    "emailPlaceholder": "tu@email.com",
+    "phone": "Teléfono",
+    "phonePlaceholder": "+56 9 1234 5678",
+    "message": "Mensaje",
+    "messagePlaceholder": "¿En qué podemos ayudarte?",
+    "send": "Enviar Mensaje",
+    "sending": "Enviando...",
+    "success": "¡Mensaje enviado! Te contactaremos pronto.",
+    "error": "Error al enviar. Intenta nuevamente.",
+    "info": "Información de Contacto",
+    "address": "Dirección",
+    "addressText": "Frutillar, Región de Los Lagos, Chile",
+    "schedule": "Horario",
+    "scheduleText": "Lunes a Domingo: 10:00 - 21:00 hrs",
+    "followUs": "Síguenos"
+  },
+  "footer": {
+    "tagline": "Spa & Retreat Center en Frutillar, Chile",
+    "quickLinks": "Enlaces Rápidos",
+    "services": "Servicios",
+    "contact": "Contacto",
+    "schedule": "Horarios",
+    "scheduleText": "Lunes a Domingo: 10:00 - 21:00 hrs",
+    "social": "Redes Sociales",
+    "rights": "Todos los derechos reservados.",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos y Condiciones"
+  },
+  "whatsapp": {
+    "home": "Hola, me gustaría obtener más información sobre Cancagua",
+    "services": "Hola, me gustaría reservar un servicio en Cancagua",
+    "biopiscinas": "Hola, me gustaría reservar las Biopiscinas Geotermales",
+    "events": "Hola, me gustaría información sobre los eventos de Cancagua",
+    "cafeteria": "Hola, me gustaría reservar una mesa en la cafetería",
+    "giftCards": "Hola, me gustaría comprar una tarjeta de regalo",
+    "contact": "Hola, tengo una consulta sobre Cancagua"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error",
+    "tryAgain": "Intentar nuevamente",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "seeMore": "Ver Más",
+    "seeLess": "Ver Menos",
+    "readMore": "Leer Más",
+    "learnMore": "Conocer Más"
+  }
+}

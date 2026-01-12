@@ -1,0 +1,233 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "services": "Dienstleistungen",
+    "events": "Veranstaltungen",
+    "cafeteria": "Cafeteria",
+    "giftCards": "Geschenkkarten",
+    "about": "Über Uns",
+    "contact": "Kontakt",
+    "reserve": "Buchen"
+  },
+  "hero": {
+    "biopiscinas": {
+      "title": "Weltweit Erste Geothermische Biopools",
+      "subtitle": "Vier Stunden wundervolles Erlebnis bei 37º-40º!",
+      "cta1": "Biopools Buchen",
+      "cta2": "Alle Dienstleistungen Ansehen"
+    },
+    "masajes": {
+      "title": "Massagen & Therapien",
+      "subtitle": "Trösten Sie Ihren Körper und Geist mit unseren ganzheitlichen Therapien",
+      "cta1": "Massage Buchen",
+      "cta2": "Therapien Ansehen"
+    },
+    "clases": {
+      "title": "Regelmäßige Kurse",
+      "subtitle": "Yoga, Pilates, Aikido und mehr. Bewusste Bewegung am Seeufer",
+      "cta1": "Zeitplan Ansehen",
+      "cta2": "Kurse Entdecken"
+    },
+    "hotTubs": {
+      "title": "Hot Tubs im Freien",
+      "subtitle": "Genießen Sie ein privates Spa unter den Sternen",
+      "cta1": "Hot Tub Buchen",
+      "cta2": "Mehr Informationen"
+    },
+    "cafeteria": {
+      "title": "Gesunde Cafeteria",
+      "subtitle": "Bewusstes Essen mit lokalen Produkten und Optionen für alle",
+      "cta1": "Speisekarte Ansehen",
+      "cta2": "Tisch Reservieren"
+    },
+    "eventos": {
+      "title": "Veranstaltungen & Workshops",
+      "subtitle": "Klangtherapie, Konzerte, Workshops und transformative Erlebnisse",
+      "cta1": "Veranstaltungen Ansehen",
+      "cta2": "Programm Entdecken"
+    }
+  },
+  "home": {
+    "welcome": "Spa & Retreat Center",
+    "welcomeSubtitle": "Dienstleistungen, die zur Ruhe, zur Verbindung mit der Natur und mit den Tiefen des Seins einladen.",
+    "servicesTitle": "Unsere Dienstleistungen",
+    "servicesSubtitle": "Entdecken Sie einzigartige Wellness- und Verbindungserlebnisse",
+    "eventsTitle": "Kommende Veranstaltungen",
+    "eventsSubtitle": "Workshops, Zeremonien und transformative Erlebnisse",
+    "seeAllEvents": "Alle Veranstaltungen Ansehen",
+    "cafeteriaTitle": "Gesunde Cafeteria",
+    "cafeteriaDescription": "Genießen Sie von Dienstag bis Sonntag von 10:00 bis 21:00 Uhr unsere gesunde Cafeteria mit bewussten Essensoptionen auf Basis lokaler Produkte. Wir bieten den ganzen Tag Brunch und exquisite Getränkeoptionen. Unsere Speisekarte umfasst vegane, vegetarische, Keto-, milchfreie und glutenfreie Alternativen.",
+    "cafeteriaOpen": "Cafeteria öffentlich zugänglich",
+    "cafeteriaSchedule": "Öffnungszeiten: Dienstag bis Sonntag, 10:00 bis 21:30 Uhr",
+    "seeMenu": "Vollständige Speisekarte Ansehen",
+    "giftCardsTitle": "Schenken Sie Cancagua",
+    "giftCardsDescription": "Die Cancagua Geschenkkarte ist eine ausgezeichnete Option, damit sie wählen können, was sie wollen und wann sie wollen. Es ist die beste Alternative, um Ihren Lieben ein bedeutungsvolles Geschenk zu machen.",
+    "buyGiftCard": "Geschenkkarte Kaufen",
+    "newsletterTitle": "Ich möchte über Neuigkeiten von Cancagua informiert werden",
+    "newsletterPlaceholder": "Ihre E-Mail-Adresse",
+    "newsletterButton": "Anmelden",
+    "newsletterSuccess": "Vielen Dank für Ihre Anmeldung!",
+    "newsletterError": "Fehler bei der Anmeldung. Bitte versuchen Sie es erneut."
+  },
+  "services": {
+    "title": "Unsere Dienstleistungen",
+    "subtitle": "Wellness-Erlebnisse, die darauf ausgelegt sind, sich mit Ihrer Essenz zu verbinden",
+    "biopiscinas": {
+      "name": "Geothermische Biopools",
+      "badge": "Weltweit Erste",
+      "description": "Tauchen Sie ein in die weltweit ersten geothermischen Biopools. Natürliches Thermalwasser bei 37º-40º, umgeben von Natur und Seeblick.",
+      "details": "4-stündiges Gesamterlebnis"
+    },
+    "hotTubs": {
+      "name": "Hot Tubs",
+      "description": "Privates Outdoor-Spa mit Seeblick. Perfekt für Paare oder kleine Gruppen, die Intimität und Entspannung suchen.",
+      "details": "1-2 Stunden Sitzungen"
+    },
+    "masajes": {
+      "name": "Massagen & Therapien",
+      "description": "Ganzheitliche Therapien, die Körper und Geist trösten. Therapeutische, entspannende Massagen und spezialisierte Behandlungen.",
+      "details": "60-90 Minuten Sitzungen"
+    },
+    "clases": {
+      "name": "Regelmäßige Kurse",
+      "description": "Yoga, Pilates, Aikido und Meditation. Regelmäßige Kurse für alle Niveaus in einem einzigartigen Raum am Seeufer.",
+      "details": "Wöchentliche Zeitpläne verfügbar"
+    },
+    "paseReconecta": {
+      "name": "Reconnect Pass",
+      "description": "Halber Tag voller Entspannung. Kombiniert Biopools, Massage und Zugang zu allen unseren Einrichtungen.",
+      "details": "4-5 Stunden Erlebnis"
+    },
+    "sup": {
+      "name": "Stand Up Paddle (SUP)",
+      "description": "Erkunden Sie den Llanquihue-See auf einem Paddleboard. Perfekte Aktivität, um sich mit der Natur zu verbinden und Sport zu treiben.",
+      "details": "Stündliche Vermietung"
+    }
+  },
+  "events": {
+    "title": "Veranstaltungen & Workshops",
+    "subtitle": "Transformative Erlebnisse, die die Seele nähren",
+    "upcomingEvents": "Kommende Veranstaltungen",
+    "noEvents": "Derzeit sind keine Veranstaltungen geplant. Schauen Sie bald wieder vorbei, um unsere kommenden Aktivitäten zu sehen.",
+    "filterAll": "Alle",
+    "filterWorkshop": "Workshops",
+    "filterCeremony": "Zeremonien",
+    "filterConcert": "Konzerte",
+    "filterTherapy": "Therapien",
+    "spotsAvailable": "Plätze verfügbar",
+    "soldOut": "Ausverkauft",
+    "reserve": "Buchen",
+    "moreInfo": "Mehr Informationen"
+  },
+  "cafeteria": {
+    "title": "Gesunde Cafeteria",
+    "subtitle": "Bewusstes Essen mit lokalen Produkten",
+    "description": "Genießen Sie unsere öffentlich zugängliche Cafeteria mit Optionen für alle Geschmäcker und diätetischen Bedürfnisse.",
+    "schedule": "Öffnungszeiten",
+    "scheduleDetails": "Dienstag bis Sonntag, 10:00 bis 21:30 Uhr",
+    "maxStay": "Maximaler Aufenthalt: 2 Stunden pro Kunde",
+    "menuTitle": "Unsere Speisekarte",
+    "filterAll": "Alles",
+    "filterVegan": "Vegan",
+    "filterVegetarian": "Vegetarisch",
+    "filterKeto": "Keto",
+    "filterGlutenFree": "Glutenfrei",
+    "filterDairyFree": "Milchfrei",
+    "reserveTable": "Tisch Reservieren",
+    "gallery": "Galerie"
+  },
+  "giftCards": {
+    "title": "Cancagua Geschenkkarten",
+    "subtitle": "Schenken Sie Wellness- und Verbindungserlebnisse",
+    "description": "Die Cancagua Geschenkkarte ist die beste Option, um unvergessliche Momente zu schenken. Der Empfänger kann den bevorzugten Service und das passendste Datum wählen.",
+    "selectAmount": "Betrag Auswählen",
+    "customAmount": "Benutzerdefinierter Betrag",
+    "customAmountPlaceholder": "Betrag eingeben",
+    "recipientName": "Name des Empfängers",
+    "recipientNamePlaceholder": "Für wen ist dieses Geschenk?",
+    "message": "Persönliche Nachricht (Optional)",
+    "messagePlaceholder": "Schreiben Sie eine besondere Nachricht...",
+    "preview": "Vorschau",
+    "previewCard": "So wird Ihre Geschenkkarte aussehen",
+    "for": "Für",
+    "from": "Von",
+    "buyNow": "Jetzt Kaufen",
+    "terms": "Allgemeine Geschäftsbedingungen",
+    "termsText": "Geschenkkarten sind 12 Monate ab Kaufdatum gültig. Sie sind nicht erstattungsfähig und können für jeden Cancagua-Service verwendet werden. Das nicht verwendete Guthaben bleibt bis zum Ablaufdatum verfügbar."
+  },
+  "about": {
+    "title": "Über Cancagua",
+    "subtitle": "Spa & Retreat Center in Frutillar, Chile",
+    "story": "Unsere Geschichte",
+    "storyText": "Cancagua entstand aus dem Traum, einen umfassenden Wellness-Raum am Ufer des Llanquihue-Sees zu schaffen. Wir sind Pioniere darin, die weltweit ersten geothermischen Biopools nach Chile zu bringen und dabei innovative Technologie mit Respekt für die Natur zu verbinden.",
+    "mission": "Unsere Mission",
+    "missionText": "Zur Ruhe einladen, zur Verbindung mit der Natur und mit den Tiefen des Seins. Wir bieten Dienstleistungen und Erlebnisse, die Körper, Geist und Seele in einer einzigartigen Umgebung nähren.",
+    "values": "Unsere Werte",
+    "value1": "Verbindung mit der Natur",
+    "value2": "Ganzheitliches Wohlbefinden",
+    "value3": "Nachhaltigkeit",
+    "value4": "Bewusste Gemeinschaft",
+    "location": "Standort",
+    "locationText": "Wir befinden uns in Frutillar, Region Los Lagos, Chile. Am Ufer des Llanquihue-Sees mit privilegiertem Blick auf den Vulkan Osorno."
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Wir sind hier, um zu helfen",
+    "getInTouch": "Kontaktieren Sie Uns",
+    "name": "Name",
+    "namePlaceholder": "Ihr vollständiger Name",
+    "email": "E-Mail",
+    "emailPlaceholder": "ihre@email.com",
+    "phone": "Telefon",
+    "phonePlaceholder": "+56 9 1234 5678",
+    "message": "Nachricht",
+    "messagePlaceholder": "Wie können wir Ihnen helfen?",
+    "send": "Nachricht Senden",
+    "sending": "Wird gesendet...",
+    "success": "Nachricht gesendet! Wir werden uns bald bei Ihnen melden.",
+    "error": "Fehler beim Senden. Bitte versuchen Sie es erneut.",
+    "info": "Kontaktinformationen",
+    "address": "Adresse",
+    "addressText": "Frutillar, Region Los Lagos, Chile",
+    "schedule": "Öffnungszeiten",
+    "scheduleText": "Montag bis Sonntag: 10:00 - 21:00 Uhr",
+    "followUs": "Folgen Sie Uns"
+  },
+  "footer": {
+    "tagline": "Spa & Retreat Center in Frutillar, Chile",
+    "quickLinks": "Schnelllinks",
+    "services": "Dienstleistungen",
+    "contact": "Kontakt",
+    "schedule": "Öffnungszeiten",
+    "scheduleText": "Montag bis Sonntag: 10:00 - 21:00 Uhr",
+    "social": "Soziale Medien",
+    "rights": "Alle Rechte vorbehalten.",
+    "privacy": "Datenschutzrichtlinie",
+    "terms": "Allgemeine Geschäftsbedingungen"
+  },
+  "whatsapp": {
+    "home": "Hallo, ich möchte mehr Informationen über Cancagua erhalten",
+    "services": "Hallo, ich möchte einen Service bei Cancagua buchen",
+    "biopiscinas": "Hallo, ich möchte die Geothermischen Biopools buchen",
+    "events": "Hallo, ich möchte Informationen über Cancagua-Veranstaltungen",
+    "cafeteria": "Hallo, ich möchte einen Tisch in der Cafeteria reservieren",
+    "giftCards": "Hallo, ich möchte eine Geschenkkarte kaufen",
+    "contact": "Hallo, ich habe eine Frage zu Cancagua"
+  },
+  "common": {
+    "loading": "Wird geladen...",
+    "error": "Ein Fehler ist aufgetreten",
+    "tryAgain": "Erneut Versuchen",
+    "close": "Schließen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Vorherige",
+    "seeMore": "Mehr Sehen",
+    "seeLess": "Weniger Sehen",
+    "readMore": "Mehr Lesen",
+    "learnMore": "Mehr Erfahren"
+  }
+}

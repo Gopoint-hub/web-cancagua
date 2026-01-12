@@ -7,29 +7,32 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "wouter";
 
 export function Navbar() {
+  const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location] = useLocation();
 
   const isActive = (path: string) => location === path;
 
   const servicios = [
-    { name: "Biopiscinas Geotermales", href: "/servicios/biopiscinas" },
-    { name: "Hot Tubs", href: "/servicios/hot-tubs" },
-    { name: "Masajes & Terapias", href: "/servicios/masajes" },
-    { name: "Clases Regulares", href: "/servicios/clases" },
-    { name: "Pase Reconecta", href: "/servicios/pase-reconecta" },
+    { name: t('services.biopiscinas.name'), href: "/servicios/biopiscinas" },
+    { name: t('services.hotTubs.name'), href: "/servicios/hot-tubs" },
+    { name: t('services.masajes.name'), href: "/servicios/masajes" },
+    { name: t('services.clases.name'), href: "/servicios/clases" },
+    { name: t('services.paseReconecta.name'), href: "/servicios/pase-reconecta" },
   ];
 
   return (
     <>
       {/* Barra superior con mensaje */}
       <div className="bg-primary text-primary-foreground py-2 text-center text-sm">
-        <p>En Cancagua estamos abiertos de lunes a domingo todo el año</p>
+        <p>{t('footer.scheduleText')}</p>
       </div>
 
       {/* Navegación principal */}
@@ -54,7 +57,7 @@ export function Navbar() {
                   isActive("/") ? "text-primary" : "text-foreground"
                 }`}
               >
-                Inicio
+                {t('nav.home')}
               </a>
             </Link>
 
@@ -63,7 +66,7 @@ export function Navbar() {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-sm font-medium">
-                    Servicios
+                    {t('nav.services')}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4">
@@ -92,7 +95,7 @@ export function Navbar() {
                   isActive("/eventos") ? "text-primary" : "text-foreground"
                 }`}
               >
-                Eventos
+                {t('nav.events')}
               </a>
             </Link>
 
@@ -102,7 +105,7 @@ export function Navbar() {
                   isActive("/cafeteria") ? "text-primary" : "text-foreground"
                 }`}
               >
-                Cafetería
+                {t('nav.cafeteria')}
               </a>
             </Link>
 
@@ -112,7 +115,7 @@ export function Navbar() {
                   isActive("/gift-cards") ? "text-primary" : "text-foreground"
                 }`}
               >
-                Gift Cards
+                {t('nav.giftCards')}
               </a>
             </Link>
 
@@ -122,7 +125,7 @@ export function Navbar() {
                   isActive("/nosotros") ? "text-primary" : "text-foreground"
                 }`}
               >
-                Nosotros
+                {t('nav.about')}
               </a>
             </Link>
 
@@ -132,15 +135,16 @@ export function Navbar() {
                   isActive("/contacto") ? "text-primary" : "text-foreground"
                 }`}
               >
-                Contacto
+                {t('nav.contact')}
               </a>
             </Link>
           </nav>
 
-          {/* Botón Reservar */}
-          <div className="hidden md:block">
+          {/* Selector de Idioma y Botón Reservar */}
+          <div className="hidden md:flex items-center gap-3">
+            <LanguageSelector />
             <Button size="lg" className="font-semibold">
-              Reservar
+              {t('nav.reserve')}
             </Button>
           </div>
 
@@ -166,13 +170,13 @@ export function Navbar() {
                   className="text-sm font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Inicio
+                  {t('nav.home')}
                 </a>
               </Link>
 
               <div className="space-y-2">
                 <p className="text-sm font-semibold text-muted-foreground">
-                  Servicios
+                  {t('nav.services')}
                 </p>
                 {servicios.map((servicio) => (
                   <Link key={servicio.href} href={servicio.href}>
@@ -191,7 +195,7 @@ export function Navbar() {
                   className="text-sm font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Eventos
+                  {t('nav.events')}
                 </a>
               </Link>
 
@@ -200,7 +204,7 @@ export function Navbar() {
                   className="text-sm font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Cafetería
+                  {t('nav.cafeteria')}
                 </a>
               </Link>
 
@@ -209,7 +213,7 @@ export function Navbar() {
                   className="text-sm font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Gift Cards
+                  {t('nav.giftCards')}
                 </a>
               </Link>
 
@@ -218,7 +222,7 @@ export function Navbar() {
                   className="text-sm font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Nosotros
+                  {t('nav.about')}
                 </a>
               </Link>
 
@@ -227,16 +231,20 @@ export function Navbar() {
                   className="text-sm font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Contacto
+                  {t('nav.contact')}
                 </a>
               </Link>
+
+              <div className="flex items-center justify-between pt-2">
+                <LanguageSelector />
+              </div>
 
               <Button
                 size="lg"
                 className="w-full font-semibold"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Reservar
+                {t('nav.reserve')}
               </Button>
             </nav>
           </div>

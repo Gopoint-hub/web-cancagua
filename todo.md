@@ -204,3 +204,22 @@
 - [ ] Testing de integración con Skedu
 - [ ] Crear checkpoint final
 - [ ] Documentación de uso del CMS
+
+## Correcciones de Errores
+- [x] Corregir error de `<a>` anidados en ServiceCard
+
+## Rediseño de Colores y Mobile-First
+- [x] Extraer colores exactos del sitio original de Cancagua
+- [x] Actualizar paleta de colores en index.css
+- [ ] Ajustar componentes para usar colores originales
+- [ ] Optimizar diseño mobile-first
+- [ ] Revisar espaciados y tipografía en mobile
+
+## Sistema de Traducción Multiidioma
+- [x] Instalar librería de internacionalización (i18next)
+- [x] Crear archivos de traducción (ES, EN, PT, FR, DE)
+- [x] Implementar detección automática de idioma del navegador
+- [x] Agregar selector de idioma en el header
+- [ ] Traducir todo el contenido del sitio (pendiente aplicar traducciones a componentes)
+- [x] Guardar preferencia de idioma en localStorage
+- [ ] Probar cambio de idioma en todas las páginas

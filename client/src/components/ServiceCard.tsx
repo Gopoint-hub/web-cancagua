@@ -37,9 +37,9 @@ export function ServiceCard({
       </div>
       <CardContent className="p-6">
         <p className="text-muted-foreground mb-4">{description}</p>
-        <Link href={href}>
-          <Button className="w-full">Ver Detalles</Button>
-        </Link>
+        <Button className="w-full" asChild>
+          <Link href={href}>Ver Detalles</Link>
+        </Button>
       </CardContent>
     </Card>
   );

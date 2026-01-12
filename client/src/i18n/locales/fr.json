@@ -1,0 +1,233 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "events": "Événements",
+    "cafeteria": "Cafétéria",
+    "giftCards": "Cartes Cadeaux",
+    "about": "À Propos",
+    "contact": "Contact",
+    "reserve": "Réserver"
+  },
+  "hero": {
+    "biopiscinas": {
+      "title": "Premières Biopiscines Géothermiques au Monde",
+      "subtitle": "Quatre heures d'une expérience merveilleuse à 37º-40º!",
+      "cta1": "Réserver Biopiscines",
+      "cta2": "Voir Tous les Services"
+    },
+    "masajes": {
+      "title": "Massages & Thérapies",
+      "subtitle": "Réconfortez votre corps et esprit avec nos thérapies holistiques",
+      "cta1": "Réserver Massage",
+      "cta2": "Voir Thérapies"
+    },
+    "clases": {
+      "title": "Cours Réguliers",
+      "subtitle": "Yoga, Pilates, Aikido et plus. Mouvement conscient au bord du lac",
+      "cta1": "Voir Horaires",
+      "cta2": "Découvrir Cours"
+    },
+    "hotTubs": {
+      "title": "Hot Tubs en Plein Air",
+      "subtitle": "Profitez d'un spa privé sous les étoiles",
+      "cta1": "Réserver Hot Tub",
+      "cta2": "Plus d'Informations"
+    },
+    "cafeteria": {
+      "title": "Cafétéria Saine",
+      "subtitle": "Nourriture consciente avec produits locaux et options pour tous",
+      "cta1": "Voir Menu",
+      "cta2": "Réserver Table"
+    },
+    "eventos": {
+      "title": "Événements & Ateliers",
+      "subtitle": "Sonothérapie, concerts, ateliers et expériences transformatrices",
+      "cta1": "Voir Événements",
+      "cta2": "Découvrir Programme"
+    }
+  },
+  "home": {
+    "welcome": "Spa & Retreat Center",
+    "welcomeSubtitle": "Services qui invitent au calme, à la connexion avec la nature et avec les profondeurs de l'Être.",
+    "servicesTitle": "Nos Services",
+    "servicesSubtitle": "Découvrez des expériences uniques de bien-être et connexion",
+    "eventsTitle": "Événements à Venir",
+    "eventsSubtitle": "Ateliers, cérémonies et expériences transformatrices",
+    "seeAllEvents": "Voir Tous les Événements",
+    "cafeteriaTitle": "Cafétéria Saine",
+    "cafeteriaDescription": "Profitez du mardi au dimanche de 10h00 à 21h00 de notre cafétéria saine avec des options de nourriture consciente à base de produits locaux. Nous proposons un brunch toute la journée et d'excellentes options de boissons. Notre menu comprend des alternatives véganes, végétariennes, keto, sans produits laitiers et sans gluten.",
+    "cafeteriaOpen": "Cafétéria ouverte au public",
+    "cafeteriaSchedule": "Horaires: Mardi au dimanche, de 10h00 à 21h30",
+    "seeMenu": "Voir Menu Complet",
+    "giftCardsTitle": "Offrez Cancagua",
+    "giftCardsDescription": "La carte cadeau Cancagua est une excellente option pour qu'ils choisissent ce qu'ils veulent et quand ils le veulent. C'est la meilleure alternative pour offrir à vos proches un cadeau significatif.",
+    "buyGiftCard": "Acheter Carte Cadeau",
+    "newsletterTitle": "Je veux rester informé des nouveautés de Cancagua",
+    "newsletterPlaceholder": "Votre adresse e-mail",
+    "newsletterButton": "S'inscrire",
+    "newsletterSuccess": "Merci de vous être inscrit!",
+    "newsletterError": "Erreur lors de l'inscription. Veuillez réessayer."
+  },
+  "services": {
+    "title": "Nos Services",
+    "subtitle": "Expériences de bien-être conçues pour se reconnecter avec votre essence",
+    "biopiscinas": {
+      "name": "Biopiscines Géothermiques",
+      "badge": "Premières au Monde",
+      "description": "Plongez dans les premières biopiscines géothermiques au monde. Eau thermale naturelle à 37º-40º, entouré de nature et vues sur le lac.",
+      "details": "4 heures d'expérience complète"
+    },
+    "hotTubs": {
+      "name": "Hot Tubs",
+      "description": "Spa privé en plein air avec vue sur le lac. Parfait pour les couples ou petits groupes recherchant intimité et relaxation.",
+      "details": "Séances de 1-2 heures"
+    },
+    "masajes": {
+      "name": "Massages & Thérapies",
+      "description": "Thérapies holistiques qui réconfortent corps et esprit. Massages thérapeutiques, relaxants et traitements spécialisés.",
+      "details": "Séances de 60-90 minutes"
+    },
+    "clases": {
+      "name": "Cours Réguliers",
+      "description": "Yoga, Pilates, Aikido et méditation. Cours réguliers pour tous les niveaux dans un espace unique face au lac.",
+      "details": "Horaires hebdomadaires disponibles"
+    },
+    "paseReconecta": {
+      "name": "Pass Reconnexion",
+      "description": "Demi-journée complète de relaxation. Combine biopiscines, massage et accès à toutes nos installations.",
+      "details": "Expérience de 4-5 heures"
+    },
+    "sup": {
+      "name": "Stand Up Paddle (SUP)",
+      "description": "Explorez le lac Llanquihue en paddle board. Activité parfaite pour se connecter avec la nature et faire de l'exercice.",
+      "details": "Location à l'heure"
+    }
+  },
+  "events": {
+    "title": "Événements & Ateliers",
+    "subtitle": "Expériences transformatrices qui nourrissent l'âme",
+    "upcomingEvents": "Événements à Venir",
+    "noEvents": "Aucun événement programmé pour le moment. Revenez bientôt pour voir nos prochaines activités.",
+    "filterAll": "Tous",
+    "filterWorkshop": "Ateliers",
+    "filterCeremony": "Cérémonies",
+    "filterConcert": "Concerts",
+    "filterTherapy": "Thérapies",
+    "spotsAvailable": "places disponibles",
+    "soldOut": "Complet",
+    "reserve": "Réserver",
+    "moreInfo": "Plus d'Informations"
+  },
+  "cafeteria": {
+    "title": "Cafétéria Saine",
+    "subtitle": "Nourriture consciente avec produits locaux",
+    "description": "Profitez de notre cafétéria ouverte au public avec des options pour tous les goûts et besoins diététiques.",
+    "schedule": "Horaires",
+    "scheduleDetails": "Mardi au dimanche, de 10h00 à 21h30",
+    "maxStay": "Séjour maximum: 2 heures par client",
+    "menuTitle": "Notre Menu",
+    "filterAll": "Tout",
+    "filterVegan": "Végane",
+    "filterVegetarian": "Végétarien",
+    "filterKeto": "Keto",
+    "filterGlutenFree": "Sans Gluten",
+    "filterDairyFree": "Sans Produits Laitiers",
+    "reserveTable": "Réserver Table",
+    "gallery": "Galerie"
+  },
+  "giftCards": {
+    "title": "Cartes Cadeaux Cancagua",
+    "subtitle": "Offrez des expériences de bien-être et connexion",
+    "description": "La carte cadeau Cancagua est la meilleure option pour offrir des moments inoubliables. Le destinataire peut choisir le service qu'il préfère et la date la plus pratique.",
+    "selectAmount": "Sélectionner Montant",
+    "customAmount": "Montant Personnalisé",
+    "customAmountPlaceholder": "Entrez le montant",
+    "recipientName": "Nom du Destinataire",
+    "recipientNamePlaceholder": "Pour qui est ce cadeau?",
+    "message": "Message Personnalisé (Optionnel)",
+    "messagePlaceholder": "Écrivez un message spécial...",
+    "preview": "Aperçu",
+    "previewCard": "Voici à quoi ressemblera votre carte cadeau",
+    "for": "Pour",
+    "from": "De",
+    "buyNow": "Acheter Maintenant",
+    "terms": "Conditions Générales",
+    "termsText": "Les cartes cadeaux sont valables 12 mois à compter de la date d'achat. Elles ne sont pas remboursables et peuvent être utilisées pour tout service Cancagua. Le solde non utilisé reste disponible jusqu'à la date d'expiration."
+  },
+  "about": {
+    "title": "À Propos de Cancagua",
+    "subtitle": "Spa & Retreat Center à Frutillar, Chili",
+    "story": "Notre Histoire",
+    "storyText": "Cancagua est né du rêve de créer un espace de bien-être intégral au bord du lac Llanquihue. Nous sommes pionniers en apportant les premières biopiscines géothermiques au monde au Chili, combinant technologie innovante et respect de la nature.",
+    "mission": "Notre Mission",
+    "missionText": "Inviter au calme, à la connexion avec la nature et avec les profondeurs de l'Être. Nous offrons des services et expériences qui nourrissent corps, esprit et âme dans un environnement unique.",
+    "values": "Nos Valeurs",
+    "value1": "Connexion avec la nature",
+    "value2": "Bien-être intégral",
+    "value3": "Durabilité",
+    "value4": "Communauté consciente",
+    "location": "Localisation",
+    "locationText": "Nous sommes situés à Frutillar, Région de Los Lagos, Chili. Au bord du lac Llanquihue, avec des vues privilégiées sur le volcan Osorno."
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Nous sommes là pour vous aider",
+    "getInTouch": "Contactez-nous",
+    "name": "Nom",
+    "namePlaceholder": "Votre nom complet",
+    "email": "E-mail",
+    "emailPlaceholder": "votre@email.com",
+    "phone": "Téléphone",
+    "phonePlaceholder": "+56 9 1234 5678",
+    "message": "Message",
+    "messagePlaceholder": "Comment pouvons-nous vous aider?",
+    "send": "Envoyer Message",
+    "sending": "Envoi...",
+    "success": "Message envoyé! Nous vous contacterons bientôt.",
+    "error": "Erreur lors de l'envoi. Veuillez réessayer.",
+    "info": "Informations de Contact",
+    "address": "Adresse",
+    "addressText": "Frutillar, Région de Los Lagos, Chili",
+    "schedule": "Horaires",
+    "scheduleText": "Lundi au Dimanche: 10h00 - 21h00",
+    "followUs": "Suivez-nous"
+  },
+  "footer": {
+    "tagline": "Spa & Retreat Center à Frutillar, Chili",
+    "quickLinks": "Liens Rapides",
+    "services": "Services",
+    "contact": "Contact",
+    "schedule": "Horaires",
+    "scheduleText": "Lundi au Dimanche: 10h00 - 21h00",
+    "social": "Réseaux Sociaux",
+    "rights": "Tous droits réservés.",
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions Générales"
+  },
+  "whatsapp": {
+    "home": "Bonjour, je voudrais obtenir plus d'informations sur Cancagua",
+    "services": "Bonjour, je voudrais réserver un service à Cancagua",
+    "biopiscinas": "Bonjour, je voudrais réserver les Biopiscines Géothermiques",
+    "events": "Bonjour, je voudrais des informations sur les événements de Cancagua",
+    "cafeteria": "Bonjour, je voudrais réserver une table à la cafétéria",
+    "giftCards": "Bonjour, je voudrais acheter une carte cadeau",
+    "contact": "Bonjour, j'ai une question sur Cancagua"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "tryAgain": "Réessayer",
+    "close": "Fermer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "seeMore": "Voir Plus",
+    "seeLess": "Voir Moins",
+    "readMore": "Lire Plus",
+    "learnMore": "En Savoir Plus"
+  }
+}
