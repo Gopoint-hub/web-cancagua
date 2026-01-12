@@ -15,6 +15,13 @@
       "when": 1768250507614,
       "tag": "0001_simple_vampiro",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1768256157830,
+      "tag": "0002_gigantic_patch",
+      "breakpoints": true
     }
   ]
 }

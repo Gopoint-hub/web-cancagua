@@ -223,3 +223,38 @@
 - [ ] Traducir todo el contenido del sitio (pendiente aplicar traducciones a componentes)
 - [x] Guardar preferencia de idioma en localStorage
 - [ ] Probar cambio de idioma en todas las páginas
+
+## Aplicar Traducciones a Todas las Páginas
+- [x] Navbar y Footer traducidos
+- [ ] Home (Hero, Servicios, Eventos)
+- [ ] Servicios (listado)
+- [ ] ServicioBiopiscinas
+- [ ] Eventos
+- [ ] Cafetería
+- [ ] GiftCards
+- [ ] Nosotros
+- [ ] Contacto
+- [ ] HeroSlider
+- [ ] ServiceCard
+- [ ] WhatsAppButton
+
+## CMS Interno - Dashboard Administrativo
+- [x] Crear layout de dashboard con sidebar
+- [x] Página principal del dashboard con métricas
+- [ ] Gestión de servicios (CRUD)
+- [ ] Gestión de eventos (CRUD)
+- [ ] Gestión de clientes (listado, búsqueda, exportar)
+- [ ] Sistema de newsletter (crear campaña, enviar, métricas)
+- [ ] Analytics del sitio (visitantes, conversiones, fuentes)
+- [ ] Configuración de Skedu API
+- [ ] Logs de webhooks
+- [x] Protección con autenticación (solo admin)
+
+## Gestión de Usuarios en CMS
+- [x] Actualizar esquema de base de datos para incluir rol "editor"
+- [x] Crear página de gestión de usuarios (/cms/usuarios)
+- [x] Listado de usuarios con búsqueda y filtros
+- [x] Formulario para agregar nuevo usuario
+- [x] Editar rol de usuario existente (admin, editor, user)
+- [ ] Eliminar usuarios (pendiente backend)
+- [x] Control de permisos por rol
