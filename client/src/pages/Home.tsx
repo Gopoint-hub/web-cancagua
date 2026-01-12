@@ -98,11 +98,11 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <Link href="/servicios">
-                <Button size="lg" variant="outline">
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/servicios">
                   Ver Todos los Servicios
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
@@ -176,9 +176,11 @@ export default function Home() {
                   </li>
                 </ul>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link href="/cafeteria">
-                    <Button size="lg">Ver Carta</Button>
-                  </Link>
+                  <Button size="lg" asChild>
+                    <Link href="/cafeteria">
+                      Ver Carta
+                    </Link>
+                  </Button>
                   <Button size="lg" variant="outline">
                     Reservar Mesa
                   </Button>
@@ -207,11 +209,11 @@ export default function Home() {
                 elijan lo que quieran y cuando quieran. Es la mejor alternativa
                 para regalar a tus seres queridos un regalo con sentido.
               </p>
-              <Link href="/gift-cards">
-                <Button size="lg" className="px-8">
+              <Button size="lg" className="px-8" asChild>
+                <Link href="/gift-cards">
                   Comprar Gift Card
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </section>

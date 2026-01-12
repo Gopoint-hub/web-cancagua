@@ -269,3 +269,6 @@
 
 ## Correcciones Visuales
 - [x] Corregir títulos del hero slider (aparecen claves de traducción en lugar de texto)
+
+## Corrección de Error de Links Anidados
+- [x] Buscar y corregir componentes con `<a>` anidados
