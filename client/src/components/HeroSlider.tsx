@@ -116,20 +116,21 @@ export function HeroSlider() {
               {t(slide.subtitleKey)}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in animation-delay-400">
-              <Link href={slide.ctaLink}>
-                <Button size="lg" className="text-lg px-8 py-6">
+              <Button size="lg" className="text-lg px-8 py-6" asChild>
+                <Link href={slide.ctaLink}>
                   {t(slide.ctaKey)}
-                </Button>
-              </Link>
-              <Link href="/servicios">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg px-8 py-6 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-foreground"
-                >
+                </Link>
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-lg px-8 py-6 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-foreground"
+                asChild
+              >
+                <Link href="/servicios">
                   {t('home.hero.viewAllServices')}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

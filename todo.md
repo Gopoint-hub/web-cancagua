@@ -272,3 +272,6 @@
 
 ## Corrección de Error de Links Anidados
 - [x] Buscar y corregir componentes con `<a>` anidados
+
+## Corrección Adicional de Links Anidados
+- [x] Revisar y corregir HeroSlider para links anidados
