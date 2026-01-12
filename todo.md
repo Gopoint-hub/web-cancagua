@@ -266,3 +266,6 @@
 - [x] Crear endpoint tRPC para eliminar usuario
 - [x] Conectar página de usuarios con tRPC queries
 - [ ] Probar funcionalidad completa de gestión de usuarios
+
+## Correcciones Visuales
+- [x] Corregir títulos del hero slider (aparecen claves de traducción en lugar de texto)
