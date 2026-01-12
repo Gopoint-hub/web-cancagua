@@ -89,6 +89,50 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+// Gestión de usuarios
+export async function getAllUsers() {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get users: database not available");
+    return [];
+  }
+
+  const result = await db.select().from(users);
+  return result;
+}
+
+export async function updateUserRole(userId: number, role: "user" | "editor" | "admin") {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot update user role: database not available");
+    return false;
+  }
+
+  try {
+    await db.update(users).set({ role }).where(eq(users.id, userId));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to update user role:", error);
+    return false;
+  }
+}
+
+export async function deleteUser(userId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot delete user: database not available");
+    return false;
+  }
+
+  try {
+    await db.delete(users).where(eq(users.id, userId));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to delete user:", error);
+    return false;
+  }
+}
+
 // Servicios
 export async function getAllServices() {
   const db = await getDb();

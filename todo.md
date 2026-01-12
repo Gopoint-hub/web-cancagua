@@ -258,3 +258,11 @@
 - [x] Editar rol de usuario existente (admin, editor, user)
 - [ ] Eliminar usuarios (pendiente backend)
 - [x] Control de permisos por rol
+
+## Conectar Gestión de Usuarios con Backend
+- [x] Crear endpoints tRPC para listar usuarios
+- [ ] Crear endpoint tRPC para agregar usuario (pendiente - usuarios se crean al iniciar sesión)
+- [x] Crear endpoint tRPC para cambiar rol de usuario
+- [x] Crear endpoint tRPC para eliminar usuario
+- [x] Conectar página de usuarios con tRPC queries
+- [ ] Probar funcionalidad completa de gestión de usuarios

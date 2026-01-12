@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/table";
 import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { ArrowLeft, Plus, Search, Shield, UserCog } from "lucide-react";
+import { ArrowLeft, Loader2, Plus, Search, Shield, Trash2, UserCog } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
@@ -44,10 +44,36 @@ export default function CMSUsuarios() {
   const { user, loading } = useAuth();
   const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any>(null);
-  const [newUserEmail, setNewUserEmail] = useState("");
-  const [newUserRole, setNewUserRole] = useState<"user" | "editor" | "admin">("user");
+  const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const utils = trpc.useUtils();
+  const { data: users, isLoading: usersLoading } = trpc.users.list.useQuery(undefined, {
+    enabled: !!user && user.role === "admin",
+  });
+
+  const updateRoleMutation = trpc.users.updateRole.useMutation({
+    onSuccess: () => {
+      toast.success("Rol actualizado exitosamente");
+      utils.users.list.invalidate();
+      setIsRoleDialogOpen(false);
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al actualizar rol");
+    },
+  });
+
+  const deleteUserMutation = trpc.users.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Usuario eliminado exitosamente");
+      utils.users.list.invalidate();
+      setIsDeleteDialogOpen(false);
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al eliminar usuario");
+    },
+  });
 
   useEffect(() => {
     if (!loading && !user) {
@@ -55,11 +81,11 @@ export default function CMSUsuarios() {
     }
   }, [user, loading]);
 
-  if (loading) {
+  if (loading || usersLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <Loader2 className="animate-spin h-12 w-12 mx-auto mb-4 text-primary" />
           <p className="text-muted-foreground">Cargando...</p>
         </div>
       </div>
@@ -86,18 +112,6 @@ export default function CMSUsuarios() {
     );
   }
 
-  // Mock data - En producción esto vendría de tRPC
-  const users = [
-    {
-      id: 1,
-      name: "Admin Principal",
-      email: "admin@cancagua.cl",
-      role: "admin",
-      lastSignedIn: new Date(),
-      createdAt: new Date(),
-    },
-  ];
-
   const getRoleBadge = (role: string) => {
     const styles = {
       admin: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
@@ -122,20 +136,20 @@ export default function CMSUsuarios() {
     );
   };
 
-  const handleAddUser = () => {
-    // TODO: Implementar con tRPC
-    toast.success("Usuario agregado exitosamente");
-    setIsAddDialogOpen(false);
-    setNewUserEmail("");
-    setNewUserRole("user");
+  const handleChangeRole = (newRole: string) => {
+    if (!selectedUser) return;
+    updateRoleMutation.mutate({
+      userId: selectedUser.id,
+      role: newRole as "user" | "editor" | "admin",
+    });
   };
 
-  const handleChangeRole = (userId: number, newRole: string) => {
-    // TODO: Implementar con tRPC
-    toast.success(`Rol actualizado a ${newRole}`);
+  const handleDeleteUser = () => {
+    if (!selectedUser) return;
+    deleteUserMutation.mutate({ userId: selectedUser.id });
   };
 
-  const filteredUsers = users.filter(
+  const filteredUsers = (users || []).filter(
     (u) =>
       u.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       u.email?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -176,66 +190,9 @@ export default function CMSUsuarios() {
                   Gestiona los usuarios y sus roles de acceso al CMS
                 </CardDescription>
               </div>
-              <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Agregar Usuario
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Agregar Nuevo Usuario</DialogTitle>
-                    <DialogDescription>
-                      Invita a un nuevo usuario al sistema y asigna su rol
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-4 py-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="usuario@ejemplo.com"
-                        value={newUserEmail}
-                        onChange={(e) => setNewUserEmail(e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="role">Rol</Label>
-                      <Select
-                        value={newUserRole}
-                        onValueChange={(value: any) => setNewUserRole(value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Seleccionar rol" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="user">Usuario</SelectItem>
-                          <SelectItem value="editor">Editor</SelectItem>
-                          <SelectItem value="admin">Administrador</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <p className="text-xs text-muted-foreground">
-                        <strong>Usuario:</strong> Solo puede ver contenido.
-                        <br />
-                        <strong>Editor:</strong> Puede crear y editar contenido.
-                        <br />
-                        <strong>Administrador:</strong> Acceso completo al sistema.
-                      </p>
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button
-                      variant="outline"
-                      onClick={() => setIsAddDialogOpen(false)}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button onClick={handleAddUser}>Agregar Usuario</Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+              <div className="text-sm text-muted-foreground">
+                Total: {users?.length || 0} usuarios
+              </div>
             </div>
           </CardHeader>
           <CardContent>
@@ -279,54 +236,37 @@ export default function CMSUsuarios() {
                         <TableCell className="font-medium">
                           {u.name || "Sin nombre"}
                         </TableCell>
-                        <TableCell>{u.email}</TableCell>
+                        <TableCell>{u.email || "Sin email"}</TableCell>
                         <TableCell>{getRoleBadge(u.role)}</TableCell>
                         <TableCell>
                           {new Date(u.lastSignedIn).toLocaleDateString("es-CL")}
                         </TableCell>
                         <TableCell className="text-right">
-                          <Dialog>
-                            <DialogTrigger asChild>
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                setSelectedUser(u);
+                                setIsRoleDialogOpen(true);
+                              }}
+                            >
+                              <UserCog className="h-4 w-4 mr-2" />
+                              Cambiar Rol
+                            </Button>
+                            {u.id !== user.id && (
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                onClick={() => setSelectedUser(u)}
+                                onClick={() => {
+                                  setSelectedUser(u);
+                                  setIsDeleteDialogOpen(true);
+                                }}
                               >
-                                <UserCog className="h-4 w-4 mr-2" />
-                                Cambiar Rol
+                                <Trash2 className="h-4 w-4 text-destructive" />
                               </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>Cambiar Rol de Usuario</DialogTitle>
-                                <DialogDescription>
-                                  Modifica el rol de acceso para {u.name || u.email}
-                                </DialogDescription>
-                              </DialogHeader>
-                              <div className="space-y-4 py-4">
-                                <div className="space-y-2">
-                                  <Label>Rol Actual: {getRoleBadge(u.role)}</Label>
-                                  <Select
-                                    defaultValue={u.role}
-                                    onValueChange={(value) =>
-                                      handleChangeRole(u.id, value)
-                                    }
-                                  >
-                                    <SelectTrigger>
-                                      <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectItem value="user">Usuario</SelectItem>
-                                      <SelectItem value="editor">Editor</SelectItem>
-                                      <SelectItem value="admin">
-                                        Administrador
-                                      </SelectItem>
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                              </div>
-                            </DialogContent>
-                          </Dialog>
+                            )}
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))
@@ -382,6 +322,77 @@ export default function CMSUsuarios() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Dialog para cambiar rol */}
+      <Dialog open={isRoleDialogOpen} onOpenChange={setIsRoleDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Cambiar Rol de Usuario</DialogTitle>
+            <DialogDescription>
+              Modifica el rol de acceso para {selectedUser?.name || selectedUser?.email}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Rol Actual: {selectedUser && getRoleBadge(selectedUser.role)}</Label>
+              <Select
+                defaultValue={selectedUser?.role}
+                onValueChange={handleChangeRole}
+                disabled={updateRoleMutation.isPending}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="user">Usuario</SelectItem>
+                  <SelectItem value="editor">Editor</SelectItem>
+                  <SelectItem value="admin">Administrador</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsRoleDialogOpen(false)}
+              disabled={updateRoleMutation.isPending}
+            >
+              Cancelar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog para eliminar usuario */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Eliminar Usuario</DialogTitle>
+            <DialogDescription>
+              ¿Estás seguro de que deseas eliminar a {selectedUser?.name || selectedUser?.email}? Esta acción no se puede deshacer.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={deleteUserMutation.isPending}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteUser}
+              disabled={deleteUserMutation.isPending}
+            >
+              {deleteUserMutation.isPending && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Eliminar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
