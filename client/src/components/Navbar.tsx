@@ -88,6 +88,15 @@ export function Navbar() {
             </NavigationMenu>
 
             <Link
+              href="/navega-relax"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                isActive("/navega-relax") ? "text-primary" : "text-foreground"
+              }`}
+            >
+              Navega Relax
+            </Link>
+
+            <Link
               href="/eventos"
               className={`text-sm font-medium transition-colors hover:text-primary ${
                 isActive("/eventos") ? "text-primary" : "text-foreground"
@@ -181,6 +190,14 @@ export function Navbar() {
                   </Link>
                 ))}
               </div>
+
+              <Link
+                href="/navega-relax"
+                className="text-sm font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Navega Relax
+              </Link>
 
               <Link
                 href="/eventos"

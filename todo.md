@@ -323,3 +323,11 @@
 - [x] Agregar validaciones y manejo de errores
 - [x] Crear página en CMS para ver reservas recibidas
 - [x] Crear página en CMS para ver mensajes de contacto
+
+## Landing Page Navega Relax (Catamarán + Cancagua)
+- [x] Subir imagen del catamarán a S3
+- [x] Crear página /navega-relax con información completa de la experiencia
+- [x] Agregar botón flotante de WhatsApp
+- [x] Incluir enlace a reservas de Catamarán Bandurria
+- [x] Agregar ruta y navegación en menú principal
+- [x] Probar responsive y funcionalidad
