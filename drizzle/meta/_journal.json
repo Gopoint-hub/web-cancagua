@@ -36,6 +36,20 @@
       "when": 1768274702353,
       "tag": "0004_silky_silver_fox",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1768334765147,
+      "tag": "0005_careless_namorita",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1768335266450,
+      "tag": "0006_vengeful_swordsman",
+      "breakpoints": true
     }
   ]
 }

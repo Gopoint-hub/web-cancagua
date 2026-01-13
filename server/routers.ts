@@ -5,6 +5,7 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import * as db from "./db";
+import { generateQuoteNumber, calculateValidUntil } from "./quoteHelpers";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -347,6 +348,319 @@ export const appRouter = router({
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al eliminar usuario" });
         }
         return { success: true };
+      }),
+  }),
+
+  // Productos corporativos (CMS - solo admin y editor)
+  corporateProducts: router({
+    getAll: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN", message: "No tienes permisos para gestionar productos corporativos" });
+      }
+      return await db.getAllCorporateProducts();
+    }),
+
+    getActive: publicProcedure.query(async () => {
+      return await db.getActiveCorporateProducts();
+    }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getCorporateProductById(input.id);
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        name: z.string(),
+        description: z.string().optional(),
+        category: z.string(),
+        priceType: z.enum(["per_person", "flat"]),
+        unitPrice: z.number(),
+        duration: z.number().optional(),
+        maxCapacity: z.number().optional(),
+        includes: z.string().optional(),
+        active: z.number().default(1),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.createCorporateProduct(input);
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        category: z.string().optional(),
+        priceType: z.enum(["per_person", "flat"]).optional(),
+        unitPrice: z.number().optional(),
+        duration: z.number().optional(),
+        maxCapacity: z.number().optional(),
+        includes: z.string().optional(),
+        active: z.number().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const { id, ...data } = input;
+        return await db.updateCorporateProduct(id, data);
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.deleteCorporateProduct(input.id);
+      }),
+  }),
+
+  // Clientes corporativos (CMS - solo admin y editor)
+  corporateClients: router({
+    getAll: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getAllCorporateClients();
+    }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getCorporateClientById(input.id);
+      }),
+
+    getByEmail: protectedProcedure
+      .input(z.object({ email: z.string() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getCorporateClientByEmail(input.email);
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        companyName: z.string(),
+        contactName: z.string(),
+        contactPosition: z.string().optional(),
+        contactEmail: z.string().email(),
+        contactPhone: z.string().optional(),
+        contactWhatsapp: z.string().optional(),
+        rut: z.string().optional(),
+        giro: z.string().optional(),
+        address: z.string().optional(),
+        city: z.string().optional(),
+        country: z.string().default("Chile"),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.createCorporateClient(input);
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        companyName: z.string().optional(),
+        contactName: z.string().optional(),
+        contactPosition: z.string().optional(),
+        contactEmail: z.string().email().optional(),
+        contactPhone: z.string().optional(),
+        contactWhatsapp: z.string().optional(),
+        rut: z.string().optional(),
+        giro: z.string().optional(),
+        address: z.string().optional(),
+        city: z.string().optional(),
+        country: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const { id, ...data } = input;
+        return await db.updateCorporateClient(id, data);
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.deleteCorporateClient(input.id);
+      }),
+  }),
+
+  // Cotizaciones (CMS - solo admin y editor)
+  quotes: router({
+    getAll: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getAllQuotes();
+    }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getQuoteById(input.id);
+      }),
+
+    getItems: protectedProcedure
+      .input(z.object({ quoteId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getQuoteItems(input.quoteId);
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        clientId: z.number().optional(),
+        clientName: z.string(),
+        clientEmail: z.string().email(),
+        numberOfPeople: z.number(),
+        eventDate: z.string().optional(),
+        itinerary: z.string().optional(),
+        subtotal: z.number(),
+        total: z.number(),
+        validUntil: z.string(),
+        status: z.enum(["draft", "sent", "approved", "event_completed", "paid", "invoiced"]).default("draft"),
+        notes: z.string().optional(),
+        items: z.array(z.object({
+          productId: z.number().optional(),
+          productName: z.string(),
+          description: z.string().optional(),
+          quantity: z.number(),
+          unitPrice: z.number(),
+          total: z.number(),
+          sortOrder: z.number().default(0),
+        })),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { items, ...quoteData } = input;
+        
+        // Generar número de cotización automáticamente
+        const quoteNumber = await generateQuoteNumber();
+        
+        // Crear cotización
+        const quoteResult = await db.createQuote({
+          ...quoteData,
+          quoteNumber,
+          createdBy: ctx.user.id,
+        });
+        
+        if (!quoteResult.success) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al crear cotización" });
+        }
+        
+        // Obtener la cotización recién creada para obtener su ID
+        const quote = await db.getQuoteByNumber(quoteNumber);
+        if (!quote) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al recuperar cotización" });
+        }
+        
+        // Crear items de cotización
+        for (const item of items) {
+          await db.createQuoteItem({
+            ...item,
+            quoteId: quote.id,
+          });
+        }
+        
+        return { success: true, quoteId: quote.id };
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        clientId: z.number().optional(),
+        clientName: z.string().optional(),
+        clientEmail: z.string().email().optional(),
+        numberOfPeople: z.number().optional(),
+        eventDate: z.string().optional(),
+        itinerary: z.string().optional(),
+        subtotal: z.number().optional(),
+        total: z.number().optional(),
+        validUntil: z.string().optional(),
+        status: z.enum(["draft", "sent", "approved", "event_completed", "paid", "invoiced"]).optional(),
+        notes: z.string().optional(),
+        items: z.array(z.object({
+          productId: z.number().optional(),
+          productName: z.string(),
+          description: z.string().optional(),
+          quantity: z.number(),
+          unitPrice: z.number(),
+          total: z.number(),
+          sortOrder: z.number().default(0),
+        })).optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { id, items, ...quoteData } = input;
+        
+        // Actualizar cotización
+        await db.updateQuote(id, quoteData);
+        
+        // Si se proporcionan items, reemplazar todos
+        if (items) {
+          await db.deleteQuoteItems(id);
+          for (const item of items) {
+            await db.createQuoteItem({
+              ...item,
+              quoteId: id,
+            });
+          }
+        }
+        
+        return { success: true };
+      }),
+
+    updateStatus: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(["draft", "sent", "approved", "event_completed", "paid", "invoiced"]),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.updateQuoteStatus(input.id, input.status);
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.deleteQuote(input.id);
       }),
   }),
 });

@@ -152,6 +152,23 @@ export default function CMSDashboard() {
                   >
                     Clientes
                   </Button>
+                  <div className="pt-2 mt-2 border-t">
+                    <p className="text-xs text-muted-foreground px-3 mb-2 font-semibold">EVENTOS CORPORATIVOS</p>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onClick={() => setLocation("/cms/cotizaciones")}
+                    >
+                      Cotizaciones
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onClick={() => setLocation("/cms/productos-corporativos")}
+                    >
+                      Catálogo Productos
+                    </Button>
+                  </div>
                   <Button
                     variant="ghost"
                     className="w-full justify-start"

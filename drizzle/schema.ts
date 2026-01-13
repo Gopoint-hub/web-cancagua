@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { date, int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -219,3 +219,93 @@ export const contactMessages = mysqlTable("contact_messages", {
 
 export type ContactMessage = typeof contactMessages.$inferSelect;
 export type InsertContactMessage = typeof contactMessages.$inferInsert;
+// Productos corporativos para cotizaciones
+export const corporateProducts = mysqlTable("corporate_products", {
+  id: int("id").autoincrement().primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  category: varchar("category", { length: 100 }).notNull(), // biopiscina, hot_tub, masaje, taller, alimentos, arriendo, programa
+  priceType: mysqlEnum("price_type", ["per_person", "flat"]).default("per_person").notNull(),
+  unitPrice: int("unit_price").notNull(), // en pesos chilenos
+  duration: int("duration"), // en minutos (opcional)
+  maxCapacity: int("max_capacity"), // capacidad máxima de personas (opcional)
+  includes: text("includes"), // JSON con lista de items incluidos
+  active: int("active").default(1).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CorporateProduct = typeof corporateProducts.$inferSelect;
+export type InsertCorporateProduct = typeof corporateProducts.$inferInsert;
+
+// Clientes corporativos
+export const corporateClients = mysqlTable("corporate_clients", {
+  id: int("id").autoincrement().primaryKey(),
+  companyName: text("company_name").notNull(),
+  contactName: text("contact_name").notNull(),
+  contactPosition: text("contact_position"), // Cargo empresarial
+  contactEmail: varchar("contact_email", { length: 320 }).notNull(),
+  contactPhone: varchar("contact_phone", { length: 50 }),
+  contactWhatsapp: varchar("contact_whatsapp", { length: 50 }), // WhatsApp
+  rut: varchar("rut", { length: 20 }), // RUT de la empresa
+  giro: text("giro"), // Giro de la empresa
+  address: text("address"),
+  city: varchar("city", { length: 100 }),
+  country: varchar("country", { length: 100 }).default("Chile"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CorporateClient = typeof corporateClients.$inferSelect;
+export type InsertCorporateClient = typeof corporateClients.$inferInsert;
+
+// Cotizaciones corporativas
+export const quotes = mysqlTable("quotes", {
+  id: int("id").autoincrement().primaryKey(),
+  quoteNumber: varchar("quote_number", { length: 50 }).notNull().unique(), // Ej: COT-1000
+  clientId: int("client_id").references(() => corporateClients.id),
+  clientName: text("client_name").notNull(), // Guardado por si el cliente no está en la BD
+  clientEmail: varchar("client_email", { length: 320 }).notNull(),
+  numberOfPeople: int("number_of_people").notNull(),
+  eventDate: date("event_date"),
+  eventDescription: text("event_description"), // Descripción de la jornada
+  itinerary: text("itinerary"), // Texto editable del itinerario
+  subtotal: int("subtotal").notNull(),
+  total: int("total").notNull(),
+  validUntil: date("valid_until").notNull(), // Fecha de caducidad (10 días)
+  status: mysqlEnum("status", [
+    "draft", 
+    "sent", 
+    "approved", 
+    "event_completed", 
+    "paid", 
+    "invoiced"
+  ]).default("draft").notNull(),
+  notes: text("notes"),
+  createdBy: int("created_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+  sentAt: timestamp("sent_at"),
+  approvedAt: timestamp("approved_at"),
+});
+
+export type Quote = typeof quotes.$inferSelect;
+export type InsertQuote = typeof quotes.$inferInsert;
+
+// Items de cotización
+export const quoteItems = mysqlTable("quote_items", {
+  id: int("id").autoincrement().primaryKey(),
+  quoteId: int("quote_id").references(() => quotes.id, { onDelete: "cascade" }).notNull(),
+  productId: int("product_id").references(() => corporateProducts.id),
+  productName: text("product_name").notNull(),
+  description: text("description"),
+  quantity: int("quantity").notNull(),
+  unitPrice: int("unit_price").notNull(),
+  total: int("total").notNull(),
+  sortOrder: int("sort_order").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type QuoteItem = typeof quoteItems.$inferSelect;
+export type InsertQuoteItem = typeof quoteItems.$inferInsert;

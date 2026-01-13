@@ -331,3 +331,18 @@
 - [x] Incluir enlace a reservas de Catamarán Bandurria
 - [x] Agregar ruta y navegación en menú principal
 - [x] Probar responsive y funcionalidad
+
+## Sistema de Cotizaciones y CRM Corporativo
+- [x] Crear tablas en base de datos: corporate_products, quotes, quote_items, corporate_clients
+- [x] Implementar helpers de base de datos para productos y cotizaciones
+- [x] Crear endpoints tRPC para gestión de productos corporativos
+- [x] Crear endpoints tRPC para creación y gestión de cotizaciones
+- [x] Implementar módulo CMS de catálogo de productos corporativos
+- [x] Implementar módulo CMS de creación de cotizaciones con generador de itinerario
+- [x] Agregar previsualización de cotización antes de enviar
+- [x] Implementar módulo CRM de seguimiento de cotizaciones
+- [x] Agregar estados: Cotización enviada, Aprobado, Jornada efectuada, Jornada pagada, Factura enviada
+- [x] Implementar formulario de datos del cliente para facturación
+- [ ] Integrar con sistema de facturación gratuita (pendiente de definir API)
+- [x] Agregar sistema de aprobación antes de enviar al cliente
+- [x] Escribir tests para funcionalidades de cotizaciones

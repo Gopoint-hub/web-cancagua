@@ -11,6 +11,9 @@ import CMSUsuarios from "./pages/cms/Usuarios";
 import CMSCarta from "./pages/cms/Carta";
 import CMSReservas from "./pages/cms/Reservas";
 import CMSMensajes from "./pages/cms/Mensajes";
+import CMSProductosCorporativos from "./pages/cms/ProductosCorporativos";
+import CMSCotizaciones from "./pages/cms/Cotizaciones";
+import CMSCrearCotizacion from "./pages/cms/CrearCotizacion";
 import Servicios from "./pages/Servicios";
 import ServicioBiopiscinas from "./pages/ServicioBiopiscinas";
 import Eventos from "./pages/Eventos";
@@ -42,6 +45,9 @@ function Router() {
       <Route path={"/cms/carta"} component={CMSCarta} />
       <Route path={"/cms/reservas"} component={CMSReservas} />
       <Route path={"/cms/mensajes"} component={CMSMensajes} />
+      <Route path={"/cms/productos-corporativos"} component={CMSProductosCorporativos} />
+      <Route path={"/cms/cotizaciones"} component={CMSCotizaciones} />
+      <Route path={"/cms/crear-cotizacion"} component={CMSCrearCotizacion} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

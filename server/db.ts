@@ -532,3 +532,226 @@ export async function deleteContactMessage(id: number) {
   const { contactMessages } = await import("../drizzle/schema");
   await db.delete(contactMessages).where(eq(contactMessages.id, id));
 }
+
+
+// ============================================
+// CORPORATE PRODUCTS
+// ============================================
+
+export async function getAllCorporateProducts() {
+  const db = await getDb();
+  if (!db) return [];
+  const { corporateProducts } = await import("../drizzle/schema");
+  return db.select().from(corporateProducts);
+}
+
+export async function getActiveCorporateProducts() {
+  const db = await getDb();
+  if (!db) return [];
+  const { corporateProducts } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  return db.select().from(corporateProducts).where(eq(corporateProducts.active, 1));
+}
+
+export async function getCorporateProductById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const { corporateProducts } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(corporateProducts).where(eq(corporateProducts.id, id));
+  return results[0] || null;
+}
+
+export async function createCorporateProduct(product: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { corporateProducts } = await import("../drizzle/schema");
+  await db.insert(corporateProducts).values(product);
+  return { success: true };
+}
+
+export async function updateCorporateProduct(id: number, product: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { corporateProducts } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.update(corporateProducts).set(product).where(eq(corporateProducts.id, id));
+  return { success: true };
+}
+
+export async function deleteCorporateProduct(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { corporateProducts } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(corporateProducts).where(eq(corporateProducts.id, id));
+  return { success: true };
+}
+
+// ============================================
+// CORPORATE CLIENTS
+// ============================================
+
+export async function getAllCorporateClients() {
+  const db = await getDb();
+  if (!db) return [];
+  const { corporateClients } = await import("../drizzle/schema");
+  return db.select().from(corporateClients);
+}
+
+export async function getCorporateClientById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const { corporateClients } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(corporateClients).where(eq(corporateClients.id, id));
+  return results[0] || null;
+}
+
+export async function getCorporateClientByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const { corporateClients } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(corporateClients).where(eq(corporateClients.contactEmail, email));
+  return results[0] || null;
+}
+
+export async function createCorporateClient(client: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { corporateClients } = await import("../drizzle/schema");
+  await db.insert(corporateClients).values(client);
+  return { success: true };
+}
+
+export async function updateCorporateClient(id: number, client: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { corporateClients } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.update(corporateClients).set(client).where(eq(corporateClients.id, id));
+  return { success: true };
+}
+
+export async function deleteCorporateClient(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { corporateClients } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(corporateClients).where(eq(corporateClients.id, id));
+  return { success: true };
+}
+
+// ============================================
+// QUOTES
+// ============================================
+
+export async function getAllQuotes() {
+  const db = await getDb();
+  if (!db) return [];
+  const { quotes } = await import("../drizzle/schema");
+  return db.select().from(quotes);
+}
+
+export async function getQuoteById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const { quotes } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(quotes).where(eq(quotes.id, id));
+  return results[0] || null;
+}
+
+export async function getQuoteByNumber(quoteNumber: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const { quotes } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(quotes).where(eq(quotes.quoteNumber, quoteNumber));
+  return results[0] || null;
+}
+
+export async function createQuote(quote: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { quotes } = await import("../drizzle/schema");
+  await db.insert(quotes).values(quote);
+  return { success: true };
+}
+
+export async function updateQuote(id: number, quote: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { quotes } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.update(quotes).set(quote).where(eq(quotes.id, id));
+  return { success: true };
+}
+
+export async function updateQuoteStatus(id: number, status: "draft" | "sent" | "approved" | "event_completed" | "paid" | "invoiced") {
+  const db = await getDb();
+  if (!db) return null;
+  const { quotes } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  const updateData: any = { status };
+  
+  if (status === "sent") {
+    updateData.sentAt = new Date();
+  } else if (status === "approved") {
+    updateData.approvedAt = new Date();
+  }
+  
+  await db.update(quotes).set(updateData).where(eq(quotes.id, id));
+  
+  const results = await db.select().from(quotes).where(eq(quotes.id, id));
+  return results[0] || null;
+}
+
+export async function deleteQuote(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { quotes } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(quotes).where(eq(quotes.id, id));
+  return { success: true };
+}
+
+// ============================================
+// QUOTE ITEMS
+// ============================================
+
+export async function getQuoteItems(quoteId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { quoteItems } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  return db.select().from(quoteItems).where(eq(quoteItems.quoteId, quoteId));
+}
+
+export async function createQuoteItem(item: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { quoteItems } = await import("../drizzle/schema");
+  await db.insert(quoteItems).values(item);
+  return { success: true };
+}
+
+export async function deleteQuoteItem(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { quoteItems } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(quoteItems).where(eq(quoteItems.id, id));
+  return { success: true };
+}
+
+export async function deleteQuoteItems(quoteId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { quoteItems } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(quoteItems).where(eq(quoteItems.quoteId, quoteId));
+  return { success: true };
+}
