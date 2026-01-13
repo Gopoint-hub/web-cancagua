@@ -296,3 +296,10 @@
 - [x] Agregar filtros por opciones dietéticas (vegano, sin gluten, keto)
 - [x] Soporte para múltiples precios por item (para 2, para 4, para 6)
 - [ ] Subida de imágenes para items de menú
+
+## Poblar Carta con Datos del PDF
+- [x] Extraer todos los productos y categorías del PDF
+- [x] Crear script para insertar datos en base de datos
+- [x] Ejecutar script de población de datos
+- [x] Verificar que todos los productos aparezcan en /cms/carta
+- [x] Verificar que la carta pública /carta muestre todos los productos
