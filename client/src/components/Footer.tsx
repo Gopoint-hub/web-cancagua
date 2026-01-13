@@ -26,45 +26,51 @@ export function Footer() {
             <h3 className="font-semibold mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/">
-                  <a className="text-muted-foreground hover:text-primary transition-colors">
-                    {t('nav.home')}
-                  </a>
+                <Link
+                  href="/"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t('nav.home')}
                 </Link>
               </li>
               <li>
-                <Link href="/servicios">
-                  <a className="text-muted-foreground hover:text-primary transition-colors">
-                    {t('nav.services')}
-                  </a>
+                <Link
+                  href="/servicios"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t('nav.services')}
                 </Link>
               </li>
               <li>
-                <Link href="/eventos">
-                  <a className="text-muted-foreground hover:text-primary transition-colors">
-                    {t('nav.events')}
-                  </a>
+                <Link
+                  href="/eventos"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t('nav.events')}
                 </Link>
               </li>
               <li>
-                <Link href="/cafeteria">
-                  <a className="text-muted-foreground hover:text-primary transition-colors">
-                    {t('nav.cafeteria')}
-                  </a>
+                <Link
+                  href="/cafeteria"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t('nav.cafeteria')}
                 </Link>
               </li>
               <li>
-                <Link href="/gift-cards">
-                  <a className="text-muted-foreground hover:text-primary transition-colors">
-                    {t('nav.giftCards')}
-                  </a>
+                <Link
+                  href="/gift-cards"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t('nav.giftCards')}
                 </Link>
               </li>
               <li>
-                <Link href="/nosotros">
-                  <a className="text-muted-foreground hover:text-primary transition-colors">
-                    {t('nav.about')}
-                  </a>
+                <Link
+                  href="/nosotros"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t('nav.about')}
                 </Link>
               </li>
             </ul>

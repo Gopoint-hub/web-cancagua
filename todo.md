@@ -275,3 +275,8 @@
 
 ## Corrección Adicional de Links Anidados
 - [x] Revisar y corregir HeroSlider para links anidados
+
+## Búsqueda Exhaustiva de Links Anidados
+- [x] Buscar en todos los archivos TSX patrones de links anidados
+- [x] Corregir Navbar (eliminados 17 casos de Link + a anidados)
+- [x] Corregir Footer (eliminados 6 casos de Link + a anidados)

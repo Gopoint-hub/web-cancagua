@@ -48,6 +48,9 @@
     }
   },
   "home": {
+    "hero": {
+      "viewAllServices": "Ver Todos los Servicios"
+    },
     "welcome": "Spa & Retreat Center",
     "welcomeSubtitle": "Servicios que invitan a la calma, a la conexión con la naturaleza, y con lo profundo del Ser.",
     "servicesTitle": "Nuestros Servicios",

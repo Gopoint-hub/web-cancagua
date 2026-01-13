@@ -39,26 +39,23 @@ export function Navbar() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link href="/">
-            <a className="flex items-center space-x-2">
-              <img
-                src="/images/01_logo-cancagua.png"
-                alt="Cancagua"
-                className="h-12 w-auto"
-              />
-            </a>
+          <Link href="/" className="flex items-center space-x-2">
+            <img
+              src="/images/01_logo-cancagua.png"
+              alt="Cancagua"
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Navegación Desktop */}
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/">
-              <a
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive("/") ? "text-primary" : "text-foreground"
-                }`}
-              >
-                {t('nav.home')}
-              </a>
+            <Link
+              href="/"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                isActive("/") ? "text-primary" : "text-foreground"
+              }`}
+            >
+              {t('nav.home')}
             </Link>
 
             {/* Dropdown Servicios */}
@@ -73,12 +70,13 @@ export function Navbar() {
                       {servicios.map((servicio) => (
                         <li key={servicio.href}>
                           <NavigationMenuLink asChild>
-                            <Link href={servicio.href}>
-                              <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                                <div className="text-sm font-medium leading-none">
-                                  {servicio.name}
-                                </div>
-                              </a>
+                            <Link
+                              href={servicio.href}
+                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            >
+                              <div className="text-sm font-medium leading-none">
+                                {servicio.name}
+                              </div>
                             </Link>
                           </NavigationMenuLink>
                         </li>
@@ -89,54 +87,49 @@ export function Navbar() {
               </NavigationMenuList>
             </NavigationMenu>
 
-            <Link href="/eventos">
-              <a
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive("/eventos") ? "text-primary" : "text-foreground"
-                }`}
-              >
-                {t('nav.events')}
-              </a>
+            <Link
+              href="/eventos"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                isActive("/eventos") ? "text-primary" : "text-foreground"
+              }`}
+            >
+              {t('nav.events')}
             </Link>
 
-            <Link href="/cafeteria">
-              <a
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive("/cafeteria") ? "text-primary" : "text-foreground"
-                }`}
-              >
-                {t('nav.cafeteria')}
-              </a>
+            <Link
+              href="/cafeteria"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                isActive("/cafeteria") ? "text-primary" : "text-foreground"
+              }`}
+            >
+              {t('nav.cafeteria')}
             </Link>
 
-            <Link href="/gift-cards">
-              <a
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive("/gift-cards") ? "text-primary" : "text-foreground"
-                }`}
-              >
-                {t('nav.giftCards')}
-              </a>
+            <Link
+              href="/gift-cards"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                isActive("/gift-cards") ? "text-primary" : "text-foreground"
+              }`}
+            >
+              {t('nav.giftCards')}
             </Link>
 
-            <Link href="/nosotros">
-              <a
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive("/nosotros") ? "text-primary" : "text-foreground"
-                }`}
-              >
-                {t('nav.about')}
-              </a>
+            <Link
+              href="/nosotros"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                isActive("/nosotros") ? "text-primary" : "text-foreground"
+              }`}
+            >
+              {t('nav.about')}
             </Link>
 
-            <Link href="/contacto">
-              <a
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive("/contacto") ? "text-primary" : "text-foreground"
-                }`}
-              >
-                {t('nav.contact')}
-              </a>
+            <Link
+              href="/contacto"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                isActive("/contacto") ? "text-primary" : "text-foreground"
+              }`}
+            >
+              {t('nav.contact')}
             </Link>
           </nav>
 
@@ -165,13 +158,12 @@ export function Navbar() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t">
             <nav className="container py-4 flex flex-col space-y-4">
-              <Link href="/">
-                <a
-                  className="text-sm font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('nav.home')}
-                </a>
+              <Link
+                href="/"
+                className="text-sm font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.home')}
               </Link>
 
               <div className="space-y-2">
@@ -179,60 +171,55 @@ export function Navbar() {
                   {t('nav.services')}
                 </p>
                 {servicios.map((servicio) => (
-                  <Link key={servicio.href} href={servicio.href}>
-                    <a
-                      className="block text-sm pl-4"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {servicio.name}
-                    </a>
+                  <Link
+                    key={servicio.href}
+                    href={servicio.href}
+                    className="block text-sm pl-4"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {servicio.name}
                   </Link>
                 ))}
               </div>
 
-              <Link href="/eventos">
-                <a
-                  className="text-sm font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('nav.events')}
-                </a>
+              <Link
+                href="/eventos"
+                className="text-sm font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.events')}
               </Link>
 
-              <Link href="/cafeteria">
-                <a
-                  className="text-sm font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('nav.cafeteria')}
-                </a>
+              <Link
+                href="/cafeteria"
+                className="text-sm font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.cafeteria')}
               </Link>
 
-              <Link href="/gift-cards">
-                <a
-                  className="text-sm font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('nav.giftCards')}
-                </a>
+              <Link
+                href="/gift-cards"
+                className="text-sm font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.giftCards')}
               </Link>
 
-              <Link href="/nosotros">
-                <a
-                  className="text-sm font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('nav.about')}
-                </a>
+              <Link
+                href="/nosotros"
+                className="text-sm font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.about')}
               </Link>
 
-              <Link href="/contacto">
-                <a
-                  className="text-sm font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('nav.contact')}
-                </a>
+              <Link
+                href="/contacto"
+                className="text-sm font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.contact')}
               </Link>
 
               <div className="flex items-center justify-between pt-2">
