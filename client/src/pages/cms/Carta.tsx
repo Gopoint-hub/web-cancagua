@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Loader2, Plus, Pencil, Trash2, Leaf, Wheat, Flame, Eye } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, Leaf, Wheat, Flame, Eye, Upload, X } from "lucide-react";
 import { Link } from "wouter";
 
 export default function CMSCarta() {
@@ -18,6 +18,8 @@ export default function CMSCarta() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
   const [isAddItemOpen, setIsAddItemOpen] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   // Queries
   const { data: categories, isLoading: categoriesLoading, refetch: refetchCategories } = 
@@ -26,6 +28,16 @@ export default function CMSCarta() {
     trpc.menuAdmin.getAllItems.useQuery();
 
   // Mutations
+  const uploadImageMutation = trpc.upload.menuItemImage.useMutation({
+    onSuccess: () => {
+      toast.success("Imagen subida exitosamente");
+      refetchItems();
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al subir imagen");
+    },
+  });
+
   const createCategoryMutation = trpc.menuAdmin.createCategory.useMutation({
     onSuccess: () => {
       toast.success("Categoría creada exitosamente");
@@ -152,6 +164,31 @@ export default function CMSCarta() {
       dietaryTags: JSON.stringify(dietaryTags),
       specialNotes: specialNotes || undefined,
       displayOrder: items?.filter((i: any) => i.categoryId === selectedCategory).length || 0,
+    }, {
+      onSuccess: async (data, variables) => {
+        // Si hay imagen, subirla después de crear el item
+        if (imageFile) {
+          const reader = new FileReader();
+          reader.onloadend = async () => {
+            const base64 = (reader.result as string).split(',')[1];
+            // Obtener el ID del item recién creado
+            const allItems = await refetchItems();
+            const newItem = allItems.data?.find((i: any) => 
+              i.name === variables.name && i.categoryId === variables.categoryId
+            );
+            if (newItem) {
+              uploadImageMutation.mutate({
+                itemId: newItem.id,
+                imageData: base64,
+                mimeType: imageFile.type,
+              });
+            }
+          };
+          reader.readAsDataURL(imageFile);
+        }
+        setImagePreview(null);
+        setImageFile(null);
+      },
     });
   };
 
@@ -380,6 +417,61 @@ export default function CMSCarta() {
                         />
                       </div>
                       <div>
+                        <Label htmlFor="image">Imagen del Producto</Label>
+                        <div className="mt-2">
+                          {imagePreview ? (
+                            <div className="relative inline-block">
+                              <img
+                                src={imagePreview}
+                                alt="Preview"
+                                className="w-32 h-32 object-cover rounded-lg border"
+                              />
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="destructive"
+                                className="absolute -top-2 -right-2"
+                                onClick={() => {
+                                  setImagePreview(null);
+                                  setImageFile(null);
+                                }}
+                              >
+                                <X className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          ) : (
+                            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50">
+                              <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                <Upload className="w-8 h-8 mb-2 text-gray-400" />
+                                <p className="text-sm text-gray-500">Click para subir imagen</p>
+                                <p className="text-xs text-gray-400">PNG, JPG, WEBP (max 5MB)</p>
+                              </div>
+                              <input
+                                id="image"
+                                type="file"
+                                className="hidden"
+                                accept="image/*"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    if (file.size > 5 * 1024 * 1024) {
+                                      toast.error("La imagen no debe superar 5MB");
+                                      return;
+                                    }
+                                    setImageFile(file);
+                                    const reader = new FileReader();
+                                    reader.onloadend = () => {
+                                      setImagePreview(reader.result as string);
+                                    };
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                              />
+                            </label>
+                          )}
+                        </div>
+                      </div>
+                      <div>
                         <Label>Tipo de Precio *</Label>
                         <div className="space-y-3 mt-2">
                           <div>
@@ -507,6 +599,15 @@ export default function CMSCarta() {
                               </CardHeader>
                               <CardContent>
                                 <div className="space-y-2">
+                                  {item.imageUrl && (
+                                    <div className="mb-3">
+                                      <img
+                                        src={item.imageUrl}
+                                        alt={item.name}
+                                        className="w-full h-32 object-cover rounded-lg"
+                                      />
+                                    </div>
+                                  )}
                                   {prices.default && (
                                     <p className="text-sm font-semibold text-[#44580E]">
                                       ${prices.default.toLocaleString()}
@@ -536,6 +637,43 @@ export default function CMSCarta() {
                                     </p>
                                   )}
                                   <div className="flex gap-2 pt-2">
+                                    <label className="cursor-pointer">
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        type="button"
+                                        asChild
+                                      >
+                                        <span>
+                                          <Upload className="w-4 h-4 mr-1" />
+                                          {item.imageUrl ? "Cambiar" : "Subir"}
+                                        </span>
+                                      </Button>
+                                      <input
+                                        type="file"
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={(e) => {
+                                          const file = e.target.files?.[0];
+                                          if (file) {
+                                            if (file.size > 5 * 1024 * 1024) {
+                                              toast.error("La imagen no debe superar 5MB");
+                                              return;
+                                            }
+                                            const reader = new FileReader();
+                                            reader.onloadend = () => {
+                                              const base64 = (reader.result as string).split(',')[1];
+                                              uploadImageMutation.mutate({
+                                                itemId: item.id,
+                                                imageData: base64,
+                                                mimeType: file.type,
+                                              });
+                                            };
+                                            reader.readAsDataURL(file);
+                                          }
+                                        }}
+                                      />
+                                    </label>
                                     <Button
                                       size="sm"
                                       variant="destructive"

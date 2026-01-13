@@ -134,6 +134,20 @@ export default function CMSDashboard() {
                   <Button
                     variant="ghost"
                     className="w-full justify-start"
+                    onClick={() => setLocation("/cms/reservas")}
+                  >
+                    Reservas
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => setLocation("/cms/mensajes")}
+                  >
+                    Mensajes
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
                     onClick={() => setLocation("/cms/clientes")}
                   >
                     Clientes

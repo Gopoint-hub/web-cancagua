@@ -29,6 +29,13 @@
       "when": 1768264694081,
       "tag": "0003_high_firebird",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1768274702353,
+      "tag": "0004_silky_silver_fox",
+      "breakpoints": true
     }
   ]
 }

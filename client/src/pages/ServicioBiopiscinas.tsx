@@ -4,6 +4,7 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Clock, Users, Waves } from "lucide-react";
+import { BookingForm } from "@/components/BookingForm";
 
 export default function ServicioBiopiscinas() {
   const beneficios = [
@@ -49,9 +50,14 @@ export default function ServicioBiopiscinas() {
               Cuatro horas de una maravillosa experiencia a 37º-40º en las
               primeras biopiscinas geotermales del mundo
             </p>
-            <Button size="lg" className="text-lg px-8 py-6">
-              Reservar Ahora
-            </Button>
+            <BookingForm
+              serviceType="Biopiscinas Geotermales"
+              triggerButton={
+                <Button size="lg" className="text-lg px-8 py-6">
+                  Reservar Ahora
+                </Button>
+              }
+            />
           </div>
         </section>
 

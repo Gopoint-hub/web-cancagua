@@ -303,3 +303,23 @@
 - [x] Ejecutar script de población de datos
 - [x] Verificar que todos los productos aparezcan en /cms/carta
 - [x] Verificar que la carta pública /carta muestre todos los productos
+
+## Sistema de Imágenes para Productos de la Carta
+- [x] Agregar campo image_url a tabla menu_items en esquema (ya existe)
+- [x] Crear helper para subida de imágenes a S3
+- [x] Implementar endpoint tRPC para subir imágenes de productos
+- [x] Agregar campo de subida de imagen en formulario de CMS
+- [x] Mostrar imágenes en página pública /carta
+- [x] Permitir cambiar imágenes desde CMS
+
+## Backend para Formularios de Reserva y Contacto
+- [x] Crear tabla bookings en base de datos
+- [x] Crear tabla contact_messages en base de datos
+- [x] Implementar endpoints tRPC para procesar reservas
+- [x] Implementar endpoints tRPC para procesar mensajes de contacto
+- [x] Configurar sistema de envío de notificaciones al propietario
+- [x] Conectar formulario de reserva con backend
+- [x] Conectar formulario de contacto con backend
+- [x] Agregar validaciones y manejo de errores
+- [x] Crear página en CMS para ver reservas recibidas
+- [x] Crear página en CMS para ver mensajes de contacto

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -6,9 +7,46 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, Phone, Loader2 } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 
 export default function Contacto() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+
+  const sendMessageMutation = trpc.contact.send.useMutation({
+    onSuccess: () => {
+      toast.success("¡Mensaje enviado exitosamente! Te responderemos pronto.");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al enviar mensaje. Inténtalo nuevamente.");
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      toast.error("Por favor completa todos los campos obligatorios");
+      return;
+    }
+
+    sendMessageMutation.mutate(formData);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -113,51 +151,66 @@ export default function Contacto() {
                   Completa el formulario y te responderemos a la brevedad
                 </p>
 
-                <form className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="nombre">Nombre</Label>
-                      <Input id="nombre" placeholder="Tu nombre" />
-                    </div>
-                    <div>
-                      <Label htmlFor="apellido">Apellido</Label>
-                      <Input id="apellido" placeholder="Tu apellido" />
-                    </div>
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                  <div>
+                    <Label htmlFor="name">Nombre Completo *</Label>
+                    <Input
+                      id="name"
+                      placeholder="Tu nombre completo"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      required
+                    />
                   </div>
 
                   <div>
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">Email *</Label>
                     <Input
                       id="email"
                       type="email"
                       placeholder="tu@email.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      required
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="telefono">Teléfono (opcional)</Label>
+                    <Label htmlFor="phone">Teléfono (opcional)</Label>
                     <Input
-                      id="telefono"
+                      id="phone"
                       type="tel"
                       placeholder="+56 9 1234 5678"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="asunto">Asunto</Label>
-                    <Input id="asunto" placeholder="¿En qué podemos ayudarte?" />
+                    <Label htmlFor="subject">Asunto *</Label>
+                    <Input
+                      id="subject"
+                      placeholder="¿En qué podemos ayudarte?"
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      required
+                    />
                   </div>
 
                   <div>
-                    <Label htmlFor="mensaje">Mensaje</Label>
+                    <Label htmlFor="message">Mensaje *</Label>
                     <Textarea
-                      id="mensaje"
+                      id="message"
                       placeholder="Escribe tu mensaje aquí..."
                       rows={6}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      required
                     />
                   </div>
 
-                  <Button size="lg" className="w-full">
+                  <Button size="lg" className="w-full" type="submit" disabled={sendMessageMutation.isPending}>
+                    {sendMessageMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                     Enviar Mensaje
                   </Button>
                 </form>

@@ -158,6 +158,155 @@ export const appRouter = router({
       }),
   }),
 
+  // Subida de imágenes para productos del menú
+  upload: router({
+    menuItemImage: protectedProcedure
+      .input(z.object({
+        itemId: z.number(),
+        imageData: z.string(), // base64
+        mimeType: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { storagePut } = await import("./storage");
+        const buffer = Buffer.from(input.imageData, 'base64');
+        const extension = input.mimeType.split('/')[1];
+        const randomSuffix = Math.random().toString(36).substring(7);
+        const fileKey = `menu-items/${input.itemId}-${randomSuffix}.${extension}`;
+        
+        const { url } = await storagePut(fileKey, buffer, input.mimeType);
+        
+        // Actualizar el item con la nueva URL de imagen
+        await db.updateMenuItem(input.itemId, { imageUrl: url });
+        
+        return { success: true, url };
+      }),
+  }),
+
+  // Reservas (público)
+  bookings: router({
+    create: publicProcedure
+      .input(z.object({
+        name: z.string().min(2),
+        email: z.string().email(),
+        phone: z.string().min(8),
+        serviceType: z.string(),
+        preferredDate: z.string(), // ISO string
+        numberOfPeople: z.number().min(1),
+        message: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const booking = {
+          ...input,
+          preferredDate: new Date(input.preferredDate),
+        };
+        
+        const result = await db.createBooking(booking);
+        
+        // Enviar notificación al propietario
+        const { notifyOwner } = await import("./_core/notification");
+        await notifyOwner({
+          title: `Nueva reserva de ${input.name}`,
+          content: `Servicio: ${input.serviceType}\nFecha: ${input.preferredDate}\nPersonas: ${input.numberOfPeople}\nEmail: ${input.email}\nTeléfono: ${input.phone}${input.message ? `\nMensaje: ${input.message}` : ''}`,
+        });
+        
+        return result;
+      }),
+    
+    // Admin: listar todas las reservas
+    list: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getAllBookings();
+    }),
+    
+    // Admin: actualizar estado
+    updateStatus: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(["pending", "confirmed", "cancelled"]),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const result = await db.updateBookingStatus(input.id, input.status);
+        return result;
+      }),
+    
+    // Admin: eliminar reserva
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.deleteBooking(input.id);
+        return { success: true };
+      }),
+  }),
+
+  // Mensajes de contacto (público)
+  contact: router({
+    send: publicProcedure
+      .input(z.object({
+        name: z.string().min(2),
+        email: z.string().email(),
+        phone: z.string().optional(),
+        subject: z.string().min(3),
+        message: z.string().min(10),
+      }))
+      .mutation(async ({ input }) => {
+        const result = await db.createContactMessage(input);
+        
+        // Enviar notificación al propietario
+        const { notifyOwner } = await import("./_core/notification");
+        await notifyOwner({
+          title: `Nuevo mensaje de ${input.name}`,
+          content: `Asunto: ${input.subject}\nEmail: ${input.email}${input.phone ? `\nTeléfono: ${input.phone}` : ''}\n\nMensaje:\n${input.message}`,
+        });
+        
+        return result;
+      }),
+    
+    // Admin: listar todos los mensajes
+    list: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getAllContactMessages();
+    }),
+    
+    // Admin: actualizar estado
+    updateStatus: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(["new", "read", "replied"]),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const result = await db.updateContactMessageStatus(input.id, input.status);
+        return result;
+      }),
+    
+    // Admin: eliminar mensaje
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.deleteContactMessage(input.id);
+        return { success: true };
+      }),
+  }),
+
   // Gestión de usuarios (solo admin)
   users: router({
     list: protectedProcedure.query(async ({ ctx }) => {

@@ -452,3 +452,83 @@ export async function getFullMenu() {
   
   return result;
 }
+
+// Bookings (Reservas)
+export async function getAllBookings() {
+  const db = await getDb();
+  if (!db) return [];
+  const { bookings } = await import("../drizzle/schema");
+  return await db.select().from(bookings).orderBy(bookings.createdAt);
+}
+
+export async function getBookingById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { bookings } = await import("../drizzle/schema");
+  const result = await db.select().from(bookings).where(eq(bookings.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createBooking(booking: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { bookings } = await import("../drizzle/schema");
+  await db.insert(bookings).values(booking);
+  return { success: true };
+}
+
+export async function updateBookingStatus(id: number, status: "pending" | "confirmed" | "cancelled") {
+  const db = await getDb();
+  if (!db) return null;
+  const { bookings } = await import("../drizzle/schema");
+  await db.update(bookings).set({ status, updatedAt: new Date() }).where(eq(bookings.id, id));
+  const updated = await db.select().from(bookings).where(eq(bookings.id, id)).limit(1);
+  return updated[0];
+}
+
+export async function deleteBooking(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { bookings } = await import("../drizzle/schema");
+  await db.delete(bookings).where(eq(bookings.id, id));
+}
+
+// Contact Messages
+export async function getAllContactMessages() {
+  const db = await getDb();
+  if (!db) return [];
+  const { contactMessages } = await import("../drizzle/schema");
+  return await db.select().from(contactMessages).orderBy(contactMessages.createdAt);
+}
+
+export async function getContactMessageById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { contactMessages } = await import("../drizzle/schema");
+  const result = await db.select().from(contactMessages).where(eq(contactMessages.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createContactMessage(message: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { contactMessages } = await import("../drizzle/schema");
+  await db.insert(contactMessages).values(message);
+  return { success: true };
+}
+
+export async function updateContactMessageStatus(id: number, status: "new" | "read" | "replied") {
+  const db = await getDb();
+  if (!db) return null;
+  const { contactMessages } = await import("../drizzle/schema");
+  await db.update(contactMessages).set({ status, updatedAt: new Date() }).where(eq(contactMessages.id, id));
+  const updated = await db.select().from(contactMessages).where(eq(contactMessages.id, id)).limit(1);
+  return updated[0];
+}
+
+export async function deleteContactMessage(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { contactMessages } = await import("../drizzle/schema");
+  await db.delete(contactMessages).where(eq(contactMessages.id, id));
+}

@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import CMSDashboard from "./pages/cms/Dashboard";
 import CMSUsuarios from "./pages/cms/Usuarios";
 import CMSCarta from "./pages/cms/Carta";
+import CMSReservas from "./pages/cms/Reservas";
+import CMSMensajes from "./pages/cms/Mensajes";
 import Servicios from "./pages/Servicios";
 import ServicioBiopiscinas from "./pages/ServicioBiopiscinas";
 import Eventos from "./pages/Eventos";
@@ -36,6 +38,8 @@ function Router() {
       <Route path={"/cms"} component={CMSDashboard} />
       <Route path={"/cms/usuarios"} component={CMSUsuarios} />
       <Route path={"/cms/carta"} component={CMSCarta} />
+      <Route path={"/cms/reservas"} component={CMSReservas} />
+      <Route path={"/cms/mensajes"} component={CMSMensajes} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
