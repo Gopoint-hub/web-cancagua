@@ -280,3 +280,6 @@
 - [x] Buscar en todos los archivos TSX patrones de links anidados
 - [x] Corregir Navbar (eliminados 17 casos de Link + a anidados)
 - [x] Corregir Footer (eliminados 6 casos de Link + a anidados)
+
+## Corrección de Scroll al Cambiar de Página
+- [x] Implementar scroll automático al inicio cuando se navega entre páginas

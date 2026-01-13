@@ -3,6 +3,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { ScrollToTop } from "./components/ScrollToTop";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import CMSDashboard from "./pages/cms/Dashboard";
@@ -18,7 +19,9 @@ import Nosotros from "./pages/Nosotros";
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
-    <Switch>
+    <>
+      <ScrollToTop />
+      <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/servicios"} component={Servicios} />
       <Route path={"/servicios/biopiscinas"} component={ServicioBiopiscinas} />
@@ -32,7 +35,8 @@ function Router() {
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
-    </Switch>
+      </Switch>
+    </>
   );
 }
 
