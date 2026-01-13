@@ -146,3 +146,42 @@ export const analyticsEvents = mysqlTable("analytics_events", {
 
 export type AnalyticsEvent = typeof analyticsEvents.$inferSelect;
 export type InsertAnalyticsEvent = typeof analyticsEvents.$inferInsert;
+
+// Categorías de menú (Tablas, Bebestibles, Postres, etc.)
+export const menuCategories = mysqlTable("menu_categories", {
+  id: int("id").autoincrement().primaryKey(),
+  name: text("name").notNull(),
+  slug: varchar("slug", { length: 255 }).notNull().unique(),
+  description: text("description"),
+  displayOrder: int("display_order").default(0).notNull(),
+  active: int("active").default(1).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type MenuCategory = typeof menuCategories.$inferSelect;
+export type InsertMenuCategory = typeof menuCategories.$inferInsert;
+
+// Items de menú
+export const menuItems = mysqlTable("menu_items", {
+  id: int("id").autoincrement().primaryKey(),
+  categoryId: int("category_id").references(() => menuCategories.id).notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  imageUrl: text("image_url"),
+  // Precios flexibles (JSON para soportar múltiples precios)
+  // Ejemplo: {"default": 5000, "for_2": 22000, "for_4": 28000, "for_6": 34000}
+  prices: text("prices").notNull(),
+  // Etiquetas dietéticas (JSON array)
+  // Ejemplo: ["vegan", "gluten_free", "keto"]
+  dietaryTags: text("dietary_tags"),
+  // Notas especiales (ej: "Solicitar con 48 hrs de anticipación")
+  specialNotes: text("special_notes"),
+  displayOrder: int("display_order").default(0).notNull(),
+  active: int("active").default(1).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type MenuItem = typeof menuItems.$inferSelect;
+export type InsertMenuItem = typeof menuItems.$inferInsert;

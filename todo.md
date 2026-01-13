@@ -283,3 +283,16 @@
 
 ## Corrección de Scroll al Cambiar de Página
 - [x] Implementar scroll automático al inicio cuando se navega entre páginas
+
+## Página de Carta Editable desde CMS
+- [x] Actualizar esquema de base de datos para incluir tablas de menú
+- [x] Crear tabla `menu_categories` (categorías de menú)
+- [x] Crear tabla `menu_items` (items de menú con precios y descripciones)
+- [x] Crear helpers de base de datos para gestión de menú
+- [x] Crear endpoints tRPC para CRUD de categorías y items de menú
+- [x] Crear página pública `/carta` con diseño tipo restaurant
+- [x] Crear página CMS `/cms/carta` para gestionar el menú
+- [ ] Implementar ordenamiento drag-and-drop de items (pendiente)
+- [x] Agregar filtros por opciones dietéticas (vegano, sin gluten, keto)
+- [x] Soporte para múltiples precios por item (para 2, para 4, para 6)
+- [ ] Subida de imágenes para items de menú

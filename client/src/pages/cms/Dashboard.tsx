@@ -127,6 +127,13 @@ export default function CMSDashboard() {
                   <Button
                     variant="ghost"
                     className="w-full justify-start"
+                    onClick={() => setLocation("/cms/carta")}
+                  >
+                    Carta
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
                     onClick={() => setLocation("/cms/clientes")}
                   >
                     Clientes

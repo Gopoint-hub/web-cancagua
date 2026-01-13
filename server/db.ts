@@ -314,3 +314,141 @@ export async function logAnalyticsEvent(eventData: {
     metadata: eventData.metadata ? JSON.stringify(eventData.metadata) : null,
   });
 }
+
+// Menu Categories
+export async function getAllMenuCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  const { menuCategories } = await import("../drizzle/schema");
+  return await db.select().from(menuCategories).orderBy(menuCategories.displayOrder);
+}
+
+export async function getActiveMenuCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  const { menuCategories } = await import("../drizzle/schema");
+  return await db.select().from(menuCategories)
+    .where(eq(menuCategories.active, 1))
+    .orderBy(menuCategories.displayOrder);
+}
+
+export async function getMenuCategoryById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { menuCategories } = await import("../drizzle/schema");
+  const result = await db.select().from(menuCategories).where(eq(menuCategories.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createMenuCategory(category: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { menuCategories } = await import("../drizzle/schema");
+  await db.insert(menuCategories).values(category);
+}
+
+export async function updateMenuCategory(id: number, category: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { menuCategories } = await import("../drizzle/schema");
+  await db.update(menuCategories).set({ ...category, updatedAt: new Date() }).where(eq(menuCategories.id, id));
+}
+
+export async function deleteMenuCategory(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { menuCategories } = await import("../drizzle/schema");
+  await db.delete(menuCategories).where(eq(menuCategories.id, id));
+}
+
+// Menu Items
+export async function getAllMenuItems() {
+  const db = await getDb();
+  if (!db) return [];
+  const { menuItems } = await import("../drizzle/schema");
+  return await db.select().from(menuItems).orderBy(menuItems.displayOrder);
+}
+
+export async function getMenuItemsByCategory(categoryId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { menuItems } = await import("../drizzle/schema");
+  return await db.select().from(menuItems)
+    .where(eq(menuItems.categoryId, categoryId))
+    .orderBy(menuItems.displayOrder);
+}
+
+export async function getActiveMenuItemsByCategory(categoryId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { menuItems } = await import("../drizzle/schema");
+  const { and } = await import("drizzle-orm");
+  return await db.select().from(menuItems)
+    .where(and(
+      eq(menuItems.categoryId, categoryId),
+      eq(menuItems.active, 1)
+    ))
+    .orderBy(menuItems.displayOrder);
+}
+
+export async function getMenuItemById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { menuItems } = await import("../drizzle/schema");
+  const result = await db.select().from(menuItems).where(eq(menuItems.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createMenuItem(item: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { menuItems } = await import("../drizzle/schema");
+  await db.insert(menuItems).values(item);
+}
+
+export async function updateMenuItem(id: number, item: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { menuItems } = await import("../drizzle/schema");
+  await db.update(menuItems).set({ ...item, updatedAt: new Date() }).where(eq(menuItems.id, id));
+}
+
+export async function deleteMenuItem(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { menuItems } = await import("../drizzle/schema");
+  await db.delete(menuItems).where(eq(menuItems.id, id));
+}
+
+// Get full menu with categories and items
+export async function getFullMenu() {
+  const db = await getDb();
+  if (!db) return [];
+  const { menuCategories, menuItems } = await import("../drizzle/schema");
+  
+  const categories = await db.select().from(menuCategories)
+    .where(eq(menuCategories.active, 1))
+    .orderBy(menuCategories.displayOrder);
+  
+  const { and } = await import("drizzle-orm");
+  const result = [];
+  for (const category of categories) {
+    const items = await db.select().from(menuItems)
+      .where(and(
+        eq(menuItems.categoryId, category.id),
+        eq(menuItems.active, 1)
+      ))
+      .orderBy(menuItems.displayOrder);
+    
+    result.push({
+      ...category,
+      items: items.map((item: any) => ({
+        ...item,
+        prices: item.prices ? JSON.parse(item.prices) : {},
+        dietaryTags: item.dietaryTags ? JSON.parse(item.dietaryTags) : [],
+      })),
+    });
+  }
+  
+  return result;
+}

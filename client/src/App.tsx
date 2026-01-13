@@ -8,6 +8,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import CMSDashboard from "./pages/cms/Dashboard";
 import CMSUsuarios from "./pages/cms/Usuarios";
+import CMSCarta from "./pages/cms/Carta";
 import Servicios from "./pages/Servicios";
 import ServicioBiopiscinas from "./pages/ServicioBiopiscinas";
 import Eventos from "./pages/Eventos";
@@ -15,6 +16,7 @@ import Cafeteria from "./pages/Cafeteria";
 import GiftCards from "./pages/GiftCards";
 import Contacto from "./pages/Contacto";
 import Nosotros from "./pages/Nosotros";
+import Carta from "./pages/Carta";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -30,8 +32,10 @@ function Router() {
       <Route path={"/gift-cards"} component={GiftCards} />
       <Route path={"/contacto"} component={Contacto} />
       <Route path={"/nosotros"} component={Nosotros} />
+      <Route path={"/carta"} component={Carta} />
       <Route path={"/cms"} component={CMSDashboard} />
       <Route path={"/cms/usuarios"} component={CMSUsuarios} />
+      <Route path={"/cms/carta"} component={CMSCarta} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

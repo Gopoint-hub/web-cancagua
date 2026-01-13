@@ -20,6 +20,144 @@ export const appRouter = router({
     }),
   }),
 
+  // Menú público
+  menu: router({    getFullMenu: publicProcedure.query(async () => {
+      return await db.getFullMenu();
+    }),
+    
+    getCategories: publicProcedure.query(async () => {
+      return await db.getActiveMenuCategories();
+    }),
+    
+    getItemsByCategory: publicProcedure
+      .input(z.object({ categoryId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getActiveMenuItemsByCategory(input.categoryId);
+      }),
+  }),
+
+  // Gestión de menú (CMS - solo admin y editor)
+  menuAdmin: router({
+    // Categorías
+    getAllCategories: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN", message: "No tienes permisos para gestionar el menú" });
+      }
+      return await db.getAllMenuCategories();
+    }),
+    
+    createCategory: protectedProcedure
+      .input(z.object({
+        name: z.string(),
+        slug: z.string(),
+        description: z.string().optional(),
+        displayOrder: z.number().default(0),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.createMenuCategory(input);
+        return { success: true };
+      }),
+    
+    updateCategory: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        slug: z.string().optional(),
+        description: z.string().optional(),
+        displayOrder: z.number().optional(),
+        active: z.number().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const { id, ...data } = input;
+        await db.updateMenuCategory(id, data);
+        return { success: true };
+      }),
+    
+    deleteCategory: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Solo administradores pueden eliminar categorías" });
+        }
+        await db.deleteMenuCategory(input.id);
+        return { success: true };
+      }),
+    
+    // Items
+    getAllItems: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getAllMenuItems();
+    }),
+    
+    getItemsByCategory: protectedProcedure
+      .input(z.object({ categoryId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getMenuItemsByCategory(input.categoryId);
+      }),
+    
+    createItem: protectedProcedure
+      .input(z.object({
+        categoryId: z.number(),
+        name: z.string(),
+        description: z.string().optional(),
+        imageUrl: z.string().optional(),
+        prices: z.string(), // JSON string
+        dietaryTags: z.string().optional(), // JSON string
+        specialNotes: z.string().optional(),
+        displayOrder: z.number().default(0),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.createMenuItem(input);
+        return { success: true };
+      }),
+    
+    updateItem: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        categoryId: z.number().optional(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        imageUrl: z.string().optional(),
+        prices: z.string().optional(),
+        dietaryTags: z.string().optional(),
+        specialNotes: z.string().optional(),
+        displayOrder: z.number().optional(),
+        active: z.number().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const { id, ...data } = input;
+        await db.updateMenuItem(id, data);
+        return { success: true };
+      }),
+    
+    deleteItem: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.deleteMenuItem(input.id);
+        return { success: true };
+      }),
+  }),
+
   // Gestión de usuarios (solo admin)
   users: router({
     list: protectedProcedure.query(async ({ ctx }) => {
