@@ -267,6 +267,12 @@ export const quotes = mysqlTable("quotes", {
   clientId: int("client_id").references(() => corporateClients.id),
   clientName: text("client_name").notNull(), // Guardado por si el cliente no está en la BD
   clientEmail: varchar("client_email", { length: 320 }).notNull(),
+  clientCompany: text("client_company"), // Nombre de la empresa
+  clientPosition: text("client_position"), // Cargo del contacto
+  clientPhone: varchar("client_phone", { length: 50 }), // Teléfono
+  clientRut: varchar("client_rut", { length: 20 }), // RUT de la empresa
+  clientAddress: text("client_address"), // Dirección
+  clientGiro: text("client_giro"), // Giro de la empresa
   numberOfPeople: int("number_of_people").notNull(),
   eventDate: date("event_date"),
   eventDescription: text("event_description"), // Descripción de la jornada

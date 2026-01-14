@@ -50,6 +50,13 @@
       "when": 1768335266450,
       "tag": "0006_vengeful_swordsman",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1768402658767,
+      "tag": "0007_conscious_mad_thinker",
+      "breakpoints": true
     }
   ]
 }

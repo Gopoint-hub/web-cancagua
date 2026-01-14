@@ -538,8 +538,15 @@ export const appRouter = router({
         clientId: z.number().optional(),
         clientName: z.string(),
         clientEmail: z.string().email(),
+        clientCompany: z.string().optional(),
+        clientPosition: z.string().optional(),
+        clientPhone: z.string().optional(),
+        clientRut: z.string().optional(),
+        clientAddress: z.string().optional(),
+        clientGiro: z.string().optional(),
         numberOfPeople: z.number(),
         eventDate: z.string().optional(),
+        eventDescription: z.string().optional(),
         itinerary: z.string().optional(),
         subtotal: z.number(),
         total: z.number(),
@@ -661,6 +668,65 @@ export const appRouter = router({
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteQuote(input.id);
+      }),
+
+    generatePDF: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { generateQuotePDF } = await import("./pdfGenerator");
+        
+        // Obtener cotización y sus items
+        const quote = await db.getQuoteById(input.id);
+        if (!quote) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Cotización no encontrada" });
+        }
+        
+        const items = await db.getQuoteItems(input.id);
+        
+        // Calcular IVA (19%)
+        const subtotal = quote.subtotal || 0;
+        const tax = Math.round(subtotal * 0.19);
+        
+        // Preparar datos para el PDF
+        const pdfData = {
+          quoteNumber: quote.quoteNumber || `COT-${quote.id}`,
+          date: new Date(quote.createdAt).toLocaleDateString("es-CL"),
+          clientName: quote.clientName,
+          clientEmail: quote.clientEmail,
+          clientCompany: quote.clientCompany || "",
+          clientPosition: quote.clientPosition || undefined,
+          clientPhone: quote.clientPhone || undefined,
+          clientRut: quote.clientRut || undefined,
+          clientAddress: quote.clientAddress || undefined,
+          clientGiro: quote.clientGiro || undefined,
+          numberOfPeople: quote.numberOfPeople,
+          eventDescription: quote.eventDescription || undefined,
+          itinerary: quote.itinerary || undefined,
+          items: items.map((item: any) => ({
+            productName: item.productName,
+            description: item.description || "",
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            total: item.total,
+          })),
+          subtotal,
+          tax,
+          total: quote.total || 0,
+          validUntil: quote.validUntil ? new Date(quote.validUntil).toLocaleDateString("es-CL") : undefined,
+        };
+        
+        // Generar PDF
+        const pdfBuffer = await generateQuotePDF(pdfData);
+        
+        // Convertir a base64 para enviar al cliente
+        return {
+          pdf: pdfBuffer.toString("base64"),
+          filename: `Cotizacion_${pdfData.quoteNumber}.pdf`,
+        };
       }),
   }),
 });

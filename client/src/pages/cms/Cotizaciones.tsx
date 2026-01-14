@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Eye, Edit, Trash2, CheckCircle2, XCircle, DollarSign, FileText } from "lucide-react";
+import { Plus, Eye, Edit, Trash2, CheckCircle2, XCircle, DollarSign, FileText, Download } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 
@@ -48,6 +48,7 @@ export default function Cotizaciones() {
   const [newStatus, setNewStatus] = useState<string>("");
 
   const { data: quotes = [], refetch } = trpc.quotes.getAll.useQuery();
+  const generatePDFMutation = trpc.quotes.generatePDF.useMutation();
   const { data: quoteItems = [] } = trpc.quotes.getItems.useQuery(
     { quoteId: selectedQuote?.id || 0 },
     { enabled: !!selectedQuote }
@@ -104,6 +105,36 @@ export default function Cotizaciones() {
       refetch();
     } catch (error: any) {
       toast.error(error.message || "Error al eliminar cotización");
+    }
+  };
+
+  const handleExportPDF = async (id: number) => {
+    try {
+      toast.info("Generando PDF...");
+      const result = await generatePDFMutation.mutateAsync({ id });
+      
+      // Convertir base64 a blob y descargar
+      const byteCharacters = atob(result.pdf);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "application/pdf" });
+      
+      // Crear enlace de descarga
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = result.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      toast.success("PDF generado correctamente");
+    } catch (error: any) {
+      toast.error(error.message || "Error al generar PDF");
     }
   };
 
@@ -248,6 +279,14 @@ export default function Cotizaciones() {
                           title="Ver detalles"
                         >
                           <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleExportPDF(quote.id)}
+                          title="Exportar a PDF"
+                        >
+                          <Download className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"

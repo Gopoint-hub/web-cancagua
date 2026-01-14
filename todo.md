@@ -356,3 +356,10 @@
 - [x] Identificar por qué el menú lateral desaparece en páginas de cotizaciones y catálogo
 - [x] Corregir estructura de páginas para mantener DashboardLayout consistente
 - [x] Verificar que todas las páginas del CMS mantengan el menú lateral
+
+## Exportación de Cotizaciones a PDF
+- [x] Crear generador de PDF en backend con diseño profesional
+- [x] Agregar endpoint tRPC para generar PDF de cotización
+- [x] Implementar botón de descarga/exportación en página de cotizaciones
+- [x] Implementar botón de exportación en vista de detalle de cotización
+- [x] Probar generación de PDF con diferentes cotizaciones
