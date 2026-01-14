@@ -39,7 +39,6 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
       return;
     }
 
-    // Validación básica de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast.error("Por favor ingresa un correo electrónico válido");
@@ -55,15 +54,15 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
   if (isSubscribed) {
     return (
       <div className={`text-center ${className}`}>
-        <div className="flex flex-col items-center gap-3">
-          <div className="p-3 bg-green-100 rounded-full">
-            <CheckCircle className="w-8 h-8 text-green-600" />
+        <div className="flex flex-col items-center gap-4">
+          <div className="p-4 bg-white/20 rounded-full">
+            <CheckCircle className="w-10 h-10 text-white" />
           </div>
           <div>
-            <h3 className={`text-xl font-bold mb-1 ${variant === "dark" ? "text-white" : "text-gray-900"}`}>
+            <h3 className={`text-xl font-light tracking-wide mb-2 ${variant === "dark" ? "text-[#3a3a3a]" : "text-[#3a3a3a]"}`}>
               ¡Gracias por suscribirte!
             </h3>
-            <p className={`${variant === "dark" ? "text-white/80" : "text-gray-600"}`}>
+            <p className={`${variant === "dark" ? "text-[#3a3a3a]/70" : "text-[#8C8C8C]"}`}>
               Pronto recibirás nuestras novedades en tu correo
             </p>
           </div>
@@ -71,7 +70,7 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
             variant="outline"
             size="sm"
             onClick={() => setIsSubscribed(false)}
-            className={variant === "dark" ? "border-white/30 text-white hover:bg-white/10" : ""}
+            className={variant === "dark" ? "border-[#3a3a3a]/30 text-[#3a3a3a] hover:bg-[#3a3a3a]/10" : "border-[#D3BC8D] text-[#3a3a3a]"}
           >
             Suscribir otro correo
           </Button>
@@ -88,12 +87,13 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Tu correo electrónico"
-          className="flex-1"
+          className="flex-1 border-[#D3BC8D]/30 focus:border-[#D3BC8D]"
           disabled={subscribeMutation.isPending}
         />
         <Button
           type="submit"
           disabled={subscribeMutation.isPending}
+          className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976]"
         >
           {subscribeMutation.isPending ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -108,26 +108,25 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
   if (variant === "dark") {
     return (
       <form onSubmit={handleSubmit} className={`${className}`}>
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
           <Input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Tu correo electrónico"
-            className="flex-1 bg-white text-foreground"
+            className="flex-1 bg-white text-[#3a3a3a] border-0 h-12"
             disabled={subscribeMutation.isPending}
           />
           <Button
             type="submit"
             size="lg"
-            variant="secondary"
-            className="sm:w-auto"
+            className="sm:w-auto bg-[#3a3a3a] text-white hover:bg-[#2a2a2a] h-12 px-8 tracking-wider uppercase text-sm"
             disabled={subscribeMutation.isPending}
           >
             {subscribeMutation.isPending ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Suscribiendo...
+                Enviando...
               </>
             ) : (
               "Suscribirme"
@@ -147,7 +146,7 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Tu nombre (opcional)"
-          className="sm:w-40"
+          className="sm:w-40 border-[#D3BC8D]/30 focus:border-[#D3BC8D]"
           disabled={subscribeMutation.isPending}
         />
         <Input
@@ -155,18 +154,18 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Tu correo electrónico"
-          className="flex-1"
+          className="flex-1 border-[#D3BC8D]/30 focus:border-[#D3BC8D]"
           disabled={subscribeMutation.isPending}
         />
         <Button
           type="submit"
           disabled={subscribeMutation.isPending}
-          className="bg-[#44580E] hover:bg-[#3a4c0c]"
+          className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider"
         >
           {subscribeMutation.isPending ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Suscribiendo...
+              Enviando...
             </>
           ) : (
             <>
@@ -176,7 +175,7 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
           )}
         </Button>
       </div>
-      <p className="text-sm text-gray-500 text-center">
+      <p className="text-sm text-[#8C8C8C] text-center">
         Al suscribirte aceptas recibir correos de Cancagua. Puedes darte de baja en cualquier momento.
       </p>
     </form>

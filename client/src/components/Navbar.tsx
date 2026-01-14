@@ -31,12 +31,12 @@ export function Navbar() {
   return (
     <>
       {/* Barra superior con mensaje */}
-      <div className="bg-primary text-primary-foreground py-2 text-center text-sm">
+      <div className="bg-[#D3BC8D] text-[#3a3a3a] py-2 text-center text-sm tracking-wide">
         <p>{t('footer.scheduleText')}</p>
       </div>
 
       {/* Navegación principal */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-50 w-full border-b border-[#D3BC8D]/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
         <div className="container flex h-20 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
@@ -48,11 +48,11 @@ export function Navbar() {
           </Link>
 
           {/* Navegación Desktop */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-8">
             <Link
               href="/"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/") ? "text-primary" : "text-foreground"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
+                isActive("/") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
               }`}
             >
               {t('nav.home')}
@@ -62,19 +62,19 @@ export function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm font-medium">
+                  <NavigationMenuTrigger className="text-sm tracking-wider uppercase text-[#3a3a3a] hover:text-[#D3BC8D] bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
                     {t('nav.services')}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4">
+                    <ul className="grid w-[400px] gap-2 p-4 bg-white border border-[#D3BC8D]/20">
                       {servicios.map((servicio) => (
                         <li key={servicio.href}>
                           <NavigationMenuLink asChild>
                             <Link
                               href={servicio.href}
-                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F1E7D9] text-[#3a3a3a]"
                             >
-                              <div className="text-sm font-medium leading-none">
+                              <div className="text-sm tracking-wide">
                                 {servicio.name}
                               </div>
                             </Link>
@@ -89,8 +89,8 @@ export function Navbar() {
 
             <Link
               href="/navega-relax"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/navega-relax") ? "text-primary" : "text-foreground"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
+                isActive("/navega-relax") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
               }`}
             >
               Navega Relax
@@ -98,8 +98,8 @@ export function Navbar() {
 
             <Link
               href="/eventos"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/eventos") ? "text-primary" : "text-foreground"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
+                isActive("/eventos") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
               }`}
             >
               {t('nav.events')}
@@ -107,8 +107,8 @@ export function Navbar() {
 
             <Link
               href="/cafeteria"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/cafeteria") ? "text-primary" : "text-foreground"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
+                isActive("/cafeteria") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
               }`}
             >
               {t('nav.cafeteria')}
@@ -116,8 +116,8 @@ export function Navbar() {
 
             <Link
               href="/gift-cards"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/gift-cards") ? "text-primary" : "text-foreground"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
+                isActive("/gift-cards") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
               }`}
             >
               {t('nav.giftCards')}
@@ -125,8 +125,8 @@ export function Navbar() {
 
             <Link
               href="/nosotros"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/nosotros") ? "text-primary" : "text-foreground"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
+                isActive("/nosotros") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
               }`}
             >
               {t('nav.about')}
@@ -134,8 +134,8 @@ export function Navbar() {
 
             <Link
               href="/contacto"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/contacto") ? "text-primary" : "text-foreground"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
+                isActive("/contacto") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
               }`}
             >
               {t('nav.contact')}
@@ -143,16 +143,19 @@ export function Navbar() {
           </nav>
 
           {/* Selector de Idioma y Botón Reservar */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             <LanguageSelector />
-            <Button size="lg" className="font-semibold">
+            <Button 
+              size="lg" 
+              className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase text-sm"
+            >
               {t('nav.reserve')}
             </Button>
           </div>
 
           {/* Menú Mobile */}
           <button
-            className="md:hidden"
+            className="md:hidden text-[#3a3a3a]"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
@@ -165,25 +168,25 @@ export function Navbar() {
 
         {/* Menú Mobile Expandido */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t">
-            <nav className="container py-4 flex flex-col space-y-4">
+          <div className="md:hidden border-t border-[#D3BC8D]/20 bg-white">
+            <nav className="container py-6 flex flex-col space-y-4">
               <Link
                 href="/"
-                className="text-sm font-medium"
+                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.home')}
               </Link>
 
-              <div className="space-y-2">
-                <p className="text-sm font-semibold text-muted-foreground">
+              <div className="space-y-3">
+                <p className="text-sm tracking-wider uppercase text-[#8C8C8C]">
                   {t('nav.services')}
                 </p>
                 {servicios.map((servicio) => (
                   <Link
                     key={servicio.href}
                     href={servicio.href}
-                    className="block text-sm pl-4"
+                    className="block text-sm pl-4 text-[#3a3a3a]"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {servicio.name}
@@ -193,7 +196,7 @@ export function Navbar() {
 
               <Link
                 href="/navega-relax"
-                className="text-sm font-medium"
+                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Navega Relax
@@ -201,7 +204,7 @@ export function Navbar() {
 
               <Link
                 href="/eventos"
-                className="text-sm font-medium"
+                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.events')}
@@ -209,7 +212,7 @@ export function Navbar() {
 
               <Link
                 href="/cafeteria"
-                className="text-sm font-medium"
+                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.cafeteria')}
@@ -217,7 +220,7 @@ export function Navbar() {
 
               <Link
                 href="/gift-cards"
-                className="text-sm font-medium"
+                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.giftCards')}
@@ -225,7 +228,7 @@ export function Navbar() {
 
               <Link
                 href="/nosotros"
-                className="text-sm font-medium"
+                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.about')}
@@ -233,19 +236,19 @@ export function Navbar() {
 
               <Link
                 href="/contacto"
-                className="text-sm font-medium"
+                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.contact')}
               </Link>
 
-              <div className="flex items-center justify-between pt-2">
+              <div className="flex items-center justify-between pt-4 border-t border-[#D3BC8D]/20">
                 <LanguageSelector />
               </div>
 
               <Button
                 size="lg"
-                className="w-full font-semibold"
+                className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.reserve')}

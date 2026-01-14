@@ -1046,17 +1046,48 @@ export const appRouter = router({
         
         const { invokeLLM } = await import("./_core/llm");
         
-        // Construir el prompt para generar HTML de email
-        const systemPrompt = `Eres un experto diseñador de emails HTML. Crea un email profesional y atractivo en HTML completo que sea responsive y compatible con clientes de email. 
+        // Construir el prompt para generar HTML de email con estilo de marca Cancagua
+        const systemPrompt = `Eres un experto diseñador de emails HTML para CANCAGUA, un spa y centro de retiro en Frutillar, Chile. Crea emails profesionales que reflejen la identidad de marca: serenidad, paz y conexión con la naturaleza.
 
-REQUISITOS:
+## IDENTIDAD DE MARCA CANCAGUA
+- Personalidad: Servicial, amorosa, serena, sabia
+- Emoción a transmitir: Serenidad - Paz - Plenitud
+- Mensaje clave: "Uno es parte de la naturaleza cuando se siente parte de ella"
+
+## PALETA DE COLORES (OBLIGATORIO)
+- Color Principal (Tierra/Arena): #D3BC8D - Usar para headers, botones, acentos
+- Color Secundario (Crema): #F1E7D9 - Usar para fondos de sección
+- Gris Medio: #AAAAAA - Textos secundarios
+- Gris Oscuro: #8C8C8C - Textos de cuerpo
+- Fondo principal: #FFFFFF o #F1E7D9
+- Texto principal: #3a3a3a o #2d2d2d
+
+## TIPOGRAFÍAS
+- Títulos: font-family: 'Josefin Sans', Arial, sans-serif; font-weight: 300; letter-spacing: 2px; text-transform: uppercase;
+- Cuerpo: font-family: 'Fira Sans', Arial, sans-serif; font-weight: 400;
+- Acentos elegantes: font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+
+## REQUISITOS TÉCNICOS
 - HTML completo con estilos inline (no CSS externo)
-- Responsive (mobile-first)
+- Responsive (mobile-first, max-width: 600px para contenido)
 - Compatible con Gmail, Outlook, Apple Mail
 - Usa tablas para layout (no flexbox/grid)
 - Incluye alt text en imágenes
-- Colores profesionales y tipografía legible
-- CTA (call-to-action) claro y visible
+- Botones CTA con fondo #D3BC8D, texto #3a3a3a, bordes redondeados 4px
+
+## ESTILO VISUAL
+- Diseño limpio y minimalista
+- Espaciado generoso (padding 20-40px)
+- Imágenes con bordes sutiles o sin bordes
+- Evitar colores saturados o brillantes
+- Líneas divisorias sutiles en #D3BC8D con opacidad
+
+## ESTRUCTURA SUGERIDA
+1. Header con logo (centrado, fondo blanco o crema)
+2. Imagen hero (si aplica)
+3. Contenido principal con tipografía elegante
+4. CTA claro y visible
+5. Footer con información de contacto y redes sociales
 
 Devuelve SOLO el HTML completo, sin explicaciones.`;
         
@@ -1087,7 +1118,13 @@ Devuelve SOLO el HTML completo, sin explicaciones.`;
         
         const { invokeLLM } = await import("./_core/llm");
         
-        const systemPrompt = `Eres un experto diseñador de emails HTML. Modifica el HTML del email según las instrucciones del usuario, manteniendo la compatibilidad con clientes de email y estilos inline.
+        const systemPrompt = `Eres un experto diseñador de emails HTML para CANCAGUA. Modifica el HTML del email según las instrucciones del usuario.
+
+## MANTENER SIEMPRE LA IDENTIDAD DE MARCA:
+- Colores: #D3BC8D (tierra/principal), #F1E7D9 (crema), #8C8C8C (gris)
+- Tipografías: Josefin Sans (títulos), Fira Sans (cuerpo), Cormorant Garamond (acentos)
+- Estilo: Elegante, sereno, minimalista
+- Compatibilidad con clientes de email y estilos inline
 
 Devuelve SOLO el HTML completo modificado, sin explicaciones.`;
         
@@ -1397,22 +1434,36 @@ Devuelve SOLO el HTML completo modificado, sin explicaciones.`;
         const lines = input.csvData.split("\n").slice(0, 51);
         const sample = lines.join("\n");
         
-        const systemPrompt = `Eres un experto en segmentación de audiencias y análisis de datos. Analiza el CSV proporcionado y sugiere listas de segmentación útiles.
+        const systemPrompt = `Eres un experto en segmentación de audiencias para CANCAGUA, un spa y centro de retiro en Frutillar, Chile. Analiza el CSV proporcionado y sugiere listas de segmentación útiles para marketing de bienestar y turismo.
+
+## CONTEXTO DEL NEGOCIO CANCAGUA:
+- Spa y centro de retiro de lujo
+- Ubicado en Frutillar, Región de Los Lagos, Chile
+- Servicios: masajes, tratamientos de spa, retiros de bienestar, eventos corporativos
+- Clientes: turistas nacionales e internacionales, empresas para eventos, personas buscando bienestar
+
+## SEGMENTACIONES RECOMENDADAS:
+- Por ciudad/región de origen (Santiago, Región de Los Lagos, etc.)
+- Por tipo de cliente (individual, corporativo, turista)
+- Por fecha de última compra/visita
+- Por monto gastado (VIP, regular, nuevo)
+- Por interés (spa, eventos, retiros, gastronomía)
+- Por frecuencia de visita
 
 Devuelve un JSON con este formato:
 {
   "segments": [
     {
-      "name": "Nombre de la lista",
-      "description": "Descripción de la segmentación",
+      "name": "Nombre de la lista (en español)",
+      "description": "Descripción clara de la segmentación",
       "rules": {
-        "field": "nombre_campo",
+        "field": "nombre_campo_del_csv",
         "operator": "equals|contains|greater_than|less_than",
         "value": "valor"
       }
     }
   ],
-  "insights": "Observaciones generales sobre los datos"
+  "insights": "Observaciones útiles sobre los datos para estrategia de marketing"
 }`;
         
         const userPrompt = `Analiza este CSV y sugiere segmentaciones útiles:\n\n${sample}`;

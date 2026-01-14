@@ -68,7 +68,7 @@ export function HeroSlider() {
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000); // Cambiar cada 5 segundos
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, slides.length]);
@@ -76,7 +76,6 @@ export function HeroSlider() {
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
     setIsAutoPlaying(false);
-    // Reactivar auto-play después de 10 segundos
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
@@ -89,7 +88,7 @@ export function HeroSlider() {
   };
 
   return (
-    <div className="relative h-[60vh] md:h-[80vh] overflow-hidden">
+    <div className="relative h-[60vh] md:h-[85vh] overflow-hidden">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
@@ -104,19 +103,23 @@ export function HeroSlider() {
             style={{ backgroundImage: `url(${slide.image})` }}
           />
 
-          {/* Overlay oscuro */}
-          <div className="absolute inset-0 bg-black/40" />
+          {/* Overlay con gradiente sutil */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50" />
 
           {/* Contenido */}
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white px-4">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 max-w-4xl animate-fade-in">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wider mb-6 max-w-4xl animate-fade-in">
               {t(slide.titleKey)}
             </h1>
-            <p className="text-lg md:text-2xl mb-8 max-w-2xl animate-fade-in animation-delay-200">
+            <p className="text-lg md:text-xl mb-10 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90">
               {t(slide.subtitleKey)}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in animation-delay-400">
-              <Button size="lg" className="text-lg px-8 py-6" asChild>
+              <Button 
+                size="lg" 
+                className="text-sm px-10 py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase" 
+                asChild
+              >
                 <Link href={slide.ctaLink}>
                   {t(slide.ctaKey)}
                 </Link>
@@ -124,7 +127,7 @@ export function HeroSlider() {
               <Button
                 size="lg"
                 variant="outline"
-                className="text-lg px-8 py-6 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-foreground"
+                className="text-sm px-10 py-6 bg-transparent backdrop-blur-sm border-white/50 text-white hover:bg-white hover:text-[#3a3a3a] tracking-widest uppercase"
                 asChild
               >
                 <Link href="/servicios">
@@ -139,30 +142,30 @@ export function HeroSlider() {
       {/* Controles de navegación */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all z-10"
+        className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-4 transition-all z-10"
         aria-label={t('common.previousSlide')}
       >
-        <ChevronLeft className="h-6 w-6" />
+        <ChevronLeft className="h-5 w-5" />
       </button>
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all z-10"
+        className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-4 transition-all z-10"
         aria-label={t('common.nextSlide')}
       >
-        <ChevronRight className="h-6 w-6" />
+        <ChevronRight className="h-5 w-5" />
       </button>
 
       {/* Indicadores */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`h-2 rounded-full transition-all ${
+            className={`h-0.5 transition-all ${
               index === currentSlide
-                ? "w-8 bg-white"
-                : "w-2 bg-white/50 hover:bg-white/75"
+                ? "w-10 bg-[#D3BC8D]"
+                : "w-6 bg-white/40 hover:bg-white/60"
             }`}
             aria-label={t('common.goToSlide', { number: index + 1 })}
           />
@@ -170,9 +173,9 @@ export function HeroSlider() {
       </div>
 
       {/* Indicador de scroll */}
-      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
-        <div className="w-6 h-10 border-2 border-white rounded-full flex items-start justify-center p-2">
-          <div className="w-1 h-3 bg-white rounded-full animate-scroll" />
+      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
+        <div className="w-6 h-10 border border-white/50 rounded-full flex items-start justify-center p-2">
+          <div className="w-0.5 h-3 bg-[#D3BC8D] rounded-full animate-scroll" />
         </div>
       </div>
     </div>

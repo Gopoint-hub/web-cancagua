@@ -48,7 +48,7 @@ export default function Contacto() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
       <Navbar />
 
       <main>
@@ -58,26 +58,29 @@ export default function Contacto() {
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: "url(/images/10_cancagua-header.jpg)" }}
           />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Contacto</h1>
-            <p className="text-lg md:text-xl max-w-2xl">
+            <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4">
+              Hablemos
+            </span>
+            <h1 className="text-4xl md:text-6xl font-light tracking-wide mb-4">Contacto</h1>
+            <p className="text-lg md:text-xl max-w-2xl font-light opacity-90">
               Estamos aquí para ayudarte
             </p>
           </div>
         </section>
 
         {/* Información de contacto */}
-        <section className="py-16">
+        <section className="py-20 bg-white">
           <div className="container">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <MapPin className="h-8 w-8 text-primary" />
+              <Card className="border-none shadow-sm bg-[#FDFBF7]">
+                <CardContent className="pt-8 pb-8 text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
+                    <MapPin className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
-                  <h3 className="font-semibold mb-2">Ubicación</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]">Ubicación</h3>
+                  <p className="text-sm text-[#8C8C8C] leading-relaxed">
                     Frutillar, Región de Los Lagos
                     <br />
                     Chile
@@ -87,49 +90,49 @@ export default function Contacto() {
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <Phone className="h-8 w-8 text-primary" />
+              <Card className="border-none shadow-sm bg-[#FDFBF7]">
+                <CardContent className="pt-8 pb-8 text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
+                    <Phone className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
-                  <h3 className="font-semibold mb-2">Teléfono</h3>
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]">Teléfono</h3>
                   <a
                     href="tel:+56940073999"
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors block"
+                    className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors block"
                   >
                     +56 9 4007 3999
                   </a>
                   <a
                     href="tel:+56988190248"
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors block mt-1"
+                    className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors block mt-1"
                   >
                     +56 9 8819 0248
                   </a>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <Mail className="h-8 w-8 text-primary" />
+              <Card className="border-none shadow-sm bg-[#FDFBF7]">
+                <CardContent className="pt-8 pb-8 text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
+                    <Mail className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
-                  <h3 className="font-semibold mb-2">Email</h3>
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]">Email</h3>
                   <a
                     href="mailto:contacto@cancagua.cl"
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors"
                   >
                     contacto@cancagua.cl
                   </a>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <Clock className="h-8 w-8 text-primary" />
+              <Card className="border-none shadow-sm bg-[#FDFBF7]">
+                <CardContent className="pt-8 pb-8 text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
+                    <Clock className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
-                  <h3 className="font-semibold mb-2">Horarios</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]">Horarios</h3>
+                  <p className="text-sm text-[#8C8C8C] leading-relaxed">
                     Lunes a Domingo
                     <br />
                     Todo el año
@@ -141,30 +144,34 @@ export default function Contacto() {
         </section>
 
         {/* Formulario y Mapa */}
-        <section className="py-16 bg-muted">
+        <section className="py-20 bg-[#F1E7D9]">
           <div className="container">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
               {/* Formulario */}
               <div>
-                <h2 className="text-3xl font-bold mb-4">Envíanos un Mensaje</h2>
-                <p className="text-muted-foreground mb-8">
+                <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                  Escríbenos
+                </span>
+                <h2 className="text-3xl font-light tracking-wide mb-4 text-[#3a3a3a]">Envíanos un Mensaje</h2>
+                <p className="text-[#8C8C8C] mb-8">
                   Completa el formulario y te responderemos a la brevedad
                 </p>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div>
-                    <Label htmlFor="name">Nombre Completo *</Label>
+                    <Label htmlFor="name" className="text-[#3a3a3a]">Nombre Completo *</Label>
                     <Input
                       id="name"
                       placeholder="Tu nombre completo"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       required
+                      className="border-[#D3BC8D]/30 focus:border-[#D3BC8D] bg-white"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="email">Email *</Label>
+                    <Label htmlFor="email" className="text-[#3a3a3a]">Email *</Label>
                     <Input
                       id="email"
                       type="email"
@@ -172,33 +179,36 @@ export default function Contacto() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
+                      className="border-[#D3BC8D]/30 focus:border-[#D3BC8D] bg-white"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="phone">Teléfono (opcional)</Label>
+                    <Label htmlFor="phone" className="text-[#3a3a3a]">Teléfono (opcional)</Label>
                     <Input
                       id="phone"
                       type="tel"
                       placeholder="+56 9 1234 5678"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="border-[#D3BC8D]/30 focus:border-[#D3BC8D] bg-white"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="subject">Asunto *</Label>
+                    <Label htmlFor="subject" className="text-[#3a3a3a]">Asunto *</Label>
                     <Input
                       id="subject"
                       placeholder="¿En qué podemos ayudarte?"
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                       required
+                      className="border-[#D3BC8D]/30 focus:border-[#D3BC8D] bg-white"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="message">Mensaje *</Label>
+                    <Label htmlFor="message" className="text-[#3a3a3a]">Mensaje *</Label>
                     <Textarea
                       id="message"
                       placeholder="Escribe tu mensaje aquí..."
@@ -206,10 +216,16 @@ export default function Contacto() {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       required
+                      className="border-[#D3BC8D]/30 focus:border-[#D3BC8D] bg-white"
                     />
                   </div>
 
-                  <Button size="lg" className="w-full" type="submit" disabled={sendMessageMutation.isPending}>
+                  <Button 
+                    size="lg" 
+                    className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider" 
+                    type="submit" 
+                    disabled={sendMessageMutation.isPending}
+                  >
                     {sendMessageMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                     Enviar Mensaje
                   </Button>
@@ -219,16 +235,19 @@ export default function Contacto() {
               {/* Mapa e información adicional */}
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-3xl font-bold mb-4">Cómo Llegar</h2>
-                  <p className="text-muted-foreground mb-6">
+                  <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                    Visítanos
+                  </span>
+                  <h2 className="text-3xl font-light tracking-wide mb-4 text-[#3a3a3a]">Cómo Llegar</h2>
+                  <p className="text-[#8C8C8C] mb-6">
                     Estamos ubicados a 2 kilómetros de Frutillar Bajo, con vista
                     privilegiada al Lago Llanquihue y los volcanes Osorno y
                     Calbuco.
                   </p>
                 </div>
 
-                {/* Mapa placeholder */}
-                <div className="relative h-96 bg-muted rounded-lg overflow-hidden">
+                {/* Mapa */}
+                <div className="relative h-96 bg-white rounded-sm overflow-hidden shadow-sm">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3119.8!2d-73.0!3d-41.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDA2JzAwLjAiUyA3M8KwMDAnMDAuMCJX!5e0!3m2!1ses!2scl!4v1234567890"
                     width="100%"
@@ -241,36 +260,41 @@ export default function Contacto() {
                   />
                 </div>
 
-                <Card>
+                <Card className="border-none shadow-sm bg-white">
                   <CardContent className="pt-6">
-                    <h3 className="font-semibold mb-3">Indicaciones</h3>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li>
-                        • Desde Puerto Montt: 45 minutos por Ruta 5 Sur
+                    <h3 className="font-light text-lg tracking-wide mb-4 text-[#3a3a3a]">Indicaciones</h3>
+                    <ul className="space-y-3 text-sm text-[#8C8C8C]">
+                      <li className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D]" />
+                        Desde Puerto Montt: 45 minutos por Ruta 5 Sur
                       </li>
-                      <li>
-                        • Desde Puerto Varas: 25 minutos por Ruta 5 Sur
+                      <li className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D]" />
+                        Desde Puerto Varas: 25 minutos por Ruta 5 Sur
                       </li>
-                      <li>
-                        • Desde Frutillar Bajo: 5 minutos hacia el norte
+                      <li className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D]" />
+                        Desde Frutillar Bajo: 5 minutos hacia el norte
                       </li>
-                      <li>• Estacionamiento gratuito disponible</li>
+                      <li className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D]" />
+                        Estacionamiento gratuito disponible
+                      </li>
                     </ul>
                   </CardContent>
                 </Card>
 
-                <Card className="bg-primary text-primary-foreground">
-                  <CardContent className="pt-6">
-                    <h3 className="font-semibold mb-2">
+                <Card className="border-none bg-[#D3BC8D]">
+                  <CardContent className="pt-6 pb-6">
+                    <h3 className="font-light text-lg tracking-wide mb-2 text-[#3a3a3a]">
                       ¿Prefieres WhatsApp?
                     </h3>
-                    <p className="text-sm mb-4 opacity-90">
+                    <p className="text-sm mb-4 text-[#3a3a3a]/80">
                       Contáctanos directamente y te responderemos de inmediato
                     </p>
                     <Button
-                      variant="secondary"
                       size="lg"
-                      className="w-full"
+                      className="w-full bg-[#3a3a3a] text-white hover:bg-[#2a2a2a] tracking-wider"
                       asChild
                     >
                       <a
@@ -281,69 +305,6 @@ export default function Contacto() {
                         Abrir WhatsApp
                       </a>
                     </Button>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="py-16">
-          <div className="container">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8 text-center">
-                Preguntas Frecuentes
-              </h2>
-
-              <div className="space-y-6">
-                <Card>
-                  <CardContent className="pt-6">
-                    <h3 className="font-semibold mb-2">
-                      ¿Necesito reservar con anticipación?
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Sí, especialmente para biopiscinas y hot tubs. Te
-                      recomendamos reservar con al menos 48 horas de
-                      anticipación, especialmente en temporada alta y fines de
-                      semana.
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardContent className="pt-6">
-                    <h3 className="font-semibold mb-2">
-                      ¿Cuál es la edad mínima para usar las biopiscinas?
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      La edad mínima es 12 años. Los menores de 18 años deben
-                      estar acompañados por un adulto responsable.
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardContent className="pt-6">
-                    <h3 className="font-semibold mb-2">
-                      ¿Qué debo traer?
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Solo necesitas traer tu traje de baño. Nosotros
-                      proporcionamos toallas, batas y casilleros de seguridad.
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardContent className="pt-6">
-                    <h3 className="font-semibold mb-2">
-                      ¿Tienen estacionamiento?
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Sí, contamos con estacionamiento gratuito para todos
-                      nuestros visitantes.
-                    </p>
                   </CardContent>
                 </Card>
               </div>

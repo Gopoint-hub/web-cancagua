@@ -52,7 +52,7 @@ export default function Servicios() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
       <Navbar />
 
       <main>
@@ -62,12 +62,15 @@ export default function Servicios() {
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: "url(/images/10_cancagua-header.jpg)" }}
           />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+            <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4">
+              Experiencias
+            </span>
+            <h1 className="text-4xl md:text-6xl font-light tracking-wide mb-6">
               Nuestros Servicios
             </h1>
-            <p className="text-lg md:text-xl max-w-2xl">
+            <p className="text-lg md:text-xl max-w-2xl font-light opacity-90">
               Experiencias diseñadas para tu bienestar integral en conexión con
               la naturaleza
             </p>
@@ -75,7 +78,7 @@ export default function Servicios() {
         </section>
 
         {/* Grid de servicios */}
-        <section className="py-16 md:py-24">
+        <section className="py-20 md:py-28 bg-[#F1E7D9]">
           <div className="container">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {services.map((service) => (
@@ -86,12 +89,15 @@ export default function Servicios() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-muted">
+        <section className="py-20 bg-white">
           <div className="container text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+              ¿Necesitas Ayuda?
+            </span>
+            <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6">
               ¿No sabes cuál elegir?
             </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-[#8C8C8C] mb-10 max-w-2xl mx-auto">
               Contáctanos y te ayudaremos a encontrar la experiencia perfecta
               para ti
             </p>
@@ -99,7 +105,7 @@ export default function Servicios() {
               href="https://wa.me/56988190248?text=Hola,%20me%20gustaría%20información%20sobre%20los%20servicios"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8"
+              className="inline-flex items-center justify-center h-12 px-10 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] transition-colors tracking-widest uppercase text-sm"
             >
               Contactar por WhatsApp
             </a>
