@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Loader2, Calendar, Users, Mail, Phone, MessageSquare, Check, X } from "lucide-react";
 import { Link } from "wouter";
+import DashboardLayout from "@/components/DashboardLayout";
 
 export default function CMSReservas() {
   const { user, loading: authLoading } = useAuth();
@@ -95,6 +96,7 @@ export default function CMSReservas() {
   };
 
   return (
+    <DashboardLayout>
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
@@ -253,5 +255,6 @@ export default function CMSReservas() {
         )}
       </div>
     </div>
+    </DashboardLayout>
   );
 }

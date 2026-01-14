@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Loader2, Plus, Pencil, Trash2, Leaf, Wheat, Flame, Eye, Upload, X } from "lucide-react";
 import { Link } from "wouter";
+import DashboardLayout from "@/components/DashboardLayout";
 
 export default function CMSCarta() {
   const { user, loading: authLoading } = useAuth();
@@ -204,6 +205,7 @@ export default function CMSCarta() {
   };
 
   return (
+    <DashboardLayout>
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
@@ -701,5 +703,6 @@ export default function CMSCarta() {
         </Tabs>
       </div>
     </div>
+    </DashboardLayout>
   );
 }

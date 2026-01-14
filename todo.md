@@ -367,3 +367,9 @@
 ## Corregir Scroll Horizontal en Modal de Cotización
 - [x] Ajustar ancho del modal de detalles de cotización
 - [x] Hacer tabla de productos responsive sin scroll horizontal
+
+## Estandarizar Menú Lateral en Todas las Páginas del CMS
+- [x] Auditar todas las páginas del CMS para verificar uso de DashboardLayout
+- [x] Corregir páginas de Carta, Reservas, Mensajes, Usuarios para usar DashboardLayout
+- [x] Verificar que ProductosCorporativos, Cotizaciones y CrearCotizacion usen DashboardLayout
+- [x] Documentar estructura estándar para futuros módulos

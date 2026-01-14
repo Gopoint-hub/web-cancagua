@@ -37,6 +37,7 @@ import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { ArrowLeft, Loader2, Plus, Search, Shield, Trash2, UserCog } from "lucide-react";
 import { useEffect, useState } from "react";
+import DashboardLayout from "@/components/DashboardLayout";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
 
@@ -156,6 +157,7 @@ export default function CMSUsuarios() {
   );
 
   return (
+    <DashboardLayout>
     <div className="min-h-screen bg-muted/30">
       {/* Header */}
       <header className="border-b bg-background">
@@ -394,5 +396,6 @@ export default function CMSUsuarios() {
         </DialogContent>
       </Dialog>
     </div>
+    </DashboardLayout>
   );
 }
