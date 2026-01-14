@@ -560,3 +560,5 @@
 
 - [x] Corregir logo del footer que no carga
 - [x] Eliminar marcadores de código (```html y ```) de la vista previa de emails
+
+- [x] Actualizar prompt de IA para usar URLs absolutas de imágenes reales de Cancagua en emails

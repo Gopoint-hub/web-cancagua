@@ -1089,9 +1089,25 @@ export const appRouter = router({
 4. CTA claro y visible
 5. Footer con información de contacto y redes sociales
 
-IMPORTANTE: Devuelve SOLO el código HTML puro, sin ningún texto adicional. NO incluyas marcadores de código como \`\`\`html al inicio ni \`\`\` al final. El output debe comenzar directamente con <!DOCTYPE html> o <html>.
+## IMÁGENES DISPONIBLES (USAR ESTAS URLs EXACTAS)
+Base URL: https://cancagua.manus.space
 
-Para el logo de Cancagua en el header, usa esta URL: https://cancagua.manus.space/images/01_logo-cancagua.png`;
+- Logo principal: https://cancagua.manus.space/images/01_logo-cancagua.png
+- Biopiscinas (hero): https://cancagua.manus.space/images/02_biopiscinas-hero.jpg
+- Masajes: https://cancagua.manus.space/images/03_masajes-hero.webp
+- Clases/Yoga: https://cancagua.manus.space/images/04_clases-hero.jpg
+- Hot Tubs: https://cancagua.manus.space/images/05_hottubs-hero.png
+- Cafetería: https://cancagua.manus.space/images/06_cafeteria-hero.jpg
+- Eventos: https://cancagua.manus.space/images/07_eventos-hero.jpg
+- Vista general Cancagua: https://cancagua.manus.space/images/10_cancagua-header.jpg
+- SUP/Actividades acuáticas: https://cancagua.manus.space/images/14_sup-actividad.jpg
+
+SIEMPRE usa estas URLs exactas para las imágenes. NO inventes URLs ni uses placeholders. Selecciona la imagen más apropiada según el contenido del email.
+
+## ICONOS DE REDES SOCIALES
+Para iconos de redes sociales, usa emojis o texto simple (Instagram, Facebook, etc.) en lugar de imágenes.
+
+IMPORTANTE: Devuelve SOLO el código HTML puro, sin ningún texto adicional. NO incluyas marcadores de código como \`\`\`html al inicio ni \`\`\` al final. El output debe comenzar directamente con <!DOCTYPE html> o <html>.`;
         
         const userPrompt = `${input.prompt}${input.images && input.images.length > 0 ? `\n\nImágenes a incluir: ${input.images.join(", ")}` : ""}`;
         
@@ -1131,9 +1147,19 @@ Para el logo de Cancagua en el header, usa esta URL: https://cancagua.manus.spac
 - Estilo: Elegante, sereno, minimalista
 - Compatibilidad con clientes de email y estilos inline
 
-IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin ningún texto adicional. NO incluyas marcadores de código como \`\`\`html al inicio ni \`\`\` al final. El output debe comenzar directamente con <!DOCTYPE html> o <html>.
+## IMÁGENES DISPONIBLES (USAR ESTAS URLs EXACTAS)
+- Logo: https://cancagua.manus.space/images/01_logo-cancagua.png
+- Biopiscinas: https://cancagua.manus.space/images/02_biopiscinas-hero.jpg
+- Masajes: https://cancagua.manus.space/images/03_masajes-hero.webp
+- Clases/Yoga: https://cancagua.manus.space/images/04_clases-hero.jpg
+- Hot Tubs: https://cancagua.manus.space/images/05_hottubs-hero.png
+- Cafetería: https://cancagua.manus.space/images/06_cafeteria-hero.jpg
+- Eventos: https://cancagua.manus.space/images/07_eventos-hero.jpg
+- Vista general: https://cancagua.manus.space/images/10_cancagua-header.jpg
 
-Para el logo de Cancagua, usa: https://cancagua.manus.space/images/01_logo-cancagua.png`;
+SIEMPRE usa estas URLs exactas. NO inventes URLs. Para iconos de redes sociales, usa texto simple.
+
+IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de código.`;
         
         const userPrompt = `HTML actual:\n${input.currentHtml}\n\nModificación solicitada: ${input.refinementRequest}`;
         
