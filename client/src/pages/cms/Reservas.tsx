@@ -4,14 +4,16 @@ import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-import { Loader2, Calendar, Users, Mail, Phone, MessageSquare, Check, X } from "lucide-react";
+import { Loader2, Calendar, Users, Mail, Phone, MessageSquare, Check, X, Trash2, Download } from "lucide-react";
 import { Link } from "wouter";
 import DashboardLayout from "@/components/DashboardLayout";
 
 export default function CMSReservas() {
   const { user, loading: authLoading } = useAuth();
   const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "confirmed" | "cancelled">("all");
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   // Queries
   const { data: bookings, isLoading, refetch } = trpc.bookings.list.useQuery();
@@ -34,6 +36,28 @@ export default function CMSReservas() {
     },
     onError: (error) => {
       toast.error(error.message || "Error al eliminar reserva");
+    },
+  });
+
+  const bulkDeleteMutation = trpc.bookings.bulkDelete.useMutation({
+    onSuccess: (data) => {
+      toast.success(`${data.count} reservas eliminadas`);
+      setSelectedIds([]);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al eliminar reservas");
+    },
+  });
+
+  const bulkUpdateStatusMutation = trpc.bookings.bulkUpdateStatus.useMutation({
+    onSuccess: (data) => {
+      toast.success(`${data.count} reservas actualizadas`);
+      setSelectedIds([]);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al actualizar reservas");
     },
   });
 
@@ -95,6 +119,72 @@ export default function CMSReservas() {
     });
   };
 
+  const handleSelectAll = () => {
+    if (selectedIds.length === filteredBookings?.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(filteredBookings?.map((b: any) => b.id) || []);
+    }
+  };
+
+  const handleSelectOne = (id: number) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter(sid => sid !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
+
+  const handleBulkDelete = () => {
+    if (selectedIds.length === 0) return;
+    if (confirm(`¿Eliminar ${selectedIds.length} reservas seleccionadas?`)) {
+      bulkDeleteMutation.mutate({ ids: selectedIds });
+    }
+  };
+
+  const handleBulkUpdateStatus = (status: "pending" | "confirmed" | "cancelled") => {
+    if (selectedIds.length === 0) return;
+    bulkUpdateStatusMutation.mutate({ ids: selectedIds, status });
+  };
+
+  const handleExportCSV = () => {
+    if (!filteredBookings || filteredBookings.length === 0) {
+      toast.error("No hay reservas para exportar");
+      return;
+    }
+
+    const selectedBookings = selectedIds.length > 0
+      ? filteredBookings.filter((b: any) => selectedIds.includes(b.id))
+      : filteredBookings;
+
+    const headers = ["ID", "Nombre", "Email", "Teléfono", "Servicio", "Fecha Preferida", "Personas", "Mensaje", "Estado", "Fecha Creación"];
+    const rows = selectedBookings.map((b: any) => [
+      b.id,
+      b.name,
+      b.email,
+      b.phone,
+      b.serviceType,
+      formatDate(b.preferredDate),
+      b.numberOfPeople,
+      b.message || "",
+      b.status,
+      new Date(b.createdAt).toLocaleString("es-CL"),
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `reservas_${new Date().toISOString().split("T")[0]}.csv`;
+    link.click();
+
+    toast.success(`${selectedBookings.length} reservas exportadas`);
+  };
+
   return (
     <DashboardLayout>
     <div className="min-h-screen bg-gray-50">
@@ -140,6 +230,67 @@ export default function CMSReservas() {
           </Button>
         </div>
 
+        {/* Barra de acciones masivas */}
+        {filteredBookings && filteredBookings.length > 0 && (
+          <div className="bg-white border rounded-lg p-4 mb-6 flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                checked={selectedIds.length === filteredBookings.length && filteredBookings.length > 0}
+                onCheckedChange={handleSelectAll}
+              />
+              <span className="text-sm font-medium">
+                {selectedIds.length > 0 ? `${selectedIds.length} seleccionadas` : "Seleccionar todas"}
+              </span>
+            </div>
+
+            {selectedIds.length > 0 && (
+              <>
+                <div className="h-6 w-px bg-gray-300" />
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleBulkUpdateStatus("confirmed")}
+                  disabled={bulkUpdateStatusMutation.isPending}
+                >
+                  <Check className="w-4 h-4 mr-1" />
+                  Confirmar
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleBulkUpdateStatus("cancelled")}
+                  disabled={bulkUpdateStatusMutation.isPending}
+                >
+                  <X className="w-4 h-4 mr-1" />
+                  Cancelar
+                </Button>
+                {user.role === "admin" && (
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={handleBulkDelete}
+                    disabled={bulkDeleteMutation.isPending}
+                  >
+                    <Trash2 className="w-4 h-4 mr-1" />
+                    Eliminar
+                  </Button>
+                )}
+              </>
+            )}
+
+            <div className="ml-auto">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleExportCSV}
+              >
+                <Download className="w-4 h-4 mr-1" />
+                Exportar CSV
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Lista de Reservas */}
         {isLoading && (
           <div className="flex justify-center py-12">
@@ -160,7 +311,12 @@ export default function CMSReservas() {
             {filteredBookings.map((booking: any) => (
               <Card key={booking.id}>
                 <CardHeader>
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-3">
+                    <Checkbox
+                      checked={selectedIds.includes(booking.id)}
+                      onCheckedChange={() => handleSelectOne(booking.id)}
+                      className="mt-1"
+                    />
                     <div className="flex-1">
                       <CardTitle className="text-lg">{booking.name}</CardTitle>
                       <CardDescription className="mt-1">

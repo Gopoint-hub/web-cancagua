@@ -4,14 +4,16 @@ import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-import { Loader2, Mail, Phone, MessageSquare, Eye, CheckCheck, Reply } from "lucide-react";
+import { Loader2, Mail, Phone, MessageSquare, Eye, CheckCheck, Reply, Trash2, Download } from "lucide-react";
 import { Link } from "wouter";
 import DashboardLayout from "@/components/DashboardLayout";
 
 export default function CMSMensajes() {
   const { user, loading: authLoading } = useAuth();
   const [statusFilter, setStatusFilter] = useState<"all" | "new" | "read" | "replied">("all");
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   // Queries
   const { data: messages, isLoading, refetch } = trpc.contact.list.useQuery();
@@ -34,6 +36,28 @@ export default function CMSMensajes() {
     },
     onError: (error) => {
       toast.error(error.message || "Error al eliminar mensaje");
+    },
+  });
+
+  const bulkDeleteMutation = trpc.contact.bulkDelete.useMutation({
+    onSuccess: (data) => {
+      toast.success(`${data.count} mensajes eliminados`);
+      setSelectedIds([]);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al eliminar mensajes");
+    },
+  });
+
+  const bulkUpdateStatusMutation = trpc.contact.bulkUpdateStatus.useMutation({
+    onSuccess: (data) => {
+      toast.success(`${data.count} mensajes actualizados`);
+      setSelectedIds([]);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al actualizar mensajes");
     },
   });
 
@@ -84,6 +108,70 @@ export default function CMSMensajes() {
     }
   };
 
+  const handleSelectAll = () => {
+    if (selectedIds.length === filteredMessages?.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(filteredMessages?.map((m: any) => m.id) || []);
+    }
+  };
+
+  const handleSelectOne = (id: number) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter(sid => sid !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
+
+  const handleBulkDelete = () => {
+    if (selectedIds.length === 0) return;
+    if (confirm(`¿Eliminar ${selectedIds.length} mensajes seleccionados?`)) {
+      bulkDeleteMutation.mutate({ ids: selectedIds });
+    }
+  };
+
+  const handleBulkUpdateStatus = (status: "new" | "read" | "replied") => {
+    if (selectedIds.length === 0) return;
+    bulkUpdateStatusMutation.mutate({ ids: selectedIds, status });
+  };
+
+  const handleExportCSV = () => {
+    if (!filteredMessages || filteredMessages.length === 0) {
+      toast.error("No hay mensajes para exportar");
+      return;
+    }
+
+    const selectedMessages = selectedIds.length > 0
+      ? filteredMessages.filter((m: any) => selectedIds.includes(m.id))
+      : filteredMessages;
+
+    const headers = ["ID", "Nombre", "Email", "Teléfono", "Asunto", "Mensaje", "Estado", "Fecha"];
+    const rows = selectedMessages.map((m: any) => [
+      m.id,
+      m.name,
+      m.email,
+      m.phone || "",
+      m.subject,
+      m.message.replace(/\n/g, " "),
+      m.status,
+      new Date(m.createdAt).toLocaleString("es-CL"),
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `mensajes_${new Date().toISOString().split("T")[0]}.csv`;
+    link.click();
+
+    toast.success(`${selectedMessages.length} mensajes exportados`);
+  };
+
   return (
     <DashboardLayout>
     <div className="min-h-screen bg-gray-50">
@@ -129,6 +217,67 @@ export default function CMSMensajes() {
           </Button>
         </div>
 
+        {/* Barra de acciones masivas */}
+        {filteredMessages && filteredMessages.length > 0 && (
+          <div className="bg-white border rounded-lg p-4 mb-6 flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                checked={selectedIds.length === filteredMessages.length && filteredMessages.length > 0}
+                onCheckedChange={handleSelectAll}
+              />
+              <span className="text-sm font-medium">
+                {selectedIds.length > 0 ? `${selectedIds.length} seleccionados` : "Seleccionar todos"}
+              </span>
+            </div>
+
+            {selectedIds.length > 0 && (
+              <>
+                <div className="h-6 w-px bg-gray-300" />
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleBulkUpdateStatus("read")}
+                  disabled={bulkUpdateStatusMutation.isPending}
+                >
+                  <Eye className="w-4 h-4 mr-1" />
+                  Marcar como leído
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleBulkUpdateStatus("replied")}
+                  disabled={bulkUpdateStatusMutation.isPending}
+                >
+                  <CheckCheck className="w-4 h-4 mr-1" />
+                  Marcar como respondido
+                </Button>
+                {user.role === "admin" && (
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={handleBulkDelete}
+                    disabled={bulkDeleteMutation.isPending}
+                  >
+                    <Trash2 className="w-4 h-4 mr-1" />
+                    Eliminar
+                  </Button>
+                )}
+              </>
+            )}
+
+            <div className="ml-auto">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleExportCSV}
+              >
+                <Download className="w-4 h-4 mr-1" />
+                Exportar CSV
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Lista de Mensajes */}
         {isLoading && (
           <div className="flex justify-center py-12">
@@ -149,7 +298,12 @@ export default function CMSMensajes() {
             {filteredMessages.map((message: any) => (
               <Card key={message.id} className={message.status === "new" ? "border-blue-300" : ""}>
                 <CardHeader>
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-3">
+                    <Checkbox
+                      checked={selectedIds.includes(message.id)}
+                      onCheckedChange={() => handleSelectOne(message.id)}
+                      className="mt-1"
+                    />
                     <div className="flex-1">
                       <CardTitle className="text-lg">{message.name}</CardTitle>
                       <CardDescription className="mt-1 font-semibold">

@@ -249,6 +249,31 @@ export const appRouter = router({
         await db.deleteBooking(input.id);
         return { success: true };
       }),
+    
+    // Admin: eliminar múltiples reservas
+    bulkDelete: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkDeleteBookings(input.ids);
+        return { success: true, count: input.ids.length };
+      }),
+    
+    // Admin: actualizar estado de múltiples reservas
+    bulkUpdateStatus: protectedProcedure
+      .input(z.object({
+        ids: z.array(z.number()),
+        status: z.enum(["pending", "confirmed", "cancelled"]),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkUpdateBookingsStatus(input.ids, input.status);
+        return { success: true, count: input.ids.length };
+      }),
   }),
 
   // Mensajes de contacto (público)
@@ -305,6 +330,31 @@ export const appRouter = router({
         }
         await db.deleteContactMessage(input.id);
         return { success: true };
+      }),
+    
+    // Admin: eliminar múltiples mensajes
+    bulkDelete: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkDeleteContactMessages(input.ids);
+        return { success: true, count: input.ids.length };
+      }),
+    
+    // Admin: actualizar estado de múltiples mensajes
+    bulkUpdateStatus: protectedProcedure
+      .input(z.object({
+        ids: z.array(z.number()),
+        status: z.enum(["new", "read", "replied"]),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkUpdateContactMessagesStatus(input.ids, input.status);
+        return { success: true, count: input.ids.length };
       }),
   }),
 
@@ -731,6 +781,97 @@ export const appRouter = router({
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteQuote(input.id);
+      }),
+    
+    // Bulk actions
+    bulkDelete: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkDeleteQuotes(input.ids);
+        return { success: true, count: input.ids.length };
+      }),
+    
+    bulkUpdateStatus: protectedProcedure
+      .input(z.object({
+        ids: z.array(z.number()),
+        status: z.enum(["draft", "sent", "approved", "event_completed", "paid", "invoiced"]),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkUpdateQuotesStatus(input.ids, input.status);
+        return { success: true, count: input.ids.length };
+      }),
+    
+    bulkDuplicate: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const duplicatedIds: number[] = [];
+        
+        for (const id of input.ids) {
+          // Obtener cotización original
+          const original = await db.getQuoteById(id);
+          if (!original) continue;
+          
+          const items = await db.getQuoteItems(id);
+          
+          // Generar nuevo número de cotización
+          const quoteNumber = await generateQuoteNumber();
+          
+          // Crear cotización duplicada
+          const result = await db.createQuote({
+            quoteNumber,
+            clientId: original.clientId,
+            clientName: original.clientName,
+            clientEmail: original.clientEmail,
+            clientCompany: original.clientCompany,
+            clientPosition: original.clientPosition,
+            clientPhone: original.clientPhone,
+            clientRut: original.clientRut,
+            clientAddress: original.clientAddress,
+            clientGiro: original.clientGiro,
+            numberOfPeople: original.numberOfPeople,
+            eventDate: original.eventDate,
+            eventDescription: original.eventDescription,
+            itinerary: original.itinerary,
+            subtotal: original.subtotal,
+            total: original.total,
+            validUntil: calculateValidUntil(),
+            status: "draft",
+            notes: original.notes,
+            createdBy: ctx.user.id,
+          });
+          
+          if (result.success) {
+            const newQuote = await db.getQuoteByNumber(quoteNumber);
+            if (newQuote) {
+              // Duplicar items
+              for (const item of items) {
+                await db.createQuoteItem({
+                  quoteId: newQuote.id,
+                  productId: item.productId,
+                  productName: item.productName,
+                  description: item.description,
+                  quantity: item.quantity,
+                  unitPrice: item.unitPrice,
+                  total: item.total,
+                  sortOrder: item.sortOrder,
+                });
+              }
+              duplicatedIds.push(newQuote.id);
+            }
+          }
+        }
+        
+        return { success: true, count: duplicatedIds.length, ids: duplicatedIds };
       }),
 
     generatePDF: protectedProcedure

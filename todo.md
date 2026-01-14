@@ -395,3 +395,26 @@
 - [x] Implementar componente de importación de archivos CSV/Excel
 - [x] Agregar validación y preview de datos antes de importar
 - [x] Escribir tests para funcionalidades de bulk actions
+
+## Bulk Actions para Mensajes, Reservas y Cotizaciones
+
+### Mensajes (Contactos)
+- [x] Agregar checkboxes de selección múltiple
+- [x] Implementar barra de acciones masivas (eliminar, marcar como leído/no leído)
+- [x] Agregar exportación a CSV de mensajes seleccionados
+- [x] Implementar endpoints tRPC para bulk delete y bulk update status
+- [x] Escribir tests para bulk actions de mensajes
+
+### Reservas (Bookings)
+- [x] Agregar checkboxes de selección múltiple
+- [x] Implementar barra de acciones masivas (eliminar, cambiar estado)
+- [x] Agregar exportación a CSV de reservas seleccionadas
+- [x] Implementar endpoints tRPC para bulk delete y bulk update status
+- [x] Escribir tests para bulk actions de reservas
+
+### Cotizaciones
+- [x] Agregar checkboxes de selección múltiple
+- [x] Implementar barra de acciones masivas (eliminar, cambiar estado, duplicar)
+- [x] Agregar exportación a CSV de cotizaciones seleccionadas
+- [x] Implementar endpoints tRPC para bulk delete, bulk update status y bulk duplicate
+- [x] Escribir tests para bulk actions de cotizaciones

@@ -499,6 +499,22 @@ export async function deleteBooking(id: number) {
   await db.delete(bookings).where(eq(bookings.id, id));
 }
 
+export async function bulkDeleteBookings(ids: number[]) {
+  const db = await getDb();
+  if (!db) return;
+  const { bookings } = await import("../drizzle/schema");
+  const { inArray } = await import("drizzle-orm");
+  await db.delete(bookings).where(inArray(bookings.id, ids));
+}
+
+export async function bulkUpdateBookingsStatus(ids: number[], status: "pending" | "confirmed" | "cancelled") {
+  const db = await getDb();
+  if (!db) return;
+  const { bookings } = await import("../drizzle/schema");
+  const { inArray } = await import("drizzle-orm");
+  await db.update(bookings).set({ status, updatedAt: new Date() }).where(inArray(bookings.id, ids));
+}
+
 // Contact Messages
 export async function getAllContactMessages() {
   const db = await getDb();
@@ -537,6 +553,22 @@ export async function deleteContactMessage(id: number) {
   if (!db) return;
   const { contactMessages } = await import("../drizzle/schema");
   await db.delete(contactMessages).where(eq(contactMessages.id, id));
+}
+
+export async function bulkDeleteContactMessages(ids: number[]) {
+  const db = await getDb();
+  if (!db) return;
+  const { contactMessages } = await import("../drizzle/schema");
+  const { inArray } = await import("drizzle-orm");
+  await db.delete(contactMessages).where(inArray(contactMessages.id, ids));
+}
+
+export async function bulkUpdateContactMessagesStatus(ids: number[], status: "new" | "read" | "replied") {
+  const db = await getDb();
+  if (!db) return;
+  const { contactMessages } = await import("../drizzle/schema");
+  const { inArray } = await import("drizzle-orm");
+  await db.update(contactMessages).set({ status, updatedAt: new Date() }).where(inArray(contactMessages.id, ids));
 }
 
 
@@ -726,6 +758,32 @@ export async function deleteQuote(id: number) {
   const { eq } = await import("drizzle-orm");
   await db.delete(quotes).where(eq(quotes.id, id));
   return { success: true };
+}
+
+export async function bulkDeleteQuotes(ids: number[]) {
+  const db = await getDb();
+  if (!db) return;
+  const { quotes, quoteItems } = await import("../drizzle/schema");
+  const { inArray } = await import("drizzle-orm");
+  // Eliminar primero los items de las cotizaciones
+  await db.delete(quoteItems).where(inArray(quoteItems.quoteId, ids));
+  // Luego eliminar las cotizaciones
+  await db.delete(quotes).where(inArray(quotes.id, ids));
+}
+
+export async function bulkUpdateQuotesStatus(ids: number[], status: "draft" | "sent" | "approved" | "event_completed" | "paid" | "invoiced") {
+  const db = await getDb();
+  if (!db) return;
+  const { quotes } = await import("../drizzle/schema");
+  const { inArray } = await import("drizzle-orm");
+  
+  const updateData: any = { status };
+  
+  if (status === "sent") {
+    updateData.sentAt = new Date();
+  }
+  
+  await db.update(quotes).set(updateData).where(inArray(quotes.id, ids));
 }
 
 // ============================================

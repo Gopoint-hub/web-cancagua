@@ -27,7 +27,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Eye, Edit, Trash2, CheckCircle2, XCircle, DollarSign, FileText, Download } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Plus, Eye, Edit, Trash2, CheckCircle2, XCircle, DollarSign, FileText, Download, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 
@@ -46,6 +47,7 @@ export default function Cotizaciones() {
   const [showDetailsDialog, setShowDetailsDialog] = useState(false);
   const [showStatusDialog, setShowStatusDialog] = useState(false);
   const [newStatus, setNewStatus] = useState<string>("");
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const { data: quotes = [], refetch } = trpc.quotes.getAll.useQuery();
   const generatePDFMutation = trpc.quotes.generatePDF.useMutation();
@@ -55,6 +57,9 @@ export default function Cotizaciones() {
   );
   const updateStatusMutation = trpc.quotes.updateStatus.useMutation();
   const deleteQuoteMutation = trpc.quotes.delete.useMutation();
+  const bulkDeleteMutation = trpc.quotes.bulkDelete.useMutation();
+  const bulkUpdateStatusMutation = trpc.quotes.bulkUpdateStatus.useMutation();
+  const bulkDuplicateMutation = trpc.quotes.bulkDuplicate.useMutation();
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("es-CL", {
@@ -136,6 +141,100 @@ export default function Cotizaciones() {
     } catch (error: any) {
       toast.error(error.message || "Error al generar PDF");
     }
+  };
+
+  const handleSelectAll = () => {
+    if (selectedIds.length === quotes.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(quotes.map((q: any) => q.id));
+    }
+  };
+
+  const handleSelectOne = (id: number) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter(sid => sid !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.length === 0) return;
+    if (!confirm(`¿Eliminar ${selectedIds.length} cotizaciones seleccionadas?`)) return;
+
+    try {
+      await bulkDeleteMutation.mutateAsync({ ids: selectedIds });
+      toast.success(`${selectedIds.length} cotizaciones eliminadas`);
+      setSelectedIds([]);
+      refetch();
+    } catch (error: any) {
+      toast.error(error.message || "Error al eliminar cotizaciones");
+    }
+  };
+
+  const handleBulkUpdateStatus = async (status: string) => {
+    if (selectedIds.length === 0) return;
+
+    try {
+      await bulkUpdateStatusMutation.mutateAsync({ ids: selectedIds, status: status as any });
+      toast.success(`${selectedIds.length} cotizaciones actualizadas`);
+      setSelectedIds([]);
+      refetch();
+    } catch (error: any) {
+      toast.error(error.message || "Error al actualizar cotizaciones");
+    }
+  };
+
+  const handleBulkDuplicate = async () => {
+    if (selectedIds.length === 0) return;
+
+    try {
+      toast.info(`Duplicando ${selectedIds.length} cotizaciones...`);
+      const result = await bulkDuplicateMutation.mutateAsync({ ids: selectedIds });
+      toast.success(`${result.count} cotizaciones duplicadas`);
+      setSelectedIds([]);
+      refetch();
+    } catch (error: any) {
+      toast.error(error.message || "Error al duplicar cotizaciones");
+    }
+  };
+
+  const handleExportCSV = () => {
+    if (quotes.length === 0) {
+      toast.error("No hay cotizaciones para exportar");
+      return;
+    }
+
+    const selectedQuotes = selectedIds.length > 0
+      ? quotes.filter((q: any) => selectedIds.includes(q.id))
+      : quotes;
+
+    const headers = ["Número", "Cliente", "Email", "Empresa", "Fecha Creación", "Personas", "Total", "Estado", "Válida Hasta"];
+    const rows = selectedQuotes.map((q: any) => [
+      q.quoteNumber,
+      q.clientName,
+      q.clientEmail,
+      q.clientCompany || "",
+      formatDate(q.createdAt),
+      q.numberOfPeople,
+      q.total,
+      STATUS_CONFIG[q.status as keyof typeof STATUS_CONFIG].label,
+      formatDate(q.validUntil),
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `cotizaciones_${new Date().toISOString().split("T")[0]}.csv`;
+    link.click();
+
+    toast.success(`${selectedQuotes.length} cotizaciones exportadas`);
   };
 
   // Agrupar cotizaciones por estado
@@ -220,6 +319,69 @@ export default function Cotizaciones() {
         </Card>
       </div>
 
+      {/* Barra de acciones masivas */}
+      {quotes.length > 0 && (
+        <div className="bg-white border rounded-lg p-4 mb-6 flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Checkbox
+              checked={selectedIds.length === quotes.length && quotes.length > 0}
+              onCheckedChange={handleSelectAll}
+            />
+            <span className="text-sm font-medium">
+              {selectedIds.length > 0 ? `${selectedIds.length} seleccionadas` : "Seleccionar todas"}
+            </span>
+          </div>
+
+          {selectedIds.length > 0 && (
+            <>
+              <div className="h-6 w-px bg-gray-300" />
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleBulkDuplicate}
+                disabled={bulkDuplicateMutation.isPending}
+              >
+                <Copy className="w-4 h-4 mr-1" />
+                Duplicar
+              </Button>
+              <Select onValueChange={handleBulkUpdateStatus}>
+                <SelectTrigger className="w-[180px] h-9">
+                  <SelectValue placeholder="Cambiar estado" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">Borrador</SelectItem>
+                  <SelectItem value="sent">Enviada</SelectItem>
+                  <SelectItem value="approved">Aprobada</SelectItem>
+                  <SelectItem value="event_completed">Jornada Efectuada</SelectItem>
+                  <SelectItem value="paid">Pagada</SelectItem>
+                  <SelectItem value="invoiced">Facturada</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={handleBulkDelete}
+                disabled={bulkDeleteMutation.isPending}
+              >
+                <Trash2 className="w-4 h-4 mr-1" />
+                Eliminar
+              </Button>
+            </>
+          )}
+
+          <div className="ml-auto">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleExportCSV}
+            >
+              <Download className="w-4 h-4 mr-1" />
+              Exportar CSV
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Tabla de cotizaciones */}
       <Card>
         <CardHeader>
@@ -229,6 +391,7 @@ export default function Cotizaciones() {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-12"></TableHead>
                 <TableHead>Número</TableHead>
                 <TableHead>Cliente</TableHead>
                 <TableHead>Fecha Creación</TableHead>
@@ -241,13 +404,19 @@ export default function Cotizaciones() {
             <TableBody>
               {quotes.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center text-muted-foreground">
+                  <TableCell colSpan={8} className="text-center text-muted-foreground">
                     No hay cotizaciones registradas. Crea una para comenzar.
                   </TableCell>
                 </TableRow>
               ) : (
                 quotes.map((quote: any) => (
                   <TableRow key={quote.id}>
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedIds.includes(quote.id)}
+                        onCheckedChange={() => handleSelectOne(quote.id)}
+                      />
+                    </TableCell>
                     <TableCell className="font-mono font-medium">
                       {quote.quoteNumber}
                     </TableCell>
