@@ -52,10 +52,16 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       values.lastSignedIn = user.lastSignedIn;
       updateSet.lastSignedIn = user.lastSignedIn;
     }
+    // Lista de emails autorizados como administradores
+    const authorizedAdminEmails = [
+      'eventos@cancagua.cl',
+      'sebastian.jara.b@gmail.com',
+    ];
+
     if (user.role !== undefined) {
       values.role = user.role;
       updateSet.role = user.role;
-    } else if (user.openId === ENV.ownerOpenId) {
+    } else if (user.openId === ENV.ownerOpenId || (user.email && authorizedAdminEmails.includes(user.email))) {
       values.role = 'admin';
       updateSet.role = 'admin';
     }

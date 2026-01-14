@@ -346,3 +346,8 @@
 - [ ] Integrar con sistema de facturación gratuita (pendiente de definir API)
 - [x] Agregar sistema de aprobación antes de enviar al cliente
 - [x] Escribir tests para funcionalidades de cotizaciones
+
+## Agregar Usuarios Adicionales al CMS
+- [x] Verificar sistema de autenticación actual (Manus OAuth)
+- [x] Agregar usuarios eventos@cancagua.cl y sebastian.jara.b@gmail.com con rol admin
+- [x] Documentar proceso de acceso para nuevos usuarios
