@@ -363,3 +363,7 @@
 - [x] Implementar botón de descarga/exportación en página de cotizaciones
 - [x] Implementar botón de exportación en vista de detalle de cotización
 - [x] Probar generación de PDF con diferentes cotizaciones
+
+## Corregir Scroll Horizontal en Modal de Cotización
+- [x] Ajustar ancho del modal de detalles de cotización
+- [x] Hacer tabla de productos responsive sin scroll horizontal
