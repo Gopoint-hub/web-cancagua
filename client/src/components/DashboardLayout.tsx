@@ -21,15 +21,26 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Users, Calendar, Mail, BarChart3, FileText, MessageSquare, Package, Newspaper, Settings } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Page 1", path: "/" },
-  { icon: Users, label: "Page 2", path: "/some-path" },
+  { icon: BarChart3, label: "Dashboard", path: "/cms" },
+  { icon: Package, label: "Servicios", path: "/cms/servicios", section: "main" },
+  { icon: Calendar, label: "Eventos", path: "/cms/eventos", section: "main" },
+  { icon: FileText, label: "Carta", path: "/cms/carta", section: "main" },
+  { icon: Calendar, label: "Reservas", path: "/cms/reservas", section: "main" },
+  { icon: MessageSquare, label: "Mensajes", path: "/cms/mensajes", section: "main" },
+  { icon: Users, label: "Clientes", path: "/cms/clientes", section: "main" },
+  { icon: FileText, label: "Cotizaciones", path: "/cms/cotizaciones", section: "corporate", sectionLabel: "EVENTOS CORPORATIVOS" },
+  { icon: Package, label: "Cat\u00e1logo Productos", path: "/cms/productos-corporativos", section: "corporate" },
+  { icon: Newspaper, label: "Newsletter", path: "/cms/newsletter", section: "other" },
+  { icon: BarChart3, label: "Analytics", path: "/cms/analytics", section: "other" },
+  { icon: Users, label: "Usuarios", path: "/cms/usuarios", section: "other" },
+  { icon: Settings, label: "Configuraci\u00f3n", path: "/cms/configuracion", section: "other" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
@@ -171,7 +182,7 @@ function DashboardLayoutContent({
               {!isCollapsed ? (
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="font-semibold tracking-tight truncate">
-                    Navigation
+                    CMS Cancagua
                   </span>
                 </div>
               ) : null}
@@ -180,22 +191,32 @@ function DashboardLayoutContent({
 
           <SidebarContent className="gap-0">
             <SidebarMenu className="px-2 py-1">
-              {menuItems.map(item => {
+              {menuItems.map((item, index) => {
                 const isActive = location === item.path;
+                const prevItem = menuItems[index - 1];
+                const showSectionLabel = item.section === "corporate" && prevItem?.section !== "corporate";
+                
                 return (
-                  <SidebarMenuItem key={item.path}>
-                    <SidebarMenuButton
-                      isActive={isActive}
-                      onClick={() => setLocation(item.path)}
-                      tooltip={item.label}
-                      className={`h-10 transition-all font-normal`}
-                    >
-                      <item.icon
-                        className={`h-4 w-4 ${isActive ? "text-primary" : ""}`}
-                      />
-                      <span>{item.label}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  <div key={item.path}>
+                    {showSectionLabel && (
+                      <div className="pt-2 mt-2 border-t">
+                        <p className="text-xs text-muted-foreground px-3 mb-2 font-semibold">{item.sectionLabel}</p>
+                      </div>
+                    )}
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        isActive={isActive}
+                        onClick={() => setLocation(item.path)}
+                        tooltip={item.label}
+                        className={`h-10 transition-all font-normal`}
+                      >
+                        <item.icon
+                          className={`h-4 w-4 ${isActive ? "text-primary" : ""}`}
+                        />
+                        <span>{item.label}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </div>
                 );
               })}
             </SidebarMenu>

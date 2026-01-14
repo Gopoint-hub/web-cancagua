@@ -379,3 +379,9 @@
 - [x] Crear componente reutilizable ComingSoon
 - [x] Crear páginas placeholder: Servicios, Eventos, Clientes, Newsletter, Analytics, Configuración
 - [x] Registrar rutas en App.tsx
+
+## Corregir Menú del CMS en DashboardLayout
+- [x] Revisar estructura del menú en Dashboard.tsx
+- [x] Actualizar DashboardLayout.tsx para usar menú personalizado del CMS
+- [x] Eliminar menú genérico (Navigation, Page 1, Page 2)
+- [x] Verificar que todas las páginas muestren el menú correcto
