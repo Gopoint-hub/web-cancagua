@@ -14,6 +14,12 @@ import CMSMensajes from "./pages/cms/Mensajes";
 import CMSProductosCorporativos from "./pages/cms/ProductosCorporativos";
 import CMSCotizaciones from "./pages/cms/Cotizaciones";
 import CMSCrearCotizacion from "./pages/cms/CrearCotizacion";
+import CMSServicios from "./pages/cms/Servicios";
+import CMSEventos from "./pages/cms/Eventos";
+import CMSClientes from "./pages/cms/Clientes";
+import CMSNewsletter from "./pages/cms/Newsletter";
+import CMSAnalytics from "./pages/cms/Analytics";
+import CMSConfiguracion from "./pages/cms/Configuracion";
 import Servicios from "./pages/Servicios";
 import ServicioBiopiscinas from "./pages/ServicioBiopiscinas";
 import Eventos from "./pages/Eventos";
@@ -48,6 +54,12 @@ function Router() {
       <Route path={"/cms/productos-corporativos"} component={CMSProductosCorporativos} />
       <Route path={"/cms/cotizaciones"} component={CMSCotizaciones} />
       <Route path={"/cms/crear-cotizacion"} component={CMSCrearCotizacion} />
+      <Route path={"/cms/servicios"} component={CMSServicios} />
+      <Route path={"/cms/eventos"} component={CMSEventos} />
+      <Route path={"/cms/clientes"} component={CMSClientes} />
+      <Route path={"/cms/newsletter"} component={CMSNewsletter} />
+      <Route path={"/cms/analytics"} component={CMSAnalytics} />
+      <Route path={"/cms/configuracion"} component={CMSConfiguracion} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

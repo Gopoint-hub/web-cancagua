@@ -373,3 +373,9 @@
 - [x] Corregir páginas de Carta, Reservas, Mensajes, Usuarios para usar DashboardLayout
 - [x] Verificar que ProductosCorporativos, Cotizaciones y CrearCotizacion usen DashboardLayout
 - [x] Documentar estructura estándar para futuros módulos
+
+## Páginas Placeholder "Próximamente"
+- [x] Identificar enlaces del menú sin páginas implementadas
+- [x] Crear componente reutilizable ComingSoon
+- [x] Crear páginas placeholder: Servicios, Eventos, Clientes, Newsletter, Analytics, Configuración
+- [x] Registrar rutas en App.tsx
