@@ -511,3 +511,46 @@
 - [x] Escribir tests para bulk actions
 - [ ] Escribir tests para importación de CSV
 - [ ] Escribir tests para generación de diseño con IA
+
+
+## Reorganización del Menú CMS por Categorías
+
+### Estructura de Categorías
+- [x] Definir estructura de navegación con 5 categorías principales
+- [x] B2C (Clientes): Servicios, Carta, Reservas, Mensajes, Clientes
+- [x] B2B (Corporativo): Cotizaciones, Catálogo de Productos, CRM Pipeline
+- [x] Marketing: Newsletters, Suscriptores, Listas
+- [x] Métricas: Analytics, Reportes de Ventas
+- [x] Administración: Usuarios, Configuración
+
+### Componente de Layout Unificado
+- [x] Crear componente CMSLayout con selector de categorías en header
+- [x] Implementar sidebar dinámico que cambia según categoría seleccionada
+- [x] Agregar indicador visual de categoría activa
+- [x] Implementar persistencia de categoría seleccionada en localStorage
+
+### Dashboard Principal
+- [x] Rediseñar dashboard con tarjetas de acceso rápido por categoría
+- [x] Cada tarjeta muestra resumen de métricas de esa categoría
+- [x] Al hacer clic en categoría, navegar al mini-dashboard de esa área
+
+### Actualización de Páginas Existentes
+- [x] Migrar todas las páginas CMS al nuevo CMSLayout
+- [x] Asegurar navegación consistente en todas las páginas
+- [x] Actualizar rutas si es necesario
+
+## Módulo CRM Pipeline (Tipo Pipedrive)
+
+### Backend
+- [x] Verificar que el esquema de cotizaciones soporte los estados del pipeline
+- [x] Crear endpoint para actualizar estado de cotización (drag & drop)
+- [x] Agregar endpoint para obtener cotizaciones agrupadas por estado
+
+### Frontend - Vista Kanban
+- [x] Crear página `/cms/crm-pipeline` con vista de columnas
+- [x] Implementar columnas: Borrador, Enviada, En Negociación, Aprobada, Evento Completado, Facturada, Pagada
+- [x] Agregar funcionalidad drag & drop para mover cotizaciones entre columnas
+- [x] Mostrar tarjeta de cotización con info resumida (cliente, monto, fecha)
+- [x] Implementar modal de detalle al hacer clic en cotización
+- [x] Agregar filtros por fecha, cliente, monto
+- [x] Implementar búsqueda de cotizaciones

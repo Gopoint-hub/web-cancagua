@@ -21,47 +21,177 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users, Calendar, Mail, BarChart3, FileText, MessageSquare, Package, Newspaper, Settings } from "lucide-react";
-import { CSSProperties, useEffect, useRef, useState } from "react";
-import { useLocation } from "wouter";
+import { 
+  LayoutDashboard, LogOut, PanelLeft, Users, Calendar, Mail, BarChart3, 
+  FileText, MessageSquare, Package, Newspaper, Settings, Store, Briefcase,
+  TrendingUp, Shield, Megaphone, ChevronDown, Home, UtensilsCrossed, 
+  CalendarCheck, UserCheck, Kanban, ListChecks, MailPlus, UsersRound
+} from "lucide-react";
+import { CSSProperties, useEffect, useRef, useState, createContext, useContext } from "react";
+import { useLocation, Link } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
-const menuItems = [
-  { icon: BarChart3, label: "Dashboard", path: "/cms" },
-  { icon: Package, label: "Servicios", path: "/cms/servicios", section: "main" },
-  { icon: Calendar, label: "Eventos", path: "/cms/eventos", section: "main" },
-  { icon: FileText, label: "Carta", path: "/cms/carta", section: "main" },
-  { icon: Calendar, label: "Reservas", path: "/cms/reservas", section: "main" },
-  { icon: MessageSquare, label: "Mensajes", path: "/cms/mensajes", section: "main" },
-  { icon: Users, label: "Clientes", path: "/cms/clientes", section: "main" },
-  { icon: FileText, label: "Cotizaciones", path: "/cms/cotizaciones", section: "corporate", sectionLabel: "EVENTOS CORPORATIVOS" },
-  { icon: Package, label: "Cat\u00e1logo Productos", path: "/cms/productos-corporativos", section: "corporate" },
-  { icon: Newspaper, label: "Newsletter", path: "/cms/newsletter", section: "other" },
-  { icon: BarChart3, label: "Analytics", path: "/cms/analytics", section: "other" },
-  { icon: Users, label: "Usuarios", path: "/cms/usuarios", section: "other" },
-  { icon: Settings, label: "Configuraci\u00f3n", path: "/cms/configuracion", section: "other" },
+// Definición de categorías y sus items de menú
+export type CategoryId = "b2c" | "b2b" | "marketing" | "metrics" | "admin";
+
+interface MenuItem {
+  icon: any;
+  label: string;
+  path: string;
+}
+
+interface Category {
+  id: CategoryId;
+  label: string;
+  icon: any;
+  description: string;
+  color: string;
+  items: MenuItem[];
+}
+
+export const categories: Category[] = [
+  {
+    id: "b2c",
+    label: "B2C",
+    icon: Store,
+    description: "Clientes & Servicios",
+    color: "bg-emerald-500",
+    items: [
+      { icon: LayoutDashboard, label: "Resumen B2C", path: "/cms/b2c" },
+      { icon: Package, label: "Servicios", path: "/cms/servicios" },
+      { icon: UtensilsCrossed, label: "Carta", path: "/cms/carta" },
+      { icon: CalendarCheck, label: "Reservas", path: "/cms/reservas" },
+      { icon: MessageSquare, label: "Mensajes", path: "/cms/mensajes" },
+      { icon: Users, label: "Clientes", path: "/cms/clientes" },
+    ],
+  },
+  {
+    id: "b2b",
+    label: "B2B",
+    icon: Briefcase,
+    description: "Eventos Corporativos",
+    color: "bg-blue-500",
+    items: [
+      { icon: LayoutDashboard, label: "Resumen B2B", path: "/cms/b2b" },
+      { icon: FileText, label: "Cotizaciones", path: "/cms/cotizaciones" },
+      { icon: Package, label: "Catálogo Productos", path: "/cms/productos-corporativos" },
+      { icon: Kanban, label: "CRM Pipeline", path: "/cms/crm-pipeline" },
+    ],
+  },
+  {
+    id: "marketing",
+    label: "Marketing",
+    icon: Megaphone,
+    description: "Newsletters & Campañas",
+    color: "bg-purple-500",
+    items: [
+      { icon: LayoutDashboard, label: "Resumen Marketing", path: "/cms/marketing" },
+      { icon: Newspaper, label: "Newsletters", path: "/cms/newsletter" },
+      { icon: MailPlus, label: "Crear Newsletter", path: "/cms/crear-newsletter" },
+      { icon: UsersRound, label: "Suscriptores", path: "/cms/suscriptores" },
+      { icon: ListChecks, label: "Listas", path: "/cms/listas" },
+    ],
+  },
+  {
+    id: "metrics",
+    label: "Métricas",
+    icon: TrendingUp,
+    description: "Analytics & Reportes",
+    color: "bg-amber-500",
+    items: [
+      { icon: LayoutDashboard, label: "Resumen Métricas", path: "/cms/metricas" },
+      { icon: BarChart3, label: "Analytics", path: "/cms/analytics" },
+    ],
+  },
+  {
+    id: "admin",
+    label: "Admin",
+    icon: Shield,
+    description: "Usuarios & Configuración",
+    color: "bg-slate-500",
+    items: [
+      { icon: LayoutDashboard, label: "Resumen Admin", path: "/cms/admin" },
+      { icon: Users, label: "Usuarios", path: "/cms/usuarios" },
+      { icon: Settings, label: "Configuración", path: "/cms/configuracion" },
+    ],
+  },
 ];
 
+// Context para compartir la categoría activa
+interface CategoryContextType {
+  activeCategory: CategoryId;
+  setActiveCategory: (category: CategoryId) => void;
+}
+
+const CategoryContext = createContext<CategoryContextType | null>(null);
+
+export function useCategoryContext() {
+  const context = useContext(CategoryContext);
+  if (!context) {
+    throw new Error("useCategoryContext must be used within DashboardLayout");
+  }
+  return context;
+}
+
+// Función para detectar categoría basada en la ruta actual
+function detectCategoryFromPath(path: string): CategoryId {
+  for (const category of categories) {
+    if (category.items.some(item => item.path === path)) {
+      return category.id;
+    }
+  }
+  return "b2c"; // Default
+}
+
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
-const DEFAULT_WIDTH = 280;
+const CATEGORY_KEY = "cms-active-category";
+const DEFAULT_WIDTH = 260;
 const MIN_WIDTH = 200;
-const MAX_WIDTH = 480;
+const MAX_WIDTH = 400;
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [location] = useLocation();
   const [sidebarWidth, setSidebarWidth] = useState(() => {
     const saved = localStorage.getItem(SIDEBAR_WIDTH_KEY);
     return saved ? parseInt(saved, 10) : DEFAULT_WIDTH;
   });
+  const [activeCategory, setActiveCategory] = useState<CategoryId>(() => {
+    // Primero intentar detectar por la ruta actual
+    const detectedCategory = detectCategoryFromPath(location);
+    if (detectedCategory !== "b2c" || location.startsWith("/cms/b2c") || location === "/cms") {
+      return detectedCategory;
+    }
+    // Si no se detecta, usar el guardado en localStorage
+    const saved = localStorage.getItem(CATEGORY_KEY) as CategoryId;
+    return saved || "b2c";
+  });
   const { loading, user } = useAuth();
+
+  // Actualizar categoría cuando cambia la ruta
+  useEffect(() => {
+    const detected = detectCategoryFromPath(location);
+    if (detected !== activeCategory) {
+      // Solo actualizar si la ruta pertenece a una categoría diferente
+      const belongsToCategory = categories.find(c => c.id === activeCategory)?.items.some(i => i.path === location);
+      if (!belongsToCategory && location !== "/cms") {
+        setActiveCategory(detected);
+      }
+    }
+  }, [location]);
 
   useEffect(() => {
     localStorage.setItem(SIDEBAR_WIDTH_KEY, sidebarWidth.toString());
   }, [sidebarWidth]);
+
+  useEffect(() => {
+    localStorage.setItem(CATEGORY_KEY, activeCategory);
+  }, [activeCategory]);
 
   if (loading) {
     return <DashboardLayoutSkeleton />
@@ -73,10 +203,10 @@ export default function DashboardLayout({
         <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
           <div className="flex flex-col items-center gap-6">
             <h1 className="text-2xl font-semibold tracking-tight text-center">
-              Sign in to continue
+              Iniciar sesión
             </h1>
             <p className="text-sm text-muted-foreground text-center max-w-sm">
-              Access to this dashboard requires authentication. Continue to launch the login flow.
+              El acceso a este panel requiere autenticación. Continúa para iniciar sesión.
             </p>
           </div>
           <Button
@@ -86,7 +216,7 @@ export default function DashboardLayout({
             size="lg"
             className="w-full shadow-lg hover:shadow-xl transition-all"
           >
-            Sign in
+            Iniciar sesión
           </Button>
         </div>
       </div>
@@ -94,17 +224,19 @@ export default function DashboardLayout({
   }
 
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": `${sidebarWidth}px`,
-        } as CSSProperties
-      }
-    >
-      <DashboardLayoutContent setSidebarWidth={setSidebarWidth}>
-        {children}
-      </DashboardLayoutContent>
-    </SidebarProvider>
+    <CategoryContext.Provider value={{ activeCategory, setActiveCategory }}>
+      <SidebarProvider
+        style={
+          {
+            "--sidebar-width": `${sidebarWidth}px`,
+          } as CSSProperties
+        }
+      >
+        <DashboardLayoutContent setSidebarWidth={setSidebarWidth}>
+          {children}
+        </DashboardLayoutContent>
+      </SidebarProvider>
+    </CategoryContext.Provider>
   );
 }
 
@@ -123,8 +255,12 @@ function DashboardLayoutContent({
   const isCollapsed = state === "collapsed";
   const [isResizing, setIsResizing] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const activeMenuItem = menuItems.find(item => item.path === location);
   const isMobile = useIsMobile();
+  const { activeCategory, setActiveCategory } = useCategoryContext();
+
+  const currentCategory = categories.find(c => c.id === activeCategory) || categories[0];
+  const menuItems = currentCategory.items;
+  const activeMenuItem = menuItems.find(item => item.path === location);
 
   useEffect(() => {
     if (isCollapsed) {
@@ -162,6 +298,14 @@ function DashboardLayoutContent({
     };
   }, [isResizing, setSidebarWidth]);
 
+  const handleCategoryChange = (categoryId: CategoryId) => {
+    setActiveCategory(categoryId);
+    const category = categories.find(c => c.id === categoryId);
+    if (category && category.items.length > 0) {
+      setLocation(category.items[0].path);
+    }
+  };
+
   return (
     <>
       <div className="relative" ref={sidebarRef}>
@@ -170,53 +314,119 @@ function DashboardLayoutContent({
           className="border-r-0"
           disableTransition={isResizing}
         >
-          <SidebarHeader className="h-16 justify-center">
-            <div className="flex items-center gap-3 px-2 transition-all w-full">
-              <button
-                onClick={toggleSidebar}
-                className="h-8 w-8 flex items-center justify-center hover:bg-accent rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring shrink-0"
-                aria-label="Toggle navigation"
-              >
-                <PanelLeft className="h-4 w-4 text-muted-foreground" />
-              </button>
-              {!isCollapsed ? (
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="font-semibold tracking-tight truncate">
-                    CMS Cancagua
-                  </span>
-                </div>
-              ) : null}
+          <SidebarHeader className="h-auto py-3">
+            <div className="flex flex-col gap-2 px-2 transition-all w-full">
+              {/* Logo y toggle */}
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={toggleSidebar}
+                  className="h-8 w-8 flex items-center justify-center hover:bg-accent rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring shrink-0"
+                  aria-label="Toggle navigation"
+                >
+                  <PanelLeft className="h-4 w-4 text-muted-foreground" />
+                </button>
+                {!isCollapsed && (
+                  <Link href="/cms" className="flex items-center gap-2 min-w-0 hover:opacity-80 transition-opacity">
+                    <span className="font-semibold tracking-tight truncate">
+                      CMS Cancagua
+                    </span>
+                  </Link>
+                )}
+              </div>
+
+              {/* Selector de categoría */}
+              {!isCollapsed && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex items-center gap-2 px-3 py-2 rounded-lg bg-accent/50 hover:bg-accent transition-colors w-full text-left">
+                      <div className={cn("h-6 w-6 rounded flex items-center justify-center", currentCategory.color)}>
+                        <currentCategory.icon className="h-3.5 w-3.5 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">{currentCategory.label}</p>
+                        <p className="text-xs text-muted-foreground truncate">{currentCategory.description}</p>
+                      </div>
+                      <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-56">
+                    {categories.map((category) => (
+                      <DropdownMenuItem
+                        key={category.id}
+                        onClick={() => handleCategoryChange(category.id)}
+                        className={cn(
+                          "cursor-pointer",
+                          activeCategory === category.id && "bg-accent"
+                        )}
+                      >
+                        <div className={cn("h-6 w-6 rounded flex items-center justify-center mr-2", category.color)}>
+                          <category.icon className="h-3.5 w-3.5 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">{category.label}</p>
+                          <p className="text-xs text-muted-foreground">{category.description}</p>
+                        </div>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+
+              {/* Selector colapsado */}
+              {isCollapsed && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className={cn(
+                      "h-8 w-8 rounded flex items-center justify-center mx-auto",
+                      currentCategory.color,
+                      "hover:opacity-80 transition-opacity"
+                    )}>
+                      <currentCategory.icon className="h-4 w-4 text-white" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" side="right" className="w-56">
+                    {categories.map((category) => (
+                      <DropdownMenuItem
+                        key={category.id}
+                        onClick={() => handleCategoryChange(category.id)}
+                        className={cn(
+                          "cursor-pointer",
+                          activeCategory === category.id && "bg-accent"
+                        )}
+                      >
+                        <div className={cn("h-6 w-6 rounded flex items-center justify-center mr-2", category.color)}>
+                          <category.icon className="h-3.5 w-3.5 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">{category.label}</p>
+                          <p className="text-xs text-muted-foreground">{category.description}</p>
+                        </div>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </div>
           </SidebarHeader>
 
           <SidebarContent className="gap-0">
             <SidebarMenu className="px-2 py-1">
-              {menuItems.map((item, index) => {
+              {menuItems.map((item) => {
                 const isActive = location === item.path;
-                const prevItem = menuItems[index - 1];
-                const showSectionLabel = item.section === "corporate" && prevItem?.section !== "corporate";
-                
                 return (
-                  <div key={item.path}>
-                    {showSectionLabel && (
-                      <div className="pt-2 mt-2 border-t">
-                        <p className="text-xs text-muted-foreground px-3 mb-2 font-semibold">{item.sectionLabel}</p>
-                      </div>
-                    )}
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        isActive={isActive}
-                        onClick={() => setLocation(item.path)}
-                        tooltip={item.label}
-                        className={`h-10 transition-all font-normal`}
-                      >
-                        <item.icon
-                          className={`h-4 w-4 ${isActive ? "text-primary" : ""}`}
-                        />
-                        <span>{item.label}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  </div>
+                  <SidebarMenuItem key={item.path}>
+                    <SidebarMenuButton
+                      isActive={isActive}
+                      onClick={() => setLocation(item.path)}
+                      tooltip={item.label}
+                      className="h-10 transition-all font-normal"
+                    >
+                      <item.icon
+                        className={`h-4 w-4 ${isActive ? "text-primary" : ""}`}
+                      />
+                      <span>{item.label}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 );
               })}
             </SidebarMenu>
@@ -243,11 +453,18 @@ function DashboardLayoutContent({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem
+                  onClick={() => setLocation("/")}
+                  className="cursor-pointer"
+                >
+                  <Home className="mr-2 h-4 w-4" />
+                  <span>Ir al sitio</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   onClick={logout}
                   className="cursor-pointer text-destructive focus:text-destructive"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Sign out</span>
+                  <span>Cerrar sesión</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -269,8 +486,12 @@ function DashboardLayoutContent({
             <div className="flex items-center gap-2">
               <SidebarTrigger className="h-9 w-9 rounded-lg bg-background" />
               <div className="flex items-center gap-3">
-                <div className="flex flex-col gap-1">
-                  <span className="tracking-tight text-foreground">
+                <div className={cn("h-6 w-6 rounded flex items-center justify-center", currentCategory.color)}>
+                  <currentCategory.icon className="h-3.5 w-3.5 text-white" />
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-xs text-muted-foreground">{currentCategory.label}</span>
+                  <span className="tracking-tight text-foreground text-sm">
                     {activeMenuItem?.label ?? "Menu"}
                   </span>
                 </div>

@@ -23,6 +23,12 @@ import CMSSuscriptores from "./pages/cms/Suscriptores";
 import CMSListas from "./pages/cms/Listas";
 import CMSAnalytics from "./pages/cms/Analytics";
 import CMSConfiguracion from "./pages/cms/Configuracion";
+import CMSCRMPipeline from "./pages/cms/CRMPipeline";
+import CMSB2C from "./pages/cms/B2C";
+import CMSB2B from "./pages/cms/B2B";
+import CMSMarketing from "./pages/cms/Marketing";
+import CMSMetricas from "./pages/cms/Metricas";
+import CMSAdmin from "./pages/cms/Admin";
 import Servicios from "./pages/Servicios";
 import ServicioBiopiscinas from "./pages/ServicioBiopiscinas";
 import Eventos from "./pages/Eventos";
@@ -66,6 +72,12 @@ function Router() {
       <Route path={"/cms/listas"} component={CMSListas} />
       <Route path={"/cms/analytics"} component={CMSAnalytics} />
       <Route path={"/cms/configuracion"} component={CMSConfiguracion} />
+      <Route path={"/cms/crm-pipeline"} component={CMSCRMPipeline} />
+      <Route path={"/cms/b2c"} component={CMSB2C} />
+      <Route path={"/cms/b2b"} component={CMSB2B} />
+      <Route path={"/cms/marketing"} component={CMSMarketing} />
+      <Route path={"/cms/metricas"} component={CMSMetricas} />
+      <Route path={"/cms/admin"} component={CMSAdmin} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

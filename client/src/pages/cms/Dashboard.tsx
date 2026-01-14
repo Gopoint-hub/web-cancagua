@@ -1,308 +1,171 @@
-import { useAuth } from "@/_core/hooks/useAuth";
-import { Button } from "@/components/ui/button";
+import DashboardLayout, { categories, CategoryId } from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getLoginUrl } from "@/const";
-import { BarChart3, Calendar, Mail, Users } from "lucide-react";
-import { useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { trpc } from "@/lib/trpc";
+import { 
+  Store, Briefcase, Megaphone, TrendingUp, Shield,
+  ArrowRight, Users, CalendarCheck, MessageSquare, FileText,
+  Newspaper, BarChart3
+} from "lucide-react";
 import { useLocation } from "wouter";
 
 export default function CMSDashboard() {
-  const { user, loading } = useAuth();
   const [, setLocation] = useLocation();
 
-  useEffect(() => {
-    if (!loading && !user) {
-      window.location.href = getLoginUrl();
+  // Obtener estadísticas rápidas
+  const { data: bookingsData } = trpc.bookings.list.useQuery();
+  const { data: messagesData } = trpc.contact.list.useQuery();
+  const { data: quotesData } = trpc.quotes.getAll.useQuery();
+  const { data: subscribersData } = trpc.subscribers.getAll.useQuery();
+
+  const pendingBookings = bookingsData?.filter((b: any) => b.status === "pending").length || 0;
+  const unreadMessages = messagesData?.filter((m: any) => m.status === "new").length || 0;
+  const pendingQuotes = quotesData?.filter((q: any) => q.status === "sent").length || 0;
+  const totalSubscribers = subscribersData?.filter((s: any) => s.status === "active").length || 0;
+
+  const handleCategoryClick = (categoryId: CategoryId) => {
+    const category = categories.find(c => c.id === categoryId);
+    if (category && category.items.length > 0) {
+      setLocation(category.items[0].path);
     }
-  }, [user, loading]);
+  };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Cargando...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
-
-  // Verificar si es admin
-  if (user.role !== "admin") {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardHeader>
-            <CardTitle>Acceso Denegado</CardTitle>
-            <CardDescription>
-              No tienes permisos para acceder al CMS.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button onClick={() => setLocation("/")} className="w-full">
-              Volver al Inicio
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  const stats = [
-    {
-      title: "Visitantes Hoy",
-      value: "0",
-      icon: Users,
-      description: "Total de visitas únicas",
-    },
-    {
-      title: "Eventos Activos",
-      value: "0",
-      icon: Calendar,
-      description: "Eventos próximos",
-    },
-    {
-      title: "Suscriptores",
-      value: "0",
-      icon: Mail,
-      description: "Newsletter activos",
-    },
-    {
-      title: "Conversiones",
-      value: "0%",
-      icon: BarChart3,
-      description: "Tasa de reservas",
-    },
-  ];
+  const categoryStats: Record<CategoryId, { label: string; value: number | string; icon: any }[]> = {
+    b2c: [
+      { label: "Reservas pendientes", value: pendingBookings, icon: CalendarCheck },
+      { label: "Mensajes sin leer", value: unreadMessages, icon: MessageSquare },
+    ],
+    b2b: [
+      { label: "Cotizaciones en proceso", value: pendingQuotes, icon: FileText },
+    ],
+    marketing: [
+      { label: "Suscriptores activos", value: totalSubscribers, icon: Newspaper },
+    ],
+    metrics: [
+      { label: "Analytics", value: "Ver", icon: BarChart3 },
+    ],
+    admin: [
+      { label: "Usuarios", value: "Gestionar", icon: Users },
+    ],
+  };
 
   return (
-    <div className="min-h-screen bg-muted/30">
-      {/* Header */}
-      <header className="border-b bg-background">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold">CMS Cancagua</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">
-              {user.name || user.email}
-            </span>
-            <Button variant="outline" size="sm" onClick={() => setLocation("/")}>
-              Ver Sitio
-            </Button>
-          </div>
+    <DashboardLayout>
+      <div className="space-y-8">
+        {/* Header */}
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Panel de Control</h1>
+          <p className="text-muted-foreground mt-1">
+            Bienvenido al CMS de Cancagua. Selecciona una categoría para comenzar.
+          </p>
         </div>
-      </header>
 
-      {/* Sidebar + Content */}
-      <div className="container py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Sidebar */}
-          <aside className="lg:col-span-1">
-            <Card>
-              <CardContent className="p-4">
-                <nav className="space-y-2">
-                  <Button variant="default" className="w-full justify-start">
-                    <BarChart3 className="mr-2 h-4 w-4" />
-                    Dashboard
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => setLocation("/cms/servicios")}
-                  >
-                    Servicios
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => setLocation("/cms/eventos")}
-                  >
-                    Eventos
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => setLocation("/cms/carta")}
-                  >
-                    Carta
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => setLocation("/cms/reservas")}
-                  >
-                    Reservas
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => setLocation("/cms/mensajes")}
-                  >
-                    Mensajes
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => setLocation("/cms/clientes")}
-                  >
-                    Clientes
-                  </Button>
-                  <div className="pt-2 mt-2 border-t">
-                    <p className="text-xs text-muted-foreground px-3 mb-2 font-semibold">EVENTOS CORPORATIVOS</p>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start"
-                      onClick={() => setLocation("/cms/cotizaciones")}
-                    >
-                      Cotizaciones
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start"
-                      onClick={() => setLocation("/cms/productos-corporativos")}
-                    >
-                      Catálogo Productos
-                    </Button>
+        {/* Categorías Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {categories.map((category) => (
+            <Card 
+              key={category.id}
+              className="cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] group overflow-hidden"
+              onClick={() => handleCategoryClick(category.id)}
+            >
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <div className={cn(
+                    "h-12 w-12 rounded-xl flex items-center justify-center",
+                    category.color
+                  )}>
+                    <category.icon className="h-6 w-6 text-white" />
                   </div>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => setLocation("/cms/newsletter")}
-                  >
-                    Newsletter
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => setLocation("/cms/analytics")}
-                  >
-                    Analytics
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => setLocation("/cms/usuarios")}
-                  >
-                    Usuarios
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => setLocation("/cms/configuracion")}
-                  >
-                    Configuración
-                  </Button>
-                </nav>
-              </CardContent>
-            </Card>
-          </aside>
-
-          {/* Main Content */}
-          <main className="lg:col-span-3 space-y-6">
-            {/* Bienvenida */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Bienvenido al CMS</CardTitle>
-                <CardDescription>
-                  Panel de administración de Cancagua Spa & Retreat Center
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {stats.map((stat) => (
-                <Card key={stat.title}>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      {stat.title}
-                    </CardTitle>
-                    <stat.icon className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{stat.value}</div>
-                    <p className="text-xs text-muted-foreground">
-                      {stat.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {/* Acciones Rápidas */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Acciones Rápidas</CardTitle>
-                <CardDescription>
-                  Gestiona tu sitio desde aquí
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Button
-                  variant="outline"
-                  className="h-auto flex-col items-start p-4"
-                  onClick={() => setLocation("/cms/servicios")}
-                >
-                  <span className="font-semibold mb-1">Gestionar Servicios</span>
-                  <span className="text-xs text-muted-foreground">
-                    Crear, editar y eliminar servicios
-                  </span>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="h-auto flex-col items-start p-4"
-                  onClick={() => setLocation("/cms/eventos")}
-                >
-                  <span className="font-semibold mb-1">Gestionar Eventos</span>
-                  <span className="text-xs text-muted-foreground">
-                    Administrar talleres y eventos
-                  </span>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="h-auto flex-col items-start p-4"
-                  onClick={() => setLocation("/cms/newsletter")}
-                >
-                  <span className="font-semibold mb-1">Enviar Newsletter</span>
-                  <span className="text-xs text-muted-foreground">
-                    Crear y enviar campañas de email
-                  </span>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="h-auto flex-col items-start p-4"
-                  onClick={() => setLocation("/cms/configuracion")}
-                >
-                  <span className="font-semibold mb-1">Configurar Skedu</span>
-                  <span className="text-xs text-muted-foreground">
-                    Conectar con la API de Skedu
-                  </span>
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Actividad Reciente */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Actividad Reciente</CardTitle>
-                <CardDescription>
-                  Últimas acciones en el sistema
-                </CardDescription>
+                  <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                </div>
+                <CardTitle className="text-xl mt-4">{category.label}</CardTitle>
+                <CardDescription>{category.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  No hay actividad reciente
-                </p>
+                {/* Mini stats de la categoría */}
+                <div className="space-y-2">
+                  {categoryStats[category.id]?.map((stat, idx) => (
+                    <div key={idx} className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <stat.icon className="h-4 w-4" />
+                        <span>{stat.label}</span>
+                      </div>
+                      <span className={cn(
+                        "font-medium",
+                        typeof stat.value === "number" && stat.value > 0 && "text-primary"
+                      )}>
+                        {stat.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Items de la categoría */}
+                <div className="mt-4 pt-4 border-t">
+                  <p className="text-xs text-muted-foreground mb-2">Módulos:</p>
+                  <div className="flex flex-wrap gap-1">
+                    {category.items.slice(1).map((item) => (
+                      <span 
+                        key={item.path}
+                        className="text-xs bg-muted px-2 py-1 rounded"
+                      >
+                        {item.label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </CardContent>
             </Card>
-          </main>
+          ))}
+        </div>
+
+        {/* Resumen rápido */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Reservas Pendientes</CardTitle>
+              <CalendarCheck className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{pendingBookings}</div>
+              <p className="text-xs text-muted-foreground">Requieren confirmación</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Mensajes Nuevos</CardTitle>
+              <MessageSquare className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{unreadMessages}</div>
+              <p className="text-xs text-muted-foreground">Sin responder</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Cotizaciones Activas</CardTitle>
+              <FileText className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{pendingQuotes}</div>
+              <p className="text-xs text-muted-foreground">En proceso</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Suscriptores</CardTitle>
+              <Newspaper className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{totalSubscribers}</div>
+              <p className="text-xs text-muted-foreground">Newsletter activos</p>
+            </CardContent>
+          </Card>
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
