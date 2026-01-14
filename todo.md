@@ -351,3 +351,8 @@
 - [x] Verificar sistema de autenticación actual (Manus OAuth)
 - [x] Agregar usuarios eventos@cancagua.cl y sebastian.jara.b@gmail.com con rol admin
 - [x] Documentar proceso de acceso para nuevos usuarios
+
+## Corregir Menú Lateral en Módulos Corporativos
+- [x] Identificar por qué el menú lateral desaparece en páginas de cotizaciones y catálogo
+- [x] Corregir estructura de páginas para mantener DashboardLayout consistente
+- [x] Verificar que todas las páginas del CMS mantengan el menú lateral

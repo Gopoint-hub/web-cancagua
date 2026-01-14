@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import DashboardLayout from "@/components/DashboardLayout";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -225,6 +226,7 @@ export default function CrearCotizacion() {
   }, [items, quoteData.numberOfPeople]);
 
   return (
+    <DashboardLayout>
     <div className="container mx-auto py-8 max-w-6xl">
       <div className="flex justify-between items-center mb-6">
         <div>
@@ -777,5 +779,6 @@ export default function CrearCotizacion() {
         </DialogContent>
       </Dialog>
     </div>
+    </DashboardLayout>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DashboardLayout from "@/components/DashboardLayout";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -140,6 +141,7 @@ export default function ProductosCorporativos() {
   };
 
   return (
+    <DashboardLayout>
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-6">
         <div>
@@ -392,5 +394,6 @@ export default function ProductosCorporativos() {
         </DialogContent>
       </Dialog>
     </div>
+    </DashboardLayout>
   );
 }
