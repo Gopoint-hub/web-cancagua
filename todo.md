@@ -385,3 +385,13 @@
 - [x] Actualizar DashboardLayout.tsx para usar menú personalizado del CMS
 - [x] Eliminar menú genérico (Navigation, Page 1, Page 2)
 - [x] Verificar que todas las páginas muestren el menú correcto
+
+## Bulk Actions e Importación de Productos Corporativos
+- [x] Agregar endpoints backend para eliminar múltiples productos
+- [x] Agregar endpoint backend para duplicar múltiples productos
+- [x] Agregar endpoint backend para importar productos desde CSV/Excel
+- [x] Implementar UI de selección múltiple con checkboxes
+- [x] Implementar barra de acciones masivas (eliminar, duplicar)
+- [x] Implementar componente de importación de archivos CSV/Excel
+- [x] Agregar validación y preview de datos antes de importar
+- [x] Escribir tests para funcionalidades de bulk actions

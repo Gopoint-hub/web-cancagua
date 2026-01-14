@@ -421,6 +421,69 @@ export const appRouter = router({
         }
         return await db.deleteCorporateProduct(input.id);
       }),
+
+    bulkDelete: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const results = await Promise.all(
+          input.ids.map(id => db.deleteCorporateProduct(id))
+        );
+        return { success: true, deleted: results.filter(r => r.success).length };
+      }),
+
+    bulkDuplicate: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const products = await Promise.all(
+          input.ids.map(id => db.getCorporateProductById(id))
+        );
+        const duplicated = await Promise.all(
+          products.filter(p => p !== null).map(product => 
+            db.createCorporateProduct({
+              name: `${product.name} (Copia)`,
+              description: product.description || undefined,
+              category: product.category,
+              priceType: product.priceType as "per_person" | "flat",
+              unitPrice: product.unitPrice,
+              duration: product.duration || undefined,
+              maxCapacity: product.maxCapacity || undefined,
+              includes: product.includes || undefined,
+              active: 1,
+            })
+          )
+        );
+        return { success: true, duplicated: duplicated.length };
+      }),
+
+    importFromCSV: protectedProcedure
+      .input(z.object({
+        products: z.array(z.object({
+          name: z.string(),
+          description: z.string().optional(),
+          category: z.string(),
+          priceType: z.enum(["per_person", "flat"]),
+          unitPrice: z.number(),
+          duration: z.number().optional(),
+          maxCapacity: z.number().optional(),
+          includes: z.string().optional(),
+          active: z.number().default(1),
+        }))
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const results = await Promise.all(
+          input.products.map(product => db.createCorporateProduct(product))
+        );
+        return { success: true, imported: results.filter(r => r.success).length };
+      }),
   }),
 
   // Clientes corporativos (CMS - solo admin y editor)

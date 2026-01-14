@@ -572,8 +572,12 @@ export async function createCorporateProduct(product: any) {
   const db = await getDb();
   if (!db) return { success: false };
   const { corporateProducts } = await import("../drizzle/schema");
-  await db.insert(corporateProducts).values(product);
-  return { success: true };
+  const result = await db.insert(corporateProducts).values(product);
+  
+  // Get the last inserted ID
+  const [newProduct] = await db.select().from(corporateProducts).orderBy(corporateProducts.id).limit(1).offset((await db.select().from(corporateProducts)).length - 1);
+  
+  return { success: true, id: newProduct?.id };
 }
 
 export async function updateCorporateProduct(id: number, product: any) {
