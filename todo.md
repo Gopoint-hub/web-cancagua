@@ -554,3 +554,9 @@
 - [x] Implementar modal de detalle al hacer clic en cotización
 - [x] Agregar filtros por fecha, cliente, monto
 - [x] Implementar búsqueda de cotizaciones
+
+
+## Correcciones Urgentes (14 Enero 2026)
+
+- [x] Corregir logo del footer que no carga
+- [x] Eliminar marcadores de código (```html y ```) de la vista previa de emails

@@ -1089,7 +1089,9 @@ export const appRouter = router({
 4. CTA claro y visible
 5. Footer con información de contacto y redes sociales
 
-Devuelve SOLO el HTML completo, sin explicaciones.`;
+IMPORTANTE: Devuelve SOLO el código HTML puro, sin ningún texto adicional. NO incluyas marcadores de código como \`\`\`html al inicio ni \`\`\` al final. El output debe comenzar directamente con <!DOCTYPE html> o <html>.
+
+Para el logo de Cancagua en el header, usa esta URL: https://cancagua.manus.space/images/01_logo-cancagua.png`;
         
         const userPrompt = `${input.prompt}${input.images && input.images.length > 0 ? `\n\nImágenes a incluir: ${input.images.join(", ")}` : ""}`;
         
@@ -1101,7 +1103,10 @@ Devuelve SOLO el HTML completo, sin explicaciones.`;
         });
         
         const content = response.choices[0].message.content;
-        const htmlContent = typeof content === 'string' ? content : '';
+        let htmlContent = typeof content === 'string' ? content : '';
+        
+        // Limpiar marcadores de código si la IA los incluyó
+        htmlContent = htmlContent.replace(/^```html\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/g, '').trim();
         
         return { htmlContent };
       }),
@@ -1126,7 +1131,9 @@ Devuelve SOLO el HTML completo, sin explicaciones.`;
 - Estilo: Elegante, sereno, minimalista
 - Compatibilidad con clientes de email y estilos inline
 
-Devuelve SOLO el HTML completo modificado, sin explicaciones.`;
+IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin ningún texto adicional. NO incluyas marcadores de código como \`\`\`html al inicio ni \`\`\` al final. El output debe comenzar directamente con <!DOCTYPE html> o <html>.
+
+Para el logo de Cancagua, usa: https://cancagua.manus.space/images/01_logo-cancagua.png`;
         
         const userPrompt = `HTML actual:\n${input.currentHtml}\n\nModificación solicitada: ${input.refinementRequest}`;
         
@@ -1138,7 +1145,10 @@ Devuelve SOLO el HTML completo modificado, sin explicaciones.`;
         });
         
         const content = response.choices[0].message.content;
-        const htmlContent = typeof content === 'string' ? content : '';
+        let htmlContent = typeof content === 'string' ? content : '';
+        
+        // Limpiar marcadores de código si la IA los incluyó
+        htmlContent = htmlContent.replace(/^```html\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/g, '').trim();
         
         return { htmlContent };
       }),
