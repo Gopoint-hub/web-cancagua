@@ -933,6 +933,630 @@ export const appRouter = router({
         };
       }),
   }),
+
+  // ============================================
+  // NEWSLETTERS
+  // ============================================
+  newsletters: router({
+    getAll: protectedProcedure
+      .query(async ({ ctx }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getAllNewsletters();
+      }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getNewsletterById(input.id);
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        subject: z.string(),
+        htmlContent: z.string(),
+        textContent: z.string().optional(),
+        designPrompt: z.string().optional(),
+        listIds: z.array(z.number()).optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { listIds, ...newsletterData } = input;
+        
+        const result = await db.createNewsletter({
+          ...newsletterData,
+          status: "draft",
+          createdBy: ctx.user.id,
+        });
+        
+        // Si se proporcionaron listas, asociarlas
+        if (listIds && listIds.length > 0) {
+          const newsletters = await db.getAllNewsletters();
+          const newNewsletter = newsletters[0]; // La más reciente
+          
+          for (const listId of listIds) {
+            await db.addListToNewsletter(newNewsletter.id, listId);
+          }
+        }
+        
+        return result;
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        subject: z.string().optional(),
+        htmlContent: z.string().optional(),
+        textContent: z.string().optional(),
+        designPrompt: z.string().optional(),
+        scheduledAt: z.date().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const { id, ...updateData } = input;
+        return await db.updateNewsletter(id, updateData);
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.deleteNewsletter(input.id);
+      }),
+
+    bulkDelete: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkDeleteNewsletters(input.ids);
+        return { success: true, count: input.ids.length };
+      }),
+
+    duplicate: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.duplicateNewsletter(input.id, ctx.user.id);
+      }),
+
+    generateDesign: protectedProcedure
+      .input(z.object({
+        prompt: z.string(),
+        images: z.array(z.string()).optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { invokeLLM } = await import("./_core/llm");
+        
+        // Construir el prompt para generar HTML de email
+        const systemPrompt = `Eres un experto diseñador de emails HTML. Crea un email profesional y atractivo en HTML completo que sea responsive y compatible con clientes de email. 
+
+REQUISITOS:
+- HTML completo con estilos inline (no CSS externo)
+- Responsive (mobile-first)
+- Compatible con Gmail, Outlook, Apple Mail
+- Usa tablas para layout (no flexbox/grid)
+- Incluye alt text en imágenes
+- Colores profesionales y tipografía legible
+- CTA (call-to-action) claro y visible
+
+Devuelve SOLO el HTML completo, sin explicaciones.`;
+        
+        const userPrompt = `${input.prompt}${input.images && input.images.length > 0 ? `\n\nImágenes a incluir: ${input.images.join(", ")}` : ""}`;
+        
+        const response = await invokeLLM({
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
+          ],
+        });
+        
+        const content = response.choices[0].message.content;
+        const htmlContent = typeof content === 'string' ? content : '';
+        
+        return { htmlContent };
+      }),
+
+    refineDesign: protectedProcedure
+      .input(z.object({
+        currentHtml: z.string(),
+        refinementRequest: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { invokeLLM } = await import("./_core/llm");
+        
+        const systemPrompt = `Eres un experto diseñador de emails HTML. Modifica el HTML del email según las instrucciones del usuario, manteniendo la compatibilidad con clientes de email y estilos inline.
+
+Devuelve SOLO el HTML completo modificado, sin explicaciones.`;
+        
+        const userPrompt = `HTML actual:\n${input.currentHtml}\n\nModificación solicitada: ${input.refinementRequest}`;
+        
+        const response = await invokeLLM({
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
+          ],
+        });
+        
+        const content = response.choices[0].message.content;
+        const htmlContent = typeof content === 'string' ? content : '';
+        
+        return { htmlContent };
+      }),
+
+    getLists: protectedProcedure
+      .input(z.object({ newsletterId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getListsForNewsletter(input.newsletterId);
+      }),
+
+    sendTest: protectedProcedure
+      .input(z.object({
+        newsletterId: z.number(),
+        testEmail: z.string().email(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const newsletter = await db.getNewsletterById(input.newsletterId);
+        if (!newsletter) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Newsletter no encontrado" });
+        }
+        
+        const { sendTestEmail } = await import("./email");
+        const result = await sendTestEmail(
+          input.testEmail,
+          newsletter.subject,
+          newsletter.htmlContent || ''
+        );
+        
+        if (!result.success) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: result.error || "Error al enviar email de prueba" });
+        }
+        
+        return { success: true, message: "Email de prueba enviado" };
+      }),
+
+    send: protectedProcedure
+      .input(z.object({
+        newsletterId: z.number(),
+        listIds: z.array(z.number()),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const newsletter = await db.getNewsletterById(input.newsletterId);
+        if (!newsletter) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Newsletter no encontrado" });
+        }
+        
+        // Obtener suscriptores de las listas seleccionadas
+        const allSubscribers: any[] = [];
+        const seenEmails = new Set<string>();
+        
+        for (const listId of input.listIds) {
+          const subscribers = await db.getSubscribersInList(listId);
+          for (const sub of subscribers) {
+            if (sub.status === 'active' && !seenEmails.has(sub.email)) {
+              seenEmails.add(sub.email);
+              allSubscribers.push(sub);
+            }
+          }
+        }
+        
+        if (allSubscribers.length === 0) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "No hay suscriptores activos en las listas seleccionadas" });
+        }
+        
+        // Actualizar estado a 'sending'
+        await db.updateNewsletter(input.newsletterId, { status: 'sending' });
+        
+        // Preparar emails
+        const { sendBulkEmails, htmlToPlainText } = await import("./email");
+        const emails = allSubscribers.map(sub => ({
+          to: sub.email,
+          subject: newsletter.subject,
+          html: newsletter.htmlContent || '',
+          text: htmlToPlainText(newsletter.htmlContent || ''),
+        }));
+        
+        // Enviar emails
+        const result = await sendBulkEmails({ emails });
+        
+        // Registrar envíos individuales
+        for (const sub of allSubscribers) {
+          await db.createNewsletterSend({
+            newsletterId: input.newsletterId,
+            subscriberId: sub.id,
+            status: result.success ? 'sent' : 'failed',
+          });
+        }
+        
+        // Actualizar newsletter con resultados
+        await db.updateNewsletter(input.newsletterId, {
+          status: result.success ? 'sent' : 'failed',
+          sentAt: new Date(),
+          recipientCount: allSubscribers.length,
+        });
+        
+        return {
+          success: result.success,
+          sent: result.sent,
+          failed: result.failed,
+          total: allSubscribers.length,
+          errors: result.errors,
+        };
+      }),
+  }),
+
+  // ============================================
+  // SUBSCRIBERS
+  // ============================================
+  subscribers: router({
+    getAll: protectedProcedure
+      .query(async ({ ctx }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getAllSubscribers();
+      }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getSubscriberById(input.id);
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        email: z.string().email(),
+        name: z.string().optional(),
+        metadata: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.createSubscriber({
+          ...input,
+          source: "manual",
+          status: "active",
+        });
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        email: z.string().email().optional(),
+        name: z.string().optional(),
+        metadata: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const { id, ...updateData } = input;
+        return await db.updateSubscriber(id, updateData);
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.deleteSubscriber(input.id);
+      }),
+
+    bulkDelete: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkDeleteSubscribers(input.ids);
+        return { success: true, count: input.ids.length };
+      }),
+
+    bulkUpdateStatus: protectedProcedure
+      .input(z.object({
+        ids: z.array(z.number()),
+        status: z.enum(["active", "unsubscribed"]),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkUpdateSubscribersStatus(input.ids, input.status);
+        return { success: true, count: input.ids.length };
+      }),
+
+    subscribe: publicProcedure
+      .input(z.object({
+        email: z.string().email(),
+        name: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.subscribeToNewsletter(input.email, input.name);
+        return { success: true };
+      }),
+
+    unsubscribe: publicProcedure
+      .input(z.object({ email: z.string().email() }))
+      .mutation(async ({ input }) => {
+        await db.unsubscribeFromNewsletter(input.email);
+        return { success: true };
+      }),
+
+    importCSV: protectedProcedure
+      .input(z.object({
+        csvData: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        // Parsear CSV simple (asume formato: email,name,metadata)
+        const lines = input.csvData.split("\n").filter(line => line.trim());
+        const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
+        
+        const emailIndex = headers.findIndex(h => h.includes("email") || h.includes("correo"));
+        const nameIndex = headers.findIndex(h => h.includes("name") || h.includes("nombre"));
+        
+        if (emailIndex === -1) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "No se encontró columna de email" });
+        }
+        
+        let imported = 0;
+        let skipped = 0;
+        
+        for (let i = 1; i < lines.length; i++) {
+          const values = lines[i].split(",").map(v => v.trim());
+          const email = values[emailIndex];
+          const name = nameIndex !== -1 ? values[nameIndex] : undefined;
+          
+          if (!email || !email.includes("@")) {
+            skipped++;
+            continue;
+          }
+          
+          // Verificar si ya existe
+          const existing = await db.getSubscriberByEmail(email);
+          if (existing) {
+            skipped++;
+            continue;
+          }
+          
+          // Crear metadata con todos los campos adicionales
+          const metadata: any = {};
+          headers.forEach((header, idx) => {
+            if (idx !== emailIndex && idx !== nameIndex && values[idx]) {
+              metadata[header] = values[idx];
+            }
+          });
+          
+          await db.createSubscriber({
+            email,
+            name,
+            source: "import",
+            status: "active",
+            metadata: Object.keys(metadata).length > 0 ? JSON.stringify(metadata) : null,
+          });
+          
+          imported++;
+        }
+        
+        return { success: true, imported, skipped };
+      }),
+
+    analyzeAndSegment: protectedProcedure
+      .input(z.object({
+        csvData: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { invokeLLM } = await import("./_core/llm");
+        
+        // Analizar primeras 50 filas para obtener estructura
+        const lines = input.csvData.split("\n").slice(0, 51);
+        const sample = lines.join("\n");
+        
+        const systemPrompt = `Eres un experto en segmentación de audiencias y análisis de datos. Analiza el CSV proporcionado y sugiere listas de segmentación útiles.
+
+Devuelve un JSON con este formato:
+{
+  "segments": [
+    {
+      "name": "Nombre de la lista",
+      "description": "Descripción de la segmentación",
+      "rules": {
+        "field": "nombre_campo",
+        "operator": "equals|contains|greater_than|less_than",
+        "value": "valor"
+      }
+    }
+  ],
+  "insights": "Observaciones generales sobre los datos"
+}`;
+        
+        const userPrompt = `Analiza este CSV y sugiere segmentaciones útiles:\n\n${sample}`;
+        
+        const response = await invokeLLM({
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
+          ],
+        });
+        
+        const content = response.choices[0].message.content;
+        const analysis = JSON.parse(typeof content === 'string' ? content : '{}');
+        
+        return analysis;
+      }),
+
+    getLists: protectedProcedure
+      .input(z.object({ subscriberId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getListsForSubscriber(input.subscriberId);
+      }),
+  }),
+
+  // ============================================
+  // SUBSCRIBER LISTS
+  // ============================================
+  lists: router({
+    getAll: protectedProcedure
+      .query(async ({ ctx }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getAllLists();
+      }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getListById(input.id);
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        name: z.string(),
+        description: z.string().optional(),
+        segmentationRules: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.createList(input);
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        segmentationRules: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const { id, ...updateData } = input;
+        return await db.updateList(id, updateData);
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.deleteList(input.id);
+      }),
+
+    getSubscribers: protectedProcedure
+      .input(z.object({ listId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getSubscribersInList(input.listId);
+      }),
+
+    addSubscriber: protectedProcedure
+      .input(z.object({
+        listId: z.number(),
+        subscriberId: z.number(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.addSubscriberToList(input.listId, input.subscriberId);
+      }),
+
+    removeSubscriber: protectedProcedure
+      .input(z.object({
+        listId: z.number(),
+        subscriberId: z.number(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.removeSubscriberFromList(input.listId, input.subscriberId);
+      }),
+
+    bulkAddSubscribers: protectedProcedure
+      .input(z.object({
+        listId: z.number(),
+        subscriberIds: z.array(z.number()),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkAddSubscribersToList(input.listId, input.subscriberIds);
+        return { success: true, count: input.subscriberIds.length };
+      }),
+
+    bulkRemoveSubscribers: protectedProcedure
+      .input(z.object({
+        listId: z.number(),
+        subscriberIds: z.array(z.number()),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.bulkRemoveSubscribersFromList(input.listId, input.subscriberIds);
+        return { success: true, count: input.subscriberIds.length };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

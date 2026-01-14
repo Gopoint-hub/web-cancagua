@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Calendar, Heart, Leaf, Waves } from "lucide-react";
 import { Link } from "wouter";
+import { NewsletterForm } from "@/components/NewsletterForm";
 
 export default function Home() {
   const services = [
@@ -229,21 +230,7 @@ export default function Home() {
                 Recibe ofertas exclusivas, eventos especiales y novedades
                 directamente en tu correo
               </p>
-              <form className="flex flex-col sm:flex-row gap-4">
-                <Input
-                  type="email"
-                  placeholder="Tu correo electrónico"
-                  className="flex-1 bg-white text-foreground"
-                />
-                <Button
-                  type="submit"
-                  size="lg"
-                  variant="secondary"
-                  className="sm:w-auto"
-                >
-                  Suscribirme
-                </Button>
-              </form>
+              <NewsletterForm variant="dark" />
             </div>
           </div>
         </section>

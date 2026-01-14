@@ -89,8 +89,10 @@ export const newsletterSubscribers = mysqlTable("newsletter_subscribers", {
   id: int("id").autoincrement().primaryKey(),
   email: varchar("email", { length: 320 }).notNull().unique(),
   name: text("name"),
-  status: mysqlEnum("status", ["pending", "active", "unsubscribed"]).default("pending").notNull(),
-  confirmedAt: timestamp("confirmed_at"),
+  status: mysqlEnum("status", ["active", "unsubscribed"]).default("active").notNull(),
+  source: varchar("source", { length: 100 }).default("website").notNull(), // website, import, manual
+  metadata: text("metadata"), // JSON con datos adicionales (ciudad, fecha compra, etc.)
+  subscribedAt: timestamp("subscribed_at").defaultNow().notNull(),
   unsubscribedAt: timestamp("unsubscribed_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
@@ -99,24 +101,78 @@ export const newsletterSubscribers = mysqlTable("newsletter_subscribers", {
 export type NewsletterSubscriber = typeof newsletterSubscribers.$inferSelect;
 export type InsertNewsletterSubscriber = typeof newsletterSubscribers.$inferInsert;
 
-// Campañas de newsletter
-export const newsletterCampaigns = mysqlTable("newsletter_campaigns", {
+// Listas de suscriptores (segmentación)
+export const subscriberLists = mysqlTable("subscriber_lists", {
+  id: int("id").autoincrement().primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  segmentationRules: text("segmentation_rules"), // JSON con reglas de segmentación
+  subscriberCount: int("subscriber_count").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SubscriberList = typeof subscriberLists.$inferSelect;
+export type InsertSubscriberList = typeof subscriberLists.$inferInsert;
+
+// Relación many-to-many entre suscriptores y listas
+export const listSubscribers = mysqlTable("list_subscribers", {
+  id: int("id").autoincrement().primaryKey(),
+  listId: int("list_id").references(() => subscriberLists.id, { onDelete: "cascade" }).notNull(),
+  subscriberId: int("subscriber_id").references(() => newsletterSubscribers.id, { onDelete: "cascade" }).notNull(),
+  addedAt: timestamp("added_at").defaultNow().notNull(),
+});
+
+export type ListSubscriber = typeof listSubscribers.$inferSelect;
+export type InsertListSubscriber = typeof listSubscribers.$inferInsert;
+
+// Newsletters (campañas de email)
+export const newsletters = mysqlTable("newsletters", {
   id: int("id").autoincrement().primaryKey(),
   subject: text("subject").notNull(),
-  content: text("content").notNull(),
-  status: mysqlEnum("status", ["draft", "scheduled", "sent"]).default("draft").notNull(),
+  htmlContent: text("html_content").notNull(), // HTML generado por IA
+  textContent: text("text_content"), // Versión texto plano
+  designPrompt: text("design_prompt"), // Prompt original usado para generar el diseño
+  status: mysqlEnum("status", ["draft", "scheduled", "sending", "sent", "failed"]).default("draft").notNull(),
   scheduledAt: timestamp("scheduled_at"),
   sentAt: timestamp("sent_at"),
-  recipientCount: int("recipient_count").default(0),
-  openCount: int("open_count").default(0),
-  clickCount: int("click_count").default(0),
+  recipientCount: int("recipient_count").default(0).notNull(),
+  openCount: int("open_count").default(0).notNull(),
+  clickCount: int("click_count").default(0).notNull(),
   createdBy: int("created_by").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });
 
-export type NewsletterCampaign = typeof newsletterCampaigns.$inferSelect;
-export type InsertNewsletterCampaign = typeof newsletterCampaigns.$inferInsert;
+export type Newsletter = typeof newsletters.$inferSelect;
+export type InsertNewsletter = typeof newsletters.$inferInsert;
+
+// Listas asociadas a cada newsletter
+export const newsletterLists = mysqlTable("newsletter_lists", {
+  id: int("id").autoincrement().primaryKey(),
+  newsletterId: int("newsletter_id").references(() => newsletters.id, { onDelete: "cascade" }).notNull(),
+  listId: int("list_id").references(() => subscriberLists.id, { onDelete: "cascade" }).notNull(),
+  addedAt: timestamp("added_at").defaultNow().notNull(),
+});
+
+export type NewsletterList = typeof newsletterLists.$inferSelect;
+export type InsertNewsletterList = typeof newsletterLists.$inferInsert;
+
+// Registro de envíos individuales (tracking)
+export const newsletterSends = mysqlTable("newsletter_sends", {
+  id: int("id").autoincrement().primaryKey(),
+  newsletterId: int("newsletter_id").references(() => newsletters.id, { onDelete: "cascade" }).notNull(),
+  subscriberId: int("subscriber_id").references(() => newsletterSubscribers.id, { onDelete: "cascade" }).notNull(),
+  status: mysqlEnum("status", ["pending", "sent", "failed", "bounced"]).default("pending").notNull(),
+  sentAt: timestamp("sent_at"),
+  openedAt: timestamp("opened_at"),
+  clickedAt: timestamp("clicked_at"),
+  error: text("error"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type NewsletterSend = typeof newsletterSends.$inferSelect;
+export type InsertNewsletterSend = typeof newsletterSends.$inferInsert;
 
 // Logs de webhooks de Skedu
 export const webhookLogs = mysqlTable("webhook_logs", {

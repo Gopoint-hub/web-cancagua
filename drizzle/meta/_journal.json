@@ -57,6 +57,13 @@
       "when": 1768402658767,
       "tag": "0007_conscious_mad_thinker",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1768420769368,
+      "tag": "0008_natural_dragon_man",
+      "breakpoints": true
     }
   ]
 }

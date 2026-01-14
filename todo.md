@@ -418,3 +418,96 @@
 - [x] Agregar exportación a CSV de cotizaciones seleccionadas
 - [x] Implementar endpoints tRPC para bulk delete, bulk update status y bulk duplicate
 - [x] Escribir tests para bulk actions de cotizaciones
+
+## Sistema de Newsletters con IA
+
+### Base de Datos
+- [x] Crear tabla `newsletters` (id, subject, htmlContent, textContent, status, scheduledAt, sentAt, recipientCount, openCount, clickCount, createdBy, createdAt, updatedAt)
+- [x] Crear tabla `subscribers` (id, email, name, status, source, metadata JSON, subscribedAt, unsubscribedAt)
+- [x] Crear tabla `subscriber_lists` (id, name, description, segmentationRules JSON, subscriberCount, createdAt, updatedAt)
+- [x] Crear tabla `list_subscribers` (listId, subscriberId, addedAt) - relación many-to-many
+- [x] Crear tabla `newsletter_sends` (id, newsletterId, subscriberId, sentAt, openedAt, clickedAt, status)
+
+### Backend - Newsletters
+- [x] Crear funciones de base de datos para newsletters (CRUD completo)
+- [x] Implementar endpoints tRPC para newsletters (getAll, getById, create, update, delete, duplicate)
+- [x] Implementar bulk actions: bulkDelete, bulkDuplicate
+- [x] Crear endpoint para generar diseño de email con IA (generateEmailDesign)
+- [x] Crear endpoint para refinar diseño con chat IA (refineEmailDesign)
+- [ ] Implementar vista previa de newsletter (preview)
+- [x] Implementar envío de newsletter (send, sendTest)
+
+### Backend - Suscriptores
+- [x] Crear funciones de base de datos para suscriptores (CRUD completo)
+- [x] Implementar endpoints tRPC para suscriptores (getAll, create, update, delete, subscribe, unsubscribe)
+- [x] Implementar importación masiva de CSV (importFromCSV)
+- [x] Crear endpoint para segmentación automática con IA (analyzeAndSegment)
+- [x] Implementar gestión de listas (createList, updateList, deleteList, addToList, removeFromList)
+- [x] Implementar bulk actions para suscriptores (bulkDelete, bulkAddToList, bulkRemoveFromList)
+
+### Frontend - Gestión de Newsletters
+- [x] Crear página `/cms/newsletters` con tabla de historial
+- [x] Implementar columnas: asunto, fecha envío, hora envío, destinatarios, tasa apertura, estado
+- [x] Agregar checkboxes de selección múltiple
+- [x] Implementar barra de bulk actions (eliminar, duplicar)
+- [x] Agregar botón de vista previa por newsletter
+- [x] Implementar botón "Duplicar y Editar" que redirija al creador
+- [x] Agregar exportación a CSV del historial
+- [x] Implementar filtros por estado y rango de fechas
+
+### Frontend - Creador de Newsletters
+- [x] Crear página `/cms/crear-newsletter` con formulario
+- [x] Implementar campo de asunto
+- [x] Crear selector de listas de destinatarios (múltiple)
+- [x] Implementar área de chat con IA para diseño
+- [x] Agregar carga de imágenes (drag & drop o selector)
+- [x] Implementar campo de texto/descripción del contenido
+- [x] Crear interfaz de chat para refinamiento iterativo
+- [x] Implementar vista previa en tiempo real del diseño generado
+- [x] Agregar botón "Enviar Email de Prueba"
+- [ ] Implementar programación de envío (fecha y hora)
+- [ ] Crear flujo de confirmación antes de envío masivo
+
+### Frontend - Gestión de Suscriptores
+- [x] Crear página `/cms/suscriptores` con tabla de suscriptores
+- [x] Implementar columnas: email, nombre, estado, fecha suscripción, listas
+- [x] Agregar checkboxes de selección múltiple
+- [x] Implementar barra de bulk actions (eliminar, agregar a lista, remover de lista)
+- [x] Crear botón de importación masiva CSV
+- [x] Implementar modal de importación con preview de datos
+- [x] Agregar botón "Organizar con IA" para segmentación automática
+- [x] Crear interfaz de gestión de listas (crear, editar, eliminar)
+- [x] Implementar vista de listas con contadores
+- [x] Agregar exportación a CSV de suscriptores
+
+### Frontend - Formulario Público de Suscripción
+- [x] Crear componente `NewsletterSubscribe` reutilizable
+- [x] Agregar formulario en footer de la web pública
+- [x] Implementar validación de email
+- [x] Agregar mensaje de confirmación post-suscripción
+- [ ] Implementar protección anti-spam (rate limiting)
+- [ ] Crear página de confirmación `/suscripcion-exitosa`
+- [ ] Agregar página de cancelación de suscripción `/cancelar-suscripcion`
+
+### Integración con IA
+- [x] Implementar función para generar diseño HTML de email basado en prompt + imágenes
+- [x] Crear sistema de chat iterativo para refinamiento de diseño
+- [x] Implementar análisis de CSV para segmentación automática
+- [x] Crear función para sugerir nombres de listas basados en segmentos
+- [x] Implementar extracción de metadatos relevantes de CSV (ciudad, fecha compra, etc.)
+
+### Sistema de Envío
+- [x] Integrar Resend para envío de emails (SMTP o API)
+- [ ] Implementar cola de envío para newsletters masivos
+- [ ] Crear sistema de tracking de aperturas (pixel tracking)
+- [ ] Implementar tracking de clicks en enlaces
+- [ ] Agregar manejo de bounces y unsubscribes
+- [ ] Implementar límites de envío y throttling
+
+### Tests
+- [x] Escribir tests para CRUD de newsletters
+- [x] Escribir tests para CRUD de suscriptores
+- [x] Escribir tests para gestión de listas
+- [x] Escribir tests para bulk actions
+- [ ] Escribir tests para importación de CSV
+- [ ] Escribir tests para generación de diseño con IA

@@ -18,6 +18,9 @@ import CMSServicios from "./pages/cms/Servicios";
 import CMSEventos from "./pages/cms/Eventos";
 import CMSClientes from "./pages/cms/Clientes";
 import CMSNewsletter from "./pages/cms/Newsletter";
+import CMSCrearNewsletter from "./pages/cms/CrearNewsletter";
+import CMSSuscriptores from "./pages/cms/Suscriptores";
+import CMSListas from "./pages/cms/Listas";
 import CMSAnalytics from "./pages/cms/Analytics";
 import CMSConfiguracion from "./pages/cms/Configuracion";
 import Servicios from "./pages/Servicios";
@@ -58,6 +61,9 @@ function Router() {
       <Route path={"/cms/eventos"} component={CMSEventos} />
       <Route path={"/cms/clientes"} component={CMSClientes} />
       <Route path={"/cms/newsletter"} component={CMSNewsletter} />
+      <Route path={"/cms/crear-newsletter"} component={CMSCrearNewsletter} />
+      <Route path={"/cms/suscriptores"} component={CMSSuscriptores} />
+      <Route path={"/cms/listas"} component={CMSListas} />
       <Route path={"/cms/analytics"} component={CMSAnalytics} />
       <Route path={"/cms/configuracion"} component={CMSConfiguracion} />
       <Route path={"/404"} component={NotFound} />

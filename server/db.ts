@@ -250,26 +250,28 @@ export async function subscribeToNewsletter(email: string, name?: string) {
   const db = await getDb();
   if (!db) return;
   const { newsletterSubscribers } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
   
   const existing = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.email, email)).limit(1);
   if (existing.length > 0) {
     if (existing[0].status === "unsubscribed") {
       await db.update(newsletterSubscribers)
-        .set({ status: "pending", name: name || existing[0].name, updatedAt: new Date() })
+        .set({ status: "active", name: name || existing[0].name, updatedAt: new Date() })
         .where(eq(newsletterSubscribers.email, email));
     }
     return;
   }
   
-  await db.insert(newsletterSubscribers).values({ email, name, status: "pending" });
+  await db.insert(newsletterSubscribers).values({ email, name, status: "active" });
 }
 
 export async function confirmNewsletterSubscription(email: string) {
   const db = await getDb();
   if (!db) return;
   const { newsletterSubscribers } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
   await db.update(newsletterSubscribers)
-    .set({ status: "active", confirmedAt: new Date(), updatedAt: new Date() })
+    .set({ status: "active", updatedAt: new Date() })
     .where(eq(newsletterSubscribers.email, email));
 }
 
@@ -822,4 +824,445 @@ export async function deleteQuoteItems(quoteId: number) {
   const { eq } = await import("drizzle-orm");
   await db.delete(quoteItems).where(eq(quoteItems.quoteId, quoteId));
   return { success: true };
+}
+
+// ============================================
+// NEWSLETTERS
+// ============================================
+
+export async function getAllNewsletters() {
+  const db = await getDb();
+  if (!db) return [];
+  const { newsletters } = await import("../drizzle/schema");
+  const { desc } = await import("drizzle-orm");
+  return db.select().from(newsletters).orderBy(desc(newsletters.createdAt));
+}
+
+export async function getNewsletterById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const { newsletters } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(newsletters).where(eq(newsletters.id, id));
+  return results[0] || null;
+}
+
+export async function createNewsletter(newsletter: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { newsletters } = await import("../drizzle/schema");
+  await db.insert(newsletters).values(newsletter);
+  return { success: true };
+}
+
+export async function updateNewsletter(id: number, newsletter: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { newsletters } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.update(newsletters).set(newsletter).where(eq(newsletters.id, id));
+  return { success: true };
+}
+
+export async function deleteNewsletter(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { newsletters } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(newsletters).where(eq(newsletters.id, id));
+  return { success: true };
+}
+
+export async function bulkDeleteNewsletters(ids: number[]) {
+  const db = await getDb();
+  if (!db) return;
+  const { newsletters } = await import("../drizzle/schema");
+  const { inArray } = await import("drizzle-orm");
+  await db.delete(newsletters).where(inArray(newsletters.id, ids));
+}
+
+export async function duplicateNewsletter(id: number, userId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  
+  const original = await getNewsletterById(id);
+  if (!original) return { success: false };
+  
+  const { newsletters } = await import("../drizzle/schema");
+  await db.insert(newsletters).values({
+    subject: `${original.subject} (Copia)`,
+    htmlContent: original.htmlContent,
+    textContent: original.textContent,
+    designPrompt: original.designPrompt,
+    status: "draft",
+    createdBy: userId,
+  });
+  
+  return { success: true };
+}
+
+// ============================================
+// NEWSLETTER SUBSCRIBERS
+// ============================================
+
+export async function getAllSubscribers() {
+  const db = await getDb();
+  if (!db) return [];
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  const { desc } = await import("drizzle-orm");
+  return db.select().from(newsletterSubscribers).orderBy(desc(newsletterSubscribers.subscribedAt));
+}
+
+export async function getSubscriberById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.id, id));
+  return results[0] || null;
+}
+
+export async function getSubscriberByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.email, email));
+  return results[0] || null;
+}
+
+export async function createSubscriber(subscriber: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  await db.insert(newsletterSubscribers).values(subscriber);
+  return { success: true };
+}
+
+export async function updateSubscriber(id: number, subscriber: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.update(newsletterSubscribers).set(subscriber).where(eq(newsletterSubscribers.id, id));
+  return { success: true };
+}
+
+export async function deleteSubscriber(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.id, id));
+  return { success: true };
+}
+
+export async function bulkDeleteSubscribers(ids: number[]) {
+  const db = await getDb();
+  if (!db) return;
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  const { inArray } = await import("drizzle-orm");
+  await db.delete(newsletterSubscribers).where(inArray(newsletterSubscribers.id, ids));
+}
+
+export async function bulkUpdateSubscribersStatus(ids: number[], status: "active" | "unsubscribed") {
+  const db = await getDb();
+  if (!db) return;
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  const { inArray } = await import("drizzle-orm");
+  
+  const updateData: any = { status, updatedAt: new Date() };
+  if (status === "unsubscribed") {
+    updateData.unsubscribedAt = new Date();
+  }
+  
+  await db.update(newsletterSubscribers).set(updateData).where(inArray(newsletterSubscribers.id, ids));
+}
+
+// ============================================
+// SUBSCRIBER LISTS
+// ============================================
+
+export async function getAllLists() {
+  const db = await getDb();
+  if (!db) return [];
+  const { subscriberLists } = await import("../drizzle/schema");
+  const { desc } = await import("drizzle-orm");
+  return db.select().from(subscriberLists).orderBy(desc(subscriberLists.createdAt));
+}
+
+export async function getListById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const { subscriberLists } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(subscriberLists).where(eq(subscriberLists.id, id));
+  return results[0] || null;
+}
+
+export async function createList(list: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { subscriberLists } = await import("../drizzle/schema");
+  await db.insert(subscriberLists).values(list);
+  return { success: true };
+}
+
+export async function updateList(id: number, list: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { subscriberLists } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.update(subscriberLists).set(list).where(eq(subscriberLists.id, id));
+  return { success: true };
+}
+
+export async function deleteList(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { subscriberLists } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(subscriberLists).where(eq(subscriberLists.id, id));
+  return { success: true };
+}
+
+// ============================================
+// LIST SUBSCRIBERS (Many-to-Many)
+// ============================================
+
+export async function getSubscribersInList(listId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { listSubscribers, newsletterSubscribers } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  const results = await db
+    .select({
+      id: newsletterSubscribers.id,
+      email: newsletterSubscribers.email,
+      name: newsletterSubscribers.name,
+      status: newsletterSubscribers.status,
+      source: newsletterSubscribers.source,
+      metadata: newsletterSubscribers.metadata,
+      subscribedAt: newsletterSubscribers.subscribedAt,
+      addedToListAt: listSubscribers.addedAt,
+    })
+    .from(listSubscribers)
+    .innerJoin(newsletterSubscribers, eq(listSubscribers.subscriberId, newsletterSubscribers.id))
+    .where(eq(listSubscribers.listId, listId));
+  
+  return results;
+}
+
+export async function getListsForSubscriber(subscriberId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { listSubscribers, subscriberLists } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  const results = await db
+    .select({
+      id: subscriberLists.id,
+      name: subscriberLists.name,
+      description: subscriberLists.description,
+      addedAt: listSubscribers.addedAt,
+    })
+    .from(listSubscribers)
+    .innerJoin(subscriberLists, eq(listSubscribers.listId, subscriberLists.id))
+    .where(eq(listSubscribers.subscriberId, subscriberId));
+  
+  return results;
+}
+
+export async function addSubscriberToList(listId: number, subscriberId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { listSubscribers } = await import("../drizzle/schema");
+  
+  try {
+    await db.insert(listSubscribers).values({ listId, subscriberId });
+    await updateListSubscriberCount(listId);
+    return { success: true };
+  } catch (error) {
+    // Ya existe la relación
+    return { success: false };
+  }
+}
+
+export async function removeSubscriberFromList(listId: number, subscriberId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { listSubscribers } = await import("../drizzle/schema");
+  const { and, eq } = await import("drizzle-orm");
+  
+  await db.delete(listSubscribers).where(
+    and(
+      eq(listSubscribers.listId, listId),
+      eq(listSubscribers.subscriberId, subscriberId)
+    )
+  );
+  await updateListSubscriberCount(listId);
+  return { success: true };
+}
+
+export async function bulkAddSubscribersToList(listId: number, subscriberIds: number[]) {
+  const db = await getDb();
+  if (!db) return;
+  const { listSubscribers } = await import("../drizzle/schema");
+  
+  const values = subscriberIds.map(subscriberId => ({ listId, subscriberId }));
+  
+  try {
+    await db.insert(listSubscribers).values(values);
+  } catch (error) {
+    // Ignorar duplicados
+  }
+  
+  await updateListSubscriberCount(listId);
+}
+
+export async function bulkRemoveSubscribersFromList(listId: number, subscriberIds: number[]) {
+  const db = await getDb();
+  if (!db) return;
+  const { listSubscribers } = await import("../drizzle/schema");
+  const { and, eq, inArray } = await import("drizzle-orm");
+  
+  await db.delete(listSubscribers).where(
+    and(
+      eq(listSubscribers.listId, listId),
+      inArray(listSubscribers.subscriberId, subscriberIds)
+    )
+  );
+  
+  await updateListSubscriberCount(listId);
+}
+
+async function updateListSubscriberCount(listId: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { listSubscribers, subscriberLists } = await import("../drizzle/schema");
+  const { eq, count } = await import("drizzle-orm");
+  
+  const result = await db
+    .select({ count: count() })
+    .from(listSubscribers)
+    .where(eq(listSubscribers.listId, listId));
+  
+  const subscriberCount = result[0]?.count || 0;
+  
+  await db.update(subscriberLists)
+    .set({ subscriberCount, updatedAt: new Date() })
+    .where(eq(subscriberLists.id, listId));
+}
+
+// ============================================
+// NEWSLETTER LISTS (Many-to-Many)
+// ============================================
+
+export async function getListsForNewsletter(newsletterId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { newsletterLists, subscriberLists } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  const results = await db
+    .select({
+      id: subscriberLists.id,
+      name: subscriberLists.name,
+      description: subscriberLists.description,
+      subscriberCount: subscriberLists.subscriberCount,
+    })
+    .from(newsletterLists)
+    .innerJoin(subscriberLists, eq(newsletterLists.listId, subscriberLists.id))
+    .where(eq(newsletterLists.newsletterId, newsletterId));
+  
+  return results;
+}
+
+export async function addListToNewsletter(newsletterId: number, listId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { newsletterLists } = await import("../drizzle/schema");
+  
+  try {
+    await db.insert(newsletterLists).values({ newsletterId, listId });
+    return { success: true };
+  } catch (error) {
+    return { success: false };
+  }
+}
+
+export async function removeListFromNewsletter(newsletterId: number, listId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { newsletterLists } = await import("../drizzle/schema");
+  const { and, eq } = await import("drizzle-orm");
+  
+  await db.delete(newsletterLists).where(
+    and(
+      eq(newsletterLists.newsletterId, newsletterId),
+      eq(newsletterLists.listId, listId)
+    )
+  );
+  return { success: true };
+}
+
+// ============================================
+// NEWSLETTER SENDS (Tracking)
+// ============================================
+
+export async function createNewsletterSend(send: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { newsletterSends } = await import("../drizzle/schema");
+  await db.insert(newsletterSends).values(send);
+  return { success: true };
+}
+
+export async function getSendsForNewsletter(newsletterId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { newsletterSends } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  return db.select().from(newsletterSends).where(eq(newsletterSends.newsletterId, newsletterId));
+}
+
+export async function updateNewsletterSendStatus(id: number, status: "sent" | "failed" | "bounced", error?: string) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { newsletterSends } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  const updateData: any = { status };
+  if (status === "sent") {
+    updateData.sentAt = new Date();
+  }
+  if (error) {
+    updateData.error = error;
+  }
+  
+  await db.update(newsletterSends).set(updateData).where(eq(newsletterSends.id, id));
+  return { success: true };
+}
+
+export async function trackNewsletterOpen(sendId: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { newsletterSends } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  await db.update(newsletterSends)
+    .set({ openedAt: new Date() })
+    .where(eq(newsletterSends.id, sendId));
+}
+
+export async function trackNewsletterClick(sendId: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { newsletterSends } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  await db.update(newsletterSends)
+    .set({ clickedAt: new Date() })
+    .where(eq(newsletterSends.id, sendId));
 }
