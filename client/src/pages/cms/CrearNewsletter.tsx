@@ -25,6 +25,7 @@ export default function CMSCrearNewsletter() {
   
   // Form state
   const [subject, setSubject] = useState("");
+  const [senderName, setSenderName] = useState("Newsletter Cancagua");
   const [selectedLists, setSelectedLists] = useState<number[]>([]);
   const [designPrompt, setDesignPrompt] = useState("");
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
@@ -240,6 +241,7 @@ export default function CMSCrearNewsletter() {
 
     createNewsletterMutation.mutate({
       subject,
+      senderName,
       htmlContent,
       designPrompt,
       listIds: selectedLists.length > 0 ? selectedLists : [],
@@ -266,6 +268,7 @@ export default function CMSCrearNewsletter() {
     // Primero crear el newsletter, luego enviarlo
     createNewsletterMutation.mutate({
       subject,
+      senderName,
       htmlContent,
       designPrompt,
       listIds: selectedLists,
@@ -310,6 +313,17 @@ export default function CMSCrearNewsletter() {
                     placeholder="Ej: ¡Nuevas ofertas de spa para ti!"
                     className="mt-1"
                   />
+                </div>
+                <div>
+                  <Label htmlFor="senderName">Nombre del Remitente</Label>
+                  <Input
+                    id="senderName"
+                    value={senderName}
+                    onChange={(e) => setSenderName(e.target.value)}
+                    placeholder="Ej: Newsletter Cancagua"
+                    className="mt-1"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Este nombre aparecerá como remitente del email (ej: "Newsletter Cancagua")</p>
                 </div>
               </CardContent>
             </Card>

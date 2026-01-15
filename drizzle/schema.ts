@@ -130,6 +130,7 @@ export type InsertListSubscriber = typeof listSubscribers.$inferInsert;
 export const newsletters = mysqlTable("newsletters", {
   id: int("id").autoincrement().primaryKey(),
   subject: text("subject").notNull(),
+  senderName: varchar("sender_name", { length: 100 }).default("Newsletter Cancagua").notNull(), // Nombre que aparece como remitente
   htmlContent: text("html_content").notNull(), // HTML generado por IA
   textContent: text("text_content"), // Versión texto plano
   designPrompt: text("design_prompt"), // Prompt original usado para generar el diseño

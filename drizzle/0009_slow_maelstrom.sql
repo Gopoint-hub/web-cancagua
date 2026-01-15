@@ -1,0 +1,1 @@
+ALTER TABLE `newsletters` ADD `sender_name` varchar(100) DEFAULT 'Newsletter Cancagua' NOT NULL;

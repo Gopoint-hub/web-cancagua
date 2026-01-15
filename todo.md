@@ -622,3 +622,11 @@
   - Danza Infantil (https://reservas.cancagua.cl/cancaguaspa/s/07228efe-177c-429c-89a0-676277abbdff)
   - Entrenamiento Funcional & Animal Flow (https://reservas.cancagua.cl/cancaguaspa/s/3a52ff0c-89cb-48cb-b2e5-f1395a6daf71)
 - [x] Optimizar para móvil
+
+
+## Nombres de Remitente Personalizados para Emails
+- [x] Modificar sistema de envío de newsletters para usar "Newsletter Cancagua" como nombre de remitente
+- [x] Modificar sistema de envío de cotizaciones para usar "Cotización Cancagua" como nombre de remitente
+- [x] Agregar campo editable en creador de newsletters para personalizar nombre del remitente
+- [x] Agregar campo sender_name a tabla newsletters en base de datos
+- [ ] Probar que los emails muestren el nombre correcto en lugar de solo "info"

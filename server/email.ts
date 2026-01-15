@@ -3,9 +3,26 @@ import { Resend } from 'resend';
 // Inicializar Resend con API key del entorno
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Configuración del remitente
-const FROM_EMAIL = process.env.FROM_EMAIL || 'Cancagua <noreply@cancagua.cl>';
-const FROM_NAME = process.env.FROM_NAME || 'Cancagua Spa & Retreat';
+// Configuración del remitente base
+const BASE_EMAIL = 'info@cancagua.cl';
+const DEFAULT_FROM_NAME = 'Cancagua';
+
+// Nombres de remitente predefinidos por tipo de email
+export const EMAIL_SENDER_NAMES = {
+  newsletter: 'Newsletter Cancagua',
+  quote: 'Cotización Cancagua',
+  notification: 'Cancagua Spa',
+  general: 'Cancagua',
+} as const;
+
+export type EmailSenderType = keyof typeof EMAIL_SENDER_NAMES;
+
+/**
+ * Genera el formato de remitente "Nombre <email>"
+ */
+export function formatSender(name: string, email: string = BASE_EMAIL): string {
+  return `${name} <${email}>`;
+}
 
 interface SendEmailOptions {
   to: string | string[];
@@ -14,6 +31,8 @@ interface SendEmailOptions {
   text?: string;
   replyTo?: string;
   tags?: { name: string; value: string }[];
+  senderName?: string; // Nombre personalizado del remitente
+  senderType?: EmailSenderType; // Tipo de email para usar nombre predefinido
 }
 
 interface SendBulkEmailOptions {
@@ -24,6 +43,8 @@ interface SendBulkEmailOptions {
     text?: string;
   }[];
   tags?: { name: string; value: string }[];
+  senderName?: string; // Nombre personalizado del remitente
+  senderType?: EmailSenderType; // Tipo de email para usar nombre predefinido
 }
 
 /**
@@ -36,8 +57,17 @@ export async function sendEmail(options: SendEmailOptions): Promise<{ success: b
       return { success: false, error: 'API key no configurada' };
     }
 
+    // Determinar el nombre del remitente
+    let senderName = DEFAULT_FROM_NAME;
+    if (options.senderName) {
+      senderName = options.senderName;
+    } else if (options.senderType) {
+      senderName = EMAIL_SENDER_NAMES[options.senderType];
+    }
+    const fromEmail = formatSender(senderName);
+
     const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
+      from: fromEmail,
       to: Array.isArray(options.to) ? options.to : [options.to],
       subject: options.subject,
       html: options.html,
@@ -88,9 +118,18 @@ export async function sendBulkEmails(options: SendBulkEmailOptions): Promise<{
     }
 
     for (const batch of batches) {
+      // Determinar el nombre del remitente para el batch
+      let senderName = DEFAULT_FROM_NAME;
+      if (options.senderName) {
+        senderName = options.senderName;
+      } else if (options.senderType) {
+        senderName = EMAIL_SENDER_NAMES[options.senderType];
+      }
+      const fromEmail = formatSender(senderName);
+
       // Enviar batch usando la API de batch de Resend
       const batchEmails = batch.map(email => ({
-        from: FROM_EMAIL,
+        from: fromEmail,
         to: [email.to],
         subject: email.subject,
         html: email.html,
@@ -240,7 +279,7 @@ export function generateNewsletterWrapper(content: string, unsubscribeUrl?: stri
 /**
  * Configuración específica para cotizaciones B2B
  */
-const QUOTE_FROM_EMAIL = 'Cancagua Eventos <cotizacion@cancagua.cl>';
+const QUOTE_FROM_EMAIL = 'Cotización Cancagua <cotizacion@cancagua.cl>';
 const QUOTE_CC_EMAIL = 'eventos@cancagua.cl';
 
 interface SendQuoteEmailOptions {
