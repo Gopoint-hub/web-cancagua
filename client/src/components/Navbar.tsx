@@ -23,6 +23,7 @@ export function Navbar() {
   const servicios = [
     { name: t('services.biopiscinas.name'), href: "/servicios/biopiscinas" },
     { name: t('services.hotTubs.name'), href: "/servicios/hot-tubs" },
+    { name: t('services.sauna.name'), href: "/servicios/sauna" },
     { name: t('services.masajes.name'), href: "/masajes" },
     { name: t('services.clases.name'), href: "/clases" },
   ];
@@ -32,6 +33,7 @@ export function Navbar() {
   ];
 
   const eventos = [
+    { name: "Taller Wim Hof", href: "/eventos/taller-wim-hof", featured: true },
     { name: "Eventos Sociales", href: "/eventos/sociales" },
     { name: "Eventos Empresas", href: "/eventos/empresas" },
   ];

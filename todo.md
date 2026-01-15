@@ -777,3 +777,28 @@
   - [x] Página de contacto
   - [x] Banner en home
   - [x] Confirmación de compra de gift cards
+
+
+## Landing Page Sauna Nativo
+- [x] Crear página Sauna.tsx optimizada para conversión
+- [x] Incluir hero con imagen impactante
+- [x] Agregar 4 opciones de reserva con precios:
+  - Sauna Nativo 1 Persona ($15.000 CLP) - https://reservas.cancagua.cl/cancaguaspa/s/294abb1b-bda0-4e10-8600-7d225f6ce663
+  - Sauna Nativo 2 Personas ($25.000 CLP) - https://reservas.cancagua.cl/cancaguaspa/s/486ccef7-d9d0-4310-9eaf-8034ece7ac26
+  - Sauna Nativo 3 Personas ($33.000 CLP) - https://reservas.cancagua.cl/cancaguaspa/s/d2ff9cba-5073-4d6b-9992-fb0e4d727caf
+  - Sauna Nativo Privado Hasta 6 personas ($40.000 CLP) - https://reservas.cancagua.cl/cancaguaspa/s/a944a041-9556-4c39-9252-ef1a01b28439
+- [x] Agregar descripción de beneficios del sauna
+- [x] Agregar ruta /servicios/sauna en App.tsx
+- [x] Agregar enlace en menú SERVICIOS del Navbar
+- [x] Optimizar para móvil
+
+## Landing Page Taller Método Wim Hof
+- [x] Crear página TallerWimHof.tsx para evento del 31 de enero
+- [x] Incluir hero con imagen de Alan IceMan
+- [x] Agregar información del instructor (Alan Iceman, único instructor avanzado en Chile)
+- [x] Incluir descripción del método Wim Hof (respiración, mente, frío)
+- [x] Agregar detalles del evento (fecha, duración 4h 15min, precio $45.000)
+- [x] Incluir enlace de reserva: https://reservas.cancagua.cl/cancaguaspa/s/4ef7ffc4-7d23-4acd-af42-79a8c78fb1b5
+- [x] Agregar ruta /eventos/taller-wim-hof en App.tsx
+- [x] Agregar enlace destacado en menú EVENTOS del Navbar
+- [x] Optimizar para móvil

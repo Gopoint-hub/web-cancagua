@@ -44,6 +44,8 @@ import ClasesRegulares from "./pages/ClasesRegulares";
 import HotTubs from "./pages/HotTubs";
 import EventosSociales from "./pages/EventosSociales";
 import EventosEmpresas from "./pages/EventosEmpresas";
+import Sauna from "./pages/Sauna";
+import TallerWimHof from "./pages/TallerWimHof";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -66,6 +68,8 @@ function Router() {
       <Route path={"/masajes"} component={Masajes} />
       <Route path={"/clases"} component={ClasesRegulares} />
       <Route path={"/servicios/hot-tubs"} component={HotTubs} />
+      <Route path={"/servicios/sauna"} component={Sauna} />
+      <Route path={"/eventos/taller-wim-hof"} component={TallerWimHof} />
       <Route path={"/cms"} component={CMSDashboard} />
       <Route path={"/cms/usuarios"} component={CMSUsuarios} />
       <Route path={"/cms/carta"} component={CMSCarta} />
