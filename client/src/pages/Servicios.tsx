@@ -21,33 +21,25 @@ export default function Servicios() {
       href: "/servicios/hot-tubs",
     },
     {
+      title: "Sauna Nativo",
+      description:
+        "Sauna finlandés con vista al lago y volcanes. Experiencia de calor seco seguida de inmersión en aguas frías para revitalizar cuerpo y mente.",
+      image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070",
+      href: "/servicios/sauna",
+    },
+    {
       title: "Masajes & Terapias",
       description:
         "Reconforta tu cuerpo con masajes descontracturantes, piedras calientes, drenaje linfático, reflexología y terapias holísticas.",
       image: "/images/13_masajes-service.webp",
-      href: "/servicios/masajes",
+      href: "/masajes",
     },
     {
       title: "Clases Regulares",
       description:
         "Movimiento y meditación: Hatha Yoga, Vinyasa, Animal Flow, Aikido, Pilates e hipopresivos en conexión con la naturaleza.",
       image: "/images/12_yoga-clases.webp",
-      href: "/servicios/clases",
-    },
-    {
-      title: "SUP & Actividades Acuáticas",
-      description:
-        "Stand Up Paddle en el Lago Llanquihue. Disfruta del agua en un entorno natural privilegiado.",
-      image: "/images/14_sup-actividad.jpg",
-      href: "/servicios/sup",
-    },
-    {
-      title: "Pase Reconecta",
-      description:
-        "Acceso ilimitado a biopiscinas, hot tubs y clases durante todo el mes. La mejor forma de integrar el bienestar a tu rutina.",
-      image: "/images/10_cancagua-header.jpg",
-      href: "/servicios/pase-reconecta",
-      badge: "Mejor Valor",
+      href: "/clases",
     },
   ];
 

@@ -821,3 +821,9 @@
 ## Reorganización de Menú
 - [x] Mover Full Day Hot Tubs + Biopiscinas de Servicios a Experiencias
 - [x] Mover Full Day Biopiscinas + Playa de Servicios a Experiencias
+
+## Correcciones Página Servicios y Banners
+- [x] Actualizar página /servicios con servicios actuales (eliminados SUP y Pase Reconecta, agregado Sauna Nativo)
+- [x] Arreglar botones del primer banner del home (los enlaces ya funcionan correctamente)
+- [x] Corregir enlaces de los otros banners del home (masajes y clases ahora apuntan a /masajes y /clases)
+- [x] Actualizar foto de Alan IceMan en Taller Wim Hof con imagen real
