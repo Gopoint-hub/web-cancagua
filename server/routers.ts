@@ -932,6 +932,81 @@ export const appRouter = router({
           filename: `Cotizacion_${pdfData.quoteNumber}.pdf`,
         };
       }),
+
+    sendByEmail: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        customMessage: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { generateQuotePDF } = await import("./pdfGenerator");
+        const { sendQuoteEmail } = await import("./email");
+        
+        // Obtener cotización y sus items
+        const quote = await db.getQuoteById(input.id);
+        if (!quote) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Cotización no encontrada" });
+        }
+        
+        const items = await db.getQuoteItems(input.id);
+        
+        // Calcular IVA (19%)
+        const subtotal = quote.subtotal || 0;
+        const tax = Math.round(subtotal * 0.19);
+        
+        // Preparar datos para el PDF
+        const pdfData = {
+          quoteNumber: quote.quoteNumber || `COT-${quote.id}`,
+          date: new Date(quote.createdAt).toLocaleDateString("es-CL"),
+          clientName: quote.clientName,
+          clientEmail: quote.clientEmail,
+          clientCompany: quote.clientCompany || "",
+          clientPosition: quote.clientPosition || undefined,
+          clientPhone: quote.clientPhone || undefined,
+          clientRut: quote.clientRut || undefined,
+          clientAddress: quote.clientAddress || undefined,
+          clientGiro: quote.clientGiro || undefined,
+          numberOfPeople: quote.numberOfPeople,
+          eventDescription: quote.eventDescription || undefined,
+          itinerary: quote.itinerary || undefined,
+          items: items.map((item: any) => ({
+            productName: item.productName,
+            description: item.description || "",
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            total: item.total,
+          })),
+          subtotal,
+          tax,
+          total: quote.total || 0,
+          validUntil: quote.validUntil ? new Date(quote.validUntil).toLocaleDateString("es-CL") : undefined,
+        };
+        
+        // Generar PDF
+        const pdfBuffer = await generateQuotePDF(pdfData);
+        
+        // Enviar email con PDF adjunto
+        const result = await sendQuoteEmail({
+          to: quote.clientEmail,
+          clientName: quote.clientName,
+          quoteNumber: pdfData.quoteNumber,
+          pdfBuffer,
+          customMessage: input.customMessage,
+        });
+        
+        if (!result.success) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: result.error || "Error al enviar email" });
+        }
+        
+        // Actualizar estado de la cotización a "sent"
+        await db.updateQuoteStatus(input.id, "sent");
+        
+        return { success: true, emailId: result.id };
+      }),
   }),
 
   // ============================================
@@ -1089,23 +1164,21 @@ export const appRouter = router({
 4. CTA claro y visible
 5. Footer con información de contacto y redes sociales
 
-## IMÁGENES DISPONIBLES (USAR ESTAS URLs EXACTAS)
-Base URL: https://cancagua.manus.space
+## IMÁGENES - INSTRUCCIONES IMPORTANTES
+NO incluyas imágenes en el email excepto el logo. Las imágenes serán agregadas manualmente por el usuario después.
 
-- Logo principal: https://cancagua.manus.space/images/01_logo-cancagua.png
-- Biopiscinas (hero): https://cancagua.manus.space/images/02_biopiscinas-hero.jpg
-- Masajes: https://cancagua.manus.space/images/03_masajes-hero.webp
-- Clases/Yoga: https://cancagua.manus.space/images/04_clases-hero.jpg
-- Hot Tubs: https://cancagua.manus.space/images/05_hottubs-hero.png
-- Cafetería: https://cancagua.manus.space/images/06_cafeteria-hero.jpg
-- Eventos: https://cancagua.manus.space/images/07_eventos-hero.jpg
-- Vista general Cancagua: https://cancagua.manus.space/images/10_cancagua-header.jpg
-- SUP/Actividades acuáticas: https://cancagua.manus.space/images/14_sup-actividad.jpg
+Para el logo de Cancagua, usa un placeholder de texto elegante en lugar de imagen:
+<div style="text-align: center; padding: 20px;">
+  <span style="font-family: 'Josefin Sans', Arial, sans-serif; font-size: 28px; font-weight: 300; letter-spacing: 4px; color: #D3BC8D;">CANCAGUA</span>
+  <br>
+  <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 12px; font-style: italic; color: #8C8C8C;">Spa & Retreat Center</span>
+</div>
 
-SIEMPRE usa estas URLs exactas para las imágenes. NO inventes URLs ni uses placeholders. Selecciona la imagen más apropiada según el contenido del email.
+## REDES SOCIALES (URLs REALES)
+- Instagram: https://www.instagram.com/cancaguachile/
+- Facebook: https://www.facebook.com/Cancaguachile-100421855205587
 
-## ICONOS DE REDES SOCIALES
-Para iconos de redes sociales, usa emojis o texto simple (Instagram, Facebook, etc.) en lugar de imágenes.
+En el footer del email, incluye links a estas redes sociales con texto simple (no imágenes).
 
 IMPORTANTE: Devuelve SOLO el código HTML puro, sin ningún texto adicional. NO incluyas marcadores de código como \`\`\`html al inicio ni \`\`\` al final. El output debe comenzar directamente con <!DOCTYPE html> o <html>.`;
         
@@ -1147,17 +1220,11 @@ IMPORTANTE: Devuelve SOLO el código HTML puro, sin ningún texto adicional. NO 
 - Estilo: Elegante, sereno, minimalista
 - Compatibilidad con clientes de email y estilos inline
 
-## IMÁGENES DISPONIBLES (USAR ESTAS URLs EXACTAS)
-- Logo: https://cancagua.manus.space/images/01_logo-cancagua.png
-- Biopiscinas: https://cancagua.manus.space/images/02_biopiscinas-hero.jpg
-- Masajes: https://cancagua.manus.space/images/03_masajes-hero.webp
-- Clases/Yoga: https://cancagua.manus.space/images/04_clases-hero.jpg
-- Hot Tubs: https://cancagua.manus.space/images/05_hottubs-hero.png
-- Cafetería: https://cancagua.manus.space/images/06_cafeteria-hero.jpg
-- Eventos: https://cancagua.manus.space/images/07_eventos-hero.jpg
-- Vista general: https://cancagua.manus.space/images/10_cancagua-header.jpg
+## REDES SOCIALES (URLs REALES)
+- Instagram: https://www.instagram.com/cancaguachile/
+- Facebook: https://www.facebook.com/Cancaguachile-100421855205587
 
-SIEMPRE usa estas URLs exactas. NO inventes URLs. Para iconos de redes sociales, usa texto simple.
+Para el logo, usa texto estilizado en lugar de imagen. Para redes sociales, usa texto simple con links.
 
 IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de código.`;
         

@@ -238,6 +238,139 @@ export function generateNewsletterWrapper(content: string, unsubscribeUrl?: stri
 }
 
 /**
+ * Configuración específica para cotizaciones B2B
+ */
+const QUOTE_FROM_EMAIL = 'Cancagua Eventos <cotizacion@cancagua.cl>';
+const QUOTE_CC_EMAIL = 'eventos@cancagua.cl';
+
+interface SendQuoteEmailOptions {
+  to: string;
+  clientName: string;
+  quoteNumber: string;
+  pdfBuffer: Buffer;
+  customMessage?: string;
+}
+
+/**
+ * Envía una cotización por email con PDF adjunto
+ * Remitente: cotizacion@cancagua.cl
+ * Copia: eventos@cancagua.cl
+ */
+export async function sendQuoteEmail(options: SendQuoteEmailOptions): Promise<{ success: boolean; id?: string; error?: string }> {
+  try {
+    if (!process.env.RESEND_API_KEY) {
+      console.warn('RESEND_API_KEY no configurada. Email no enviado.');
+      return { success: false, error: 'API key no configurada' };
+    }
+
+    const htmlContent = generateQuoteEmailHtml(options.clientName, options.quoteNumber, options.customMessage);
+    const textContent = `Estimado/a ${options.clientName},\n\nAdjunto encontrará la cotización ${options.quoteNumber} de Cancagua Spa & Retreat Center.\n\n${options.customMessage || 'Quedamos atentos a sus consultas.'}\n\nSaludos cordiales,\nEquipo Cancagua Eventos\ncotizacion@cancagua.cl\n+56 9 1234 5678`;
+
+    const { data, error } = await resend.emails.send({
+      from: QUOTE_FROM_EMAIL,
+      to: [options.to],
+      cc: [QUOTE_CC_EMAIL],
+      subject: `Cotización ${options.quoteNumber} - Cancagua Spa & Retreat`,
+      html: htmlContent,
+      text: textContent,
+      replyTo: 'eventos@cancagua.cl',
+      attachments: [
+        {
+          filename: `Cotizacion_${options.quoteNumber}.pdf`,
+          content: options.pdfBuffer,
+        },
+      ],
+      tags: [{ name: 'type', value: 'quote' }],
+    });
+
+    if (error) {
+      console.error('Error enviando cotización:', error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, id: data?.id };
+  } catch (error: any) {
+    console.error('Error enviando cotización:', error);
+    return { success: false, error: error.message || 'Error desconocido' };
+  }
+}
+
+/**
+ * Genera el HTML para el email de cotización
+ */
+function generateQuoteEmailHtml(clientName: string, quoteNumber: string, customMessage?: string): string {
+  return `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cotización ${quoteNumber}</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #F1E7D9;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" style="max-width: 600px; width: 100%; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+          <!-- Header -->
+          <tr>
+            <td style="background-color: #3a3a3a; padding: 30px; text-align: center;">
+              <h1 style="margin: 0; font-family: 'Josefin Sans', Arial, sans-serif; font-size: 28px; font-weight: 300; letter-spacing: 4px; color: #D3BC8D;">CANCAGUA</h1>
+              <p style="margin: 8px 0 0 0; font-family: 'Georgia', serif; font-size: 12px; font-style: italic; color: #AAAAAA;">Spa & Retreat Center</p>
+            </td>
+          </tr>
+          
+          <!-- Content -->
+          <tr>
+            <td style="padding: 40px 30px;">
+              <h2 style="margin: 0 0 20px 0; font-family: 'Josefin Sans', Arial, sans-serif; font-size: 24px; font-weight: 400; color: #3a3a3a;">Cotización ${quoteNumber}</h2>
+              
+              <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.6; color: #4a4a4a;">Estimado/a <strong>${clientName}</strong>,</p>
+              
+              <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.6; color: #4a4a4a;">Es un placer hacerle llegar la cotización solicitada para su evento en Cancagua Spa & Retreat Center. Encontrará el documento adjunto en formato PDF.</p>
+              
+              ${customMessage ? `<p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.6; color: #4a4a4a;">${customMessage}</p>` : ''}
+              
+              <div style="background-color: #F1E7D9; padding: 20px; border-radius: 8px; margin: 30px 0;">
+                <p style="margin: 0; font-size: 14px; color: #4a4a4a;">
+                  <strong>Documento adjunto:</strong> Cotizacion_${quoteNumber}.pdf
+                </p>
+              </div>
+              
+              <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.6; color: #4a4a4a;">Quedamos atentos a sus consultas y comentarios. Será un placer atenderle.</p>
+              
+              <p style="margin: 30px 0 0 0; font-size: 16px; color: #4a4a4a;">
+                Saludos cordiales,<br>
+                <strong style="color: #D3BC8D;">Equipo Cancagua Eventos</strong>
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #3a3a3a; padding: 30px; text-align: center;">
+              <p style="margin: 0 0 10px 0; font-size: 14px; color: #AAAAAA;">Cancagua Spa & Retreat Center</p>
+              <p style="margin: 0 0 10px 0; font-size: 14px; color: #AAAAAA;">Frutillar, Región de Los Lagos, Chile</p>
+              <p style="margin: 0 0 20px 0; font-size: 14px;">
+                <a href="mailto:eventos@cancagua.cl" style="color: #D3BC8D; text-decoration: none;">eventos@cancagua.cl</a> | 
+                <a href="tel:+56912345678" style="color: #D3BC8D; text-decoration: none;">+56 9 1234 5678</a>
+              </p>
+              <p style="margin: 0; font-size: 12px;">
+                <a href="https://www.instagram.com/cancaguachile/" style="color: #AAAAAA; text-decoration: none; margin: 0 10px;">Instagram</a>
+                <a href="https://www.facebook.com/Cancaguachile-100421855205587" style="color: #AAAAAA; text-decoration: none; margin: 0 10px;">Facebook</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+}
+
+/**
  * Genera texto plano a partir de HTML
  */
 export function htmlToPlainText(html: string): string {

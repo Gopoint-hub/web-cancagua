@@ -562,3 +562,10 @@
 - [x] Eliminar marcadores de código (```html y ```) de la vista previa de emails
 
 - [x] Actualizar prompt de IA para usar URLs absolutas de imágenes reales de Cancagua en emails
+
+
+## Correcciones 14 Enero 2026 - Parte 2
+
+- [x] Corregir generación de imágenes en emails (la IA sigue inventando URLs)
+- [x] Actualizar links de redes sociales en Footer, emails y toda la web
+- [x] Configurar envío de cotizaciones B2B desde cotizacion@cancagua.cl con copia a eventos@cancagua.cl

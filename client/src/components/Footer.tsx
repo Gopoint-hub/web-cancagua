@@ -119,7 +119,7 @@ export function Footer() {
             <h3 className="text-sm tracking-[0.2em] uppercase text-[#D3BC8D] mb-4">{t('contact.followUs')}</h3>
             <div className="flex gap-4">
               <a
-                href="https://www.facebook.com/cancagua"
+                href="https://www.facebook.com/Cancaguachile-100421855205587"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-[#D3BC8D]/20 flex items-center justify-center text-white/70 hover:bg-[#D3BC8D] hover:text-[#3a3a3a] transition-all"
@@ -127,7 +127,7 @@ export function Footer() {
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="https://www.instagram.com/cancagua"
+                href="https://www.instagram.com/cancaguachile/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-[#D3BC8D]/20 flex items-center justify-center text-white/70 hover:bg-[#D3BC8D] hover:text-[#3a3a3a] transition-all"

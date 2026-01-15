@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Plus, Eye, Edit, Trash2, CheckCircle2, XCircle, DollarSign, FileText, Download, Copy } from "lucide-react";
+import { Plus, Eye, Edit, Trash2, CheckCircle2, XCircle, DollarSign, FileText, Download, Copy, Send } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 
@@ -51,6 +51,7 @@ export default function Cotizaciones() {
 
   const { data: quotes = [], refetch } = trpc.quotes.getAll.useQuery();
   const generatePDFMutation = trpc.quotes.generatePDF.useMutation();
+  const sendByEmailMutation = trpc.quotes.sendByEmail.useMutation();
   const { data: quoteItems = [] } = trpc.quotes.getItems.useQuery(
     { quoteId: selectedQuote?.id || 0 },
     { enabled: !!selectedQuote }
@@ -456,6 +457,26 @@ export default function Cotizaciones() {
                           title="Exportar a PDF"
                         >
                           <Download className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={async () => {
+                            if (confirm(`¿Enviar cotización ${quote.quoteNumber} a ${quote.clientEmail}?\n\nSe enviará desde cotizacion@cancagua.cl con copia a eventos@cancagua.cl`)) {
+                              try {
+                                toast.info("Enviando cotización...");
+                                await sendByEmailMutation.mutateAsync({ id: quote.id });
+                                toast.success(`Cotización enviada a ${quote.clientEmail}`);
+                                refetch();
+                              } catch (error: any) {
+                                toast.error(error.message || "Error al enviar cotización");
+                              }
+                            }
+                          }}
+                          title="Enviar por email"
+                          disabled={sendByEmailMutation.isPending}
+                        >
+                          <Send className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
