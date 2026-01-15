@@ -32,7 +32,7 @@ const classes: ClassInfo[] = [
     name: "Hatha Yoga",
     subtitle: "Suave",
     description: "Práctica gentil enfocada en la relajación y el estiramiento. Perfecta para principiantes o quienes buscan una experiencia más restaurativa y meditativa.",
-    schedule: "Próximamente",
+    schedule: "Lunes y Miércoles 10:15 - 11:30",
     duration: "60 minutos",
     level: "Principiante - Todos los niveles",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/f57b8d75-45e8-4811-b705-1a72637a1a50",

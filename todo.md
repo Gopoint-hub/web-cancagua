@@ -890,3 +890,13 @@
 - [x] Agregar campos: Nombre, Email, Teléfono, Clase
 - [x] Integrar con WhatsApp para enviar reservas
 - [x] Mostrar confirmación al usuario
+
+
+## Corrección Horarios Hatha Yoga Suave
+- [x] Actualizar horarios a Lunes y Miércoles 10:15 - 11:30
+
+## Importación Excel en CMS B2B
+- [x] Crear componente de importación Excel
+- [x] Agregar botón en Catálogo de productos
+- [x] Parsear columnas: Producto, Descripción, Duración, Precio, Capacidad mín/máx
+- [x] Validar y guardar productos importados

@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import * as XLSX from "xlsx";
 import DashboardLayout from "@/components/DashboardLayout";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
@@ -162,12 +163,73 @@ export default function ProductosCorporativos() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const text = event.target?.result as string;
-      parseCSV(text);
-    };
-    reader.readAsText(file);
+    if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const data = event.target?.result as ArrayBuffer;
+        parseExcel(data);
+      };
+      reader.readAsArrayBuffer(file);
+    } else {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const text = event.target?.result as string;
+        parseCSV(text);
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const parseExcel = (data: ArrayBuffer) => {
+    try {
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const rows = XLSX.utils.sheet_to_json(sheet);
+
+      if (rows.length === 0) {
+        toast.error("El archivo Excel está vacío");
+        return;
+      }
+
+      const parsedData = rows.map((row: any) => {
+        const normalized: any = {};
+        
+        for (const key in row) {
+          const lowerKey = key.toLowerCase().trim();
+          const value = row[key];
+          
+          if (lowerKey === "producto" || lowerKey === "name" || lowerKey === "nombre") {
+            normalized.name = String(value || "");
+          } else if (lowerKey.includes("descripción") || lowerKey.includes("descripcion") || lowerKey === "description") {
+            normalized.description = String(value || "");
+          } else if (lowerKey.includes("duración") || lowerKey.includes("duracion") || lowerKey === "duration") {
+            normalized.duration = value ? parseInt(String(value)) : undefined;
+          } else if (lowerKey.includes("precio unitario") || lowerKey === "precio" || lowerKey === "unitprice") {
+            normalized.unitPrice = parseFloat(String(value || 0));
+          } else if (lowerKey.includes("capacidad máxima") || lowerKey.includes("capacidad maxima") || lowerKey === "maxcapacity") {
+            normalized.maxCapacity = value ? parseInt(String(value)) : undefined;
+          }
+        }
+        
+        if (!normalized.category) {
+          normalized.category = "otros";
+        }
+        
+        return normalized;
+      }).filter(row => row.name && row.unitPrice);
+
+      if (parsedData.length === 0) {
+        toast.error("No se encontraron productos válidos en el archivo Excel");
+        return;
+      }
+
+      setCsvData(parsedData);
+      setIsImportDialogOpen(true);
+    } catch (error) {
+      toast.error("Error al parsear el archivo Excel");
+      console.error(error);
+    }
   };
 
   const parseCSV = (text: string) => {
@@ -185,19 +247,20 @@ export default function ProductosCorporativos() {
       headers.forEach((header, index) => {
         const value = values[index] || "";
         
-        if (header === "name" || header === "nombre") row.name = value;
-        else if (header === "description" || header === "descripcion" || header === "descripción") row.description = value;
-        else if (header === "category" || header === "categoria" || header === "categoría") row.category = value;
+        if (header === "producto" || header === "name" || header === "nombre") row.name = value;
+        else if (header.includes("descripcion") || header.includes("description")) row.description = value;
+        else if (header === "category" || header === "categoria") row.category = value;
         else if (header === "pricetype" || header === "tipo_precio") row.priceType = value === "flat" ? "flat" : "per_person";
-        else if (header === "unitprice" || header === "precio_unitario" || header === "precio") row.unitPrice = parseFloat(value) || 0;
-        else if (header === "duration" || header === "duracion" || header === "duración") row.duration = value ? parseInt(value) : undefined;
-        else if (header === "maxcapacity" || header === "capacidad_maxima" || header === "capacidad") row.maxCapacity = value ? parseInt(value) : undefined;
+        else if (header.includes("precio unitario") || header === "unitprice" || header === "precio") row.unitPrice = parseFloat(value) || 0;
+        else if (header.includes("duracion") || header === "duration") row.duration = value ? parseInt(value) : undefined;
+        else if (header.includes("capacidad maxima") || header === "maxcapacity") row.maxCapacity = value ? parseInt(value) : undefined;
         else if (header === "includes" || header === "incluye") row.includes = value;
         else if (header === "active" || header === "activo") row.active = value === "1" || value.toLowerCase() === "true" || value.toLowerCase() === "si" ? 1 : 0;
       });
       
+      if (!row.category) row.category = "otros";
       return row;
-    }).filter(row => row.name && row.category && row.unitPrice);
+    }).filter(row => row.name && row.unitPrice);
 
     if (data.length === 0) {
       toast.error("No se encontraron productos válidos en el archivo CSV");
@@ -272,7 +335,7 @@ export default function ProductosCorporativos() {
             <input
               ref={fileInputRef}
               type="file"
-              accept=".csv,.xlsx"
+              accept=".csv,.xlsx,.xls"
               onChange={handleFileUpload}
               className="hidden"
             />
@@ -281,7 +344,7 @@ export default function ProductosCorporativos() {
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="mr-2 h-4 w-4" />
-              Importar CSV
+              Importar Archivo
             </Button>
             <Button onClick={() => {
               resetForm();
@@ -350,290 +413,169 @@ export default function ProductosCorporativos() {
                   </TableHead>
                   <TableHead>Nombre</TableHead>
                   <TableHead>Categoría</TableHead>
-                  <TableHead>Tipo de Precio</TableHead>
-                  <TableHead>Precio Unitario</TableHead>
-                  <TableHead>Estado</TableHead>
-                  <TableHead className="text-right">Acciones</TableHead>
+                  <TableHead>Precio</TableHead>
+                  <TableHead>Duración</TableHead>
+                  <TableHead>Capacidad</TableHead>
+                  <TableHead className="w-24">Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {products && products.length > 0 ? (
-                  products.map((product) => (
-                    <TableRow key={product.id}>
-                      <TableCell>
-                        <Checkbox
-                          checked={selectedProducts.includes(product.id)}
-                          onCheckedChange={() => toggleSelect(product.id)}
-                        />
-                      </TableCell>
-                      <TableCell className="font-medium">{product.name}</TableCell>
-                      <TableCell>
-                        <Badge variant="outline">
-                          {CATEGORIES.find(c => c.value === product.category)?.label || product.category}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        {product.priceType === "per_person" ? "Por Persona" : "Tarifa Fija"}
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-1">
-                          <DollarSign className="h-4 w-4 text-muted-foreground" />
-                          {product.unitPrice.toLocaleString("es-CL")}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={product.active ? "default" : "secondary"}>
-                          {product.active ? "Activo" : "Inactivo"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleEdit(product)}
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDelete(product.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center text-muted-foreground">
-                      No hay productos registrados
+                {products?.map((product) => (
+                  <TableRow key={product.id}>
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedProducts.includes(product.id)}
+                        onCheckedChange={() => toggleSelect(product.id)}
+                      />
+                    </TableCell>
+                    <TableCell className="font-medium">{product.name}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline">
+                        {CATEGORIES.find(c => c.value === product.category)?.label || product.category}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1">
+                        <DollarSign className="h-4 w-4" />
+                        {product.unitPrice}
+                      </div>
+                    </TableCell>
+                    <TableCell>{product.duration ? `${product.duration} min` : "-"}</TableCell>
+                    <TableCell>{product.maxCapacity ? `Máx: ${product.maxCapacity}` : "-"}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleEdit(product)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDelete(product.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
-                )}
+                ))}
               </TableBody>
             </Table>
           </CardContent>
         </Card>
+      </div>
 
-        {/* Dialog para crear/editar producto */}
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>
-                {editingProduct ? "Editar Producto" : "Nuevo Producto"}
-              </DialogTitle>
-              <DialogDescription>
-                Completa la información del producto corporativo
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="col-span-2">
-                  <Label htmlFor="name">Nombre *</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="col-span-2">
-                  <Label htmlFor="description">Descripción</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    rows={3}
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="category">Categoría *</Label>
-                  <Select
-                    value={formData.category}
-                    onValueChange={(value) => setFormData({ ...formData, category: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecciona categoría" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {CATEGORIES.map((cat) => (
-                        <SelectItem key={cat.value} value={cat.value}>
-                          {cat.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="priceType">Tipo de Precio *</Label>
-                  <Select
-                    value={formData.priceType}
-                    onValueChange={(value: "per_person" | "flat") =>
-                      setFormData({ ...formData, priceType: value })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="per_person">Por Persona</SelectItem>
-                      <SelectItem value="flat">Tarifa Fija</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="unitPrice">Precio Unitario (CLP) *</Label>
-                  <Input
-                    id="unitPrice"
-                    type="number"
-                    value={formData.unitPrice}
-                    onChange={(e) =>
-                      setFormData({ ...formData, unitPrice: parseFloat(e.target.value) || 0 })
-                    }
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="duration">Duración (minutos)</Label>
-                  <Input
-                    id="duration"
-                    type="number"
-                    value={formData.duration || ""}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        duration: e.target.value ? parseInt(e.target.value) : undefined,
-                      })
-                    }
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="maxCapacity">Capacidad Máxima</Label>
-                  <Input
-                    id="maxCapacity"
-                    type="number"
-                    value={formData.maxCapacity || ""}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        maxCapacity: e.target.value ? parseInt(e.target.value) : undefined,
-                      })
-                    }
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="active">Estado</Label>
-                  <Select
-                    value={formData.active.toString()}
-                    onValueChange={(value) =>
-                      setFormData({ ...formData, active: parseInt(value) })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">Activo</SelectItem>
-                      <SelectItem value="0">Inactivo</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="col-span-2">
-                  <Label htmlFor="includes">Incluye</Label>
-                  <Textarea
-                    id="includes"
-                    value={formData.includes}
-                    onChange={(e) => setFormData({ ...formData, includes: e.target.value })}
-                    rows={2}
-                    placeholder="Ej: Toallas, bata, gorro de baño"
-                  />
-                </div>
-              </div>
-
-              <DialogFooter>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    setIsDialogOpen(false);
-                    resetForm();
-                  }}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={createMutation.isPending || updateMutation.isPending}
-                >
-                  {editingProduct ? "Actualizar" : "Crear"}
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
-
-        {/* Dialog para preview de importación */}
-        <Dialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen}>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Vista Previa de Importación</DialogTitle>
-              <DialogDescription>
-                Se importarán {csvData.length} producto(s). Revisa los datos antes de confirmar.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="max-h-96 overflow-y-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Nombre</TableHead>
-                    <TableHead>Categoría</TableHead>
-                    <TableHead>Precio</TableHead>
-                    <TableHead>Tipo</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {csvData.map((product, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{product.name}</TableCell>
-                      <TableCell>{product.category}</TableCell>
-                      <TableCell>${product.unitPrice.toLocaleString("es-CL")}</TableCell>
-                      <TableCell>
-                        {product.priceType === "per_person" ? "Por Persona" : "Tarifa Fija"}
-                      </TableCell>
-                    </TableRow>
+      {/* Dialog para crear/editar producto */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {editingProduct ? "Editar Producto" : "Nuevo Producto"}
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label>Nombre</Label>
+              <Input
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                required
+              />
+            </div>
+            <div>
+              <Label>Descripción</Label>
+              <Textarea
+                value={formData.description}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+              />
+            </div>
+            <div>
+              <Label>Categoría</Label>
+              <Select value={formData.category} onValueChange={(value) => setFormData({...formData, category: value})}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {CATEGORIES.map(cat => (
+                    <SelectItem key={cat.value} value={cat.value}>
+                      {cat.label}
+                    </SelectItem>
                   ))}
-                </TableBody>
-              </Table>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Precio Unitario</Label>
+              <Input
+                type="number"
+                step="0.01"
+                value={formData.unitPrice}
+                onChange={(e) => setFormData({...formData, unitPrice: parseFloat(e.target.value)})}
+                required
+              />
+            </div>
+            <div>
+              <Label>Duración (minutos)</Label>
+              <Input
+                type="number"
+                value={formData.duration || ""}
+                onChange={(e) => setFormData({...formData, duration: e.target.value ? parseInt(e.target.value) : undefined})}
+              />
+            </div>
+            <div>
+              <Label>Capacidad Máxima</Label>
+              <Input
+                type="number"
+                value={formData.maxCapacity || ""}
+                onChange={(e) => setFormData({...formData, maxCapacity: e.target.value ? parseInt(e.target.value) : undefined})}
+              />
             </div>
             <DialogFooter>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setIsImportDialogOpen(false);
-                  setCsvData([]);
-                  if (fileInputRef.current) fileInputRef.current.value = "";
-                }}
-              >
+              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                 Cancelar
               </Button>
-              <Button onClick={handleImport} disabled={importMutation.isPending}>
-                Importar {csvData.length} Producto(s)
+              <Button type="submit">
+                {editingProduct ? "Actualizar" : "Crear"}
               </Button>
             </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog para importar */}
+      <Dialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Importar Productos</DialogTitle>
+            <DialogDescription>
+              Se importarán {csvData.length} producto(s)
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 max-h-96 overflow-y-auto">
+            {csvData.map((product, index) => (
+              <Card key={index} className="p-4">
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div><span className="font-medium">Nombre:</span> {product.name}</div>
+                  <div><span className="font-medium">Precio:</span> ${product.unitPrice}</div>
+                  <div><span className="font-medium">Duración:</span> {product.duration || "-"} min</div>
+                  <div><span className="font-medium">Capacidad:</span> {product.maxCapacity || "-"}</div>
+                </div>
+              </Card>
+            ))}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsImportDialogOpen(false)}>
+              Cancelar
+            </Button>
+            <Button onClick={handleImport} disabled={importMutation.isPending}>
+              {importMutation.isPending ? "Importando..." : "Importar"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   );
 }
