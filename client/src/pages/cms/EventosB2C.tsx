@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import { 
   Calendar, Plus, Edit, Trash2, Eye, Sparkles, Clock, 
-  MapPin, ExternalLink, Upload, X, Loader2
+  MapPin, ExternalLink, Upload, X, Loader2, MoreVertical
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -26,6 +26,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 // Toast functionality - to be implemented
 const useToast = () => ({ 
   toast: (options: any) => console.log('Toast:', options) 
@@ -270,6 +287,14 @@ export default function EventosB2C() {
     }
   };
 
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString("es-CL", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -285,6 +310,40 @@ export default function EventosB2C() {
             <Plus className="mr-2 h-4 w-4" />
             Crear Evento
           </Button>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardDescription>Total Eventos</CardDescription>
+              <CardTitle className="text-3xl">{events?.length || 0}</CardTitle>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardDescription>Activos</CardDescription>
+              <CardTitle className="text-3xl text-green-600">
+                {events?.filter((e: any) => e.status === "active").length || 0}
+              </CardTitle>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardDescription>Borradores</CardDescription>
+              <CardTitle className="text-3xl text-gray-600">
+                {events?.filter((e: any) => e.status === "draft").length || 0}
+              </CardTitle>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardDescription>Destacados</CardDescription>
+              <CardTitle className="text-3xl text-amber-600">
+                {events?.filter((e: any) => e.featured === 1).length || 0}
+              </CardTitle>
+            </CardHeader>
+          </Card>
         </div>
 
         {/* Filters */}
@@ -312,160 +371,198 @@ export default function EventosB2C() {
           </CardContent>
         </Card>
 
-        {/* Events List */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {isLoading ? (
-            <div className="col-span-full text-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin mx-auto text-muted-foreground" />
-            </div>
-          ) : events && events.length > 0 ? (
-            events.map((event: any) => {
-              const eventImages = event.images ? JSON.parse(event.images) : [];
-              const firstImage = eventImages[0] || "/images/placeholder-event.jpg";
+        {/* Events Table */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Eventos</CardTitle>
+            <CardDescription>
+              Gestiona todos los eventos desde esta tabla
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="text-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin mx-auto text-muted-foreground" />
+              </div>
+            ) : events && events.length > 0 ? (
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[50px]">Imagen</TableHead>
+                      <TableHead>Título</TableHead>
+                      <TableHead>Fecha Inicio</TableHead>
+                      <TableHead>Ubicación</TableHead>
+                      <TableHead>Precio</TableHead>
+                      <TableHead>Estado</TableHead>
+                      <TableHead>Destacado</TableHead>
+                      <TableHead className="text-right">Acciones</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {events.map((event: any) => {
+                      const eventImages = event.images ? JSON.parse(event.images) : [];
+                      const firstImage = eventImages[0] || "/images/placeholder-event.jpg";
+                      
+                      return (
+                        <TableRow key={event.id}>
+                          <TableCell>
+                            <img 
+                              src={firstImage} 
+                              alt={event.title}
+                              className="w-12 h-12 object-cover rounded"
+                            />
+                          </TableCell>
+                          <TableCell className="font-medium max-w-[300px]">
+                            <div className="truncate">{event.title}</div>
+                            <div className="text-sm text-muted-foreground truncate">
+                              {event.description}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <Calendar className="h-4 w-4 text-muted-foreground" />
+                              {formatDate(event.startDate)}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <MapPin className="h-4 w-4 text-muted-foreground" />
+                              {event.location || "N/A"}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {event.price ? `$${event.price.toLocaleString("es-CL")}` : "Gratis"}
+                          </TableCell>
+                          <TableCell>
+                            {getStatusBadge(event.status)}
+                          </TableCell>
+                          <TableCell>
+                            {event.featured === 1 ? (
+                              <Badge variant="outline" className="bg-amber-50">
+                                ⭐ Destacado
+                              </Badge>
+                            ) : (
+                              <span className="text-muted-foreground text-sm">-</span>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                  <MoreVertical className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem 
+                                  onClick={() => window.open(`/eventos/${event.slug}`, "_blank")}
+                                >
+                                  <Eye className="mr-2 h-4 w-4" />
+                                  Ver Landing
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => handleEdit(event)}>
+                                  <Edit className="mr-2 h-4 w-4" />
+                                  Editar
+                                </DropdownMenuItem>
+                                <DropdownMenuItem 
+                                  onClick={() => handleRegenerateContent(event.id)}
+                                  disabled={regenerateContent.isPending}
+                                >
+                                  <Sparkles className="mr-2 h-4 w-4" />
+                                  Regenerar con IA
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem 
+                                  onClick={() => handleDelete(event.id)}
+                                  className="text-red-600"
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Eliminar
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                <h3 className="text-lg font-semibold mb-2">No hay eventos</h3>
+                <p className="text-muted-foreground mb-4">
+                  Crea tu primer evento con IA para empezar
+                </p>
+                <Button onClick={() => setIsCreateDialogOpen(true)}>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Crear Evento
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
-              return (
-                <Card key={event.id} className="overflow-hidden">
-                  <div className="aspect-video relative">
-                    <img 
-                      src={firstImage} 
-                      alt={event.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-2 right-2">
-                      {getStatusBadge(event.status)}
-                    </div>
-                    {event.featured === 1 && (
-                      <div className="absolute top-2 left-2">
-                        <Badge className="bg-yellow-500">Destacado</Badge>
-                      </div>
-                    )}
-                  </div>
-                  <CardHeader>
-                    <CardTitle className="line-clamp-2">{event.title}</CardTitle>
-                    <CardDescription className="line-clamp-2">
-                      {event.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="mr-2 h-4 w-4" />
-                      {new Date(event.startDate).toLocaleDateString("es-CL", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </div>
-                    {event.location && (
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <MapPin className="mr-2 h-4 w-4" />
-                        {event.location}
-                      </div>
-                    )}
-                    <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => window.open(`/eventos/${event.slug}`, "_blank")}
-                      >
-                        <Eye className="mr-2 h-4 w-4" />
-                        Ver
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleEdit(event)}
-                      >
-                        <Edit className="mr-2 h-4 w-4" />
-                        Editar
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleRegenerateContent(event.id)}
-                        disabled={regenerateContent.isPending}
-                      >
-                        <Sparkles className="mr-2 h-4 w-4" />
-                        IA
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => handleDelete(event.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })
-          ) : (
-            <div className="col-span-full text-center py-12">
-              <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No hay eventos {statusFilter !== "all" && `en estado "${statusFilter}"`}</p>
-            </div>
-          )}
-        </div>
-
-        {/* Create Dialog */}
+        {/* Create Event Dialog */}
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Crear Nuevo Evento</DialogTitle>
+              <DialogTitle className="flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-amber-500" />
+                Crear Evento con IA
+              </DialogTitle>
               <DialogDescription>
-                La IA generará automáticamente el contenido HTML de la landing page
+                Completa la información básica y la IA generará una landing page profesional automáticamente
               </DialogDescription>
             </DialogHeader>
+
             <div className="space-y-4">
+              {/* Título */}
               <div>
-                <Label htmlFor="title">Título *</Label>
+                <Label htmlFor="title">Título del Evento *</Label>
                 <Input
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Heart Coherence Workshop"
+                  placeholder="Ej: Taller de Respiración Consciente"
                 />
               </div>
+
+              {/* Descripción */}
               <div>
                 <Label htmlFor="description">Descripción *</Label>
                 <Textarea
                   id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Descripción detallada del evento..."
+                  placeholder="Describe el evento, qué incluye, beneficios, facilitador, etc."
                   rows={4}
                 />
+                <p className="text-sm text-muted-foreground mt-1">
+                  La IA usará esta descripción para crear el contenido de la landing page
+                </p>
               </div>
+
+              {/* Imágenes */}
               <div>
-                <Label htmlFor="images">Imágenes * (mínimo 1)</Label>
-                <div className="space-y-2">
-                  <Input
-                    id="images"
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleImageUpload}
-                    disabled={uploadingImages}
-                  />
-                  {uploadingImages && (
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Subiendo imágenes...
-                    </div>
-                  )}
+                <Label>Imágenes del Evento *</Label>
+                <div className="mt-2 space-y-4">
                   {images.length > 0 && (
                     <div className="grid grid-cols-3 gap-2">
                       {images.map((url, index) => (
                         <div key={index} className="relative group">
                           <img 
                             src={url} 
-                            alt={`Preview ${index + 1}`}
-                            className="w-full h-24 object-cover rounded"
+                            alt={`Imagen ${index + 1}`}
+                            className="w-full h-24 object-cover rounded border"
                           />
                           <Button
                             size="icon"
                             variant="destructive"
-                            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition"
                             onClick={() => removeImage(index)}
                           >
                             <X className="h-4 w-4" />
@@ -474,21 +571,30 @@ export default function EventosB2C() {
                       ))}
                     </div>
                   )}
+                  
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleImageUpload}
+                      disabled={uploadingImages}
+                      className="flex-1"
+                    />
+                    {uploadingImages && (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    La primera imagen será la imagen principal del evento
+                  </p>
                 </div>
               </div>
-              <div>
-                <Label htmlFor="externalLink">Link de Reserva *</Label>
-                <Input
-                  id="externalLink"
-                  type="url"
-                  value={externalLink}
-                  onChange={(e) => setExternalLink(e.target.value)}
-                  placeholder="https://reservas.cancagua.cl/..."
-                />
-              </div>
+
+              {/* Fechas */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="startDate">Fecha/Hora Inicio * (Chile)</Label>
+                  <Label htmlFor="startDate">Fecha y Hora de Inicio *</Label>
                   <Input
                     id="startDate"
                     type="datetime-local"
@@ -497,7 +603,7 @@ export default function EventosB2C() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="endDate">Fecha/Hora Fin * (Chile)</Label>
+                  <Label htmlFor="endDate">Fecha y Hora de Término *</Label>
                   <Input
                     id="endDate"
                     type="datetime-local"
@@ -506,55 +612,82 @@ export default function EventosB2C() {
                   />
                 </div>
               </div>
+
+              {/* Ubicación y Precio */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="location">Ubicación</Label>
+                  <Input
+                    id="location"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder="Cancagua Spa"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="price">Precio (CLP)</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    placeholder="25000"
+                  />
+                </div>
+              </div>
+
+              {/* Link de Reserva */}
               <div>
-                <Label htmlFor="location">Ubicación</Label>
+                <Label htmlFor="externalLink">Link de Reserva (Skedu) *</Label>
                 <Input
-                  id="location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder="Cancagua Spa"
+                  id="externalLink"
+                  type="url"
+                  value={externalLink}
+                  onChange={(e) => setExternalLink(e.target.value)}
+                  placeholder="https://reservas.cancagua.cl/..."
                 />
               </div>
-              <div>
-                <Label htmlFor="price">Precio (CLP)</Label>
-                <Input
-                  id="price"
-                  type="number"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="50000"
-                />
-              </div>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="featured"
-                  checked={featured}
-                  onChange={(e) => setFeatured(e.target.checked)}
-                  className="rounded"
-                />
-                <Label htmlFor="featured">Destacar en menú principal</Label>
-              </div>
-              <div>
-                <Label htmlFor="status">Estado</Label>
-                <Select value={status} onValueChange={(value: any) => setStatus(value)}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">Borrador</SelectItem>
-                    <SelectItem value="active">Activo</SelectItem>
-                  </SelectContent>
-                </Select>
+
+              {/* Estado y Destacado */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="status">Estado</Label>
+                  <Select value={status} onValueChange={(value: any) => setStatus(value)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="draft">Borrador</SelectItem>
+                      <SelectItem value="active">Activo</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center space-x-2 pt-8">
+                  <input
+                    type="checkbox"
+                    id="featured"
+                    checked={featured}
+                    onChange={(e) => setFeatured(e.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="featured" className="cursor-pointer">
+                    Marcar como destacado
+                  </Label>
+                </div>
               </div>
             </div>
+
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+              <Button variant="outline" onClick={() => {
+                resetForm();
+                setIsCreateDialogOpen(false);
+              }}>
                 Cancelar
               </Button>
               <Button 
-                onClick={handleCreate} 
+                onClick={handleCreate}
                 disabled={createEvent.isPending}
+                className="bg-[#D3BC8D] hover:bg-[#C5AE7F]"
               >
                 {createEvent.isPending ? (
                   <>
@@ -572,24 +705,27 @@ export default function EventosB2C() {
           </DialogContent>
         </Dialog>
 
-        {/* Edit Dialog */}
+        {/* Edit Event Dialog */}
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Editar Evento</DialogTitle>
               <DialogDescription>
-                Modifica los detalles del evento
+                Actualiza la información del evento
               </DialogDescription>
             </DialogHeader>
+
             <div className="space-y-4">
+              {/* Same form fields as create dialog */}
               <div>
-                <Label htmlFor="edit-title">Título *</Label>
+                <Label htmlFor="edit-title">Título del Evento *</Label>
                 <Input
                   id="edit-title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
+
               <div>
                 <Label htmlFor="edit-description">Descripción *</Label>
                 <Textarea
@@ -599,36 +735,23 @@ export default function EventosB2C() {
                   rows={4}
                 />
               </div>
+
               <div>
-                <Label htmlFor="edit-images">Imágenes *</Label>
-                <div className="space-y-2">
-                  <Input
-                    id="edit-images"
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleImageUpload}
-                    disabled={uploadingImages}
-                  />
-                  {uploadingImages && (
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Subiendo imágenes...
-                    </div>
-                  )}
+                <Label>Imágenes del Evento *</Label>
+                <div className="mt-2 space-y-4">
                   {images.length > 0 && (
                     <div className="grid grid-cols-3 gap-2">
                       {images.map((url, index) => (
                         <div key={index} className="relative group">
                           <img 
                             src={url} 
-                            alt={`Preview ${index + 1}`}
-                            className="w-full h-24 object-cover rounded"
+                            alt={`Imagen ${index + 1}`}
+                            className="w-full h-24 object-cover rounded border"
                           />
                           <Button
                             size="icon"
                             variant="destructive"
-                            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition"
                             onClick={() => removeImage(index)}
                           >
                             <X className="h-4 w-4" />
@@ -637,20 +760,20 @@ export default function EventosB2C() {
                       ))}
                     </div>
                   )}
+                  
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageUpload}
+                    disabled={uploadingImages}
+                  />
                 </div>
               </div>
-              <div>
-                <Label htmlFor="edit-externalLink">Link de Reserva *</Label>
-                <Input
-                  id="edit-externalLink"
-                  type="url"
-                  value={externalLink}
-                  onChange={(e) => setExternalLink(e.target.value)}
-                />
-              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="edit-startDate">Fecha/Hora Inicio *</Label>
+                  <Label htmlFor="edit-startDate">Fecha y Hora de Inicio *</Label>
                   <Input
                     id="edit-startDate"
                     type="datetime-local"
@@ -659,7 +782,7 @@ export default function EventosB2C() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="edit-endDate">Fecha/Hora Fin *</Label>
+                  <Label htmlFor="edit-endDate">Fecha y Hora de Término *</Label>
                   <Input
                     id="edit-endDate"
                     type="datetime-local"
@@ -668,53 +791,75 @@ export default function EventosB2C() {
                   />
                 </div>
               </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-location">Ubicación</Label>
+                  <Input
+                    id="edit-location"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-price">Precio (CLP)</Label>
+                  <Input
+                    id="edit-price"
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                </div>
+              </div>
+
               <div>
-                <Label htmlFor="edit-location">Ubicación</Label>
+                <Label htmlFor="edit-externalLink">Link de Reserva (Skedu) *</Label>
                 <Input
-                  id="edit-location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
+                  id="edit-externalLink"
+                  type="url"
+                  value={externalLink}
+                  onChange={(e) => setExternalLink(e.target.value)}
                 />
               </div>
-              <div>
-                <Label htmlFor="edit-price">Precio (CLP)</Label>
-                <Input
-                  id="edit-price"
-                  type="number"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </div>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="edit-featured"
-                  checked={featured}
-                  onChange={(e) => setFeatured(e.target.checked)}
-                  className="rounded"
-                />
-                <Label htmlFor="edit-featured">Destacar en menú principal</Label>
-              </div>
-              <div>
-                <Label htmlFor="edit-status">Estado</Label>
-                <Select value={status} onValueChange={(value: any) => setStatus(value)}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">Borrador</SelectItem>
-                    <SelectItem value="active">Activo</SelectItem>
-                    <SelectItem value="ended">Finalizado</SelectItem>
-                  </SelectContent>
-                </Select>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-status">Estado</Label>
+                  <Select value={status} onValueChange={(value: any) => setStatus(value)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="draft">Borrador</SelectItem>
+                      <SelectItem value="active">Activo</SelectItem>
+                      <SelectItem value="ended">Finalizado</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center space-x-2 pt-8">
+                  <input
+                    type="checkbox"
+                    id="edit-featured"
+                    checked={featured}
+                    onChange={(e) => setFeatured(e.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="edit-featured" className="cursor-pointer">
+                    Marcar como destacado
+                  </Label>
+                </div>
               </div>
             </div>
+
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              <Button variant="outline" onClick={() => {
+                resetForm();
+                setIsEditDialogOpen(false);
+              }}>
                 Cancelar
               </Button>
               <Button 
-                onClick={handleUpdate} 
+                onClick={handleUpdate}
                 disabled={updateEvent.isPending}
               >
                 {updateEvent.isPending ? (

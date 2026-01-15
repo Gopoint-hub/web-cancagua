@@ -2229,11 +2229,83 @@ Devuelve un JSON con este formato:
           messages: [
             {
               role: "system",
-              content: "Eres un experto en crear landing pages atractivas para eventos de spa y bienestar. Genera HTML semántico y bien estructurado con Tailwind CSS para un evento.",
+              content: `Eres un experto en marketing digital y diseño de landing pages de alta conversión para eventos de wellness y spa. Tu especialidad es crear páginas que:
+- Generan deseo inmediato de participar
+- Transmiten exclusividad y valor
+- Usan copywriting persuasivo
+- Tienen diseño visual impactante
+- Optimizan para conversión (reservas)
+
+Genera HTML válido y limpio con Tailwind CSS. NO uses puntos y coma al final de las líneas HTML.`,
             },
             {
               role: "user",
-              content: `Crea el contenido HTML para una landing page de evento con esta información:\n\nTítulo: ${input.title}\nDescripción: ${input.description}\nFecha: ${new Date(input.startDate).toLocaleDateString("es-CL")}\nUbicación: ${input.location || "Cancagua Spa"}\nPrecio: ${input.price ? `$${input.price.toLocaleString("es-CL")}` : "Consultar"}\n\nGenera SOLO el HTML del contenido (sin <html>, <head>, ni <body>), usando Tailwind CSS. Incluye:\n1. Hero section con imagen destacada\n2. Descripción detallada del evento\n3. Sección de beneficios o qué incluye\n4. Call-to-action con botón de reserva\n5. Información práctica (fecha, hora, ubicación)\n\nUsa las clases de Tailwind: container, mx-auto, px-4, py-8, text-center, bg-primary, text-white, etc.`,
+              content: `Crea una landing page de alta conversión para este evento:
+
+**INFORMACIÓN DEL EVENTO:**
+Título: ${input.title}
+Descripción: ${input.description}
+Fecha: ${new Date(input.startDate).toLocaleDateString("es-CL", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+Ubicación: ${input.location || "Cancagua Spa & Retreat Center, Frutillar"}
+Precio: ${input.price ? `$${input.price.toLocaleString("es-CL")} CLP` : "Consultar precio"}
+
+**INSTRUCCIONES DE DISEÑO:**
+
+1. **Hero Section Impactante:**
+   - Título grande y emocional (no solo repetir el nombre del evento)
+   - Subtítulo que genere urgencia o exclusividad
+   - Badge destacado con fecha o "Cupos Limitados"
+   - Usa: text-4xl md:text-6xl font-bold, bg-gradient-to-r, text-white
+
+2. **Sección de Valor ("Por qué asistir"):**
+   - 3-4 beneficios clave con íconos o emojis
+   - Copywriting emocional (transformación, bienestar, experiencia única)
+   - Usa: grid md:grid-cols-2 lg:grid-cols-3, gap-8, p-6, rounded-xl
+
+3. **Descripción Detallada:**
+   - Párrafos cortos y escaneables
+   - Resalta palabras clave en negrita
+   - Incluye qué incluye el evento (lista con checkmarks ✓)
+   - Usa: prose prose-lg, leading-relaxed, space-y-4
+
+4. **Sección de Urgencia/Escasez:**
+   - "Solo X cupos disponibles" o "Early bird hasta [fecha]"
+   - Testimonios breves o logos de facilitadores
+   - Usa: bg-amber-50, border-l-4 border-amber-500, p-6
+
+5. **Call-to-Action Múltiple:**
+   - Botón principal grande: "Reservar Mi Lugar Ahora"
+   - Botón secundario: "Consultar por WhatsApp"
+   - Repetir CTA al menos 2 veces (arriba y abajo)
+   - Usa: bg-[#D3BC8D] hover:bg-[#C5AE7F], text-white, px-8 py-4, text-xl, rounded-full, shadow-lg, transform hover:scale-105, transition
+
+6. **Información Práctica (Cards):**
+   - Fecha y hora
+   - Ubicación con mapa
+   - Qué traer/preparar
+   - Política de cancelación
+   - Usa: grid md:grid-cols-2, bg-white, shadow-md, rounded-lg, p-6
+
+7. **Footer del Evento:**
+   - Resumen de beneficios
+   - Último CTA
+   - Información de contacto
+
+**PALETA DE COLORES CANCAGUA:**
+- Dorado: #D3BC8D (botones principales)
+- Beige claro: #F5F1E8 (fondos suaves)
+- Verde agua: #A8C5B5 (acentos)
+- Gris oscuro: #2C2C2C (textos)
+- Blanco: #FFFFFF
+
+**IMPORTANTE:**
+- Genera SOLO el contenido HTML (sin etiquetas <html>, <head>, <body>)
+- NO uses puntos y coma (;) al final de las líneas
+- Usa clases de Tailwind CSS válidas
+- El HTML debe ser válido y renderizable directamente
+- Incluye espaciado generoso (py-12, py-16, py-20)
+- Diseño mobile-first y responsive
+- Copywriting en español, persuasivo y emocional`,
             },
           ],
         });
@@ -2378,11 +2450,83 @@ Devuelve un JSON con este formato:
           messages: [
             {
               role: "system",
-              content: "Eres un experto en crear landing pages atractivas para eventos de spa y bienestar. Genera HTML semántico y bien estructurado con Tailwind CSS para un evento.",
+              content: `Eres un experto en marketing digital y diseño de landing pages de alta conversión para eventos de wellness y spa. Tu especialidad es crear páginas que:
+- Generan deseo inmediato de participar
+- Transmiten exclusividad y valor
+- Usan copywriting persuasivo
+- Tienen diseño visual impactante
+- Optimizan para conversión (reservas)
+
+Genera HTML válido y limpio con Tailwind CSS. NO uses puntos y coma al final de las líneas HTML.`,
             },
             {
               role: "user",
-              content: `Crea el contenido HTML para una landing page de evento con esta información:\n\nTítulo: ${event.title}\nDescripción: ${event.description}\nFecha: ${new Date(event.startDate).toLocaleDateString("es-CL")}\nUbicación: ${event.location || "Cancagua Spa"}\nPrecio: ${event.price ? `$${event.price.toLocaleString("es-CL")}` : "Consultar"}\n\nGenera SOLO el HTML del contenido (sin <html>, <head>, ni <body>), usando Tailwind CSS. Incluye:\n1. Hero section con imagen destacada\n2. Descripción detallada del evento\n3. Sección de beneficios o qué incluye\n4. Call-to-action con botón de reserva\n5. Información práctica (fecha, hora, ubicación)\n\nUsa las clases de Tailwind: container, mx-auto, px-4, py-8, text-center, bg-primary, text-white, etc.`,
+              content: `Crea una landing page de alta conversión para este evento:
+
+**INFORMACIÓN DEL EVENTO:**
+Título: ${event.title}
+Descripción: ${event.description}
+Fecha: ${new Date(event.startDate).toLocaleDateString("es-CL", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+Ubicación: ${event.location || "Cancagua Spa & Retreat Center, Frutillar"}
+Precio: ${event.price ? `$${event.price.toLocaleString("es-CL")} CLP` : "Consultar precio"}
+
+**INSTRUCCIONES DE DISEÑO:**
+
+1. **Hero Section Impactante:**
+   - Título grande y emocional (no solo repetir el nombre del evento)
+   - Subtítulo que genere urgencia o exclusividad
+   - Badge destacado con fecha o "Cupos Limitados"
+   - Usa: text-4xl md:text-6xl font-bold, bg-gradient-to-r, text-white
+
+2. **Sección de Valor ("Por qué asistir"):**
+   - 3-4 beneficios clave con íconos o emojis
+   - Copywriting emocional (transformación, bienestar, experiencia única)
+   - Usa: grid md:grid-cols-2 lg:grid-cols-3, gap-8, p-6, rounded-xl
+
+3. **Descripción Detallada:**
+   - Párrafos cortos y escaneables
+   - Resalta palabras clave en negrita
+   - Incluye qué incluye el evento (lista con checkmarks ✓)
+   - Usa: prose prose-lg, leading-relaxed, space-y-4
+
+4. **Sección de Urgencia/Escasez:**
+   - "Solo X cupos disponibles" o "Early bird hasta [fecha]"
+   - Testimonios breves o logos de facilitadores
+   - Usa: bg-amber-50, border-l-4 border-amber-500, p-6
+
+5. **Call-to-Action Múltiple:**
+   - Botón principal grande: "Reservar Mi Lugar Ahora"
+   - Botón secundario: "Consultar por WhatsApp"
+   - Repetir CTA al menos 2 veces (arriba y abajo)
+   - Usa: bg-[#D3BC8D] hover:bg-[#C5AE7F], text-white, px-8 py-4, text-xl, rounded-full, shadow-lg, transform hover:scale-105, transition
+
+6. **Información Práctica (Cards):**
+   - Fecha y hora
+   - Ubicación con mapa
+   - Qué traer/preparar
+   - Política de cancelación
+   - Usa: grid md:grid-cols-2, bg-white, shadow-md, rounded-lg, p-6
+
+7. **Footer del Evento:**
+   - Resumen de beneficios
+   - Último CTA
+   - Información de contacto
+
+**PALETA DE COLORES CANCAGUA:**
+- Dorado: #D3BC8D (botones principales)
+- Beige claro: #F5F1E8 (fondos suaves)
+- Verde agua: #A8C5B5 (acentos)
+- Gris oscuro: #2C2C2C (textos)
+- Blanco: #FFFFFF
+
+**IMPORTANTE:**
+- Genera SOLO el contenido HTML (sin etiquetas <html>, <head>, <body>)
+- NO uses puntos y coma (;) al final de las líneas
+- Usa clases de Tailwind CSS válidas
+- El HTML debe ser válido y renderizable directamente
+- Incluye espaciado generoso (py-12, py-16, py-20)
+- Diseño mobile-first y responsive
+- Copywriting en español, persuasivo y emocional`,
             },
           ],
         });

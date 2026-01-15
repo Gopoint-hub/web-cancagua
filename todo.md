@@ -890,3 +890,15 @@
 
 ## Corrección Enlace Eventos en CMS
 - [x] Corregir enlace del módulo Eventos en /cms/b2c para que aparezca en el menú lateral
+
+## Corrección Botón Crear con IA en Eventos
+- [x] Diagnosticar por qué el botón Crear con IA no funciona
+- [x] Corregir funcionalidad de generación automática de contenido HTML con IA
+
+## Corrección Landing de Eventos Dinámicos
+- [x] Corregir layout del contenido (texto aparece todo encimado)
+- [x] Corregir visualización de imagen en header del landing
+
+## Mejoras Sistema de Eventos
+- [x] Mejorar prompt de IA para generar landings profesionales orientadas a conversión
+- [x] Rediseñar interfaz de gestión de eventos con tabla ordenada y profesional

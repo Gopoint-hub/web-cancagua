@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM events WHERE slug = 'somatic-breathwork-nervous-system-reset-journey-sabado-17-de-enero';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user kmGoXqmAzDGYCHX.3b33370e5065 --database b6AHokZVYJSFV94d2D2ybb --execute DELETE FROM events WHERE slug = 'somatic-breathwork-nervous-system-reset-journey-sabado-17-de-enero';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 65
+}
