@@ -868,3 +868,10 @@
 - [x] Crear landing page /eventos/heart-coherence-workshop
 - [x] Agregar ruta en App.tsx
 - [x] Agregar enlace en menú de Eventos
+
+
+## Actualización Clases Regulares
+- [x] Cambiar subtítulo a "Hatha Yoga, Entrenamiento funcional, Danza infantil y mucho más"
+- [x] Actualizar horario Hatha Yoga Intenso: Lunes, Miércoles y viernes 8:30-9:45
+- [x] Actualizar horario Entrenamiento funcional & Animal Flow: Martes y jueves 8:30-9:30
+- [x] Actualizar horario Danza infantil: Miércoles 16:00-17:00

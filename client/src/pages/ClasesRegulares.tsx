@@ -19,9 +19,9 @@ interface ClassInfo {
 const classes: ClassInfo[] = [
   {
     name: "Hatha Yoga",
-    subtitle: "Moderado / Intenso",
+    subtitle: "Intenso",
     description: "Práctica dinámica que combina posturas, respiración y meditación. Ideal para quienes buscan un desafío físico y mental, mejorando fuerza, flexibilidad y concentración.",
-    schedule: "Martes y Jueves 19:00",
+    schedule: "Lunes, Miércoles y Viernes 8:30 - 9:45",
     duration: "75 minutos",
     level: "Intermedio - Avanzado",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/7be8a0f0-1b7a-4b7a-819f-9fe38d26bca7",
@@ -31,7 +31,7 @@ const classes: ClassInfo[] = [
     name: "Hatha Yoga",
     subtitle: "Suave",
     description: "Práctica gentil enfocada en la relajación y el estiramiento. Perfecta para principiantes o quienes buscan una experiencia más restaurativa y meditativa.",
-    schedule: "Lunes y Miércoles 10:00",
+    schedule: "Próximamente",
     duration: "60 minutos",
     level: "Principiante - Todos los niveles",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/f57b8d75-45e8-4811-b705-1a72637a1a50",
@@ -41,8 +41,8 @@ const classes: ClassInfo[] = [
     name: "Danza Infantil",
     subtitle: "Para niños y niñas",
     description: "Clases divertidas donde los más pequeños desarrollan coordinación, ritmo y expresión corporal a través del movimiento y la música en un ambiente lúdico y seguro.",
-    schedule: "Sábados 11:00",
-    duration: "45 minutos",
+    schedule: "Miércoles 16:00 - 17:00",
+    duration: "60 minutos",
     level: "Niños 4-10 años",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/07228efe-177c-429c-89a0-676277abbdff",
     icon: "💃"
@@ -51,7 +51,7 @@ const classes: ClassInfo[] = [
     name: "Entrenamiento Funcional",
     subtitle: "& Animal Flow",
     description: "Entrenamiento dinámico que combina movimientos funcionales con la fluidez del Animal Flow. Mejora tu fuerza, movilidad y coordinación de forma integral.",
-    schedule: "Lunes, Miércoles y Viernes 18:00",
+    schedule: "Martes y Jueves 8:30 - 9:30",
     duration: "60 minutos",
     level: "Todos los niveles",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/3a52ff0c-89cb-48cb-b2e5-f1395a6daf71",
@@ -80,7 +80,7 @@ export default function ClasesRegulares() {
             Clases Regulares
           </h1>
           <p className="font-['Josefin_Sans'] text-xl md:text-2xl font-light tracking-wide mb-8 max-w-2xl">
-            Yoga, danza y entrenamiento funcional en un entorno natural único
+            Hatha Yoga, Entrenamiento funcional, Danza infantil y mucho más
           </p>
           <a href="#clases">
             <Button 
