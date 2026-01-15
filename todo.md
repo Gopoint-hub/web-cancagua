@@ -881,3 +881,9 @@
 - [ ] Implementar sistema de auto-desactivación por fecha (cron job)rar eventos existentes (Taller Wim Hof, Heart Coherence) al nuevo sistema
 - [ ] Actualizar menú EVENTS para mostrar eventos dinámicos
 - [ ] Probar creación, edición y eliminación de eventos
+
+## Subida Real de Imágenes a S3 y Migración de Eventos
+- [x] Implementar subida de imágenes a S3 en EventosB2C usando storagePut
+- [x] Migrar Taller Wim Hof al sistema dinámico de eventos
+- [x] Migrar Heart Coherence Workshop al sistema dinámico de eventos
+- [ ] Eliminar páginas estáticas de eventos migrados (opcional, mantener como backup)

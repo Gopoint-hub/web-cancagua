@@ -2330,6 +2330,35 @@ Devuelve un JSON con este formato:
         return { success: true };
       }),
 
+    // Admin: subir imagen a S3
+    uploadImage: protectedProcedure
+      .input(z.object({
+        fileName: z.string(),
+        fileData: z.string(), // base64
+        contentType: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+
+        const { storagePut } = await import("./storage");
+        
+        // Convertir base64 a Buffer
+        const base64Data = input.fileData.split(',')[1] || input.fileData;
+        const buffer = Buffer.from(base64Data, 'base64');
+        
+        // Generar nombre único para el archivo
+        const timestamp = Date.now();
+        const randomSuffix = Math.random().toString(36).substring(7);
+        const fileKey = `events/${timestamp}-${randomSuffix}-${input.fileName}`;
+        
+        // Subir a S3
+        const result = await storagePut(fileKey, buffer, input.contentType);
+        
+        return { url: result.url };
+      }),
+
     // Admin: regenerar contenido HTML con IA
     regenerateContent: protectedProcedure
       .input(z.object({ id: z.number() }))

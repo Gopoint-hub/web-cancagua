@@ -135,6 +135,8 @@ export default function EventosB2C() {
     setSelectedEventId(null);
   };
 
+  const uploadImage = trpc.events.uploadImage.useMutation();
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -142,22 +144,39 @@ export default function EventosB2C() {
     setUploadingImages(true);
     try {
       const uploadPromises = Array.from(files).map(async (file) => {
-        // Crear URL temporal para preview
-        return URL.createObjectURL(file);
+        // Convertir archivo a base64
+        return new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = async () => {
+            try {
+              const base64 = reader.result as string;
+              const result = await uploadImage.mutateAsync({
+                fileName: file.name,
+                fileData: base64,
+                contentType: file.type,
+              });
+              resolve(result.url);
+            } catch (error) {
+              reject(error);
+            }
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
       });
 
       const uploadedUrls = await Promise.all(uploadPromises);
       setImages([...images, ...uploadedUrls]);
       
       toast({ 
-        title: "Imágenes agregadas", 
-        description: `${uploadedUrls.length} imagen(es) agregada(s)` 
+        title: "Imágenes subidas", 
+        description: `${uploadedUrls.length} imagen(es) subida(s) a S3` 
       });
     } catch (error) {
       console.error("Error uploading images:", error);
       toast({ 
         title: "Error", 
-        description: "Error al agregar imágenes", 
+        description: "Error al subir imágenes a S3", 
         variant: "destructive" 
       });
     } finally {
