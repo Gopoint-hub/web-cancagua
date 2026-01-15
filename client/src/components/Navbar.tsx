@@ -27,6 +27,15 @@ export function Navbar() {
     { name: t('services.clases.name'), href: "/clases" },
   ];
 
+  const experiencias = [
+    { name: "Navega Relax", href: "/navega-relax" },
+  ];
+
+  const eventos = [
+    { name: "Eventos Sociales", href: "/eventos/sociales" },
+    { name: "Eventos Empresas", href: "/eventos/empresas" },
+  ];
+
   return (
     <>
       {/* Barra superior con mensaje */}
@@ -86,23 +95,63 @@ export function Navbar() {
               </NavigationMenuList>
             </NavigationMenu>
 
-            <Link
-              href="/navega-relax"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
-                isActive("/navega-relax") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
-              }`}
-            >
-              {t('nav.navegaRelax')}
-            </Link>
+            {/* Dropdown Experiencias */}
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-sm tracking-wider uppercase text-[#3a3a3a] hover:text-[#D3BC8D] bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
+                    EXPERIENCIAS
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[300px] gap-2 p-4 bg-white border border-[#D3BC8D]/20">
+                      {experiencias.map((experiencia) => (
+                        <li key={experiencia.href}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={experiencia.href}
+                              className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F1E7D9] text-[#3a3a3a]"
+                            >
+                              <div className="text-sm tracking-wide">
+                                {experiencia.name}
+                              </div>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
 
-            <Link
-              href="/eventos"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
-                isActive("/eventos") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
-              }`}
-            >
-              {t('nav.events')}
-            </Link>
+            {/* Dropdown Eventos */}
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-sm tracking-wider uppercase text-[#3a3a3a] hover:text-[#D3BC8D] bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
+                    {t('nav.events')}
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[300px] gap-2 p-4 bg-white border border-[#D3BC8D]/20">
+                      {eventos.map((evento) => (
+                        <li key={evento.href}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={evento.href}
+                              className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F1E7D9] text-[#3a3a3a]"
+                            >
+                              <div className="text-sm tracking-wide">
+                                {evento.name}
+                              </div>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
 
             <Link
               href="/cafeteria"
@@ -193,21 +242,37 @@ export function Navbar() {
                 ))}
               </div>
 
-              <Link
-                href="/navega-relax"
-                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('nav.navegaRelax')}
-              </Link>
+              <div className="space-y-3">
+                <p className="text-sm tracking-wider uppercase text-[#8C8C8C]">
+                  EXPERIENCIAS
+                </p>
+                {experiencias.map((experiencia) => (
+                  <Link
+                    key={experiencia.href}
+                    href={experiencia.href}
+                    className="block text-sm pl-4 text-[#3a3a3a]"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {experiencia.name}
+                  </Link>
+                ))}
+              </div>
 
-              <Link
-                href="/eventos"
-                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('nav.events')}
-              </Link>
+              <div className="space-y-3">
+                <p className="text-sm tracking-wider uppercase text-[#8C8C8C]">
+                  {t('nav.events')}
+                </p>
+                {eventos.map((evento) => (
+                  <Link
+                    key={evento.href}
+                    href={evento.href}
+                    className="block text-sm pl-4 text-[#3a3a3a]"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {evento.name}
+                  </Link>
+                ))}
+              </div>
 
               <Link
                 href="/cafeteria"

@@ -16,7 +16,7 @@ export default function HotTubs() {
       <section className="relative h-[80vh] min-h-[600px]">
         <div className="absolute inset-0">
           <img
-            src="/images/04_hottubs-hero.png"
+            src="/images/05_hottubs-hero.png"
             alt="Hot Tubs Cancagua"
             className="w-full h-full object-cover"
           />

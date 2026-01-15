@@ -68,7 +68,7 @@ export default function ClasesRegulares() {
       <section className="relative h-[70vh] min-h-[500px]">
         <div className="absolute inset-0">
           <img
-            src="/images/05_yoga-hero.webp"
+            src="/images/04_clases-hero.jpg"
             alt="Clases en Cancagua"
             className="w-full h-full object-cover"
           />

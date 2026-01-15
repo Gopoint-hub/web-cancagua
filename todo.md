@@ -691,3 +691,21 @@
 - [x] Corregir rutas de Masajes y Clases en el submenu de Servicios
 - [x] Asegurar que todos los enlaces funcionen correctamente
 - [ ] Verificar responsive en móvil
+
+
+## Reorganización del Menú - Opción A
+- [x] Cambiar "Navega Relax" a categoría "EXPERIENCIAS" en el menú
+- [x] Crear dropdown "EVENTOS" con dos opciones: Eventos Sociales y Eventos Empresas
+- [x] Crear landing "Coming Soon" para Eventos Sociales
+- [x] Enlazar "Eventos Empresas" a la sección B2B existente
+- [x] Corregir imágenes faltantes en Hot Tubs (usar imágenes existentes del proyecto)
+- [x] Corregir imágenes faltantes en Clases Regulares (usar imágenes existentes del proyecto)
+
+
+## Reorganización del Menú - Opción A
+- [x] Cambiar "Navega Relax" a categoría "EXPERIENCIAS" en el menú
+- [x] Crear dropdown "EVENTOS" con dos opciones: Eventos Sociales y Eventos Empresas
+- [x] Crear landing "Coming Soon" para Eventos Sociales
+- [x] Enlazar "Eventos Empresas" a la sección B2B existente
+- [x] Corregir imágenes faltantes en Hot Tubs (usar imágenes existentes del proyecto)
+- [x] Corregir imágenes faltantes en Clases Regulares (usar imágenes existentes del proyecto)
