@@ -817,3 +817,7 @@
 - [x] Crear landing Full Day Biopiscinas + Playa (8 hrs)
 - [x] Agregar enlaces en menú de navegación
 - [x] Probar enlaces de reserva de Skedu
+
+## Reorganización de Menú
+- [x] Mover Full Day Hot Tubs + Biopiscinas de Servicios a Experiencias
+- [x] Mover Full Day Biopiscinas + Playa de Servicios a Experiencias

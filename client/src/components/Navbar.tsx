@@ -26,12 +26,12 @@ export function Navbar() {
     { name: "Sauna Nativo", href: "/servicios/sauna" },
     { name: t('services.masajes.name'), href: "/masajes" },
     { name: t('services.clases.name'), href: "/clases" },
-    { name: "Full Day Hot Tubs + Biopiscinas", href: "/servicios/full-day-hot-tubs" },
-    { name: "Full Day Biopiscinas + Playa", href: "/servicios/full-day-biopiscinas" },
   ];
 
   const experiencias = [
     { name: "Navega Relax", href: "/navega-relax" },
+    { name: "Full Day Hot Tubs + Biopiscinas", href: "/servicios/full-day-hot-tubs" },
+    { name: "Full Day Biopiscinas + Playa", href: "/servicios/full-day-biopiscinas" },
   ];
 
   const eventos = [
