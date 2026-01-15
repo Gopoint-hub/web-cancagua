@@ -60,6 +60,7 @@ export const categories: Category[] = [
     color: "bg-emerald-500",
     items: [
       { icon: LayoutDashboard, label: "Resumen B2C", path: "/cms/b2c" },
+      { icon: Calendar, label: "Eventos", path: "/cms/b2c/eventos" },
       { icon: Package, label: "Servicios", path: "/cms/servicios" },
       { icon: UtensilsCrossed, label: "Carta", path: "/cms/carta" },
       { icon: CalendarCheck, label: "Reservas", path: "/cms/reservas" },

@@ -887,3 +887,6 @@
 - [x] Migrar Taller Wim Hof al sistema dinámico de eventos
 - [x] Migrar Heart Coherence Workshop al sistema dinámico de eventos
 - [ ] Eliminar páginas estáticas de eventos migrados (opcional, mantener como backup)
+
+## Corrección Enlace Eventos en CMS
+- [x] Corregir enlace del módulo Eventos en /cms/b2c para que aparezca en el menú lateral
