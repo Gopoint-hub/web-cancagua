@@ -875,3 +875,7 @@
 - [x] Actualizar horario Hatha Yoga Intenso: Lunes, Miércoles y viernes 8:30-9:45
 - [x] Actualizar horario Entrenamiento funcional & Animal Flow: Martes y jueves 8:30-9:30
 - [x] Actualizar horario Danza infantil: Miércoles 16:00-17:00
+
+
+## Cambio de Foto Clases Regulares
+- [x] Reemplazar imagen del hero de Clases Regulares por la nueva foto del yurta
