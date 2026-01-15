@@ -23,7 +23,7 @@ export function Navbar() {
   const servicios = [
     { name: t('services.biopiscinas.name'), href: "/servicios/biopiscinas" },
     { name: t('services.hotTubs.name'), href: "/servicios/hot-tubs" },
-    { name: t('services.sauna.name'), href: "/servicios/sauna" },
+    { name: "Sauna Nativo", href: "/servicios/sauna" },
     { name: t('services.masajes.name'), href: "/masajes" },
     { name: t('services.clases.name'), href: "/clases" },
   ];
@@ -195,14 +195,14 @@ export function Navbar() {
           {/* Selector de Idioma y Botón Reservar */}
           <div className="hidden md:flex items-center gap-4">
             <LanguageSelector />
-            <Link href="/servicios/biopiscinas">
+            <a href="https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw.." target="_blank" rel="noopener noreferrer">
               <Button 
                 size="lg" 
                 className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase text-sm"
               >
                 {t('nav.reserve')}
               </Button>
-            </Link>
+            </a>
           </div>
 
           {/* Menú Mobile */}
@@ -314,13 +314,15 @@ export function Navbar() {
                 <LanguageSelector />
               </div>
 
-              <Button
-                size="lg"
-                className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('nav.reserve')}
-              </Button>
+              <a href="https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw.." target="_blank" rel="noopener noreferrer">
+                <Button
+                  size="lg"
+                  className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {t('nav.reserve')}
+                </Button>
+              </a>
             </nav>
           </div>
         )}

@@ -802,3 +802,8 @@
 - [x] Agregar ruta /eventos/taller-wim-hof en App.tsx
 - [x] Agregar enlace destacado en menú EVENTOS del Navbar
 - [x] Optimizar para móvil
+
+
+## Correcciones Pendientes
+- [x] Corregir texto del menú de Sauna en Navbar (muestra "Name" en lugar de "Sauna")
+- [x] Actualizar enlace de reserva en botón BOOK NOW del header: https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw..
