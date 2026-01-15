@@ -731,3 +731,9 @@
 - [x] Formulario de cotización rápida con campos empresariales
 - [x] CTAs claros para solicitar cotización
 - [x] Optimizar para conversión B2B
+
+
+## Ajuste PDF de Cotización
+- [x] Reducir tamaño del número de cotización en esquina superior derecha del PDF
+- [x] Asegurar que no se superponga con el texto "COTIZACIÓN"
+- [x] Ajustar posición de fecha y válida hasta

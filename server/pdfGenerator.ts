@@ -55,15 +55,17 @@ export async function generateQuotePDF(data: QuoteData): Promise<Buffer> {
 
       // Número de cotización y fecha
       doc
-        .fontSize(18)
+        .fontSize(14)
         .fillColor("#4A5D23")
-        .text(`COTIZACIÓN ${data.quoteNumber}`, 350, 50, { align: "right" })
-        .fontSize(10)
+        .text("COTIZACIÓN", 350, 50, { align: "right" })
+        .fontSize(12)
         .fillColor("#666666")
-        .text(`Fecha: ${data.date}`, 350, 75, { align: "right" });
+        .text(data.quoteNumber, 350, 68, { align: "right" })
+        .fontSize(10)
+        .text(`Fecha: ${data.date}`, 350, 85, { align: "right" });
 
       if (data.validUntil) {
-        doc.text(`Válida hasta: ${data.validUntil}`, 350, 90, {
+        doc.text(`Válida hasta: ${data.validUntil}`, 350, 100, {
           align: "right",
         });
       }
