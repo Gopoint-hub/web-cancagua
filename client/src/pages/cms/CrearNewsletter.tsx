@@ -169,12 +169,13 @@ export default function CMSCrearNewsletter() {
     setChatMessages((prev) => [
       ...prev,
       { role: "user", content: designPrompt },
-      { role: "assistant", content: "Generando diseño..." },
+      { role: "assistant", content: "Generando diseño con imágenes de marca y generando imagen hero con IA..." },
     ]);
 
     generateDesignMutation.mutate({
       prompt: designPrompt,
       images: uploadedImages,
+      generateImages: true, // Generar imagen hero con IA automáticamente
     });
   };
 

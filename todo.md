@@ -569,3 +569,12 @@
 - [x] Corregir generación de imágenes en emails (la IA sigue inventando URLs)
 - [x] Actualizar links de redes sociales en Footer, emails y toda la web
 - [x] Configurar envío de cotizaciones B2B desde cotizacion@cancagua.cl con copia a eventos@cancagua.cl
+
+
+## Integración de Imágenes con IA en Newsletters
+
+- [ ] Crear endpoint para generar imágenes de newsletter con IA
+- [ ] Implementar subida automática de imágenes generadas a S3
+- [x] Modificar generateDesign para usar imágenes generadas reales
+- [x] Actualizar frontend del creador de newsletters con indicador de generación de imágenes
+- [ ] Probar flujo completo de generación de newsletter con imágenes

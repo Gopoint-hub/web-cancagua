@@ -1113,6 +1113,7 @@ export const appRouter = router({
       .input(z.object({
         prompt: z.string(),
         images: z.array(z.string()).optional(),
+        generateImages: z.boolean().optional().default(true),
       }))
       .mutation(async ({ ctx, input }) => {
         if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
@@ -1120,6 +1121,43 @@ export const appRouter = router({
         }
         
         const { invokeLLM } = await import("./_core/llm");
+        const { generateImage } = await import("./_core/imageGeneration");
+        const { getBrandImageUrls, BRAND_IMAGE_CATALOG } = await import("./upload-brand-images");
+        
+        // Obtener las URLs de imágenes de marca desde S3
+        const brandImages = getBrandImageUrls();
+        
+        // Paso 1: Generar imágenes adicionales con IA si se solicita
+        let generatedImageUrls: string[] = [];
+        
+        if (input.generateImages) {
+          try {
+            // Generar imagen hero basada en el prompt del usuario
+            const imagePrompt = `Fotografía profesional de alta calidad para email marketing de CANCAGUA, un spa y centro de retiro en el sur de Chile. La imagen debe transmitir serenidad, paz y conexión con la naturaleza. Estilo: elegante, cálido, tonos tierra y naturales. Contexto: ${input.prompt}. NO incluir texto ni logos en la imagen.`;
+            
+            const heroImage = await generateImage({ prompt: imagePrompt });
+            if (heroImage.url) {
+              generatedImageUrls.push(heroImage.url);
+            }
+          } catch (error) {
+            console.error('Error generando imagen:', error);
+            // Continuar sin imagen si falla la generación
+          }
+        }
+        
+        // Combinar imágenes proporcionadas con las generadas
+        const allImages = [...(input.images || []), ...generatedImageUrls];
+        
+        // Construir el catálogo de imágenes disponibles para el prompt
+        const imagesCatalog = BRAND_IMAGE_CATALOG.map(img => {
+          const url = brandImages[img.name] || '';
+          return `- ${img.name}: ${img.description} | URL: ${url}`;
+        }).join('\n');
+        
+        // Agregar imágenes generadas al catálogo
+        const generatedImagesList = generatedImageUrls.length > 0 
+          ? `\n\nIMÁGENES GENERADAS POR IA (usar como hero o imagen principal):\n${generatedImageUrls.map((url, i) => `- imagen_generada_${i + 1}: ${url}`).join('\n')}`
+          : '';
         
         // Construir el prompt para generar HTML de email con estilo de marca Cancagua
         const systemPrompt = `Eres un experto diseñador de emails HTML para CANCAGUA, un spa y centro de retiro en Frutillar, Chile. Crea emails profesionales que reflejen la identidad de marca: serenidad, paz y conexión con la naturaleza.
@@ -1164,15 +1202,19 @@ export const appRouter = router({
 4. CTA claro y visible
 5. Footer con información de contacto y redes sociales
 
-## IMÁGENES - INSTRUCCIONES IMPORTANTES
-NO incluyas imágenes en el email excepto el logo. Las imágenes serán agregadas manualmente por el usuario después.
+## CATÁLOGO DE IMÁGENES DE MARCA (URLs REALES - USAR ESTAS)
+Logo principal: ${brandImages.logo || 'No disponible'}
+Logo footer: ${brandImages.logoFooter || 'No disponible'}
 
-Para el logo de Cancagua, usa un placeholder de texto elegante en lugar de imagen:
-<div style="text-align: center; padding: 20px;">
-  <span style="font-family: 'Josefin Sans', Arial, sans-serif; font-size: 28px; font-weight: 300; letter-spacing: 4px; color: #D3BC8D;">CANCAGUA</span>
-  <br>
-  <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 12px; font-style: italic; color: #8C8C8C;">Spa & Retreat Center</span>
-</div>
+Imágenes disponibles:
+${imagesCatalog}${generatedImagesList}
+
+## INSTRUCCIONES PARA IMÁGENES
+1. SIEMPRE usa el logo real de la URL proporcionada arriba en el header del email
+2. Selecciona imágenes del catálogo según el contexto del email (ej: si es sobre spa, usa biopiscinas o masajes)
+3. Si hay imágenes generadas por IA, úsalas como imagen hero principal
+4. Usa las URLs EXACTAS proporcionadas, no inventes URLs
+5. Incluye alt text descriptivo en todas las imágenes
 
 ## REDES SOCIALES (URLs REALES)
 - Instagram: https://www.instagram.com/cancaguachile/
