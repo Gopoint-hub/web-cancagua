@@ -879,3 +879,14 @@
 
 ## Cambio de Foto Clases Regulares
 - [x] Reemplazar imagen del hero de Clases Regulares por la nueva foto del yurta
+
+
+## Corrección Imagen Clases Regulares (v2)
+- [x] Reemplazar correctamente la imagen con la foto del yurta
+- [x] Verificar que se muestre en producción (requiere publicar)
+
+## Implementar Formulario de Reserva
+- [x] Crear componente de formulario de reserva
+- [x] Agregar campos: Nombre, Email, Teléfono, Clase
+- [x] Integrar con WhatsApp para enviar reservas
+- [x] Mostrar confirmación al usuario

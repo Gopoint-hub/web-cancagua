@@ -4,6 +4,7 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock, Users, Sparkles } from "lucide-react";
+import { ReservaClasesForm } from "@/components/ReservaClasesForm";
 
 interface ClassInfo {
   name: string;
@@ -235,6 +236,18 @@ export default function ClasesRegulares() {
               CONSULTAR POR WHATSAPP
             </Button>
           </a>
+        </div>
+      </section>
+
+      {/* Formulario de Reserva */}
+      <section className="py-20 bg-white">
+        <div className="container max-w-2xl">
+          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] text-center mb-12">
+            Reserva tu clase directamente
+          </h2>
+          <ReservaClasesForm 
+            classes={classes.map(c => ({ name: c.name, subtitle: c.subtitle }))}
+          />
         </div>
       </section>
 
