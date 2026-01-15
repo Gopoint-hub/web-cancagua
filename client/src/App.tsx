@@ -21,6 +21,7 @@ import CMSNewsletter from "./pages/cms/Newsletter";
 import CMSCrearNewsletter from "./pages/cms/CrearNewsletter";
 import CMSSuscriptores from "./pages/cms/Suscriptores";
 import CMSListas from "./pages/cms/Listas";
+import CMSCodigosDescuento from "./pages/cms/CodigosDescuento";
 import CMSAnalytics from "./pages/cms/Analytics";
 import CMSConfiguracion from "./pages/cms/Configuracion";
 import CMSCRMPipeline from "./pages/cms/CRMPipeline";
@@ -80,6 +81,7 @@ function Router() {
       <Route path={"/cms/crear-newsletter"} component={CMSCrearNewsletter} />
       <Route path={"/cms/suscriptores"} component={CMSSuscriptores} />
       <Route path={"/cms/listas"} component={CMSListas} />
+      <Route path={"/cms/codigos-descuento"} component={CMSCodigosDescuento} />
       <Route path={"/cms/analytics"} component={CMSAnalytics} />
       <Route path={"/cms/configuracion"} component={CMSConfiguracion} />
       <Route path={"/cms/crm-pipeline"} component={CMSCRMPipeline} />

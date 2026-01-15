@@ -646,11 +646,12 @@
 
 
 ## Módulo de Códigos de Descuento
-- [ ] Crear tabla discountCodes en base de datos
-- [ ] Campos: código, tipo (porcentaje/monto), valor, usos máximos, usos actuales, usuario asignado, fecha expiración, servicios aplicables
-- [ ] Crear endpoints CRUD para códigos de descuento
-- [ ] Crear página de gestión en CMS Marketing
-- [ ] Validación de códigos en proceso de reserva
+- [x] Crear tabla discountCodes en base de datos
+- [x] Campos: código, tipo (porcentaje/monto), valor, usos máximos, usos actuales, usuario asignado, fecha expiración, servicios aplicables
+- [x] Crear endpoints CRUD para códigos de descuento
+- [x] Crear página de gestión en CMS Marketing (Códigos Dcto.)
+- [x] Agregar enlace en navegación de Marketing
+- [ ] Validación de códigos en proceso de reserva (pendiente integración)
 
 ## Mejoras en Gift Cards
 - [ ] Agregar múltiples imágenes de fondo seleccionables

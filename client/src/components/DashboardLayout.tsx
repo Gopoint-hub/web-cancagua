@@ -25,7 +25,7 @@ import {
   LayoutDashboard, LogOut, PanelLeft, Users, Calendar, Mail, BarChart3, 
   FileText, MessageSquare, Package, Newspaper, Settings, Store, Briefcase,
   TrendingUp, Shield, Megaphone, ChevronDown, Home, UtensilsCrossed, 
-  CalendarCheck, UserCheck, Kanban, ListChecks, MailPlus, UsersRound
+  CalendarCheck, UserCheck, Kanban, ListChecks, MailPlus, UsersRound, Tag
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState, createContext, useContext } from "react";
 import { useLocation, Link } from "wouter";
@@ -92,6 +92,7 @@ export const categories: Category[] = [
       { icon: MailPlus, label: "Crear Newsletter", path: "/cms/crear-newsletter" },
       { icon: UsersRound, label: "Suscriptores", path: "/cms/suscriptores" },
       { icon: ListChecks, label: "Listas", path: "/cms/listas" },
+      { icon: Tag, label: "Códigos Dcto.", path: "/cms/codigos-descuento" },
     ],
   },
   {
