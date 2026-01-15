@@ -193,12 +193,14 @@ export function Navbar() {
           {/* Selector de Idioma y Botón Reservar */}
           <div className="hidden md:flex items-center gap-4">
             <LanguageSelector />
-            <Button 
-              size="lg" 
-              className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase text-sm"
-            >
-              {t('nav.reserve')}
-            </Button>
+            <Link href="/servicios/biopiscinas">
+              <Button 
+                size="lg" 
+                className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase text-sm"
+              >
+                {t('nav.reserve')}
+              </Button>
+            </Link>
           </div>
 
           {/* Menú Mobile */}

@@ -746,3 +746,34 @@
 - [x] Agregar scroll al contenedor de mensajes de IA en CrearNewsletter
 - [x] Asegurar que la conversación se mantenga dentro del cuadro
 - [x] Scroll automático al último mensaje (ya existía con chatEndRef)
+
+
+## Pendientes Futuros
+
+### Pasarela de Pago
+- [ ] Integrar pasarela de pago real (Flow, Transbank, o Mercado Pago)
+- [ ] Reemplazar sistema de compra simulada de gift cards con pago real
+- [ ] Configurar webhooks para confirmación de pagos
+- [ ] Implementar manejo de estados de pago (pendiente, aprobado, rechazado, reembolso)
+
+### Galería Eventos Corporativos
+- [ ] Agregar galería de fotos de eventos corporativos en landing de Eventos Empresas
+- [ ] Incluir testimonios reales de clientes B2B con resultados medibles
+- [ ] Agregar logos de empresas que han realizado eventos en Cancagua
+- [ ] Crear casos de éxito con métricas de satisfacción
+
+### Sistema de Reservas Integrado
+- [ ] Implementar sistema de reservas integrado en el sitio web
+- [ ] Permitir aplicar códigos de descuento en el proceso de booking
+- [ ] Permitir aplicar gift cards como método de pago en reservas
+- [ ] Integrar con calendario de disponibilidad
+- [ ] Enviar confirmaciones automáticas por email y WhatsApp
+
+
+## Correcciones y Mejoras Inmediatas
+- [x] Corregir botón "BOOK NOW" del header para que redirija a página de reservas funcional
+- [x] Agregar invitación al grupo de WhatsApp de Cancagua (https://chat.whatsapp.com/GX12Kr6Q6jSDvBUfVrloNy) en:
+  - [x] Footer del sitio
+  - [x] Página de contacto
+  - [x] Banner en home
+  - [x] Confirmación de compra de gift cards
