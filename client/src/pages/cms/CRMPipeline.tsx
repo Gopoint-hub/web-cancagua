@@ -219,8 +219,9 @@ export default function CRMPipeline() {
                           draggable
                           onDragStart={(e) => handleDragStart(e, quote)}
                           onDragEnd={handleDragEnd}
+                          onClick={() => setSelectedQuote(quote)}
                           className={cn(
-                            "cursor-grab active:cursor-grabbing hover:shadow-md transition-all",
+                            "cursor-pointer hover:shadow-md transition-all",
                             draggedQuote?.id === quote.id && "opacity-50 scale-95"
                           )}
                         >
@@ -234,7 +235,12 @@ export default function CRMPipeline() {
                               </div>
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="h-6 w-6">
+                                  <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    className="h-6 w-6"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
                                     <MoreHorizontal className="h-3 w-3" />
                                   </Button>
                                 </DropdownMenuTrigger>

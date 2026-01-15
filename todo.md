@@ -837,3 +837,8 @@
 - [x] Actualizar sección Sistema de Reservas con Coming Soon (badge amarillo)
 - [x] Actualizar sección Servicios con Coming Soon (badge amarillo)
 - [x] Actualizar sección Clientes con Coming Soon (badge amarillo)
+
+## CRM Pipeline - Mejoras
+- [x] Agregar total de presupuesto en las tarjetas del pipeline (ya existía)
+- [x] Hacer tarjetas clickeables para ver detalle de cotización
+- [x] Permitir editar cotización desde el detalle (botón en modal)
