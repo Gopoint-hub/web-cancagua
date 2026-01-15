@@ -26,6 +26,7 @@ export default function CMSB2C() {
       icon: Package,
       path: "/cms/servicios",
       color: "bg-emerald-500",
+      comingSoon: true,
     },
     {
       title: "Carta",
@@ -41,6 +42,7 @@ export default function CMSB2C() {
       path: "/cms/reservas",
       color: "bg-blue-500",
       badge: pendingBookings > 0 ? `${pendingBookings} pendientes` : undefined,
+      comingSoon: true,
     },
     {
       title: "Mensajes",
@@ -56,6 +58,7 @@ export default function CMSB2C() {
       icon: Users,
       path: "/cms/clientes",
       color: "bg-pink-500",
+      comingSoon: true,
     },
   ];
 
@@ -122,20 +125,29 @@ export default function CMSB2C() {
           {modules.map((module) => (
             <Card 
               key={module.path}
-              className="cursor-pointer hover:shadow-md transition-all group"
-              onClick={() => setLocation(module.path)}
+              className={`transition-all group ${module.comingSoon ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:shadow-md'}`}
+              onClick={() => !module.comingSoon && setLocation(module.path)}
             >
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${module.color}`}>
                     <module.icon className="h-5 w-5 text-white" />
                   </div>
-                  <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                  {!module.comingSoon && (
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                  )}
                 </div>
-                <CardTitle className="text-lg">{module.title}</CardTitle>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  {module.title}
+                  {module.comingSoon && (
+                    <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-normal">
+                      Coming Soon
+                    </span>
+                  )}
+                </CardTitle>
                 <CardDescription>{module.description}</CardDescription>
               </CardHeader>
-              {module.badge && (
+              {module.badge && !module.comingSoon && (
                 <CardContent className="pt-0">
                   <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
                     {module.badge}

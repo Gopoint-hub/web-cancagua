@@ -831,3 +831,9 @@
 ## Actualizar Número de Teléfono
 - [x] Buscar todas las ocurrencias de +56 9 8819 0248
 - [x] Reemplazar por +56 9 4007 3999 en todos los archivos (WhatsAppButton, ClasesRegulares, Contacto, Servicios)
+
+## CMS - Coming Soon
+- [x] Actualizar sección B2C con Coming Soon
+- [x] Actualizar sección Sistema de Reservas con Coming Soon (badge amarillo)
+- [x] Actualizar sección Servicios con Coming Soon (badge amarillo)
+- [x] Actualizar sección Clientes con Coming Soon (badge amarillo)
