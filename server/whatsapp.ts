@@ -112,6 +112,44 @@ _Notificación automática de cancagua.cl_`;
 }
 
 /**
+ * Genera un mensaje para compartir gift card por WhatsApp
+ */
+export function formatGiftCardShareMessage(data: {
+  code: string;
+  amount: number;
+  recipientName?: string;
+  senderName?: string;
+  pdfUrl?: string;
+}): string {
+  const amountFormatted = new Intl.NumberFormat("es-CL", {
+    style: "currency",
+    currency: "CLP",
+    minimumFractionDigits: 0,
+  }).format(data.amount);
+  
+  let message = `🎁 *¡Te han enviado una Gift Card de Cancagua!*\n\n`;
+  
+  if (data.senderName) {
+    message += `De: ${data.senderName}\n`;
+  }
+  if (data.recipientName) {
+    message += `Para: ${data.recipientName}\n`;
+  }
+  
+  message += `\n💵 Monto: ${amountFormatted}\n`;
+  message += `🎫 Código: ${data.code}\n\n`;
+  
+  if (data.pdfUrl) {
+    message += `📎 Descarga tu gift card: ${data.pdfUrl}\n\n`;
+  }
+  
+  message += `Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Center.\n\n`;
+  message += `🌍 Reserva en: https://cancagua.cl`;
+  
+  return message;
+}
+
+/**
  * Información del WhatsApp de Cancagua
  */
 export const WHATSAPP_INFO = {

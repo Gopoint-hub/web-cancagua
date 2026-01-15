@@ -654,10 +654,12 @@
 - [ ] Validación de códigos en proceso de reserva (pendiente integración)
 
 ## Mejoras en Gift Cards
-- [ ] Agregar múltiples imágenes de fondo seleccionables
-- [ ] Opción de enviar gift card a WhatsApp
-- [ ] Opción de descargar gift card en PDF
-- [ ] Sistema de compra simulada para pruebas
+- [x] Crear galería de imágenes de fondo para gift cards (5 opciones disponibles)
+- [x] Implementar generación de PDF con imagen de fondo seleccionada
+- [x] Agregar botón de descarga de PDF en confirmación de compra
+- [x] Implementar botón de envío a WhatsApp con enlace de descarga
+- [x] Actualizar interfaz de compra con selector de imágenes (5 diseños disponibles)
+- [x] Sistema de compra simulada para pruebas (ya existía)
 
 
 ## Sistema de Formularios con Notificaciones

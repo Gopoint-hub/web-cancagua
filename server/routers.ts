@@ -2118,13 +2118,40 @@ Devuelve un JSON con este formato:
     getBackgroundImages: publicProcedure
       .query(async () => {
         return [
-          { id: "spa", name: "Spa & Relax", url: "/images/giftcard-spa.jpg" },
-          { id: "nature", name: "Naturaleza", url: "/images/giftcard-nature.jpg" },
-          { id: "massage", name: "Masajes", url: "/images/giftcard-massage.jpg" },
-          { id: "pool", name: "Biopiscinas", url: "/images/giftcard-pool.jpg" },
-          { id: "elegant", name: "Elegante", url: "/images/giftcard-elegant.jpg" },
-          { id: "default", name: "Clásico", url: "/images/giftcard-default.jpg" },
+          { id: "spa-green", name: "Spa Verde", url: "/images/giftcard-backgrounds/spa-green.jpg" },
+          { id: "spa-pink", name: "Spa Rosa", url: "/images/giftcard-backgrounds/spa-pink.jpg" },
+          { id: "wellness-nature", name: "Naturaleza", url: "/images/giftcard-backgrounds/wellness-nature.jpg" },
+          { id: "spa-stones", name: "Piedras", url: "/images/giftcard-backgrounds/spa-stones.jpg" },
+          { id: "spa-elegant", name: "Elegante", url: "/images/giftcard-backgrounds/spa-elegant.jpg" },
         ];
+      }),
+
+    // Generar PDF de gift card
+    generatePDF: publicProcedure
+      .input(z.object({
+        giftCardId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        const giftCard = await db.getGiftCardById(input.giftCardId);
+        if (!giftCard) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Gift card no encontrada" });
+        }
+
+        const { generateGiftCardPDF } = await import("./giftcardPdfGenerator");
+        const pdfBuffer = await generateGiftCardPDF({
+          amount: giftCard.amount,
+          recipientName: giftCard.recipientName || "Destinatario",
+          recipientEmail: giftCard.recipientEmail || "",
+          message: giftCard.personalMessage || undefined,
+          backgroundImage: giftCard.backgroundImage || "/images/giftcard-backgrounds/spa-green.jpg",
+          code: giftCard.code,
+        });
+
+        // Convertir buffer a base64 para enviar al cliente
+        return {
+          pdf: pdfBuffer.toString("base64"),
+          filename: `giftcard-${giftCard.code}.pdf`,
+        };
       }),
   }),
 });

@@ -7,15 +7,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Check, Gift, Heart, Mail } from "lucide-react";
+import { Check, Gift, Download, Share2, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { trpc } from "@/lib/trpc";
+
 
 export default function GiftCards() {
+
   const [montoSeleccionado, setMontoSeleccionado] = useState<string>("50000");
   const [montoPersonalizado, setMontoPersonalizado] = useState<string>("");
   const [mensaje, setMensaje] = useState<string>("");
   const [nombreDestinatario, setNombreDestinatario] = useState<string>("");
   const [emailDestinatario, setEmailDestinatario] = useState<string>("");
+  const [nombreRemitente, setNombreRemitente] = useState<string>("");
+  const [backgroundImageId, setBackgroundImageId] = useState<string>("spa-green");
+  const [compraExitosa, setCompraExitosa] = useState(false);
+  const [giftCardId, setGiftCardId] = useState<number | null>(null);
+
+  const { data: backgroundImages } = trpc.giftCards.getBackgroundImages.useQuery();
+  const createGiftCard = trpc.giftCards.create.useMutation();
+  const simulatePurchase = trpc.giftCards.simulatePurchase.useMutation();
+  const generatePDF = trpc.giftCards.generatePDF.useMutation();
 
   const montosPredefin_idos = [
     { valor: "30000", label: "$30.000" },
@@ -47,6 +59,211 @@ export default function GiftCards() {
       currency: "CLP",
     }).format(valor);
   };
+
+  const handleComprar = async () => {
+    const amount = getMontoFinal();
+    if (amount < 10000) {
+      alert("El monto mínimo es $10.000");
+      return;
+    }
+
+    if (!nombreDestinatario || !emailDestinatario) {
+      alert("Por favor completa todos los campos requeridos");
+      return;
+    }
+
+    try {
+      // Crear gift card
+      const createResult = await createGiftCard.mutateAsync({
+        amount,
+        backgroundImage: backgroundImages?.find((img) => img.id === backgroundImageId)?.url || "",
+        recipientName: nombreDestinatario,
+        recipientEmail: emailDestinatario,
+        senderName: nombreRemitente || undefined,
+        personalMessage: mensaje || undefined,
+      });
+
+      if (!createResult.giftCard) {
+        throw new Error("No se pudo crear la gift card");
+      }
+
+      // Simular compra (sin pasarela de pago)
+      await simulatePurchase.mutateAsync({
+        giftCardId: createResult.giftCard.id,
+      });
+
+      setGiftCardId(createResult.giftCard.id);
+      setCompraExitosa(true);
+
+      alert("¡Gift Card creada exitosamente!");
+    } catch (error) {
+      alert("No se pudo crear la gift card. Intenta nuevamente.");
+    }
+  };
+
+  const handleDescargarPDF = async () => {
+    if (!giftCardId) return;
+
+    try {
+      const result = await generatePDF.mutateAsync({ giftCardId });
+      
+      // Convertir base64 a blob y descargar
+      const byteCharacters = atob(result.pdf);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "application/pdf" });
+      
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = result.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      // PDF descargado exitosamente
+    } catch (error) {
+      alert("No se pudo descargar el PDF. Intenta nuevamente.");
+    }
+  };
+
+  const handleCompartirWhatsApp = () => {
+    const amount = getMontoFinal();
+    const message = `🎁 ¡Te han enviado una Gift Card de Cancagua!
+
+${nombreRemitente ? `De: ${nombreRemitente}` : ""}
+${nombreDestinatario ? `Para: ${nombreDestinatario}` : ""}
+
+💵 Monto: ${formatPrecio(amount)}
+
+${mensaje ? `💬 Mensaje: "${mensaje}"` : ""}
+
+Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Center.
+
+🌍 Reserva en: https://cancagua.cl`;
+
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  const selectedBackgroundImage = backgroundImages?.find((img) => img.id === backgroundImageId);
+
+  if (compraExitosa) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+
+        <main className="flex-1 py-16 md:py-24">
+          <div className="container max-w-2xl">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-4">
+                <Check className="h-8 w-8" />
+              </div>
+              <h1 className="text-3xl font-bold mb-2">¡Gift Card Creada!</h1>
+              <p className="text-muted-foreground">
+                Tu gift card ha sido generada exitosamente
+              </p>
+            </div>
+
+            <Card>
+              <CardContent className="pt-6 space-y-4">
+                {/* Preview de la gift card */}
+                <div className="relative h-64 rounded-lg overflow-hidden">
+                  {selectedBackgroundImage && (
+                    <img
+                      src={selectedBackgroundImage.url}
+                      alt="Gift Card"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/30 p-8 flex flex-col justify-between text-white">
+                    <div>
+                      <img
+                        src="/images/01_logo-cancagua.png"
+                        alt="Cancagua"
+                        className="h-12 w-auto mb-4 brightness-0 invert"
+                      />
+                      <p className="text-sm opacity-90">Gift Card</p>
+                    </div>
+                    <div>
+                      <p className="text-4xl font-bold">
+                        {formatPrecio(getMontoFinal())}
+                      </p>
+                      {nombreDestinatario && (
+                        <p className="text-sm mt-2">Para: {nombreDestinatario}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {mensaje && (
+                  <div className="p-4 bg-muted rounded-lg">
+                    <p className="text-sm text-muted-foreground italic">
+                      "{mensaje}"
+                    </p>
+                  </div>
+                )}
+
+                <div className="space-y-3">
+                  <Button
+                    size="lg"
+                    className="w-full"
+                    onClick={handleDescargarPDF}
+                    disabled={generatePDF.isPending}
+                  >
+                    {generatePDF.isPending ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Generando PDF...
+                      </>
+                    ) : (
+                      <>
+                        <Download className="mr-2 h-4 w-4" />
+                        Descargar PDF
+                      </>
+                    )}
+                  </Button>
+
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleCompartirWhatsApp}
+                  >
+                    <Share2 className="mr-2 h-4 w-4" />
+                    Compartir por WhatsApp
+                  </Button>
+
+                  <Button
+                    size="lg"
+                    variant="ghost"
+                    className="w-full"
+                    onClick={() => {
+                      setCompraExitosa(false);
+                      setGiftCardId(null);
+                      setMensaje("");
+                      setNombreDestinatario("");
+                      setEmailDestinatario("");
+                      setNombreRemitente("");
+                    }}
+                  >
+                    Crear otra Gift Card
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </main>
+
+        <Footer />
+        <WhatsAppButton />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -99,6 +316,41 @@ export default function GiftCards() {
                 </h2>
 
                 <div className="space-y-6">
+                  {/* Selección de diseño */}
+                  {backgroundImages && backgroundImages.length > 0 && (
+                    <div>
+                      <Label className="text-base font-semibold mb-3 block">
+                        Selecciona el diseño
+                      </Label>
+                      <RadioGroup
+                        value={backgroundImageId}
+                        onValueChange={setBackgroundImageId}
+                        className="grid grid-cols-2 md:grid-cols-3 gap-4"
+                      >
+                        {backgroundImages.map((image) => (
+                          <div key={image.id}>
+                            <RadioGroupItem
+                              value={image.id}
+                              id={image.id}
+                              className="peer sr-only"
+                            />
+                            <Label
+                              htmlFor={image.id}
+                              className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-popover p-2 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer overflow-hidden"
+                            >
+                              <img
+                                src={image.url}
+                                alt={image.name}
+                                className="w-full h-24 object-cover rounded mb-2"
+                              />
+                              <span className="text-xs">{image.name}</span>
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </div>
+                  )}
+
                   {/* Selección de monto */}
                   <div>
                     <Label className="text-base font-semibold mb-3 block">
@@ -147,22 +399,36 @@ export default function GiftCards() {
                     )}
                   </div>
 
+                  {/* Datos del remitente */}
+                  <div>
+                    <Label htmlFor="nombre-remitente">
+                      Tu nombre (opcional)
+                    </Label>
+                    <Input
+                      id="nombre-remitente"
+                      placeholder="Ej: Juan Pérez"
+                      value={nombreRemitente}
+                      onChange={(e) => setNombreRemitente(e.target.value)}
+                    />
+                  </div>
+
                   {/* Datos del destinatario */}
                   <div>
                     <Label htmlFor="nombre-destinatario">
-                      Nombre del destinatario
+                      Nombre del destinatario *
                     </Label>
                     <Input
                       id="nombre-destinatario"
                       placeholder="Ej: María González"
                       value={nombreDestinatario}
                       onChange={(e) => setNombreDestinatario(e.target.value)}
+                      required
                     />
                   </div>
 
                   <div>
                     <Label htmlFor="email-destinatario">
-                      Email del destinatario
+                      Email del destinatario *
                     </Label>
                     <Input
                       id="email-destinatario"
@@ -170,6 +436,7 @@ export default function GiftCards() {
                       placeholder="maria@ejemplo.com"
                       value={emailDestinatario}
                       onChange={(e) => setEmailDestinatario(e.target.value)}
+                      required
                     />
                     <p className="text-xs text-muted-foreground mt-1">
                       La gift card será enviada a este correo
@@ -193,12 +460,24 @@ export default function GiftCards() {
                   </div>
 
                   {/* Botón de compra */}
-                  <Button size="lg" className="w-full" disabled={!getMontoFinal()}>
-                    Comprar Gift Card
+                  <Button
+                    size="lg"
+                    className="w-full"
+                    disabled={!getMontoFinal() || createGiftCard.isPending || simulatePurchase.isPending}
+                    onClick={handleComprar}
+                  >
+                    {createGiftCard.isPending || simulatePurchase.isPending ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Procesando...
+                      </>
+                    ) : (
+                      "Comprar Gift Card"
+                    )}
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center">
-                    Serás redirigido a la pasarela de pago segura
+                    Compra simulada para pruebas (sin pasarela de pago)
                   </p>
                 </div>
               </div>
@@ -207,24 +486,33 @@ export default function GiftCards() {
               <div className="space-y-6">
                 {/* Preview de la gift card */}
                 <Card className="overflow-hidden">
-                  <div className="relative h-64 bg-gradient-to-br from-primary to-secondary p-8 flex flex-col justify-between text-white">
-                    <div>
+                  <div className="relative h-64">
+                    {selectedBackgroundImage && (
                       <img
-                        src="/images/01_logo-cancagua.png"
-                        alt="Cancagua"
-                        className="h-12 w-auto mb-4 brightness-0 invert"
+                        src={selectedBackgroundImage.url}
+                        alt="Gift Card Preview"
+                        className="absolute inset-0 w-full h-full object-cover"
                       />
-                      <p className="text-sm opacity-90">Gift Card</p>
-                    </div>
-                    <div>
-                      <p className="text-4xl font-bold">
-                        {getMontoFinal() > 0
-                          ? formatPrecio(getMontoFinal())
-                          : "$0"}
-                      </p>
-                      {nombreDestinatario && (
-                        <p className="text-sm mt-2">Para: {nombreDestinatario}</p>
-                      )}
+                    )}
+                    <div className="absolute inset-0 bg-black/30 p-8 flex flex-col justify-between text-white">
+                      <div>
+                        <img
+                          src="/images/01_logo-cancagua.png"
+                          alt="Cancagua"
+                          className="h-12 w-auto mb-4 brightness-0 invert"
+                        />
+                        <p className="text-sm opacity-90">Gift Card</p>
+                      </div>
+                      <div>
+                        <p className="text-4xl font-bold">
+                          {getMontoFinal() > 0
+                            ? formatPrecio(getMontoFinal())
+                            : "$0"}
+                        </p>
+                        {nombreDestinatario && (
+                          <p className="text-sm mt-2">Para: {nombreDestinatario}</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                   {mensaje && (
@@ -251,18 +539,20 @@ export default function GiftCards() {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">
-                        Costo de envío:
+                      <span className="text-muted-foreground">Diseño:</span>
+                      <span className="font-semibold">
+                        {selectedBackgroundImage?.name || "Clásico"}
                       </span>
-                      <span className="font-semibold text-primary">Gratis</span>
                     </div>
-                    <div className="pt-4 border-t flex justify-between">
-                      <span className="font-semibold">Total:</span>
-                      <span className="font-bold text-xl">
-                        {getMontoFinal() > 0
-                          ? formatPrecio(getMontoFinal())
-                          : "$0"}
-                      </span>
+                    <div className="pt-4 border-t">
+                      <div className="flex justify-between text-lg font-bold">
+                        <span>Total:</span>
+                        <span>
+                          {getMontoFinal() > 0
+                            ? formatPrecio(getMontoFinal())
+                            : "$0"}
+                        </span>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -275,103 +565,14 @@ export default function GiftCards() {
                   <CardContent>
                     <ul className="space-y-2">
                       {beneficios.map((beneficio, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm">
-                          <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                          <span className="text-muted-foreground">
-                            {beneficio}
-                          </span>
+                        <li key={index} className="flex items-start gap-2">
+                          <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                          <span className="text-sm">{beneficio}</span>
                         </li>
                       ))}
                     </ul>
                   </CardContent>
                 </Card>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Cómo funciona */}
-        <section className="py-16 bg-muted">
-          <div className="container">
-            <h2 className="text-3xl font-bold mb-12 text-center">
-              ¿Cómo Funciona?
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <Gift className="h-8 w-8 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">1. Personaliza</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Elige el monto y escribe un mensaje especial
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <Mail className="h-8 w-8 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">2. Envío</h3>
-                  <p className="text-sm text-muted-foreground">
-                    El destinatario recibe la gift card por email
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <Heart className="h-8 w-8 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">3. Disfruta</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Puede usarla en cualquier servicio de Cancagua
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Términos */}
-        <section className="py-16">
-          <div className="container">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-2xl font-bold mb-6">Términos y Condiciones</h2>
-              <div className="prose prose-sm text-muted-foreground">
-                <ul className="space-y-2">
-                  <li>
-                    Las gift cards tienen una validez de 1 año desde la fecha de
-                    compra
-                  </li>
-                  <li>
-                    Pueden ser utilizadas en cualquier servicio de Cancagua:
-                    biopiscinas, hot tubs, masajes, clases, eventos y cafetería
-                  </li>
-                  <li>
-                    Son transferibles a otra persona sin costo adicional
-                  </li>
-                  <li>No son reembolsables ni canjeables por dinero en efectivo</li>
-                  <li>
-                    Si el monto de la compra es menor al valor de la gift card,
-                    el saldo restante queda disponible para futuras compras
-                  </li>
-                  <li>
-                    Si el monto de la compra es mayor, la diferencia debe pagarse
-                    con otro medio de pago
-                  </li>
-                  <li>
-                    La gift card será enviada al email del destinatario en un
-                    plazo máximo de 24 horas
-                  </li>
-                  <li>
-                    Para reservar con gift card, contactar directamente a Cancagua
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
