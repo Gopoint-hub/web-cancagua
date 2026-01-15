@@ -38,6 +38,8 @@ import Contacto from "./pages/Contacto";
 import Nosotros from "./pages/Nosotros";
 import Carta from "./pages/Carta";
 import NavegaRelax from "./pages/NavegaRelax";
+import Masajes from "./pages/Masajes";
+import ClasesRegulares from "./pages/ClasesRegulares";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -55,6 +57,8 @@ function Router() {
       <Route path={"/nosotros"} component={Nosotros} />
       <Route path={"/carta"} component={Carta} />
       <Route path={"/navega-relax"} component={NavegaRelax} />
+      <Route path={"/masajes"} component={Masajes} />
+      <Route path={"/clases"} component={ClasesRegulares} />
       <Route path={"/cms"} component={CMSDashboard} />
       <Route path={"/cms/usuarios"} component={CMSUsuarios} />
       <Route path={"/cms/carta"} component={CMSCarta} />

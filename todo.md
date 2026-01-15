@@ -587,3 +587,38 @@
 - [x] Agregar botón "Enviar Ahora" en CrearNewsletter
 - [ ] Actualizar página Newsletter.tsx con pestañas (Borradores, Enviados)
 - [ ] Filtrar newsletters por estado en cada pestaña
+
+
+## Landing Hot Tubs y TikTok (14 Enero 2026)
+
+### Redes Sociales
+- [ ] Agregar TikTok (@cancaguafrutillar) al Footer
+- [ ] Agregar TikTok a los prompts de generación de emails
+
+### Landing Page Hot Tubs
+- [ ] Crear página HotTubs.tsx optimizada para conversión
+- [ ] Incluir hero con imagen impactante y CTA de reserva
+- [ ] Agregar sección de beneficios/características
+- [ ] Incluir galería de imágenes
+- [ ] Agregar sección de precios y horarios
+- [ ] Incluir testimonios o reseñas
+- [ ] Agregar múltiples CTAs de reserva (enlace: https://reservas.cancagua.cl/cancaguaspa/s/f4975ff2-fd9c-4519-8103-97d6f75108bf)
+- [ ] Optimizar para móvil
+
+### Landing Page Masajes y Terapias
+- [x] Crear página Masajes.tsx optimizada para conversión
+- [x] Incluir hero con imagen impactante y CTA de reserva
+- [x] Agregar listado de todos los tipos de masajes con precios
+- [x] Incluir descripción de cada servicio
+- [x] Agregar múltiples CTAs de reserva (enlace: https://reservas.cancagua.cl/cancaguaspa/s/502a130d-2e50-472a-aabc-a7917d5b5fbe)
+- [x] Optimizar para móvil
+
+### Landing Page Clases Regulares
+- [x] Crear página ClasesRegulares.tsx optimizada para conversión
+- [x] Incluir hero con imagen impactante
+- [x] Agregar cards para cada clase:
+  - Hatha Yoga Moderado/Intenso (https://reservas.cancagua.cl/cancaguaspa/s/7be8a0f0-1b7a-4b7a-819f-9fe38d26bca7)
+  - Hatha Yoga Suave (https://reservas.cancagua.cl/cancaguaspa/s/f57b8d75-45e8-4811-b705-1a72637a1a50)
+  - Danza Infantil (https://reservas.cancagua.cl/cancaguaspa/s/07228efe-177c-429c-89a0-676277abbdff)
+  - Entrenamiento Funcional & Animal Flow (https://reservas.cancagua.cl/cancaguaspa/s/3a52ff0c-89cb-48cb-b2e5-f1395a6daf71)
+- [x] Optimizar para móvil
