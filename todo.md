@@ -578,3 +578,12 @@
 - [x] Modificar generateDesign para usar imágenes generadas reales
 - [x] Actualizar frontend del creador de newsletters con indicador de generación de imágenes
 - [ ] Probar flujo completo de generación de newsletter con imágenes
+
+
+## Simplificación Sistema de Newsletters
+
+- [x] Eliminar opción de programar envío en CrearNewsletter
+- [ ] Agregar botón "Guardar como Borrador" en CrearNewsletter
+- [x] Agregar botón "Enviar Ahora" en CrearNewsletter
+- [ ] Actualizar página Newsletter.tsx con pestañas (Borradores, Enviados)
+- [ ] Filtrar newsletters por estado en cada pestaña

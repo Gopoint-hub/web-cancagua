@@ -16,7 +16,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 export default function CMSNewsletter() {
   const { user, loading: authLoading } = useAuth();
   const [, navigate] = useLocation();
-  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState<"drafts" | "sent">("drafts");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [previewNewsletter, setPreviewNewsletter] = useState<any>(null);
@@ -88,12 +88,14 @@ export default function CMSNewsletter() {
     );
   }
 
-  // Filtrar newsletters
+  // Filtrar newsletters por pestaña
   const filteredNewsletters = newsletters?.filter((newsletter: any) => {
-    const matchesStatus = statusFilter === "all" || newsletter.status === statusFilter;
+    const matchesTab = activeTab === "drafts" 
+      ? newsletter.status === "draft" 
+      : newsletter.status === "sent";
     const matchesSearch = !searchQuery || 
       newsletter.subject?.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesStatus && matchesSearch;
+    return matchesTab && matchesSearch;
   });
 
   const getStatusBadge = (status: string) => {
@@ -219,60 +221,30 @@ export default function CMSNewsletter() {
           </Button>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <Mail className="w-5 h-5 text-gray-600" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{stats.total}</p>
-                  <p className="text-sm text-gray-500">Total</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <Send className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{stats.sent}</p>
-                  <p className="text-sm text-gray-500">Enviados</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-yellow-100 rounded-lg">
-                  <Clock className="w-5 h-5 text-yellow-600" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{stats.scheduled}</p>
-                  <p className="text-sm text-gray-500">Programados</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <BarChart3 className="w-5 h-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{stats.draft}</p>
-                  <p className="text-sm text-gray-500">Borradores</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Tabs */}
+        <div className="flex gap-2 border-b">
+          <button
+            onClick={() => setActiveTab("drafts")}
+            className={`px-6 py-3 font-medium transition-colors ${
+              activeTab === "drafts"
+                ? "text-[#44580E] border-b-2 border-[#44580E]"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            <Mail className="w-4 h-4 inline mr-2" />
+            Borradores ({stats.draft})
+          </button>
+          <button
+            onClick={() => setActiveTab("sent")}
+            className={`px-6 py-3 font-medium transition-colors ${
+              activeTab === "sent"
+                ? "text-[#44580E] border-b-2 border-[#44580E]"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            <Send className="w-4 h-4 inline mr-2" />
+            Enviados ({stats.sent})
+          </button>
         </div>
 
         {/* Filters and Actions */}
@@ -289,19 +261,7 @@ export default function CMSNewsletter() {
                     className="pl-10 w-full sm:w-64"
                   />
                 </div>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-full sm:w-40">
-                    <Filter className="w-4 h-4 mr-2" />
-                    <SelectValue placeholder="Estado" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos</SelectItem>
-                    <SelectItem value="draft">Borradores</SelectItem>
-                    <SelectItem value="scheduled">Programados</SelectItem>
-                    <SelectItem value="sent">Enviados</SelectItem>
-                    <SelectItem value="failed">Fallidos</SelectItem>
-                  </SelectContent>
-                </Select>
+
               </div>
 
               <div className="flex gap-2">

@@ -1051,17 +1051,18 @@ export const appRouter = router({
           createdBy: ctx.user.id,
         });
         
+        // Obtener el newsletter recién creado para tener el id
+        const newsletters = await db.getAllNewsletters();
+        const newNewsletter = newsletters[0]; // La más reciente
+        
         // Si se proporcionaron listas, asociarlas
         if (listIds && listIds.length > 0) {
-          const newsletters = await db.getAllNewsletters();
-          const newNewsletter = newsletters[0]; // La más reciente
-          
           for (const listId of listIds) {
             await db.addListToNewsletter(newNewsletter.id, listId);
           }
         }
         
-        return result;
+        return { success: true, id: newNewsletter.id };
       }),
 
     update: protectedProcedure

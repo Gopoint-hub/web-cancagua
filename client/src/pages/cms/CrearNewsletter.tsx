@@ -37,9 +37,9 @@ export default function CMSCrearNewsletter() {
   
   // Preview state
   const [showPreview, setShowPreview] = useState(false);
-  const [showSchedule, setShowSchedule] = useState(false);
-  const [scheduleDate, setScheduleDate] = useState("");
-  const [scheduleTime, setScheduleTime] = useState("");
+  
+  // Send state
+  const [isSending, setIsSending] = useState(false);
   
   // Refs
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -88,12 +88,33 @@ export default function CMSCrearNewsletter() {
   });
 
   const createNewsletterMutation = trpc.newsletters.create.useMutation({
-    onSuccess: () => {
-      toast.success("Newsletter guardado correctamente");
-      navigate("/cms/newsletter");
+    onSuccess: (data) => {
+      // Si estamos enviando ahora, enviar el newsletter recién creado
+      if (isSending && data.id) {
+        sendNewsletterMutation.mutate({
+          newsletterId: data.id,
+          listIds: selectedLists,
+        });
+      } else {
+        toast.success("Newsletter guardado como borrador");
+        navigate("/cms/newsletter");
+      }
     },
     onError: (error) => {
       toast.error(error.message || "Error al guardar newsletter");
+      setIsSending(false);
+    },
+  });
+
+  const sendNewsletterMutation = trpc.newsletters.send.useMutation({
+    onSuccess: (data) => {
+      toast.success(`Newsletter enviado a ${data.sent} destinatarios`);
+      setIsSending(false);
+      navigate("/cms/newsletter");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al enviar newsletter");
+      setIsSending(false);
     },
   });
 
@@ -206,7 +227,26 @@ export default function CMSCrearNewsletter() {
     }
   };
 
-  const handleSave = (status: "draft" | "scheduled") => {
+  const handleSave = (status: "draft") => {
+    if (!subject.trim()) {
+      toast.error("Por favor ingresa un asunto");
+      return;
+    }
+
+    if (!htmlContent) {
+      toast.error("Por favor genera un diseño primero");
+      return;
+    }
+
+    createNewsletterMutation.mutate({
+      subject,
+      htmlContent,
+      designPrompt,
+      listIds: selectedLists.length > 0 ? selectedLists : [],
+    });
+  };
+
+  const handleSendNow = () => {
     if (!subject.trim()) {
       toast.error("Por favor ingresa un asunto");
       return;
@@ -222,6 +262,8 @@ export default function CMSCrearNewsletter() {
       return;
     }
 
+    setIsSending(true);
+    // Primero crear el newsletter, luego enviarlo
     createNewsletterMutation.mutate({
       subject,
       htmlContent,
@@ -547,12 +589,21 @@ export default function CMSCrearNewsletter() {
                 Guardar Borrador
               </Button>
               <Button
-                onClick={() => setShowSchedule(true)}
-                disabled={!htmlContent || selectedLists.length === 0}
+                onClick={handleSendNow}
+                disabled={!htmlContent || selectedLists.length === 0 || isSending}
                 className="flex-1 bg-[#44580E] hover:bg-[#3a4c0c]"
               >
-                <Send className="w-4 h-4 mr-2" />
-                Programar Envío
+                {isSending ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Enviando...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-2" />
+                    Enviar Ahora
+                  </>
+                )}
               </Button>
             </div>
           </div>
@@ -600,63 +651,7 @@ export default function CMSCrearNewsletter() {
         </DialogContent>
       </Dialog>
 
-      {/* Schedule Dialog */}
-      <Dialog open={showSchedule} onOpenChange={setShowSchedule}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Programar Envío</DialogTitle>
-            <DialogDescription>
-              Selecciona cuándo enviar el newsletter a {totalRecipients} destinatarios
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div>
-              <Label htmlFor="scheduleDate">Fecha</Label>
-              <div className="relative mt-1">
-                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <Input
-                  id="scheduleDate"
-                  type="date"
-                  value={scheduleDate}
-                  onChange={(e) => setScheduleDate(e.target.value)}
-                  className="pl-10"
-                  min={new Date().toISOString().split("T")[0]}
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="scheduleTime">Hora</Label>
-              <div className="relative mt-1">
-                <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <Input
-                  id="scheduleTime"
-                  type="time"
-                  value={scheduleTime}
-                  onChange={(e) => setScheduleTime(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowSchedule(false)}>
-              Cancelar
-            </Button>
-            <Button
-              onClick={() => handleSave("scheduled")}
-              disabled={createNewsletterMutation.isPending}
-              className="bg-[#44580E] hover:bg-[#3a4c0c]"
-            >
-              {createNewsletterMutation.isPending ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <Send className="w-4 h-4 mr-2" />
-              )}
-              Programar
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+
     </DashboardLayout>
   );
 }
