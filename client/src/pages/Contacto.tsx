@@ -119,12 +119,6 @@ export default function Contacto() {
                   >
                     +56 9 4007 3999
                   </a>
-                  <a
-                    href="tel:+56988190248"
-                    className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors block mt-1"
-                  >
-                    +56 9 8819 0248
-                  </a>
                 </CardContent>
               </Card>
 

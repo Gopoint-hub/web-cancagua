@@ -226,7 +226,7 @@ export default function ClasesRegulares() {
             Consulta por nuestros pases mensuales y descuentos para clases regulares. 
             Contáctanos para más información sobre planes personalizados.
           </p>
-          <a href="https://wa.me/56988190248?text=Hola!%20Me%20gustaría%20consultar%20por%20los%20pases%20y%20membresías%20de%20clases" target="_blank" rel="noopener noreferrer">
+          <a href="https://wa.me/56940073999?text=Hola!%20Me%20gustaría%20consultar%20por%20los%20pases%20y%20membresías%20de%20clases" target="_blank" rel="noopener noreferrer">
             <Button 
               size="lg" 
               variant="outline"

@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 
 export function WhatsAppButton() {
   const [location] = useLocation();
-  const phoneNumber = "56988190248"; // +56 9 8819 0248
+  const phoneNumber = "56940073999"; // +56 9 4007 3999
 
   // Mensajes contextuales según la página
   const getContextualMessage = () => {

@@ -827,3 +827,7 @@
 - [x] Arreglar botones del primer banner del home (los enlaces ya funcionan correctamente)
 - [x] Corregir enlaces de los otros banners del home (masajes y clases ahora apuntan a /masajes y /clases)
 - [x] Actualizar foto de Alan IceMan en Taller Wim Hof con imagen real
+
+## Actualizar Número de Teléfono
+- [x] Buscar todas las ocurrencias de +56 9 8819 0248
+- [x] Reemplazar por +56 9 4007 3999 en todos los archivos (WhatsAppButton, ClasesRegulares, Contacto, Servicios)
