@@ -807,3 +807,7 @@
 ## Correcciones Pendientes
 - [x] Corregir texto del menú de Sauna en Navbar (muestra "Name" en lugar de "Sauna")
 - [x] Actualizar enlace de reserva en botón BOOK NOW del header: https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw..
+
+## Actualizar Horarios Reales de Cancagua
+- [x] Actualizar mensaje del header con horarios correctos (Lunes 17:00-22:00, Martes-Domingo 09:00-22:00)
+- [x] Actualizar archivos de traducción con horarios correctos (ES, EN, PT, FR, DE)
