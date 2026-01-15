@@ -48,6 +48,11 @@ import Sauna from "./pages/Sauna";
 import TallerWimHof from "./pages/TallerWimHof";
 import FullDayHotTubs from "./pages/servicios/FullDayHotTubs";
 import FullDayBiopiscinas from "./pages/servicios/FullDayBiopiscinas";
+import PasesReconecta from "./pages/experiencias/PasesReconecta";
+import PaseReconecta from "./pages/experiencias/PaseReconecta";
+import PaseReconectaDetox from "./pages/experiencias/PaseReconectaDetox";
+import PaseBioReconecta from "./pages/experiencias/PaseBioReconecta";
+import PaseBioReconectaDetox from "./pages/experiencias/PaseBioReconectaDetox";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -74,6 +79,11 @@ function Router() {
       <Route path={"/eventos/taller-wim-hof"} component={TallerWimHof} />
       <Route path={"/servicios/full-day-hot-tubs"} component={FullDayHotTubs} />
       <Route path={"/servicios/full-day-biopiscinas"} component={FullDayBiopiscinas} />
+      <Route path={"/experiencias/pases-reconecta"} component={PasesReconecta} />
+      <Route path={"/experiencias/pase-reconecta"} component={PaseReconecta} />
+      <Route path={"/experiencias/pase-reconecta-detox"} component={PaseReconectaDetox} />
+      <Route path={"/experiencias/pase-bioreconecta"} component={PaseBioReconecta} />
+      <Route path={"/experiencias/pase-bioreconecta-detox"} component={PaseBioReconectaDetox} />
       <Route path={"/cms"} component={CMSDashboard} />
       <Route path={"/cms/usuarios"} component={CMSUsuarios} />
       <Route path={"/cms/carta"} component={CMSCarta} />

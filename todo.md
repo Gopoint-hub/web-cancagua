@@ -842,3 +842,23 @@
 - [x] Agregar total de presupuesto en las tarjetas del pipeline (ya existía)
 - [x] Hacer tarjetas clickeables para ver detalle de cotización
 - [x] Permitir editar cotización desde el detalle (botón en modal)
+
+## Pases Reconecta - Sistema Completo
+- [ ] Copiar 4 imágenes al directorio público
+- [ ] Crear landing hub /experiencias/pases-reconecta
+- [ ] Crear landing Pase Reconecta 5,5hrs (Hot-tub + Masaje + Kayak/Yoga)
+- [ ] Crear landing Pase Reconecta Detox 6,5hrs (Hot-tub + Masaje + Sauna + Kayak/Yoga)
+- [ ] Crear landing Pase BioReconecta 6hrs (Biopiscinas + Masaje + Kayak/Yoga)
+- [ ] Crear landing Pase Bio-Reconecta Detox (Biopiscina + Masaje + Sauna + Kayak/Yoga)
+- [ ] Agregar rutas en App.tsx
+- [ ] Actualizar menú EXPERIENCIAS en Navbar
+
+## Pases Reconecta - Sistema Completo
+- [x] Copiar imágenes al proyecto
+- [x] Crear landing hub /experiencias/pases-reconecta
+- [x] Crear landing Pase Reconecta 5,5hrs
+- [x] Crear landing Pase Reconecta Detox 6,5hrs
+- [x] Crear landing Pase BioReconecta 6hrs
+- [x] Crear landing Pase Bio-Reconecta Detox
+- [x] Agregar rutas en App.tsx
+- [x] Actualizar menú EXPERIENCIAS en Navbar
