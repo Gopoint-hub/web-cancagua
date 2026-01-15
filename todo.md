@@ -902,3 +902,12 @@
 ## Mejoras Sistema de Eventos
 - [x] Mejorar prompt de IA para generar landings profesionales orientadas a conversión
 - [x] Rediseñar interfaz de gestión de eventos con tabla ordenada y profesional
+
+
+## Corrección Sistema de Landings de Eventos (v2)
+- [x] Rediseñar sistema de generación con plantilla HTML fija profesional
+- [x] Usar IA solo para generar contenido textual, no estructura HTML
+- [x] Crear componente EventLanding con diseño profesional hardcodeado
+- [x] Asegurar contraste de colores correcto (texto visible sobre fondos)
+- [x] Incluir imágenes del evento correctamente
+- [x] Probar landing con evento existente

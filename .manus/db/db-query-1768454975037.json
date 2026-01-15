@@ -1,0 +1,28 @@
+{
+  "query": "SELECT id, title, slug, status FROM events;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user kmGoXqmAzDGYCHX.3b33370e5065 --database b6AHokZVYJSFV94d2D2ybb --execute SELECT id, title, slug, status FROM events;",
+  "rows": [
+    {
+      "id": "1",
+      "title": "Taller del Método Wim Hof con Alan IceMan",
+      "slug": "taller-metodo-wim-hof",
+      "status": "active"
+    },
+    {
+      "id": "2",
+      "title": "Heart Coherence Workshop with Sonja Bloder",
+      "slug": "heart-coherence-workshop",
+      "status": "active"
+    },
+    {
+      "id": "4",
+      "title": "Somatic Breathwork - Nervous System Reset Journey. Sábado 17 de Enero",
+      "slug": "somatic-breathwork-nervous-system-reset-journey-sabado-17-de-enero",
+      "status": "active"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tslug\tstatus\n1\tTaller del Método Wim Hof con Alan IceMan\ttaller-metodo-wim-hof\tactive\n2\tHeart Coherence Workshop with Sonja Bloder\theart-coherence-workshop\tactive\n4\tSomatic Breathwork - Nervous System Reset Journey. Sábado 17 de Enero\tsomatic-breathwork-nervous-system-reset-journey-sabado-17-de-enero\tactive\n",
+  "stderr": "",
+  "execution_time_ms": 74
+}
