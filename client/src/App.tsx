@@ -46,6 +46,8 @@ import EventosSociales from "./pages/EventosSociales";
 import EventosEmpresas from "./pages/EventosEmpresas";
 import Sauna from "./pages/Sauna";
 import TallerWimHof from "./pages/TallerWimHof";
+import FullDayHotTubs from "./pages/servicios/FullDayHotTubs";
+import FullDayBiopiscinas from "./pages/servicios/FullDayBiopiscinas";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -70,6 +72,8 @@ function Router() {
       <Route path={"/servicios/hot-tubs"} component={HotTubs} />
       <Route path={"/servicios/sauna"} component={Sauna} />
       <Route path={"/eventos/taller-wim-hof"} component={TallerWimHof} />
+      <Route path={"/servicios/full-day-hot-tubs"} component={FullDayHotTubs} />
+      <Route path={"/servicios/full-day-biopiscinas"} component={FullDayBiopiscinas} />
       <Route path={"/cms"} component={CMSDashboard} />
       <Route path={"/cms/usuarios"} component={CMSUsuarios} />
       <Route path={"/cms/carta"} component={CMSCarta} />

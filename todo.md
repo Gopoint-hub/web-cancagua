@@ -811,3 +811,9 @@
 ## Actualizar Horarios Reales de Cancagua
 - [x] Actualizar mensaje del header con horarios correctos (Lunes 17:00-22:00, Martes-Domingo 09:00-22:00)
 - [x] Actualizar archivos de traducción con horarios correctos (ES, EN, PT, FR, DE)
+
+## Landing Pages Full Day
+- [x] Crear landing Full Day Hot Tubs + Biopiscinas (8 hrs)
+- [x] Crear landing Full Day Biopiscinas + Playa (8 hrs)
+- [x] Agregar enlaces en menú de navegación
+- [x] Probar enlaces de reserva de Skedu
