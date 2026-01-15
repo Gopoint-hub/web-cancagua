@@ -867,19 +867,17 @@
 - [x] Copiar imagen de Sonja Bloder al proyecto
 - [x] Crear landing page /eventos/heart-coherence-workshop
 - [x] Agregar ruta en App.tsx
-- [x] Agregar enlace en menú de Eventos
-
-## Módulo de Gestión de Eventos con IA
+- [x] Agregar enlace en menú de Evento## Módulo de Gestión de Eventos con IA
 - [x] Actualizar esquema de base de datos para eventos dinámicos
 - [x] Crear tabla events con campos: title, slug, description, content_html, images, external_link, start_date, end_date, status, featured
 - [x] Crear helpers de base de datos para eventos
 - [x] Crear endpoints tRPC para CRUD de eventos
 - [x] Crear endpoint tRPC para generar contenido HTML con IA
-- [ ] Crear página CMS /cms/b2c/eventos con lista y formulario
-- [ ] Implementar formulario de creación con subida de imágenes
-- [ ] Crear componente dinámico EventLanding para renderizar eventos
-- [ ] Implementar ruta dinámica /eventos/:slug
-- [ ] Implementar sistema de auto-desactivación por fecha (timezone Chile)
-- [ ] Migrar eventos existentes (Taller Wim Hof, Heart Coherence) al nuevo sistema
+- [x] Crear página CMS /cms/b2c/eventos con formulario y lista
+- [x] Crear componente dinámico EventLanding.tsx
+- [x] Crear ruta dinámica /eventos/:slug
+- [x] Actualizar menú EVENTS para mostrar eventos dinámicos
+- [ ] Migrar eventos existentes al nuevo sistema
+- [ ] Implementar sistema de auto-desactivación por fecha (cron job)rar eventos existentes (Taller Wim Hof, Heart Coherence) al nuevo sistema
 - [ ] Actualizar menú EVENTS para mostrar eventos dinámicos
 - [ ] Probar creación, edición y eliminación de eventos

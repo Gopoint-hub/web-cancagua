@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { 
   Package, UtensilsCrossed, CalendarCheck, MessageSquare, Users,
-  ArrowRight, TrendingUp, Clock
+  ArrowRight, TrendingUp, Clock, Calendar
 } from "lucide-react";
 import { useLocation } from "wouter";
 
@@ -20,6 +20,13 @@ export default function CMSB2C() {
   const totalMessages = messagesData?.length || 0;
 
   const modules = [
+    {
+      title: "Eventos",
+      description: "Gestiona eventos y talleres con IA",
+      icon: Calendar,
+      path: "/cms/b2c/eventos",
+      color: "bg-indigo-500",
+    },
     {
       title: "Servicios",
       description: "Gestiona los servicios del spa",
