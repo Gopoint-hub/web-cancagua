@@ -674,3 +674,20 @@
 - [x] Diseño más visual con cards y mejor espaciado
 - [x] Preview en tiempo real del email
 - [x] Botones de acción claros y descriptivos
+
+
+## Landing Page Hot Tubs
+- [x] Crear página HotTubs.tsx optimizada para conversión
+- [x] Incluir hero con imagen impactante y CTA de reserva
+- [x] Agregar descripción del servicio de Hot Tubs
+- [x] Incluir enlace de reserva: https://reservas.cancagua.cl/cancaguaspa/s/f4975ff2-fd9c-4519-8103-97d6f75108bf
+- [x] Agregar ruta /servicios/hot-tubs en App.tsx
+- [x] Optimizar para móvil
+
+
+## Corrección y Ordenamiento del Menú del Header
+- [x] Revisar estructura actual del menú en Navbar.tsx
+- [x] Reorganizar menú con estructura lógica (Home, Servicios con submenu, Navega Relax, Eventos, Cafetería, Gift Cards, Nosotros, Contacto)
+- [x] Corregir rutas de Masajes y Clases en el submenu de Servicios
+- [x] Asegurar que todos los enlaces funcionen correctamente
+- [ ] Verificar responsive en móvil

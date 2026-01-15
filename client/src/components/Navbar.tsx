@@ -23,9 +23,8 @@ export function Navbar() {
   const servicios = [
     { name: t('services.biopiscinas.name'), href: "/servicios/biopiscinas" },
     { name: t('services.hotTubs.name'), href: "/servicios/hot-tubs" },
-    { name: t('services.masajes.name'), href: "/servicios/masajes" },
-    { name: t('services.clases.name'), href: "/servicios/clases" },
-    { name: t('services.paseReconecta.name'), href: "/servicios/pase-reconecta" },
+    { name: t('services.masajes.name'), href: "/masajes" },
+    { name: t('services.clases.name'), href: "/clases" },
   ];
 
   return (
@@ -93,7 +92,7 @@ export function Navbar() {
                 isActive("/navega-relax") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
               }`}
             >
-              Navega Relax
+              {t('nav.navegaRelax')}
             </Link>
 
             <Link
@@ -199,7 +198,7 @@ export function Navbar() {
                 className="text-sm tracking-wider uppercase text-[#3a3a3a]"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Navega Relax
+                {t('nav.navegaRelax')}
               </Link>
 
               <Link

@@ -40,6 +40,7 @@ import Carta from "./pages/Carta";
 import NavegaRelax from "./pages/NavegaRelax";
 import Masajes from "./pages/Masajes";
 import ClasesRegulares from "./pages/ClasesRegulares";
+import HotTubs from "./pages/HotTubs";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -59,6 +60,7 @@ function Router() {
       <Route path={"/navega-relax"} component={NavegaRelax} />
       <Route path={"/masajes"} component={Masajes} />
       <Route path={"/clases"} component={ClasesRegulares} />
+      <Route path={"/servicios/hot-tubs"} component={HotTubs} />
       <Route path={"/cms"} component={CMSDashboard} />
       <Route path={"/cms/usuarios"} component={CMSUsuarios} />
       <Route path={"/cms/carta"} component={CMSCarta} />
