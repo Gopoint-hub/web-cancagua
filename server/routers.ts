@@ -326,8 +326,7 @@ export const appRouter = router({
       .input(z.object({
         name: z.string().min(2),
         email: z.string().email(),
-        phone: z.string().optional(),
-        subject: z.string().min(3),
+        phone: z.string().min(8, "El teléfono es obligatorio"),
         message: z.string().min(10),
       }))
       .mutation(async ({ input }) => {
@@ -342,26 +341,26 @@ export const appRouter = router({
         const emailResult = await sendContactFormEmail({
           nombre: input.name,
           email: input.email,
-          telefono: input.phone || "No proporcionado",
-          mensaje: `Asunto: ${input.subject}\n\n${input.message}`,
-          origen: "Formulario de Contacto",
+          telefono: input.phone,
+          mensaje: input.message,
+          origen: "Formulario de Contacto Web",
         });
         
         // 3. Generar mensaje y enlace de WhatsApp
         const whatsappMessage = formatContactFormMessage({
           nombre: input.name,
           email: input.email,
-          telefono: input.phone || "No proporcionado",
-          mensaje: `${input.subject}: ${input.message}`,
-          origen: "Formulario de Contacto",
+          telefono: input.phone,
+          mensaje: input.message,
+          origen: "Formulario de Contacto Web",
         });
         const whatsappLink = generateWhatsAppLink(whatsappMessage);
         
         // 4. Enviar notificación al propietario
         const { notifyOwner } = await import("./_core/notification");
         await notifyOwner({
-          title: `Nuevo mensaje de ${input.name}`,
-          content: `Asunto: ${input.subject}\nEmail: ${input.email}${input.phone ? `\nTeléfono: ${input.phone}` : ''}\n\nMensaje:\n${input.message}`,
+          title: `Nuevo mensaje de contacto: ${input.name}`,
+          content: `Nombre: ${input.name}\nEmail: ${input.email}\nTeléfono: ${input.phone}\n\nMensaje:\n${input.message}`,
         });
         
         return {

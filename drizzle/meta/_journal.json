@@ -78,6 +78,13 @@
       "when": 1768438721038,
       "tag": "0010_lumpy_korvac",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1768441612502,
+      "tag": "0011_true_pride",
+      "breakpoints": true
     }
   ]
 }

@@ -709,3 +709,14 @@
 - [x] Enlazar "Eventos Empresas" a la sección B2B existente
 - [x] Corregir imágenes faltantes en Hot Tubs (usar imágenes existentes del proyecto)
 - [x] Corregir imágenes faltantes en Clases Regulares (usar imágenes existentes del proyecto)
+
+
+## Mejoras Formulario de Contacto
+- [x] Eliminar campo "Asunto" del formulario
+- [x] Hacer campo "Teléfono" obligatorio
+- [x] Agregar selector de país automático según geolocalización del usuario
+- [x] Hacer campo "Mensaje" obligatorio
+- [x] Mejorar formato del email a contacto@cancagua.cl con información ordenada
+- [x] Mejorar formato del mensaje de WhatsApp con información estructurada
+- [x] Actualizar schema de base de datos para eliminar subject y hacer phone obligatorio
+- [x] Configurar reply-to a contacto@cancagua.cl

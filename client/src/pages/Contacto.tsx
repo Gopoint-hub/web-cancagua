@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -7,18 +7,36 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Clock, Mail, MapPin, Phone, Loader2 } from "lucide-react";
+import { Clock, Mail, MapPin, Phone as PhoneIcon, Loader2 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+import { getCountryCallingCode, CountryCode } from 'libphonenumber-js';
 
 export default function Contacto() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    subject: "",
     message: "",
   });
+  const [defaultCountry, setDefaultCountry] = useState<CountryCode>("CL");
+
+  // Detectar país del usuario automáticamente
+  useEffect(() => {
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        if (data.country_code) {
+          setDefaultCountry(data.country_code as CountryCode);
+        }
+      })
+      .catch(() => {
+        // Si falla, mantener Chile por defecto
+        setDefaultCountry("CL");
+      });
+  }, []);
 
   const sendMessageMutation = trpc.contactMessages.send.useMutation({
     onSuccess: () => {
@@ -27,7 +45,6 @@ export default function Contacto() {
         name: "",
         email: "",
         phone: "",
-        subject: "",
         message: "",
       });
     },
@@ -39,7 +56,7 @@ export default function Contacto() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
       toast.error("Por favor completa todos los campos obligatorios");
       return;
     }
@@ -93,7 +110,7 @@ export default function Contacto() {
               <Card className="border-none shadow-sm bg-[#FDFBF7]">
                 <CardContent className="pt-8 pb-8 text-center">
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
-                    <Phone className="h-7 w-7 text-[#D3BC8D]" />
+                    <PhoneIcon className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
                   <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]">Teléfono</h3>
                   <a
@@ -184,26 +201,15 @@ export default function Contacto() {
                   </div>
 
                   <div>
-                    <Label htmlFor="phone" className="text-[#3a3a3a]">Teléfono (opcional)</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      placeholder="+56 9 1234 5678"
+                    <Label htmlFor="phone" className="text-[#3a3a3a]">Teléfono *</Label>
+                    <PhoneInput
+                      international
+                      defaultCountry={defaultCountry}
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="border-[#D3BC8D]/30 focus:border-[#D3BC8D] bg-white"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="subject" className="text-[#3a3a3a]">Asunto *</Label>
-                    <Input
-                      id="subject"
-                      placeholder="¿En qué podemos ayudarte?"
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      onChange={(value) => setFormData({ ...formData, phone: value || "" })}
+                      className="phone-input-custom border border-[#D3BC8D]/30 rounded-md px-3 py-2 bg-white focus-within:border-[#D3BC8D] focus-within:ring-1 focus-within:ring-[#D3BC8D]"
+                      placeholder="Ingresa tu número de teléfono"
                       required
-                      className="border-[#D3BC8D]/30 focus:border-[#D3BC8D] bg-white"
                     />
                   </div>
 
@@ -270,41 +276,13 @@ export default function Contacto() {
                       </li>
                       <li className="flex items-center gap-3">
                         <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D]" />
-                        Desde Puerto Varas: 25 minutos por Ruta 5 Sur
+                        Desde Puerto Varas: 30 minutos por Ruta 5 Sur
                       </li>
                       <li className="flex items-center gap-3">
                         <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D]" />
-                        Desde Frutillar Bajo: 5 minutos hacia el norte
-                      </li>
-                      <li className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D]" />
-                        Estacionamiento gratuito disponible
+                        Desde Osorno: 60 minutos por Ruta 5 Norte
                       </li>
                     </ul>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-none bg-[#D3BC8D]">
-                  <CardContent className="pt-6 pb-6">
-                    <h3 className="font-light text-lg tracking-wide mb-2 text-[#3a3a3a]">
-                      ¿Prefieres WhatsApp?
-                    </h3>
-                    <p className="text-sm mb-4 text-[#3a3a3a]/80">
-                      Contáctanos directamente y te responderemos de inmediato
-                    </p>
-                    <Button
-                      size="lg"
-                      className="w-full bg-[#3a3a3a] text-white hover:bg-[#2a2a2a] tracking-wider"
-                      asChild
-                    >
-                      <a
-                        href="https://wa.me/56988190248?text=Hola,%20necesito%20ponerme%20en%20contacto%20con%20ustedes"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Abrir WhatsApp
-                      </a>
-                    </Button>
                   </CardContent>
                 </Card>
               </div>
@@ -315,6 +293,18 @@ export default function Contacto() {
 
       <Footer />
       <WhatsAppButton />
+
+      <style>{`
+        .phone-input-custom input {
+          border: none;
+          outline: none;
+          width: 100%;
+          background: transparent;
+        }
+        .phone-input-custom .PhoneInputCountry {
+          margin-right: 0.5rem;
+        }
+      `}</style>
     </div>
   );
 }
