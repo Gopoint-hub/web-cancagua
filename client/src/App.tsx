@@ -42,6 +42,7 @@ import Masajes from "./pages/Masajes";
 import ClasesRegulares from "./pages/ClasesRegulares";
 import HotTubs from "./pages/HotTubs";
 import EventosSociales from "./pages/EventosSociales";
+import EventosEmpresas from "./pages/EventosEmpresas";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -54,7 +55,7 @@ function Router() {
       <Route path={"/servicios/biopiscinas"} component={ServicioBiopiscinas} />
       <Route path={"/eventos"} component={Eventos} />
       <Route path={"/eventos/sociales"} component={EventosSociales} />
-      <Route path={"/eventos/empresas"} component={CMSB2B} />
+      <Route path={"/eventos/empresas"} component={EventosEmpresas} />
       <Route path={"/cafeteria"} component={Cafeteria} />
       <Route path={"/gift-cards"} component={GiftCards} />
       <Route path={"/contacto"} component={Contacto} />

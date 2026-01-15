@@ -720,3 +720,14 @@
 - [x] Mejorar formato del mensaje de WhatsApp con información estructurada
 - [x] Actualizar schema de base de datos para eliminar subject y hacer phone obligatorio
 - [x] Configurar reply-to a contacto@cancagua.cl
+
+
+## Rediseño Landing Eventos Empresariales
+- [x] Crear landing de ventas profesional para eventos corporativos (no CMS)
+- [x] Hero impactante con enfoque en retiros corporativos y team building
+- [x] Sección de beneficios para empresas
+- [x] Showcase de servicios disponibles (biopiscinas, masajes, talleres, catering)
+- [x] Tipos de eventos corporativos (retiros, team building, reconocimiento)
+- [x] Formulario de cotización rápida con campos empresariales
+- [x] CTAs claros para solicitar cotización
+- [x] Optimizar para conversión B2B
