@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, and, gte, lte, desc, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
@@ -172,11 +172,11 @@ export async function upsertService(service: any) {
 }
 
 // Eventos
-export async function getAllEvents() {
+export async function getActiveEventsLegacy() {
   const db = await getDb();
   if (!db) return [];
   const { events } = await import("../drizzle/schema");
-  return await db.select().from(events).where(eq(events.active, 1));
+  return await db.select().from(events).where(eq(events.status, "active"));
 }
 
 export async function getUpcomingEvents() {
@@ -189,29 +189,9 @@ export async function getUpcomingEvents() {
     .orderBy(events.startDate);
 }
 
-export async function getEventById(id: number) {
-  const db = await getDb();
-  if (!db) return undefined;
-  const { events } = await import("../drizzle/schema");
-  const result = await db.select().from(events).where(eq(events.id, id)).limit(1);
-  return result.length > 0 ? result[0] : undefined;
-}
+// Removed: getEventById - now defined in Event Management Helpers section below
 
-export async function upsertEvent(event: any) {
-  const db = await getDb();
-  if (!db) return;
-  const { events } = await import("../drizzle/schema");
-  
-  if (event.skeduId) {
-    const existing = await db.select().from(events).where(eq(events.skeduId, event.skeduId)).limit(1);
-    if (existing.length > 0) {
-      await db.update(events).set({ ...event, lastSyncedAt: new Date() }).where(eq(events.skeduId, event.skeduId));
-      return;
-    }
-  }
-  
-  await db.insert(events).values({ ...event, lastSyncedAt: new Date() });
-}
+// Removed: upsertEvent - replaced by createEvent/updateEvent in Event Management Helpers section
 
 // Clientes
 export async function getAllClients() {
@@ -1601,4 +1581,242 @@ export async function createGiftCardTransaction(transaction: any) {
   const { giftCardTransactions } = await import("../drizzle/schema");
   await db.insert(giftCardTransactions).values(transaction);
   return { success: true };
+}
+
+// ============================================================================
+// Event Management Helpers
+// ============================================================================
+
+import { events, Event, InsertEvent } from "../drizzle/schema";
+
+/**
+ * Get all events with optional filtering
+ */
+export async function getEvents(filters?: {
+  status?: "draft" | "active" | "ended";
+  featured?: boolean;
+}): Promise<Event[]> {
+  const db = await getDb();
+  if (!db) return [];
+
+  try {
+    let query = db.select().from(events);
+    
+    const conditions = [];
+    if (filters?.status) {
+      conditions.push(eq(events.status, filters.status));
+    }
+    if (filters?.featured !== undefined) {
+      conditions.push(eq(events.featured, filters.featured ? 1 : 0));
+    }
+
+    if (conditions.length > 0) {
+      query = query.where(and(...conditions)) as any;
+    }
+
+    const result = await query.orderBy(desc(events.startDate));
+    return result;
+  } catch (error) {
+    console.error("[Database] Error fetching events:", error);
+    return [];
+  }
+}
+
+/**
+ * Get active events (not ended, status = active)
+ */
+export async function getActiveEvents(): Promise<Event[]> {
+  const db = await getDb();
+  if (!db) return [];
+
+  try {
+    const now = new Date();
+    const result = await db
+      .select()
+      .from(events)
+      .where(
+        and(
+          eq(events.status, "active"),
+          gte(events.endDate, now)
+        )
+      )
+      .orderBy(desc(events.startDate));
+    
+    return result;
+  } catch (error) {
+    console.error("[Database] Error fetching active events:", error);
+    return [];
+  }
+}
+
+/**
+ * Get event by slug
+ */
+export async function getEventBySlug(slug: string): Promise<Event | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    const result = await db
+      .select()
+      .from(events)
+      .where(eq(events.slug, slug))
+      .limit(1);
+    
+    return result[0] || null;
+  } catch (error) {
+    console.error("[Database] Error fetching event by slug:", error);
+    return null;
+  }
+}
+
+/**
+ * Get event by ID
+ */
+export async function getEventById(id: number): Promise<Event | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    const result = await db
+      .select()
+      .from(events)
+      .where(eq(events.id, id))
+      .limit(1);
+    
+    return result[0] || null;
+  } catch (error) {
+    console.error("[Database] Error fetching event by ID:", error);
+    return null;
+  }
+}
+
+/**
+ * Create a new event
+ */
+export async function createEvent(event: InsertEvent): Promise<Event | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    const result = await db.insert(events).values(event);
+    const insertId = Number(result[0].insertId);
+    return await getEventById(insertId);
+  } catch (error) {
+    console.error("[Database] Error creating event:", error);
+    return null;
+  }
+}
+
+/**
+ * Update an existing event
+ */
+export async function updateEvent(id: number, updates: Partial<InsertEvent>): Promise<Event | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    await db
+      .update(events)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(events.id, id));
+    
+    return await getEventById(id);
+  } catch (error) {
+    console.error("[Database] Error updating event:", error);
+    return null;
+  }
+}
+
+/**
+ * Delete an event
+ */
+export async function deleteEvent(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+
+  try {
+    await db.delete(events).where(eq(events.id, id));
+    return true;
+  } catch (error) {
+    console.error("[Database] Error deleting event:", error);
+    return false;
+  }
+}
+
+/**
+ * Auto-deactivate ended events
+ * Should be called periodically (e.g., every hour via cron)
+ */
+export async function autoDeactivateEndedEvents(): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+
+  try {
+    const now = new Date();
+    const result = await db
+      .update(events)
+      .set({ status: "ended", updatedAt: now })
+      .where(
+        and(
+          eq(events.status, "active"),
+          lte(events.endDate, now)
+        )
+      );
+    
+    return result[0].affectedRows || 0;
+  } catch (error) {
+    console.error("[Database] Error auto-deactivating events:", error);
+    return 0;
+  }
+}
+
+/**
+ * Generate unique slug from title
+ */
+export function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Remove accents
+    .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
+    .trim()
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/-+/g, "-"); // Remove consecutive hyphens
+}
+
+/**
+ * Ensure slug is unique by appending number if needed
+ */
+export async function ensureUniqueSlug(baseSlug: string, excludeId?: number): Promise<string> {
+  const db = await getDb();
+  if (!db) return baseSlug;
+
+  let slug = baseSlug;
+  let counter = 1;
+
+  while (true) {
+    try {
+      const conditions = [eq(events.slug, slug)];
+      if (excludeId) {
+        conditions.push(sql`${events.id} != ${excludeId}`);
+      }
+
+      const existing = await db
+        .select()
+        .from(events)
+        .where(and(...conditions))
+        .limit(1);
+
+      if (existing.length === 0) {
+        return slug;
+      }
+
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    } catch (error) {
+      console.error("[Database] Error checking slug uniqueness:", error);
+      return `${baseSlug}-${Date.now()}`;
+    }
+  }
 }

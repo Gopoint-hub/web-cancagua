@@ -2154,6 +2154,223 @@ Devuelve un JSON con este formato:
         };
       }),
   }),
+
+  // Gestión de eventos dinámicos
+  events: router({
+    // Público: obtener eventos activos
+    getActive: publicProcedure.query(async () => {
+      return await db.getActiveEvents();
+    }),
+
+    // Público: obtener evento por slug
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string() }))
+      .query(async ({ input }) => {
+        const event = await db.getEventBySlug(input.slug);
+        if (!event) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Evento no encontrado" });
+        }
+        return event;
+      }),
+
+    // Admin: obtener todos los eventos
+    getAll: protectedProcedure
+      .input(z.object({
+        status: z.enum(["draft", "active", "ended"]).optional(),
+        featured: z.boolean().optional(),
+      }).optional())
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getEvents(input);
+      }),
+
+    // Admin: obtener evento por ID
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const event = await db.getEventById(input.id);
+        if (!event) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Evento no encontrado" });
+        }
+        return event;
+      }),
+
+    // Admin: crear evento con generación de contenido HTML por IA
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string().min(3, "El título debe tener al menos 3 caracteres"),
+        description: z.string().min(10, "La descripción debe tener al menos 10 caracteres"),
+        images: z.array(z.string()).min(1, "Debe subir al menos una imagen"),
+        externalLink: z.string().url("Debe ser una URL válida"),
+        startDate: z.string(), // ISO date string
+        endDate: z.string(), // ISO date string
+        location: z.string().optional(),
+        price: z.number().optional(),
+        featured: z.boolean().default(false),
+        status: z.enum(["draft", "active"]).default("draft"),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+
+        // Generar slug único
+        const baseSlug = db.generateSlug(input.title);
+        const slug = await db.ensureUniqueSlug(baseSlug);
+
+        // Generar contenido HTML con IA
+        const { invokeLLM } = await import("./_core/llm");
+        const llmResponse = await invokeLLM({
+          messages: [
+            {
+              role: "system",
+              content: "Eres un experto en crear landing pages atractivas para eventos de spa y bienestar. Genera HTML semántico y bien estructurado con Tailwind CSS para un evento.",
+            },
+            {
+              role: "user",
+              content: `Crea el contenido HTML para una landing page de evento con esta información:\n\nTítulo: ${input.title}\nDescripción: ${input.description}\nFecha: ${new Date(input.startDate).toLocaleDateString("es-CL")}\nUbicación: ${input.location || "Cancagua Spa"}\nPrecio: ${input.price ? `$${input.price.toLocaleString("es-CL")}` : "Consultar"}\n\nGenera SOLO el HTML del contenido (sin <html>, <head>, ni <body>), usando Tailwind CSS. Incluye:\n1. Hero section con imagen destacada\n2. Descripción detallada del evento\n3. Sección de beneficios o qué incluye\n4. Call-to-action con botón de reserva\n5. Información práctica (fecha, hora, ubicación)\n\nUsa las clases de Tailwind: container, mx-auto, px-4, py-8, text-center, bg-primary, text-white, etc.`,
+            },
+          ],
+        });
+
+        const contentHtml = typeof llmResponse.choices[0]?.message?.content === 'string' 
+          ? llmResponse.choices[0].message.content 
+          : "";
+
+        // Crear evento en base de datos
+        const event = await db.createEvent({
+          title: input.title,
+          slug,
+          description: input.description,
+          contentHtml,
+          images: JSON.stringify(input.images),
+          externalLink: input.externalLink,
+          startDate: new Date(input.startDate),
+          endDate: new Date(input.endDate),
+          location: input.location,
+          price: input.price,
+          featured: input.featured ? 1 : 0,
+          status: input.status,
+        });
+
+        if (!event) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al crear evento" });
+        }
+
+        return event;
+      }),
+
+    // Admin: actualizar evento
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().min(3).optional(),
+        description: z.string().min(10).optional(),
+        images: z.array(z.string()).optional(),
+        externalLink: z.string().url().optional(),
+        startDate: z.string().optional(),
+        endDate: z.string().optional(),
+        location: z.string().optional(),
+        price: z.number().optional(),
+        featured: z.boolean().optional(),
+        status: z.enum(["draft", "active", "ended"]).optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+
+        const { id, ...updates } = input;
+        const updateData: any = {};
+
+        // Actualizar slug si cambió el título
+        if (updates.title) {
+          const baseSlug = db.generateSlug(updates.title);
+          updateData.slug = await db.ensureUniqueSlug(baseSlug, id);
+          updateData.title = updates.title;
+        }
+
+        // Actualizar otros campos
+        if (updates.description) updateData.description = updates.description;
+        if (updates.images) updateData.images = JSON.stringify(updates.images);
+        if (updates.externalLink) updateData.externalLink = updates.externalLink;
+        if (updates.startDate) updateData.startDate = new Date(updates.startDate);
+        if (updates.endDate) updateData.endDate = new Date(updates.endDate);
+        if (updates.location !== undefined) updateData.location = updates.location;
+        if (updates.price !== undefined) updateData.price = updates.price;
+        if (updates.featured !== undefined) updateData.featured = updates.featured ? 1 : 0;
+        if (updates.status) updateData.status = updates.status;
+
+        const event = await db.updateEvent(id, updateData);
+        if (!event) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Evento no encontrado" });
+        }
+
+        return event;
+      }),
+
+    // Admin: eliminar evento
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+
+        const success = await db.deleteEvent(input.id);
+        if (!success) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Evento no encontrado" });
+        }
+
+        return { success: true };
+      }),
+
+    // Admin: regenerar contenido HTML con IA
+    regenerateContent: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+
+        const event = await db.getEventById(input.id);
+        if (!event) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Evento no encontrado" });
+        }
+
+        // Generar nuevo contenido HTML con IA
+        const { invokeLLM } = await import("./_core/llm");
+        const llmResponse = await invokeLLM({
+          messages: [
+            {
+              role: "system",
+              content: "Eres un experto en crear landing pages atractivas para eventos de spa y bienestar. Genera HTML semántico y bien estructurado con Tailwind CSS para un evento.",
+            },
+            {
+              role: "user",
+              content: `Crea el contenido HTML para una landing page de evento con esta información:\n\nTítulo: ${event.title}\nDescripción: ${event.description}\nFecha: ${new Date(event.startDate).toLocaleDateString("es-CL")}\nUbicación: ${event.location || "Cancagua Spa"}\nPrecio: ${event.price ? `$${event.price.toLocaleString("es-CL")}` : "Consultar"}\n\nGenera SOLO el HTML del contenido (sin <html>, <head>, ni <body>), usando Tailwind CSS. Incluye:\n1. Hero section con imagen destacada\n2. Descripción detallada del evento\n3. Sección de beneficios o qué incluye\n4. Call-to-action con botón de reserva\n5. Información práctica (fecha, hora, ubicación)\n\nUsa las clases de Tailwind: container, mx-auto, px-4, py-8, text-center, bg-primary, text-white, etc.`,
+            },
+          ],
+        });
+
+        const contentHtml = typeof llmResponse.choices[0]?.message?.content === 'string' 
+          ? llmResponse.choices[0].message.content 
+          : "";
+
+        // Actualizar evento con nuevo contenido
+        const updatedEvent = await db.updateEvent(input.id, { contentHtml });
+        if (!updatedEvent) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al actualizar evento" });
+        }
+
+        return updatedEvent;
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
