@@ -37,6 +37,50 @@ export const appRouter = router({
       }),
   }),
 
+  // Formulario de contacto público
+  contact: router({
+    submit: publicProcedure
+      .input(z.object({
+        nombre: z.string().min(2, "El nombre es requerido"),
+        email: z.string().email("Email inválido"),
+        telefono: z.string().min(8, "Teléfono inválido"),
+        mensaje: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
+        origen: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        // Importar funciones de email y WhatsApp
+        const { sendContactFormEmail } = await import("./email");
+        const { formatContactFormMessage, generateWhatsAppLink, WHATSAPP_INFO } = await import("./whatsapp");
+        
+        // 1. Enviar email a contacto@cancagua.cl
+        const emailResult = await sendContactFormEmail(input);
+        
+        // 2. Generar mensaje y enlace de WhatsApp
+        const whatsappMessage = formatContactFormMessage(input);
+        const whatsappLink = generateWhatsAppLink(whatsappMessage);
+        
+        // 3. Guardar en base de datos (mensajes de contacto)
+        await db.createContactMessage({
+          name: input.nombre,
+          email: input.email,
+          phone: input.telefono,
+          message: input.mensaje,
+          source: input.origen || "web",
+          status: "new",
+        });
+        
+        return {
+          success: emailResult.success,
+          emailSent: emailResult.success,
+          whatsappLink,
+          whatsappNumber: WHATSAPP_INFO.formatted,
+          message: emailResult.success 
+            ? "Mensaje enviado correctamente. Nos pondremos en contacto pronto."
+            : "Hubo un problema al enviar el mensaje. Por favor, inténtalo de nuevo.",
+        };
+      }),
+  }),
+
   // Gestión de menú (CMS - solo admin y editor)
   menuAdmin: router({
     // Categorías
@@ -277,7 +321,7 @@ export const appRouter = router({
   }),
 
   // Mensajes de contacto (público)
-  contact: router({
+  contactMessages: router({
     send: publicProcedure
       .input(z.object({
         name: z.string().min(2),
@@ -287,16 +331,45 @@ export const appRouter = router({
         message: z.string().min(10),
       }))
       .mutation(async ({ input }) => {
+        // Importar funciones de email y WhatsApp
+        const { sendContactFormEmail } = await import("./email");
+        const { formatContactFormMessage, generateWhatsAppLink, WHATSAPP_INFO } = await import("./whatsapp");
+        
+        // 1. Guardar en base de datos
         const result = await db.createContactMessage(input);
         
-        // Enviar notificación al propietario
+        // 2. Enviar email a contacto@cancagua.cl
+        const emailResult = await sendContactFormEmail({
+          nombre: input.name,
+          email: input.email,
+          telefono: input.phone || "No proporcionado",
+          mensaje: `Asunto: ${input.subject}\n\n${input.message}`,
+          origen: "Formulario de Contacto",
+        });
+        
+        // 3. Generar mensaje y enlace de WhatsApp
+        const whatsappMessage = formatContactFormMessage({
+          nombre: input.name,
+          email: input.email,
+          telefono: input.phone || "No proporcionado",
+          mensaje: `${input.subject}: ${input.message}`,
+          origen: "Formulario de Contacto",
+        });
+        const whatsappLink = generateWhatsAppLink(whatsappMessage);
+        
+        // 4. Enviar notificación al propietario
         const { notifyOwner } = await import("./_core/notification");
         await notifyOwner({
           title: `Nuevo mensaje de ${input.name}`,
           content: `Asunto: ${input.subject}\nEmail: ${input.email}${input.phone ? `\nTeléfono: ${input.phone}` : ''}\n\nMensaje:\n${input.message}`,
         });
         
-        return result;
+        return {
+          ...result,
+          emailSent: emailResult.success,
+          whatsappLink,
+          whatsappNumber: WHATSAPP_INFO.formatted,
+        };
       }),
     
     // Admin: listar todos los mensajes
@@ -937,6 +1010,7 @@ export const appRouter = router({
       .input(z.object({
         id: z.number(),
         customMessage: z.string().optional(),
+        additionalEmails: z.array(z.string().email()).optional(), // Emails adicionales para enviar
       }))
       .mutation(async ({ ctx, input }) => {
         if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
@@ -989,9 +1063,19 @@ export const appRouter = router({
         // Generar PDF
         const pdfBuffer = await generateQuotePDF(pdfData);
         
-        // Enviar email con PDF adjunto
+        // Combinar email del cliente con emails adicionales
+        const allRecipients = [quote.clientEmail];
+        if (input.additionalEmails && input.additionalEmails.length > 0) {
+          input.additionalEmails.forEach(email => {
+            if (!allRecipients.includes(email)) {
+              allRecipients.push(email);
+            }
+          });
+        }
+        
+        // Enviar email con PDF adjunto a todos los destinatarios
         const result = await sendQuoteEmail({
-          to: quote.clientEmail,
+          to: allRecipients.join(", "),
           clientName: quote.clientName,
           quoteNumber: pdfData.quoteNumber,
           pdfBuffer,
@@ -1038,17 +1122,19 @@ export const appRouter = router({
         textContent: z.string().optional(),
         designPrompt: z.string().optional(),
         listIds: z.array(z.number()).optional(),
+        scheduledAt: z.date().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
         if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
-        const { listIds, ...newsletterData } = input;
+        const { listIds, scheduledAt, ...newsletterData } = input;
         
         const result = await db.createNewsletter({
           ...newsletterData,
-          status: "draft",
+          status: scheduledAt ? "scheduled" : "draft",
+          scheduledAt: scheduledAt || null,
           createdBy: ctx.user.id,
         });
         
@@ -1224,7 +1310,14 @@ ${imagesCatalog}${generatedImagesList}
 
 En el footer del email, incluye links a estas redes sociales con texto simple (no imágenes).
 
-IMPORTANTE: Devuelve SOLO el código HTML puro, sin ningún texto adicional. NO incluyas marcadores de código como \`\`\`html al inicio ni \`\`\` al final. El output debe comenzar directamente con <!DOCTYPE html> o <html>.`;
+IMPORTANTE: Devuelve un JSON con la siguiente estructura:
+{
+  "subject": "Asunto sugerido para el email (máximo 60 caracteres, atractivo y relevante)",
+  "htmlContent": "El código HTML completo del email"
+}
+
+El asunto debe ser atractivo, relevante al contenido, y puede incluir emojis si es apropiado.
+NO incluyas marcadores de código. Devuelve SOLO el JSON válido.`;
         
         const userPrompt = `${input.prompt}${input.images && input.images.length > 0 ? `\n\nImágenes a incluir: ${input.images.join(", ")}` : ""}`;
         
@@ -1236,12 +1329,26 @@ IMPORTANTE: Devuelve SOLO el código HTML puro, sin ningún texto adicional. NO 
         });
         
         const content = response.choices[0].message.content;
-        let htmlContent = typeof content === 'string' ? content : '';
+        let rawContent = typeof content === 'string' ? content : '';
         
         // Limpiar marcadores de código si la IA los incluyó
-        htmlContent = htmlContent.replace(/^```html\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/g, '').trim();
+        rawContent = rawContent.replace(/^```json\s*/i, '').replace(/^```html\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/g, '').trim();
         
-        return { htmlContent };
+        // Intentar parsear como JSON
+        let htmlContent = '';
+        let suggestedSubject = '';
+        
+        try {
+          const parsed = JSON.parse(rawContent);
+          htmlContent = parsed.htmlContent || '';
+          suggestedSubject = parsed.subject || '';
+        } catch {
+          // Si no es JSON válido, asumir que es HTML puro
+          htmlContent = rawContent;
+          suggestedSubject = '';
+        }
+        
+        return { htmlContent, suggestedSubject };
       }),
 
     refineDesign: protectedProcedure
@@ -1756,6 +1863,269 @@ Devuelve un JSON con este formato:
         }
         await db.bulkRemoveSubscribersFromList(input.listId, input.subscriberIds);
         return { success: true, count: input.subscriberIds.length };
+      }),
+  }),
+
+  // ============================================
+  // DISCOUNT CODES
+  // ============================================
+  discountCodes: router({
+    getAll: protectedProcedure
+      .query(async ({ ctx }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getAllDiscountCodes();
+      }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getDiscountCodeById(input.id);
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        code: z.string().min(3).max(50),
+        name: z.string(),
+        description: z.string().optional(),
+        discountType: z.enum(["percentage", "fixed"]),
+        discountValue: z.number().min(1),
+        minPurchase: z.number().default(0),
+        maxDiscount: z.number().optional(),
+        maxUses: z.number().optional(),
+        maxUsesPerUser: z.number().default(1),
+        assignedUserId: z.number().optional(),
+        applicableServices: z.array(z.string()).optional(),
+        startsAt: z.date().optional(),
+        expiresAt: z.date().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        // Verificar que el código no exista
+        const existing = await db.getDiscountCodeByCode(input.code);
+        if (existing) {
+          throw new TRPCError({ code: "CONFLICT", message: "Ya existe un código con ese nombre" });
+        }
+        
+        return await db.createDiscountCode({
+          ...input,
+          applicableServices: input.applicableServices ? JSON.stringify(input.applicableServices) : null,
+          createdBy: ctx.user.id,
+        });
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        code: z.string().min(3).max(50).optional(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        discountType: z.enum(["percentage", "fixed"]).optional(),
+        discountValue: z.number().min(1).optional(),
+        minPurchase: z.number().optional(),
+        maxDiscount: z.number().optional(),
+        maxUses: z.number().optional(),
+        maxUsesPerUser: z.number().optional(),
+        assignedUserId: z.number().optional(),
+        applicableServices: z.array(z.string()).optional(),
+        startsAt: z.date().optional(),
+        expiresAt: z.date().optional(),
+        active: z.number().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { id, applicableServices, ...updateData } = input;
+        
+        if (applicableServices) {
+          (updateData as any).applicableServices = JSON.stringify(applicableServices);
+        }
+        
+        return await db.updateDiscountCode(id, updateData);
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.deleteDiscountCode(input.id);
+      }),
+
+    validate: publicProcedure
+      .input(z.object({
+        code: z.string(),
+        serviceType: z.string().optional(),
+      }))
+      .query(async ({ ctx, input }) => {
+        const userId = ctx.user?.id;
+        return await db.validateDiscountCode(input.code, userId, input.serviceType);
+      }),
+
+    getUsages: protectedProcedure
+      .input(z.object({ discountCodeId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getUsagesForDiscountCode(input.discountCodeId);
+      }),
+  }),
+
+  // ============================================
+  // GIFT CARDS
+  // ============================================
+  giftCards: router({
+    getAll: protectedProcedure
+      .query(async ({ ctx }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getAllGiftCards();
+      }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getGiftCardById(input.id);
+      }),
+
+    getByCode: publicProcedure
+      .input(z.object({ code: z.string() }))
+      .query(async ({ input }) => {
+        const giftCard = await db.getGiftCardByCode(input.code);
+        if (!giftCard) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Gift card no encontrada" });
+        }
+        // Solo devolver información pública
+        return {
+          code: giftCard.code,
+          amount: giftCard.amount,
+          balance: giftCard.balance,
+          expiresAt: giftCard.expiresAt,
+          purchaseStatus: giftCard.purchaseStatus,
+        };
+      }),
+
+    create: publicProcedure
+      .input(z.object({
+        amount: z.number().min(5000),
+        backgroundImage: z.string().default("default"),
+        recipientName: z.string().optional(),
+        recipientEmail: z.string().email().optional(),
+        recipientPhone: z.string().optional(),
+        senderName: z.string().optional(),
+        senderEmail: z.string().email().optional(),
+        personalMessage: z.string().optional(),
+        deliveryMethod: z.enum(["email", "whatsapp", "download"]).default("email"),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createGiftCard(input);
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        purchaseStatus: z.enum(["pending", "completed", "cancelled"]).optional(),
+        paymentMethod: z.string().optional(),
+        paymentReference: z.string().optional(),
+        deliveredAt: z.date().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const { id, ...updateData } = input;
+        return await db.updateGiftCard(id, updateData);
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.deleteGiftCard(input.id);
+      }),
+
+    // Simular compra (para pruebas sin pasarela de pago)
+    simulatePurchase: publicProcedure
+      .input(z.object({
+        giftCardId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        const giftCard = await db.getGiftCardById(input.giftCardId);
+        if (!giftCard) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Gift card no encontrada" });
+        }
+        
+        // Simular pago exitoso
+        await db.updateGiftCard(input.giftCardId, {
+          purchaseStatus: "completed",
+          paymentMethod: "simulated",
+          paymentReference: `SIM-${Date.now()}`,
+        });
+        
+        // Registrar transacción de compra
+        await db.createGiftCardTransaction({
+          giftCardId: input.giftCardId,
+          transactionType: "purchase",
+          amount: giftCard.amount,
+          balanceBefore: 0,
+          balanceAfter: giftCard.amount,
+          notes: "Compra simulada para pruebas",
+        });
+        
+        return { success: true, giftCard: await db.getGiftCardById(input.giftCardId) };
+      }),
+
+    redeem: protectedProcedure
+      .input(z.object({
+        code: z.string(),
+        amount: z.number().min(1),
+        orderId: z.string().optional(),
+        orderType: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.redeemGiftCard(input.code, input.amount, input.orderId, input.orderType);
+      }),
+
+    getTransactions: protectedProcedure
+      .input(z.object({ giftCardId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getGiftCardTransactions(input.giftCardId);
+      }),
+
+    // Obtener imágenes de fondo disponibles
+    getBackgroundImages: publicProcedure
+      .query(async () => {
+        return [
+          { id: "spa", name: "Spa & Relax", url: "/images/giftcard-spa.jpg" },
+          { id: "nature", name: "Naturaleza", url: "/images/giftcard-nature.jpg" },
+          { id: "massage", name: "Masajes", url: "/images/giftcard-massage.jpg" },
+          { id: "pool", name: "Biopiscinas", url: "/images/giftcard-pool.jpg" },
+          { id: "elegant", name: "Elegante", url: "/images/giftcard-elegant.jpg" },
+          { id: "default", name: "Clásico", url: "/images/giftcard-default.jpg" },
+        ];
       }),
   }),
 });

@@ -630,3 +630,47 @@
 - [x] Agregar campo editable en creador de newsletters para personalizar nombre del remitente
 - [x] Agregar campo sender_name a tabla newsletters en base de datos
 - [ ] Probar que los emails muestren el nombre correcto en lugar de solo "info"
+
+## Mejoras en Sistema de Envío de Emails
+
+### Newsletters
+- [ ] Restaurar selector de opciones de envío (Enviar ahora, Programar, Borrador)
+- [ ] Agregar selector de fecha/hora para programar envío
+- [ ] Configurar reply-to a contacto@cancagua.cl para newsletters
+
+### Cotizaciones B2B
+- [ ] Agregar modal de envío de cotización con campo para emails de destinatarios
+- [ ] Mantener remitente como "Cotización Cancagua <cotizacion@cancagua.cl>"
+- [ ] Agregar copia automática a eventos@cancagua.cl
+- [ ] Configurar reply-to a eventos@cancagua.cl
+
+
+## Módulo de Códigos de Descuento
+- [ ] Crear tabla discountCodes en base de datos
+- [ ] Campos: código, tipo (porcentaje/monto), valor, usos máximos, usos actuales, usuario asignado, fecha expiración, servicios aplicables
+- [ ] Crear endpoints CRUD para códigos de descuento
+- [ ] Crear página de gestión en CMS Marketing
+- [ ] Validación de códigos en proceso de reserva
+
+## Mejoras en Gift Cards
+- [ ] Agregar múltiples imágenes de fondo seleccionables
+- [ ] Opción de enviar gift card a WhatsApp
+- [ ] Opción de descargar gift card en PDF
+- [ ] Sistema de compra simulada para pruebas
+
+
+## Sistema de Formularios con Notificaciones
+- [ ] Implementar sistema de notificación por WhatsApp (+56 9 4007 3999)
+- [ ] Crear formulario de contacto con campos: Nombre, Email, Teléfono, Mensaje
+- [ ] Enviar email a contacto@cancagua.cl con información del formulario
+- [ ] Enviar mensaje personalizado a WhatsApp de Cancagua
+- [ ] Probar funcionamiento completo del sistema
+
+
+## Rediseño Módulo de Newsletters
+- [x] Crear flujo paso a paso intuitivo (1. Contenido, 2. Diseño, 3. Destinatarios, 4. Envío)
+- [x] IA genera asunto automáticamente junto con el contenido
+- [x] Campo de asunto editable después de generación
+- [x] Diseño más visual con cards y mejor espaciado
+- [x] Preview en tiempo real del email
+- [x] Botones de acción claros y descriptivos

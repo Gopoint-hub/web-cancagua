@@ -45,7 +45,11 @@ interface SendBulkEmailOptions {
   tags?: { name: string; value: string }[];
   senderName?: string; // Nombre personalizado del remitente
   senderType?: EmailSenderType; // Tipo de email para usar nombre predefinido
+  replyTo?: string; // Email de respuesta (por defecto: contacto@cancagua.cl)
 }
+
+// Email de respuesta por defecto para newsletters
+const DEFAULT_REPLY_TO = 'contacto@cancagua.cl';
 
 /**
  * Envía un email individual
@@ -134,6 +138,7 @@ export async function sendBulkEmails(options: SendBulkEmailOptions): Promise<{
         subject: email.subject,
         html: email.html,
         text: email.text,
+        replyTo: options.replyTo || DEFAULT_REPLY_TO,
         tags: options.tags,
       }));
 
@@ -424,4 +429,151 @@ export function htmlToPlainText(html: string): string {
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .trim();
+}
+
+
+/**
+ * Configuración para formularios de contacto
+ */
+const CONTACT_TO_EMAIL = 'contacto@cancagua.cl';
+
+interface ContactFormData {
+  nombre: string;
+  email: string;
+  telefono: string;
+  mensaje: string;
+  origen?: string;
+}
+
+/**
+ * Envía un email con los datos del formulario de contacto
+ */
+export async function sendContactFormEmail(data: ContactFormData): Promise<{ success: boolean; id?: string; error?: string }> {
+  try {
+    if (!process.env.RESEND_API_KEY) {
+      console.warn('RESEND_API_KEY no configurada. Email no enviado.');
+      return { success: false, error: 'API key no configurada' };
+    }
+
+    const fecha = new Date().toLocaleString("es-CL", { timeZone: "America/Santiago" });
+    
+    const htmlContent = `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuevo mensaje de contacto</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #F1E7D9;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" style="max-width: 600px; width: 100%; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+          <!-- Header -->
+          <tr>
+            <td style="background-color: #44580E; padding: 24px; text-align: center;">
+              <h1 style="margin: 0; font-family: Arial, sans-serif; font-size: 20px; font-weight: 600; color: #ffffff;">📬 Nuevo Mensaje de Contacto</h1>
+            </td>
+          </tr>
+          
+          <!-- Content -->
+          <tr>
+            <td style="padding: 30px;">
+              <p style="margin: 0 0 20px 0; font-size: 14px; color: #666666;">
+                <strong>Fecha:</strong> ${fecha}<br>
+                <strong>Origen:</strong> ${data.origen || 'Sitio web'}
+              </p>
+              
+              <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h2 style="margin: 0 0 15px 0; font-size: 16px; color: #44580E;">Datos del Contacto</h2>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="padding: 8px 0; border-bottom: 1px solid #e9ecef; font-size: 14px; color: #666666; width: 100px;"><strong>Nombre:</strong></td>
+                    <td style="padding: 8px 0; border-bottom: 1px solid #e9ecef; font-size: 14px; color: #333333;">${data.nombre}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px 0; border-bottom: 1px solid #e9ecef; font-size: 14px; color: #666666;"><strong>Email:</strong></td>
+                    <td style="padding: 8px 0; border-bottom: 1px solid #e9ecef; font-size: 14px; color: #333333;">
+                      <a href="mailto:${data.email}" style="color: #44580E; text-decoration: none;">${data.email}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px 0; font-size: 14px; color: #666666;"><strong>Teléfono:</strong></td>
+                    <td style="padding: 8px 0; font-size: 14px; color: #333333;">
+                      <a href="tel:${data.telefono}" style="color: #44580E; text-decoration: none;">${data.telefono}</a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              
+              <div style="background-color: #fff8e1; padding: 20px; border-radius: 8px; border-left: 4px solid #D3BC8D;">
+                <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #44580E;">Mensaje:</h3>
+                <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #333333; white-space: pre-wrap;">${data.mensaje}</p>
+              </div>
+              
+              <div style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 8px;">
+                <p style="margin: 0; font-size: 13px; color: #2e7d32;">
+                  <strong>Acciones rápidas:</strong><br>
+                  <a href="mailto:${data.email}?subject=Re: Consulta desde cancagua.cl" style="color: #2e7d32;">Responder por email</a> | 
+                  <a href="https://wa.me/${data.telefono.replace(/[^0-9]/g, '')}" style="color: #2e7d32;">Contactar por WhatsApp</a>
+                </p>
+              </div>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #f5f5f5; padding: 20px; text-align: center;">
+              <p style="margin: 0; font-size: 12px; color: #999999;">
+                Este mensaje fue enviado desde el formulario de contacto de cancagua.cl
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+    `.trim();
+
+    const textContent = `Nuevo mensaje de contacto
+
+Fecha: ${fecha}
+Origen: ${data.origen || 'Sitio web'}
+
+DATOS DEL CONTACTO
+------------------
+Nombre: ${data.nombre}
+Email: ${data.email}
+Teléfono: ${data.telefono}
+
+MENSAJE
+-------
+${data.mensaje}
+
+---
+Este mensaje fue enviado desde el formulario de contacto de cancagua.cl`;
+
+    const { data: emailData, error } = await resend.emails.send({
+      from: formatSender('Formulario Cancagua'),
+      to: [CONTACT_TO_EMAIL],
+      subject: `📬 Nuevo mensaje de ${data.nombre} - Formulario de Contacto`,
+      html: htmlContent,
+      text: textContent,
+      replyTo: data.email,
+      tags: [{ name: 'type', value: 'contact_form' }],
+    });
+
+    if (error) {
+      console.error('Error enviando formulario de contacto:', error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, id: emailData?.id };
+  } catch (error: any) {
+    console.error('Error enviando formulario de contacto:', error);
+    return { success: false, error: error.message || 'Error desconocido' };
+  }
 }

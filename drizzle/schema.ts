@@ -372,3 +372,91 @@ export const quoteItems = mysqlTable("quote_items", {
 
 export type QuoteItem = typeof quoteItems.$inferSelect;
 export type InsertQuoteItem = typeof quoteItems.$inferInsert;
+
+
+// Códigos de descuento
+export const discountCodes = mysqlTable("discount_codes", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 50 }).notNull().unique(), // Código único (ej: BIENVENIDO_CANCAGUA)
+  name: text("name").notNull(), // Nombre descriptivo
+  description: text("description"), // Descripción interna
+  discountType: mysqlEnum("discount_type", ["percentage", "fixed"]).default("percentage").notNull(),
+  discountValue: int("discount_value").notNull(), // Porcentaje (0-100) o monto fijo en CLP
+  minPurchase: int("min_purchase").default(0).notNull(), // Monto mínimo de compra para aplicar
+  maxDiscount: int("max_discount"), // Descuento máximo en CLP (para porcentajes)
+  maxUses: int("max_uses"), // Cantidad máxima de usos totales (null = ilimitado)
+  maxUsesPerUser: int("max_uses_per_user").default(1).notNull(), // Usos por usuario
+  currentUses: int("current_uses").default(0).notNull(), // Contador de usos actuales
+  assignedUserId: int("assigned_user_id").references(() => users.id), // Usuario específico (null = genérico)
+  applicableServices: text("applicable_services"), // JSON: ["biopiscinas", "masajes", "clases", "giftcards"]
+  startsAt: timestamp("starts_at"), // Fecha de inicio de validez
+  expiresAt: timestamp("expires_at"), // Fecha de expiración
+  active: int("active").default(1).notNull(),
+  createdBy: int("created_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DiscountCode = typeof discountCodes.$inferSelect;
+export type InsertDiscountCode = typeof discountCodes.$inferInsert;
+
+// Uso de códigos de descuento (historial)
+export const discountCodeUsages = mysqlTable("discount_code_usages", {
+  id: int("id").autoincrement().primaryKey(),
+  discountCodeId: int("discount_code_id").references(() => discountCodes.id, { onDelete: "cascade" }).notNull(),
+  userId: int("user_id").references(() => users.id),
+  userEmail: varchar("user_email", { length: 320 }), // Email del usuario que usó el código
+  orderId: varchar("order_id", { length: 100 }), // ID de la orden/reserva donde se aplicó
+  orderType: varchar("order_type", { length: 50 }), // Tipo: "booking", "giftcard", etc.
+  originalAmount: int("original_amount").notNull(), // Monto original
+  discountAmount: int("discount_amount").notNull(), // Monto descontado
+  finalAmount: int("final_amount").notNull(), // Monto final
+  usedAt: timestamp("used_at").defaultNow().notNull(),
+});
+
+export type DiscountCodeUsage = typeof discountCodeUsages.$inferSelect;
+export type InsertDiscountCodeUsage = typeof discountCodeUsages.$inferInsert;
+
+// Gift Cards
+export const giftCards = mysqlTable("gift_cards", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 20 }).notNull().unique(), // Código único de la gift card
+  amount: int("amount").notNull(), // Monto en CLP
+  balance: int("balance").notNull(), // Saldo restante
+  backgroundImage: varchar("background_image", { length: 255 }).default("default").notNull(), // Imagen de fondo seleccionada
+  recipientName: text("recipient_name"), // Nombre del destinatario
+  recipientEmail: varchar("recipient_email", { length: 320 }), // Email del destinatario
+  recipientPhone: varchar("recipient_phone", { length: 50 }), // Teléfono/WhatsApp del destinatario
+  senderName: text("sender_name"), // Nombre de quien regala
+  senderEmail: varchar("sender_email", { length: 320 }), // Email de quien regala
+  personalMessage: text("personal_message"), // Mensaje personalizado
+  purchaseStatus: mysqlEnum("purchase_status", ["pending", "completed", "cancelled"]).default("pending").notNull(),
+  paymentMethod: varchar("payment_method", { length: 50 }), // Método de pago usado
+  paymentReference: varchar("payment_reference", { length: 100 }), // Referencia del pago
+  deliveryMethod: mysqlEnum("delivery_method", ["email", "whatsapp", "download"]).default("email").notNull(),
+  deliveredAt: timestamp("delivered_at"), // Fecha de entrega
+  expiresAt: timestamp("expires_at").notNull(), // Fecha de expiración (1 año por defecto)
+  redeemedAt: timestamp("redeemed_at"), // Fecha de uso completo
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type GiftCard = typeof giftCards.$inferSelect;
+export type InsertGiftCard = typeof giftCards.$inferInsert;
+
+// Historial de uso de gift cards
+export const giftCardTransactions = mysqlTable("gift_card_transactions", {
+  id: int("id").autoincrement().primaryKey(),
+  giftCardId: int("gift_card_id").references(() => giftCards.id, { onDelete: "cascade" }).notNull(),
+  transactionType: mysqlEnum("transaction_type", ["purchase", "redemption", "refund"]).notNull(),
+  amount: int("amount").notNull(), // Monto de la transacción
+  balanceBefore: int("balance_before").notNull(),
+  balanceAfter: int("balance_after").notNull(),
+  orderId: varchar("order_id", { length: 100 }), // ID de la orden donde se usó
+  orderType: varchar("order_type", { length: 50 }), // Tipo de orden
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type GiftCardTransaction = typeof giftCardTransactions.$inferSelect;
+export type InsertGiftCardTransaction = typeof giftCardTransactions.$inferInsert;

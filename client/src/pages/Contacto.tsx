@@ -20,7 +20,7 @@ export default function Contacto() {
     message: "",
   });
 
-  const sendMessageMutation = trpc.contact.send.useMutation({
+  const sendMessageMutation = trpc.contactMessages.send.useMutation({
     onSuccess: () => {
       toast.success("¡Mensaje enviado exitosamente! Te responderemos pronto.");
       setFormData({

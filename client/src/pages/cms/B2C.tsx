@@ -12,7 +12,7 @@ export default function CMSB2C() {
   const [, setLocation] = useLocation();
 
   const { data: bookingsData } = trpc.bookings.list.useQuery();
-  const { data: messagesData } = trpc.contact.list.useQuery();
+  const { data: messagesData } = trpc.contactMessages.list.useQuery();
 
   const pendingBookings = bookingsData?.filter((b: any) => b.status === "pending").length || 0;
   const confirmedBookings = bookingsData?.filter((b: any) => b.status === "confirmed").length || 0;

@@ -14,7 +14,7 @@ export default function CMSDashboard() {
 
   // Obtener estadísticas rápidas
   const { data: bookingsData } = trpc.bookings.list.useQuery();
-  const { data: messagesData } = trpc.contact.list.useQuery();
+  const { data: messagesData } = trpc.contactMessages.list.useQuery();
   const { data: quotesData } = trpc.quotes.getAll.useQuery();
   const { data: subscribersData } = trpc.subscribers.getAll.useQuery();
 

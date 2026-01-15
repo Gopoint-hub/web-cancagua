@@ -28,7 +28,10 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Plus, Eye, Edit, Trash2, CheckCircle2, XCircle, DollarSign, FileText, Download, Copy, Send } from "lucide-react";
+import { Plus, Eye, Edit, Trash2, CheckCircle2, XCircle, DollarSign, FileText, Download, Copy, Send, Loader2, Mail } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 
@@ -48,6 +51,10 @@ export default function Cotizaciones() {
   const [showStatusDialog, setShowStatusDialog] = useState(false);
   const [newStatus, setNewStatus] = useState<string>("");
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [showSendDialog, setShowSendDialog] = useState(false);
+  const [sendQuote, setSendQuote] = useState<any>(null);
+  const [additionalEmails, setAdditionalEmails] = useState("");
+  const [customMessage, setCustomMessage] = useState("");
 
   const { data: quotes = [], refetch } = trpc.quotes.getAll.useQuery();
   const generatePDFMutation = trpc.quotes.generatePDF.useMutation();
@@ -198,6 +205,40 @@ export default function Cotizaciones() {
       refetch();
     } catch (error: any) {
       toast.error(error.message || "Error al duplicar cotizaciones");
+    }
+  };
+
+  const handleOpenSendDialog = (quote: any) => {
+    setSendQuote(quote);
+    setAdditionalEmails("");
+    setCustomMessage("");
+    setShowSendDialog(true);
+  };
+
+  const handleSendQuote = async () => {
+    if (!sendQuote) return;
+
+    try {
+      toast.info("Enviando cotización...");
+      
+      // Parsear emails adicionales
+      const emailList = additionalEmails
+        .split(/[,;\s]+/)
+        .map(e => e.trim())
+        .filter(e => e && e.includes("@"));
+      
+      await sendByEmailMutation.mutateAsync({
+        id: sendQuote.id,
+        customMessage: customMessage || undefined,
+        additionalEmails: emailList.length > 0 ? emailList : undefined,
+      });
+      
+      const recipients = [sendQuote.clientEmail, ...emailList].join(", ");
+      toast.success(`Cotización enviada a: ${recipients}`);
+      setShowSendDialog(false);
+      refetch();
+    } catch (error: any) {
+      toast.error(error.message || "Error al enviar cotización");
     }
   };
 
@@ -461,18 +502,7 @@ export default function Cotizaciones() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={async () => {
-                            if (confirm(`¿Enviar cotización ${quote.quoteNumber} a ${quote.clientEmail}?\n\nSe enviará desde cotizacion@cancagua.cl con copia a eventos@cancagua.cl`)) {
-                              try {
-                                toast.info("Enviando cotización...");
-                                await sendByEmailMutation.mutateAsync({ id: quote.id });
-                                toast.success(`Cotización enviada a ${quote.clientEmail}`);
-                                refetch();
-                              } catch (error: any) {
-                                toast.error(error.message || "Error al enviar cotización");
-                              }
-                            }
-                          }}
+                          onClick={() => handleOpenSendDialog(quote)}
                           title="Enviar por email"
                           disabled={sendByEmailMutation.isPending}
                         >
@@ -666,6 +696,91 @@ export default function Cotizaciones() {
               disabled={updateStatusMutation.isPending || newStatus === selectedQuote?.status}
             >
               Actualizar Estado
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog: Enviar cotización por email */}
+      <Dialog open={showSendDialog} onOpenChange={setShowSendDialog}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Mail className="h-5 w-5" />
+              Enviar Cotización por Email
+            </DialogTitle>
+            <DialogDescription>
+              Cotización: {sendQuote?.quoteNumber} - {sendQuote?.clientName}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="bg-blue-50 p-4 rounded-lg text-sm space-y-2">
+              <p><strong>Remitente:</strong> Cotización Cancagua &lt;cotizacion@cancagua.cl&gt;</p>
+              <p><strong>Copia automática:</strong> eventos@cancagua.cl</p>
+              <p><strong>Respuestas a:</strong> eventos@cancagua.cl</p>
+            </div>
+
+            <div>
+              <Label>Destinatario Principal</Label>
+              <Input
+                value={sendQuote?.clientEmail || ""}
+                disabled
+                className="mt-1 bg-gray-50"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="additionalEmails">Destinatarios Adicionales (opcional)</Label>
+              <Input
+                id="additionalEmails"
+                value={additionalEmails}
+                onChange={(e) => setAdditionalEmails(e.target.value)}
+                placeholder="email1@ejemplo.com, email2@ejemplo.com"
+                className="mt-1"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Separa múltiples emails con comas o espacios
+              </p>
+            </div>
+
+            <div>
+              <Label htmlFor="customMessage">Mensaje Personalizado (opcional)</Label>
+              <Textarea
+                id="customMessage"
+                value={customMessage}
+                onChange={(e) => setCustomMessage(e.target.value)}
+                placeholder="Agregue un mensaje personalizado para el cliente..."
+                className="mt-1"
+                rows={3}
+              />
+            </div>
+
+            <div className="bg-amber-50 p-3 rounded-lg text-sm text-amber-800">
+              <p>Se adjuntará automáticamente el PDF de la cotización.</p>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowSendDialog(false)}>
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleSendQuote}
+              disabled={sendByEmailMutation.isPending}
+              className="bg-[#44580E] hover:bg-[#3a4c0c]"
+            >
+              {sendByEmailMutation.isPending ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Enviando...
+                </>
+              ) : (
+                <>
+                  <Send className="h-4 w-4 mr-2" />
+                  Enviar Cotización
+                </>
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

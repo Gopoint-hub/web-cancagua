@@ -1266,3 +1266,339 @@ export async function trackNewsletterClick(sendId: number) {
     .set({ clickedAt: new Date() })
     .where(eq(newsletterSends.id, sendId));
 }
+
+
+// ============================================
+// DISCOUNT CODES
+// ============================================
+
+export async function getAllDiscountCodes() {
+  const db = await getDb();
+  if (!db) return [];
+  const { discountCodes } = await import("../drizzle/schema");
+  const { desc } = await import("drizzle-orm");
+  return db.select().from(discountCodes).orderBy(desc(discountCodes.createdAt));
+}
+
+export async function getActiveDiscountCodes() {
+  const db = await getDb();
+  if (!db) return [];
+  const { discountCodes } = await import("../drizzle/schema");
+  const { eq, and, or, isNull, gte, lte } = await import("drizzle-orm");
+  
+  const now = new Date();
+  return db.select().from(discountCodes).where(
+    and(
+      eq(discountCodes.active, 1),
+      or(isNull(discountCodes.startsAt), lte(discountCodes.startsAt, now)),
+      or(isNull(discountCodes.expiresAt), gte(discountCodes.expiresAt, now))
+    )
+  );
+}
+
+export async function getDiscountCodeById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const { discountCodes } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(discountCodes).where(eq(discountCodes.id, id));
+  return results[0] || null;
+}
+
+export async function getDiscountCodeByCode(code: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const { discountCodes } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(discountCodes).where(eq(discountCodes.code, code.toUpperCase()));
+  return results[0] || null;
+}
+
+export async function createDiscountCode(discountCode: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { discountCodes } = await import("../drizzle/schema");
+  await db.insert(discountCodes).values({
+    ...discountCode,
+    code: discountCode.code.toUpperCase(),
+  });
+  return { success: true };
+}
+
+export async function updateDiscountCode(id: number, discountCode: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { discountCodes } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  const updateData = { ...discountCode };
+  if (updateData.code) {
+    updateData.code = updateData.code.toUpperCase();
+  }
+  
+  await db.update(discountCodes).set(updateData).where(eq(discountCodes.id, id));
+  return { success: true };
+}
+
+export async function deleteDiscountCode(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { discountCodes } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(discountCodes).where(eq(discountCodes.id, id));
+  return { success: true };
+}
+
+export async function incrementDiscountCodeUsage(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { discountCodes } = await import("../drizzle/schema");
+  const { eq, sql } = await import("drizzle-orm");
+  
+  await db.update(discountCodes)
+    .set({ currentUses: sql`${discountCodes.currentUses} + 1` })
+    .where(eq(discountCodes.id, id));
+  return { success: true };
+}
+
+export async function validateDiscountCode(code: string, userId?: number, serviceType?: string) {
+  const discountCode = await getDiscountCodeByCode(code);
+  
+  if (!discountCode) {
+    return { valid: false, error: "Código no encontrado" };
+  }
+  
+  if (discountCode.active !== 1) {
+    return { valid: false, error: "Código inactivo" };
+  }
+  
+  const now = new Date();
+  
+  if (discountCode.startsAt && new Date(discountCode.startsAt) > now) {
+    return { valid: false, error: "Código aún no está activo" };
+  }
+  
+  if (discountCode.expiresAt && new Date(discountCode.expiresAt) < now) {
+    return { valid: false, error: "Código expirado" };
+  }
+  
+  if (discountCode.maxUses && discountCode.currentUses >= discountCode.maxUses) {
+    return { valid: false, error: "Código ha alcanzado el límite de usos" };
+  }
+  
+  if (discountCode.assignedUserId && discountCode.assignedUserId !== userId) {
+    return { valid: false, error: "Código no válido para este usuario" };
+  }
+  
+  // Verificar servicios aplicables
+  if (serviceType && discountCode.applicableServices) {
+    const services = JSON.parse(discountCode.applicableServices);
+    if (!services.includes(serviceType) && !services.includes("all")) {
+      return { valid: false, error: "Código no aplicable a este servicio" };
+    }
+  }
+  
+  return { 
+    valid: true, 
+    discountCode,
+    discountType: discountCode.discountType,
+    discountValue: discountCode.discountValue,
+    maxDiscount: discountCode.maxDiscount,
+  };
+}
+
+// ============================================
+// DISCOUNT CODE USAGES
+// ============================================
+
+export async function createDiscountCodeUsage(usage: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { discountCodeUsages } = await import("../drizzle/schema");
+  await db.insert(discountCodeUsages).values(usage);
+  
+  // Incrementar contador de usos
+  await incrementDiscountCodeUsage(usage.discountCodeId);
+  
+  return { success: true };
+}
+
+export async function getUsagesForDiscountCode(discountCodeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { discountCodeUsages } = await import("../drizzle/schema");
+  const { eq, desc } = await import("drizzle-orm");
+  return db.select().from(discountCodeUsages)
+    .where(eq(discountCodeUsages.discountCodeId, discountCodeId))
+    .orderBy(desc(discountCodeUsages.usedAt));
+}
+
+export async function getUserDiscountCodeUsageCount(discountCodeId: number, userId: number) {
+  const db = await getDb();
+  if (!db) return 0;
+  const { discountCodeUsages } = await import("../drizzle/schema");
+  const { eq, and, count } = await import("drizzle-orm");
+  
+  const result = await db
+    .select({ count: count() })
+    .from(discountCodeUsages)
+    .where(and(
+      eq(discountCodeUsages.discountCodeId, discountCodeId),
+      eq(discountCodeUsages.userId, userId)
+    ));
+  
+  return result[0]?.count || 0;
+}
+
+// ============================================
+// GIFT CARDS
+// ============================================
+
+export async function getAllGiftCards() {
+  const db = await getDb();
+  if (!db) return [];
+  const { giftCards } = await import("../drizzle/schema");
+  const { desc } = await import("drizzle-orm");
+  return db.select().from(giftCards).orderBy(desc(giftCards.createdAt));
+}
+
+export async function getGiftCardById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const { giftCards } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(giftCards).where(eq(giftCards.id, id));
+  return results[0] || null;
+}
+
+export async function getGiftCardByCode(code: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const { giftCards } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(giftCards).where(eq(giftCards.code, code.toUpperCase()));
+  return results[0] || null;
+}
+
+export async function createGiftCard(giftCard: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { giftCards } = await import("../drizzle/schema");
+  
+  // Generar código único
+  const code = generateGiftCardCode();
+  
+  // Fecha de expiración: 1 año desde ahora
+  const expiresAt = new Date();
+  expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+  
+  await db.insert(giftCards).values({
+    ...giftCard,
+    code,
+    balance: giftCard.amount,
+    expiresAt,
+  });
+  
+  // Obtener la gift card recién creada
+  const created = await getGiftCardByCode(code);
+  return { success: true, giftCard: created };
+}
+
+export async function updateGiftCard(id: number, giftCard: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { giftCards } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.update(giftCards).set(giftCard).where(eq(giftCards.id, id));
+  return { success: true };
+}
+
+export async function deleteGiftCard(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { giftCards } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(giftCards).where(eq(giftCards.id, id));
+  return { success: true };
+}
+
+export async function redeemGiftCard(code: string, amount: number, orderId?: string, orderType?: string) {
+  const giftCard = await getGiftCardByCode(code);
+  
+  if (!giftCard) {
+    return { success: false, error: "Gift card no encontrada" };
+  }
+  
+  if (giftCard.purchaseStatus !== "completed") {
+    return { success: false, error: "Gift card no está activa" };
+  }
+  
+  if (new Date(giftCard.expiresAt) < new Date()) {
+    return { success: false, error: "Gift card expirada" };
+  }
+  
+  if (giftCard.balance < amount) {
+    return { success: false, error: "Saldo insuficiente", balance: giftCard.balance };
+  }
+  
+  const db = await getDb();
+  if (!db) return { success: false, error: "Error de base de datos" };
+  
+  const { giftCards, giftCardTransactions } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  const newBalance = giftCard.balance - amount;
+  
+  // Actualizar saldo
+  await db.update(giftCards)
+    .set({ 
+      balance: newBalance,
+      redeemedAt: newBalance === 0 ? new Date() : null,
+    })
+    .where(eq(giftCards.id, giftCard.id));
+  
+  // Registrar transacción
+  await db.insert(giftCardTransactions).values({
+    giftCardId: giftCard.id,
+    transactionType: "redemption",
+    amount,
+    balanceBefore: giftCard.balance,
+    balanceAfter: newBalance,
+    orderId,
+    orderType,
+  });
+  
+  return { success: true, newBalance };
+}
+
+function generateGiftCardCode(): string {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let code = "GC-";
+  for (let i = 0; i < 12; i++) {
+    if (i > 0 && i % 4 === 0) code += "-";
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+}
+
+// ============================================
+// GIFT CARD TRANSACTIONS
+// ============================================
+
+export async function getGiftCardTransactions(giftCardId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { giftCardTransactions } = await import("../drizzle/schema");
+  const { eq, desc } = await import("drizzle-orm");
+  return db.select().from(giftCardTransactions)
+    .where(eq(giftCardTransactions.giftCardId, giftCardId))
+    .orderBy(desc(giftCardTransactions.createdAt));
+}
+
+export async function createGiftCardTransaction(transaction: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { giftCardTransactions } = await import("../drizzle/schema");
+  await db.insert(giftCardTransactions).values(transaction);
+  return { success: true };
+}

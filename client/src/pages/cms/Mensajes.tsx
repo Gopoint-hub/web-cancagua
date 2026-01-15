@@ -16,10 +16,10 @@ export default function CMSMensajes() {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   // Queries
-  const { data: messages, isLoading, refetch } = trpc.contact.list.useQuery();
+  const { data: messages, isLoading, refetch } = trpc.contactMessages.list.useQuery();
 
   // Mutations
-  const updateStatusMutation = trpc.contact.updateStatus.useMutation({
+  const updateStatusMutation = trpc.contactMessages.updateStatus.useMutation({
     onSuccess: () => {
       toast.success("Estado actualizado");
       refetch();
@@ -29,7 +29,7 @@ export default function CMSMensajes() {
     },
   });
 
-  const deleteMutation = trpc.contact.delete.useMutation({
+  const deleteMutation = trpc.contactMessages.delete.useMutation({
     onSuccess: () => {
       toast.success("Mensaje eliminado");
       refetch();
@@ -39,7 +39,7 @@ export default function CMSMensajes() {
     },
   });
 
-  const bulkDeleteMutation = trpc.contact.bulkDelete.useMutation({
+  const bulkDeleteMutation = trpc.contactMessages.bulkDelete.useMutation({
     onSuccess: (data) => {
       toast.success(`${data.count} mensajes eliminados`);
       setSelectedIds([]);
@@ -50,13 +50,13 @@ export default function CMSMensajes() {
     },
   });
 
-  const bulkUpdateStatusMutation = trpc.contact.bulkUpdateStatus.useMutation({
-    onSuccess: (data) => {
+  const bulkUpdateStatusMutation = trpc.contactMessages.bulkUpdateStatus.useMutation({
+    onSuccess: (data: { count: number }) => {
       toast.success(`${data.count} mensajes actualizados`);
       setSelectedIds([]);
       refetch();
     },
-    onError: (error) => {
+    onError: (error: { message?: string }) => {
       toast.error(error.message || "Error al actualizar mensajes");
     },
   });
