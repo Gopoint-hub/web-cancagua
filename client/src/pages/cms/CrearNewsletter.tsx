@@ -546,7 +546,7 @@ export default function CMSCrearNewsletter() {
                 </CardHeader>
                 
                 <CardContent className="flex-1 flex flex-col p-0">
-                  <ScrollArea className="flex-1 p-4">
+                  <ScrollArea className="h-[350px] p-4">
                     <div className="space-y-4">
                       {chatMessages.map((msg, index) => (
                         <div

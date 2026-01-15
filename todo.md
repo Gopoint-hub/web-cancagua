@@ -737,3 +737,9 @@
 - [x] Reducir tamaño del número de cotización en esquina superior derecha del PDF
 - [x] Asegurar que no se superponga con el texto "COTIZACIÓN"
 - [x] Ajustar posición de fecha y válida hasta
+
+
+## Scroll en Chat de Newsletters
+- [x] Agregar scroll al contenedor de mensajes de IA en CrearNewsletter
+- [x] Asegurar que la conversación se mantenga dentro del cuadro
+- [x] Scroll automático al último mensaje (ya existía con chatEndRef)
