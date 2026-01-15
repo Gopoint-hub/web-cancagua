@@ -862,3 +862,9 @@
 - [x] Crear landing Pase Bio-Reconecta Detox
 - [x] Agregar rutas en App.tsx
 - [x] Actualizar menú EXPERIENCIAS en Navbar
+
+## Heart Coherence Workshop Landing
+- [x] Copiar imagen de Sonja Bloder al proyecto
+- [x] Crear landing page /eventos/heart-coherence-workshop
+- [x] Agregar ruta en App.tsx
+- [x] Agregar enlace en menú de Eventos

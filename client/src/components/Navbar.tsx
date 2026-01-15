@@ -36,6 +36,7 @@ export function Navbar() {
   ];
 
   const eventos = [
+    { name: "Heart Coherence Workshop", href: "/eventos/heart-coherence-workshop", featured: true },
     { name: "Taller Wim Hof", href: "/eventos/taller-wim-hof", featured: true },
     { name: "Eventos Sociales", href: "/eventos/sociales" },
     { name: "Eventos Empresas", href: "/eventos/empresas" },

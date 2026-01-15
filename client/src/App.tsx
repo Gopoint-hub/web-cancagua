@@ -53,6 +53,7 @@ import PaseReconecta from "./pages/experiencias/PaseReconecta";
 import PaseReconectaDetox from "./pages/experiencias/PaseReconectaDetox";
 import PaseBioReconecta from "./pages/experiencias/PaseBioReconecta";
 import PaseBioReconectaDetox from "./pages/experiencias/PaseBioReconectaDetox";
+import HeartCoherenceWorkshop from "./pages/HeartCoherenceWorkshop";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -77,6 +78,7 @@ function Router() {
       <Route path={"/servicios/hot-tubs"} component={HotTubs} />
       <Route path={"/servicios/sauna"} component={Sauna} />
       <Route path={"/eventos/taller-wim-hof"} component={TallerWimHof} />
+      <Route path={"/eventos/heart-coherence-workshop"} component={HeartCoherenceWorkshop} />
       <Route path={"/servicios/full-day-hot-tubs"} component={FullDayHotTubs} />
       <Route path={"/servicios/full-day-biopiscinas"} component={FullDayBiopiscinas} />
       <Route path={"/experiencias/pases-reconecta"} component={PasesReconecta} />
