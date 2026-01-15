@@ -12,7 +12,6 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "wouter";
-import { trpc } from "@/lib/trpc";
 
 export function Navbar() {
   const { t } = useTranslation();
@@ -36,16 +35,9 @@ export function Navbar() {
     { name: "Full Day Biopiscinas + Playa", href: "/servicios/full-day-biopiscinas" },
   ];
 
-  // Cargar eventos dinámicos activos y destacados
-  const { data: dynamicEvents } = trpc.events.getActive.useQuery();
-  const featuredEvents = dynamicEvents?.filter(e => e.featured) || [];
-  
   const eventos = [
-    ...featuredEvents.map(event => ({
-      name: event.title,
-      href: `/eventos/${event.slug}`,
-      featured: true
-    })),
+    { name: "Heart Coherence Workshop", href: "/eventos/heart-coherence-workshop", featured: true },
+    { name: "Taller Wim Hof", href: "/eventos/taller-wim-hof", featured: true },
     { name: "Eventos Sociales", href: "/eventos/sociales" },
     { name: "Eventos Empresas", href: "/eventos/empresas" },
   ];

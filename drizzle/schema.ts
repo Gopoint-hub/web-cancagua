@@ -44,26 +44,22 @@ export const services = mysqlTable("services", {
 export type Service = typeof services.$inferSelect;
 export type InsertService = typeof services.$inferInsert;
 
-// Eventos dinámicos con landing pages generadas por IA
+// Eventos de Skedu
 export const events = mysqlTable("events", {
   id: int("id").autoincrement().primaryKey(),
-  skeduId: varchar("skedu_id", { length: 255 }).unique(), // Para eventos sincronizados de Skedu (legacy)
+  skeduId: varchar("skedu_id", { length: 255 }).unique(),
   title: text("title").notNull(),
-  slug: varchar("slug", { length: 255 }).notNull().unique(), // URL-friendly slug
-  description: text("description"), // Descripción corta para cards
-  contentHtml: text("content_html"), // HTML generado por IA para landing page
-  images: text("images"), // JSON array de URLs de imágenes
-  externalLink: text("external_link"), // Link de reserva externo (Skedu, etc.)
-  startDate: timestamp("start_date").notNull(), // Fecha/hora de inicio del evento
-  endDate: timestamp("end_date").notNull(), // Fecha/hora de finalización (para auto-desactivación)
+  description: text("description"),
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date"),
   duration: int("duration"), // en minutos
   price: int("price"),
-  totalCapacity: int("total_capacity"),
-  availableCapacity: int("available_capacity"),
+  totalCapacity: int("total_capacity").notNull(),
+  availableCapacity: int("available_capacity").notNull(),
   category: varchar("category", { length: 100 }),
+  imageUrl: text("image_url"),
   location: text("location"),
-  featured: int("featured").default(0).notNull(), // 1 = destacado en menú, 0 = normal
-  status: mysqlEnum("status", ["draft", "active", "ended"]).default("draft").notNull(),
+  active: int("active").default(1).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
   lastSyncedAt: timestamp("last_synced_at"),
@@ -71,12 +67,6 @@ export const events = mysqlTable("events", {
 
 export type Event = typeof events.$inferSelect;
 export type InsertEvent = typeof events.$inferInsert;
-
-// Helper type for event images
-export type EventImage = {
-  url: string;
-  alt?: string;
-};
 
 // Clientes sincronizados desde Skedu
 export const clients = mysqlTable("clients", {

@@ -1,8 +1,0 @@
-{
-  "query": "SELECT id, title, slug, status, contentHtml FROM events WHERE slug = 'somatic-breathwork-nervous-system-reset-journey-sabado-17-de-enero' LIMIT 1;",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user kmGoXqmAzDGYCHX.3b33370e5065 --database b6AHokZVYJSFV94d2D2ybb --execute SELECT id, title, slug, status, contentHtml FROM events WHERE slug = 'somatic-breathwork-nervous-system-reset-journey-sabado-17-de-enero' LIMIT 1;",
-  "returncode": 1,
-  "logs": [
-    "ERROR 1054 (42S22) at line 1: Unknown column 'contenthtml' in 'field list'"
-  ]
-}

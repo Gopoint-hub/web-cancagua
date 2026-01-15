@@ -26,7 +26,6 @@ import CMSAnalytics from "./pages/cms/Analytics";
 import CMSConfiguracion from "./pages/cms/Configuracion";
 import CMSCRMPipeline from "./pages/cms/CRMPipeline";
 import CMSB2C from "./pages/cms/B2C";
-import CMSEventosB2C from "./pages/cms/EventosB2C";
 import CMSB2B from "./pages/cms/B2B";
 import CMSMarketing from "./pages/cms/Marketing";
 import CMSMetricas from "./pages/cms/Metricas";
@@ -55,7 +54,6 @@ import PaseReconectaDetox from "./pages/experiencias/PaseReconectaDetox";
 import PaseBioReconecta from "./pages/experiencias/PaseBioReconecta";
 import PaseBioReconectaDetox from "./pages/experiencias/PaseBioReconectaDetox";
 import HeartCoherenceWorkshop from "./pages/HeartCoherenceWorkshop";
-import EventLanding from "./pages/EventLanding";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -81,7 +79,6 @@ function Router() {
       <Route path={"/servicios/sauna"} component={Sauna} />
       <Route path={"/eventos/taller-wim-hof"} component={TallerWimHof} />
       <Route path={"/eventos/heart-coherence-workshop"} component={HeartCoherenceWorkshop} />
-      <Route path={"/eventos/:slug"} component={EventLanding} />
       <Route path={"/servicios/full-day-hot-tubs"} component={FullDayHotTubs} />
       <Route path={"/servicios/full-day-biopiscinas"} component={FullDayBiopiscinas} />
       <Route path={"/experiencias/pases-reconecta"} component={PasesReconecta} />
@@ -109,7 +106,6 @@ function Router() {
       <Route path={"/cms/configuracion"} component={CMSConfiguracion} />
       <Route path={"/cms/crm-pipeline"} component={CMSCRMPipeline} />
       <Route path={"/cms/b2c"} component={CMSB2C} />
-      <Route path={"/cms/b2c/eventos"} component={CMSEventosB2C} />
       <Route path={"/cms/b2b"} component={CMSB2B} />
       <Route path={"/cms/marketing"} component={CMSMarketing} />
       <Route path={"/cms/metricas"} component={CMSMetricas} />
