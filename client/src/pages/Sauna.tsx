@@ -12,7 +12,7 @@ export default function Sauna() {
       price: "$15.000 CLP",
       duration: "1 hr",
       capacity: "1 persona",
-      image: "/images/11_hottub-service.webp",
+      image: "/images/sauna-nativo-hero.png",
       reservaUrl: "https://reservas.cancagua.cl/cancaguaspa/s/294abb1b-bda0-4e10-8600-7d225f6ce663",
     },
     {
@@ -20,7 +20,7 @@ export default function Sauna() {
       price: "$25.000 CLP",
       duration: "1 hr",
       capacity: "2 personas",
-      image: "/images/11_hottub-service.webp",
+      image: "/images/sauna-nativo-hero.png",
       reservaUrl: "https://reservas.cancagua.cl/cancaguaspa/s/486ccef7-d9d0-4310-9eaf-8034ece7ac26",
     },
     {
@@ -36,7 +36,7 @@ export default function Sauna() {
       price: "$40.000 CLP",
       duration: "1 hr",
       capacity: "Hasta 6 personas",
-      image: "/images/11_hottub-service.webp",
+      image: "/images/sauna-nativo-hero.png",
       reservaUrl: "https://reservas.cancagua.cl/cancaguaspa/s/a944a041-9556-4c39-9252-ef1a01b28439",
       featured: true,
     },
