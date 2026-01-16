@@ -1,131 +1,138 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Users, MapPin, ArrowRight } from "lucide-react";
+import { Calendar, Clock, MapPin, ArrowRight, Users } from "lucide-react";
+import { Link } from "wouter";
+
+// Eventos destacados con enlaces a sus landing pages
+const featuredEvents = [
+  {
+    id: 1,
+    title: "Heart Coherence Workshop",
+    description: "Taller de coherencia cardíaca con Sonja Bloder. Aprende técnicas de respiración y meditación para equilibrar tu sistema nervioso.",
+    image: "/images/sonja-bloder.jpg",
+    date: "15 de Febrero, 2026",
+    time: "10:00 - 14:00",
+    location: "Cancagua Spa & Retreat Center",
+    price: "$45.000 CLP",
+    href: "/eventos/heart-coherence-workshop",
+  },
+  {
+    id: 2,
+    title: "Taller Método Wim Hof",
+    description: "Experiencia transformadora con Alan IceMan, único instructor avanzado del Método Wim Hof en Chile. Respiración, mentalidad y exposición al frío.",
+    image: "/images/alan-iceman.jpg",
+    date: "31 de Enero, 2026",
+    time: "09:00 - 13:15",
+    location: "Cancagua Spa & Retreat Center",
+    price: "$45.000 CLP",
+    href: "/eventos/taller-wim-hof",
+  },
+];
 
 export function EventosLanding() {
   const { t } = useTranslation();
-  const [selectedCategory, setSelectedCategory] = useState<"all" | "social" | "corporate">("all");
-
-  // Obtener eventos activos
-  const { data: events = [], isLoading } = trpc.events.getActive.useQuery();
-
-  // Filtrar eventos según categoría
-  const filteredEvents = (events || []).filter((event: any) => {
-    if (selectedCategory === "all") return true;
-    // Aquí puedes agregar lógica para filtrar por tipo de evento
-    return true;
-  });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#FDFBF7]">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-[50vh] md:h-[60vh] overflow-hidden bg-gradient-to-r from-slate-900 to-slate-800">
-        <div className="absolute inset-0 bg-black/40" />
+      <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/images/07_eventos-hero.jpg')" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
         <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-            {t("eventos.landing.title") || "Eventos & Experiencias"}
+          <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+            {t("eventos.landing.badge", "Experiencias Transformadoras")}
+          </span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wider text-white mb-6">
+            {t("eventos.landing.title", "Eventos & Talleres")}
           </h1>
-          <p className="text-lg md:text-xl text-gray-200 max-w-2xl">
-            {t("eventos.landing.subtitle") ||
-              "Vive experiencias transformadoras, eventos especiales y retiros diseñados para tu bienestar"}
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl font-light">
+            {t("eventos.landing.subtitle", "Vive experiencias únicas de bienestar, crecimiento personal y conexión con la naturaleza")}
           </p>
         </div>
       </section>
 
-      {/* Eventos Activos Section */}
-      <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {t("eventos.landing.upcoming") || "Próximos Eventos"}
-          </h2>
-          <p className="text-gray-600 text-lg">
-            {t("eventos.landing.upcoming_desc") ||
-              "Descubre nuestros eventos especiales y experiencias transformadoras"}
-          </p>
-        </div>
-
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-gray-200 rounded-lg h-96 animate-pulse" />
-            ))}
+      {/* Próximos Eventos Section */}
+      <section className="py-20 md:py-28 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+              {t("eventos.landing.upcoming_badge", "Agenda")}
+            </span>
+            <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-6">
+              {t("eventos.landing.upcoming", "Próximos Eventos")}
+            </h2>
+            <p className="text-lg text-[#8C8C8C] font-accent italic max-w-2xl mx-auto">
+              {t("eventos.landing.upcoming_desc", "Descubre nuestros talleres y experiencias diseñadas para tu bienestar integral")}
+            </p>
           </div>
-        ) : filteredEvents && filteredEvents.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredEvents.map((event: any) => (
-              <Card key={event.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                {event.image_url && (
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={event.image_url}
-                      alt={event.title}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {featuredEvents.map((event) => (
+              <Card key={event.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 bg-white border-0 shadow-lg">
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={event.image}
+                    alt={event.title}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-4 right-4 bg-[#D3BC8D] text-[#3a3a3a] px-4 py-2 text-sm font-medium">
+                    {event.price}
                   </div>
-                )}
-                <CardHeader>
-                  <CardTitle className="line-clamp-2">{event.title}</CardTitle>
-                  <CardDescription className="line-clamp-2">{event.description}</CardDescription>
+                </div>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-2xl font-light tracking-wide">{event.title}</CardTitle>
+                  <CardDescription className="text-base">{event.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2 text-sm">
-                    {event.event_date && (
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <Calendar className="w-4 h-4" />
-                        <span>{new Date(event.event_date).toLocaleDateString("es-CL")}</span>
-                      </div>
-                    )}
-                    {event.location && (
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <MapPin className="w-4 h-4" />
-                        <span>{event.location}</span>
-                      </div>
-                    )}
-                    {event.capacity && (
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <Users className="w-4 h-4" />
-                        <span>Hasta {event.capacity} personas</span>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-3 text-[#5a5a5a]">
+                      <Calendar className="w-4 h-4 text-[#D3BC8D]" />
+                      <span>{event.date}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-[#5a5a5a]">
+                      <Clock className="w-4 h-4 text-[#D3BC8D]" />
+                      <span>{event.time}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-[#5a5a5a]">
+                      <MapPin className="w-4 h-4 text-[#D3BC8D]" />
+                      <span>{event.location}</span>
+                    </div>
                   </div>
-                  <a href={event.booking_url || "#"} target="_blank" rel="noopener noreferrer">
-                    <Button className="w-full gap-2">
-                      {t("common.reserve") || "Reservar"}
+                  <Link href={event.href}>
+                    <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
+                      {t("eventos.landing.view_details", "Ver Detalles")}
                       <ArrowRight className="w-4 h-4" />
                     </Button>
-                  </a>
+                  </Link>
                 </CardContent>
               </Card>
             ))}
           </div>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">
-              {t("eventos.landing.no_events") || "No hay eventos disponibles en este momento"}
-            </p>
-          </div>
-        )}
+        </div>
       </section>
 
       {/* Eventos Sociales Section */}
-      <section className="py-16 md:py-24 px-4 bg-slate-50">
+      <section className="py-20 md:py-28 px-4 bg-[#F1E7D9]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                {t("eventos.landing.social.title") || "Eventos Sociales"}
+              <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                {t("eventos.landing.social.badge", "Celebra con Nosotros")}
+              </span>
+              <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6">
+                {t("eventos.landing.social.title", "Eventos Sociales")}
               </h2>
-              <p className="text-gray-600 text-lg mb-6">
-                {t("eventos.landing.social.description") ||
-                  "Celebra momentos especiales en nuestro espacio único. Cumpleaños, aniversarios, reuniones familiares y más, en el ambiente perfecto rodeado de naturaleza."}
+              <p className="text-[#5a5a5a] text-lg mb-6 font-light">
+                {t("eventos.landing.social.description", "Celebra momentos especiales en nuestro espacio único. Cumpleaños, aniversarios, reuniones familiares y más, en el ambiente perfecto rodeado de naturaleza.")}
               </p>
               <ul className="space-y-3 mb-8">
                 {[
@@ -133,11 +140,11 @@ export function EventosLanding() {
                   "Reuniones familiares",
                   "Despedidas de soltero/a",
                   "Retiros de amigos",
-                  "Eventos corporativos pequeños",
+                  "Baby showers y celebraciones",
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-amber-600 rounded-full" />
-                    <span className="text-gray-700">{item}</span>
+                    <div className="w-2 h-2 bg-[#D3BC8D] rounded-full" />
+                    <span className="text-[#5a5a5a]">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -146,41 +153,47 @@ export function EventosLanding() {
                   const message = encodeURIComponent(
                     "Hola, me gustaría cotizar un evento social en Cancagua"
                   );
-                  window.open(`https://wa.me/56984007399?text=${message}`, "_blank");
+                  window.open(`https://wa.me/56940073999?text=${message}`, "_blank");
                 }}
-                className="gap-2"
+                className="gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase"
               >
-                {t("common.quote") || "Solicitar Cotización"}
+                {t("common.quote", "Cotizar")}
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </div>
-            <div className="bg-gradient-to-br from-amber-100 to-orange-100 rounded-lg h-96 flex items-center justify-center">
-              <div className="text-center">
-                <Users className="w-24 h-24 text-amber-600 mx-auto mb-4 opacity-50" />
-                <p className="text-gray-600 font-medium">Celebra con nosotros</p>
-              </div>
+            <div className="relative h-96 rounded-lg overflow-hidden shadow-xl">
+              <img 
+                src="/images/02_biopiscinas-hero.jpg" 
+                alt="Eventos Sociales en Cancagua"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             </div>
           </div>
         </div>
       </section>
 
       {/* Eventos Corporativos Section */}
-      <section className="py-16 md:py-24 px-4">
+      <section className="py-20 md:py-28 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="bg-gradient-to-br from-slate-100 to-blue-100 rounded-lg h-96 flex items-center justify-center order-2 md:order-1">
-              <div className="text-center">
-                <Users className="w-24 h-24 text-slate-600 mx-auto mb-4 opacity-50" />
-                <p className="text-gray-600 font-medium">Experiencias corporativas</p>
-              </div>
+            <div className="relative h-96 rounded-lg overflow-hidden shadow-xl order-2 md:order-1">
+              <img 
+                src="/images/07_eventos-hero.jpg" 
+                alt="Eventos Corporativos en Cancagua"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             </div>
             <div className="order-1 md:order-2">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                {t("eventos.landing.corporate.title") || "Eventos Corporativos"}
+              <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                {t("eventos.landing.corporate.badge", "Experiencias Corporativas")}
+              </span>
+              <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6">
+                {t("eventos.landing.corporate.title", "Eventos Corporativos")}
               </h2>
-              <p className="text-gray-600 text-lg mb-6">
-                {t("eventos.landing.corporate.description") ||
-                  "Diseñamos experiencias corporativas únicas para tu equipo. Team building, retiros de liderazgo, conferencias y eventos de incentivo en un ambiente inspirador."}
+              <p className="text-[#5a5a5a] text-lg mb-6 font-light">
+                {t("eventos.landing.corporate.description", "Diseñamos experiencias corporativas únicas para tu equipo. Team building, retiros de liderazgo, conferencias y eventos de incentivo en un ambiente inspirador.")}
               </p>
               <ul className="space-y-3 mb-8">
                 {[
@@ -191,8 +204,8 @@ export function EventosLanding() {
                   "Jornadas de bienestar corporativo",
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-slate-600 rounded-full" />
-                    <span className="text-gray-700">{item}</span>
+                    <div className="w-2 h-2 bg-[#D3BC8D] rounded-full" />
+                    <span className="text-[#5a5a5a]">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -201,11 +214,11 @@ export function EventosLanding() {
                   const message = encodeURIComponent(
                     "Hola, me gustaría cotizar un evento corporativo en Cancagua"
                   );
-                  window.open(`https://wa.me/56984007399?text=${message}`, "_blank");
+                  window.open(`https://wa.me/56940073999?text=${message}`, "_blank");
                 }}
-                className="gap-2"
+                className="gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase"
               >
-                {t("common.quote") || "Solicitar Cotización"}
+                {t("common.quote", "Cotizar")}
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </div>
@@ -214,26 +227,25 @@ export function EventosLanding() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 px-4 bg-gradient-to-r from-amber-600 to-orange-600">
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {t("eventos.landing.cta_title") || "¿No encuentras lo que buscas?"}
+      <section className="py-20 md:py-28 px-4 bg-[#3a3a3a]">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-white mb-6">
+            {t("eventos.landing.cta_title", "¿Listo para crear tu evento?")}
           </h2>
-          <p className="text-lg mb-8 text-amber-50">
-            {t("eventos.landing.cta_desc") ||
-              "Contáctanos para diseñar la experiencia perfecta para ti. Nuestro equipo está listo para hacer realidad tu evento."}
+          <p className="text-lg text-white/80 mb-8 font-light">
+            {t("eventos.landing.cta_desc", "Contáctanos para diseñar la experiencia perfecta para ti. Nuestro equipo está listo para hacer realidad tu evento.")}
           </p>
           <Button
             onClick={() => {
               const message = encodeURIComponent(
                 "Hola, me gustaría información sobre eventos en Cancagua"
               );
-              window.open(`https://wa.me/56984007399?text=${message}`, "_blank");
+              window.open(`https://wa.me/56940073999?text=${message}`, "_blank");
             }}
             size="lg"
-            className="gap-2 bg-white text-amber-600 hover:bg-gray-100"
+            className="gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase"
           >
-            {t("common.contact") || "Contactar"}
+            {t("common.contact", "Contactar")}
             <ArrowRight className="w-4 h-4" />
           </Button>
         </div>

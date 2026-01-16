@@ -934,3 +934,23 @@
 - [x] Corregir enlace banner 3 (Masajes) a /masajes
 - [x] Corregir enlace banner 4 (Clases) a /clases
 - [x] Corregir enlace banner 5 (Cafetería) a /cafeteria
+
+
+## Corrección Enlaces de Reserva en Banners del Hero (URLs de Skedu)
+- [ ] Banner 1 (Biopiscinas): Botón reservar → /servicios/biopiscinas
+- [ ] Banner 2 (Hot Tubs): Botón reservar → /servicios/hot-tubs
+- [ ] Banner 3 (Masajes): Botón reservar → /masajes
+- [ ] Banner 4 (Clases): Botón reservar → /clases
+- [ ] Banner 5 (Cafetería): Botón reservar → /cafeteria
+
+
+## Corrección Banners Hero y Landing Eventos (16 Enero 2026)
+- [x] Banner 1 (Biopiscinas) → /servicios/biopiscinas
+- [x] Banner 2 (Hot Tubs) → /servicios/hot-tubs
+- [x] Banner 3 (Masajes) → /masajes
+- [x] Banner 4 (Clases) → /clases
+- [x] Banner 5 (Cafetería) → /cafeteria
+- [x] Banner 6 (Eventos) → /eventos (cambiar de /eventos-landing)
+- [x] Cambiar slug de eventos-landing a /eventos
+- [x] Actualizar landing de eventos con Heart Coherence Workshop y Taller Wim Hof
+- [x] Actualizar rutas en App.tsx

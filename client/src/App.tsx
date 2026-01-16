@@ -65,8 +65,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/servicios"} component={Servicios} />
       <Route path={"/servicios/biopiscinas"} component={ServicioBiopiscinas} />
-      <Route path={"/eventos-landing"} component={EventosLanding} />
-      <Route path={"/eventos"} component={Eventos} />
+      <Route path={"/eventos"} component={EventosLanding} />
       <Route path={"/eventos/sociales"} component={EventosSociales} />
       <Route path={"/eventos/empresas"} component={EventosEmpresas} />
       <Route path={"/cafeteria"} component={Cafeteria} />

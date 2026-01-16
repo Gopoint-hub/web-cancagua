@@ -10,6 +10,7 @@ interface Slide {
   subtitleKey: string;
   ctaKey: string;
   ctaLink: string;
+  isExternal?: boolean;
 }
 
 export function HeroSlider() {
@@ -115,15 +116,27 @@ export function HeroSlider() {
               {t(slide.subtitleKey)}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in animation-delay-400">
-              <Button 
-                size="lg" 
-                className="text-sm px-10 py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase" 
-                asChild
-              >
-                <Link href={slide.ctaLink}>
-                  {t(slide.ctaKey)}
-                </Link>
-              </Button>
+              {slide.isExternal ? (
+                <Button 
+                  size="lg" 
+                  className="text-sm px-10 py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase" 
+                  asChild
+                >
+                  <a href={slide.ctaLink} target="_blank" rel="noopener noreferrer">
+                    {t(slide.ctaKey)}
+                  </a>
+                </Button>
+              ) : (
+                <Button 
+                  size="lg" 
+                  className="text-sm px-10 py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase" 
+                  asChild
+                >
+                  <Link href={slide.ctaLink}>
+                    {t(slide.ctaKey)}
+                  </Link>
+                </Button>
+              )}
               <Button
                 size="lg"
                 variant="outline"
