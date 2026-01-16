@@ -189,9 +189,13 @@ export default function ServicioBiopiscinas() {
 
                 <div className="mt-8 p-6 bg-muted rounded-lg">
                   <h3 className="font-semibold text-lg mb-2">
-                    Información Importante
+                    Antes de tu Visita
                   </h3>
                   <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <span className="text-red-500 font-bold">⚠️</span>
+                      <span><strong>No se permite el acceso con bloqueador solar</strong> - Para mantener el ecosistema natural de las biopiscinas</span>
+                    </li>
                     <li>• Reserva con anticipación (cupos limitados)</li>
                     <li>• Edad mínima: 5 años con control de esfínter y sin pañal</li>
                     <li>• Traer traje de baño</li>

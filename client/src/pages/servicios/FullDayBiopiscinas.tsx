@@ -215,9 +215,17 @@ export default function FullDayBiopiscinas() {
       <section className="py-16 px-4 bg-white">
         <div className="container max-w-4xl mx-auto">
           <h2 className="font-['Josefin_Sans'] text-4xl text-center text-[#3a3a3a] mb-12 tracking-wide">
-            Información Importante
+            Antes de tu Visita
           </h2>
           
+          <div className="flex items-start gap-4 mb-6 p-6 bg-red-50 rounded-lg border border-red-200">
+            <span className="text-2xl">⚠️</span>
+            <div>
+              <h4 className="font-['Josefin_Sans'] font-semibold text-red-700 mb-1">No se permite el acceso con bloqueador solar</h4>
+              <p className="font-['Fira_Sans'] text-sm text-red-600">Para mantener el ecosistema natural de las biopiscinas</p>
+            </div>
+          </div>
+
           <div className="space-y-4">
             <Card className="border-l-4 border-l-[#D3BC8D]">
               <CardContent className="p-6">

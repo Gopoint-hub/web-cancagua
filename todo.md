@@ -971,3 +971,18 @@
 - [x] Agregar sección de Experiencias como opción recomendada
 - [x] Verificar que todos los enlaces funcionen correctamente
 - [x] Agregar imágenes a las tarjetas de experiencias
+
+
+## Corrección Imágenes Landing Eventos (16 Enero 2026)
+- [ ] Revisar rutas de imágenes en EventosLanding.tsx
+- [ ] Corregir rutas con imágenes existentes en el proyecto
+- [ ] Verificar que las imágenes se muestren correctamente
+
+
+## Información Importante - No Bloqueador Solar (16 Enero 2026)
+- [x] Agregar sección "Antes de tu visita" en página de Biopiscinas
+- [x] Agregar sección "Antes de tu visita" en página de Hot Tubs
+- [x] Agregar sección "Antes de tu visita" en página de Sauna
+- [x] Agregar sección "Antes de tu visita" en Full Day Biopiscinas
+- [x] Agregar sección "Antes de tu visita" en Full Day Hot Tubs
+- [ ] Agregar traducciones en todos los idiomas (pendiente)

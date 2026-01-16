@@ -150,6 +150,42 @@ export default function HotTubs() {
         </div>
       </section>
 
+      {/* Antes de tu Visita */}
+      <section className="py-16 bg-[#F1E7D9]">
+        <div className="container max-w-4xl">
+          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] mb-8 text-center">
+            Antes de tu Visita
+          </h2>
+          <div className="bg-white rounded-lg p-8 shadow-sm">
+            <div className="flex items-start gap-4 mb-6 p-4 bg-red-50 rounded-lg border border-red-200">
+              <span className="text-2xl">⚠️</span>
+              <div>
+                <h4 className="font-['Josefin_Sans'] font-semibold text-red-700 mb-1">No se permite el acceso con bloqueador solar</h4>
+                <p className="font-['Fira_Sans'] text-sm text-red-600">Para mantener la calidad del agua y el ecosistema natural de nuestras instalaciones</p>
+              </div>
+            </div>
+            <ul className="font-['Fira_Sans'] text-[#666] space-y-3">
+              <li className="flex items-start gap-3">
+                <span className="text-[#D3BC8D]">•</span>
+                <span>Reserva con anticipación (cupos limitados)</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-[#D3BC8D]">•</span>
+                <span>Traer traje de baño</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-[#D3BC8D]">•</span>
+                <span>No se permite el ingreso con alimentos externos</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-[#D3BC8D]">•</span>
+                <span>Cafetería disponible en el lugar</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       {/* Información Adicional */}
       <section className="py-20 bg-[#3a3a3a] text-white">
         <div className="container max-w-4xl">

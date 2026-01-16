@@ -208,8 +208,15 @@ export default function Sauna() {
             <Card className="border-[#D3BC8D]/30">
               <CardContent className="p-8 md:p-12">
                 <h3 className="text-2xl font-light tracking-wide mb-6 text-[#3a3a3a]">
-                  Información Importante
+                  Antes de tu Visita
                 </h3>
+                <div className="flex items-start gap-4 mb-6 p-4 bg-red-50 rounded-lg border border-red-200">
+                  <span className="text-2xl">⚠️</span>
+                  <div>
+                    <h4 className="font-semibold text-red-700 mb-1">No se permite el acceso con bloqueador solar</h4>
+                    <p className="text-sm text-red-600">Para mantener la calidad de nuestras instalaciones</p>
+                  </div>
+                </div>
                 <ul className="space-y-4 text-[#8C8C8C]">
                   <li className="flex items-start gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D] mt-2 flex-shrink-0" />
