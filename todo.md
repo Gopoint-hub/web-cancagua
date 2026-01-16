@@ -1007,3 +1007,10 @@
 - [x] Agregar contenido descriptivo
 - [x] Agregar sección "Próximamente" para carta digital
 - [ ] Preparar para futura integración con Fudo (pendiente)
+
+
+## Optimización Menú Mobile (16 Enero 2026)
+- [x] Rediseñar menú mobile con categorías colapsables (acordeón)
+- [x] Agregar scroll al contenedor del menú (fixed con overflow-y-auto)
+- [x] Reducir padding y espaciado entre items
+- [x] Mejorar UX para pantallas pequeñas

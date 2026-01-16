@@ -8,7 +8,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { LanguageSelector } from "@/components/LanguageSelector";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "wouter";
@@ -17,8 +17,13 @@ export function Navbar() {
   const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location] = useLocation();
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
   const isActive = (path: string) => location === path;
+
+  const toggleSection = (section: string) => {
+    setExpandedSection(expandedSection === section ? null : section);
+  };
 
   const servicios = [
     { name: t('services.biopiscinas.name'), href: "/servicios/biopiscinas" },
@@ -37,8 +42,8 @@ export function Navbar() {
 
   const eventos = [
     { name: "Todos los Eventos", href: "/eventos" },
-    { name: "Heart Coherence Workshop", href: "/eventos/heart-coherence-workshop", featured: true },
-    { name: "Taller Wim Hof", href: "/eventos/taller-wim-hof", featured: true },
+    { name: "Heart Coherence Workshop", href: "/eventos/heart-coherence-workshop" },
+    { name: "Taller Wim Hof", href: "/eventos/taller-wim-hof" },
     { name: "Eventos Sociales", href: "/eventos/sociales" },
     { name: "Eventos Empresas", href: "/eventos/empresas" },
   ];
@@ -223,69 +228,98 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Menú Mobile Expandido */}
+        {/* Menú Mobile Expandido - Optimizado */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-[#D3BC8D]/20 bg-white">
-            <nav className="container py-6 flex flex-col space-y-4">
+          <div className="md:hidden border-t border-[#D3BC8D]/20 bg-white fixed inset-x-0 top-[calc(5rem+2.5rem)] bottom-0 overflow-y-auto">
+            <nav className="container py-4 flex flex-col">
+              {/* Inicio */}
               <Link
                 href="/"
-                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.home')}
               </Link>
 
-              <div className="space-y-3">
-                <p className="text-sm tracking-wider uppercase text-[#8C8C8C]">
-                  {t('nav.services')}
-                </p>
-                {servicios.map((servicio) => (
-                  <Link
-                    key={servicio.href}
-                    href={servicio.href}
-                    className="block text-sm pl-4 text-[#3a3a3a]"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {servicio.name}
-                  </Link>
-                ))}
+              {/* Servicios - Acordeón */}
+              <div className="border-b border-[#D3BC8D]/10">
+                <button
+                  className="w-full py-3 flex items-center justify-between text-sm tracking-wider uppercase text-[#3a3a3a]"
+                  onClick={() => toggleSection('servicios')}
+                >
+                  <span>{t('nav.services')}</span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${expandedSection === 'servicios' ? 'rotate-180' : ''}`} />
+                </button>
+                {expandedSection === 'servicios' && (
+                  <div className="pb-2 pl-4 space-y-1">
+                    {servicios.map((servicio) => (
+                      <Link
+                        key={servicio.href}
+                        href={servicio.href}
+                        className="block py-2 text-sm text-[#3a3a3a]"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {servicio.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <div className="space-y-3">
-                <p className="text-sm tracking-wider uppercase text-[#8C8C8C]">
-                  EXPERIENCIAS
-                </p>
-                {experiencias.map((experiencia) => (
-                  <Link
-                    key={experiencia.href}
-                    href={experiencia.href}
-                    className="block text-sm pl-4 text-[#3a3a3a]"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {experiencia.name}
-                  </Link>
-                ))}
+              {/* Experiencias - Acordeón */}
+              <div className="border-b border-[#D3BC8D]/10">
+                <button
+                  className="w-full py-3 flex items-center justify-between text-sm tracking-wider uppercase text-[#3a3a3a]"
+                  onClick={() => toggleSection('experiencias')}
+                >
+                  <span>EXPERIENCIAS</span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${expandedSection === 'experiencias' ? 'rotate-180' : ''}`} />
+                </button>
+                {expandedSection === 'experiencias' && (
+                  <div className="pb-2 pl-4 space-y-1">
+                    {experiencias.map((experiencia) => (
+                      <Link
+                        key={experiencia.href}
+                        href={experiencia.href}
+                        className="block py-2 text-sm text-[#3a3a3a]"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {experiencia.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <div className="space-y-3">
-                <p className="text-sm tracking-wider uppercase text-[#8C8C8C]">
-                  {t('nav.events')}
-                </p>
-                {eventos.map((evento) => (
-                  <Link
-                    key={evento.href}
-                    href={evento.href}
-                    className="block text-sm pl-4 text-[#3a3a3a]"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {evento.name}
-                  </Link>
-                ))}
+              {/* Eventos - Acordeón */}
+              <div className="border-b border-[#D3BC8D]/10">
+                <button
+                  className="w-full py-3 flex items-center justify-between text-sm tracking-wider uppercase text-[#3a3a3a]"
+                  onClick={() => toggleSection('eventos')}
+                >
+                  <span>{t('nav.events')}</span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${expandedSection === 'eventos' ? 'rotate-180' : ''}`} />
+                </button>
+                {expandedSection === 'eventos' && (
+                  <div className="pb-2 pl-4 space-y-1">
+                    {eventos.map((evento) => (
+                      <Link
+                        key={evento.href}
+                        href={evento.href}
+                        className="block py-2 text-sm text-[#3a3a3a]"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {evento.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
 
+              {/* Enlaces directos */}
               <Link
                 href="/cafeteria"
-                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.cafeteria')}
@@ -293,7 +327,7 @@ export function Navbar() {
 
               <Link
                 href="/gift-cards"
-                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.giftCards')}
@@ -301,7 +335,7 @@ export function Navbar() {
 
               <Link
                 href="/nosotros"
-                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.about')}
@@ -309,25 +343,29 @@ export function Navbar() {
 
               <Link
                 href="/contacto"
-                className="text-sm tracking-wider uppercase text-[#3a3a3a]"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.contact')}
               </Link>
 
-              <div className="flex items-center justify-between pt-4 border-t border-[#D3BC8D]/20">
-                <LanguageSelector />
-              </div>
+              {/* Selector de idioma y botón reservar */}
+              <div className="pt-4 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-[#8C8C8C]">Idioma</span>
+                  <LanguageSelector />
+                </div>
 
-              <a href="https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw.." target="_blank" rel="noopener noreferrer">
-                <Button
-                  size="lg"
-                  className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('nav.reserve')}
-                </Button>
-              </a>
+                <a href="https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw.." target="_blank" rel="noopener noreferrer" className="block">
+                  <Button
+                    size="lg"
+                    className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {t('nav.reserve')}
+                  </Button>
+                </a>
+              </div>
             </nav>
           </div>
         )}
