@@ -900,3 +900,8 @@
 - [x] Agregar botón en Catálogo de productos
 - [x] Parsear columnas: Producto, Descripción, Duración, Precio, Capacidad mín/máx
 - [x] Validar y guardar productos importados
+
+
+## Actualización Banner Clases Regulares en Home
+- [ ] Actualizar subtítulo del banner de Clases Regulares en el carrusel del Home
+- [ ] Cambiar "Yoga, Pilates, Aikido y más" a "Hatha Yoga, Entrenamiento Funcional, Danza Infantil y mucho más"

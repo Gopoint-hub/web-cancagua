@@ -36,7 +36,7 @@ export default function Home() {
     {
       title: "Clases Regulares",
       description:
-        "Movimiento y meditación: Hatha Yoga, Vinyasa, Animal Flow, Aikido, Pilates e hipopresivos.",
+        "Hatha Yoga, Entrenamiento Funcional, Danza Infantil y mucho más. Clases para todos los niveles.",
       image: "/images/12_yoga-clases.webp",
       href: "/servicios/clases",
     },
