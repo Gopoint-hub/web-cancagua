@@ -926,3 +926,11 @@
 - [ ] Agregar enlace al landing de eventos en el dropdown EVENTS del navbar
 - [ ] Verificar que los enlaces de los banners del home funcionen correctamente
 - [ ] Probar todos los cambios en el servidor de desarrollo
+
+
+## Corrección Enlaces de Banners del Hero
+- [x] Corregir enlace banner 1 (Biopiscinas) a /servicios/biopiscinas
+- [x] Corregir enlace banner 2 (Hot Tubs) a /servicios/hot-tubs
+- [x] Corregir enlace banner 3 (Masajes) a /masajes
+- [x] Corregir enlace banner 4 (Clases) a /clases
+- [x] Corregir enlace banner 5 (Cafetería) a /cafeteria
