@@ -963,3 +963,11 @@
 - [x] Ajustar layout vertical para que texto no se tape (justify-start pt-16 en mobile)
 - [x] Reducir padding de botones en mobile
 - [x] Ajustar tamaño de fuente del título en mobile (text-2xl sm:text-3xl md:text-6xl)
+
+
+## Actualización Página de Servicios (16 Enero 2026)
+- [x] Revisar estructura del menú (Services, Experiencias, Events)
+- [x] Actualizar página /servicios con categorías: Servicios y Experiencias
+- [x] Agregar sección de Experiencias como opción recomendada
+- [x] Verificar que todos los enlaces funcionen correctamente
+- [x] Agregar imágenes a las tarjetas de experiencias

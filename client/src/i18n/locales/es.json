@@ -235,6 +235,50 @@
     "quote": "Cotizar",
     "contact": "Contactar"
   },
+  "serviciosPage": {
+    "hero": {
+      "subtitle": "Bienestar Integral",
+      "title": "Servicios & Experiencias",
+      "description": "Descubre todas las formas de reconectar con tu bienestar en Cancagua"
+    },
+    "experiencias": {
+      "subtitle": "Recomendado",
+      "title": "Experiencias",
+      "description": "Combina nuestros servicios en experiencias únicas diseñadas para maximizar tu bienestar"
+    },
+    "services": {
+      "subtitle": "Nuestros Servicios",
+      "title": "Servicios Individuales",
+      "description": "Cada servicio está diseñado para brindarte una experiencia única de bienestar y conexión con la naturaleza"
+    },
+    "cta": {
+      "subtitle": "¿Necesitas Ayuda?",
+      "title": "¿No sabes cuál elegir?",
+      "description": "Contáctanos y te ayudaremos a encontrar la experiencia perfecta para ti",
+      "button": "Contactar por WhatsApp"
+    }
+  },
+  "experiencias": {
+    "navegaRelax": {
+      "title": "Navega Relax",
+      "description": "Navegación por el Lago Llanquihue con vistas a los volcanes Osorno y Calbuco. Una experiencia única de conexión con la naturaleza.",
+      "badge": "Recomendado"
+    },
+    "pasesReconecta": {
+      "title": "Pases Reconecta",
+      "description": "Pases mensuales para acceder a nuestros servicios de bienestar. La mejor forma de mantener tu rutina de autocuidado."
+    },
+    "fullDayHotTubs": {
+      "title": "Full Day Hot Tubs + Biopiscinas",
+      "description": "Combina la experiencia de Hot Tubs privados con las Biopiscinas Geotermales. Un día completo de relajación y bienestar.",
+      "badge": "Full Day"
+    },
+    "fullDayPlaya": {
+      "title": "Full Day Biopiscinas + Playa",
+      "description": "Disfruta de las Biopiscinas Geotermales y relájate en nuestra playa privada con vista al Lago Llanquihue.",
+      "badge": "Full Day"
+    }
+  },
   "eventos": {
     "landing": {
       "title": "Eventos & Experiencias",
