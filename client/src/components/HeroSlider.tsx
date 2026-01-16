@@ -100,7 +100,7 @@ export function HeroSlider() {
   const slide = slides[currentSlide];
 
   return (
-    <div className="relative h-[60vh] md:h-[85vh] overflow-hidden">
+    <div className="relative h-[70vh] md:h-[85vh] overflow-hidden">
       {/* Background images - all slides rendered for smooth transitions */}
       {slides.map((s, index) => (
         <div
@@ -118,73 +118,74 @@ export function HeroSlider() {
       ))}
 
       {/* Content overlay - positioned absolutely over everything */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 z-10 pointer-events-none">
+      <div className="absolute inset-0 flex flex-col items-center justify-start pt-16 md:justify-center md:pt-0 text-center text-white px-4 z-10 pointer-events-none">
         <h1 
           key={`title-${currentSlide}`}
-          className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wider mb-6 max-w-4xl animate-fade-in"
+          className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light tracking-wider mb-3 md:mb-6 max-w-4xl animate-fade-in px-2"
         >
           {t(slide.titleKey)}
         </h1>
         <p 
           key={`subtitle-${currentSlide}`}
-          className="text-lg md:text-xl mb-10 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90"
+          className="text-sm sm:text-base md:text-xl mb-6 md:mb-10 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90 px-4"
         >
           {t(slide.subtitleKey)}
         </p>
-      </div>
-
-      {/* Buttons - positioned absolutely with higher z-index and pointer-events enabled */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
-        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in animation-delay-400 pointer-events-auto">
+        
+        {/* Buttons inside content container for better mobile layout */}
+        <div 
+          key={`buttons-${currentSlide}`}
+          className="flex flex-col sm:flex-row gap-3 md:gap-4 animate-fade-in animation-delay-400 pointer-events-auto w-full sm:w-auto px-6 sm:px-0"
+        >
           <button 
             onClick={() => handleCtaClick(slide.ctaLink)}
-            className="text-sm px-10 py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase cursor-pointer font-medium transition-colors"
+            className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
           >
             {t(slide.ctaKey)}
           </button>
           <button
             onClick={handleServicesClick}
-            className="text-sm px-10 py-6 bg-transparent backdrop-blur-sm border border-white/50 text-white hover:bg-white hover:text-[#3a3a3a] tracking-widest uppercase cursor-pointer font-medium transition-colors"
+            className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-transparent backdrop-blur-sm border border-white/50 text-white hover:bg-white hover:text-[#3a3a3a] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
           >
             {t('home.hero.viewAllServices')}
           </button>
         </div>
       </div>
 
-      {/* Navigation controls */}
+      {/* Navigation controls - smaller on mobile */}
       <button
         onClick={prevSlide}
-        className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-4 transition-all z-20"
+        className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-2 md:p-4 transition-all z-20"
         aria-label={t('common.previousSlide')}
       >
-        <ChevronLeft className="h-5 w-5" />
+        <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" />
       </button>
 
       <button
         onClick={nextSlide}
-        className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-4 transition-all z-20"
+        className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-2 md:p-4 transition-all z-20"
         aria-label={t('common.nextSlide')}
       >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
       </button>
 
       {/* Slide indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+      <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 md:gap-3 z-20">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
             className={`h-0.5 transition-all ${
               index === currentSlide
-                ? "w-10 bg-[#D3BC8D]"
-                : "w-6 bg-white/40 hover:bg-white/60"
+                ? "w-8 md:w-10 bg-[#D3BC8D]"
+                : "w-4 md:w-6 bg-white/40 hover:bg-white/60"
             }`}
             aria-label={t('common.goToSlide', { number: index + 1 })}
           />
         ))}
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - hidden on mobile */}
       <div className="absolute bottom-24 left-1/2 -translate-x-1/2 animate-bounce hidden md:block z-20">
         <div className="w-6 h-10 border border-white/50 rounded-full flex items-start justify-center p-2">
           <div className="w-0.5 h-3 bg-[#D3BC8D] rounded-full animate-scroll" />

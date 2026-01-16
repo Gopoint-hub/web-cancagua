@@ -956,3 +956,10 @@
 - [x] Cambiar slug de eventos-landing a /eventos
 - [x] Actualizar landing de eventos con Heart Coherence Workshop y Taller Wim Hof
 - [x] Actualizar rutas en App.tsx
+
+
+## Optimización Mobile HeroSlider (16 Enero 2026)
+- [x] Reducir tamaño de botones en mobile (px-6 py-3 en mobile vs px-10 py-6 en desktop)
+- [x] Ajustar layout vertical para que texto no se tape (justify-start pt-16 en mobile)
+- [x] Reducir padding de botones en mobile
+- [x] Ajustar tamaño de fuente del título en mobile (text-2xl sm:text-3xl md:text-6xl)
