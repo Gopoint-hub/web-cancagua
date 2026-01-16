@@ -54,6 +54,7 @@ import PaseReconectaDetox from "./pages/experiencias/PaseReconectaDetox";
 import PaseBioReconecta from "./pages/experiencias/PaseBioReconecta";
 import PaseBioReconectaDetox from "./pages/experiencias/PaseBioReconectaDetox";
 import HeartCoherenceWorkshop from "./pages/HeartCoherenceWorkshop";
+import { EventosLanding } from "./pages/EventosLanding";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -64,6 +65,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/servicios"} component={Servicios} />
       <Route path={"/servicios/biopiscinas"} component={ServicioBiopiscinas} />
+      <Route path={"/eventos-landing"} component={EventosLanding} />
       <Route path={"/eventos"} component={Eventos} />
       <Route path={"/eventos/sociales"} component={EventosSociales} />
       <Route path={"/eventos/empresas"} component={EventosEmpresas} />

@@ -912,3 +912,11 @@
 ## Actualización Banner Clases Regulares en Home
 - [ ] Actualizar subtítulo del banner de Clases Regulares en el carrusel del Home
 - [ ] Cambiar "Yoga, Pilates, Aikido y más" a "Hatha Yoga, Entrenamiento Funcional, Danza Infantil y mucho más"
+
+
+## Creación Landing de Eventos
+- [x] Crear página/componente de landing de eventos
+- [x] Mostrar eventos activos de la base de datos
+- [x] Agregar secciones de eventos sociales y corporativos
+- [x] Integrar con rutas de la aplicación
+- [x] Probar que los eventos se muestren correctamente

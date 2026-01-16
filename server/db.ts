@@ -172,11 +172,30 @@ export async function upsertService(service: any) {
 }
 
 // Eventos
+export async function getActiveEvents() {
+  const db = await getDb();
+  if (!db) return [];
+  const { events } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  return await db.select().from(events).where(eq(events.active, 1));
+}
+
 export async function getAllEvents() {
   const db = await getDb();
   if (!db) return [];
   const { events } = await import("../drizzle/schema");
-  return await db.select().from(events).where(eq(events.active, 1));
+  return await db.select().from(events);
+}
+
+export async function getEventBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { events } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  // Convertir slug a título (reemplazar guiones con espacios y capitalizar)
+  const title = slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  const result = await db.select().from(events).where(eq(events.title, title)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
 }
 
 export async function getUpcomingEvents() {

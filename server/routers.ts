@@ -2154,6 +2154,27 @@ Devuelve un JSON con este formato:
         };
       }),
   }),
+
+  // Eventos (público)
+  events: router({
+    getActive: publicProcedure.query(async () => {
+      return await db.getActiveEvents();
+    }),
+
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string() }))
+      .query(async ({ input }) => {
+        return await db.getEventBySlug(input.slug);
+      }),
+
+    // Admin: listar todos los eventos
+    list: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getAllEvents();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
