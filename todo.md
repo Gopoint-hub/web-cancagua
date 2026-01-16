@@ -880,6 +880,13 @@
 ## Cambio de Foto Clases Regulares
 - [x] Reemplazar imagen del hero de Clases Regulares por la nueva foto del yurta
 
+## Corrección Navbar Desaparecido
+- [x] Agregar Navbar a FullDayHotTubs.tsx
+- [x] Agregar Navbar a FullDayBiopiscinas.tsx
+- [x] Agregar Navbar a PasesReconecta.tsx
+- [x] Agregar Navbar a HeartCoherenceWorkshop.tsx
+- [x] Probar que el navbar aparezca en todas las páginas
+
 
 ## Corrección Imagen Clases Regulares (v2)
 - [x] Reemplazar correctamente la imagen con la foto del yurta

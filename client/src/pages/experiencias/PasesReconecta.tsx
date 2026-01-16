@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, Sparkles, ArrowRight } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
 
 export default function PasesReconecta() {
   const { t } = useTranslation();
@@ -56,6 +57,7 @@ export default function PasesReconecta() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white">
+      <Navbar />
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div 

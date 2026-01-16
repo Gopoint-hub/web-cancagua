@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Clock, Users, Waves, Coffee, Shirt } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
 
 export default function FullDayHotTubs() {
   return (
     <div className="min-h-screen bg-[#F1E7D9]">
+      <Navbar />
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
         <div 
