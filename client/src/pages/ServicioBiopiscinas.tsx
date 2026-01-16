@@ -23,11 +23,16 @@ export default function ServicioBiopiscinas() {
 
   const incluye = [
     "4 horas de acceso a biopiscinas geotermales",
-    "Toallas y batas",
+    "Batas para adultos",
+    "Toallas para niños",
     "Casilleros de seguridad",
     "Duchas y vestuarios",
     "Acceso a zona de descanso",
     "Vista panorámica al Lago Llanquihue",
+  ];
+
+  const noIncluye = [
+    "Toallas para adultos (traer propia o arriendo disponible)",
   ];
 
   return (
@@ -170,6 +175,18 @@ export default function ServicioBiopiscinas() {
                     </li>
                   ))}
                 </ul>
+
+                <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                  <h3 className="font-semibold text-amber-800 mb-2">No Incluye</h3>
+                  <ul className="space-y-2">
+                    {noIncluye.map((item, index) => (
+                      <li key={index} className="flex items-start gap-2 text-amber-700">
+                        <span className="text-amber-500">•</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 <div className="mt-8 p-6 bg-muted rounded-lg">
                   <h3 className="font-semibold text-lg mb-2">

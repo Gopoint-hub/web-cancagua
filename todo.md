@@ -1018,3 +1018,10 @@
 
 ## Bug Menú Mobile (16 Enero 2026)
 - [x] Corregir menú mobile que no carga - cambiado de fixed a relative con max-h-[70vh] y overflow-y-auto
+
+
+## Correcciones Biopiscinas y Botones (16 Enero 2026)
+- [x] Cambiar "Toallas y batas" por "Batas para adultos. Toallas para niños." + sección "No Incluye"
+- [x] Verificar que botón "Reservar Ahora" lleve a Skedu
+- [x] Verificar que botón "Consultar Disponibilidad" lleve a WhatsApp
+- [x] Revisar todas las experiencias para confirmar enlaces correctos
