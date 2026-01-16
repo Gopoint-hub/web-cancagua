@@ -998,3 +998,12 @@
 - [x] Agregar enlace de Skedu a Biopiscinas (https://reservas.cancagua.cl/cancaguaspa/s/3daa00ec-4c8d-41d5-995a-79ad4cbd8380)
 - [x] Crear página de Navega Relax con botón de WhatsApp (sin enlace de Skedu)
 - [x] Verificar que todos los enlaces de reserva funcionen correctamente
+
+
+## Rediseño Página Cafetería (16 Enero 2026)
+- [x] Cambiar página de cafetería a solo informativa (sin carta)
+- [x] Agregar horarios: Martes a Domingo 09:30 a 21:30
+- [x] Usar imágenes existentes de cafetería
+- [x] Agregar contenido descriptivo
+- [x] Agregar sección "Próximamente" para carta digital
+- [ ] Preparar para futura integración con Fudo (pendiente)

@@ -2,133 +2,17 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Clock, Leaf, MapPin } from "lucide-react";
-import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Clock, Leaf, MapPin, Coffee, UtensilsCrossed, Heart, Sun } from "lucide-react";
 
 export default function Cafeteria() {
-  const [filtroActivo, setFiltroActivo] = useState<string>("todos");
-
-  const menuItems = [
-    {
-      id: 1,
-      nombre: "Bowl de Açaí",
-      descripcion:
-        "Açaí orgánico con granola casera, frutas frescas, coco rallado y miel",
-      precio: "$8.500",
-      categoria: "brunch",
-      dietas: ["vegano", "sin-gluten", "sin-lacteos"],
-      imagen: "/images/08_cafeteria-interior.jpg",
-    },
-    {
-      id: 2,
-      nombre: "Tostadas de Palta",
-      descripcion:
-        "Pan masa madre, palta, tomate cherry, semillas y aceite de oliva",
-      precio: "$7.000",
-      categoria: "brunch",
-      dietas: ["vegano", "vegetariano"],
-      imagen: "/images/08_cafeteria-interior.jpg",
-    },
-    {
-      id: 3,
-      nombre: "Ensalada Cancagua",
-      descripcion:
-        "Mix de hojas verdes, quínoa, vegetales asados, nueces y aderezo de tahini",
-      precio: "$9.500",
-      categoria: "almuerzo",
-      dietas: ["vegano", "vegetariano", "sin-gluten"],
-      imagen: "/images/08_cafeteria-interior.jpg",
-    },
-    {
-      id: 4,
-      nombre: "Wrap Vegetal",
-      descripcion:
-        "Tortilla integral con hummus, vegetales frescos y germinados",
-      precio: "$8.000",
-      categoria: "almuerzo",
-      dietas: ["vegano", "vegetariano"],
-      imagen: "/images/08_cafeteria-interior.jpg",
-    },
-    {
-      id: 5,
-      nombre: "Smoothie Verde",
-      descripcion: "Espinaca, plátano, mango, leche de almendras y espirulina",
-      precio: "$5.500",
-      categoria: "bebidas",
-      dietas: ["vegano", "sin-gluten", "sin-lacteos"],
-      imagen: "/images/08_cafeteria-interior.jpg",
-    },
-    {
-      id: 6,
-      nombre: "Café Latte con Leche de Avena",
-      descripcion: "Espresso doble con leche de avena artesanal",
-      precio: "$4.000",
-      categoria: "bebidas",
-      dietas: ["vegano", "sin-lacteos"],
-      imagen: "/images/08_cafeteria-interior.jpg",
-    },
-    {
-      id: 7,
-      nombre: "Bowl Keto",
-      descripcion:
-        "Aguacate, huevo pochado, salmón ahumado, espinaca y semillas",
-      precio: "$10.500",
-      categoria: "brunch",
-      dietas: ["keto", "sin-gluten"],
-      imagen: "/images/08_cafeteria-interior.jpg",
-    },
-    {
-      id: 8,
-      nombre: "Panqueques Sin Gluten",
-      descripcion:
-        "Panqueques de harina de almendras con frutas y miel de maple",
-      precio: "$7.500",
-      categoria: "brunch",
-      dietas: ["vegetariano", "sin-gluten"],
-      imagen: "/images/08_cafeteria-interior.jpg",
-    },
-  ];
-
-  const filtros = [
-    { id: "todos", nombre: "Todos" },
-    { id: "vegano", nombre: "Vegano" },
-    { id: "vegetariano", nombre: "Vegetariano" },
-    { id: "keto", nombre: "Keto" },
-    { id: "sin-gluten", nombre: "Sin Gluten" },
-    { id: "sin-lacteos", nombre: "Sin Lácteos" },
-  ];
-
-  const itemsFiltrados =
-    filtroActivo === "todos"
-      ? menuItems
-      : menuItems.filter((item) => item.dietas.includes(filtroActivo));
-
-  const getDietaBadges = (dietas: string[]) => {
-    const dietaLabels: Record<string, string> = {
-      vegano: "Vegano",
-      vegetariano: "Vegetariano",
-      keto: "Keto",
-      "sin-gluten": "Sin Gluten",
-      "sin-lacteos": "Sin Lácteos",
-    };
-
-    return dietas.map((dieta) => (
-      <Badge key={dieta} variant="secondary" className="text-xs">
-        {dietaLabels[dieta]}
-      </Badge>
-    ));
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
       <main>
         {/* Hero */}
-        <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
+        <section className="relative h-[50vh] md:h-[70vh] overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: "url(/images/06_cafeteria-hero.jpg)" }}
@@ -138,48 +22,59 @@ export default function Cafeteria() {
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
               Cafetería Saludable
             </h1>
-            <p className="text-lg md:text-xl max-w-2xl">
+            <p className="text-lg md:text-xl max-w-2xl mb-8">
               Alimentación consciente con productos locales y opciones para
               todas las dietas
             </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a
+                href="https://wa.me/56940073999?text=Hola,%20quiero%20consultar%20sobre%20la%20cafetería"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button size="lg" className="bg-primary hover:bg-primary/90">
+                  Consultar por WhatsApp
+                </Button>
+              </a>
+            </div>
           </div>
         </section>
 
-        {/* Información */}
-        <section className="py-12 bg-muted">
+        {/* Información Principal */}
+        <section className="py-16 bg-muted">
           <div className="container">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <Card>
+              <Card className="border-0 shadow-lg">
                 <CardContent className="pt-6 text-center">
-                  <Clock className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <h3 className="font-semibold mb-1">Horarios</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <Clock className="h-10 w-10 text-primary mx-auto mb-3" />
+                  <h3 className="font-bold text-lg mb-2">Horarios</h3>
+                  <p className="text-muted-foreground">
                     Martes a Domingo
                     <br />
-                    10:00 - 18:00
+                    <span className="text-xl font-semibold text-foreground">09:30 - 21:30</span>
                   </p>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-0 shadow-lg">
                 <CardContent className="pt-6 text-center">
-                  <Leaf className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <h3 className="font-semibold mb-1">Productos Locales</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <Leaf className="h-10 w-10 text-primary mx-auto mb-3" />
+                  <h3 className="font-bold text-lg mb-2">Productos Locales</h3>
+                  <p className="text-muted-foreground">
                     Ingredientes frescos
                     <br />y de temporada
                   </p>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-0 shadow-lg">
                 <CardContent className="pt-6 text-center">
-                  <MapPin className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <h3 className="font-semibold mb-1">Vista al Lago</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <MapPin className="h-10 w-10 text-primary mx-auto mb-3" />
+                  <h3 className="font-bold text-lg mb-2">Vista al Lago</h3>
+                  <p className="text-muted-foreground">
                     Disfruta con vista
                     <br />
-                    panorámica
+                    panorámica al Llanquihue
                   </p>
                 </CardContent>
               </Card>
@@ -187,142 +82,158 @@ export default function Cafeteria() {
           </div>
         </section>
 
-        {/* Descripción */}
-        <section className="py-16">
+        {/* Descripción con imagen */}
+        <section className="py-20">
           <div className="container">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Comida Consciente
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Nuestra cafetería ofrece brunch todo el día con opciones
-                saludables y deliciosas. Trabajamos con productores locales para
-                traerte ingredientes frescos y de temporada. Tenemos opciones
-                para todas las dietas: veganas, vegetarianas, keto, sin gluten y
-                sin lácteos.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Menú */}
-        <section className="py-16 bg-muted">
-          <div className="container">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
-              Nuestro Menú
-            </h2>
-
-            {/* Filtros */}
-            <div className="flex flex-wrap justify-center gap-2 mb-12">
-              {filtros.map((filtro) => (
-                <Button
-                  key={filtro.id}
-                  variant={filtroActivo === filtro.id ? "default" : "outline"}
-                  onClick={() => setFiltroActivo(filtro.id)}
-                  size="sm"
-                >
-                  {filtro.nombre}
-                </Button>
-              ))}
-            </div>
-
-            {/* Tabs por categoría */}
-            <Tabs defaultValue="todos" className="w-full">
-              <TabsList className="grid w-full max-w-md mx-auto grid-cols-4 mb-8">
-                <TabsTrigger value="todos">Todos</TabsTrigger>
-                <TabsTrigger value="brunch">Brunch</TabsTrigger>
-                <TabsTrigger value="almuerzo">Almuerzo</TabsTrigger>
-                <TabsTrigger value="bebidas">Bebidas</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="todos">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {itemsFiltrados.map((item) => (
-                    <Card key={item.id}>
-                      <div className="relative h-48">
-                        <img
-                          src={item.imagen}
-                          alt={item.nombre}
-                          className="w-full h-full object-cover rounded-t-lg"
-                        />
-                      </div>
-                      <CardHeader>
-                        <div className="flex justify-between items-start mb-2">
-                          <h3 className="font-bold text-lg">{item.nombre}</h3>
-                          <span className="text-lg font-bold text-primary">
-                            {item.precio}
-                          </span>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-3">
-                          {item.descripcion}
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          {getDietaBadges(item.dietas)}
-                        </div>
-                      </CardHeader>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-
-              {["brunch", "almuerzo", "bebidas"].map((categoria) => (
-                <TabsContent key={categoria} value={categoria}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {itemsFiltrados
-                      .filter((item) => item.categoria === categoria)
-                      .map((item) => (
-                        <Card key={item.id}>
-                          <div className="relative h-48">
-                            <img
-                              src={item.imagen}
-                              alt={item.nombre}
-                              className="w-full h-full object-cover rounded-t-lg"
-                            />
-                          </div>
-                          <CardHeader>
-                            <div className="flex justify-between items-start mb-2">
-                              <h3 className="font-bold text-lg">
-                                {item.nombre}
-                              </h3>
-                              <span className="text-lg font-bold text-primary">
-                                {item.precio}
-                              </span>
-                            </div>
-                            <p className="text-sm text-muted-foreground mb-3">
-                              {item.descripcion}
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                              {getDietaBadges(item.dietas)}
-                            </div>
-                          </CardHeader>
-                        </Card>
-                      ))}
-                  </div>
-                </TabsContent>
-              ))}
-            </Tabs>
-
-            {itemsFiltrados.length === 0 && (
-              <div className="text-center py-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                  Un Espacio para Reconectar
+                </h2>
+                <p className="text-lg text-muted-foreground mb-6">
+                  Nuestra cafetería es un refugio de tranquilidad donde podrás disfrutar de 
+                  alimentos nutritivos mientras contemplas las aguas del Lago Llanquihue y 
+                  el imponente Volcán Osorno.
+                </p>
+                <p className="text-lg text-muted-foreground mb-6">
+                  Trabajamos con productores locales del sur de Chile para ofrecerte 
+                  ingredientes frescos y de temporada. Cada plato está preparado con amor 
+                  y pensado para nutrir tu cuerpo y alma.
+                </p>
                 <p className="text-lg text-muted-foreground">
-                  No hay items que coincidan con este filtro
+                  Ya sea que vengas a disfrutar de un desayuno energizante antes de tu 
+                  sesión en las biopiscinas, o a relajarte con un café después de un 
+                  masaje, nuestra cafetería es el complemento perfecto para tu experiencia 
+                  en Cancagua.
                 </p>
               </div>
-            )}
+              <div className="relative">
+                <img
+                  src="/images/08_cafeteria-interior.jpg"
+                  alt="Interior de la cafetería Cancagua"
+                  className="rounded-2xl shadow-2xl w-full h-[400px] object-cover"
+                />
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* CTA Reserva */}
-        <section className="py-16">
+        {/* Características */}
+        <section className="py-20 bg-muted">
+          <div className="container">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Nuestra Propuesta
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Comida consciente que nutre el cuerpo y respeta el medio ambiente
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Coffee className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">Café de Especialidad</h3>
+                <p className="text-muted-foreground text-sm">
+                  Granos seleccionados de tostadores locales, preparados por baristas expertos
+                </p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <UtensilsCrossed className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">Brunch Todo el Día</h3>
+                <p className="text-muted-foreground text-sm">
+                  Bowls, tostadas, panqueques y opciones saladas disponibles en cualquier horario
+                </p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Heart className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">Opciones para Todos</h3>
+                <p className="text-muted-foreground text-sm">
+                  Vegano, vegetariano, sin gluten, sin lácteos y opciones keto
+                </p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Sun className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">Terraza con Vista</h3>
+                <p className="text-muted-foreground text-sm">
+                  Disfruta al aire libre con vista panorámica al lago y volcán
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Próximamente - Carta */}
+        <section className="py-20">
+          <div className="container">
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
+                Próximamente
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                Carta Digital
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                Estamos trabajando en nuestra carta digital para que puedas explorar 
+                nuestro menú completo con fotos, ingredientes y precios actualizados. 
+                Mientras tanto, te invitamos a visitarnos y descubrir nuestras 
+                deliciosas opciones en persona.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="https://wa.me/56940073999?text=Hola,%20quiero%20consultar%20sobre%20el%20menú%20de%20la%20cafetería"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button size="lg" className="bg-primary hover:bg-primary/90">
+                    Consultar Menú por WhatsApp
+                  </Button>
+                </a>
+                <a href="tel:+56652210020">
+                  <Button size="lg" variant="outline">
+                    Llamar: +56 65 221 0020
+                  </Button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Final */}
+        <section className="py-20 bg-primary text-white">
           <div className="container text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Reserva tu Mesa
+              Te Esperamos
             </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Especialmente en fines de semana y días festivos, te recomendamos
-              reservar con anticipación
+            <p className="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
+              Ven a disfrutar de un momento de paz con comida nutritiva y las 
+              mejores vistas del sur de Chile
             </p>
-            <Button size="lg">Reservar Mesa por WhatsApp</Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="https://wa.me/56940073999?text=Hola,%20quiero%20reservar%20una%20mesa%20en%20la%20cafetería"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button size="lg" variant="secondary" className="text-primary">
+                  Reservar Mesa por WhatsApp
+                </Button>
+              </a>
+            </div>
+            <p className="mt-6 text-sm opacity-75">
+              Martes a Domingo · 09:30 a 21:30
+            </p>
           </div>
         </section>
       </main>
