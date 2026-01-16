@@ -231,6 +231,29 @@
     "seeMore": "Ver Más",
     "seeLess": "Ver Menos",
     "readMore": "Leer Más",
-    "learnMore": "Conocer Más"
+    "learnMore": "Conocer Más",
+    "quote": "Cotizar",
+    "contact": "Contactar"
+  },
+  "eventos": {
+    "landing": {
+      "title": "Eventos & Experiencias",
+      "subtitle": "Descubre nuestros próximos eventos, talleres y experiencias transformadoras",
+      "upcoming": "Próximos Eventos",
+      "upcoming_desc": "Explora nuestros eventos especiales y talleres de bienestar",
+      "noEvents": "No hay eventos próximos en este momento",
+      "social": {
+        "title": "Eventos Sociales",
+        "description": "Celebra tus momentos especiales en Cancagua. Ofrecemos espacios únicos para cumpleaños, aniversarios, despedidas de soltero/a y reuniones familiares.",
+        "cta": "Cotizar Evento Social"
+      },
+      "corporate": {
+        "title": "Eventos Corporativos",
+        "description": "Organiza tu próximo team building, retiro corporativo o evento empresarial en nuestras instalaciones. Contamos con espacios adaptables y servicios personalizados.",
+        "cta": "Cotizar Evento Corporativo"
+      },
+      "cta_title": "¿Listo para crear tu evento?",
+      "cta_desc": "Contáctanos y diseñaremos una experiencia única para ti"
+    }
   }
 }

@@ -121,10 +121,10 @@ export function EventosLanding() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                {t("eventos.landing.social_events") || "Eventos Sociales"}
+                {t("eventos.landing.social.title") || "Eventos Sociales"}
               </h2>
               <p className="text-gray-600 text-lg mb-6">
-                {t("eventos.landing.social_desc") ||
+                {t("eventos.landing.social.description") ||
                   "Celebra momentos especiales en nuestro espacio único. Cumpleaños, aniversarios, reuniones familiares y más, en el ambiente perfecto rodeado de naturaleza."}
               </p>
               <ul className="space-y-3 mb-8">
@@ -176,10 +176,10 @@ export function EventosLanding() {
             </div>
             <div className="order-1 md:order-2">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                {t("eventos.landing.corporate_events") || "Eventos Corporativos"}
+                {t("eventos.landing.corporate.title") || "Eventos Corporativos"}
               </h2>
               <p className="text-gray-600 text-lg mb-6">
-                {t("eventos.landing.corporate_desc") ||
+                {t("eventos.landing.corporate.description") ||
                   "Diseñamos experiencias corporativas únicas para tu equipo. Team building, retiros de liderazgo, conferencias y eventos de incentivo en un ambiente inspirador."}
               </p>
               <ul className="space-y-3 mb-8">

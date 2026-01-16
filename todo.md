@@ -920,3 +920,9 @@
 - [x] Agregar secciones de eventos sociales y corporativos
 - [x] Integrar con rutas de la aplicación
 - [x] Probar que los eventos se muestren correctamente
+
+
+## Agregar Landing Eventos al Menú Header
+- [ ] Agregar enlace al landing de eventos en el dropdown EVENTS del navbar
+- [ ] Verificar que los enlaces de los banners del home funcionen correctamente
+- [ ] Probar todos los cambios en el servidor de desarrollo
