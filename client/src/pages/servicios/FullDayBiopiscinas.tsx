@@ -10,7 +10,7 @@ export default function FullDayBiopiscinas() {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=2070')",
+            backgroundImage: "url('/images/fullday-biopiscinas-hero.jpg')",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
