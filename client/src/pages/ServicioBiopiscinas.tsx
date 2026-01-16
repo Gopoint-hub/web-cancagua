@@ -193,7 +193,7 @@ export default function ServicioBiopiscinas() {
                   </h3>
                   <ul className="space-y-2 text-sm text-muted-foreground">
                     <li>• Reserva con anticipación (cupos limitados)</li>
-                    <li>• Edad mínima: 12 años</li>
+                    <li>• Edad mínima: 5 años con control de esfínter y sin pañal</li>
                     <li>• Traer traje de baño</li>
                     <li>• No se permite el ingreso con alimentos externos</li>
                     <li>• Cafetería disponible en el lugar</li>
