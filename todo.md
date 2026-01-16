@@ -14,6 +14,8 @@
 - [x] Overlay con título y subtítulo
 - [x] CTAs principales (Reservar, Conocer Servicios)
 - [x] Animaciones suaves de transición
+- [x] Enlaces de banners corregidos (Biopiscinas, Hot Tubs, Masajes, Clases, Cafetería, Eventos)
+- [x] Navegación programática en botones del slider
 
 ### Sección Servicios
 - [x] Card: Biopiscinas Geotermales (destacar "Primeras del Mundo")

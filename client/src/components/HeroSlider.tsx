@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "wouter";
+import { useLocation } from "wouter";
 
 interface Slide {
   image: string;
@@ -17,6 +16,7 @@ export function HeroSlider() {
   const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [, setLocation] = useLocation();
 
   const slides: Slide[] = [
     {
@@ -88,74 +88,73 @@ export function HeroSlider() {
     goToSlide((currentSlide - 1 + slides.length) % slides.length);
   };
 
+  const handleCtaClick = (link: string) => {
+    setLocation(link);
+  };
+
+  const handleServicesClick = () => {
+    setLocation('/servicios');
+  };
+
+  // Get current slide
+  const slide = slides[currentSlide];
+
   return (
     <div className="relative h-[60vh] md:h-[85vh] overflow-hidden">
-      {/* Slides */}
-      {slides.map((slide, index) => (
+      {/* Background images - all slides rendered for smooth transitions */}
+      {slides.map((s, index) => (
         <div
           key={index}
           className={`absolute inset-0 transition-opacity duration-1000 ${
             index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
         >
-          {/* Imagen de fondo */}
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide.image})` }}
+            style={{ backgroundImage: `url(${s.image})` }}
           />
-
-          {/* Overlay con gradiente sutil */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50" />
-
-          {/* Contenido */}
-          <div className="relative h-full container flex flex-col items-center justify-center text-center text-white px-4">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wider mb-6 max-w-4xl animate-fade-in">
-              {t(slide.titleKey)}
-            </h1>
-            <p className="text-lg md:text-xl mb-10 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90">
-              {t(slide.subtitleKey)}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 animate-fade-in animation-delay-400">
-              {slide.isExternal ? (
-                <Button 
-                  size="lg" 
-                  className="text-sm px-10 py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase" 
-                  asChild
-                >
-                  <a href={slide.ctaLink} target="_blank" rel="noopener noreferrer">
-                    {t(slide.ctaKey)}
-                  </a>
-                </Button>
-              ) : (
-                <Button 
-                  size="lg" 
-                  className="text-sm px-10 py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase" 
-                  asChild
-                >
-                  <Link href={slide.ctaLink}>
-                    {t(slide.ctaKey)}
-                  </Link>
-                </Button>
-              )}
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-sm px-10 py-6 bg-transparent backdrop-blur-sm border-white/50 text-white hover:bg-white hover:text-[#3a3a3a] tracking-widest uppercase"
-                asChild
-              >
-                <Link href="/servicios">
-                  {t('home.hero.viewAllServices')}
-                </Link>
-              </Button>
-            </div>
-          </div>
         </div>
       ))}
 
-      {/* Controles de navegación */}
+      {/* Content overlay - positioned absolutely over everything */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 z-10 pointer-events-none">
+        <h1 
+          key={`title-${currentSlide}`}
+          className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wider mb-6 max-w-4xl animate-fade-in"
+        >
+          {t(slide.titleKey)}
+        </h1>
+        <p 
+          key={`subtitle-${currentSlide}`}
+          className="text-lg md:text-xl mb-10 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90"
+        >
+          {t(slide.subtitleKey)}
+        </p>
+      </div>
+
+      {/* Buttons - positioned absolutely with higher z-index and pointer-events enabled */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
+        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in animation-delay-400 pointer-events-auto">
+          <button 
+            onClick={() => handleCtaClick(slide.ctaLink)}
+            className="text-sm px-10 py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase cursor-pointer font-medium transition-colors"
+          >
+            {t(slide.ctaKey)}
+          </button>
+          <button
+            onClick={handleServicesClick}
+            className="text-sm px-10 py-6 bg-transparent backdrop-blur-sm border border-white/50 text-white hover:bg-white hover:text-[#3a3a3a] tracking-widest uppercase cursor-pointer font-medium transition-colors"
+          >
+            {t('home.hero.viewAllServices')}
+          </button>
+        </div>
+      </div>
+
+      {/* Navigation controls */}
       <button
         onClick={prevSlide}
-        className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-4 transition-all z-10"
+        className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-4 transition-all z-20"
         aria-label={t('common.previousSlide')}
       >
         <ChevronLeft className="h-5 w-5" />
@@ -163,14 +162,14 @@ export function HeroSlider() {
 
       <button
         onClick={nextSlide}
-        className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-4 transition-all z-10"
+        className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-4 transition-all z-20"
         aria-label={t('common.nextSlide')}
       >
         <ChevronRight className="h-5 w-5" />
       </button>
 
-      {/* Indicadores */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+      {/* Slide indicators */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
         {slides.map((_, index) => (
           <button
             key={index}
@@ -185,8 +184,8 @@ export function HeroSlider() {
         ))}
       </div>
 
-      {/* Indicador de scroll */}
-      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
+      {/* Scroll indicator */}
+      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 animate-bounce hidden md:block z-20">
         <div className="w-6 h-10 border border-white/50 rounded-full flex items-start justify-center p-2">
           <div className="w-0.5 h-3 bg-[#D3BC8D] rounded-full animate-scroll" />
         </div>
