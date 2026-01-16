@@ -28,7 +28,7 @@ export default function Sauna() {
       price: "$33.000 CLP",
       duration: "1 hr",
       capacity: "3 personas",
-      image: "/images/11_hottub-service.webp",
+    "image": "/images/sauna-nativo-hero.png",
       reservaUrl: "https://reservas.cancagua.cl/cancaguaspa/s/d2ff9cba-5073-4d6b-9992-fb0e4d727caf",
     },
     {
@@ -74,7 +74,7 @@ export default function Sauna() {
         <section className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src="/images/11_hottub-service.webp"
+              src="/images/sauna-nativo-hero.png"
               alt="Sauna Nativo Cancagua"
               className="w-full h-full object-cover"
             />
