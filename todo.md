@@ -986,3 +986,15 @@
 - [x] Agregar sección "Antes de tu visita" en Full Day Biopiscinas
 - [x] Agregar sección "Antes de tu visita" en Full Day Hot Tubs
 - [ ] Agregar traducciones en todos los idiomas (pendiente)
+
+
+## Enlaces de Reserva Skedu (16 Enero 2026)
+- [ ] Agregar enlace de Skedu a Biopiscinas: https://reservas.cancagua.cl/cancaguaspa/s/3daa00ec-4c8d-41d5-995a-79ad4cbd8380
+- [ ] Crear página de Navega Relax con botón de WhatsApp (sin Skedu)
+- [ ] Verificar que todos los botones de reserva funcionen correctamente
+
+
+## Enlaces de Reserva Skedu y Navega Relax (16 Enero 2026)
+- [x] Agregar enlace de Skedu a Biopiscinas (https://reservas.cancagua.cl/cancaguaspa/s/3daa00ec-4c8d-41d5-995a-79ad4cbd8380)
+- [x] Crear página de Navega Relax con botón de WhatsApp (sin enlace de Skedu)
+- [x] Verificar que todos los enlaces de reserva funcionen correctamente

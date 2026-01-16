@@ -3,8 +3,11 @@ import { Navbar } from "@/components/Navbar";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check, Clock, Users, Waves } from "lucide-react";
-import { BookingForm } from "@/components/BookingForm";
+import { Check, Clock, Users, Waves, Phone, MessageCircle } from "lucide-react";
+
+const BOOKING_URL = "https://reservas.cancagua.cl/cancaguaspa/s/3daa00ec-4c8d-41d5-995a-79ad4cbd8380";
+const WHATSAPP_URL = "https://wa.me/56940073999?text=Hola,%20quiero%20consultar%20sobre%20las%20Biopiscinas%20Geotermales";
+const PHONE_NUMBER = "+56 9 4007 3999";
 
 export default function ServicioBiopiscinas() {
   const beneficios = [
@@ -50,14 +53,11 @@ export default function ServicioBiopiscinas() {
               Cuatro horas de una maravillosa experiencia a 37º-40º en las
               primeras biopiscinas geotermales del mundo
             </p>
-            <BookingForm
-              serviceType="Biopiscinas Geotermales"
-              triggerButton={
-                <Button size="lg" className="text-lg px-8 py-6">
-                  Reservar Ahora
-                </Button>
-              }
-            />
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="text-lg px-8 py-6">
+                Reservar Ahora
+              </Button>
+            </a>
           </div>
         </section>
 
@@ -78,10 +78,10 @@ export default function ServicioBiopiscinas() {
                 </p>
                 <p className="text-lg leading-relaxed mb-4">
                   A diferencia de las piscinas tradicionales, nuestras
-                  biopiscinas no utilizan cloro ni químicos. El agua se
-                  purifica naturalmente a través de plantas acuáticas y
-                  microorganismos beneficiosos, creando un ambiente
-                  completamente natural y saludable para tu piel.
+                  biopiscinas no utilizan cloro ni químicos. El agua se purifica
+                  naturalmente a través de plantas acuáticas y microorganismos
+                  beneficiosos, creando un ambiente completamente natural y
+                  saludable para tu piel.
                 </p>
                 <p className="text-lg leading-relaxed">
                   Ubicadas a orillas del Lago Llanquihue y rodeadas de bosque
@@ -95,59 +95,44 @@ export default function ServicioBiopiscinas() {
         </section>
 
         {/* Características */}
-        <section className="py-16 bg-muted">
+        <section className="py-16 bg-muted/50">
           <div className="container">
             <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
               Características
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <Waves className="h-8 w-8 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">
-                    Agua Geotérmica
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
+                <CardContent className="p-6 text-center">
+                  <Waves className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <h3 className="font-semibold text-lg mb-2">Agua Geotérmica</h3>
+                  <p className="text-muted-foreground">
                     Temperatura constante de 37º-40º todo el año
                   </p>
                 </CardContent>
               </Card>
-
               <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <Clock className="h-8 w-8 text-primary" />
-                  </div>
+                <CardContent className="p-6 text-center">
+                  <Clock className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="font-semibold text-lg mb-2">4 Horas</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground">
                     Tiempo suficiente para relajarte completamente
                   </p>
                 </CardContent>
               </Card>
-
               <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <Users className="h-8 w-8 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">
-                    Grupos Pequeños
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
+                <CardContent className="p-6 text-center">
+                  <Users className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <h3 className="font-semibold text-lg mb-2">Grupos Pequeños</h3>
+                  <p className="text-muted-foreground">
                     Ambiente tranquilo y exclusivo
                   </p>
                 </CardContent>
               </Card>
-
               <Card>
-                <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                    <Check className="h-8 w-8 text-primary" />
-                  </div>
+                <CardContent className="p-6 text-center">
+                  <Check className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="font-semibold text-lg mb-2">100% Natural</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground">
                     Sin cloro ni químicos, purificación biológica
                   </p>
                 </CardContent>
@@ -159,10 +144,9 @@ export default function ServicioBiopiscinas() {
         {/* Beneficios e Incluye */}
         <section className="py-16 md:py-24">
           <div className="container">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Beneficios */}
+            <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
               <div>
-                <h2 className="text-3xl font-bold mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold mb-6">
                   Beneficios Terapéuticos
                 </h2>
                 <ul className="space-y-3">
@@ -174,10 +158,10 @@ export default function ServicioBiopiscinas() {
                   ))}
                 </ul>
               </div>
-
-              {/* Incluye */}
               <div>
-                <h2 className="text-3xl font-bold mb-6">La Experiencia Incluye</h2>
+                <h2 className="text-2xl md:text-3xl font-bold mb-6">
+                  La Experiencia Incluye
+                </h2>
                 <ul className="space-y-3">
                   {incluye.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
@@ -219,17 +203,25 @@ export default function ServicioBiopiscinas() {
               biopiscinas geotermales del mundo
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="text-lg px-8">
-                Reservar Ahora
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-lg px-8 border-white text-white hover:bg-white hover:text-primary"
-              >
-                Consultar Disponibilidad
-              </Button>
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                <Button size="lg" variant="secondary" className="text-lg px-8">
+                  Reservar Ahora
+                </Button>
+              </a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-lg px-8 border-white text-white hover:bg-white hover:text-primary"
+                >
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Consultar Disponibilidad
+                </Button>
+              </a>
             </div>
+            <p className="mt-6 text-sm opacity-75">
+              ¿Dudas? Llámanos al <a href={`tel:${PHONE_NUMBER.replace(/\s/g, '')}`} className="underline">{PHONE_NUMBER}</a>
+            </p>
           </div>
         </section>
       </main>

@@ -38,7 +38,7 @@ import GiftCards from "./pages/GiftCards";
 import Contacto from "./pages/Contacto";
 import Nosotros from "./pages/Nosotros";
 import Carta from "./pages/Carta";
-import NavegaRelax from "./pages/NavegaRelax";
+import NavegaRelax from "./pages/experiencias/NavegaRelax";
 import Masajes from "./pages/Masajes";
 import ClasesRegulares from "./pages/ClasesRegulares";
 import HotTubs from "./pages/HotTubs";
