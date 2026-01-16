@@ -1014,3 +1014,7 @@
 - [x] Agregar scroll al contenedor del menú (fixed con overflow-y-auto)
 - [x] Reducir padding y espaciado entre items
 - [x] Mejorar UX para pantallas pequeñas
+
+
+## Bug Menú Mobile (16 Enero 2026)
+- [x] Corregir menú mobile que no carga - cambiado de fixed a relative con max-h-[70vh] y overflow-y-auto

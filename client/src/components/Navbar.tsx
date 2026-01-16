@@ -228,9 +228,9 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Menú Mobile Expandido - Optimizado */}
+        {/* Menú Mobile Expandido */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-[#D3BC8D]/20 bg-white fixed inset-x-0 top-[calc(5rem+2.5rem)] bottom-0 overflow-y-auto">
+          <div className="md:hidden border-t border-[#D3BC8D]/20 bg-white max-h-[70vh] overflow-y-auto">
             <nav className="container py-4 flex flex-col">
               {/* Inicio */}
               <Link
@@ -248,15 +248,15 @@ export function Navbar() {
                   onClick={() => toggleSection('servicios')}
                 >
                   <span>{t('nav.services')}</span>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${expandedSection === 'servicios' ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSection === 'servicios' ? 'rotate-180' : ''}`} />
                 </button>
                 {expandedSection === 'servicios' && (
-                  <div className="pb-2 pl-4 space-y-1">
+                  <div className="pb-3 pl-4 space-y-1 animate-in slide-in-from-top-2 duration-200">
                     {servicios.map((servicio) => (
                       <Link
                         key={servicio.href}
                         href={servicio.href}
-                        className="block py-2 text-sm text-[#3a3a3a]"
+                        className="block py-2 text-sm text-[#3a3a3a] hover:text-[#D3BC8D]"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {servicio.name}
@@ -273,15 +273,15 @@ export function Navbar() {
                   onClick={() => toggleSection('experiencias')}
                 >
                   <span>EXPERIENCIAS</span>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${expandedSection === 'experiencias' ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSection === 'experiencias' ? 'rotate-180' : ''}`} />
                 </button>
                 {expandedSection === 'experiencias' && (
-                  <div className="pb-2 pl-4 space-y-1">
+                  <div className="pb-3 pl-4 space-y-1 animate-in slide-in-from-top-2 duration-200">
                     {experiencias.map((experiencia) => (
                       <Link
                         key={experiencia.href}
                         href={experiencia.href}
-                        className="block py-2 text-sm text-[#3a3a3a]"
+                        className="block py-2 text-sm text-[#3a3a3a] hover:text-[#D3BC8D]"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {experiencia.name}
@@ -298,15 +298,15 @@ export function Navbar() {
                   onClick={() => toggleSection('eventos')}
                 >
                   <span>{t('nav.events')}</span>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${expandedSection === 'eventos' ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSection === 'eventos' ? 'rotate-180' : ''}`} />
                 </button>
                 {expandedSection === 'eventos' && (
-                  <div className="pb-2 pl-4 space-y-1">
+                  <div className="pb-3 pl-4 space-y-1 animate-in slide-in-from-top-2 duration-200">
                     {eventos.map((evento) => (
                       <Link
                         key={evento.href}
                         href={evento.href}
-                        className="block py-2 text-sm text-[#3a3a3a]"
+                        className="block py-2 text-sm text-[#3a3a3a] hover:text-[#D3BC8D]"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {evento.name}
@@ -319,7 +319,7 @@ export function Navbar() {
               {/* Enlaces directos */}
               <Link
                 href="/cafeteria"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.cafeteria')}
@@ -327,7 +327,7 @@ export function Navbar() {
 
               <Link
                 href="/gift-cards"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.giftCards')}
@@ -335,7 +335,7 @@ export function Navbar() {
 
               <Link
                 href="/nosotros"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.about')}
@@ -343,7 +343,7 @@ export function Navbar() {
 
               <Link
                 href="/contacto"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.contact')}
