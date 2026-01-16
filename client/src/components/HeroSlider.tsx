@@ -23,7 +23,7 @@ export function HeroSlider() {
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
       ctaKey: "hero.biopiscinas.cta1",
-      ctaLink: "/servicios/biopiscinas",
+      ctaLink: "https://reservas.cancagua.cl/cancaguaspa/s/3daa00ec-4c8d-41d5-995a-79ad4cbd8380",
     },
     {
       image: "/images/05_hottubs-hero.png",
