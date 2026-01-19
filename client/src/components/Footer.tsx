@@ -164,7 +164,7 @@ export function Footer() {
 
             <div className="mt-4">
               <a
-                href="https://cancagua.cl/media-kit"
+                href="https://drive.google.com/drive/u/1/folders/1A02wUkV1mkZTl0REkHqiKr8E490SI6fD"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-white/70 hover:text-[#D3BC8D] transition-colors"

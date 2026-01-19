@@ -1029,3 +1029,7 @@
 
 ## Corrección Texto Sauna (19 Enero 2026)
 - [x] Cambiar texto en página de Sauna: "Toallas y amenities incluidos" → "Arriendo de batas y toallas"
+
+
+## Actualizar Enlace Media Kit (19 Enero 2026)
+- [x] Cambiar enlace del Media Kit en el footer por: https://drive.google.com/drive/u/1/folders/1A02wUkV1mkZTl0REkHqiKr8E490SI6fD
