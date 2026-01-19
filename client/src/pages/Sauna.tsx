@@ -228,7 +228,7 @@ export default function Sauna() {
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D] mt-2 flex-shrink-0" />
-                    <span>Toallas y amenities incluidos</span>
+                    <span>Arriendo de batas y toallas</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D] mt-2 flex-shrink-0" />

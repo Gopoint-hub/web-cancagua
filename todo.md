@@ -1025,3 +1025,7 @@
 - [x] Verificar que botón "Reservar Ahora" lleve a Skedu
 - [x] Verificar que botón "Consultar Disponibilidad" lleve a WhatsApp
 - [x] Revisar todas las experiencias para confirmar enlaces correctos
+
+
+## Corrección Texto Sauna (19 Enero 2026)
+- [x] Cambiar texto en página de Sauna: "Toallas y amenities incluidos" → "Arriendo de batas y toallas"
