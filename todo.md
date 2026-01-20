@@ -1033,3 +1033,9 @@
 
 ## Actualizar Enlace Media Kit (19 Enero 2026)
 - [x] Cambiar enlace del Media Kit en el footer por: https://drive.google.com/drive/u/1/folders/1A02wUkV1mkZTl0REkHqiKr8E490SI6fD
+
+
+## Agregar Cómo Llegar (20 Enero 2026)
+- [x] Agregar sección "Cómo Llegar" con mapa de Google Maps embebido
+- [x] Agregar botón/enlace de Waze para navegación directa
+- [ ] Enlace Waze: https://www.waze.com/live-map/directions/cl/los-lagos/cancagua-spa,-biopiscinas-geotermicas,-la-alternativa-a-las-termas-del-sur-de-chile?navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location&to=place.ChIJwUZFARSTF5YRIEwW-QgaTQA
