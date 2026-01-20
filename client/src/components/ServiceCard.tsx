@@ -18,8 +18,8 @@ export function ServiceCard({
   badge,
 }: ServiceCardProps) {
   return (
-    <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-none bg-white">
-      <div className="relative h-64 overflow-hidden">
+    <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-none bg-white h-full flex flex-col">
+      <div className="relative h-64 overflow-hidden flex-shrink-0">
         <img
           src={image}
           alt={title}
@@ -35,10 +35,10 @@ export function ServiceCard({
           {title}
         </h3>
       </div>
-      <CardContent className="p-6 bg-white">
-        <p className="text-[#8C8C8C] mb-5 text-sm leading-relaxed">{description}</p>
+      <CardContent className="p-6 bg-white flex flex-col flex-1">
+        <p className="text-[#8C8C8C] mb-5 text-sm leading-relaxed flex-1">{description}</p>
         <Button 
-          className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider text-sm" 
+          className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider text-sm mt-auto" 
           asChild
         >
           <Link href={href}>Ver Detalles</Link>

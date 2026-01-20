@@ -1039,3 +1039,9 @@
 - [x] Agregar sección "Cómo Llegar" con mapa de Google Maps embebido
 - [x] Agregar botón/enlace de Waze para navegación directa
 - [ ] Enlace Waze: https://www.waze.com/live-map/directions/cl/los-lagos/cancagua-spa,-biopiscinas-geotermicas,-la-alternativa-a-las-termas-del-sur-de-chile?navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location&to=place.ChIJwUZFARSTF5YRIEwW-QgaTQA
+
+
+## Alinear Botones en Tarjetas (20 Enero 2026)
+- [x] Alinear botones "Ver Detalles" en tarjetas de servicios para que queden a la misma altura
+- [x] Verificar alineación en página de Contacto
+- [x] Agregar sección "Cómo Llegar" solo para mobile en Home con mapa y botones Waze/Google Maps
