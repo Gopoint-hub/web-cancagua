@@ -1045,3 +1045,7 @@
 - [x] Alinear botones "Ver Detalles" en tarjetas de servicios para que queden a la misma altura
 - [x] Verificar alineación en página de Contacto
 - [x] Agregar sección "Cómo Llegar" solo para mobile en Home con mapa y botones Waze/Google Maps
+
+
+## Cambiar Foto Header Navega & Relax (20 Enero 2026)
+- [x] Cambiar foto del header en página Navega & Relax por nueva imagen del catamarán

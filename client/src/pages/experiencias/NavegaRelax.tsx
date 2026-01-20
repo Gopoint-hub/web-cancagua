@@ -50,7 +50,7 @@ export default function NavegaRelax() {
         <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url(/images/14_sup-actividad.jpg)" }}
+            style={{ backgroundImage: "url(/images/navega-relax-header.jpg)" }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
