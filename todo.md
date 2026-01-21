@@ -1049,3 +1049,7 @@
 
 ## Cambiar Foto Header Navega & Relax (20 Enero 2026)
 - [x] Cambiar foto del header en página Navega & Relax por nueva imagen del catamarán
+
+
+## Cambiar Foto Hero Eventos Empresas (21 Enero 2026)
+- [x] Cambiar foto del hero en página Eventos para Empresas por nueva imagen
