@@ -13,7 +13,7 @@ const featuredEvents = [
     id: 1,
     title: "Heart Coherence Workshop",
     description: "Taller de coherencia cardíaca con Sonja Bloder. Aprende técnicas de respiración y meditación para equilibrar tu sistema nervioso.",
-    image: "/images/sonja-bloder.png",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/sonja-bloder.png",
     date: "15 de Febrero, 2026",
     time: "10:00 - 14:00",
     location: "Cancagua Spa & Retreat Center",
@@ -24,7 +24,7 @@ const featuredEvents = [
     id: 2,
     title: "Taller Método Wim Hof",
     description: "Experiencia transformadora con Alan IceMan, único instructor avanzado del Método Wim Hof en Chile. Respiración, mentalidad y exposición al frío.",
-    image: "/images/alan-iceman.png",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/alan-iceman.png",
     date: "31 de Enero, 2026",
     time: "09:00 - 13:15",
     location: "Cancagua Spa & Retreat Center",
@@ -44,7 +44,7 @@ export function EventosLanding() {
       <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/images/07_eventos-hero.jpg')" }}
+          style={{ backgroundImage: "url('https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/07_eventos-hero.jpg')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
         <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
@@ -163,7 +163,7 @@ export function EventosLanding() {
             </div>
             <div className="relative h-96 rounded-lg overflow-hidden shadow-xl">
               <img 
-                src="/images/02_biopiscinas-hero.jpg" 
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/02_biopiscinas-hero.jpg" 
                 alt="Eventos Sociales en Cancagua"
                 className="w-full h-full object-cover"
               />
@@ -179,7 +179,7 @@ export function EventosLanding() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="relative h-96 rounded-lg overflow-hidden shadow-xl order-2 md:order-1">
               <img 
-                src="/images/07_eventos-hero.jpg" 
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/07_eventos-hero.jpg" 
                 alt="Eventos Corporativos en Cancagua"
                 className="w-full h-full object-cover"
               />

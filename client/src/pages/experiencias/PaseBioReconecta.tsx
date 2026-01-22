@@ -33,7 +33,7 @@ export default function PaseBioReconecta() {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/images/pase-reconecta-masaje-1.png')",
+            backgroundImage: "url('https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/pase-reconecta-masaje-1.png')",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />

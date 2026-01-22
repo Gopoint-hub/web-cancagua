@@ -263,7 +263,7 @@ export default function Nosotros() {
               </div>
               <div>
                 <img
-                  src="/images/02_biopiscinas-hero.jpg"
+                  src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/02_biopiscinas-hero.jpg"
                   alt="Cancagua vista al lago"
                   className="shadow-xl w-full"
                 />

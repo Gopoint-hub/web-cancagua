@@ -10,7 +10,7 @@ export default function TermasConNinos() {
       <BlogLayout
         title="Termas del Sur de Chile con Niños: Guía para Familias"
         excerpt="Planificar unas vacaciones en el sur de Chile con niños puede ser emocionante y estresante a la vez. Sé que muchas familias buscan «termas sur chile niños» esperando encontrar ese lugar perfecto donde los adultos puedan relajarse mientras los pequeños disfrutan seguros."
-        image="/images/blog/termas-ninos-familias-hero.webp"
+        image="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/blog/termas-ninos-familias-hero.webp"
         date="6 Enero 2026"
         author="Mario Hermosilla"
         readTime="10 min"

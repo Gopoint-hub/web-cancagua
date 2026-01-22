@@ -1154,3 +1154,10 @@
 - [ ] Redireccionar /eventos-empresas/ → /eventos/empresas
 - [ ] Redireccionar /giftcards/ → /tienda-regalos-preview (temporal)
 - [ ] Verificar que todas las redirecciones funcionen correctamente
+
+
+## Migrar Imágenes a S3 (22 Enero 2026)
+- [x] Subir imágenes de /images/wordpress/ a S3 (93 imágenes subidas)
+- [x] Actualizar referencias en el código para usar URLs de S3 (62 reemplazos)
+- [x] Eliminar imágenes locales pesadas (carpetas wordpress, blog, hcdl, giftcard-backgrounds + 14 imágenes sueltas)
+- [x] Verificar que las imágenes se carguen correctamente desde S3

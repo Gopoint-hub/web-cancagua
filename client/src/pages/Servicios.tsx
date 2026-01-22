@@ -12,7 +12,7 @@ export default function Servicios() {
     {
       title: t("services.biopiscinas.title", "Biopiscinas Geotermales"),
       description: t("services.biopiscinas.description", "Las primeras del mundo. Cuatro horas de experiencia única a 37º-40º en aguas termales naturales con vista al Lago Llanquihue."),
-      image: "/images/02_biopiscinas-hero.jpg",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/02_biopiscinas-hero.jpg",
       href: "/servicios/biopiscinas",
       badge: t("services.biopiscinas.badge", "Primeras del Mundo"),
     },
@@ -53,7 +53,7 @@ export default function Servicios() {
     {
       title: t("experiencias.pasesReconecta.title", "Pases Reconecta"),
       description: t("experiencias.pasesReconecta.description", "Pases mensuales para acceder a nuestros servicios de bienestar. La mejor forma de mantener tu rutina de autocuidado."),
-      image: "/images/pase-reconecta-hottub.png",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/pase-reconecta-hottub.png",
       href: "/experiencias/pases-reconecta",
     },
     {

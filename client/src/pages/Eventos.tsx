@@ -20,7 +20,7 @@ export default function Eventos() {
       cupos: 15,
       cuposDisponibles: 8,
       precio: "$25.000",
-      imagen: "/images/07_eventos-hero.jpg",
+      imagen: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/07_eventos-hero.jpg",
       categoria: "Terapias",
     },
     {
@@ -48,7 +48,7 @@ export default function Eventos() {
       cupos: 30,
       cuposDisponibles: 5,
       precio: "$20.000",
-      imagen: "/images/06_cafeteria-hero.jpg",
+      imagen: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/06_cafeteria-hero.jpg",
       categoria: "Música",
     },
     {
@@ -94,7 +94,7 @@ export default function Eventos() {
         <section className="relative h-[40vh] md:h-[50vh] overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url(/images/07_eventos-hero.jpg)" }}
+            style={{ backgroundImage: "url(https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/07_eventos-hero.jpg)" }}
           />
           <div className="absolute inset-0 bg-black/50" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">

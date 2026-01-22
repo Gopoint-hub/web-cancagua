@@ -12,7 +12,7 @@ export default function Sauna() {
       price: "$15.000 CLP",
       duration: "1 hr",
       capacity: "1 persona",
-      image: "/images/sauna-nativo-hero.png",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/sauna-nativo-hero.png",
       reservaUrl: "https://reservas.cancagua.cl/cancaguaspa/s/294abb1b-bda0-4e10-8600-7d225f6ce663",
     },
     {
@@ -20,7 +20,7 @@ export default function Sauna() {
       price: "$25.000 CLP",
       duration: "1 hr",
       capacity: "2 personas",
-      image: "/images/sauna-nativo-hero.png",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/sauna-nativo-hero.png",
       reservaUrl: "https://reservas.cancagua.cl/cancaguaspa/s/486ccef7-d9d0-4310-9eaf-8034ece7ac26",
     },
     {
@@ -28,7 +28,7 @@ export default function Sauna() {
       price: "$33.000 CLP",
       duration: "1 hr",
       capacity: "3 personas",
-    "image": "/images/sauna-nativo-hero.png",
+    "image": "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/sauna-nativo-hero.png",
       reservaUrl: "https://reservas.cancagua.cl/cancaguaspa/s/d2ff9cba-5073-4d6b-9992-fb0e4d727caf",
     },
     {
@@ -36,7 +36,7 @@ export default function Sauna() {
       price: "$40.000 CLP",
       duration: "1 hr",
       capacity: "Hasta 6 personas",
-      image: "/images/sauna-nativo-hero.png",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/sauna-nativo-hero.png",
       reservaUrl: "https://reservas.cancagua.cl/cancaguaspa/s/a944a041-9556-4c39-9252-ef1a01b28439",
       featured: true,
     },
@@ -74,7 +74,7 @@ export default function Sauna() {
         <section className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src="/images/sauna-nativo-hero.png"
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/sauna-nativo-hero.png"
               alt="Sauna Nativo Cancagua"
               className="w-full h-full object-cover"
             />

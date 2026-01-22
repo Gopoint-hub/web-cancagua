@@ -47,7 +47,7 @@ export default function TallerWimHof() {
         <section className="relative h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src="/images/02_biopiscinas-hero.jpg"
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/02_biopiscinas-hero.jpg"
               alt="Taller Método Wim Hof"
               className="w-full h-full object-cover"
             />
@@ -102,7 +102,7 @@ export default function TallerWimHof() {
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
                   <img
-                    src="/images/alan-iceman.png"
+                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/alan-iceman.png"
                     alt="Alan IceMan"
                     className="rounded-lg shadow-xl w-full object-cover"
                   />

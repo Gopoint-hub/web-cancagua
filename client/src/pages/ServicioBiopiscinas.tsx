@@ -44,7 +44,7 @@ export default function ServicioBiopiscinas() {
         <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url(/images/02_biopiscinas-hero.jpg)" }}
+            style={{ backgroundImage: "url(https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/02_biopiscinas-hero.jpg)" }}
           />
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">

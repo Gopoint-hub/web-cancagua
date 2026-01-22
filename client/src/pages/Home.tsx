@@ -23,7 +23,7 @@ export default function Home() {
       title: "Biopiscinas Geotermales",
       description:
         "Las primeras del mundo. Cuatro horas de experiencia única a 37º-40º en aguas termales naturales.",
-      image: "/images/02_biopiscinas-hero.jpg",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/02_biopiscinas-hero.jpg",
       href: "/servicios/biopiscinas",
       badge: "Primeras del Mundo",
     },
@@ -219,7 +219,7 @@ export default function Home() {
               </div>
               <div className="order-1 lg:order-2">
                 <img
-                  src="/images/08_cafeteria-interior.jpg"
+                  src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/08_cafeteria-interior.jpg"
                   alt="Cafetería Cancagua"
                   className="rounded-sm shadow-xl w-full"
                 />

@@ -20,14 +20,14 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "/images/02_biopiscinas-hero.jpg",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/02_biopiscinas-hero.jpg",
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
       ctaKey: "hero.biopiscinas.cta1",
       ctaLink: "/servicios/biopiscinas",
     },
     {
-      image: "/images/05_hottubs-hero.png",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/05_hottubs-hero.png",
       titleKey: "hero.hotTubs.title",
       subtitleKey: "hero.hotTubs.subtitle",
       ctaKey: "hero.hotTubs.cta1",
@@ -41,21 +41,21 @@ export function HeroSlider() {
       ctaLink: "/masajes",
     },
     {
-      image: "/images/04_clases-hero.jpg",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/04_clases-hero.jpg",
       titleKey: "hero.clases.title",
       subtitleKey: "hero.clases.subtitle",
       ctaKey: "hero.clases.cta1",
       ctaLink: "/clases",
     },
     {
-      image: "/images/06_cafeteria-hero.jpg",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/06_cafeteria-hero.jpg",
       titleKey: "hero.cafeteria.title",
       subtitleKey: "hero.cafeteria.subtitle",
       ctaKey: "hero.cafeteria.cta1",
       ctaLink: "/cafeteria",
     },
     {
-      image: "/images/07_eventos-hero.jpg",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/07_eventos-hero.jpg",
       titleKey: "hero.eventos.title",
       subtitleKey: "hero.eventos.subtitle",
       ctaKey: "hero.eventos.cta1",

@@ -119,7 +119,7 @@ ${formData.message}`;
         <section className="relative h-[70vh] overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url(/images/eventos-empresas-hero.jpg)" }}
+            style={{ backgroundImage: "url(https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/eventos-empresas-hero.jpg)" }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white px-4">
