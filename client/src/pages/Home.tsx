@@ -228,7 +228,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Sección Gift Cards */}
+        {/* OCULTO - GIFT CARDS - RESTAURAR:
         <section className="py-20 md:py-28 bg-white">
           <div className="container">
             <div className="max-w-4xl mx-auto text-center">
@@ -255,6 +255,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        FIN OCULTO GIFT CARDS */}
 
         {/* Secc        {/* Banner WhatsApp */}
         <section className="py-16 bg-gradient-to-br from-[#25D366]/10 to-[#20BA5A]/5">

@@ -25,8 +25,10 @@ export function WhatsAppButton() {
       return "Hola, quiero información sobre los eventos";
     } else if (location === "/cafeteria") {
       return "Hola, quiero reservar mesa en la cafetería";
+    /* OCULTO - GIFT CARDS - RESTAURAR:
     } else if (location === "/tienda-regalos-preview") {
       return "Hola, quiero comprar una gift card";
+    FIN OCULTO GIFT CARDS */
     } else if (location === "/nosotros") {
       return "Hola, me gustaría conocer más sobre Cancagua";
     } else if (location === "/contacto") {

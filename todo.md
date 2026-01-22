@@ -1161,3 +1161,11 @@
 - [x] Actualizar referencias en el código para usar URLs de S3 (62 reemplazos)
 - [x] Eliminar imágenes locales pesadas (carpetas wordpress, blog, hcdl, giftcard-backgrounds + 14 imágenes sueltas)
 - [x] Verificar que las imágenes se carguen correctamente desde S3
+
+
+## Ocultar Gift Cards Completamente (22 Enero 2026)
+- [x] Buscar todas las referencias a Gift Cards en el código
+- [x] Documentar ubicaciones de enlaces, botones y secciones
+- [x] Ocultar/comentar todas las referencias (App.tsx, Home.tsx, WhatsAppButton.tsx)
+- [x] Crear archivo de documentación para restauración futura (docs/gift-cards-restore.md)
+- [x] Verificar que no haya enlaces visibles a Gift Cards
