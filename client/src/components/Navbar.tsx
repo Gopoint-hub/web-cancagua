@@ -30,6 +30,7 @@ export function Navbar() {
     { name: t('services.hotTubs.name'), href: "/servicios/hot-tubs" },
     { name: "Sauna Nativo", href: "/servicios/sauna" },
     { name: t('services.masajes.name'), href: "/masajes" },
+    { name: "Masajes en Puerto Varas", href: "/spa-hotel-cabanas-del-lago", highlight: true },
     { name: t('services.clases.name'), href: "/clases" },
   ];
 
@@ -87,15 +88,24 @@ export function Navbar() {
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-2 p-4 bg-white border border-[#D3BC8D]/20">
-                      {servicios.map((servicio) => (
+                      {servicios.map((servicio: { name: string; href: string; highlight?: boolean }) => (
                         <li key={servicio.href}>
                           <NavigationMenuLink asChild>
                             <Link
                               href={servicio.href}
-                              className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F1E7D9] text-[#3a3a3a]"
+                              className={`block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors ${
+                                servicio.highlight 
+                                  ? 'bg-[#1a5276]/10 hover:bg-[#1a5276]/20 text-[#1a5276] border-l-2 border-[#1a5276]' 
+                                  : 'hover:bg-[#F1E7D9] text-[#3a3a3a]'
+                              }`}
                             >
-                              <div className="text-sm tracking-wide">
+                              <div className="text-sm tracking-wide flex items-center gap-2">
                                 {servicio.name}
+                                {servicio.highlight && (
+                                  <span className="text-[10px] bg-[#1a5276] text-white px-1.5 py-0.5 rounded uppercase tracking-wider">
+                                    Nuevo
+                                  </span>
+                                )}
                               </div>
                             </Link>
                           </NavigationMenuLink>

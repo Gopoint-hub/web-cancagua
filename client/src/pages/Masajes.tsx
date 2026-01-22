@@ -100,26 +100,37 @@ export default function Masajes() {
           
           <div className="grid md:grid-cols-2 gap-4">
             {massageServices.map((service, index) => (
-              <Card key={index} className="bg-white border-none shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-['Josefin_Sans'] text-lg text-[#3a3a3a] mb-2">
-                        {service.name} ({service.duration})
-                      </h3>
-                      <div className="flex items-center gap-2 text-[#888]">
-                        <Clock className="h-4 w-4" />
-                        <span className="font-['Fira_Sans'] text-sm">{service.duration}</span>
+              <a 
+                key={index} 
+                href={BOOKING_URL} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <Card className="bg-white border-none shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer group">
+                  <CardContent className="p-6">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-['Josefin_Sans'] text-lg text-[#3a3a3a] mb-2 group-hover:text-[#D3BC8D] transition-colors">
+                          {service.name} ({service.duration})
+                        </h3>
+                        <div className="flex items-center gap-2 text-[#888]">
+                          <Clock className="h-4 w-4" />
+                          <span className="font-['Fira_Sans'] text-sm">{service.duration}</span>
+                        </div>
+                      </div>
+                      <div className="text-right flex flex-col items-end gap-2">
+                        <span className="font-['Cormorant_Garamond'] text-2xl text-[#D3BC8D]">
+                          {service.price}
+                        </span>
+                        <span className="font-['Josefin_Sans'] text-xs text-[#D3BC8D] opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-wider">
+                          Reservar →
+                        </span>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <span className="font-['Cormorant_Garamond'] text-2xl text-[#D3BC8D]">
-                        {service.price}
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </a>
             ))}
           </div>
 
@@ -154,7 +165,7 @@ export default function Masajes() {
               className="rounded-lg shadow-md w-full h-64 object-cover"
             />
             <img
-              src="/images/04_hottubs-hero.png"
+              src="/images/05_hottubs-hero.png"
               alt="Hot Tubs"
               className="rounded-lg shadow-md w-full h-64 object-cover"
             />
@@ -205,6 +216,39 @@ export default function Masajes() {
                 reducir la retención de líquidos y mejorar el sistema inmunológico.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Banner Puerto Varas */}
+      <section className="py-12 bg-gradient-to-r from-[#1a5276] to-[#2874a6]">
+        <div className="container">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-center md:text-left">
+              <div className="flex items-center gap-2 justify-center md:justify-start mb-2">
+                <svg className="w-5 h-5 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span className="font-['Josefin_Sans'] text-sm text-white/80 uppercase tracking-wider">
+                  También en Puerto Varas
+                </span>
+              </div>
+              <h3 className="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-white mb-2">
+                Spa en Hotel Cabañas del Lago
+              </h3>
+              <p className="font-['Fira_Sans'] text-white/80 max-w-lg">
+                Disfruta de nuestros masajes con vista al Lago Llanquihue en el corazón de Puerto Varas.
+              </p>
+            </div>
+            <a href="/spa-hotel-cabanas-del-lago">
+              <Button 
+                size="lg" 
+                className="bg-white hover:bg-white/90 text-[#1a5276] font-['Josefin_Sans'] tracking-wider px-8 py-6 whitespace-nowrap"
+              >
+                VER SERVICIOS EN PUERTO VARAS
+              </Button>
+            </a>
           </div>
         </div>
       </section>

@@ -1121,3 +1121,11 @@
 - [x] Crear landing page completa con todos los servicios
 - [x] Agregar ruta /spa-hotel-cabanas-del-lago
 - [x] Implementar traducciones (ES, EN, PT, FR, DE)
+
+
+## Navegación Spa HCDL y Mejoras UX Masajes (22 Enero 2026)
+- [x] Corregir imagen de Hot Tubs que no carga en página de Masajes
+- [x] Hacer tarjetas de masajes clicables con link de reserva (https://reservas.cancagua.cl/cancaguaspa/s/502a130d-2e50-472a-aabc-a7917d5b5fbe)
+- [x] Agregar banner CTA en página de Masajes para Puerto Varas (Spa HCDL)
+- [x] Agregar sección "Nuestras Ubicaciones" en Footer (Frutillar + Puerto Varas)
+- [x] Agregar item "Masajes en Puerto Varas" en menú de Servicios

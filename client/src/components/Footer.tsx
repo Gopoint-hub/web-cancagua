@@ -167,8 +167,43 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Ubicaciones */}
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <h3 className="text-sm tracking-[0.2em] uppercase text-[#D3BC8D] mb-6 text-center">Nuestras Ubicaciones</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            <Link
+              href="/"
+              className="flex items-center gap-4 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#D3BC8D]/20 flex items-center justify-center flex-shrink-0">
+                <MapPin className="h-5 w-5 text-[#D3BC8D]" />
+              </div>
+              <div>
+                <h4 className="font-['Josefin_Sans'] text-white group-hover:text-[#D3BC8D] transition-colors">
+                  Cancagua Spa
+                </h4>
+                <p className="text-sm text-white/60">Frutillar, Región de Los Lagos</p>
+              </div>
+            </Link>
+            <Link
+              href="/spa-hotel-cabanas-del-lago"
+              className="flex items-center gap-4 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#1a5276]/40 flex items-center justify-center flex-shrink-0">
+                <MapPin className="h-5 w-5 text-[#5dade2]" />
+              </div>
+              <div>
+                <h4 className="font-['Josefin_Sans'] text-white group-hover:text-[#5dade2] transition-colors">
+                  Spa Hotel Cabañas del Lago
+                </h4>
+                <p className="text-sm text-white/60">Puerto Varas, Región de Los Lagos</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+
         {/* Copyright */}
-        <div className="mt-16 pt-8 border-t border-white/10 text-center">
+        <div className="mt-12 pt-8 border-t border-white/10 text-center">
           <p className="text-sm text-white/50">© {new Date().getFullYear()} CANCAGUA. {t('footer.rights')}</p>
         </div>
       </div>
