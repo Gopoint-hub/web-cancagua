@@ -1137,3 +1137,20 @@
 - [x] Agregar meta noindex a páginas internas/admin (gift-cards preview, etc.)
 - [x] Crear sitemap.xml con todas las páginas públicas
 - [x] Configurar canonical URLs para evitar contenido duplicado
+
+## Redirecciones 301 WordPress → Nuevo Sitio (22 Enero 2026)
+- [ ] Crear middleware de redirecciones 301 en el servidor
+- [ ] Redireccionar /articulos/ → /blog
+- [ ] Redireccionar artículos individuales del blog a nuevas URLs
+- [ ] Redireccionar /eventos-empresas/ → /eventos/empresas
+- [ ] Redireccionar /giftcards/ → /tienda-regalos-preview (temporal)
+- [ ] Verificar que todas las redirecciones funcionen correctamente
+
+
+## Redirecciones 301 WordPress → Nuevo Sitio (22 Enero 2026)
+- [ ] Crear middleware de redirecciones 301 en el servidor
+- [ ] Redireccionar /articulos/ → /blog
+- [ ] Redireccionar artículos individuales del blog a nuevas URLs
+- [ ] Redireccionar /eventos-empresas/ → /eventos/empresas
+- [ ] Redireccionar /giftcards/ → /tienda-regalos-preview (temporal)
+- [ ] Verificar que todas las redirecciones funcionen correctamente
