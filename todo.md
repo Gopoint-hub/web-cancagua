@@ -1099,3 +1099,8 @@
 ## Mejorar Espaciado del Blog (22 Enero 2026)
 - [x] Aumentar espaciado entre párrafos en artículos del blog
 - [x] Mejorar legibilidad en versión móvil
+
+
+## Mejorar Espaciado y Artículos Relacionados (22 Enero 2026)
+- [x] Aumentar más el espaciado entre párrafos en desktop
+- [x] Agregar sección de artículos relacionados al final de cada publicación (cancelado por usuario)
