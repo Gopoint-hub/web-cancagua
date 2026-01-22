@@ -1,4 +1,4 @@
-import DashboardLayout, { categories, CategoryId } from "@/components/DashboardLayout";
+import DashboardLayout, { CategoryId, categories } from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { trpc } from "@/lib/trpc";
@@ -8,8 +8,16 @@ import {
   Newspaper, BarChart3
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function CMSDashboard() {
+  // SEO - Página oculta de Google (noindex)
+  const seoData = {
+    title: "Dashboard | Cancagua CMS",
+    description: "Panel de control de Cancagua Spa",
+    canonical: "/cms",
+    noindex: true
+  };
   const [, setLocation] = useLocation();
 
   // Obtener estadísticas rápidas
@@ -51,6 +59,7 @@ export default function CMSDashboard() {
 
   return (
     <DashboardLayout>
+      <SEOHead {...seoData} />
       <div className="space-y-8">
         {/* Header */}
         <div>

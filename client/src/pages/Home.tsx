@@ -8,8 +8,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Heart, Leaf, Waves } from "lucide-react";
 import { Link } from "wouter";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function Home() {
+  // SEO para la página principal
+  const seoData = {
+    title: "Cancagua Spa & Retreat Center | Biopiscinas Geotermales en Frutillar",
+    description: "Las primeras biopiscinas geotermales del mundo. Disfruta de una experiencia única de bienestar en aguas termales naturales a 37°-40° con vista al Lago Llanquihue y volcanes del sur de Chile.",
+    canonical: "/",
+    keywords: "spa, termas, biopiscinas, geotermales, frutillar, chile, masajes, hot tubs, bienestar, lago llanquihue"
+  };
   const services = [
     {
       title: "Biopiscinas Geotermales",
@@ -71,6 +79,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
+      <SEOHead {...seoData} />
       <Navbar />
 
       <main>

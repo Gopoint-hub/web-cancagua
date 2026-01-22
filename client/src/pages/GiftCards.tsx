@@ -10,9 +10,17 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Check, Gift, Download, Share2, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
+import { SEOHead } from "@/components/SEOHead";
 
 
 export default function GiftCards() {
+  // SEO - Página oculta de Google (noindex)
+  const seoData = {
+    title: "Gift Cards | Cancagua Spa",
+    description: "Regala bienestar con nuestras gift cards. El regalo perfecto para quienes amas.",
+    canonical: "/tienda-regalos-preview",
+    noindex: true
+  };
 
   const [montoSeleccionado, setMontoSeleccionado] = useState<string>("50000");
   const [montoPersonalizado, setMontoPersonalizado] = useState<string>("");
@@ -155,6 +163,7 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
   if (compraExitosa) {
     return (
       <div className="min-h-screen flex flex-col">
+        <SEOHead {...seoData} />
         <Navbar />
 
         <main className="flex-1 py-16 md:py-24">
@@ -297,6 +306,7 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead {...seoData} />
       <Navbar />
 
       <main>

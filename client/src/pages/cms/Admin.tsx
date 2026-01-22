@@ -4,8 +4,16 @@ import {
   Users, Settings, ArrowRight, Shield, Key
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function CMSAdmin() {
+  // SEO - Página oculta de Google (noindex)
+  const seoData = {
+    title: "Administración | Cancagua CMS",
+    description: "Panel de administración de Cancagua Spa",
+    canonical: "/cms/admin",
+    noindex: true
+  };
   const [, setLocation] = useLocation();
 
   const modules = [
@@ -27,6 +35,7 @@ export default function CMSAdmin() {
 
   return (
     <DashboardLayout>
+      <SEOHead {...seoData} />
       <div className="space-y-6">
         {/* Header */}
         <div>

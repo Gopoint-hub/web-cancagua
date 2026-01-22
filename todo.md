@@ -1129,3 +1129,11 @@
 - [x] Agregar banner CTA en página de Masajes para Puerto Varas (Spa HCDL)
 - [x] Agregar sección "Nuestras Ubicaciones" en Footer (Frutillar + Puerto Varas)
 - [x] Agregar item "Masajes en Puerto Varas" en menú de Servicios
+
+
+## Optimización SEO y Ocultar CMS (22 Enero 2026)
+- [x] Configurar robots.txt para ocultar CMS, admin y módulos internos
+- [x] Agregar meta tags SEO (title, description, og:image) a todas las páginas públicas
+- [x] Agregar meta noindex a páginas internas/admin (gift-cards preview, etc.)
+- [x] Crear sitemap.xml con todas las páginas públicas
+- [x] Configurar canonical URLs para evitar contenido duplicado

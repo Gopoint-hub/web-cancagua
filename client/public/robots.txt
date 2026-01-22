@@ -1,0 +1,27 @@
+# Robots.txt para Cancagua Spa & Retreat Center
+# https://cancagua.cl
+
+User-agent: *
+
+# Permitir acceso a páginas públicas
+Allow: /
+
+# Bloquear acceso a páginas internas y de administración
+Disallow: /api/
+Disallow: /admin/
+Disallow: /cms/
+Disallow: /dashboard/
+Disallow: /tienda-regalos-preview
+Disallow: /_next/
+Disallow: /static/
+
+# Bloquear parámetros de tracking y sesión
+Disallow: /*?*token=
+Disallow: /*?*session=
+Disallow: /*?*preview=
+
+# Sitemap
+Sitemap: https://cancagua.cl/sitemap.xml
+
+# Crawl-delay para ser amigable con el servidor
+Crawl-delay: 1
