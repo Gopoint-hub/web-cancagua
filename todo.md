@@ -1104,3 +1104,20 @@
 ## Mejorar Espaciado y Artículos Relacionados (22 Enero 2026)
 - [x] Aumentar más el espaciado entre párrafos en desktop
 - [x] Agregar sección de artículos relacionados al final de cada publicación (cancelado por usuario)
+
+
+## Landing Spa Hotel Cabañas del Lago (22 Enero 2026)
+- [ ] Explorar sitio hcdl.cancagua.cl y documentar servicios de masajes
+- [ ] Extraer información, imágenes y links de reserva de cada servicio
+- [ ] Subir imágenes a S3
+- [ ] Crear landing page del Spa con todos los servicios
+- [ ] Cada servicio debe tener su link de reserva directo
+
+
+## Landing Spa Hotel Cabañas del Lago (22 Enero 2026)
+- [x] Explorar sitio HCDL y documentar 7 servicios de masajes
+- [x] Extraer imágenes de cada servicio
+- [x] Obtener links de reserva de cada servicio
+- [x] Crear landing page completa con todos los servicios
+- [x] Agregar ruta /spa-hotel-cabanas-del-lago
+- [x] Implementar traducciones (ES, EN, PT, FR, DE)

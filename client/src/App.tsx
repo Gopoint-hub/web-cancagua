@@ -60,6 +60,7 @@ import MejoresTermasSurChile2026 from "./pages/blog/MejoresTermasSurChile2026";
 import TermasConNinos from "./pages/blog/TermasConNinos";
 import ManejoEstresLaboral from "./pages/blog/ManejoEstresLaboral";
 import TermasVsExperienciaNatural from "./pages/blog/TermasVsExperienciaNatural";
+import SpaHCDL from "./pages/SpaHCDL";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -97,6 +98,7 @@ function Router() {
       <Route path={"/blog/termas-del-sur-de-chile-con-ninos-guia-para-familias"} component={TermasConNinos} />
       <Route path={"/blog/tecnicas-manejo-estres-laboral"} component={ManejoEstresLaboral} />
       <Route path={"/blog/termas-del-sur-vs-experiencia-natural"} component={TermasVsExperienciaNatural} />
+      <Route path={"/spa-hotel-cabanas-del-lago"} component={SpaHCDL} />
       <Route path={"/cms"} component={CMSDashboard} />
       <Route path={"/cms/usuarios"} component={CMSUsuarios} />
       <Route path={"/cms/carta"} component={CMSCarta} />
