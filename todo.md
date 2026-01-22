@@ -1169,3 +1169,7 @@
 - [x] Ocultar/comentar todas las referencias (App.tsx, Home.tsx, WhatsAppButton.tsx)
 - [x] Crear archivo de documentación para restauración futura (docs/gift-cards-restore.md)
 - [x] Verificar que no haya enlaces visibles a Gift Cards
+
+
+## Actualizar Teléfono Spa HCDL (22 Enero 2026)
+- [x] Cambiar celular en página spa-hotel-cabanas-del-lago a +569 89670670 (actualizado en 5 idiomas)
