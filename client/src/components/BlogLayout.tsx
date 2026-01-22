@@ -133,7 +133,7 @@ export function BlogLayout({
             </p>
 
             {/* Article Content */}
-            <div className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-[#2d3e2f] prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#c4a86b] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#2d3e2f] prose-blockquote:border-l-[#c4a86b] prose-blockquote:bg-[#f5f0e8] prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-li:marker:text-[#c4a86b]">
+            <div className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-[#2d3e2f] prose-headings:mt-10 prose-headings:mb-6 prose-p:text-gray-700 prose-p:leading-loose prose-p:mb-6 prose-a:text-[#c4a86b] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#2d3e2f] prose-blockquote:border-l-[#c4a86b] prose-blockquote:bg-[#f5f0e8] prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:my-8 prose-li:marker:text-[#c4a86b] prose-li:mb-3 prose-ul:my-6 prose-ol:my-6">
               {children}
             </div>
 

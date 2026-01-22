@@ -1094,3 +1094,8 @@
 - [x] Migrar artículo 4: Termas Tradicionales vs Experiencia Natural
 - [x] Agregar enlace de Blog al menú de navegación (desktop y mobile)
 - [x] Diseño mejorado con CTAs de reserva, sidebar y tabla de contenidos
+
+
+## Mejorar Espaciado del Blog (22 Enero 2026)
+- [x] Aumentar espaciado entre párrafos en artículos del blog
+- [x] Mejorar legibilidad en versión móvil
