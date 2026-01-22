@@ -239,7 +239,7 @@ export default function Home() {
                 className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] px-10 tracking-wider"
                 asChild
               >
-                <Link href="/gift-cards">
+                <Link href="/tienda-regalos-preview">
                   Comprar Gift Card
                 </Link>
               </Button>

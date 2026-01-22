@@ -175,15 +175,6 @@ export function Navbar() {
             </Link>
 
             <Link
-              href="/gift-cards"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
-                isActive("/gift-cards") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
-              }`}
-            >
-              {t('nav.giftCards')}
-            </Link>
-
-            <Link
               href="/nosotros"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
                 isActive("/nosotros") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
@@ -323,14 +314,6 @@ export function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.cafeteria')}
-              </Link>
-
-              <Link
-                href="/gift-cards"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('nav.giftCards')}
               </Link>
 
               <Link

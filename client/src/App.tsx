@@ -69,7 +69,7 @@ function Router() {
       <Route path={"/eventos/sociales"} component={EventosSociales} />
       <Route path={"/eventos/empresas"} component={EventosEmpresas} />
       <Route path={"/cafeteria"} component={Cafeteria} />
-      <Route path={"/gift-cards"} component={GiftCards} />
+      <Route path={"/tienda-regalos-preview"} component={GiftCards} />
       <Route path={"/contacto"} component={Contacto} />
       <Route path={"/nosotros"} component={Nosotros} />
       <Route path={"/carta"} component={Carta} />

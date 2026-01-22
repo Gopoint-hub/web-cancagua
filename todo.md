@@ -1053,3 +1053,10 @@
 
 ## Cambiar Foto Hero Eventos Empresas (21 Enero 2026)
 - [x] Cambiar foto del hero en página Eventos para Empresas por nueva imagen
+
+
+## Ocultar Gift Cards para Pruebas (21 Enero 2026)
+- [x] Remover "Gift Cards" del menú de navegación principal
+- [x] Cambiar slug de /gift-cards a /tienda-regalos-preview
+- [x] Actualizar todos los enlaces internos que apunten a gift-cards
+- [x] Verificar que la página siga accesible con el nuevo slug

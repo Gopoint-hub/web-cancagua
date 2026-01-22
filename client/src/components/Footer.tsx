@@ -59,14 +59,6 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/gift-cards"
-                  className="text-white/70 hover:text-[#D3BC8D] transition-colors"
-                >
-                  {t('nav.giftCards')}
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/nosotros"
                   className="text-white/70 hover:text-[#D3BC8D] transition-colors"
                 >
