@@ -55,6 +55,11 @@ import PaseBioReconecta from "./pages/experiencias/PaseBioReconecta";
 import PaseBioReconectaDetox from "./pages/experiencias/PaseBioReconectaDetox";
 import HeartCoherenceWorkshop from "./pages/HeartCoherenceWorkshop";
 import { EventosLanding } from "./pages/EventosLanding";
+import Blog from "./pages/Blog";
+import MejoresTermasSurChile2026 from "./pages/blog/MejoresTermasSurChile2026";
+import TermasConNinos from "./pages/blog/TermasConNinos";
+import ManejoEstresLaboral from "./pages/blog/ManejoEstresLaboral";
+import TermasVsExperienciaNatural from "./pages/blog/TermasVsExperienciaNatural";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -87,6 +92,11 @@ function Router() {
       <Route path={"/experiencias/pase-reconecta-detox"} component={PaseReconectaDetox} />
       <Route path={"/experiencias/pase-bioreconecta"} component={PaseBioReconecta} />
       <Route path={"/experiencias/pase-bioreconecta-detox"} component={PaseBioReconectaDetox} />
+      <Route path={"/blog"} component={Blog} />
+      <Route path={"/blog/mejores-termas-sur-chile-2026"} component={MejoresTermasSurChile2026} />
+      <Route path={"/blog/termas-del-sur-de-chile-con-ninos-guia-para-familias"} component={TermasConNinos} />
+      <Route path={"/blog/tecnicas-manejo-estres-laboral"} component={ManejoEstresLaboral} />
+      <Route path={"/blog/termas-del-sur-vs-experiencia-natural"} component={TermasVsExperienciaNatural} />
       <Route path={"/cms"} component={CMSDashboard} />
       <Route path={"/cms/usuarios"} component={CMSUsuarios} />
       <Route path={"/cms/carta"} component={CMSCarta} />

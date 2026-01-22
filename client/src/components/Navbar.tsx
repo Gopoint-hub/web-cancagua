@@ -191,6 +191,15 @@ export function Navbar() {
             >
               {t('nav.contact')}
             </Link>
+
+            <Link
+              href="/blog"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
+                isActive("/blog") || location.startsWith("/blog/") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+              }`}
+            >
+              Blog
+            </Link>
           </nav>
 
           {/* Selector de Idioma y Botón Reservar */}
@@ -330,6 +339,14 @@ export function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.contact')}
+              </Link>
+
+              <Link
+                href="/blog"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Blog
               </Link>
 
               {/* Selector de idioma y botón reservar */}

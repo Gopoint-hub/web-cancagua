@@ -1060,3 +1060,37 @@
 - [x] Cambiar slug de /gift-cards a /tienda-regalos-preview
 - [x] Actualizar todos los enlaces internos que apunten a gift-cards
 - [x] Verificar que la página siga accesible con el nuevo slug
+
+
+## Auditoría WordPress para Migración SEO (22 Enero 2026)
+- [ ] Acceder al WordPress de cancagua.cl
+- [ ] Documentar todas las URLs y slugs del sitio actual
+- [ ] Identificar y documentar artículos de blog existentes
+- [ ] Crear mapeo de URLs para redirecciones 301
+- [ ] Preparar informe de auditoría para el usuario
+
+
+## Auditoría WordPress para Migración SEO (22 Enero 2026)
+- [x] Acceder al WordPress y documentar estructura del sitio
+- [x] Listar todas las URLs actuales (páginas, servicios, blog)
+- [x] Identificar artículos de blog para migración (4 artículos encontrados)
+- [x] Crear plan de redirecciones 301 para SEO
+- [ ] Crear estructura de sección Blog (/blog y /blog/[slug])
+- [x] Descargar imágenes de los 4 artículos del WordPress
+- [ ] Migrar artículo 1: Las 10 mejores termas del sur de Chile 2026
+- [ ] Migrar artículo 2: Termas del Sur de Chile con Niños
+- [ ] Migrar artículo 3: Manejo del Estrés Laboral
+- [ ] Migrar artículo 4: Termas Tradicionales vs Experiencia Natural
+- [ ] Implementar redirecciones 301 en servidor
+
+
+## Migración de Blog desde WordPress (22 Enero 2026)
+- [x] Crear estructura de sección Blog (/blog y /blog/[slug])
+- [x] Crear componente BlogLayout con diseño atractivo y sidebar
+- [x] Descargar imágenes de los 4 artículos del WordPress
+- [x] Migrar artículo 1: Las 10 mejores termas del sur de Chile 2026
+- [x] Migrar artículo 2: Termas del Sur de Chile con Niños
+- [x] Migrar artículo 3: Manejo del Estrés Laboral
+- [x] Migrar artículo 4: Termas Tradicionales vs Experiencia Natural
+- [x] Agregar enlace de Blog al menú de navegación (desktop y mobile)
+- [x] Diseño mejorado con CTAs de reserva, sidebar y tabla de contenidos
