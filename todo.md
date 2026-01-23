@@ -1193,3 +1193,13 @@
 - [x] Modificar texto de batas/lockers/gorro a "Entrega de batas, gorro de nado y locker por persona en Recepción Cancagua"
 - [x] Cambiar "Apto para todas las edades" a "Apto para mayores de 5 años"
 - [x] Agregar "El traslado de vuelta a Frutillar se coordina en Recepción Cancagua"
+
+## Rediseño Flujo Newsletter (23 Enero 2026)
+- [x] Agregar paso de solicitud después de seleccionar tipo de mailing (Paso 2: Solicitud)
+- [x] Implementar campo de texto para escribir la solicitud/descripción del mailing
+- [x] Agregar botón de micrófono para dictado por voz (con transcripción automática)
+- [x] Mantener carga de imágenes opcional en el paso de solicitud
+- [x] Modificar vista de construcción para mostrar resultado generado (Paso 3: Diseño)
+- [x] Agregar campo de edición debajo del resultado para pedir cambios (con micrófono)
+- [x] Implementar regeneración del mailing con los cambios solicitados
+- [x] Mantener flujo de selección de contactos y envío al final (Pasos 4 y 5)

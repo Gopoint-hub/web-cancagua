@@ -1509,6 +1509,47 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
           errors: result.errors,
         };
       }),
+
+    transcribeAudio: protectedProcedure
+      .input(z.object({
+        audioData: z.string(), // Base64 encoded audio data
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { storagePut } = await import("./storage");
+        const { transcribeAudio } = await import("./_core/voiceTranscription");
+        
+        // Extraer el audio del base64
+        const base64Data = input.audioData.replace(/^data:audio\/\w+;base64,/, '');
+        const audioBuffer = Buffer.from(base64Data, 'base64');
+        
+        // Subir a S3 con nombre único
+        const timestamp = Date.now();
+        const randomSuffix = Math.random().toString(36).substring(2, 8);
+        const fileKey = `audio-transcriptions/audio-${timestamp}-${randomSuffix}.webm`;
+        
+        const { url: audioUrl } = await storagePut(fileKey, audioBuffer, 'audio/webm');
+        
+        // Transcribir el audio
+        const result = await transcribeAudio({
+          audioUrl,
+          language: 'es',
+          prompt: 'Transcribe la solicitud del usuario para crear un email de newsletter',
+        });
+        
+        // Verificar si hay error
+        if ('error' in result) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: result.error,
+          });
+        }
+        
+        return { text: result.text };
+      }),
   }),
 
   // ============================================

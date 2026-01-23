@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { 
   Loader2, Send, Upload, Sparkles, ArrowLeft, ArrowRight, Eye, Calendar, 
   Clock, X, Bot, User, RefreshCw, Check, FileText, Users, Mail, Pencil,
-  Wand2, ChevronRight, CheckCircle2
+  Wand2, ChevronRight, CheckCircle2, Mic, MicOff, Square
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import DashboardLayout from "@/components/DashboardLayout";
@@ -31,35 +31,35 @@ const EMAIL_TYPES = [
     icon: "🎁", 
     title: "Promoción", 
     description: "Descuentos y ofertas especiales",
-    prompt: "Email promocional elegante anunciando una oferta especial de spa con descuento. Incluir botón de reserva destacado."
+    placeholder: "Ej: Necesito un mailing para promocionar un 20% de descuento en masajes durante febrero..."
   },
   { 
     id: "newsletter", 
     icon: "📰", 
     title: "Newsletter", 
     description: "Novedades y actualizaciones",
-    prompt: "Newsletter mensual con las últimas novedades del spa, nuevos servicios disponibles y próximos eventos."
+    placeholder: "Ej: Quiero informar sobre los nuevos servicios de spa que tenemos disponibles..."
   },
   { 
     id: "event", 
     icon: "🎉", 
     title: "Evento", 
     description: "Invitaciones y anuncios",
-    prompt: "Invitación elegante a un evento especial en el spa. Incluir fecha, hora, lugar y botón de confirmación."
+    placeholder: "Ej: Necesito una invitación para un evento especial de inauguración el próximo sábado..."
   },
   { 
     id: "welcome", 
     icon: "👋", 
     title: "Bienvenida", 
     description: "Para nuevos suscriptores",
-    prompt: "Email de bienvenida cálido para nuevos suscriptores con beneficios exclusivos y código de descuento de bienvenida."
+    placeholder: "Ej: Quiero dar la bienvenida a nuevos suscriptores con un código de descuento del 15%..."
   },
   { 
     id: "custom", 
     icon: "✨", 
     title: "Personalizado", 
     description: "Describe tu idea",
-    prompt: ""
+    placeholder: "Describe libremente qué tipo de email necesitas crear..."
   },
 ];
 
@@ -67,26 +67,31 @@ export default function CMSCrearNewsletter() {
   const { user, loading: authLoading } = useAuth();
   const [, navigate] = useLocation();
   
-  // Step state
+  // Step state - Ahora son 5 pasos
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 4;
+  const totalSteps = 5;
   
-  // Step 1: Content
+  // Step 1: Tipo de email
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [customPrompt, setCustomPrompt] = useState("");
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   
-  // Step 2: Design (generated)
+  // Step 2: Solicitud (NUEVO)
+  const [requestText, setRequestText] = useState("");
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [isRecording, setIsRecording] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [isTranscribing, setIsTranscribing] = useState(false);
+  
+  // Step 3: Diseño generado (modificado)
   const [htmlContent, setHtmlContent] = useState("");
   const [generatedSubject, setGeneratedSubject] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-  const [chatInput, setChatInput] = useState("");
+  const [refinementInput, setRefinementInput] = useState("");
+  const [isRefining, setIsRefining] = useState(false);
   
-  // Step 3: Recipients
+  // Step 4: Destinatarios
   const [selectedLists, setSelectedLists] = useState<number[]>([]);
   
-  // Step 4: Send
+  // Step 5: Enviar
   const [subject, setSubject] = useState("");
   const [senderName, setSenderName] = useState("Newsletter Cancagua");
   const [sendOption, setSendOption] = useState<"now" | "schedule" | "draft">("draft");
@@ -98,8 +103,8 @@ export default function CMSCrearNewsletter() {
   const [showPreview, setShowPreview] = useState(false);
   
   // Refs
-  const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
 
   // Queries
   const { data: lists, isLoading: listsLoading } = trpc.lists.getAll.useQuery();
@@ -108,22 +113,13 @@ export default function CMSCrearNewsletter() {
   const generateDesignMutation = trpc.newsletters.generateDesign.useMutation({
     onSuccess: (data) => {
       setHtmlContent(data.htmlContent);
-      // Usar el asunto sugerido por la IA o generar uno basado en el prompt
-      const suggestedSubject = data.suggestedSubject || extractSubjectFromHtml(data.htmlContent) || generateSubjectFromPrompt();
+      const suggestedSubject = data.suggestedSubject || generateSubjectFromType();
       setGeneratedSubject(suggestedSubject);
       setSubject(suggestedSubject);
-      setChatMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "¡Diseño creado! He generado también un asunto sugerido. Puedes editarlo en el paso final o pedirme cambios aquí." },
-      ]);
       setIsGenerating(false);
     },
     onError: (error) => {
       toast.error(error.message || "Error al generar diseño");
-      setChatMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "Hubo un error al generar el diseño. Por favor intenta de nuevo." },
-      ]);
       setIsGenerating(false);
     },
   });
@@ -131,15 +127,13 @@ export default function CMSCrearNewsletter() {
   const refineDesignMutation = trpc.newsletters.refineDesign.useMutation({
     onSuccess: (data) => {
       setHtmlContent(data.htmlContent);
-      setChatMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "Cambios aplicados. Revisa la vista previa." },
-      ]);
-      setIsGenerating(false);
+      setRefinementInput("");
+      toast.success("Cambios aplicados correctamente");
+      setIsRefining(false);
     },
     onError: (error) => {
-      toast.error(error.message || "Error al refinar diseño");
-      setIsGenerating(false);
+      toast.error(error.message || "Error al aplicar cambios");
+      setIsRefining(false);
     },
   });
 
@@ -173,24 +167,21 @@ export default function CMSCrearNewsletter() {
     },
   });
 
-  // Auto scroll chat
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatMessages]);
+  // Transcription mutation
+  const transcribeMutation = trpc.newsletters.transcribeAudio.useMutation({
+    onSuccess: (data) => {
+      setRequestText((prev) => prev + (prev ? " " : "") + data.text);
+      setIsTranscribing(false);
+      toast.success("Audio transcrito correctamente");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al transcribir audio");
+      setIsTranscribing(false);
+    },
+  });
 
   // Helper functions
-  const extractSubjectFromHtml = (html: string): string => {
-    const titleMatch = html.match(/<title>(.*?)<\/title>/i);
-    if (titleMatch && titleMatch[1] && !titleMatch[1].includes("Newsletter")) {
-      return titleMatch[1];
-    }
-    return "";
-  };
-
-  const generateSubjectFromPrompt = (): string => {
-    const type = EMAIL_TYPES.find(t => t.id === selectedType);
-    if (!type) return "Newsletter de Cancagua";
-    
+  const generateSubjectFromType = (): string => {
     switch (selectedType) {
       case "promo":
         return "🎁 Oferta especial para ti - Cancagua Spa";
@@ -203,14 +194,6 @@ export default function CMSCrearNewsletter() {
       default:
         return "Newsletter de Cancagua Spa";
     }
-  };
-
-  const getPromptForGeneration = (): string => {
-    if (selectedType === "custom") {
-      return customPrompt;
-    }
-    const type = EMAIL_TYPES.find(t => t.id === selectedType);
-    return type?.prompt || customPrompt;
   };
 
   const handleListToggle = (listId: number) => {
@@ -239,39 +222,78 @@ export default function CMSCrearNewsletter() {
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // Voice recording functions
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      audioChunksRef.current = [];
+      
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          audioChunksRef.current.push(e.data);
+        }
+      };
+      
+      recorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        stream.getTracks().forEach(track => track.stop());
+        
+        // Convert to base64 and send for transcription
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64Audio = reader.result as string;
+          setIsTranscribing(true);
+          transcribeMutation.mutate({ audioData: base64Audio });
+        };
+        reader.readAsDataURL(audioBlob);
+      };
+      
+      recorder.start();
+      setMediaRecorder(recorder);
+      setIsRecording(true);
+      toast.info("Grabando... Habla ahora");
+    } catch (error) {
+      toast.error("No se pudo acceder al micrófono");
+      console.error("Error accessing microphone:", error);
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+      mediaRecorder.stop();
+      setIsRecording(false);
+      setMediaRecorder(null);
+    }
+  };
+
   const handleGenerateDesign = () => {
-    const prompt = getPromptForGeneration();
-    if (!prompt.trim()) {
-      toast.error("Por favor describe el contenido del email");
+    if (!requestText.trim()) {
+      toast.error("Por favor describe qué tipo de email necesitas");
       return;
     }
 
     setIsGenerating(true);
-    setChatMessages([
-      { role: "user", content: prompt },
-      { role: "assistant", content: "Generando diseño con imágenes de marca..." },
-    ]);
+    
+    // Construir el prompt con el tipo seleccionado y la solicitud del usuario
+    const typeInfo = EMAIL_TYPES.find(t => t.id === selectedType);
+    const fullPrompt = `Tipo de email: ${typeInfo?.title || 'Personalizado'}\n\nSolicitud del usuario: ${requestText}`;
 
     generateDesignMutation.mutate({
-      prompt,
+      prompt: fullPrompt,
       images: uploadedImages,
       generateImages: true,
     });
   };
 
-  const handleChatSubmit = (e: React.FormEvent) => {
+  const handleRefineDesign = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!chatInput.trim() || isGenerating) return;
+    if (!refinementInput.trim() || isRefining) return;
 
-    const userMessage = chatInput.trim();
-    setChatInput("");
-    setChatMessages((prev) => [...prev, { role: "user", content: userMessage }]);
-
-    setIsGenerating(true);
-    setChatMessages((prev) => [...prev, { role: "assistant", content: "Aplicando cambios..." }]);
+    setIsRefining(true);
     refineDesignMutation.mutate({
       currentHtml: htmlContent,
-      refinementRequest: userMessage,
+      refinementRequest: refinementInput,
     });
   };
 
@@ -306,9 +328,8 @@ export default function CMSCrearNewsletter() {
 
     createNewsletterMutation.mutate({
       subject,
-      senderName,
       htmlContent,
-      designPrompt: getPromptForGeneration(),
+      designPrompt: requestText,
       listIds: selectedLists.length > 0 ? selectedLists : [],
       scheduledAt,
     });
@@ -324,17 +345,19 @@ export default function CMSCrearNewsletter() {
 
   const canProceedToStep = (step: number): boolean => {
     switch (step) {
-      case 2: return selectedType !== null && (selectedType !== "custom" || customPrompt.trim().length > 0);
-      case 3: return htmlContent.length > 0;
-      case 4: return true; // Can always go to send step
+      case 2: return selectedType !== null;
+      case 3: return requestText.trim().length > 0;
+      case 4: return htmlContent.length > 0;
+      case 5: return true;
       default: return true;
     }
   };
 
   const goToNextStep = () => {
-    if (currentStep === 1 && canProceedToStep(2)) {
+    if (currentStep === 2 && canProceedToStep(3)) {
+      // Al pasar del paso 2 al 3, generar el diseño
       handleGenerateDesign();
-      setCurrentStep(2);
+      setCurrentStep(3);
     } else if (currentStep < totalSteps && canProceedToStep(currentStep + 1)) {
       setCurrentStep(currentStep + 1);
     }
@@ -373,12 +396,13 @@ export default function CMSCrearNewsletter() {
     );
   }
 
-  // Step indicators
+  // Step indicators - Ahora son 5 pasos
   const steps = [
-    { number: 1, title: "Contenido", icon: FileText },
-    { number: 2, title: "Diseño", icon: Wand2 },
-    { number: 3, title: "Destinatarios", icon: Users },
-    { number: 4, title: "Enviar", icon: Send },
+    { number: 1, title: "Tipo", icon: FileText },
+    { number: 2, title: "Solicitud", icon: Pencil },
+    { number: 3, title: "Diseño", icon: Wand2 },
+    { number: 4, title: "Destinatarios", icon: Users },
+    { number: 5, title: "Enviar", icon: Send },
   ];
 
   return (
@@ -393,7 +417,7 @@ export default function CMSCrearNewsletter() {
           </Button>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Crear Newsletter</h1>
-            <p className="text-gray-500">Crea tu email en 4 simples pasos</p>
+            <p className="text-gray-500">Crea tu email en 5 simples pasos</p>
           </div>
         </div>
 
@@ -404,7 +428,7 @@ export default function CMSCrearNewsletter() {
               <div key={step.number} className="flex items-center flex-1">
                 <div className="flex flex-col items-center">
                   <div 
-                    className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+                    className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all ${
                       currentStep > step.number 
                         ? "bg-green-500 text-white" 
                         : currentStep === step.number 
@@ -413,19 +437,19 @@ export default function CMSCrearNewsletter() {
                     }`}
                   >
                     {currentStep > step.number ? (
-                      <Check className="w-5 h-5" />
+                      <Check className="w-4 h-4 md:w-5 md:h-5" />
                     ) : (
-                      <step.icon className="w-5 h-5" />
+                      <step.icon className="w-4 h-4 md:w-5 md:h-5" />
                     )}
                   </div>
-                  <span className={`mt-2 text-sm font-medium ${
+                  <span className={`mt-2 text-xs md:text-sm font-medium ${
                     currentStep >= step.number ? "text-gray-900" : "text-gray-400"
                   }`}>
                     {step.title}
                   </span>
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`flex-1 h-1 mx-4 rounded ${
+                  <div className={`flex-1 h-1 mx-2 md:mx-4 rounded ${
                     currentStep > step.number ? "bg-green-500" : "bg-gray-200"
                   }`} />
                 )}
@@ -436,12 +460,12 @@ export default function CMSCrearNewsletter() {
 
         {/* Step Content */}
         <div className="min-h-[500px]">
-          {/* Step 1: Content */}
+          {/* Step 1: Tipo de Email */}
           {currentStep === 1 && (
             <div className="space-y-6">
               <div className="text-center mb-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">¿Qué tipo de email quieres crear?</h2>
-                <p className="text-gray-500">Selecciona una plantilla o describe tu idea</p>
+                <p className="text-gray-500">Selecciona el tipo de mailing que necesitas</p>
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -461,25 +485,78 @@ export default function CMSCrearNewsletter() {
                   </button>
                 ))}
               </div>
+            </div>
+          )}
 
-              {selectedType === "custom" && (
-                <Card className="mt-6">
-                  <CardContent className="pt-6">
-                    <Label htmlFor="customPrompt" className="text-base font-medium">
-                      Describe tu email
-                    </Label>
+          {/* Step 2: Solicitud (NUEVO) */}
+          {currentStep === 2 && (
+            <div className="space-y-6 max-w-3xl mx-auto">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center gap-2 bg-[#44580E]/10 text-[#44580E] px-4 py-2 rounded-full text-sm font-medium mb-4">
+                  {EMAIL_TYPES.find(t => t.id === selectedType)?.icon}
+                  {EMAIL_TYPES.find(t => t.id === selectedType)?.title}
+                </div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">Describe tu solicitud</h2>
+                <p className="text-gray-500">Escribe o dicta qué necesitas para tu email</p>
+              </div>
+
+              <Card>
+                <CardContent className="pt-6 space-y-4">
+                  {/* Textarea con botón de micrófono */}
+                  <div className="relative">
                     <Textarea
-                      id="customPrompt"
-                      value={customPrompt}
-                      onChange={(e) => setCustomPrompt(e.target.value)}
-                      placeholder="Ejemplo: Quiero un email elegante anunciando un 20% de descuento en masajes para el mes de febrero, con colores relajantes y un botón de reserva destacado..."
-                      className="mt-2 min-h-[120px]"
+                      value={requestText}
+                      onChange={(e) => setRequestText(e.target.value)}
+                      placeholder={EMAIL_TYPES.find(t => t.id === selectedType)?.placeholder || "Describe qué necesitas..."}
+                      className="min-h-[180px] pr-14 text-base resize-none"
+                      disabled={isRecording || isTranscribing}
                     />
-                  </CardContent>
-                </Card>
-              )}
+                    <div className="absolute right-3 bottom-3">
+                      {isTranscribing ? (
+                        <div className="p-2 bg-gray-100 rounded-full">
+                          <Loader2 className="w-5 h-5 animate-spin text-[#44580E]" />
+                        </div>
+                      ) : isRecording ? (
+                        <button
+                          onClick={stopRecording}
+                          className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors animate-pulse"
+                          title="Detener grabación"
+                        >
+                          <Square className="w-5 h-5" />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={startRecording}
+                          className="p-2 bg-[#44580E] text-white rounded-full hover:bg-[#3a4c0c] transition-colors"
+                          title="Dictar con voz"
+                        >
+                          <Mic className="w-5 h-5" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {isRecording && (
+                    <div className="flex items-center gap-2 text-red-500 text-sm">
+                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                      Grabando... Haz clic en el botón para detener
+                    </div>
+                  )}
+                  
+                  {isTranscribing && (
+                    <div className="flex items-center gap-2 text-[#44580E] text-sm">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Transcribiendo audio...
+                    </div>
+                  )}
 
-              {/* Optional: Upload images */}
+                  <p className="text-xs text-gray-500">
+                    💡 Tip: Puedes usar el botón de micrófono para dictar tu solicitud en lugar de escribir
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Imágenes opcionales */}
               <Card>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base">Imágenes adicionales (opcional)</CardTitle>
@@ -528,108 +605,26 @@ export default function CMSCrearNewsletter() {
             </div>
           )}
 
-          {/* Step 2: Design */}
-          {currentStep === 2 && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Chat/Refinement */}
-              <Card className="h-[500px] flex flex-col">
-                <CardHeader className="border-b pb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-[#44580E]/10 rounded-lg">
-                      <Sparkles className="w-5 h-5 text-[#44580E]" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-lg">Asistente de Diseño</CardTitle>
-                      <CardDescription>Pide cambios o mejoras</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                
-                <CardContent className="flex-1 flex flex-col p-0">
-                  <ScrollArea className="h-[350px] p-4">
-                    <div className="space-y-4">
-                      {chatMessages.map((msg, index) => (
-                        <div
-                          key={index}
-                          className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                        >
-                          {msg.role === "assistant" && (
-                            <div className="p-2 bg-[#44580E]/10 rounded-full h-fit">
-                              <Bot className="w-4 h-4 text-[#44580E]" />
-                            </div>
-                          )}
-                          <div
-                            className={`max-w-[80%] p-3 rounded-lg ${
-                              msg.role === "user"
-                                ? "bg-[#44580E] text-white"
-                                : "bg-gray-100 text-gray-900"
-                            }`}
-                          >
-                            {msg.content}
-                          </div>
-                          {msg.role === "user" && (
-                            <div className="p-2 bg-gray-100 rounded-full h-fit">
-                              <User className="w-4 h-4 text-gray-600" />
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                      {isGenerating && (
-                        <div className="flex gap-3">
-                          <div className="p-2 bg-[#44580E]/10 rounded-full h-fit">
-                            <Loader2 className="w-4 h-4 text-[#44580E] animate-spin" />
-                          </div>
-                          <div className="bg-gray-100 p-3 rounded-lg">
-                            <div className="flex gap-1">
-                              <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                              <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                              <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      <div ref={chatEndRef} />
-                    </div>
-                  </ScrollArea>
-
-                  <div className="border-t p-4">
-                    <form onSubmit={handleChatSubmit} className="flex gap-2">
-                      <Input
-                        value={chatInput}
-                        onChange={(e) => setChatInput(e.target.value)}
-                        placeholder="Ej: Cambia el color del botón a verde..."
-                        disabled={isGenerating}
-                      />
-                      <Button
-                        type="submit"
-                        disabled={isGenerating || !chatInput.trim()}
-                        className="bg-[#44580E] hover:bg-[#3a4c0c]"
-                      >
-                        <Send className="w-4 h-4" />
-                      </Button>
-                    </form>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Preview */}
-              <Card className="h-[500px] flex flex-col">
+          {/* Step 3: Diseño (modificado) */}
+          {currentStep === 3 && (
+            <div className="space-y-6">
+              {/* Vista previa del resultado */}
+              <Card className="overflow-hidden">
                 <CardHeader className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-blue-100 rounded-lg">
-                        <Eye className="w-5 h-5 text-blue-600" />
+                      <div className="p-2 bg-[#44580E]/10 rounded-lg">
+                        <Sparkles className="w-5 h-5 text-[#44580E]" />
                       </div>
                       <div>
-                        <CardTitle className="text-lg">Vista Previa</CardTitle>
-                        <CardDescription>Así se verá tu email</CardDescription>
+                        <CardTitle className="text-lg">Resultado Generado</CardTitle>
+                        <CardDescription>Vista previa de tu email</CardDescription>
                       </div>
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => {
-                        setChatMessages([]);
                         setHtmlContent("");
                         handleGenerateDesign();
                       }}
@@ -640,26 +635,135 @@ export default function CMSCrearNewsletter() {
                     </Button>
                   </div>
                 </CardHeader>
-                <CardContent className="flex-1 p-0 overflow-hidden">
-                  {htmlContent ? (
+                <CardContent className="p-0">
+                  {isGenerating ? (
+                    <div className="flex flex-col items-center justify-center h-[400px] text-gray-400">
+                      <Loader2 className="w-10 h-10 animate-spin mb-4 text-[#44580E]" />
+                      <p className="text-lg font-medium text-gray-600">Generando tu diseño...</p>
+                      <p className="text-sm text-gray-500 mt-2">Esto puede tomar unos segundos</p>
+                    </div>
+                  ) : htmlContent ? (
                     <iframe
                       srcDoc={htmlContent}
-                      className="w-full h-full border-0"
+                      className="w-full h-[400px] border-0"
                       title="Vista previa del newsletter"
                     />
                   ) : (
-                    <div className="flex flex-col items-center justify-center h-full text-gray-400">
-                      <Loader2 className="w-8 h-8 animate-spin mb-4" />
-                      <p>Generando diseño...</p>
+                    <div className="flex flex-col items-center justify-center h-[400px] text-gray-400">
+                      <FileText className="w-12 h-12 mb-4" />
+                      <p>No hay contenido generado</p>
                     </div>
                   )}
                 </CardContent>
               </Card>
+
+              {/* Campo para pedir cambios */}
+              {htmlContent && !isGenerating && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Pencil className="w-4 h-4" />
+                      ¿Necesitas cambios?
+                    </CardTitle>
+                    <CardDescription>
+                      Describe los ajustes que quieres hacer al diseño
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleRefineDesign} className="flex gap-2">
+                      <div className="flex-1 relative">
+                        <Input
+                          value={refinementInput}
+                          onChange={(e) => setRefinementInput(e.target.value)}
+                          placeholder="Ej: Cambia el color del botón a verde, agranda el título..."
+                          disabled={isRefining}
+                          className="pr-12"
+                        />
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            if (isRecording) {
+                              stopRecording();
+                            } else {
+                              // Grabar para refinamiento
+                              try {
+                                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                                const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+                                audioChunksRef.current = [];
+                                
+                                recorder.ondataavailable = (e) => {
+                                  if (e.data.size > 0) {
+                                    audioChunksRef.current.push(e.data);
+                                  }
+                                };
+                                
+                                recorder.onstop = async () => {
+                                  const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                                  stream.getTracks().forEach(track => track.stop());
+                                  
+                                  const reader = new FileReader();
+                                  reader.onloadend = () => {
+                                    const base64Audio = reader.result as string;
+                                    setIsTranscribing(true);
+                                    // Transcribir y poner en refinementInput
+                                    transcribeMutation.mutate({ audioData: base64Audio }, {
+                                      onSuccess: (data) => {
+                                        setRefinementInput((prev) => prev + (prev ? " " : "") + data.text);
+                                        setIsTranscribing(false);
+                                      }
+                                    });
+                                  };
+                                  reader.readAsDataURL(audioBlob);
+                                };
+                                
+                                recorder.start();
+                                setMediaRecorder(recorder);
+                                setIsRecording(true);
+                                toast.info("Grabando... Habla ahora");
+                              } catch (error) {
+                                toast.error("No se pudo acceder al micrófono");
+                              }
+                            }
+                          }}
+                          className={`absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-colors ${
+                            isRecording 
+                              ? "bg-red-500 text-white animate-pulse" 
+                              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                          }`}
+                          disabled={isRefining || isTranscribing}
+                        >
+                          {isTranscribing ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : isRecording ? (
+                            <Square className="w-4 h-4" />
+                          ) : (
+                            <Mic className="w-4 h-4" />
+                          )}
+                        </button>
+                      </div>
+                      <Button
+                        type="submit"
+                        disabled={isRefining || !refinementInput.trim()}
+                        className="bg-[#44580E] hover:bg-[#3a4c0c]"
+                      >
+                        {isRefining ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <>
+                            Aplicar
+                            <ChevronRight className="w-4 h-4 ml-1" />
+                          </>
+                        )}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           )}
 
-          {/* Step 3: Recipients */}
-          {currentStep === 3 && (
+          {/* Step 4: Destinatarios */}
+          {currentStep === 4 && (
             <div className="max-w-2xl mx-auto space-y-6">
               <div className="text-center mb-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">¿A quién quieres enviar?</h2>
@@ -729,8 +833,8 @@ export default function CMSCrearNewsletter() {
             </div>
           )}
 
-          {/* Step 4: Send */}
-          {currentStep === 4 && (
+          {/* Step 5: Enviar */}
+          {currentStep === 5 && (
             <div className="max-w-2xl mx-auto space-y-6">
               <div className="text-center mb-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">Últimos detalles</h2>
@@ -918,7 +1022,7 @@ export default function CMSCrearNewsletter() {
           {currentStep < totalSteps ? (
             <Button
               onClick={goToNextStep}
-              disabled={!canProceedToStep(currentStep + 1) || isGenerating}
+              disabled={!canProceedToStep(currentStep + 1) || isGenerating || isRecording || isTranscribing}
               className="bg-[#44580E] hover:bg-[#3a4c0c]"
             >
               {isGenerating ? (
