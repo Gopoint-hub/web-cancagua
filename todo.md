@@ -1176,3 +1176,7 @@
 
 ## Actualizar Horario Spa HCDL (23 Enero 2026)
 - [x] Cambiar horario de "Lunes a Domingo: 14:00 - 20:00" a "Martes a Domingo: 10:00 - 20:00" en todos los idiomas (ES, EN, PT, FR, DE)
+
+## Actualizar Textos Navega Relax (23 Enero 2026)
+- [x] Cambiar texto bajo "NAVEGA RELAX" con nueva descripción del catamarán Bandurria
+- [x] Cambiar texto bajo "Una Aventura en el Lago Llanquihue" con descripción detallada (Muelle Frutillar, Catamarán Bandurria)

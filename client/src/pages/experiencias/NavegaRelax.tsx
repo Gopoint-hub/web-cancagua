@@ -61,8 +61,7 @@ export default function NavegaRelax() {
               Navega Relax
             </h1>
             <p className="font-['Fira_Sans'] text-lg md:text-2xl mb-8 max-w-3xl text-white/90">
-              Descubre el Lago Llanquihue desde una perspectiva única navegando en velero
-              con vistas a los volcanes de la Patagonia
+              Descubre el Lago Llanquihue desde una perspectiva única navegando en catamarán "Bandurria" para luego disfrutar de una relajante estadía en nuestras Biopiscinas Geotermales
             </p>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-8 py-6">
@@ -82,21 +81,13 @@ export default function NavegaRelax() {
               </h2>
               <div className="prose prose-lg max-w-none text-[#3a3a3a]/80">
                 <p className="font-['Fira_Sans'] text-lg leading-relaxed mb-4">
-                  Navega Relax es una experiencia única que te permite descubrir la belleza
-                  del Lago Llanquihue desde el agua. A bordo de un velero tradicional,
-                  navegarás por las aguas cristalinas del lago mientras disfrutas de
-                  vistas espectaculares de los volcanes Osorno, Calbuco y Puntiagudo.
+                  Navega Relax es una experiencia única que te permite descubrir la belleza del Lago Llanquihue desde el agua. Con embarque desde el icónico Muelle de Frutillar, a bordo del Catamarán Bandurria, navegarás por las aguas cristalinas del lago mientras disfrutas de vistas espectaculares de los volcanes Osorno, Calbuco y Puntiagudo.
                 </p>
                 <p className="font-['Fira_Sans'] text-lg leading-relaxed mb-4">
-                  La experiencia incluye snacks y bebidas a bordo, y está guiada por
-                  expertos navegantes que te contarán sobre la historia y geografía
-                  de la zona. Es perfecta para parejas, familias o grupos de amigos
-                  que buscan una actividad diferente y relajante.
+                  La experiencia está guiada por expertos navegantes que te contarán sobre la historia y geografía de la zona. Es perfecta para parejas, familias o grupos de amigos que buscan una actividad diferente y relajante.
                 </p>
                 <p className="font-['Fira_Sans'] text-lg leading-relaxed">
-                  Las salidas dependen de las condiciones climáticas y del viento,
-                  por lo que te recomendamos contactarnos por WhatsApp para coordinar
-                  la fecha y horario ideal para tu navegación.
+                  Las salidas dependen de las condiciones climáticas y del viento, por lo que te recomendamos contactarnos por WhatsApp para coordinar la fecha y horario ideal para tu navegación.
                 </p>
               </div>
             </div>
