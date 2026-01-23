@@ -1181,3 +1181,10 @@
 - [x] Cambiar texto bajo "NAVEGA RELAX" con nueva descripción del catamarán Bandurria
 - [x] Cambiar texto bajo "Una Aventura en el Lago Llanquihue" con descripción detallada (Muelle Frutillar, Catamarán Bandurria)
 - [x] Actualizar sección de características para reflejar Catamarán Bandurria en lugar de velero
+
+## Actualización Completa Navega Relax (23 Enero 2026)
+- [x] Cambiar subtítulo bajo "NAVEGA RELAX" con nueva descripción
+- [x] Cambiar descripción bajo "Una Aventura en el Lago Llanquihue" con texto detallado (Muelle Frutillar, desembarque privado, Biopiscinas 37-40°C)
+- [x] Cambiar "Experiencia Completa" a "Experiencia completa de 4,5 hrs."
+- [x] Agregar "Entrega de batas, lockers y gorro de baño en recepción Cancagua" a la lista de incluye
+- [x] Agregar "Acceso a Cafetería Saludable" a la lista de incluye
