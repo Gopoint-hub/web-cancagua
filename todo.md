@@ -1180,3 +1180,4 @@
 ## Actualizar Textos Navega Relax (23 Enero 2026)
 - [x] Cambiar texto bajo "NAVEGA RELAX" con nueva descripción del catamarán Bandurria
 - [x] Cambiar texto bajo "Una Aventura en el Lago Llanquihue" con descripción detallada (Muelle Frutillar, Catamarán Bandurria)
+- [x] Actualizar sección de características para reflejar Catamarán Bandurria en lugar de velero

@@ -10,29 +10,29 @@ const PHONE_NUMBER = "+56 9 4007 3999";
 
 export default function NavegaRelax() {
   const incluye = [
-    "Navegación en velero por el Lago Llanquihue",
-    "Vista panorámica de los volcanes Osorno y Calbuco",
-    "Snacks y bebidas a bordo",
+    "Navegación en Catamarán Bandurria por el Lago Llanquihue",
+    "Embarque desde el Muelle de Frutillar",
+    "Vista panorámica de los volcanes Osorno, Calbuco y Puntiagudo",
     "Guía experto en navegación",
     "Equipo de seguridad completo",
-    "Fotos de la experiencia",
+    "Acceso a Biopiscinas Geotermales post-navegación",
   ];
 
   const highlights = [
     {
       icon: Anchor,
-      title: "Velero Exclusivo",
-      description: "Navegación privada en velero tradicional",
+      title: "Catamarán Bandurria",
+      description: "Navegación en catamarán desde Muelle Frutillar",
     },
     {
       icon: Clock,
-      title: "2-3 Horas",
-      description: "Duración aproximada de la experiencia",
+      title: "Experiencia Completa",
+      description: "Navegación + Biopiscinas Geotermales",
     },
     {
       icon: Users,
       title: "Grupos Reducidos",
-      description: "Máximo 6 personas por salida",
+      description: "Experiencia personalizada",
     },
     {
       icon: Compass,
