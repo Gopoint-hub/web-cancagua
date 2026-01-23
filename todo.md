@@ -1188,3 +1188,8 @@
 - [x] Cambiar "Experiencia Completa" a "Experiencia completa de 4,5 hrs."
 - [x] Agregar "Entrega de batas, lockers y gorro de baño en recepción Cancagua" a la lista de incluye
 - [x] Agregar "Acceso a Cafetería Saludable" a la lista de incluye
+
+## Correcciones Navega Relax (23 Enero 2026)
+- [x] Modificar texto de batas/lockers/gorro a "Entrega de batas, gorro de nado y locker por persona en Recepción Cancagua"
+- [x] Cambiar "Apto para todas las edades" a "Apto para mayores de 5 años"
+- [x] Agregar "El traslado de vuelta a Frutillar se coordina en Recepción Cancagua"

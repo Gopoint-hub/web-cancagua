@@ -16,7 +16,7 @@ export default function NavegaRelax() {
     "Guía experto en navegación",
     "Equipo de seguridad completo",
     "Acceso a Biopiscinas Geotermales post-navegación",
-    "Entrega de batas, lockers y gorro de baño en recepción Cancagua",
+    "Entrega de batas, gorro de nado y locker por persona en Recepción Cancagua",
     "Acceso a Cafetería Saludable",
   ];
 
@@ -146,7 +146,8 @@ export default function NavegaRelax() {
                 <ul className="space-y-2 text-sm font-['Fira_Sans'] text-[#3a3a3a]/80">
                   <li>• Las salidas dependen de las condiciones climáticas</li>
                   <li>• Se recomienda llevar ropa abrigada y cortaviento</li>
-                  <li>• Apto para todas las edades</li>
+                  <li>• Apto para mayores de 5 años</li>
+                  <li>• El traslado de vuelta a Frutillar se coordina en Recepción Cancagua</li>
                   <li>• Reserva con al menos 24 horas de anticipación</li>
                 </ul>
               </div>
