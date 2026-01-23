@@ -179,7 +179,7 @@ const translations = {
     contactTitle: 'Contacto',
     contactPhone: '+56 9 8967 0670',
     hoursTitle: 'Horario',
-    hoursText: 'Lunes a Domingo: 14:00 - 20:00',
+    hoursText: 'Martes a Domingo: 10:00 - 20:00',
     ctaTitle: '¿Listo para relajarte?',
     ctaSubtitle: 'Reserva tu sesión de masaje y vive una experiencia única de bienestar',
     ctaButton: 'Ver Disponibilidad'
@@ -200,7 +200,7 @@ const translations = {
     contactTitle: 'Contact',
     contactPhone: '+56 9 8967 0670',
     hoursTitle: 'Hours',
-    hoursText: 'Monday to Sunday: 2:00 PM - 8:00 PM',
+    hoursText: 'Tuesday to Sunday: 10:00 AM - 8:00 PM',
     ctaTitle: 'Ready to relax?',
     ctaSubtitle: 'Book your massage session and live a unique wellness experience',
     ctaButton: 'Check Availability'
@@ -221,7 +221,7 @@ const translations = {
     contactTitle: 'Contato',
     contactPhone: '+56 9 8967 0670',
     hoursTitle: 'Horário',
-    hoursText: 'Segunda a Domingo: 14:00 - 20:00',
+    hoursText: 'Terça a Domingo: 10:00 - 20:00',
     ctaTitle: 'Pronto para relaxar?',
     ctaSubtitle: 'Reserve sua sessão de massagem e viva uma experiência única de bem-estar',
     ctaButton: 'Ver Disponibilidade'
@@ -242,7 +242,7 @@ const translations = {
     contactTitle: 'Contact',
     contactPhone: '+56 9 8967 0670',
     hoursTitle: 'Horaires',
-    hoursText: 'Lundi au Dimanche: 14h00 - 20h00',
+    hoursText: 'Mardi au Dimanche: 10h00 - 20h00',
     ctaTitle: 'Prêt à vous détendre?',
     ctaSubtitle: 'Réservez votre séance de massage et vivez une expérience unique de bien-être',
     ctaButton: 'Voir Disponibilité'
@@ -263,7 +263,7 @@ const translations = {
     contactTitle: 'Kontakt',
     contactPhone: '+56 9 8967 0670',
     hoursTitle: 'Öffnungszeiten',
-    hoursText: 'Montag bis Sonntag: 14:00 - 20:00',
+    hoursText: 'Dienstag bis Sonntag: 10:00 - 20:00',
     ctaTitle: 'Bereit zum Entspannen?',
     ctaSubtitle: 'Buchen Sie Ihre Massagesitzung und erleben Sie ein einzigartiges Wellness-Erlebnis',
     ctaButton: 'Verfügbarkeit Prüfen'

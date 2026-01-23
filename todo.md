@@ -1173,3 +1173,6 @@
 
 ## Actualizar Teléfono Spa HCDL (22 Enero 2026)
 - [x] Cambiar celular en página spa-hotel-cabanas-del-lago a +569 89670670 (actualizado en 5 idiomas)
+
+## Actualizar Horario Spa HCDL (23 Enero 2026)
+- [x] Cambiar horario de "Lunes a Domingo: 14:00 - 20:00" a "Martes a Domingo: 10:00 - 20:00" en todos los idiomas (ES, EN, PT, FR, DE)
