@@ -1247,3 +1247,7 @@
 - [ ] Aplicar AutoTranslate a HeartCoherenceWorkshop.tsx
 - [ ] Aplicar AutoTranslate a páginas restantes (ClasesRegulares, HeartCoherenceWorkshop, PaseReconectaDetox, PaseBioReconectaDetox)
 - [ ] Verificar funcionamiento en todas las páginas
+
+## Instalar Google Tag Manager (24 Enero 2026)
+- [x] Agregar script de GTM en la sección head (GTM-NNGGT92W)
+- [x] Agregar noscript de GTM después de la etiqueta body
