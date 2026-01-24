@@ -1259,3 +1259,11 @@
 - [x] Cambiar orden de pestañas: primero Enviados, luego Borradores
 - [x] Cambiar nombre del remitente de "Newsletter Cancagua" a "Cancagua"
 - [x] Agregar logo de Cancagua en el header del emailing (logo-cancagua-white.png)
+
+## Mejoras Newsletter - Extracción desde URL e Imágenes (24 Enero 2026)
+- [x] Backend: Crear endpoint para subir imágenes a S3 y obtener URL pública
+- [x] Backend: Crear endpoint para extraer contenido de una URL (scraping)
+- [x] Frontend: Agregar campo de URL en el paso 2 de creación de newsletter
+- [x] Frontend: Modificar subida de imágenes para usar S3 en lugar de base64
+- [x] Backend: Actualizar generateDesign para usar URLs reales de imágenes
+- [ ] Probar flujo completo con URL de evento y con imágenes subidas

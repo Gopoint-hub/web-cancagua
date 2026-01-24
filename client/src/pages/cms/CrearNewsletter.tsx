@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { 
   Loader2, Send, Upload, Sparkles, ArrowLeft, ArrowRight, Eye, Calendar, 
   Clock, X, Bot, User, RefreshCw, Check, FileText, Users, Mail, Pencil,
-  Wand2, ChevronRight, CheckCircle2, Mic, MicOff, Square
+  Wand2, ChevronRight, CheckCircle2, Mic, MicOff, Square, Link2, ExternalLink
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import DashboardLayout from "@/components/DashboardLayout";
@@ -76,10 +76,25 @@ export default function CMSCrearNewsletter() {
   
   // Step 2: Solicitud (NUEVO)
   const [requestText, setRequestText] = useState("");
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]); // URLs de S3
+  const [uploadedImagesPreview, setUploadedImagesPreview] = useState<string[]>([]); // Base64 para preview
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [isTranscribing, setIsTranscribing] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  
+  // URL extraction
+  const [sourceUrl, setSourceUrl] = useState("");
+  const [isExtractingUrl, setIsExtractingUrl] = useState(false);
+  const [extractedData, setExtractedData] = useState<{
+    title: string;
+    description: string;
+    images: string[];
+    content: string;
+    eventDate: string;
+    price: string;
+    url: string;
+  } | null>(null);
   
   // Step 3: Diseño generado (modificado)
   const [htmlContent, setHtmlContent] = useState("");
@@ -180,6 +195,39 @@ export default function CMSCrearNewsletter() {
     },
   });
 
+  // Upload image mutation
+  const uploadImageMutation = trpc.newsletters.uploadImage.useMutation({
+    onSuccess: (data) => {
+      setUploadedImages((prev) => [...prev, data.url]);
+      toast.success("Imagen subida correctamente");
+      setIsUploadingImage(false);
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al subir imagen");
+      setIsUploadingImage(false);
+    },
+  });
+
+  // Extract URL mutation
+  const extractUrlMutation = trpc.newsletters.extractFromUrl.useMutation({
+    onSuccess: (data) => {
+      setExtractedData(data);
+      // Auto-completar el texto de solicitud con la información extraída
+      const autoText = `Crear un email sobre: ${data.title}\n\n${data.description}\n\n${data.content ? data.content.substring(0, 500) + '...' : ''}`;
+      setRequestText((prev) => prev || autoText);
+      // Agregar imágenes extraídas
+      if (data.images.length > 0) {
+        setUploadedImages((prev) => [...prev, ...data.images]);
+      }
+      setIsExtractingUrl(false);
+      toast.success(`Contenido extraído: ${data.title}`);
+    },
+    onError: (error) => {
+      toast.error(error.message || "Error al extraer contenido de la URL");
+      setIsExtractingUrl(false);
+    },
+  });
+
   // Helper functions
   const generateSubjectFromType = (): string => {
     switch (selectedType) {
@@ -212,7 +260,14 @@ export default function CMSCrearNewsletter() {
       const reader = new FileReader();
       reader.onload = (e) => {
         const dataUrl = e.target?.result as string;
-        setUploadedImages((prev) => [...prev, dataUrl]);
+        // Guardar preview local
+        setUploadedImagesPreview((prev) => [...prev, dataUrl]);
+        // Subir a S3
+        setIsUploadingImage(true);
+        uploadImageMutation.mutate({ 
+          imageData: dataUrl,
+          fileName: `newsletter-${Date.now()}-${file.name}`,
+        });
       };
       reader.readAsDataURL(file);
     });
@@ -220,6 +275,16 @@ export default function CMSCrearNewsletter() {
 
   const removeImage = (index: number) => {
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
+    setUploadedImagesPreview((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleExtractUrl = () => {
+    if (!sourceUrl.trim()) {
+      toast.error("Por favor ingresa una URL");
+      return;
+    }
+    setIsExtractingUrl(true);
+    extractUrlMutation.mutate({ url: sourceUrl });
   };
 
   // Voice recording functions
@@ -500,6 +565,87 @@ export default function CMSCrearNewsletter() {
                 <p className="text-gray-500">Escribe o dicta qué necesitas para tu email</p>
               </div>
 
+              {/* Campo de URL para extraer contenido */}
+              <Card className="border-[#44580E]/20 bg-[#44580E]/5">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Link2 className="w-4 h-4 text-[#44580E]" />
+                    Importar desde URL (opcional)
+                  </CardTitle>
+                  <CardDescription>
+                    Pega un link de Cancagua y extraeremos automáticamente el contenido e imágenes
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex gap-2">
+                    <Input
+                      value={sourceUrl}
+                      onChange={(e) => setSourceUrl(e.target.value)}
+                      placeholder="https://cancagua.cl/eventos/taller-wim-hof"
+                      disabled={isExtractingUrl}
+                      className="flex-1"
+                    />
+                    <Button
+                      onClick={handleExtractUrl}
+                      disabled={isExtractingUrl || !sourceUrl.trim()}
+                      className="bg-[#44580E] hover:bg-[#3a4c0c]"
+                    >
+                      {isExtractingUrl ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <>
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Extraer
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                  
+                  {extractedData && (
+                    <div className="mt-4 p-4 bg-white rounded-lg border border-[#44580E]/20">
+                      <div className="flex items-start gap-4">
+                        {extractedData.images[0] && (
+                          <img 
+                            src={extractedData.images[0]} 
+                            alt="Preview" 
+                            className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                          />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-gray-900 truncate">{extractedData.title}</h4>
+                          <p className="text-sm text-gray-500 line-clamp-2 mt-1">{extractedData.description}</p>
+                          <div className="flex gap-3 mt-2 text-xs text-gray-400">
+                            {extractedData.eventDate && (
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-3 h-3" />
+                                {extractedData.eventDate}
+                              </span>
+                            )}
+                            {extractedData.price && (
+                              <span className="font-medium text-[#44580E]">{extractedData.price}</span>
+                            )}
+                            <span className="flex items-center gap-1">
+                              <FileText className="w-3 h-3" />
+                              {extractedData.images.length} imágenes
+                            </span>
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setExtractedData(null);
+                            setSourceUrl("");
+                          }}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
               <Card>
                 <CardContent className="pt-6 space-y-4">
                   {/* Textarea con botón de micrófono */}
@@ -572,15 +718,27 @@ export default function CMSCrearNewsletter() {
                     className="hidden"
                   />
                   
-                  {uploadedImages.length > 0 && (
+                  {isUploadingImage && (
+                    <div className="flex items-center gap-2 text-[#44580E] text-sm mb-4">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Subiendo imagen...
+                    </div>
+                  )}
+                  
+                  {(uploadedImages.length > 0 || uploadedImagesPreview.length > 0) && (
                     <div className="flex gap-2 mb-4 flex-wrap">
-                      {uploadedImages.map((img, index) => (
+                      {(uploadedImagesPreview.length > 0 ? uploadedImagesPreview : uploadedImages).map((img, index) => (
                         <div key={index} className="relative group">
                           <img
                             src={img}
                             alt={`Imagen ${index + 1}`}
                             className="w-20 h-20 object-cover rounded-lg"
                           />
+                          {uploadedImages[index] && (
+                            <div className="absolute bottom-1 left-1 bg-green-500 text-white text-xs px-1 rounded">
+                              ✓ S3
+                            </div>
+                          )}
                           <button
                             onClick={() => removeImage(index)}
                             className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"

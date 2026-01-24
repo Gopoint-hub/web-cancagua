@@ -1511,6 +1511,139 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         };
       }),
 
+    // Subir imagen a S3 y obtener URL pública
+    uploadImage: protectedProcedure
+      .input(z.object({
+        imageData: z.string(), // Base64 encoded image data
+        fileName: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { storagePut } = await import("./storage");
+        
+        // Extraer el tipo de imagen y datos del base64
+        const matches = input.imageData.match(/^data:image\/(\w+);base64,(.+)$/);
+        if (!matches) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Formato de imagen inválido" });
+        }
+        
+        const imageType = matches[1];
+        const base64Data = matches[2];
+        const imageBuffer = Buffer.from(base64Data, 'base64');
+        
+        // Generar nombre único para el archivo
+        const timestamp = Date.now();
+        const randomSuffix = Math.random().toString(36).substring(2, 8);
+        const fileName = input.fileName || `image-${timestamp}-${randomSuffix}.${imageType}`;
+        const fileKey = `newsletter-images/${fileName}`;
+        
+        const { url } = await storagePut(fileKey, imageBuffer, `image/${imageType}`);
+        
+        return { url, key: fileKey };
+      }),
+
+    // Extraer contenido de una URL de Cancagua
+    extractFromUrl: protectedProcedure
+      .input(z.object({
+        url: z.string().url(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        try {
+          // Hacer fetch de la página
+          const response = await fetch(input.url);
+          if (!response.ok) {
+            throw new TRPCError({ code: "BAD_REQUEST", message: "No se pudo acceder a la URL" });
+          }
+          
+          const html = await response.text();
+          
+          // Extraer información usando regex (sin dependencias externas)
+          const extractMeta = (name: string): string => {
+            const match = html.match(new RegExp(`<meta[^>]*(?:name|property)=["'](?:og:)?${name}["'][^>]*content=["']([^"']+)["']`, 'i'))
+              || html.match(new RegExp(`<meta[^>]*content=["']([^"']+)["'][^>]*(?:name|property)=["'](?:og:)?${name}["']`, 'i'));
+            return match ? match[1] : '';
+          };
+          
+          // Extraer título
+          const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+          const title = extractMeta('title') || (titleMatch ? titleMatch[1].trim() : '');
+          
+          // Extraer descripción
+          const description = extractMeta('description');
+          
+          // Extraer imagen principal (og:image o primera imagen grande)
+          const ogImage = extractMeta('image');
+          const images: string[] = [];
+          
+          if (ogImage) {
+            images.push(ogImage);
+          }
+          
+          // Buscar imágenes en el contenido (CloudFront CDN o imágenes locales)
+          const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+          let imgMatch;
+          while ((imgMatch = imgRegex.exec(html)) !== null) {
+            const src = imgMatch[1];
+            // Filtrar solo imágenes relevantes (no iconos pequeños)
+            if (src.includes('cloudfront.net') || src.includes('/images/') || src.includes('/uploads/')) {
+              if (!images.includes(src)) {
+                images.push(src);
+              }
+            }
+          }
+          
+          // Extraer contenido principal del body (simplificado)
+          // Buscar secciones con texto relevante
+          const bodyMatch = html.match(/<main[^>]*>([\s\S]*?)<\/main>/i) 
+            || html.match(/<article[^>]*>([\s\S]*?)<\/article>/i)
+            || html.match(/<div[^>]*class=["'][^"']*content[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
+          
+          let mainContent = '';
+          if (bodyMatch) {
+            // Limpiar HTML tags y extraer texto
+            mainContent = bodyMatch[1]
+              .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+              .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+              .replace(/<[^>]+>/g, ' ')
+              .replace(/\s+/g, ' ')
+              .trim()
+              .substring(0, 2000); // Limitar a 2000 caracteres
+          }
+          
+          // Extraer fecha si existe (formato común en eventos)
+          const dateMatch = html.match(/(\d{1,2}\s+(?:de\s+)?(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)(?:\s+(?:de\s+)?\d{4})?)/i)
+            || html.match(/(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/);
+          const eventDate = dateMatch ? dateMatch[1] : '';
+          
+          // Extraer precio si existe
+          const priceMatch = html.match(/\$\s*([\d.,]+)/);
+          const price = priceMatch ? `$${priceMatch[1]}` : '';
+          
+          return {
+            title,
+            description,
+            images: images.slice(0, 5), // Máximo 5 imágenes
+            content: mainContent,
+            eventDate,
+            price,
+            url: input.url,
+          };
+        } catch (error: any) {
+          console.error('Error extracting URL content:', error);
+          throw new TRPCError({ 
+            code: "INTERNAL_SERVER_ERROR", 
+            message: error.message || "Error al extraer contenido de la URL" 
+          });
+        }
+      }),
+
     transcribeAudio: protectedProcedure
       .input(z.object({
         audioData: z.string(), // Base64 encoded audio data
