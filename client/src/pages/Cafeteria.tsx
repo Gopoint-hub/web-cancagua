@@ -180,12 +180,12 @@ export default function Cafeteria() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a
-                    href="https://wa.me/56940073999?text=Hola,%20quiero%20consultar%20sobre%20el%20menú%20de%20la%20cafetería"
+                    href="https://menu.fu.do/cancagua/qr-menu"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <Button size="lg" className="bg-primary hover:bg-primary/90">
-                      <T>Consultar Menú por WhatsApp</T>
+                      <T>Abrir Carta</T>
                     </Button>
                   </a>
                   <a href="tel:+56652210020">

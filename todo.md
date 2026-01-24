@@ -1282,3 +1282,6 @@
 
 ## Cambio de imagen Navega Relax en Servicios (24 Enero 2026)
 - [x] Cambiar imagen de Navega Relax en página Servicios por foto del catamarán con volcán Osorno
+
+## Cambio botón Cafetería (24 Enero 2026)
+- [x] Cambiar "Consultar Menú por WhatsApp" por "Abrir Carta" con link a https://menu.fu.do/cancagua/qr-menu
