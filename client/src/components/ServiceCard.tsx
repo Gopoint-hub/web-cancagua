@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "wouter";
+import { ReactNode } from "react";
 
 interface ServiceCardProps {
-  title: string;
-  description: string;
+  title: ReactNode;
+  description: ReactNode;
   image: string;
   href: string;
-  badge?: string;
+  badge?: ReactNode;
 }
 
 export function ServiceCard({
@@ -17,12 +18,15 @@ export function ServiceCard({
   href,
   badge,
 }: ServiceCardProps) {
+  // Extraer texto plano para el alt de la imagen
+  const altText = typeof title === 'string' ? title : 'Service';
+  
   return (
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-none bg-white h-full flex flex-col">
       <div className="relative h-64 overflow-hidden flex-shrink-0">
         <img
           src={image}
-          alt={title}
+          alt={altText}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
         {badge && (

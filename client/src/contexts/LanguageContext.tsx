@@ -94,18 +94,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     setLanguageState(newLang);
     i18n.changeLanguage(newLang);
     localStorage.setItem('cancagua_language', newLang);
-    
-    // Actualizar la URL con el nuevo idioma
-    const currentPath = getPathWithoutLanguage(location);
-    
-    if (newLang === 'es') {
-      // Español es el idioma por defecto, sin prefijo
-      setLocation(currentPath);
-    } else {
-      // Otros idiomas con prefijo
-      setLocation(`/${newLang}${currentPath === '/' ? '' : currentPath}`);
-    }
-  }, [location, setLocation, getPathWithoutLanguage]);
+    // No cambiar la URL - solo cambiar el idioma del contenido
+  }, []);
 
   // Inicialización: detectar idioma de URL o navegador
   useEffect(() => {
@@ -132,11 +122,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       setLanguageState(detectedLang);
       i18n.changeLanguage(detectedLang);
       
-      // Si el idioma detectado no es español, redirigir a URL con prefijo
-      if (detectedLang !== 'es' && !location.startsWith('/cms')) {
-        const newPath = `/${detectedLang}${location === '/' ? '' : location}`;
-        setLocation(newPath);
-      }
+      // NO redirigir automáticamente - mantener las rutas sin prefijo
+      // El idioma se guarda en localStorage y se usa para traducir el contenido
     }
     
     setIsLoading(false);

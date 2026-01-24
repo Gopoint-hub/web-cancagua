@@ -1213,3 +1213,17 @@
 - [x] Agregar etiquetas hreflang en el head para SEO internacional (SEOHead actualizado)
 - [x] Crear sección en CMS para revisar/editar traducciones generadas (/cms/traducciones)
 - [x] Probar flujo completo de traducción automática (11 tests pasando)
+
+
+## Componente AutoTranslate para Traducción Automática (23 Enero 2026)
+- [x] Crear componente AutoTranslate wrapper
+- [x] Aplicar AutoTranslate a Home.tsx
+- [x] Aplicar AutoTranslate a Servicios.tsx
+- [x] Aplicar AutoTranslate a ServicioBiopiscinas.tsx
+- [x] Aplicar AutoTranslate a Contacto.tsx
+- [x] Aplicar AutoTranslate a Nosotros.tsx
+- [x] Aplicar AutoTranslate a Cafeteria.tsx
+- [x] Aplicar AutoTranslate a NavegaRelax.tsx
+- [x] Aplicar AutoTranslate a PasesReconecta.tsx
+- [ ] Aplicar AutoTranslate a páginas restantes (HotTubs, Masajes, Sauna, Blog, Eventos, etc.)
+- [x] Probar cambio de idioma en páginas principales

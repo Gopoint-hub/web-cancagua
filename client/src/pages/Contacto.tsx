@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -65,6 +66,7 @@ export default function Contacto() {
   };
 
   return (
+    <AutoTranslateProvider pageId="contacto">
     <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
       <Navbar />
 
@@ -78,11 +80,11 @@ export default function Contacto() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
             <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4">
-              Hablemos
+              <T>Hablemos</T>
             </span>
-            <h1 className="text-4xl md:text-6xl font-light tracking-wide mb-4">Contacto</h1>
+            <h1 className="text-4xl md:text-6xl font-light tracking-wide mb-4"><T>Contacto</T></h1>
             <p className="text-lg md:text-xl max-w-2xl font-light opacity-90">
-              Estamos aquí para ayudarte
+              <T>Estamos aquí para ayudarte</T>
             </p>
           </div>
         </section>
@@ -96,7 +98,7 @@ export default function Contacto() {
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
                     <MapPin className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
-                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]">Ubicación</h3>
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Ubicación</T></h3>
                   <p className="text-sm text-[#8C8C8C] leading-relaxed">
                     Frutillar, Región de Los Lagos
                     <br />
@@ -112,7 +114,7 @@ export default function Contacto() {
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
                     <PhoneIcon className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
-                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]">Teléfono</h3>
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Teléfono</T></h3>
                   <a
                     href="tel:+56940073999"
                     className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors block"
@@ -127,7 +129,7 @@ export default function Contacto() {
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
                     <Mail className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
-                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]">Email</h3>
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Email</T></h3>
                   <a
                     href="mailto:contacto@cancagua.cl"
                     className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors"
@@ -142,7 +144,7 @@ export default function Contacto() {
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
                     <Clock className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
-                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]">Horarios</h3>
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Horarios</T></h3>
                   <p className="text-sm text-[#8C8C8C] leading-relaxed">
                     Lunes a Domingo
                     <br />
@@ -161,11 +163,11 @@ export default function Contacto() {
               {/* Formulario */}
               <div>
                 <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
-                  Escríbenos
+                  <T>Escríbenos</T>
                 </span>
-                <h2 className="text-3xl font-light tracking-wide mb-4 text-[#3a3a3a]">Envíanos un Mensaje</h2>
+                <h2 className="text-3xl font-light tracking-wide mb-4 text-[#3a3a3a]"><T>Envíanos un Mensaje</T></h2>
                 <p className="text-[#8C8C8C] mb-8">
-                  Completa el formulario y te responderemos a la brevedad
+                  <T>Completa el formulario y te responderemos a la brevedad</T>
                 </p>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
@@ -235,10 +237,10 @@ export default function Contacto() {
               {/* Mapa e información adicional */}
               <div className="space-y-6">
                 <div>
-                  <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
-                    Visítanos
+<span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                    <T>Visitános</T>
                   </span>
-                  <h2 className="text-3xl font-light tracking-wide mb-4 text-[#3a3a3a]">Cómo Llegar</h2>
+                  <h2 className="text-3xl font-light tracking-wide mb-4 text-[#3a3a3a]"><T>Cómo Llegar</T></h2>
                   <p className="text-[#8C8C8C] mb-6">
                     Estamos ubicados a 2 kilómetros de Frutillar Bajo, con vista
                     privilegiada al Lago Llanquihue y los volcanes Osorno y
@@ -358,5 +360,6 @@ export default function Contacto() {
         }
       `}</style>
     </div>
+    </AutoTranslateProvider>
   );
 }
