@@ -1227,3 +1227,23 @@
 - [x] Aplicar AutoTranslate a PasesReconecta.tsx
 - [ ] Aplicar AutoTranslate a páginas restantes (HotTubs, Masajes, Sauna, Blog, Eventos, etc.)
 - [x] Probar cambio de idioma en páginas principales
+
+
+## Extender AutoTranslate a Páginas Restantes (24 Enero 2026)
+- [x] Aplicar AutoTranslate a HotTubs.tsx
+- [x] Aplicar AutoTranslate a Masajes.tsx
+- [x] Aplicar AutoTranslate a Sauna.tsx
+- [x] Aplicar AutoTranslate a Blog.tsx
+- [x] Aplicar AutoTranslate a Eventos.tsx
+- [x] Aplicar AutoTranslate a EventosLanding.tsx
+- [x] Aplicar AutoTranslate a EventosEmpresas.tsx
+- [x] Aplicar AutoTranslate a EventosSociales.tsx
+- [x] Aplicar AutoTranslate a Carta.tsx
+- [ ] Aplicar AutoTranslate a ClasesRegulares.tsx
+- [x] Aplicar AutoTranslate a experiencias (PaseReconecta, PaseBioReconecta)
+- [ ] Aplicar AutoTranslate a experiencias restantes (PaseReconectaDetox, PaseBioReconectaDetox)
+- [ ] Aplicar AutoTranslate a SpaHCDL.tsx
+- [x] Aplicar AutoTranslate a TallerWimHof.tsx
+- [ ] Aplicar AutoTranslate a HeartCoherenceWorkshop.tsx
+- [ ] Aplicar AutoTranslate a páginas restantes (ClasesRegulares, HeartCoherenceWorkshop, PaseReconectaDetox, PaseBioReconectaDetox)
+- [ ] Verificar funcionamiento en todas las páginas
