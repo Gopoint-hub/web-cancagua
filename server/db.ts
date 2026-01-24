@@ -909,3 +909,153 @@ export async function deleteGalleryImage(id: number) {
   const { galleryImages } = await import("../drizzle/schema");
   await db.delete(galleryImages).where(eq(galleryImages.id, id));
 }
+
+
+// ============================================
+// SISTEMA DE TRADUCCIONES
+// ============================================
+
+export async function getTranslation(contentKey: string, language: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { contentTranslations } = await import("../drizzle/schema");
+  const result = await db.select().from(contentTranslations)
+    .where(and(
+      eq(contentTranslations.contentKey, contentKey),
+      eq(contentTranslations.language, language)
+    ))
+    .limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getAllTranslations() {
+  const db = await getDb();
+  if (!db) return [];
+  const { contentTranslations } = await import("../drizzle/schema");
+  return await db.select().from(contentTranslations).orderBy(desc(contentTranslations.createdAt));
+}
+
+export async function createOrUpdateTranslation(data: {
+  contentKey: string;
+  language: string;
+  originalContent: string;
+  translatedContent: string;
+  contentHash?: string;
+}) {
+  const db = await getDb();
+  if (!db) return;
+  const { contentTranslations } = await import("../drizzle/schema");
+  
+  const existing = await db.select().from(contentTranslations)
+    .where(and(
+      eq(contentTranslations.contentKey, data.contentKey),
+      eq(contentTranslations.language, data.language)
+    ))
+    .limit(1);
+  
+  // Generar hash si no se proporciona
+  const contentHash = data.contentHash || Buffer.from(data.originalContent).toString('base64').slice(0, 64);
+  
+  if (existing.length > 0) {
+    await db.update(contentTranslations)
+      .set({
+        originalContent: data.originalContent,
+        translatedContent: data.translatedContent,
+        contentHash: contentHash,
+        updatedAt: new Date(),
+      })
+      .where(eq(contentTranslations.id, existing[0].id));
+  } else {
+    await db.insert(contentTranslations).values({
+      ...data,
+      contentHash: contentHash,
+    });
+  }
+}
+
+export async function updateTranslationContent(id: number, translatedContent: string, reviewedBy?: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { contentTranslations } = await import("../drizzle/schema");
+  await db.update(contentTranslations)
+    .set({
+      translatedContent,
+      isReviewed: 1,
+      reviewedBy: reviewedBy || null,
+      reviewedAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .where(eq(contentTranslations.id, id));
+}
+
+export async function deleteTranslation(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { contentTranslations } = await import("../drizzle/schema");
+  await db.delete(contentTranslations).where(eq(contentTranslations.id, id));
+}
+
+
+// Gift Card Transactions
+export async function redeemGiftCard(code: string, amount: number, usedBy?: string) {
+  const db = await getDb();
+  if (!db) return { success: false, error: "Database not available" };
+  const { giftCards, giftCardTransactions } = await import("../drizzle/schema");
+  
+  const card = await db.select().from(giftCards).where(eq(giftCards.code, code)).limit(1);
+  if (card.length === 0) {
+    return { success: false, error: "Gift card not found" };
+  }
+  
+  const giftCard = card[0];
+  if (giftCard.status !== 'active') {
+    return { success: false, error: "Gift card is not active" };
+  }
+  
+  if (giftCard.balance < amount) {
+    return { success: false, error: "Insufficient balance" };
+  }
+  
+  const newBalance = giftCard.balance - amount;
+  const newStatus = newBalance === 0 ? 'redeemed' : 'active';
+  
+  await db.update(giftCards)
+    .set({ balance: newBalance, status: newStatus as any })
+    .where(eq(giftCards.id, giftCard.id));
+  
+  await db.insert(giftCardTransactions).values({
+    giftCardId: giftCard.id,
+    type: 'redemption',
+    amount: -amount,
+    balanceAfter: newBalance,
+    description: usedBy ? `Redeemed by ${usedBy}` : 'Redemption',
+  });
+  
+  return { success: true, newBalance };
+}
+
+export async function getGiftCardTransactions(giftCardId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { giftCardTransactions } = await import("../drizzle/schema");
+  return await db.select().from(giftCardTransactions)
+    .where(eq(giftCardTransactions.giftCardId, giftCardId))
+    .orderBy(desc(giftCardTransactions.createdAt));
+}
+
+// Función para verificar si una traducción necesita actualización
+export async function needsRetranslation(contentKey: string, language: string, currentHash: string) {
+  const db = await getDb();
+  if (!db) return true;
+  const { contentTranslations } = await import("../drizzle/schema");
+  
+  const existing = await db.select().from(contentTranslations)
+    .where(and(
+      eq(contentTranslations.contentKey, contentKey),
+      eq(contentTranslations.language, language)
+    ))
+    .limit(1);
+  
+  if (existing.length === 0) return true;
+  return existing[0].contentHash !== currentHash;
+}

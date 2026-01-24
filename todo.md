@@ -1276,3 +1276,6 @@
 
 ## Ocultar Importar desde URL (24 Enero 2026)
 - [x] Ocultar temporalmente la sección "Importar desde URL" en CrearNewsletter (pendiente SSR)
+
+## Cambio de imagen Hero Navega & Relax (24 Enero 2026)
+- [x] Reemplazar imagen del hero en /images/navega-relax-header.jpg
