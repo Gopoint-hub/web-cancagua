@@ -1279,3 +1279,6 @@
 
 ## Cambio de imagen Hero Navega & Relax (24 Enero 2026)
 - [x] Reemplazar imagen del hero en /images/navega-relax-header.jpg
+
+## Cambio de imagen Navega Relax en Servicios (24 Enero 2026)
+- [x] Cambiar imagen de Navega Relax en página Servicios por foto del catamarán con volcán Osorno

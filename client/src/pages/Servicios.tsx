@@ -44,7 +44,7 @@ export default function Servicios() {
     {
       title: "Navega Relax",
       description: "Navegación por el Lago Llanquihue con vistas a los volcanes Osorno y Calbuco. Una experiencia única de conexión con la naturaleza.",
-      image: "/images/14_sup-actividad.jpg",
+      image: "/images/navega-relax-catamaran.jpg",
       href: "/navega-relax",
       badge: "Recomendado",
     },
