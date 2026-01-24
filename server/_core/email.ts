@@ -1,6 +1,6 @@
 /**
  * Email service using Resend for sending invitations and password reset emails
- * All emails are sent from @gopointagency.com domain
+ * All emails are sent from @cancagua.cl domain
  */
 import { Resend } from "resend";
 import { ENV } from "./env";
@@ -17,8 +17,8 @@ function getResendClient(): Resend {
   return resend;
 }
 
-const FROM_EMAIL = "Cancagua <noreply@gopointagency.com>";
-const SUPPORT_EMAIL = "soporte@gopointagency.com";
+const FROM_EMAIL = "Cancagua <noreply@cancagua.cl>";
+const SUPPORT_EMAIL = "soporte@cancagua.cl";
 
 interface EmailResult {
   success: boolean;
@@ -37,7 +37,7 @@ export async function sendInvitationEmail(
 ): Promise<EmailResult> {
   try {
     const client = getResendClient();
-    const baseUrl = ENV.appUrl || "https://cancagua-web.onrender.com";
+    const baseUrl = ENV.appUrl || "https://cancagua.cl";
     const invitationLink = `${baseUrl}/cms/activar-cuenta?token=${invitationToken}`;
     
     const roleLabels: Record<string, string> = {
@@ -149,7 +149,7 @@ export async function sendPasswordResetEmail(
 ): Promise<EmailResult> {
   try {
     const client = getResendClient();
-    const baseUrl = ENV.appUrl || "https://cancagua-web.onrender.com";
+    const baseUrl = ENV.appUrl || "https://cancagua.cl";
     const resetLink = `${baseUrl}/cms/restablecer-contrasena?token=${resetToken}`;
 
     const { data, error } = await client.emails.send({
@@ -252,7 +252,7 @@ export async function sendWelcomeEmail(
 ): Promise<EmailResult> {
   try {
     const client = getResendClient();
-    const baseUrl = ENV.appUrl || "https://cancagua-web.onrender.com";
+    const baseUrl = ENV.appUrl || "https://cancagua.cl";
     const loginLink = `${baseUrl}/cms/login`;
 
     const { data, error } = await client.emails.send({
