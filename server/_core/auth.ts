@@ -139,11 +139,10 @@ function parseCookies(cookieHeader: string | undefined): Map<string, string> {
  * Set session cookie on response
  */
 export function setSessionCookie(res: Response, token: string): void {
-  const isProduction = ENV.isProduction;
   res.cookie(COOKIE_NAME, token, {
     httpOnly: true,
-    secure: isProduction,
-    sameSite: isProduction ? "strict" : "lax",
+    secure: ENV.isProduction,
+    sameSite: "lax",
     maxAge: ONE_YEAR_MS,
     path: "/",
   });
@@ -156,7 +155,7 @@ export function clearSessionCookie(res: Response): void {
   res.clearCookie(COOKIE_NAME, {
     httpOnly: true,
     secure: ENV.isProduction,
-    sameSite: ENV.isProduction ? "strict" : "lax",
+    sameSite: "lax",
     path: "/",
   });
 }
