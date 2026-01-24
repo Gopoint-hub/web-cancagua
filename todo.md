@@ -1203,3 +1203,13 @@
 - [x] Agregar campo de edición debajo del resultado para pedir cambios (con micrófono)
 - [x] Implementar regeneración del mailing con los cambios solicitados
 - [x] Mantener flujo de selección de contactos y envío al final (Pasos 4 y 5)
+
+## Sistema de Traducción Automática con IA y SEO (23 Enero 2026)
+- [x] Crear tablas en BD para almacenar traducciones (content_translations, site_pages, page_translations)
+- [x] Implementar procedimientos tRPC para traducir contenido con IA (get, getBatch, translate, translateBatch, list, update, delete, regenerate)
+- [x] Configurar rutas con prefijo de idioma (/es/, /en/, /pt/, /fr/, /de/) - LanguageContext y LocalizedRouter
+- [x] Crear hook useTranslatedContent para obtener contenido traducido
+- [x] Implementar redirección automática según idioma del navegador (LanguageContext)
+- [x] Agregar etiquetas hreflang en el head para SEO internacional (SEOHead actualizado)
+- [x] Crear sección en CMS para revisar/editar traducciones generadas (/cms/traducciones)
+- [x] Probar flujo completo de traducción automática (11 tests pasando)

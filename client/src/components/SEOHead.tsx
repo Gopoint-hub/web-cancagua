@@ -1,4 +1,9 @@
 import { useEffect } from 'react';
+import { useLocation } from 'wouter';
+
+// Idiomas soportados
+const SUPPORTED_LANGUAGES = ['es', 'en', 'pt', 'fr', 'de'] as const;
+type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number];
 
 interface SEOHeadProps {
   title: string;
@@ -25,9 +30,40 @@ export function SEOHead({
   modifiedTime,
   author = 'Cancagua Spa & Retreat Center'
 }: SEOHeadProps) {
+  const [location] = useLocation();
   const fullTitle = title.includes('Cancagua') ? title : `${title} | Cancagua Spa`;
   const baseUrl = 'https://cancagua.cl';
-  const fullCanonical = canonical ? `${baseUrl}${canonical}` : baseUrl;
+  
+  // Detectar idioma actual de la URL
+  const getCurrentLanguage = (): SupportedLanguage => {
+    const match = location.match(/^\/([a-z]{2})(\/|$)/);
+    if (match && SUPPORTED_LANGUAGES.includes(match[1] as SupportedLanguage)) {
+      return match[1] as SupportedLanguage;
+    }
+    return 'es';
+  };
+  
+  // Obtener path sin prefijo de idioma
+  const getPathWithoutLanguage = (): string => {
+    const match = location.match(/^\/[a-z]{2}(\/.*)?$/);
+    if (match && SUPPORTED_LANGUAGES.includes(location.substring(1, 3) as SupportedLanguage)) {
+      return match[1] || '/';
+    }
+    return location;
+  };
+  
+  const currentLang = getCurrentLanguage();
+  const cleanPath = getPathWithoutLanguage();
+  
+  // Generar URL para cada idioma
+  const getUrlForLanguage = (lang: SupportedLanguage): string => {
+    if (lang === 'es') {
+      return `${baseUrl}${cleanPath}`;
+    }
+    return `${baseUrl}/${lang}${cleanPath === '/' ? '' : cleanPath}`;
+  };
+  
+  const fullCanonical = canonical ? `${baseUrl}${canonical}` : getUrlForLanguage(currentLang);
   const fullImage = image.startsWith('http') ? image : `${baseUrl}${image}`;
 
   useEffect(() => {
@@ -65,6 +101,38 @@ export function SEOHead({
 
     // Canonical
     updateLink('canonical', fullCanonical);
+    
+    // Hreflang tags para SEO multiidioma
+    const updateHreflang = (lang: string, href: string) => {
+      const selector = `link[rel="alternate"][hreflang="${lang}"]`;
+      let link = document.querySelector(selector) as HTMLLinkElement;
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'alternate';
+        link.hreflang = lang;
+        document.head.appendChild(link);
+      }
+      link.href = href;
+    };
+    
+    // Agregar hreflang para cada idioma
+    SUPPORTED_LANGUAGES.forEach(lang => {
+      const langCode = lang === 'es' ? 'es-CL' : lang;
+      updateHreflang(langCode, getUrlForLanguage(lang));
+    });
+    
+    // x-default para usuarios sin preferencia
+    updateHreflang('x-default', getUrlForLanguage('es'));
+    
+    // og:locale
+    const localeMap: Record<SupportedLanguage, string> = {
+      es: 'es_CL',
+      en: 'en_US',
+      pt: 'pt_BR',
+      fr: 'fr_FR',
+      de: 'de_DE',
+    };
+    updateMeta('og:locale', localeMap[currentLang], true);
 
     // Open Graph
     updateMeta('og:title', fullTitle, true);

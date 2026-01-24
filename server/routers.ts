@@ -6,6 +6,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import * as db from "./db";
 import { generateQuoteNumber, calculateValidUntil } from "./quoteHelpers";
+import { invokeLLM } from "./_core/llm";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -2215,6 +2216,277 @@ Devuelve un JSON con este formato:
       }
       return await db.getAllEvents();
     }),
+  }),
+
+  // ============================================
+  // TRADUCCIONES AUTOMÁTICAS
+  // ============================================
+  translations: router({
+    // Obtener traducción de un contenido específico
+    get: publicProcedure
+      .input(z.object({
+        contentKey: z.string(),
+        language: z.string(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getTranslation(input.contentKey, input.language);
+      }),
+
+    // Obtener múltiples traducciones de una vez
+    getBatch: publicProcedure
+      .input(z.object({
+        contentKeys: z.array(z.string()),
+        language: z.string(),
+      }))
+      .query(async ({ input }) => {
+        const translations: Record<string, string> = {};
+        for (const key of input.contentKeys) {
+          const t = await db.getTranslation(key, input.language);
+          if (t) {
+            translations[key] = t.translatedContent;
+          }
+        }
+        return translations;
+      }),
+
+    // Traducir contenido automáticamente con IA
+    translate: publicProcedure
+      .input(z.object({
+        contentKey: z.string(),
+        originalContent: z.string(),
+        targetLanguage: z.string(),
+        context: z.string().optional(), // Contexto para mejor traducción (ej: "página de servicios de spa")
+      }))
+      .mutation(async ({ input }) => {
+        // Verificar si ya existe y no necesita actualización
+        const needsUpdate = await db.needsRetranslation(
+          input.contentKey,
+          input.targetLanguage,
+          input.originalContent
+        );
+        
+        if (!needsUpdate) {
+          const existing = await db.getTranslation(input.contentKey, input.targetLanguage);
+          return { translatedContent: existing?.translatedContent, cached: true };
+        }
+        
+        // Mapeo de códigos de idioma a nombres
+        const languageNames: Record<string, string> = {
+          en: "English",
+          pt: "Portuguese (Brazilian)",
+          fr: "French",
+          de: "German",
+        };
+        
+        const targetLanguageName = languageNames[input.targetLanguage] || input.targetLanguage;
+        
+        // Generar traducción con IA
+        const systemPrompt = `You are a professional translator for a luxury spa and wellness center website called "Cancagua Spa & Retreat Center" located in southern Chile (Lago Llanquihue area).
+
+Translate the following Spanish text to ${targetLanguageName}.
+
+Guidelines:
+- Maintain the tone: professional, warm, and inviting
+- Keep proper nouns unchanged (Cancagua, Frutillar, Lago Llanquihue, etc.)
+- Preserve any HTML tags or formatting
+- Use appropriate terminology for spa/wellness industry
+- For prices in CLP (Chilean Pesos), keep the format as-is
+- Adapt cultural references appropriately
+${input.context ? `\nContext: ${input.context}` : ""}
+
+Respond ONLY with the translated text, no explanations.`;
+        
+        const response = await invokeLLM({
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: input.originalContent },
+          ],
+        });
+        
+        const translatedContent = response.choices[0].message.content as string;
+        
+        // Guardar en base de datos
+        await db.createOrUpdateTranslation({
+          contentKey: input.contentKey,
+          language: input.targetLanguage,
+          originalContent: input.originalContent,
+          translatedContent: translatedContent.trim(),
+        });
+        
+        return { translatedContent: translatedContent.trim(), cached: false };
+      }),
+
+    // Traducir múltiples contenidos en batch
+    translateBatch: publicProcedure
+      .input(z.object({
+        items: z.array(z.object({
+          contentKey: z.string(),
+          originalContent: z.string(),
+        })),
+        targetLanguage: z.string(),
+        context: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const results: Record<string, string> = {};
+        
+        // Filtrar los que necesitan traducción
+        const toTranslate: Array<{ key: string; content: string }> = [];
+        
+        for (const item of input.items) {
+          const needsUpdate = await db.needsRetranslation(
+            item.contentKey,
+            input.targetLanguage,
+            item.originalContent
+          );
+          
+          if (!needsUpdate) {
+            const existing = await db.getTranslation(item.contentKey, input.targetLanguage);
+            if (existing) {
+              results[item.contentKey] = existing.translatedContent;
+            }
+          } else {
+            toTranslate.push({ key: item.contentKey, content: item.originalContent });
+          }
+        }
+        
+        // Si hay contenido para traducir, hacerlo en batch
+        if (toTranslate.length > 0) {
+          const languageNames: Record<string, string> = {
+            en: "English",
+            pt: "Portuguese (Brazilian)",
+            fr: "French",
+            de: "German",
+          };
+          
+          const targetLanguageName = languageNames[input.targetLanguage] || input.targetLanguage;
+          
+          // Crear un JSON con todos los textos a traducir
+          const textsToTranslate = toTranslate.reduce((acc, item) => {
+            acc[item.key] = item.content;
+            return acc;
+          }, {} as Record<string, string>);
+          
+          const systemPrompt = `You are a professional translator for a luxury spa website called "Cancagua Spa & Retreat Center".
+
+Translate ALL the following Spanish texts to ${targetLanguageName}.
+
+Guidelines:
+- Maintain professional, warm tone
+- Keep proper nouns unchanged
+- Preserve HTML tags
+${input.context ? `\nContext: ${input.context}` : ""}
+
+Respond with a JSON object using the same keys, with translated values.
+Example input: {"key1": "Hola mundo"}
+Example output: {"key1": "Hello world"}`;
+          
+          const response = await invokeLLM({
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: JSON.stringify(textsToTranslate) },
+            ],
+          });
+          
+          try {
+            const content = response.choices[0].message.content as string;
+            // Limpiar el contenido de posibles backticks de markdown
+            const cleanContent = content.replace(/```json\n?|```\n?/g, "").trim();
+            const translations = JSON.parse(cleanContent);
+            
+            // Guardar cada traducción
+            for (const item of toTranslate) {
+              if (translations[item.key]) {
+                await db.createOrUpdateTranslation({
+                  contentKey: item.key,
+                  language: input.targetLanguage,
+                  originalContent: item.content,
+                  translatedContent: translations[item.key],
+                });
+                results[item.key] = translations[item.key];
+              }
+            }
+          } catch (e) {
+            console.error("Error parsing batch translation:", e);
+            // Fallback: traducir uno por uno
+            for (const item of toTranslate) {
+              const singleResponse = await invokeLLM({
+                messages: [
+                  { role: "system", content: `Translate to ${targetLanguageName}. Respond only with the translation.` },
+                  { role: "user", content: item.content },
+                ],
+              });
+              const translated = (singleResponse.choices[0].message.content as string).trim();
+              await db.createOrUpdateTranslation({
+                contentKey: item.key,
+                language: input.targetLanguage,
+                originalContent: item.content,
+                translatedContent: translated,
+              });
+              results[item.key] = translated;
+            }
+          }
+        }
+        
+        return results;
+      }),
+
+    // Admin: listar todas las traducciones
+    list: protectedProcedure
+      .query(async ({ ctx }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getAllTranslations();
+      }),
+
+    // Admin: actualizar traducción manualmente
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        translatedContent: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.updateTranslationContent(input.id, input.translatedContent, ctx.user.id);
+      }),
+
+    // Admin: eliminar traducción
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.deleteTranslation(input.id);
+      }),
+
+    // Admin: regenerar traducción
+    regenerate: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        context: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        // Obtener la traducción actual
+        const translations = await db.getAllTranslations();
+        const current = translations.find(t => t.id === input.id);
+        
+        if (!current) {
+          throw new TRPCError({ code: "NOT_FOUND" });
+        }
+        
+        // Eliminar la traducción actual para forzar regeneración
+        await db.deleteTranslation(input.id);
+        
+        // La próxima vez que se solicite, se regenerará automáticamente
+        return { success: true, message: "Traducción eliminada. Se regenerará automáticamente." };
+      }),
   }),
 });
 

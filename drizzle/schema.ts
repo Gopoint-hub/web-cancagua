@@ -459,3 +459,74 @@ export const giftCardTransactions = mysqlTable("gift_card_transactions", {
 
 export type GiftCardTransaction = typeof giftCardTransactions.$inferSelect;
 export type InsertGiftCardTransaction = typeof giftCardTransactions.$inferInsert;
+
+
+// ============================================
+// SISTEMA DE TRADUCCIONES AUTOMÁTICAS
+// ============================================
+
+// Traducciones de contenido (generadas por IA)
+export const contentTranslations = mysqlTable("content_translations", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identificador único del contenido (ej: "home.welcome", "blog.post.123", "service.biopiscinas")
+  contentKey: varchar("content_key", { length: 255 }).notNull(),
+  // Idioma de la traducción (es, en, pt, fr, de)
+  language: varchar("language", { length: 10 }).notNull(),
+  // Contenido original en español
+  originalContent: text("original_content").notNull(),
+  // Contenido traducido
+  translatedContent: text("translated_content").notNull(),
+  // Hash del contenido original para detectar cambios
+  contentHash: varchar("content_hash", { length: 64 }).notNull(),
+  // Si la traducción fue revisada/editada manualmente
+  isReviewed: int("is_reviewed").default(0).notNull(),
+  // Usuario que revisó la traducción
+  reviewedBy: int("reviewed_by").references(() => users.id),
+  reviewedAt: timestamp("reviewed_at"),
+  // Metadatos
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ContentTranslation = typeof contentTranslations.$inferSelect;
+export type InsertContentTranslation = typeof contentTranslations.$inferInsert;
+
+// Páginas/rutas del sitio para SEO multiidioma
+export const sitePages = mysqlTable("site_pages", {
+  id: int("id").autoincrement().primaryKey(),
+  // Slug base de la página (ej: "servicios", "contacto", "blog/mi-articulo")
+  slug: varchar("slug", { length: 255 }).notNull().unique(),
+  // Tipo de página para agrupar
+  pageType: varchar("page_type", { length: 50 }).notNull(), // home, service, blog, event, static
+  // Título SEO en español (base)
+  titleEs: text("title_es").notNull(),
+  // Descripción SEO en español (base)
+  descriptionEs: text("description_es"),
+  // Si la página está activa
+  active: int("active").default(1).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SitePage = typeof sitePages.$inferSelect;
+export type InsertSitePage = typeof sitePages.$inferInsert;
+
+// Traducciones de slugs y metadatos SEO por idioma
+export const pageTranslations = mysqlTable("page_translations", {
+  id: int("id").autoincrement().primaryKey(),
+  pageId: int("page_id").references(() => sitePages.id, { onDelete: "cascade" }).notNull(),
+  language: varchar("language", { length: 10 }).notNull(),
+  // Slug traducido (ej: "services" para inglés, "servicos" para portugués)
+  translatedSlug: varchar("translated_slug", { length: 255 }).notNull(),
+  // Título SEO traducido
+  title: text("title").notNull(),
+  // Descripción SEO traducida
+  description: text("description"),
+  // Si fue revisado manualmente
+  isReviewed: int("is_reviewed").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PageTranslation = typeof pageTranslations.$inferSelect;
+export type InsertPageTranslation = typeof pageTranslations.$inferInsert;

@@ -30,6 +30,7 @@ import CMSB2B from "./pages/cms/B2B";
 import CMSMarketing from "./pages/cms/Marketing";
 import CMSMetricas from "./pages/cms/Metricas";
 import CMSAdmin from "./pages/cms/Admin";
+import CMSTraducciones from "./pages/cms/Traducciones";
 import Servicios from "./pages/Servicios";
 import ServicioBiopiscinas from "./pages/ServicioBiopiscinas";
 import Eventos from "./pages/Eventos";
@@ -123,6 +124,7 @@ function Router() {
       <Route path={"/cms/marketing"} component={CMSMarketing} />
       <Route path={"/cms/metricas"} component={CMSMetricas} />
       <Route path={"/cms/admin"} component={CMSAdmin} />
+      <Route path={"/cms/traducciones"} component={CMSTraducciones} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

@@ -1621,3 +1621,269 @@ export async function createGiftCardTransaction(transaction: any) {
   await db.insert(giftCardTransactions).values(transaction);
   return { success: true };
 }
+
+
+// ============================================
+// CONTENT TRANSLATIONS
+// ============================================
+
+import crypto from 'crypto';
+
+function generateContentHash(content: string): string {
+  return crypto.createHash('sha256').update(content).digest('hex').substring(0, 64);
+}
+
+export async function getTranslation(contentKey: string, language: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const { contentTranslations } = await import("../drizzle/schema");
+  const { and, eq } = await import("drizzle-orm");
+  
+  const results = await db.select().from(contentTranslations).where(
+    and(
+      eq(contentTranslations.contentKey, contentKey),
+      eq(contentTranslations.language, language)
+    )
+  );
+  return results[0] || null;
+}
+
+export async function getTranslationsByKey(contentKey: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const { contentTranslations } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  return db.select().from(contentTranslations).where(
+    eq(contentTranslations.contentKey, contentKey)
+  );
+}
+
+export async function getAllTranslations() {
+  const db = await getDb();
+  if (!db) return [];
+  const { contentTranslations } = await import("../drizzle/schema");
+  const { desc } = await import("drizzle-orm");
+  return db.select().from(contentTranslations).orderBy(desc(contentTranslations.updatedAt));
+}
+
+export async function getTranslationsByLanguage(language: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const { contentTranslations } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  return db.select().from(contentTranslations).where(
+    eq(contentTranslations.language, language)
+  );
+}
+
+export async function createOrUpdateTranslation(data: {
+  contentKey: string;
+  language: string;
+  originalContent: string;
+  translatedContent: string;
+}) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { contentTranslations } = await import("../drizzle/schema");
+  const { and, eq } = await import("drizzle-orm");
+  
+  const contentHash = generateContentHash(data.originalContent);
+  
+  // Verificar si ya existe
+  const existing = await getTranslation(data.contentKey, data.language);
+  
+  if (existing) {
+    // Siempre actualizar la traducción (el contenido traducido puede cambiar aunque el original sea igual)
+    await db.update(contentTranslations)
+      .set({
+        originalContent: data.originalContent,
+        translatedContent: data.translatedContent,
+        contentHash,
+        isReviewed: existing.contentHash !== contentHash ? 0 : existing.isReviewed, // Solo marcar como no revisado si el original cambió
+        updatedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(contentTranslations.contentKey, data.contentKey),
+          eq(contentTranslations.language, data.language)
+        )
+      );
+    return { success: true, updated: true };
+  }
+  
+  // Crear nueva traducción
+  await db.insert(contentTranslations).values({
+    contentKey: data.contentKey,
+    language: data.language,
+    originalContent: data.originalContent,
+    translatedContent: data.translatedContent,
+    contentHash,
+    isReviewed: 0,
+  });
+  
+  return { success: true, created: true };
+}
+
+export async function updateTranslationContent(id: number, translatedContent: string, reviewedBy?: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { contentTranslations } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  const updateData: any = {
+    translatedContent,
+    updatedAt: new Date(),
+  };
+  
+  if (reviewedBy) {
+    updateData.isReviewed = 1;
+    updateData.reviewedBy = reviewedBy;
+    updateData.reviewedAt = new Date();
+  }
+  
+  await db.update(contentTranslations).set(updateData).where(eq(contentTranslations.id, id));
+  return { success: true };
+}
+
+export async function deleteTranslation(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { contentTranslations } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(contentTranslations).where(eq(contentTranslations.id, id));
+  return { success: true };
+}
+
+export async function deleteTranslationsByKey(contentKey: string) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { contentTranslations } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.delete(contentTranslations).where(eq(contentTranslations.contentKey, contentKey));
+  return { success: true };
+}
+
+// Verificar si el contenido original cambió (para regenerar traducción)
+export async function needsRetranslation(contentKey: string, language: string, currentContent: string): Promise<boolean> {
+  const existing = await getTranslation(contentKey, language);
+  if (!existing) return true;
+  
+  const currentHash = generateContentHash(currentContent);
+  return existing.contentHash !== currentHash;
+}
+
+// ============================================
+// SITE PAGES (SEO)
+// ============================================
+
+export async function getAllSitePages() {
+  const db = await getDb();
+  if (!db) return [];
+  const { sitePages } = await import("../drizzle/schema");
+  return db.select().from(sitePages);
+}
+
+export async function getSitePageBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const { sitePages } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  const results = await db.select().from(sitePages).where(eq(sitePages.slug, slug));
+  return results[0] || null;
+}
+
+export async function createSitePage(page: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { sitePages } = await import("../drizzle/schema");
+  await db.insert(sitePages).values(page);
+  return { success: true };
+}
+
+export async function updateSitePage(id: number, page: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { sitePages } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  await db.update(sitePages).set(page).where(eq(sitePages.id, id));
+  return { success: true };
+}
+
+// ============================================
+// PAGE TRANSLATIONS (SEO slugs)
+// ============================================
+
+export async function getPageTranslation(pageId: number, language: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const { pageTranslations } = await import("../drizzle/schema");
+  const { and, eq } = await import("drizzle-orm");
+  
+  const results = await db.select().from(pageTranslations).where(
+    and(
+      eq(pageTranslations.pageId, pageId),
+      eq(pageTranslations.language, language)
+    )
+  );
+  return results[0] || null;
+}
+
+export async function getPageByTranslatedSlug(translatedSlug: string, language: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const { pageTranslations, sitePages } = await import("../drizzle/schema");
+  const { and, eq } = await import("drizzle-orm");
+  
+  const results = await db
+    .select({
+      page: sitePages,
+      translation: pageTranslations,
+    })
+    .from(pageTranslations)
+    .innerJoin(sitePages, eq(pageTranslations.pageId, sitePages.id))
+    .where(
+      and(
+        eq(pageTranslations.translatedSlug, translatedSlug),
+        eq(pageTranslations.language, language)
+      )
+    );
+  
+  return results[0] || null;
+}
+
+export async function createOrUpdatePageTranslation(data: {
+  pageId: number;
+  language: string;
+  translatedSlug: string;
+  title: string;
+  description?: string;
+}) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { pageTranslations } = await import("../drizzle/schema");
+  const { and, eq } = await import("drizzle-orm");
+  
+  const existing = await getPageTranslation(data.pageId, data.language);
+  
+  if (existing) {
+    await db.update(pageTranslations)
+      .set({
+        translatedSlug: data.translatedSlug,
+        title: data.title,
+        description: data.description,
+        updatedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(pageTranslations.pageId, data.pageId),
+          eq(pageTranslations.language, data.language)
+        )
+      );
+    return { success: true, updated: true };
+  }
+  
+  await db.insert(pageTranslations).values(data);
+  return { success: true, created: true };
+}
