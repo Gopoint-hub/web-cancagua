@@ -9,7 +9,7 @@ const DEFAULT_FROM_NAME = 'Cancagua';
 
 // Nombres de remitente predefinidos por tipo de email
 export const EMAIL_SENDER_NAMES = {
-  newsletter: 'Newsletter Cancagua',
+  newsletter: 'Cancagua',
   quote: 'Cotización Cancagua',
   notification: 'Cancagua Spa',
   general: 'Cancagua',
@@ -255,7 +255,7 @@ export function generateNewsletterWrapper(content: string, unsubscribeUrl?: stri
 <body>
   <div class="email-container">
     <div class="email-header">
-      <h1>Cancagua</h1>
+      <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/images/logo-cancagua-white.png" alt="Cancagua" style="max-width: 200px; height: auto;" />
     </div>
     <div class="email-content">
       ${content}

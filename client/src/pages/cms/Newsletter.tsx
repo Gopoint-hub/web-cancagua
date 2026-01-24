@@ -16,7 +16,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 export default function CMSNewsletter() {
   const { user, loading: authLoading } = useAuth();
   const [, navigate] = useLocation();
-  const [activeTab, setActiveTab] = useState<"drafts" | "sent">("drafts");
+  const [activeTab, setActiveTab] = useState<"drafts" | "sent">("sent");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [previewNewsletter, setPreviewNewsletter] = useState<any>(null);
@@ -224,17 +224,6 @@ export default function CMSNewsletter() {
         {/* Tabs */}
         <div className="flex gap-2 border-b">
           <button
-            onClick={() => setActiveTab("drafts")}
-            className={`px-6 py-3 font-medium transition-colors ${
-              activeTab === "drafts"
-                ? "text-[#44580E] border-b-2 border-[#44580E]"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            <Mail className="w-4 h-4 inline mr-2" />
-            Borradores ({stats.draft})
-          </button>
-          <button
             onClick={() => setActiveTab("sent")}
             className={`px-6 py-3 font-medium transition-colors ${
               activeTab === "sent"
@@ -244,6 +233,17 @@ export default function CMSNewsletter() {
           >
             <Send className="w-4 h-4 inline mr-2" />
             Enviados ({stats.sent})
+          </button>
+          <button
+            onClick={() => setActiveTab("drafts")}
+            className={`px-6 py-3 font-medium transition-colors ${
+              activeTab === "drafts"
+                ? "text-[#44580E] border-b-2 border-[#44580E]"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            <Mail className="w-4 h-4 inline mr-2" />
+            Borradores ({stats.draft})
           </button>
         </div>
 

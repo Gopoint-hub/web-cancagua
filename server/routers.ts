@@ -1117,7 +1117,7 @@ export const appRouter = router({
     create: protectedProcedure
       .input(z.object({
         subject: z.string(),
-        senderName: z.string().optional().default("Newsletter Cancagua"),
+        senderName: z.string().optional().default("Cancagua"),
         htmlContent: z.string(),
         textContent: z.string().optional(),
         designPrompt: z.string().optional(),
@@ -1483,7 +1483,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         // Enviar emails con nombre de remitente personalizado
         const result = await sendBulkEmails({ 
           emails,
-          senderName: newsletter.senderName || 'Newsletter Cancagua',
+          senderName: newsletter.senderName || 'Cancagua',
         });
         
         // Registrar envíos individuales

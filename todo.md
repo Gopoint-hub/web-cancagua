@@ -1254,3 +1254,8 @@
 
 ## Corregir Contraste Botones CMS (24 Enero 2026)
 - [x] Cambiar color de texto en botones verdes del CMS de negro a blanco (agregado CSS global en index.css)
+
+## Mejoras Newsletter CMS (24 Enero 2026)
+- [x] Cambiar orden de pestañas: primero Enviados, luego Borradores
+- [x] Cambiar nombre del remitente de "Newsletter Cancagua" a "Cancagua"
+- [x] Agregar logo de Cancagua en el header del emailing (logo-cancagua-white.png)
