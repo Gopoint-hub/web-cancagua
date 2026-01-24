@@ -1288,3 +1288,6 @@
 
 ## Actualizar texto Carta Digital Cafetería (24 Enero 2026)
 - [x] Cambiar texto "estamos desarrollando carta digital" por "disfruta nuestra carta con opciones saludables, orgánicas y locales"
+
+## Cambiar teléfono por WhatsApp en Cafetería (24 Enero 2026)
+- [x] Cambiar botón "Llamar: +56 65 221 0020" por "WhatsApp +569 40073999"

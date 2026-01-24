@@ -185,9 +185,13 @@ export default function Cafeteria() {
                       <T>Abrir Carta</T>
                     </Button>
                   </a>
-                  <a href="tel:+56652210020">
+                  <a
+                    href="https://wa.me/56940073999?text=Hola,%20quiero%20consultar%20sobre%20la%20cafeter%C3%ADa"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Button size="lg" variant="outline">
-                      <T>Llamar</T>: +56 65 221 0020
+                      WhatsApp +569 40073999
                     </Button>
                   </a>
                 </div>
