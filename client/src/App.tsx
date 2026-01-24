@@ -32,6 +32,10 @@ import CMSMarketing from "./pages/cms/Marketing";
 import CMSMetricas from "./pages/cms/Metricas";
 import CMSAdmin from "./pages/cms/Admin";
 import CMSTraducciones from "./pages/cms/Traducciones";
+import CMSLogin from "./pages/cms/Login";
+import CMSActivarCuenta from "./pages/cms/ActivarCuenta";
+import CMSRecuperarContrasena from "./pages/cms/RecuperarContrasena";
+import CMSRestablecerContrasena from "./pages/cms/RestablecerContrasena";
 import Servicios from "./pages/Servicios";
 import ServicioBiopiscinas from "./pages/ServicioBiopiscinas";
 import Eventos from "./pages/Eventos";
@@ -101,6 +105,10 @@ function Router() {
       <Route path={"/blog/tecnicas-manejo-estres-laboral"} component={ManejoEstresLaboral} />
       <Route path={"/blog/termas-del-sur-vs-experiencia-natural"} component={TermasVsExperienciaNatural} />
       <Route path={"/spa-hotel-cabanas-del-lago"} component={SpaHCDL} />
+      <Route path={"/cms/login"} component={CMSLogin} />
+      <Route path={"/cms/activar-cuenta"} component={CMSActivarCuenta} />
+      <Route path={"/cms/recuperar-contrasena"} component={CMSRecuperarContrasena} />
+      <Route path={"/cms/restablecer-contrasena"} component={CMSRestablecerContrasena} />
       <Route path={"/cms"} component={CMSDashboard} />
       <Route path={"/cms/usuarios"} component={CMSUsuarios} />
       <Route path={"/cms/carta"} component={CMSCarta} />

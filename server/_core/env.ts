@@ -1,6 +1,7 @@
 export const ENV = {
   // App configuration
   appId: process.env.VITE_APP_ID ?? "",
+  appUrl: process.env.APP_URL ?? "https://cancagua-web.onrender.com",
   cookieSecret: process.env.JWT_SECRET ?? "",
   isProduction: process.env.NODE_ENV === "production",
   

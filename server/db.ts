@@ -1,4 +1,4 @@
-import { eq, gte, and, desc, sql, asc, like, or, isNull, ne, inArray } from "drizzle-orm";
+import { eq, gte, and, desc, sql, asc, like, or, isNull } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/tidb-serverless";
 import { connect } from "@tidbcloud/serverless";
 import { InsertUser, users } from "../drizzle/schema";
@@ -97,6 +97,48 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get user: database not available");
+    return undefined;
+  }
+
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getUserById(id: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get user: database not available");
+    return undefined;
+  }
+
+  const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getUserByInvitationToken(token: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(users)
+    .where(eq(users.invitationToken, token))
+    .limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getUserByResetToken(token: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(users)
+    .where(eq(users.resetToken, token))
+    .limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
 // Gestión de usuarios
 export async function getAllUsers() {
   const db = await getDb();
@@ -105,11 +147,40 @@ export async function getAllUsers() {
     return [];
   }
 
-  const result = await db.select().from(users);
+  const result = await db.select().from(users).orderBy(desc(users.createdAt));
   return result;
 }
 
-export async function updateUserRole(userId: number, role: "user" | "editor" | "admin") {
+export async function createUser(userData: {
+  openId: string;
+  email: string;
+  name?: string;
+  passwordHash?: string;
+  role: "super_admin" | "admin" | "user" | "seller";
+  status: "active" | "pending" | "inactive";
+  invitationToken?: string;
+  invitationExpiresAt?: Date;
+  invitedBy?: number;
+  allowedModules?: string;
+}) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  try {
+    await db.insert(users).values({
+      ...userData,
+      loginMethod: "email",
+    });
+    return await getUserByEmail(userData.email);
+  } catch (error) {
+    console.error("[Database] Failed to create user:", error);
+    throw error;
+  }
+}
+
+export async function updateUserRole(userId: number, role: "super_admin" | "admin" | "user" | "seller") {
   const db = await getDb();
   if (!db) {
     console.warn("[Database] Cannot update user role: database not available");
@@ -121,6 +192,113 @@ export async function updateUserRole(userId: number, role: "user" | "editor" | "
     return true;
   } catch (error) {
     console.error("[Database] Failed to update user role:", error);
+    return false;
+  }
+}
+
+export async function updateUserStatus(userId: number, status: "active" | "pending" | "inactive") {
+  const db = await getDb();
+  if (!db) return false;
+
+  try {
+    await db.update(users).set({ status }).where(eq(users.id, userId));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to update user status:", error);
+    return false;
+  }
+}
+
+export async function updateUserPassword(userId: number, passwordHash: string) {
+  const db = await getDb();
+  if (!db) return false;
+
+  try {
+    await db.update(users).set({ 
+      passwordHash,
+      resetToken: null,
+      resetTokenExpiresAt: null,
+    }).where(eq(users.id, userId));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to update user password:", error);
+    return false;
+  }
+}
+
+export async function activateUser(userId: number, passwordHash: string) {
+  const db = await getDb();
+  if (!db) return false;
+
+  try {
+    await db.update(users).set({ 
+      passwordHash,
+      status: "active",
+      invitationToken: null,
+      invitationExpiresAt: null,
+    }).where(eq(users.id, userId));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to activate user:", error);
+    return false;
+  }
+}
+
+export async function setResetToken(userId: number, resetToken: string, expiresAt: Date) {
+  const db = await getDb();
+  if (!db) return false;
+
+  try {
+    await db.update(users).set({ 
+      resetToken,
+      resetTokenExpiresAt: expiresAt,
+    }).where(eq(users.id, userId));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to set reset token:", error);
+    return false;
+  }
+}
+
+export async function updateUserLastSignedIn(userId: number) {
+  const db = await getDb();
+  if (!db) return false;
+
+  try {
+    await db.update(users).set({ 
+      lastSignedIn: new Date(),
+    }).where(eq(users.id, userId));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to update last signed in:", error);
+    return false;
+  }
+}
+
+export async function updateUserProfile(userId: number, data: { name?: string; email?: string }) {
+  const db = await getDb();
+  if (!db) return false;
+
+  try {
+    await db.update(users).set(data).where(eq(users.id, userId));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to update user profile:", error);
+    return false;
+  }
+}
+
+export async function updateUserModules(userId: number, allowedModules: string[]) {
+  const db = await getDb();
+  if (!db) return false;
+
+  try {
+    await db.update(users).set({ 
+      allowedModules: JSON.stringify(allowedModules),
+    }).where(eq(users.id, userId));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to update user modules:", error);
     return false;
   }
 }

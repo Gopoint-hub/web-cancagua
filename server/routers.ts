@@ -13,6 +13,206 @@ export const appRouter = router({
   system: systemRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
+    
+    // Login con email y contraseña
+    login: publicProcedure
+      .input(z.object({
+        email: z.string().email("Email inválido"),
+        password: z.string().min(1, "La contraseña es requerida"),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const { loginWithEmailPassword, setSessionCookie } = await import("./_core/auth");
+        
+        try {
+          const { user, token } = await loginWithEmailPassword(input.email, input.password);
+          setSessionCookie(ctx.res, token);
+          
+          return {
+            success: true,
+            user: {
+              id: user.id,
+              email: user.email,
+              name: user.name,
+              role: user.role,
+            },
+          };
+        } catch (error: any) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: error.message || "Credenciales inválidas",
+          });
+        }
+      }),
+    
+    // Verificar token de invitación
+    verifyInvitation: publicProcedure
+      .input(z.object({ token: z.string() }))
+      .query(async ({ input }) => {
+        const user = await db.getUserByInvitationToken(input.token);
+        
+        if (!user) {
+          return { valid: false, error: "Token inválido" };
+        }
+        
+        if (user.status !== "pending") {
+          return { valid: false, error: "Esta cuenta ya ha sido activada" };
+        }
+        
+        if (user.invitationExpiresAt && new Date() > user.invitationExpiresAt) {
+          return { valid: false, error: "El enlace de invitación ha expirado" };
+        }
+        
+        return {
+          valid: true,
+          user: {
+            email: user.email,
+            name: user.name,
+            role: user.role,
+          },
+        };
+      }),
+    
+    // Activar cuenta con contraseña
+    activateAccount: publicProcedure
+      .input(z.object({
+        token: z.string(),
+        password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+        name: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const { hashPassword, validatePassword, createSessionToken, setSessionCookie } = await import("./_core/auth");
+        const { sendWelcomeEmail } = await import("./_core/email");
+        
+        // Validar contraseña
+        const validation = validatePassword(input.password);
+        if (!validation.valid) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: validation.message });
+        }
+        
+        // Verificar token
+        const user = await db.getUserByInvitationToken(input.token);
+        if (!user) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Token inválido" });
+        }
+        
+        if (user.status !== "pending") {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Esta cuenta ya ha sido activada" });
+        }
+        
+        if (user.invitationExpiresAt && new Date() > user.invitationExpiresAt) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "El enlace de invitación ha expirado" });
+        }
+        
+        // Hash de la contraseña
+        const passwordHash = await hashPassword(input.password);
+        
+        // Activar usuario
+        await db.activateUser(user.id, passwordHash);
+        
+        // Actualizar nombre si se proporcionó
+        if (input.name) {
+          await db.updateUserProfile(user.id, { name: input.name });
+        }
+        
+        // Enviar email de bienvenida
+        await sendWelcomeEmail(user.email!, input.name || user.name || undefined);
+        
+        // Crear sesión
+        const token = await createSessionToken({
+          userId: user.id,
+          openId: user.openId,
+          email: user.email!,
+          role: user.role as any,
+        });
+        setSessionCookie(ctx.res, token);
+        
+        return { success: true };
+      }),
+    
+    // Solicitar recuperación de contraseña
+    requestPasswordReset: publicProcedure
+      .input(z.object({ email: z.string().email() }))
+      .mutation(async ({ input }) => {
+        const { generateToken } = await import("./_core/auth");
+        const { sendPasswordResetEmail } = await import("./_core/email");
+        
+        const user = await db.getUserByEmail(input.email);
+        
+        // Siempre retornamos success para no revelar si el email existe
+        if (!user || user.status === "inactive") {
+          return { success: true };
+        }
+        
+        // Generar token de reset
+        const resetToken = generateToken();
+        const expiresAt = new Date();
+        expiresAt.setHours(expiresAt.getHours() + 1); // 1 hora para resetear
+        
+        await db.setResetToken(user.id, resetToken, expiresAt);
+        
+        // Enviar email
+        await sendPasswordResetEmail(input.email, resetToken, user.name || undefined);
+        
+        return { success: true };
+      }),
+    
+    // Verificar token de reset
+    verifyResetToken: publicProcedure
+      .input(z.object({ token: z.string() }))
+      .query(async ({ input }) => {
+        const user = await db.getUserByResetToken(input.token);
+        
+        if (!user) {
+          return { valid: false, error: "Token inválido" };
+        }
+        
+        if (user.resetTokenExpiresAt && new Date() > user.resetTokenExpiresAt) {
+          return { valid: false, error: "El enlace ha expirado" };
+        }
+        
+        return { valid: true, email: user.email };
+      }),
+    
+    // Restablecer contraseña
+    resetPassword: publicProcedure
+      .input(z.object({
+        token: z.string(),
+        password: z.string().min(8),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const { hashPassword, validatePassword, createSessionToken, setSessionCookie } = await import("./_core/auth");
+        
+        // Validar contraseña
+        const validation = validatePassword(input.password);
+        if (!validation.valid) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: validation.message });
+        }
+        
+        const user = await db.getUserByResetToken(input.token);
+        if (!user) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Token inválido" });
+        }
+        
+        if (user.resetTokenExpiresAt && new Date() > user.resetTokenExpiresAt) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "El enlace ha expirado" });
+        }
+        
+        // Actualizar contraseña
+        const passwordHash = await hashPassword(input.password);
+        await db.updateUserPassword(user.id, passwordHash);
+        
+        // Crear sesión automáticamente
+        const token = await createSessionToken({
+          userId: user.id,
+          openId: user.openId,
+          email: user.email!,
+          role: user.role as any,
+        });
+        setSessionCookie(ctx.res, token);
+        
+        return { success: true };
+      }),
+    
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
@@ -433,22 +633,160 @@ export const appRouter = router({
 
   // Gestión de usuarios (solo admin)
   users: router({
+    // Listar todos los usuarios (solo super_admin y admin)
     list: protectedProcedure.query(async ({ ctx }) => {
-      if (ctx.user.role !== "admin") {
+      if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
         throw new TRPCError({ code: "FORBIDDEN", message: "Solo administradores pueden listar usuarios" });
       }
       return await db.getAllUsers();
     }),
     
+    // Obtener usuario por ID
+    getById: protectedProcedure
+      .input(z.object({ userId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        // Solo admins o el propio usuario pueden ver detalles
+        if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin" && ctx.user.id !== input.userId) {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getUserById(input.userId);
+      }),
+    
+    // Invitar nuevo usuario
+    invite: protectedProcedure
+      .input(z.object({
+        email: z.string().email("Email inválido"),
+        name: z.string().min(2, "El nombre es requerido"),
+        role: z.enum(["super_admin", "admin", "user", "seller"]),
+        allowedModules: z.array(z.string()).optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        // Solo super_admin y admin pueden invitar usuarios
+        if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "No tienes permisos para invitar usuarios" });
+        }
+        
+        // Solo super_admin puede crear otros super_admin
+        if (input.role === "super_admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Solo super administradores pueden crear otros super administradores" });
+        }
+        
+        // Verificar si el email ya existe
+        const existingUser = await db.getUserByEmail(input.email);
+        if (existingUser) {
+          throw new TRPCError({ code: "CONFLICT", message: "Ya existe un usuario con este email" });
+        }
+        
+        // Generar token de invitación
+        const { generateToken, generateOpenId } = await import("./_core/auth");
+        const invitationToken = generateToken();
+        const openId = generateOpenId();
+        
+        // Crear usuario con estado pendiente
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + 7); // 7 días para activar
+        
+        const newUser = await db.createUser({
+          openId,
+          email: input.email,
+          name: input.name,
+          role: input.role,
+          status: "pending",
+          invitationToken,
+          invitationExpiresAt: expiresAt,
+          invitedBy: ctx.user.id,
+          allowedModules: input.allowedModules ? JSON.stringify(input.allowedModules) : null,
+        });
+        
+        // Enviar email de invitación
+        const { sendInvitationEmail } = await import("./_core/email");
+        const emailResult = await sendInvitationEmail(
+          input.email,
+          invitationToken,
+          ctx.user.name || ctx.user.email || "Administrador",
+          input.role
+        );
+        
+        if (!emailResult.success) {
+          console.error("[Users] Failed to send invitation email:", emailResult.error);
+          // No fallamos la operación, el usuario puede reenviar la invitación
+        }
+        
+        return { success: true, user: newUser, emailSent: emailResult.success };
+      }),
+    
+    // Reenviar invitación
+    resendInvitation: protectedProcedure
+      .input(z.object({ userId: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const targetUser = await db.getUserById(input.userId);
+        if (!targetUser) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Usuario no encontrado" });
+        }
+        
+        if (targetUser.status !== "pending") {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "El usuario ya ha activado su cuenta" });
+        }
+        
+        // Generar nuevo token
+        const { generateToken } = await import("./_core/auth");
+        const invitationToken = generateToken();
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + 7);
+        
+        // Actualizar token en BD (usando update directo)
+        const dbInstance = await db.getDb();
+        if (dbInstance) {
+          const { users } = await import("../drizzle/schema");
+          const { eq } = await import("drizzle-orm");
+          await dbInstance.update(users).set({
+            invitationToken,
+            invitationExpiresAt: expiresAt,
+          }).where(eq(users.id, input.userId));
+        }
+        
+        // Enviar email
+        const { sendInvitationEmail } = await import("./_core/email");
+        const emailResult = await sendInvitationEmail(
+          targetUser.email!,
+          invitationToken,
+          ctx.user.name || ctx.user.email || "Administrador",
+          targetUser.role
+        );
+        
+        return { success: emailResult.success };
+      }),
+    
+    // Actualizar rol de usuario
     updateRole: protectedProcedure
       .input(z.object({
         userId: z.number(),
-        role: z.enum(["user", "editor", "admin"])
+        role: z.enum(["super_admin", "admin", "user", "seller"])
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin") {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN", message: "Solo administradores pueden cambiar roles" });
         }
+        
+        const targetUser = await db.getUserById(input.userId);
+        if (!targetUser) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Usuario no encontrado" });
+        }
+        
+        // Solo super_admin puede modificar otros super_admin
+        if (targetUser.role === "super_admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "No puedes modificar a un super administrador" });
+        }
+        
+        // Solo super_admin puede asignar rol super_admin
+        if (input.role === "super_admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Solo super administradores pueden asignar ese rol" });
+        }
+        
         const success = await db.updateUserRole(input.userId, input.role);
         if (!success) {
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al actualizar rol" });
@@ -456,21 +794,130 @@ export const appRouter = router({
         return { success: true };
       }),
     
+    // Actualizar módulos permitidos
+    updateModules: protectedProcedure
+      .input(z.object({
+        userId: z.number(),
+        allowedModules: z.array(z.string()),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const targetUser = await db.getUserById(input.userId);
+        if (!targetUser) {
+          throw new TRPCError({ code: "NOT_FOUND" });
+        }
+        
+        if (targetUser.role === "super_admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const success = await db.updateUserModules(input.userId, input.allowedModules);
+        return { success };
+      }),
+    
+    // Actualizar estado de usuario
+    updateStatus: protectedProcedure
+      .input(z.object({
+        userId: z.number(),
+        status: z.enum(["active", "inactive"])
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const targetUser = await db.getUserById(input.userId);
+        if (!targetUser) {
+          throw new TRPCError({ code: "NOT_FOUND" });
+        }
+        
+        // No permitir desactivar super_admin si no eres super_admin
+        if (targetUser.role === "super_admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "No puedes desactivar a un super administrador" });
+        }
+        
+        // No permitir desactivarse a sí mismo
+        if (ctx.user.id === input.userId && input.status === "inactive") {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "No puedes desactivar tu propia cuenta" });
+        }
+        
+        const success = await db.updateUserStatus(input.userId, input.status);
+        return { success };
+      }),
+    
+    // Eliminar usuario
     delete: protectedProcedure
       .input(z.object({ userId: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin") {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN", message: "Solo administradores pueden eliminar usuarios" });
         }
-        // No permitir que el admin se elimine a sí mismo
+        
+        const targetUser = await db.getUserById(input.userId);
+        if (!targetUser) {
+          throw new TRPCError({ code: "NOT_FOUND" });
+        }
+        
+        // No permitir eliminar super_admin si no eres super_admin
+        if (targetUser.role === "super_admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "No puedes eliminar a un super administrador" });
+        }
+        
+        // No permitir que el usuario se elimine a sí mismo
         if (ctx.user.id === input.userId) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "No puedes eliminar tu propio usuario" });
         }
+        
         const success = await db.deleteUser(input.userId);
         if (!success) {
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al eliminar usuario" });
         }
         return { success: true };
+      }),
+    
+    // Cambiar contraseña (usuario autenticado)
+    changePassword: protectedProcedure
+      .input(z.object({
+        currentPassword: z.string(),
+        newPassword: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const { verifyPassword, hashPassword, validatePassword } = await import("./_core/auth");
+        
+        // Validar nueva contraseña
+        const validation = validatePassword(input.newPassword);
+        if (!validation.valid) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: validation.message });
+        }
+        
+        // Verificar contraseña actual
+        if (!ctx.user.passwordHash) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Tu cuenta no tiene contraseña configurada" });
+        }
+        
+        const isValid = await verifyPassword(input.currentPassword, ctx.user.passwordHash);
+        if (!isValid) {
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "Contraseña actual incorrecta" });
+        }
+        
+        // Actualizar contraseña
+        const newHash = await hashPassword(input.newPassword);
+        const success = await db.updateUserPassword(ctx.user.id, newHash);
+        
+        return { success };
+      }),
+    
+    // Actualizar perfil propio
+    updateProfile: protectedProcedure
+      .input(z.object({
+        name: z.string().min(2).optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const success = await db.updateUserProfile(ctx.user.id, input);
+        return { success };
       }),
   }),
 

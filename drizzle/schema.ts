@@ -2,28 +2,45 @@ import { date, int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "driz
 
 /**
  * Core user table backing auth flow.
- * Extend this file with additional tables as your product grows.
- * Columns use camelCase to match both database fields and generated types.
+ * Supports email/password authentication with role-based access control.
+ * Roles:
+ * - super_admin: Full access, cannot be removed by admins (owner and advisors)
+ * - admin: Full access to all modules, can manage users except super_admins
+ * - user: Access to specific modules only
+ * - seller: Access to sales-related modules
  */
 export const users = mysqlTable("users", {
-  /**
-   * Surrogate primary key. Auto-incremented numeric value managed by the database.
-   * Use this for relations between tables.
-   */
   id: int("id").autoincrement().primaryKey(),
-  /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
+  /** Unique identifier for the user (UUID format) */
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
-  email: varchar("email", { length: 320 }),
-  loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "editor", "admin"]).default("user").notNull(),
+  email: varchar("email", { length: 320 }).unique(),
+  /** Hashed password using bcrypt */
+  passwordHash: varchar("passwordHash", { length: 255 }),
+  loginMethod: varchar("loginMethod", { length: 64 }).default("email"),
+  /** User role: super_admin, admin, user, seller */
+  role: mysqlEnum("role", ["super_admin", "admin", "user", "seller"]).default("user").notNull(),
+  /** User status: active, pending (invited but not activated), inactive */
+  status: mysqlEnum("status", ["active", "pending", "inactive"]).default("pending").notNull(),
+  /** Modules the user has access to (JSON array, null = all modules for admin roles) */
+  allowedModules: text("allowedModules"),
+  /** Invitation token for new users */
+  invitationToken: varchar("invitationToken", { length: 255 }),
+  invitationExpiresAt: timestamp("invitationExpiresAt"),
+  /** Password reset token */
+  resetToken: varchar("resetToken", { length: 255 }),
+  resetTokenExpiresAt: timestamp("resetTokenExpiresAt"),
+  /** Who invited this user */
+  invitedBy: int("invitedBy"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-  lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
+  lastSignedIn: timestamp("lastSignedIn"),
 });
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
+export type UserRole = "super_admin" | "admin" | "user" | "seller";
+export type UserStatus = "active" | "pending" | "inactive";
 
 // Servicios de Skedu
 export const services = mysqlTable("services", {
