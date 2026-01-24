@@ -1,8 +1,13 @@
 /**
- * Quick example (matches curl usage):
+ * Data API helper for external API calls
+ * 
+ * Quick example:
  *   await callDataApi("Youtube/search", {
- *     query: { gl: "US", hl: "en", q: "manus" },
+ *     query: { gl: "US", hl: "en", q: "cancagua" },
  *   })
+ * 
+ * Note: This requires BUILT_IN_FORGE_API_URL and BUILT_IN_FORGE_API_KEY
+ * to be configured for the external API proxy service.
  */
 import { ENV } from "./env";
 

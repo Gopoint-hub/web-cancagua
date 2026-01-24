@@ -42,8 +42,9 @@ export function useAuth(options?: UseAuthOptions) {
   }, [logoutMutation, utils]);
 
   const state = useMemo(() => {
+    // Store user info in localStorage for persistence
     localStorage.setItem(
-      "manus-runtime-user-info",
+      "cancagua-user-info",
       JSON.stringify(meQuery.data)
     );
     return {

@@ -14,7 +14,7 @@ function createAdminContext(): TrpcContext {
     createdAt: new Date(),
     updatedAt: new Date(),
     lastSignedIn: new Date(),
-    loginMethod: "manus",
+    loginMethod: "email",
   };
 
   const ctx: TrpcContext = {
