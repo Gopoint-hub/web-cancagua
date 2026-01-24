@@ -165,18 +165,15 @@ export default function Cafeteria() {
             </div>
           </section>
 
-          {/* Próximamente - Carta */}
+          {/* Carta Digital */}
           <section className="py-20">
             <div className="container">
               <div className="max-w-3xl mx-auto text-center">
-                <div className="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
-                  <T>Próximamente</T>
-                </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
                   <T>Carta Digital</T>
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  <T>Estamos trabajando en nuestra carta digital para que puedas explorar nuestro menú completo con fotos, ingredientes y precios actualizados. Mientras tanto, te invitamos a visitarnos y descubrir nuestras deliciosas opciones en persona.</T>
+                  <T>Disfruta nuestra carta con opciones saludables, orgánicas y locales.</T>
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a

@@ -1285,3 +1285,6 @@
 
 ## Cambio botón Cafetería (24 Enero 2026)
 - [x] Cambiar "Consultar Menú por WhatsApp" por "Abrir Carta" con link a https://menu.fu.do/cancagua/qr-menu
+
+## Actualizar texto Carta Digital Cafetería (24 Enero 2026)
+- [x] Cambiar texto "estamos desarrollando carta digital" por "disfruta nuestra carta con opciones saludables, orgánicas y locales"
