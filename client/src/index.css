@@ -232,4 +232,12 @@
   .card-cancagua {
     @apply bg-white border border-[#D3BC8D]/30 shadow-sm;
   }
+  
+  /* Botones verdes del CMS con texto blanco para mejor contraste */
+  .bg-\[\#44580E\] {
+    color: white !important;
+  }
+  .bg-\[\#44580E\]:hover {
+    color: white !important;
+  }
 }

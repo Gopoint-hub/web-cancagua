@@ -1251,3 +1251,6 @@
 ## Instalar Google Tag Manager (24 Enero 2026)
 - [x] Agregar script de GTM en la sección head (GTM-NNGGT92W)
 - [x] Agregar noscript de GTM después de la etiqueta body
+
+## Corregir Contraste Botones CMS (24 Enero 2026)
+- [x] Cambiar color de texto en botones verdes del CMS de negro a blanco (agregado CSS global en index.css)
