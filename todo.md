@@ -1291,3 +1291,6 @@
 
 ## Cambiar teléfono por WhatsApp en Cafetería (24 Enero 2026)
 - [x] Cambiar botón "Llamar: +56 65 221 0020" por "WhatsApp +569 40073999"
+
+## Cambiar Volcán Osorno por Calbuco en Cafetería (24 Enero 2026)
+- [x] Cambiar "Volcán Osorno" por "Volcán Calbuco" en la página de Cafetería

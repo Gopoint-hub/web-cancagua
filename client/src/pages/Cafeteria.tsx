@@ -89,7 +89,7 @@ export default function Cafeteria() {
                     <T>Un Espacio para Reconectar</T>
                   </h2>
                   <p className="text-lg text-muted-foreground mb-6">
-                    <T>Nuestra cafetería es un refugio de tranquilidad donde podrás disfrutar de alimentos nutritivos mientras contemplas las aguas del Lago Llanquihue y el imponente Volcán Osorno.</T>
+                    <T>Nuestra cafetería es un refugio de tranquilidad donde podrás disfrutar de alimentos nutritivos mientras contemplas las aguas del Lago Llanquihue y el imponente Volcán Calbuco.</T>
                   </p>
                   <p className="text-lg text-muted-foreground mb-6">
                     <T>Trabajamos con productores locales del sur de Chile para ofrecerte ingredientes frescos y de temporada. Cada plato está preparado con amor y pensado para nutrir tu cuerpo y alma.</T>
