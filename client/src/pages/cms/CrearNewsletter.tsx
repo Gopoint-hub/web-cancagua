@@ -93,6 +93,7 @@ export default function CMSCrearNewsletter() {
     content: string;
     eventDate: string;
     price: string;
+    duration?: string;
     url: string;
   } | null>(null);
   
@@ -565,8 +566,14 @@ export default function CMSCrearNewsletter() {
                 <p className="text-gray-500">Escribe o dicta qué necesitas para tu email</p>
               </div>
 
-              {/* Campo de URL para extraer contenido */}
-              <Card className="border-[#44580E]/20 bg-[#44580E]/5">
+              {/* 
+                OCULTO TEMPORALMENTE - Importar desde URL
+                Pendiente: Implementar SSR en cancagua.cl para que el scraping funcione correctamente.
+                La funcionalidad está lista en el backend (extractFromUrl, uploadImage).
+                Restaurar este bloque cuando SSR esté implementado.
+                Fecha: 24 Enero 2026
+              */}
+              {/* <Card className="border-[#44580E]/20 bg-[#44580E]/5">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base flex items-center gap-2">
                     <Link2 className="w-4 h-4 text-[#44580E]" />
@@ -621,6 +628,12 @@ export default function CMSCrearNewsletter() {
                                 {extractedData.eventDate}
                               </span>
                             )}
+                            {extractedData.duration && (
+                              <span className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                {extractedData.duration}
+                              </span>
+                            )}
                             {extractedData.price && (
                               <span className="font-medium text-[#44580E]">{extractedData.price}</span>
                             )}
@@ -644,7 +657,7 @@ export default function CMSCrearNewsletter() {
                     </div>
                   )}
                 </CardContent>
-              </Card>
+              </Card> */}
 
               <Card>
                 <CardContent className="pt-6 space-y-4">

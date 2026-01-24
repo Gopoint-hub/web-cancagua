@@ -1266,4 +1266,13 @@
 - [x] Frontend: Agregar campo de URL en el paso 2 de creación de newsletter
 - [x] Frontend: Modificar subida de imágenes para usar S3 en lugar de base64
 - [x] Backend: Actualizar generateDesign para usar URLs reales de imágenes
-- [ ] Probar flujo completo con URL de evento y con imágenes subidas
+- [x] Probar flujo completo con URL de evento y con imágenes subidas
+
+## Correcciones Extracción URL Newsletter (24 Enero 2026)
+- [ ] Diagnosticar meta tags de la página de evento
+- [ ] Corregir problema de imagen no carga (CORS) - proxy a S3
+- [ ] Mejorar extracción de contenido para obtener detalles del evento
+- [ ] Probar flujo completo con URL de evento
+
+## Ocultar Importar desde URL (24 Enero 2026)
+- [x] Ocultar temporalmente la sección "Importar desde URL" en CrearNewsletter (pendiente SSR)

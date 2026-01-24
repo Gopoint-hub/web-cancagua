@@ -1555,6 +1555,8 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
+        const { storagePut } = await import("./storage");
+        
         try {
           // Hacer fetch de la página
           const response = await fetch(input.url);
@@ -1563,76 +1565,165 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
           }
           
           const html = await response.text();
+          const baseUrl = new URL(input.url);
           
-          // Extraer información usando regex (sin dependencias externas)
-          const extractMeta = (name: string): string => {
-            const match = html.match(new RegExp(`<meta[^>]*(?:name|property)=["'](?:og:)?${name}["'][^>]*content=["']([^"']+)["']`, 'i'))
-              || html.match(new RegExp(`<meta[^>]*content=["']([^"']+)["'][^>]*(?:name|property)=["'](?:og:)?${name}["']`, 'i'));
-            return match ? match[1] : '';
-          };
-          
-          // Extraer título
-          const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-          const title = extractMeta('title') || (titleMatch ? titleMatch[1].trim() : '');
-          
-          // Extraer descripción
-          const description = extractMeta('description');
-          
-          // Extraer imagen principal (og:image o primera imagen grande)
-          const ogImage = extractMeta('image');
-          const images: string[] = [];
-          
-          if (ogImage) {
-            images.push(ogImage);
-          }
-          
-          // Buscar imágenes en el contenido (CloudFront CDN o imágenes locales)
-          const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
-          let imgMatch;
-          while ((imgMatch = imgRegex.exec(html)) !== null) {
-            const src = imgMatch[1];
-            // Filtrar solo imágenes relevantes (no iconos pequeños)
-            if (src.includes('cloudfront.net') || src.includes('/images/') || src.includes('/uploads/')) {
-              if (!images.includes(src)) {
-                images.push(src);
-              }
-            }
-          }
-          
-          // Extraer contenido principal del body (simplificado)
-          // Buscar secciones con texto relevante
-          const bodyMatch = html.match(/<main[^>]*>([\s\S]*?)<\/main>/i) 
-            || html.match(/<article[^>]*>([\s\S]*?)<\/article>/i)
-            || html.match(/<div[^>]*class=["'][^"']*content[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
-          
-          let mainContent = '';
-          if (bodyMatch) {
-            // Limpiar HTML tags y extraer texto
-            mainContent = bodyMatch[1]
+          // Función para extraer texto limpio de HTML
+          const cleanHtml = (htmlStr: string): string => {
+            return htmlStr
               .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
               .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
               .replace(/<[^>]+>/g, ' ')
               .replace(/\s+/g, ' ')
-              .trim()
-              .substring(0, 2000); // Limitar a 2000 caracteres
+              .trim();
+          };
+          
+          // PRIORIDAD 1: Extraer título del contenido visible (h1)
+          const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+          let title = h1Match ? cleanHtml(h1Match[1]) : '';
+          
+          // Si no hay h1, buscar en meta tags
+          if (!title) {
+            const ogTitleMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i)
+              || html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:title["']/i);
+            const titleTagMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+            title = ogTitleMatch ? ogTitleMatch[1] : (titleTagMatch ? titleTagMatch[1].trim() : '');
+          }
+          
+          // PRIORIDAD 2: Extraer descripción del contenido visible
+          // Buscar el primer párrafo significativo después del h1
+          let description = '';
+          
+          // Buscar texto descriptivo en la página (párrafos con contenido sustancial)
+          const paragraphs = html.match(/<p[^>]*>([\s\S]*?)<\/p>/gi) || [];
+          for (const p of paragraphs) {
+            const text = cleanHtml(p);
+            // Buscar párrafos con contenido significativo (más de 50 caracteres)
+            if (text.length > 50 && !text.includes('cookie') && !text.includes('Copyright')) {
+              description = text.substring(0, 300);
+              break;
+            }
+          }
+          
+          // Si no encontramos descripción en párrafos, buscar en divs con clase descriptiva
+          if (!description) {
+            const descDivMatch = html.match(/<div[^>]*class=["'][^"']*(?:description|intro|subtitle|lead)[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
+            if (descDivMatch) {
+              description = cleanHtml(descDivMatch[1]).substring(0, 300);
+            }
+          }
+          
+          // Fallback a meta description solo si no encontramos nada mejor
+          if (!description) {
+            const metaDescMatch = html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i)
+              || html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']description["']/i);
+            description = metaDescMatch ? metaDescMatch[1] : '';
+          }
+          
+          // PRIORIDAD 3: Extraer imágenes y hacer proxy a S3
+          const imageUrls: string[] = [];
+          
+          // Buscar imágenes en el contenido
+          const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+          let imgMatch;
+          while ((imgMatch = imgRegex.exec(html)) !== null) {
+            let src = imgMatch[1];
+            // Resolver URLs relativas
+            if (src.startsWith('/')) {
+              src = `${baseUrl.protocol}//${baseUrl.host}${src}`;
+            } else if (!src.startsWith('http')) {
+              src = `${baseUrl.protocol}//${baseUrl.host}/${src}`;
+            }
+            // Filtrar imágenes relevantes (no iconos, logos pequeños, etc.)
+            if (!src.includes('icon') && !src.includes('logo') && !src.includes('favicon')) {
+              if (!imageUrls.includes(src)) {
+                imageUrls.push(src);
+              }
+            }
+          }
+          
+          // También buscar imágenes en background-image CSS inline
+          const bgImageRegex = /background-image:\s*url\(["']?([^"')]+)["']?\)/gi;
+          let bgMatch;
+          while ((bgMatch = bgImageRegex.exec(html)) !== null) {
+            let src = bgMatch[1];
+            if (src.startsWith('/')) {
+              src = `${baseUrl.protocol}//${baseUrl.host}${src}`;
+            } else if (!src.startsWith('http')) {
+              src = `${baseUrl.protocol}//${baseUrl.host}/${src}`;
+            }
+            if (!imageUrls.includes(src)) {
+              imageUrls.push(src);
+            }
+          }
+          
+          // Hacer proxy de las primeras 3 imágenes a S3 para evitar CORS
+          const proxiedImages: string[] = [];
+          for (const imgUrl of imageUrls.slice(0, 3)) {
+            try {
+              const imgResponse = await fetch(imgUrl);
+              if (imgResponse.ok) {
+                const contentType = imgResponse.headers.get('content-type') || 'image/jpeg';
+                const imgBuffer = Buffer.from(await imgResponse.arrayBuffer());
+                const timestamp = Date.now();
+                const randomSuffix = Math.random().toString(36).substring(2, 8);
+                const ext = contentType.includes('png') ? 'png' : contentType.includes('webp') ? 'webp' : 'jpg';
+                const fileKey = `newsletter-extracted/${timestamp}-${randomSuffix}.${ext}`;
+                const { url } = await storagePut(fileKey, imgBuffer, contentType);
+                proxiedImages.push(url);
+              }
+            } catch (imgError) {
+              console.error('Error proxying image:', imgUrl, imgError);
+              // Agregar la URL original como fallback
+              proxiedImages.push(imgUrl);
+            }
+          }
+          
+          // Extraer contenido principal del body
+          let mainContent = '';
+          
+          // Buscar el contenido principal en diferentes estructuras
+          const contentMatch = html.match(/<main[^>]*>([\s\S]*?)<\/main>/i) 
+            || html.match(/<article[^>]*>([\s\S]*?)<\/article>/i)
+            || html.match(/<section[^>]*>([\s\S]*?)<\/section>/i);
+          
+          if (contentMatch) {
+            mainContent = cleanHtml(contentMatch[1]).substring(0, 2000);
           }
           
           // Extraer fecha si existe (formato común en eventos)
-          const dateMatch = html.match(/(\d{1,2}\s+(?:de\s+)?(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)(?:\s+(?:de\s+)?\d{4})?)/i)
-            || html.match(/(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/);
-          const eventDate = dateMatch ? dateMatch[1] : '';
+          const datePatterns = [
+            /(Sábado|Domingo|Lunes|Martes|Miércoles|Jueves|Viernes)\s+\d{1,2}\s+de\s+(?:Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\s+\d{4}/i,
+            /(\d{1,2}\s+de\s+(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)(?:\s+(?:de\s+)?\d{4})?)/i,
+            /(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/
+          ];
+          
+          let eventDate = '';
+          for (const pattern of datePatterns) {
+            const dateMatch = html.match(pattern);
+            if (dateMatch) {
+              eventDate = dateMatch[0];
+              break;
+            }
+          }
           
           // Extraer precio si existe
-          const priceMatch = html.match(/\$\s*([\d.,]+)/);
+          const priceMatch = html.match(/\$\s*([\d.,]+)/)
+            || html.match(/(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?)\s*(?:CLP|pesos)/i);
           const price = priceMatch ? `$${priceMatch[1]}` : '';
+          
+          // Extraer duración si existe
+          const durationMatch = html.match(/(\d+\s*(?:hrs?|horas?)\s*(?:\d+\s*min(?:utos?)?)?)/i)
+            || html.match(/(\d+\s*min(?:utos?)?)/i);
+          const duration = durationMatch ? durationMatch[1] : '';
           
           return {
             title,
             description,
-            images: images.slice(0, 5), // Máximo 5 imágenes
+            images: proxiedImages, // Imágenes ya subidas a S3
             content: mainContent,
             eventDate,
             price,
+            duration,
             url: input.url,
           };
         } catch (error: any) {

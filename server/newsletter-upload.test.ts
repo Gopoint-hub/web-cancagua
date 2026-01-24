@@ -33,7 +33,14 @@ describe('Newsletter Upload and URL Extraction', () => {
   });
 
   describe('extractFromUrl endpoint', () => {
-    it('should extract title from HTML', () => {
+    it('should extract title from h1 tag (priority over meta)', () => {
+      const html = '<html><head><title>Generic Title</title></head><body><h1>Taller del Método Wim Hof</h1></body></html>';
+      const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+      expect(h1Match).not.toBeNull();
+      expect(h1Match![1]).toBe('Taller del Método Wim Hof');
+    });
+
+    it('should fallback to title tag if no h1', () => {
       const html = '<html><head><title>Taller Wim Hof - Cancagua</title></head><body></body></html>';
       const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
       expect(titleMatch).not.toBeNull();
