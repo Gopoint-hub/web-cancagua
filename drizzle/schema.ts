@@ -19,7 +19,7 @@ export const users = mysqlTable("users", {
   passwordHash: varchar("passwordHash", { length: 255 }),
   loginMethod: varchar("loginMethod", { length: 64 }).default("email"),
   /** User role: super_admin, admin, user, seller */
-  role: mysqlEnum("role", ["super_admin", "admin", "user", "seller"]).default("user").notNull(),
+  role: mysqlEnum("role", ["super_admin", "admin", "editor", "user", "seller"]).default("user").notNull(),
   /** User status: active, pending (invited but not activated), inactive */
   status: mysqlEnum("status", ["active", "pending", "inactive"]).default("pending").notNull(),
   /** Modules the user has access to (JSON array, null = all modules for admin roles) */
@@ -354,11 +354,11 @@ export const quotes = mysqlTable("quotes", {
   total: int("total").notNull(),
   validUntil: date("valid_until").notNull(), // Fecha de caducidad (10 días)
   status: mysqlEnum("status", [
-    "draft", 
-    "sent", 
-    "approved", 
-    "event_completed", 
-    "paid", 
+    "draft",
+    "sent",
+    "approved",
+    "event_completed",
+    "paid",
     "invoiced"
   ]).default("draft").notNull(),
   notes: text("notes"),
@@ -396,7 +396,7 @@ export const discountCodes = mysqlTable("discount_codes", {
   code: varchar("code", { length: 50 }).notNull().unique(), // Código único (ej: BIENVENIDO_CANCAGUA)
   name: text("name").notNull(), // Nombre descriptivo
   description: text("description"), // Descripción interna
-  discountType: mysqlEnum("discount_type", ["percentage", "fixed"]).default("percentage").notNull(),
+  discountType: mysqlEnum("discount_type", ["fixed", "percentage"]).default("percentage").notNull(),
   discountValue: int("discount_value").notNull(), // Porcentaje (0-100) o monto fijo en CLP
   minPurchase: int("min_purchase").default(0).notNull(), // Monto mínimo de compra para aplicar
   maxDiscount: int("max_discount"), // Descuento máximo en CLP (para porcentajes)
@@ -446,6 +446,7 @@ export const giftCards = mysqlTable("gift_cards", {
   senderName: text("sender_name"), // Nombre de quien regala
   senderEmail: varchar("sender_email", { length: 320 }), // Email de quien regala
   personalMessage: text("personal_message"), // Mensaje personalizado
+  status: mysqlEnum("status", ["active", "redeemed", "expired", "cancelled"]).default("active").notNull(),
   purchaseStatus: mysqlEnum("purchase_status", ["pending", "completed", "cancelled"]).default("pending").notNull(),
   paymentMethod: varchar("payment_method", { length: 50 }), // Método de pago usado
   paymentReference: varchar("payment_reference", { length: 100 }), // Referencia del pago
@@ -463,14 +464,13 @@ export type InsertGiftCard = typeof giftCards.$inferInsert;
 // Historial de uso de gift cards
 export const giftCardTransactions = mysqlTable("gift_card_transactions", {
   id: int("id").autoincrement().primaryKey(),
-  giftCardId: int("gift_card_id").references(() => giftCards.id, { onDelete: "cascade" }).notNull(),
-  transactionType: mysqlEnum("transaction_type", ["purchase", "redemption", "refund"]).notNull(),
-  amount: int("amount").notNull(), // Monto de la transacción
-  balanceBefore: int("balance_before").notNull(),
+  giftCardId: int("gift_card_id").notNull().references(() => giftCards.id),
+  type: mysqlEnum("transaction_type", ["purchase", "redemption", "refund"]).notNull(),
+  amount: int("amount").notNull(),
   balanceAfter: int("balance_after").notNull(),
-  orderId: varchar("order_id", { length: 100 }), // ID de la orden donde se usó
-  orderType: varchar("order_type", { length: 50 }), // Tipo de orden
-  notes: text("notes"),
+  description: text("description"),
+  orderType: varchar("order_type", { length: 50 }), // 'booking', 'gift_card_purchase', etc.
+  orderId: int("order_id"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -547,3 +547,80 @@ export const pageTranslations = mysqlTable("page_translations", {
 
 export type PageTranslation = typeof pageTranslations.$inferSelect;
 export type InsertPageTranslation = typeof pageTranslations.$inferInsert;
+
+// ============================================
+// SISTEMA DE CONTENIDO ADICIONAL (BLOG, TESTIMONIOS, FAQS)
+// ============================================
+
+// Artículos de Blog
+export const blogArticles = mysqlTable("blog_articles", {
+  id: int("id").autoincrement().primaryKey(),
+  title: text("title").notNull(),
+  slug: varchar("slug", { length: 255 }).notNull().unique(),
+  content: text("content").notNull(),
+  summary: text("summary"),
+  imageUrl: text("image_url"),
+  authorId: int("author_id").references(() => users.id),
+  status: mysqlEnum("status", ["draft", "published", "archived"]).default("draft").notNull(),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type BlogArticle = typeof blogArticles.$inferSelect;
+export type InsertBlogArticle = typeof blogArticles.$inferInsert;
+
+// Testimonios
+export const testimonials = mysqlTable("testimonials", {
+  id: int("id").autoincrement().primaryKey(),
+  name: text("name").notNull(),
+  role: text("role"), // Ej: "Huésped", "Cliente Corporativo"
+  content: text("content").notNull(),
+  rating: int("rating").default(5),
+  imageUrl: text("image_url"),
+  approved: int("approved").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Testimonial = typeof testimonials.$inferSelect;
+export type InsertTestimonial = typeof testimonials.$inferInsert;
+
+// FAQs
+export const faqs = mysqlTable("faqs", {
+  id: int("id").autoincrement().primaryKey(),
+  question: text("question").notNull(),
+  answer: text("answer").notNull(),
+  category: varchar("category", { length: 100 }), // Ej: "Reservas", "Servicios", "Hot Tubs"
+  displayOrder: int("display_order").default(0).notNull(),
+  active: int("active").default(1).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Faq = typeof faqs.$inferSelect;
+export type InsertFaq = typeof faqs.$inferInsert;
+
+// Configuración del Sitio (KV store)
+export const siteSettings = mysqlTable("site_settings", {
+  key: varchar("key", { length: 255 }).primaryKey(),
+  value: text("value").notNull(), // JSON string
+  description: text("description"),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SiteSetting = typeof siteSettings.$inferSelect;
+export type InsertSiteSetting = typeof siteSettings.$inferInsert;
+
+// Galería de Imágenes
+export const galleryImages = mysqlTable("gallery_images", {
+  id: int("id").autoincrement().primaryKey(),
+  url: text("url").notNull(),
+  title: text("title"),
+  description: text("description"),
+  category: varchar("category", { length: 100 }), // Ej: "Piscina", "Paisaje", "Eventos"
+  displayOrder: int("display_order").default(0).notNull(),
+  active: int("active").default(1).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type GalleryImage = typeof galleryImages.$inferSelect;
+export type InsertGalleryImage = typeof galleryImages.$inferInsert;

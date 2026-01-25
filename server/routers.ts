@@ -9,11 +9,11 @@ import { generateQuoteNumber, calculateValidUntil } from "./quoteHelpers";
 import { invokeLLM } from "./_core/llm";
 
 export const appRouter = router({
-    // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
+  // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
-    
+
     // Login con email y contraseña
     login: publicProcedure
       .input(z.object({
@@ -22,11 +22,11 @@ export const appRouter = router({
       }))
       .mutation(async ({ ctx, input }) => {
         const { loginWithEmailPassword, setSessionCookie } = await import("./_core/auth");
-        
+
         try {
           const { user, token } = await loginWithEmailPassword(input.email, input.password);
           setSessionCookie(ctx.res, token);
-          
+
           return {
             success: true,
             user: {
@@ -43,25 +43,25 @@ export const appRouter = router({
           });
         }
       }),
-    
+
     // Verificar token de invitación
     verifyInvitation: publicProcedure
       .input(z.object({ token: z.string() }))
       .query(async ({ input }) => {
         const user = await db.getUserByInvitationToken(input.token);
-        
+
         if (!user) {
           return { valid: false, error: "Token inválido" };
         }
-        
+
         if (user.status !== "pending") {
           return { valid: false, error: "Esta cuenta ya ha sido activada" };
         }
-        
+
         if (user.invitationExpiresAt && new Date() > user.invitationExpiresAt) {
           return { valid: false, error: "El enlace de invitación ha expirado" };
         }
-        
+
         return {
           valid: true,
           user: {
@@ -71,7 +71,7 @@ export const appRouter = router({
           },
         };
       }),
-    
+
     // Activar cuenta con contraseña
     activateAccount: publicProcedure
       .input(z.object({
@@ -82,41 +82,41 @@ export const appRouter = router({
       .mutation(async ({ ctx, input }) => {
         const { hashPassword, validatePassword, createSessionToken, setSessionCookie } = await import("./_core/auth");
         const { sendWelcomeEmail } = await import("./_core/email");
-        
+
         // Validar contraseña
         const validation = validatePassword(input.password);
         if (!validation.valid) {
           throw new TRPCError({ code: "BAD_REQUEST", message: validation.message });
         }
-        
+
         // Verificar token
         const user = await db.getUserByInvitationToken(input.token);
         if (!user) {
           throw new TRPCError({ code: "NOT_FOUND", message: "Token inválido" });
         }
-        
+
         if (user.status !== "pending") {
           throw new TRPCError({ code: "BAD_REQUEST", message: "Esta cuenta ya ha sido activada" });
         }
-        
+
         if (user.invitationExpiresAt && new Date() > user.invitationExpiresAt) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "El enlace de invitación ha expirado" });
         }
-        
+
         // Hash de la contraseña
         const passwordHash = await hashPassword(input.password);
-        
+
         // Activar usuario
         await db.activateUser(user.id, passwordHash);
-        
+
         // Actualizar nombre si se proporcionó
         if (input.name) {
           await db.updateUserProfile(user.id, { name: input.name });
         }
-        
+
         // Enviar email de bienvenida
         await sendWelcomeEmail(user.email!, input.name || user.name || undefined);
-        
+
         // Crear sesión
         const token = await createSessionToken({
           userId: user.id,
@@ -125,54 +125,54 @@ export const appRouter = router({
           role: user.role as any,
         });
         setSessionCookie(ctx.res, token);
-        
+
         return { success: true };
       }),
-    
+
     // Solicitar recuperación de contraseña
     requestPasswordReset: publicProcedure
       .input(z.object({ email: z.string().email() }))
       .mutation(async ({ input }) => {
         const { generateToken } = await import("./_core/auth");
         const { sendPasswordResetEmail } = await import("./_core/email");
-        
+
         const user = await db.getUserByEmail(input.email);
-        
+
         // Siempre retornamos success para no revelar si el email existe
         if (!user || user.status === "inactive") {
           return { success: true };
         }
-        
+
         // Generar token de reset
         const resetToken = generateToken();
         const expiresAt = new Date();
         expiresAt.setHours(expiresAt.getHours() + 1); // 1 hora para resetear
-        
+
         await db.setResetToken(user.id, resetToken, expiresAt);
-        
+
         // Enviar email
         await sendPasswordResetEmail(input.email, resetToken, user.name || undefined);
-        
+
         return { success: true };
       }),
-    
+
     // Verificar token de reset
     verifyResetToken: publicProcedure
       .input(z.object({ token: z.string() }))
       .query(async ({ input }) => {
         const user = await db.getUserByResetToken(input.token);
-        
+
         if (!user) {
           return { valid: false, error: "Token inválido" };
         }
-        
+
         if (user.resetTokenExpiresAt && new Date() > user.resetTokenExpiresAt) {
           return { valid: false, error: "El enlace ha expirado" };
         }
-        
+
         return { valid: true, email: user.email };
       }),
-    
+
     // Restablecer contraseña
     resetPassword: publicProcedure
       .input(z.object({
@@ -181,26 +181,26 @@ export const appRouter = router({
       }))
       .mutation(async ({ ctx, input }) => {
         const { hashPassword, validatePassword, createSessionToken, setSessionCookie } = await import("./_core/auth");
-        
+
         // Validar contraseña
         const validation = validatePassword(input.password);
         if (!validation.valid) {
           throw new TRPCError({ code: "BAD_REQUEST", message: validation.message });
         }
-        
+
         const user = await db.getUserByResetToken(input.token);
         if (!user) {
           throw new TRPCError({ code: "NOT_FOUND", message: "Token inválido" });
         }
-        
+
         if (user.resetTokenExpiresAt && new Date() > user.resetTokenExpiresAt) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "El enlace ha expirado" });
         }
-        
+
         // Actualizar contraseña
         const passwordHash = await hashPassword(input.password);
         await db.updateUserPassword(user.id, passwordHash);
-        
+
         // Crear sesión automáticamente
         const token = await createSessionToken({
           userId: user.id,
@@ -209,10 +209,10 @@ export const appRouter = router({
           role: user.role as any,
         });
         setSessionCookie(ctx.res, token);
-        
+
         return { success: true };
       }),
-    
+
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
@@ -223,14 +223,15 @@ export const appRouter = router({
   }),
 
   // Menú público
-  menu: router({    getFullMenu: publicProcedure.query(async () => {
+  menu: router({
+    getFullMenu: publicProcedure.query(async () => {
       return await db.getFullMenu();
     }),
-    
+
     getCategories: publicProcedure.query(async () => {
       return await db.getActiveMenuCategories();
     }),
-    
+
     getItemsByCategory: publicProcedure
       .input(z.object({ categoryId: z.number() }))
       .query(async ({ input }) => {
@@ -252,14 +253,14 @@ export const appRouter = router({
         // Importar funciones de email y WhatsApp
         const { sendContactFormEmail } = await import("./email");
         const { formatContactFormMessage, generateWhatsAppLink, WHATSAPP_INFO } = await import("./whatsapp");
-        
+
         // 1. Enviar email a contacto@cancagua.cl
         const emailResult = await sendContactFormEmail(input);
-        
+
         // 2. Generar mensaje y enlace de WhatsApp
         const whatsappMessage = formatContactFormMessage(input);
         const whatsappLink = generateWhatsAppLink(whatsappMessage);
-        
+
         // 3. Guardar en base de datos (mensajes de contacto)
         await db.createContactMessage({
           name: input.nombre,
@@ -269,13 +270,13 @@ export const appRouter = router({
           source: input.origen || "web",
           status: "new",
         });
-        
+
         return {
           success: emailResult.success,
           emailSent: emailResult.success,
           whatsappLink,
           whatsappNumber: WHATSAPP_INFO.formatted,
-          message: emailResult.success 
+          message: emailResult.success
             ? "Mensaje enviado correctamente. Nos pondremos en contacto pronto."
             : "Hubo un problema al enviar el mensaje. Por favor, inténtalo de nuevo.",
         };
@@ -291,7 +292,7 @@ export const appRouter = router({
       }
       return await db.getAllMenuCategories();
     }),
-    
+
     createCategory: protectedProcedure
       .input(z.object({
         name: z.string(),
@@ -306,7 +307,7 @@ export const appRouter = router({
         await db.createMenuCategory(input);
         return { success: true };
       }),
-    
+
     updateCategory: protectedProcedure
       .input(z.object({
         id: z.number(),
@@ -324,7 +325,7 @@ export const appRouter = router({
         await db.updateMenuCategory(id, data);
         return { success: true };
       }),
-    
+
     deleteCategory: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
@@ -334,7 +335,7 @@ export const appRouter = router({
         await db.deleteMenuCategory(input.id);
         return { success: true };
       }),
-    
+
     // Items
     getAllItems: protectedProcedure.query(async ({ ctx }) => {
       if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
@@ -342,7 +343,7 @@ export const appRouter = router({
       }
       return await db.getAllMenuItems();
     }),
-    
+
     getItemsByCategory: protectedProcedure
       .input(z.object({ categoryId: z.number() }))
       .query(async ({ ctx, input }) => {
@@ -351,7 +352,7 @@ export const appRouter = router({
         }
         return await db.getMenuItemsByCategory(input.categoryId);
       }),
-    
+
     createItem: protectedProcedure
       .input(z.object({
         categoryId: z.number(),
@@ -370,7 +371,7 @@ export const appRouter = router({
         await db.createMenuItem(input);
         return { success: true };
       }),
-    
+
     updateItem: protectedProcedure
       .input(z.object({
         id: z.number(),
@@ -392,7 +393,7 @@ export const appRouter = router({
         await db.updateMenuItem(id, data);
         return { success: true };
       }),
-    
+
     deleteItem: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
@@ -416,18 +417,18 @@ export const appRouter = router({
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { storagePut } = await import("./storage");
         const buffer = Buffer.from(input.imageData, 'base64');
         const extension = input.mimeType.split('/')[1];
         const randomSuffix = Math.random().toString(36).substring(7);
         const fileKey = `menu-items/${input.itemId}-${randomSuffix}.${extension}`;
-        
+
         const { url } = await storagePut(fileKey, buffer, input.mimeType);
-        
+
         // Actualizar el item con la nueva URL de imagen
         await db.updateMenuItem(input.itemId, { imageUrl: url });
-        
+
         return { success: true, url };
       }),
   }),
@@ -449,19 +450,19 @@ export const appRouter = router({
           ...input,
           preferredDate: new Date(input.preferredDate),
         };
-        
+
         const result = await db.createBooking(booking);
-        
+
         // Enviar notificación al propietario
         const { notifyOwner } = await import("./_core/notification");
         await notifyOwner({
           title: `Nueva reserva de ${input.name}`,
           content: `Servicio: ${input.serviceType}\nFecha: ${input.preferredDate}\nPersonas: ${input.numberOfPeople}\nEmail: ${input.email}\nTeléfono: ${input.phone}${input.message ? `\nMensaje: ${input.message}` : ''}`,
         });
-        
+
         return result;
       }),
-    
+
     // Admin: listar todas las reservas
     list: protectedProcedure.query(async ({ ctx }) => {
       if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
@@ -469,7 +470,7 @@ export const appRouter = router({
       }
       return await db.getAllBookings();
     }),
-    
+
     // Admin: actualizar estado
     updateStatus: protectedProcedure
       .input(z.object({
@@ -483,7 +484,7 @@ export const appRouter = router({
         const result = await db.updateBookingStatus(input.id, input.status);
         return result;
       }),
-    
+
     // Admin: eliminar reserva
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
@@ -494,7 +495,7 @@ export const appRouter = router({
         await db.deleteBooking(input.id);
         return { success: true };
       }),
-    
+
     // Admin: eliminar múltiples reservas
     bulkDelete: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
@@ -505,7 +506,7 @@ export const appRouter = router({
         await db.bulkDeleteBookings(input.ids);
         return { success: true, count: input.ids.length };
       }),
-    
+
     // Admin: actualizar estado de múltiples reservas
     bulkUpdateStatus: protectedProcedure
       .input(z.object({
@@ -534,10 +535,10 @@ export const appRouter = router({
         // Importar funciones de email y WhatsApp
         const { sendContactFormEmail } = await import("./email");
         const { formatContactFormMessage, generateWhatsAppLink, WHATSAPP_INFO } = await import("./whatsapp");
-        
+
         // 1. Guardar en base de datos
         const result = await db.createContactMessage(input);
-        
+
         // 2. Enviar email a contacto@cancagua.cl
         const emailResult = await sendContactFormEmail({
           nombre: input.name,
@@ -546,7 +547,7 @@ export const appRouter = router({
           mensaje: input.message,
           origen: "Formulario de Contacto Web",
         });
-        
+
         // 3. Generar mensaje y enlace de WhatsApp
         const whatsappMessage = formatContactFormMessage({
           nombre: input.name,
@@ -556,14 +557,14 @@ export const appRouter = router({
           origen: "Formulario de Contacto Web",
         });
         const whatsappLink = generateWhatsAppLink(whatsappMessage);
-        
+
         // 4. Enviar notificación al propietario
         const { notifyOwner } = await import("./_core/notification");
         await notifyOwner({
           title: `Nuevo mensaje de contacto: ${input.name}`,
           content: `Nombre: ${input.name}\nEmail: ${input.email}\nTeléfono: ${input.phone}\n\nMensaje:\n${input.message}`,
         });
-        
+
         return {
           ...result,
           emailSent: emailResult.success,
@@ -571,7 +572,7 @@ export const appRouter = router({
           whatsappNumber: WHATSAPP_INFO.formatted,
         };
       }),
-    
+
     // Admin: listar todos los mensajes
     list: protectedProcedure.query(async ({ ctx }) => {
       if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
@@ -579,7 +580,7 @@ export const appRouter = router({
       }
       return await db.getAllContactMessages();
     }),
-    
+
     // Admin: actualizar estado
     updateStatus: protectedProcedure
       .input(z.object({
@@ -593,7 +594,7 @@ export const appRouter = router({
         const result = await db.updateContactMessageStatus(input.id, input.status);
         return result;
       }),
-    
+
     // Admin: eliminar mensaje
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
@@ -604,7 +605,7 @@ export const appRouter = router({
         await db.deleteContactMessage(input.id);
         return { success: true };
       }),
-    
+
     // Admin: eliminar múltiples mensajes
     bulkDelete: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
@@ -615,7 +616,7 @@ export const appRouter = router({
         await db.bulkDeleteContactMessages(input.ids);
         return { success: true, count: input.ids.length };
       }),
-    
+
     // Admin: actualizar estado de múltiples mensajes
     bulkUpdateStatus: protectedProcedure
       .input(z.object({
@@ -640,7 +641,7 @@ export const appRouter = router({
       }
       return await db.getAllUsers();
     }),
-    
+
     // Obtener usuario por ID
     getById: protectedProcedure
       .input(z.object({ userId: z.number() }))
@@ -651,7 +652,7 @@ export const appRouter = router({
         }
         return await db.getUserById(input.userId);
       }),
-    
+
     // Invitar nuevo usuario
     invite: protectedProcedure
       .input(z.object({
@@ -665,27 +666,27 @@ export const appRouter = router({
         if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN", message: "No tienes permisos para invitar usuarios" });
         }
-        
+
         // Solo super_admin puede crear otros super_admin
         if (input.role === "super_admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN", message: "Solo super administradores pueden crear otros super administradores" });
         }
-        
+
         // Verificar si el email ya existe
         const existingUser = await db.getUserByEmail(input.email);
         if (existingUser) {
           throw new TRPCError({ code: "CONFLICT", message: "Ya existe un usuario con este email" });
         }
-        
+
         // Generar token de invitación
         const { generateToken, generateOpenId } = await import("./_core/auth");
         const invitationToken = generateToken();
         const openId = generateOpenId();
-        
+
         // Crear usuario con estado pendiente
         const expiresAt = new Date();
         expiresAt.setDate(expiresAt.getDate() + 7); // 7 días para activar
-        
+
         const newUser = await db.createUser({
           openId,
           email: input.email,
@@ -697,7 +698,7 @@ export const appRouter = router({
           invitedBy: ctx.user.id,
           allowedModules: input.allowedModules ? JSON.stringify(input.allowedModules) : null,
         });
-        
+
         // Enviar email de invitación
         const { sendInvitationEmail } = await import("./_core/email");
         const emailResult = await sendInvitationEmail(
@@ -706,15 +707,15 @@ export const appRouter = router({
           ctx.user.name || ctx.user.email || "Administrador",
           input.role
         );
-        
+
         if (!emailResult.success) {
           console.error("[Users] Failed to send invitation email:", emailResult.error);
           // No fallamos la operación, el usuario puede reenviar la invitación
         }
-        
+
         return { success: true, user: newUser, emailSent: emailResult.success };
       }),
-    
+
     // Reenviar invitación
     resendInvitation: protectedProcedure
       .input(z.object({ userId: z.number() }))
@@ -722,22 +723,22 @@ export const appRouter = router({
         if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const targetUser = await db.getUserById(input.userId);
         if (!targetUser) {
           throw new TRPCError({ code: "NOT_FOUND", message: "Usuario no encontrado" });
         }
-        
+
         if (targetUser.status !== "pending") {
           throw new TRPCError({ code: "BAD_REQUEST", message: "El usuario ya ha activado su cuenta" });
         }
-        
+
         // Generar nuevo token
         const { generateToken } = await import("./_core/auth");
         const invitationToken = generateToken();
         const expiresAt = new Date();
         expiresAt.setDate(expiresAt.getDate() + 7);
-        
+
         // Actualizar token en BD (usando update directo)
         const dbInstance = await db.getDb();
         if (dbInstance) {
@@ -748,7 +749,7 @@ export const appRouter = router({
             invitationExpiresAt: expiresAt,
           }).where(eq(users.id, input.userId));
         }
-        
+
         // Enviar email
         const { sendInvitationEmail } = await import("./_core/email");
         const emailResult = await sendInvitationEmail(
@@ -757,10 +758,10 @@ export const appRouter = router({
           ctx.user.name || ctx.user.email || "Administrador",
           targetUser.role
         );
-        
+
         return { success: emailResult.success };
       }),
-    
+
     // Actualizar rol de usuario
     updateRole: protectedProcedure
       .input(z.object({
@@ -771,29 +772,29 @@ export const appRouter = router({
         if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN", message: "Solo administradores pueden cambiar roles" });
         }
-        
+
         const targetUser = await db.getUserById(input.userId);
         if (!targetUser) {
           throw new TRPCError({ code: "NOT_FOUND", message: "Usuario no encontrado" });
         }
-        
+
         // Solo super_admin puede modificar otros super_admin
         if (targetUser.role === "super_admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN", message: "No puedes modificar a un super administrador" });
         }
-        
+
         // Solo super_admin puede asignar rol super_admin
         if (input.role === "super_admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN", message: "Solo super administradores pueden asignar ese rol" });
         }
-        
+
         const success = await db.updateUserRole(input.userId, input.role);
         if (!success) {
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al actualizar rol" });
         }
         return { success: true };
       }),
-    
+
     // Actualizar módulos permitidos
     updateModules: protectedProcedure
       .input(z.object({
@@ -804,20 +805,20 @@ export const appRouter = router({
         if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const targetUser = await db.getUserById(input.userId);
         if (!targetUser) {
           throw new TRPCError({ code: "NOT_FOUND" });
         }
-        
+
         if (targetUser.role === "super_admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const success = await db.updateUserModules(input.userId, input.allowedModules);
         return { success };
       }),
-    
+
     // Actualizar estado de usuario
     updateStatus: protectedProcedure
       .input(z.object({
@@ -828,26 +829,26 @@ export const appRouter = router({
         if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const targetUser = await db.getUserById(input.userId);
         if (!targetUser) {
           throw new TRPCError({ code: "NOT_FOUND" });
         }
-        
+
         // No permitir desactivar super_admin si no eres super_admin
         if (targetUser.role === "super_admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN", message: "No puedes desactivar a un super administrador" });
         }
-        
+
         // No permitir desactivarse a sí mismo
         if (ctx.user.id === input.userId && input.status === "inactive") {
           throw new TRPCError({ code: "BAD_REQUEST", message: "No puedes desactivar tu propia cuenta" });
         }
-        
+
         const success = await db.updateUserStatus(input.userId, input.status);
         return { success };
       }),
-    
+
     // Eliminar usuario
     delete: protectedProcedure
       .input(z.object({ userId: z.number() }))
@@ -855,29 +856,29 @@ export const appRouter = router({
         if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN", message: "Solo administradores pueden eliminar usuarios" });
         }
-        
+
         const targetUser = await db.getUserById(input.userId);
         if (!targetUser) {
           throw new TRPCError({ code: "NOT_FOUND" });
         }
-        
+
         // No permitir eliminar super_admin si no eres super_admin
         if (targetUser.role === "super_admin" && ctx.user.role !== "super_admin") {
           throw new TRPCError({ code: "FORBIDDEN", message: "No puedes eliminar a un super administrador" });
         }
-        
+
         // No permitir que el usuario se elimine a sí mismo
         if (ctx.user.id === input.userId) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "No puedes eliminar tu propio usuario" });
         }
-        
+
         const success = await db.deleteUser(input.userId);
         if (!success) {
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al eliminar usuario" });
         }
         return { success: true };
       }),
-    
+
     // Cambiar contraseña (usuario autenticado)
     changePassword: protectedProcedure
       .input(z.object({
@@ -886,30 +887,30 @@ export const appRouter = router({
       }))
       .mutation(async ({ ctx, input }) => {
         const { verifyPassword, hashPassword, validatePassword } = await import("./_core/auth");
-        
+
         // Validar nueva contraseña
         const validation = validatePassword(input.newPassword);
         if (!validation.valid) {
           throw new TRPCError({ code: "BAD_REQUEST", message: validation.message });
         }
-        
+
         // Verificar contraseña actual
         if (!ctx.user.passwordHash) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "Tu cuenta no tiene contraseña configurada" });
         }
-        
+
         const isValid = await verifyPassword(input.currentPassword, ctx.user.passwordHash);
         if (!isValid) {
           throw new TRPCError({ code: "UNAUTHORIZED", message: "Contraseña actual incorrecta" });
         }
-        
+
         // Actualizar contraseña
         const newHash = await hashPassword(input.newPassword);
         const success = await db.updateUserPassword(ctx.user.id, newHash);
-        
+
         return { success };
       }),
-    
+
     // Actualizar perfil propio
     updateProfile: protectedProcedure
       .input(z.object({
@@ -1014,7 +1015,7 @@ export const appRouter = router({
           input.ids.map(id => db.getCorporateProductById(id))
         );
         const duplicated = await Promise.all(
-          products.filter(p => p !== null).map(product => 
+          products.filter(p => p !== null).map(product =>
             db.createCorporateProduct({
               name: `${product.name} (Copia)`,
               description: product.description || undefined,
@@ -1200,29 +1201,29 @@ export const appRouter = router({
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { items, ...quoteData } = input;
-        
+
         // Generar número de cotización automáticamente
         const quoteNumber = await generateQuoteNumber();
-        
+
         // Crear cotización
         const quoteResult = await db.createQuote({
           ...quoteData,
           quoteNumber,
           createdBy: ctx.user.id,
         });
-        
+
         if (!quoteResult.success) {
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al crear cotización" });
         }
-        
+
         // Obtener la cotización recién creada para obtener su ID
         const quote = await db.getQuoteByNumber(quoteNumber);
         if (!quote) {
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al recuperar cotización" });
         }
-        
+
         // Crear items de cotización
         for (const item of items) {
           await db.createQuoteItem({
@@ -1230,7 +1231,7 @@ export const appRouter = router({
             quoteId: quote.id,
           });
         }
-        
+
         return { success: true, quoteId: quote.id };
       }),
 
@@ -1262,12 +1263,12 @@ export const appRouter = router({
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { id, items, ...quoteData } = input;
-        
+
         // Actualizar cotización
         await db.updateQuote(id, quoteData);
-        
+
         // Si se proporcionan items, reemplazar todos
         if (items) {
           await db.deleteQuoteItems(id);
@@ -1278,7 +1279,7 @@ export const appRouter = router({
             });
           }
         }
-        
+
         return { success: true };
       }),
 
@@ -1302,7 +1303,7 @@ export const appRouter = router({
         }
         return await db.deleteQuote(input.id);
       }),
-    
+
     // Bulk actions
     bulkDelete: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
@@ -1313,7 +1314,7 @@ export const appRouter = router({
         await db.bulkDeleteQuotes(input.ids);
         return { success: true, count: input.ids.length };
       }),
-    
+
     bulkUpdateStatus: protectedProcedure
       .input(z.object({
         ids: z.array(z.number()),
@@ -1326,26 +1327,26 @@ export const appRouter = router({
         await db.bulkUpdateQuotesStatus(input.ids, input.status);
         return { success: true, count: input.ids.length };
       }),
-    
+
     bulkDuplicate: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
       .mutation(async ({ ctx, input }) => {
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const duplicatedIds: number[] = [];
-        
+
         for (const id of input.ids) {
           // Obtener cotización original
           const original = await db.getQuoteById(id);
           if (!original) continue;
-          
+
           const items = await db.getQuoteItems(id);
-          
+
           // Generar nuevo número de cotización
           const quoteNumber = await generateQuoteNumber();
-          
+
           // Crear cotización duplicada
           const result = await db.createQuote({
             quoteNumber,
@@ -1369,7 +1370,7 @@ export const appRouter = router({
             notes: original.notes,
             createdBy: ctx.user.id,
           });
-          
+
           if (result.success) {
             const newQuote = await db.getQuoteByNumber(quoteNumber);
             if (newQuote) {
@@ -1390,7 +1391,7 @@ export const appRouter = router({
             }
           }
         }
-        
+
         return { success: true, count: duplicatedIds.length, ids: duplicatedIds };
       }),
 
@@ -1400,21 +1401,21 @@ export const appRouter = router({
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { generateQuotePDF } = await import("./pdfGenerator");
-        
+
         // Obtener cotización y sus items
         const quote = await db.getQuoteById(input.id);
         if (!quote) {
           throw new TRPCError({ code: "NOT_FOUND", message: "Cotización no encontrada" });
         }
-        
+
         const items = await db.getQuoteItems(input.id);
-        
+
         // Calcular IVA (19%)
         const subtotal = quote.subtotal || 0;
         const tax = Math.round(subtotal * 0.19);
-        
+
         // Preparar datos para el PDF
         const pdfData = {
           quoteNumber: quote.quoteNumber || `COT-${quote.id}`,
@@ -1442,10 +1443,10 @@ export const appRouter = router({
           total: quote.total || 0,
           validUntil: quote.validUntil ? new Date(quote.validUntil).toLocaleDateString("es-CL") : undefined,
         };
-        
+
         // Generar PDF
         const pdfBuffer = await generateQuotePDF(pdfData);
-        
+
         // Convertir a base64 para enviar al cliente
         return {
           pdf: pdfBuffer.toString("base64"),
@@ -1463,22 +1464,22 @@ export const appRouter = router({
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { generateQuotePDF } = await import("./pdfGenerator");
         const { sendQuoteEmail } = await import("./email");
-        
+
         // Obtener cotización y sus items
         const quote = await db.getQuoteById(input.id);
         if (!quote) {
           throw new TRPCError({ code: "NOT_FOUND", message: "Cotización no encontrada" });
         }
-        
+
         const items = await db.getQuoteItems(input.id);
-        
+
         // Calcular IVA (19%)
         const subtotal = quote.subtotal || 0;
         const tax = Math.round(subtotal * 0.19);
-        
+
         // Preparar datos para el PDF
         const pdfData = {
           quoteNumber: quote.quoteNumber || `COT-${quote.id}`,
@@ -1506,10 +1507,10 @@ export const appRouter = router({
           total: quote.total || 0,
           validUntil: quote.validUntil ? new Date(quote.validUntil).toLocaleDateString("es-CL") : undefined,
         };
-        
+
         // Generar PDF
         const pdfBuffer = await generateQuotePDF(pdfData);
-        
+
         // Combinar email del cliente con emails adicionales
         const allRecipients = [quote.clientEmail];
         if (input.additionalEmails && input.additionalEmails.length > 0) {
@@ -1519,7 +1520,7 @@ export const appRouter = router({
             }
           });
         }
-        
+
         // Enviar email con PDF adjunto a todos los destinatarios
         const result = await sendQuoteEmail({
           to: allRecipients.join(", "),
@@ -1528,14 +1529,14 @@ export const appRouter = router({
           pdfBuffer,
           customMessage: input.customMessage,
         });
-        
+
         if (!result.success) {
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: result.error || "Error al enviar email" });
         }
-        
+
         // Actualizar estado de la cotización a "sent"
         await db.updateQuoteStatus(input.id, "sent");
-        
+
         return { success: true, emailId: result.id };
       }),
   }),
@@ -1575,27 +1576,27 @@ export const appRouter = router({
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { listIds, scheduledAt, ...newsletterData } = input;
-        
+
         const result = await db.createNewsletter({
           ...newsletterData,
           status: scheduledAt ? "scheduled" : "draft",
           scheduledAt: scheduledAt || null,
           createdBy: ctx.user.id,
         });
-        
+
         // Obtener el newsletter recién creado para tener el id
         const newsletters = await db.getAllNewsletters();
         const newNewsletter = newsletters[0]; // La más reciente
-        
+
         // Si se proporcionaron listas, asociarlas
         if (listIds && listIds.length > 0) {
           for (const listId of listIds) {
             await db.addListToNewsletter(newNewsletter.id, listId);
           }
         }
-        
+
         return { success: true, id: newNewsletter.id };
       }),
 
@@ -1641,7 +1642,7 @@ export const appRouter = router({
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        return await db.duplicateNewsletter(input.id, ctx.user.id);
+        return await db.duplicateNewsletter(input.id);
       }),
 
     generateDesign: protectedProcedure
@@ -1654,22 +1655,22 @@ export const appRouter = router({
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { invokeLLM } = await import("./_core/llm");
         const { generateImage } = await import("./_core/imageGeneration");
         const { getBrandImageUrls, BRAND_IMAGE_CATALOG } = await import("./upload-brand-images");
-        
+
         // Obtener las URLs de imágenes de marca desde S3
         const brandImages = getBrandImageUrls();
-        
+
         // Paso 1: Generar imágenes adicionales con IA si se solicita
         let generatedImageUrls: string[] = [];
-        
+
         if (input.generateImages) {
           try {
             // Generar imagen hero basada en el prompt del usuario
             const imagePrompt = `Fotografía profesional de alta calidad para email marketing de CANCAGUA, un spa y centro de retiro en el sur de Chile. La imagen debe transmitir serenidad, paz y conexión con la naturaleza. Estilo: elegante, cálido, tonos tierra y naturales. Contexto: ${input.prompt}. NO incluir texto ni logos en la imagen.`;
-            
+
             const heroImage = await generateImage({ prompt: imagePrompt });
             if (heroImage.url) {
               generatedImageUrls.push(heroImage.url);
@@ -1679,21 +1680,21 @@ export const appRouter = router({
             // Continuar sin imagen si falla la generación
           }
         }
-        
+
         // Combinar imágenes proporcionadas con las generadas
         const allImages = [...(input.images || []), ...generatedImageUrls];
-        
+
         // Construir el catálogo de imágenes disponibles para el prompt
         const imagesCatalog = BRAND_IMAGE_CATALOG.map(img => {
           const url = brandImages[img.name] || '';
           return `- ${img.name}: ${img.description} | URL: ${url}`;
         }).join('\n');
-        
+
         // Agregar imágenes generadas al catálogo
-        const generatedImagesList = generatedImageUrls.length > 0 
+        const generatedImagesList = generatedImageUrls.length > 0
           ? `\n\nIMÁGENES GENERADAS POR IA (usar como hero o imagen principal):\n${generatedImageUrls.map((url, i) => `- imagen_generada_${i + 1}: ${url}`).join('\n')}`
           : '';
-        
+
         // Construir el prompt para generar HTML de email con estilo de marca Cancagua
         const systemPrompt = `Eres un experto diseñador de emails HTML para CANCAGUA, un spa y centro de retiro en Frutillar, Chile. Crea emails profesionales que reflejen la identidad de marca: serenidad, paz y conexión con la naturaleza.
 
@@ -1765,26 +1766,26 @@ IMPORTANTE: Devuelve un JSON con la siguiente estructura:
 
 El asunto debe ser atractivo, relevante al contenido, y puede incluir emojis si es apropiado.
 NO incluyas marcadores de código. Devuelve SOLO el JSON válido.`;
-        
+
         const userPrompt = `${input.prompt}${input.images && input.images.length > 0 ? `\n\nImágenes a incluir: ${input.images.join(", ")}` : ""}`;
-        
+
         const response = await invokeLLM({
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt },
           ],
         });
-        
+
         const content = response.choices[0].message.content;
         let rawContent = typeof content === 'string' ? content : '';
-        
+
         // Limpiar marcadores de código si la IA los incluyó
         rawContent = rawContent.replace(/^```json\s*/i, '').replace(/^```html\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/g, '').trim();
-        
+
         // Intentar parsear como JSON
         let htmlContent = '';
         let suggestedSubject = '';
-        
+
         try {
           const parsed = JSON.parse(rawContent);
           htmlContent = parsed.htmlContent || '';
@@ -1794,7 +1795,7 @@ NO incluyas marcadores de código. Devuelve SOLO el JSON válido.`;
           htmlContent = rawContent;
           suggestedSubject = '';
         }
-        
+
         return { htmlContent, suggestedSubject };
       }),
 
@@ -1807,9 +1808,9 @@ NO incluyas marcadores de código. Devuelve SOLO el JSON válido.`;
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { invokeLLM } = await import("./_core/llm");
-        
+
         const systemPrompt = `Eres un experto diseñador de emails HTML para CANCAGUA. Modifica el HTML del email según las instrucciones del usuario.
 
 ## MANTENER SIEMPRE LA IDENTIDAD DE MARCA:
@@ -1825,22 +1826,22 @@ NO incluyas marcadores de código. Devuelve SOLO el JSON válido.`;
 Para el logo, usa texto estilizado en lugar de imagen. Para redes sociales, usa texto simple con links.
 
 IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de código.`;
-        
+
         const userPrompt = `HTML actual:\n${input.currentHtml}\n\nModificación solicitada: ${input.refinementRequest}`;
-        
+
         const response = await invokeLLM({
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt },
           ],
         });
-        
+
         const content = response.choices[0].message.content;
         let htmlContent = typeof content === 'string' ? content : '';
-        
+
         // Limpiar marcadores de código si la IA los incluyó
         htmlContent = htmlContent.replace(/^```html\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/g, '').trim();
-        
+
         return { htmlContent };
       }),
 
@@ -1862,23 +1863,23 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const newsletter = await db.getNewsletterById(input.newsletterId);
         if (!newsletter) {
           throw new TRPCError({ code: "NOT_FOUND", message: "Newsletter no encontrado" });
         }
-        
+
         const { sendTestEmail } = await import("./email");
         const result = await sendTestEmail(
           input.testEmail,
           newsletter.subject,
           newsletter.htmlContent || ''
         );
-        
+
         if (!result.success) {
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: result.error || "Error al enviar email de prueba" });
         }
-        
+
         return { success: true, message: "Email de prueba enviado" };
       }),
 
@@ -1891,16 +1892,16 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const newsletter = await db.getNewsletterById(input.newsletterId);
         if (!newsletter) {
           throw new TRPCError({ code: "NOT_FOUND", message: "Newsletter no encontrado" });
         }
-        
+
         // Obtener suscriptores de las listas seleccionadas
         const allSubscribers: any[] = [];
         const seenEmails = new Set<string>();
-        
+
         for (const listId of input.listIds) {
           const subscribers = await db.getSubscribersInList(listId);
           for (const sub of subscribers) {
@@ -1910,14 +1911,14 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
             }
           }
         }
-        
+
         if (allSubscribers.length === 0) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "No hay suscriptores activos en las listas seleccionadas" });
         }
-        
+
         // Actualizar estado a 'sending'
         await db.updateNewsletter(input.newsletterId, { status: 'sending' });
-        
+
         // Preparar emails
         const { sendBulkEmails, htmlToPlainText } = await import("./email");
         const emails = allSubscribers.map(sub => ({
@@ -1926,13 +1927,13 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
           html: newsletter.htmlContent || '',
           text: htmlToPlainText(newsletter.htmlContent || ''),
         }));
-        
+
         // Enviar emails con nombre de remitente personalizado
-        const result = await sendBulkEmails({ 
+        const result = await sendBulkEmails({
           emails,
           senderName: newsletter.senderName || 'Cancagua',
         });
-        
+
         // Registrar envíos individuales
         for (const sub of allSubscribers) {
           await db.createNewsletterSend({
@@ -1941,14 +1942,14 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
             status: result.success ? 'sent' : 'failed',
           });
         }
-        
+
         // Actualizar newsletter con resultados
         await db.updateNewsletter(input.newsletterId, {
           status: result.success ? 'sent' : 'failed',
           sentAt: new Date(),
           recipientCount: allSubscribers.length,
         });
-        
+
         return {
           success: result.success,
           sent: result.sent,
@@ -1968,27 +1969,27 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { storagePut } = await import("./storage");
-        
+
         // Extraer el tipo de imagen y datos del base64
         const matches = input.imageData.match(/^data:image\/(\w+);base64,(.+)$/);
         if (!matches) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "Formato de imagen inválido" });
         }
-        
+
         const imageType = matches[1];
         const base64Data = matches[2];
         const imageBuffer = Buffer.from(base64Data, 'base64');
-        
+
         // Generar nombre único para el archivo
         const timestamp = Date.now();
         const randomSuffix = Math.random().toString(36).substring(2, 8);
         const fileName = input.fileName || `image-${timestamp}-${randomSuffix}.${imageType}`;
         const fileKey = `newsletter-images/${fileName}`;
-        
+
         const { url } = await storagePut(fileKey, imageBuffer, `image/${imageType}`);
-        
+
         return { url, key: fileKey };
       }),
 
@@ -2001,19 +2002,19 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { storagePut } = await import("./storage");
-        
+
         try {
           // Hacer fetch de la página
           const response = await fetch(input.url);
           if (!response.ok) {
             throw new TRPCError({ code: "BAD_REQUEST", message: "No se pudo acceder a la URL" });
           }
-          
+
           const html = await response.text();
           const baseUrl = new URL(input.url);
-          
+
           // Función para extraer texto limpio de HTML
           const cleanHtml = (htmlStr: string): string => {
             return htmlStr
@@ -2023,11 +2024,11 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
               .replace(/\s+/g, ' ')
               .trim();
           };
-          
+
           // PRIORIDAD 1: Extraer título del contenido visible (h1)
           const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
           let title = h1Match ? cleanHtml(h1Match[1]) : '';
-          
+
           // Si no hay h1, buscar en meta tags
           if (!title) {
             const ogTitleMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i)
@@ -2035,11 +2036,11 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
             const titleTagMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
             title = ogTitleMatch ? ogTitleMatch[1] : (titleTagMatch ? titleTagMatch[1].trim() : '');
           }
-          
+
           // PRIORIDAD 2: Extraer descripción del contenido visible
           // Buscar el primer párrafo significativo después del h1
           let description = '';
-          
+
           // Buscar texto descriptivo en la página (párrafos con contenido sustancial)
           const paragraphs = html.match(/<p[^>]*>([\s\S]*?)<\/p>/gi) || [];
           for (const p of paragraphs) {
@@ -2050,7 +2051,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
               break;
             }
           }
-          
+
           // Si no encontramos descripción en párrafos, buscar en divs con clase descriptiva
           if (!description) {
             const descDivMatch = html.match(/<div[^>]*class=["'][^"']*(?:description|intro|subtitle|lead)[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
@@ -2058,17 +2059,17 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
               description = cleanHtml(descDivMatch[1]).substring(0, 300);
             }
           }
-          
+
           // Fallback a meta description solo si no encontramos nada mejor
           if (!description) {
             const metaDescMatch = html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i)
               || html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']description["']/i);
             description = metaDescMatch ? metaDescMatch[1] : '';
           }
-          
+
           // PRIORIDAD 3: Extraer imágenes y hacer proxy a S3
           const imageUrls: string[] = [];
-          
+
           // Buscar imágenes en el contenido
           const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
           let imgMatch;
@@ -2087,7 +2088,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
               }
             }
           }
-          
+
           // También buscar imágenes en background-image CSS inline
           const bgImageRegex = /background-image:\s*url\(["']?([^"')]+)["']?\)/gi;
           let bgMatch;
@@ -2102,7 +2103,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
               imageUrls.push(src);
             }
           }
-          
+
           // Hacer proxy de las primeras 3 imágenes a S3 para evitar CORS
           const proxiedImages: string[] = [];
           for (const imgUrl of imageUrls.slice(0, 3)) {
@@ -2124,26 +2125,26 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
               proxiedImages.push(imgUrl);
             }
           }
-          
+
           // Extraer contenido principal del body
           let mainContent = '';
-          
+
           // Buscar el contenido principal en diferentes estructuras
-          const contentMatch = html.match(/<main[^>]*>([\s\S]*?)<\/main>/i) 
+          const contentMatch = html.match(/<main[^>]*>([\s\S]*?)<\/main>/i)
             || html.match(/<article[^>]*>([\s\S]*?)<\/article>/i)
             || html.match(/<section[^>]*>([\s\S]*?)<\/section>/i);
-          
+
           if (contentMatch) {
             mainContent = cleanHtml(contentMatch[1]).substring(0, 2000);
           }
-          
+
           // Extraer fecha si existe (formato común en eventos)
           const datePatterns = [
             /(Sábado|Domingo|Lunes|Martes|Miércoles|Jueves|Viernes)\s+\d{1,2}\s+de\s+(?:Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)\s+\d{4}/i,
             /(\d{1,2}\s+de\s+(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)(?:\s+(?:de\s+)?\d{4})?)/i,
             /(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/
           ];
-          
+
           let eventDate = '';
           for (const pattern of datePatterns) {
             const dateMatch = html.match(pattern);
@@ -2152,17 +2153,17 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
               break;
             }
           }
-          
+
           // Extraer precio si existe
           const priceMatch = html.match(/\$\s*([\d.,]+)/)
             || html.match(/(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?)\s*(?:CLP|pesos)/i);
           const price = priceMatch ? `$${priceMatch[1]}` : '';
-          
+
           // Extraer duración si existe
           const durationMatch = html.match(/(\d+\s*(?:hrs?|horas?)\s*(?:\d+\s*min(?:utos?)?)?)/i)
             || html.match(/(\d+\s*min(?:utos?)?)/i);
           const duration = durationMatch ? durationMatch[1] : '';
-          
+
           return {
             title,
             description,
@@ -2175,9 +2176,9 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
           };
         } catch (error: any) {
           console.error('Error extracting URL content:', error);
-          throw new TRPCError({ 
-            code: "INTERNAL_SERVER_ERROR", 
-            message: error.message || "Error al extraer contenido de la URL" 
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: error.message || "Error al extraer contenido de la URL"
           });
         }
       }),
@@ -2190,28 +2191,28 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { storagePut } = await import("./storage");
         const { transcribeAudio } = await import("./_core/voiceTranscription");
-        
+
         // Extraer el audio del base64
         const base64Data = input.audioData.replace(/^data:audio\/\w+;base64,/, '');
         const audioBuffer = Buffer.from(base64Data, 'base64');
-        
+
         // Subir a S3 con nombre único
         const timestamp = Date.now();
         const randomSuffix = Math.random().toString(36).substring(2, 8);
         const fileKey = `audio-transcriptions/audio-${timestamp}-${randomSuffix}.webm`;
-        
+
         const { url: audioUrl } = await storagePut(fileKey, audioBuffer, 'audio/webm');
-        
+
         // Transcribir el audio
         const result = await transcribeAudio({
           audioUrl,
           language: 'es',
           prompt: 'Transcribe la solicitud del usuario para crear un email de newsletter',
         });
-        
+
         // Verificar si hay error
         if ('error' in result) {
           throw new TRPCError({
@@ -2219,7 +2220,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
             message: result.error,
           });
         }
-        
+
         return { text: result.text };
       }),
   }),
@@ -2334,38 +2335,38 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         // Parsear CSV simple (asume formato: email,name,metadata)
         const lines = input.csvData.split("\n").filter(line => line.trim());
         const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
-        
+
         const emailIndex = headers.findIndex(h => h.includes("email") || h.includes("correo"));
         const nameIndex = headers.findIndex(h => h.includes("name") || h.includes("nombre"));
-        
+
         if (emailIndex === -1) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "No se encontró columna de email" });
         }
-        
+
         let imported = 0;
         let skipped = 0;
-        
+
         for (let i = 1; i < lines.length; i++) {
           const values = lines[i].split(",").map(v => v.trim());
           const email = values[emailIndex];
           const name = nameIndex !== -1 ? values[nameIndex] : undefined;
-          
+
           if (!email || !email.includes("@")) {
             skipped++;
             continue;
           }
-          
+
           // Verificar si ya existe
           const existing = await db.getSubscriberByEmail(email);
           if (existing) {
             skipped++;
             continue;
           }
-          
+
           // Crear metadata con todos los campos adicionales
           const metadata: any = {};
           headers.forEach((header, idx) => {
@@ -2373,7 +2374,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
               metadata[header] = values[idx];
             }
           });
-          
+
           await db.createSubscriber({
             email,
             name,
@@ -2381,10 +2382,10 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
             status: "active",
             metadata: Object.keys(metadata).length > 0 ? JSON.stringify(metadata) : null,
           });
-          
+
           imported++;
         }
-        
+
         return { success: true, imported, skipped };
       }),
 
@@ -2396,13 +2397,13 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { invokeLLM } = await import("./_core/llm");
-        
+
         // Analizar primeras 50 filas para obtener estructura
         const lines = input.csvData.split("\n").slice(0, 51);
         const sample = lines.join("\n");
-        
+
         const systemPrompt = `Eres un experto en segmentación de audiencias para CANCAGUA, un spa y centro de retiro en Frutillar, Chile. Analiza el CSV proporcionado y sugiere listas de segmentación útiles para marketing de bienestar y turismo.
 
 ## CONTEXTO DEL NEGOCIO CANCAGUA:
@@ -2434,19 +2435,19 @@ Devuelve un JSON con este formato:
   ],
   "insights": "Observaciones útiles sobre los datos para estrategia de marketing"
 }`;
-        
+
         const userPrompt = `Analiza este CSV y sugiere segmentaciones útiles:\n\n${sample}`;
-        
+
         const response = await invokeLLM({
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt },
           ],
         });
-        
+
         const content = response.choices[0].message.content;
         const analysis = JSON.parse(typeof content === 'string' ? content : '{}');
-        
+
         return analysis;
       }),
 
@@ -2536,7 +2537,7 @@ Devuelve un JSON con este formato:
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        return await db.addSubscriberToList(input.listId, input.subscriberId);
+        return await db.addSubscriberToList(input.subscriberId, input.listId);
       }),
 
     removeSubscriber: protectedProcedure
@@ -2548,7 +2549,7 @@ Devuelve un JSON con este formato:
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        return await db.removeSubscriberFromList(input.listId, input.subscriberId);
+        return await db.removeSubscriberFromList(input.subscriberId, input.listId);
       }),
 
     bulkAddSubscribers: protectedProcedure
@@ -2560,7 +2561,7 @@ Devuelve un JSON con este formato:
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        await db.bulkAddSubscribersToList(input.listId, input.subscriberIds);
+        await db.bulkAddSubscribersToList(input.subscriberIds, input.listId);
         return { success: true, count: input.subscriberIds.length };
       }),
 
@@ -2573,7 +2574,7 @@ Devuelve un JSON con este formato:
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        await db.bulkRemoveSubscribersFromList(input.listId, input.subscriberIds);
+        await db.bulkRemoveSubscribersFromList(input.subscriberIds, input.listId);
         return { success: true, count: input.subscriberIds.length };
       }),
   }),
@@ -2619,13 +2620,13 @@ Devuelve un JSON con este formato:
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         // Verificar que el código no exista
         const existing = await db.getDiscountCodeByCode(input.code);
         if (existing) {
           throw new TRPCError({ code: "CONFLICT", message: "Ya existe un código con ese nombre" });
         }
-        
+
         return await db.createDiscountCode({
           ...input,
           applicableServices: input.applicableServices ? JSON.stringify(input.applicableServices) : null,
@@ -2655,13 +2656,13 @@ Devuelve un JSON con este formato:
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         const { id, applicableServices, ...updateData } = input;
-        
+
         if (applicableServices) {
           (updateData as any).applicableServices = JSON.stringify(applicableServices);
         }
-        
+
         return await db.updateDiscountCode(id, updateData);
       }),
 
@@ -2681,7 +2682,7 @@ Devuelve un JSON con este formato:
       }))
       .query(async ({ ctx, input }) => {
         const userId = ctx.user?.id;
-        return await db.validateDiscountCode(input.code, userId, input.serviceType);
+        const valid = await db.validateDiscountCode(input.code);
       }),
 
     getUsages: protectedProcedure
@@ -2783,14 +2784,14 @@ Devuelve un JSON con este formato:
         if (!giftCard) {
           throw new TRPCError({ code: "NOT_FOUND", message: "Gift card no encontrada" });
         }
-        
+
         // Simular pago exitoso
         await db.updateGiftCard(input.giftCardId, {
           purchaseStatus: "completed",
           paymentMethod: "simulated",
           paymentReference: `SIM-${Date.now()}`,
         });
-        
+
         // Registrar transacción de compra
         await db.createGiftCardTransaction({
           giftCardId: input.giftCardId,
@@ -2800,7 +2801,7 @@ Devuelve un JSON con este formato:
           balanceAfter: giftCard.amount,
           notes: "Compra simulada para pruebas",
         });
-        
+
         return { success: true, giftCard: await db.getGiftCardById(input.giftCardId) };
       }),
 
@@ -2815,7 +2816,7 @@ Devuelve un JSON con este formato:
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        return await db.redeemGiftCard(input.code, input.amount, input.orderId, input.orderType);
+        const result = await db.redeemGiftCard(input.code, input.amount, ctx.user?.name ?? undefined);
       }),
 
     getTransactions: protectedProcedure
@@ -2935,12 +2936,12 @@ Devuelve un JSON con este formato:
           input.targetLanguage,
           input.originalContent
         );
-        
+
         if (!needsUpdate) {
           const existing = await db.getTranslation(input.contentKey, input.targetLanguage);
           return { translatedContent: existing?.translatedContent, cached: true };
         }
-        
+
         // Mapeo de códigos de idioma a nombres
         const languageNames: Record<string, string> = {
           en: "English",
@@ -2948,9 +2949,9 @@ Devuelve un JSON con este formato:
           fr: "French",
           de: "German",
         };
-        
+
         const targetLanguageName = languageNames[input.targetLanguage] || input.targetLanguage;
-        
+
         // Generar traducción con IA
         const systemPrompt = `You are a professional translator for a luxury spa and wellness center website called "Cancagua Spa & Retreat Center" located in southern Chile (Lago Llanquihue area).
 
@@ -2966,16 +2967,16 @@ Guidelines:
 ${input.context ? `\nContext: ${input.context}` : ""}
 
 Respond ONLY with the translated text, no explanations.`;
-        
+
         const response = await invokeLLM({
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: input.originalContent },
           ],
         });
-        
+
         const translatedContent = response.choices[0].message.content as string;
-        
+
         // Guardar en base de datos
         await db.createOrUpdateTranslation({
           contentKey: input.contentKey,
@@ -2983,7 +2984,7 @@ Respond ONLY with the translated text, no explanations.`;
           originalContent: input.originalContent,
           translatedContent: translatedContent.trim(),
         });
-        
+
         return { translatedContent: translatedContent.trim(), cached: false };
       }),
 
@@ -2999,17 +3000,17 @@ Respond ONLY with the translated text, no explanations.`;
       }))
       .mutation(async ({ input }) => {
         const results: Record<string, string> = {};
-        
+
         // Filtrar los que necesitan traducción
         const toTranslate: Array<{ key: string; content: string }> = [];
-        
+
         for (const item of input.items) {
           const needsUpdate = await db.needsRetranslation(
             item.contentKey,
             input.targetLanguage,
             item.originalContent
           );
-          
+
           if (!needsUpdate) {
             const existing = await db.getTranslation(item.contentKey, input.targetLanguage);
             if (existing) {
@@ -3019,7 +3020,7 @@ Respond ONLY with the translated text, no explanations.`;
             toTranslate.push({ key: item.contentKey, content: item.originalContent });
           }
         }
-        
+
         // Si hay contenido para traducir, hacerlo en batch
         if (toTranslate.length > 0) {
           const languageNames: Record<string, string> = {
@@ -3028,15 +3029,15 @@ Respond ONLY with the translated text, no explanations.`;
             fr: "French",
             de: "German",
           };
-          
+
           const targetLanguageName = languageNames[input.targetLanguage] || input.targetLanguage;
-          
+
           // Crear un JSON con todos los textos a traducir
           const textsToTranslate = toTranslate.reduce((acc, item) => {
             acc[item.key] = item.content;
             return acc;
           }, {} as Record<string, string>);
-          
+
           const systemPrompt = `You are a professional translator for a luxury spa website called "Cancagua Spa & Retreat Center".
 
 Translate ALL the following Spanish texts to ${targetLanguageName}.
@@ -3050,20 +3051,20 @@ ${input.context ? `\nContext: ${input.context}` : ""}
 Respond with a JSON object using the same keys, with translated values.
 Example input: {"key1": "Hola mundo"}
 Example output: {"key1": "Hello world"}`;
-          
+
           const response = await invokeLLM({
             messages: [
               { role: "system", content: systemPrompt },
               { role: "user", content: JSON.stringify(textsToTranslate) },
             ],
           });
-          
+
           try {
             const content = response.choices[0].message.content as string;
             // Limpiar el contenido de posibles backticks de markdown
             const cleanContent = content.replace(/```json\n?|```\n?/g, "").trim();
             const translations = JSON.parse(cleanContent);
-            
+
             // Guardar cada traducción
             for (const item of toTranslate) {
               if (translations[item.key]) {
@@ -3097,7 +3098,7 @@ Example output: {"key1": "Hello world"}`;
             }
           }
         }
-        
+
         return results;
       }),
 
@@ -3143,21 +3144,64 @@ Example output: {"key1": "Hello world"}`;
         if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
-        
+
         // Obtener la traducción actual
         const translations = await db.getAllTranslations();
         const current = translations.find(t => t.id === input.id);
-        
+
         if (!current) {
           throw new TRPCError({ code: "NOT_FOUND" });
         }
-        
+
         // Eliminar la traducción actual para forzar regeneración
         await db.deleteTranslation(input.id);
-        
+
         // La próxima vez que se solicite, se regenerará automáticamente
         return { success: true, message: "Traducción eliminada. Se regenerará automáticamente." };
       }),
+  }),
+
+  // Integración Skedu
+  skedu: router({
+    syncServices: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      const { syncSkeduServices } = await import("./skeduSync");
+      return await syncSkeduServices();
+    }),
+    syncEvents: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      const { syncSkeduEvents } = await import("./skeduSync");
+      return await syncSkeduEvents();
+    }),
+    syncClients: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      const { syncSkeduClients } = await import("./skeduSync");
+      return await syncSkeduClients();
+    }),
+    syncAll: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      const { syncAll } = await import("./skeduSync");
+      return await syncAll();
+    }),
+    getSyncStatus: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      const settings = await db.getSiteSettings();
+      return {
+        services: settings.last_skedu_services_sync || null,
+        events: settings.last_skedu_events_sync || null,
+        clients: settings.last_skedu_clients_sync || null,
+      };
+    }),
   }),
 });
 

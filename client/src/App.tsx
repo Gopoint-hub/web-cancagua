@@ -32,6 +32,7 @@ import CMSMarketing from "./pages/cms/Marketing";
 import CMSMetricas from "./pages/cms/Metricas";
 import CMSAdmin from "./pages/cms/Admin";
 import CMSTraducciones from "./pages/cms/Traducciones";
+import CMSIntegraciones from "./pages/cms/Integraciones";
 import CMSLogin from "./pages/cms/Login";
 import CMSActivarCuenta from "./pages/cms/ActivarCuenta";
 import CMSRecuperarContrasena from "./pages/cms/RecuperarContrasena";
@@ -74,69 +75,70 @@ function Router() {
     <>
       <ScrollToTop />
       <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/servicios"} component={Servicios} />
-      <Route path={"/servicios/biopiscinas"} component={ServicioBiopiscinas} />
-      <Route path={"/eventos"} component={EventosLanding} />
-      <Route path={"/eventos/sociales"} component={EventosSociales} />
-      <Route path={"/eventos/empresas"} component={EventosEmpresas} />
-      <Route path={"/cafeteria"} component={Cafeteria} />
-      {/* OCULTO - GIFT CARDS - RESTAURAR: <Route path={"/tienda-regalos-preview"} component={GiftCards} /> */}
-      <Route path={"/contacto"} component={Contacto} />
-      <Route path={"/nosotros"} component={Nosotros} />
-      <Route path={"/carta"} component={Carta} />
-      <Route path={"/navega-relax"} component={NavegaRelax} />
-      <Route path={"/masajes"} component={Masajes} />
-      <Route path={"/clases"} component={ClasesRegulares} />
-      <Route path={"/servicios/hot-tubs"} component={HotTubs} />
-      <Route path={"/servicios/sauna"} component={Sauna} />
-      <Route path={"/eventos/taller-wim-hof"} component={TallerWimHof} />
-      <Route path={"/eventos/heart-coherence-workshop"} component={HeartCoherenceWorkshop} />
-      <Route path={"/servicios/full-day-hot-tubs"} component={FullDayHotTubs} />
-      <Route path={"/servicios/full-day-biopiscinas"} component={FullDayBiopiscinas} />
-      <Route path={"/experiencias/pases-reconecta"} component={PasesReconecta} />
-      <Route path={"/experiencias/pase-reconecta"} component={PaseReconecta} />
-      <Route path={"/experiencias/pase-reconecta-detox"} component={PaseReconectaDetox} />
-      <Route path={"/experiencias/pase-bioreconecta"} component={PaseBioReconecta} />
-      <Route path={"/experiencias/pase-bioreconecta-detox"} component={PaseBioReconectaDetox} />
-      <Route path={"/blog"} component={Blog} />
-      <Route path={"/blog/mejores-termas-sur-chile-2026"} component={MejoresTermasSurChile2026} />
-      <Route path={"/blog/termas-del-sur-de-chile-con-ninos-guia-para-familias"} component={TermasConNinos} />
-      <Route path={"/blog/tecnicas-manejo-estres-laboral"} component={ManejoEstresLaboral} />
-      <Route path={"/blog/termas-del-sur-vs-experiencia-natural"} component={TermasVsExperienciaNatural} />
-      <Route path={"/spa-hotel-cabanas-del-lago"} component={SpaHCDL} />
-      <Route path={"/cms/login"} component={CMSLogin} />
-      <Route path={"/cms/activar-cuenta"} component={CMSActivarCuenta} />
-      <Route path={"/cms/recuperar-contrasena"} component={CMSRecuperarContrasena} />
-      <Route path={"/cms/restablecer-contrasena"} component={CMSRestablecerContrasena} />
-      <Route path={"/cms"} component={CMSDashboard} />
-      <Route path={"/cms/usuarios"} component={CMSUsuarios} />
-      <Route path={"/cms/carta"} component={CMSCarta} />
-      <Route path={"/cms/reservas"} component={CMSReservas} />
-      <Route path={"/cms/mensajes"} component={CMSMensajes} />
-      <Route path={"/cms/productos-corporativos"} component={CMSProductosCorporativos} />
-      <Route path={"/cms/cotizaciones"} component={CMSCotizaciones} />
-      <Route path={"/cms/crear-cotizacion"} component={CMSCrearCotizacion} />
-      <Route path={"/cms/servicios"} component={CMSServicios} />
-      <Route path={"/cms/eventos"} component={CMSEventos} />
-      <Route path={"/cms/clientes"} component={CMSClientes} />
-      <Route path={"/cms/newsletter"} component={CMSNewsletter} />
-      <Route path={"/cms/crear-newsletter"} component={CMSCrearNewsletter} />
-      <Route path={"/cms/suscriptores"} component={CMSSuscriptores} />
-      <Route path={"/cms/listas"} component={CMSListas} />
-      <Route path={"/cms/codigos-descuento"} component={CMSCodigosDescuento} />
-      <Route path={"/cms/analytics"} component={CMSAnalytics} />
-      <Route path={"/cms/configuracion"} component={CMSConfiguracion} />
-      <Route path={"/cms/crm-pipeline"} component={CMSCRMPipeline} />
-      <Route path={"/cms/b2c"} component={CMSB2C} />
-      <Route path={"/cms/b2b"} component={CMSB2B} />
-      <Route path={"/cms/marketing"} component={CMSMarketing} />
-      <Route path={"/cms/metricas"} component={CMSMetricas} />
-      <Route path={"/cms/admin"} component={CMSAdmin} />
-      <Route path={"/cms/traducciones"} component={CMSTraducciones} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
+        <Route path={"/"} component={Home} />
+        <Route path={"/servicios"} component={Servicios} />
+        <Route path={"/servicios/biopiscinas"} component={ServicioBiopiscinas} />
+        <Route path={"/eventos"} component={EventosLanding} />
+        <Route path={"/eventos/sociales"} component={EventosSociales} />
+        <Route path={"/eventos/empresas"} component={EventosEmpresas} />
+        <Route path={"/cafeteria"} component={Cafeteria} />
+        {/* OCULTO - GIFT CARDS - RESTAURAR: <Route path={"/tienda-regalos-preview"} component={GiftCards} /> */}
+        <Route path={"/contacto"} component={Contacto} />
+        <Route path={"/nosotros"} component={Nosotros} />
+        <Route path={"/carta"} component={Carta} />
+        <Route path={"/navega-relax"} component={NavegaRelax} />
+        <Route path={"/masajes"} component={Masajes} />
+        <Route path={"/clases"} component={ClasesRegulares} />
+        <Route path={"/servicios/hot-tubs"} component={HotTubs} />
+        <Route path={"/servicios/sauna"} component={Sauna} />
+        <Route path={"/eventos/taller-wim-hof"} component={TallerWimHof} />
+        <Route path={"/eventos/heart-coherence-workshop"} component={HeartCoherenceWorkshop} />
+        <Route path={"/servicios/full-day-hot-tubs"} component={FullDayHotTubs} />
+        <Route path={"/servicios/full-day-biopiscinas"} component={FullDayBiopiscinas} />
+        <Route path={"/experiencias/pases-reconecta"} component={PasesReconecta} />
+        <Route path={"/experiencias/pase-reconecta"} component={PaseReconecta} />
+        <Route path={"/experiencias/pase-reconecta-detox"} component={PaseReconectaDetox} />
+        <Route path={"/experiencias/pase-bioreconecta"} component={PaseBioReconecta} />
+        <Route path={"/experiencias/pase-bioreconecta-detox"} component={PaseBioReconectaDetox} />
+        <Route path={"/blog"} component={Blog} />
+        <Route path={"/blog/mejores-termas-sur-chile-2026"} component={MejoresTermasSurChile2026} />
+        <Route path={"/blog/termas-del-sur-de-chile-con-ninos-guia-para-familias"} component={TermasConNinos} />
+        <Route path={"/blog/tecnicas-manejo-estres-laboral"} component={ManejoEstresLaboral} />
+        <Route path={"/blog/termas-del-sur-vs-experiencia-natural"} component={TermasVsExperienciaNatural} />
+        <Route path={"/spa-hotel-cabanas-del-lago"} component={SpaHCDL} />
+        <Route path={"/cms/login"} component={CMSLogin} />
+        <Route path={"/cms/activar-cuenta"} component={CMSActivarCuenta} />
+        <Route path={"/cms/recuperar-contrasena"} component={CMSRecuperarContrasena} />
+        <Route path={"/cms/restablecer-contrasena"} component={CMSRestablecerContrasena} />
+        <Route path={"/cms"} component={CMSDashboard} />
+        <Route path={"/cms/usuarios"} component={CMSUsuarios} />
+        <Route path={"/cms/carta"} component={CMSCarta} />
+        <Route path={"/cms/reservas"} component={CMSReservas} />
+        <Route path={"/cms/mensajes"} component={CMSMensajes} />
+        <Route path={"/cms/productos-corporativos"} component={CMSProductosCorporativos} />
+        <Route path={"/cms/cotizaciones"} component={CMSCotizaciones} />
+        <Route path={"/cms/crear-cotizacion"} component={CMSCrearCotizacion} />
+        <Route path={"/cms/servicios"} component={CMSServicios} />
+        <Route path={"/cms/eventos"} component={CMSEventos} />
+        <Route path={"/cms/clientes"} component={CMSClientes} />
+        <Route path={"/cms/newsletter"} component={CMSNewsletter} />
+        <Route path={"/cms/crear-newsletter"} component={CMSCrearNewsletter} />
+        <Route path={"/cms/suscriptores"} component={CMSSuscriptores} />
+        <Route path={"/cms/listas"} component={CMSListas} />
+        <Route path={"/cms/codigos-descuento"} component={CMSCodigosDescuento} />
+        <Route path={"/cms/analytics"} component={CMSAnalytics} />
+        <Route path={"/cms/configuracion"} component={CMSConfiguracion} />
+        <Route path={"/cms/crm-pipeline"} component={CMSCRMPipeline} />
+        <Route path={"/cms/b2c"} component={CMSB2C} />
+        <Route path={"/cms/b2b"} component={CMSB2B} />
+        <Route path={"/cms/marketing"} component={CMSMarketing} />
+        <Route path={"/cms/metricas"} component={CMSMetricas} />
+        <Route path={"/cms/integraciones"} component={CMSIntegraciones} />
+        <Route path={"/cms/admin"} component={CMSAdmin} />
+        <Route path={"/cms/traducciones"} component={CMSTraducciones} />
+        <Route path={"/404"} component={NotFound} />
+        {/* Final fallback route */}
+        <Route component={NotFound} />
       </Switch>
     </>
   );
@@ -152,7 +154,7 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider
         defaultTheme="light"
-        // switchable
+      // switchable
       >
         <LanguageProvider>
           <TooltipProvider>

@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  Users, Settings, ArrowRight, Shield, Key
+import {
+  Users, Settings, ArrowRight, Shield, Key, RefreshCw
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { SEOHead } from "@/components/SEOHead";
@@ -30,6 +30,13 @@ export default function CMSAdmin() {
       icon: Settings,
       path: "/cms/configuracion",
       color: "bg-slate-600",
+    },
+    {
+      title: "Integraciones",
+      description: "Skedu API y servicios externos",
+      icon: RefreshCw,
+      path: "/cms/integraciones",
+      color: "bg-blue-600",
     },
   ];
 
@@ -84,7 +91,7 @@ export default function CMSAdmin() {
         {/* Módulos */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {modules.map((module) => (
-            <Card 
+            <Card
               key={module.path}
               className="cursor-pointer hover:shadow-md transition-all group"
               onClick={() => setLocation(module.path)}

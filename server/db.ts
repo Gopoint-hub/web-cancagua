@@ -214,7 +214,7 @@ export async function updateUserPassword(userId: number, passwordHash: string) {
   if (!db) return false;
 
   try {
-    await db.update(users).set({ 
+    await db.update(users).set({
       passwordHash,
       resetToken: null,
       resetTokenExpiresAt: null,
@@ -231,7 +231,7 @@ export async function activateUser(userId: number, passwordHash: string) {
   if (!db) return false;
 
   try {
-    await db.update(users).set({ 
+    await db.update(users).set({
       passwordHash,
       status: "active",
       invitationToken: null,
@@ -249,7 +249,7 @@ export async function setResetToken(userId: number, resetToken: string, expiresA
   if (!db) return false;
 
   try {
-    await db.update(users).set({ 
+    await db.update(users).set({
       resetToken,
       resetTokenExpiresAt: expiresAt,
     }).where(eq(users.id, userId));
@@ -265,7 +265,7 @@ export async function updateUserLastSignedIn(userId: number) {
   if (!db) return false;
 
   try {
-    await db.update(users).set({ 
+    await db.update(users).set({
       lastSignedIn: new Date(),
     }).where(eq(users.id, userId));
     return true;
@@ -293,7 +293,7 @@ export async function updateUserModules(userId: number, allowedModules: string[]
   if (!db) return false;
 
   try {
-    await db.update(users).set({ 
+    await db.update(users).set({
       allowedModules: JSON.stringify(allowedModules),
     }).where(eq(users.id, userId));
     return true;
@@ -339,7 +339,7 @@ export async function upsertService(service: any) {
   const db = await getDb();
   if (!db) return;
   const { services } = await import("../drizzle/schema");
-  
+
   if (service.skeduId) {
     const existing = await db.select().from(services).where(eq(services.skeduId, service.skeduId)).limit(1);
     if (existing.length > 0) {
@@ -347,7 +347,7 @@ export async function upsertService(service: any) {
       return;
     }
   }
-  
+
   await db.insert(services).values({ ...service, lastSyncedAt: new Date() });
 }
 
@@ -397,7 +397,7 @@ export async function upsertEvent(event: any) {
   const db = await getDb();
   if (!db) return;
   const { events } = await import("../drizzle/schema");
-  
+
   if (event.skeduId) {
     const existing = await db.select().from(events).where(eq(events.skeduId, event.skeduId)).limit(1);
     if (existing.length > 0) {
@@ -405,7 +405,7 @@ export async function upsertEvent(event: any) {
       return;
     }
   }
-  
+
   await db.insert(events).values({ ...event, lastSyncedAt: new Date() });
 }
 
@@ -429,7 +429,7 @@ export async function upsertClient(client: any) {
   const db = await getDb();
   if (!db) return;
   const { clients } = await import("../drizzle/schema");
-  
+
   if (client.skeduId) {
     const existing = await db.select().from(clients).where(eq(clients.skeduId, client.skeduId)).limit(1);
     if (existing.length > 0) {
@@ -437,7 +437,7 @@ export async function upsertClient(client: any) {
       return;
     }
   }
-  
+
   await db.insert(clients).values({ ...client, lastSyncedAt: new Date() });
 }
 
@@ -446,7 +446,7 @@ export async function subscribeToNewsletter(email: string, name?: string) {
   const db = await getDb();
   if (!db) return;
   const { newsletterSubscribers } = await import("../drizzle/schema");
-  
+
   const existing = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.email, email)).limit(1);
   if (existing.length > 0) {
     if (existing[0].status === "unsubscribed") {
@@ -456,7 +456,7 @@ export async function subscribeToNewsletter(email: string, name?: string) {
     }
     return;
   }
-  
+
   await db.insert(newsletterSubscribers).values({ email, name, status: "active" });
 }
 
@@ -615,15 +615,15 @@ export async function getFullMenu() {
   const db = await getDb();
   if (!db) return [];
   const { menuCategories, menuItems } = await import("../drizzle/schema");
-  
+
   const categories = await db.select().from(menuCategories)
     .where(eq(menuCategories.active, 1))
     .orderBy(asc(menuCategories.displayOrder));
-  
+
   const items = await db.select().from(menuItems)
     .where(eq(menuItems.active, 1))
     .orderBy(asc(menuItems.displayOrder));
-  
+
   return categories.map(cat => ({
     ...cat,
     items: items.filter(item => item.categoryId === cat.id),
@@ -653,6 +653,27 @@ export async function updateBookingStatus(id: number, status: string) {
   await db.update(bookings).set({ status: status as any }).where(eq(bookings.id, id));
 }
 
+export async function deleteBooking(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { bookings } = await import("../drizzle/schema");
+  await db.delete(bookings).where(eq(bookings.id, id));
+}
+
+export async function bulkDeleteBookings(ids: number[]) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  const { bookings } = await import("../drizzle/schema");
+  await db.delete(bookings).where(sql`${bookings.id} IN (${sql.join(ids, sql`, `)})`);
+}
+
+export async function bulkUpdateBookingsStatus(ids: number[], status: string) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  const { bookings } = await import("../drizzle/schema");
+  await db.update(bookings).set({ status: status as any }).where(sql`${bookings.id} IN (${sql.join(ids, sql`, `)})`);
+}
+
 // Mensajes de contacto
 export async function createContactMessage(message: any) {
   const db = await getDb();
@@ -673,6 +694,27 @@ export async function updateContactMessageStatus(id: number, status: string) {
   if (!db) return;
   const { contactMessages } = await import("../drizzle/schema");
   await db.update(contactMessages).set({ status: status as any }).where(eq(contactMessages.id, id));
+}
+
+export async function deleteContactMessage(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { contactMessages } = await import("../drizzle/schema");
+  await db.delete(contactMessages).where(eq(contactMessages.id, id));
+}
+
+export async function bulkDeleteContactMessages(ids: number[]) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  const { contactMessages } = await import("../drizzle/schema");
+  await db.delete(contactMessages).where(sql`${contactMessages.id} IN (${sql.join(ids, sql`, `)})`);
+}
+
+export async function bulkUpdateContactMessagesStatus(ids: number[], status: string) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  const { contactMessages } = await import("../drizzle/schema");
+  await db.update(contactMessages).set({ status: status as any }).where(sql`${contactMessages.id} IN (${sql.join(ids, sql`, `)})`);
 }
 
 // Newsletter Subscribers - funciones adicionales
@@ -705,14 +747,58 @@ export async function deleteNewsletterSubscriber(id: number) {
   await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.id, id));
 }
 
+// Aliases y funciones adicionales para Newsletter
+export const getAllSubscribers = getAllNewsletterSubscribers;
+export const getSubscriberById = getNewsletterSubscriberById;
+export const updateSubscriber = updateNewsletterSubscriber;
+export const deleteSubscriber = deleteNewsletterSubscriber;
+
+export async function createSubscriber(data: any) {
+  return await subscribeToNewsletter(data.email, data.name);
+}
+
+export async function getSubscriberByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  const result = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.email, email)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function bulkDeleteSubscribers(ids: number[]) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  await db.delete(newsletterSubscribers).where(sql`${newsletterSubscribers.id} IN (${sql.join(ids, sql`, `)})`);
+}
+
+export async function bulkUpdateSubscribersStatus(ids: number[], status: string) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  const { newsletterSubscribers } = await import("../drizzle/schema");
+  await db.update(newsletterSubscribers).set({ status: status as any }).where(sql`${newsletterSubscribers.id} IN (${sql.join(ids, sql`, `)})`);
+}
+
+export async function getListsForSubscriber(subscriberId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { subscriberLists, listSubscribers } = await import("../drizzle/schema");
+  return await db.select()
+    .from(subscriberLists)
+    .innerJoin(listSubscribers, eq(subscriberLists.id, listSubscribers.listId))
+    .where(eq(listSubscribers.subscriberId, subscriberId));
+}
+
+export const getAllLists = getAllSubscriberLists;
+
 export async function bulkCreateNewsletterSubscribers(subscribers: any[]) {
   const db = await getDb();
   if (!db) return { created: 0, skipped: 0 };
   const { newsletterSubscribers } = await import("../drizzle/schema");
-  
+
   let created = 0;
   let skipped = 0;
-  
+
   for (const sub of subscribers) {
     const existing = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.email, sub.email)).limit(1);
     if (existing.length > 0) {
@@ -728,7 +814,7 @@ export async function bulkCreateNewsletterSubscribers(subscribers: any[]) {
       created++;
     }
   }
-  
+
   return { created, skipped };
 }
 
@@ -740,26 +826,262 @@ export async function getAllSubscriberLists() {
   return await db.select().from(subscriberLists).orderBy(desc(subscriberLists.createdAt));
 }
 
-export async function createSubscriberList(list: any) {
+export async function getListById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { subscriberLists } = await import("../drizzle/schema");
+  const result = await db.select().from(subscriberLists).where(eq(subscriberLists.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createList(list: any) {
   const db = await getDb();
   if (!db) return;
   const { subscriberLists } = await import("../drizzle/schema");
   await db.insert(subscriberLists).values(list);
 }
 
-export async function updateSubscriberList(id: number, data: any) {
+export async function updateList(id: number, data: any) {
   const db = await getDb();
   if (!db) return;
   const { subscriberLists } = await import("../drizzle/schema");
   await db.update(subscriberLists).set(data).where(eq(subscriberLists.id, id));
 }
 
-export async function deleteSubscriberList(id: number) {
+export async function deleteList(id: number) {
   const db = await getDb();
   if (!db) return;
   const { subscriberLists, listSubscribers } = await import("../drizzle/schema");
   await db.delete(listSubscribers).where(eq(listSubscribers.listId, id));
   await db.delete(subscriberLists).where(eq(subscriberLists.id, id));
+}
+
+export async function getSubscribersInList(listId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { newsletterSubscribers, listSubscribers } = await import("../drizzle/schema");
+  return await db.select({
+    id: newsletterSubscribers.id,
+    email: newsletterSubscribers.email,
+    name: newsletterSubscribers.name,
+    status: newsletterSubscribers.status,
+  })
+    .from(newsletterSubscribers)
+    .innerJoin(listSubscribers, eq(newsletterSubscribers.id, listSubscribers.subscriberId))
+    .where(eq(listSubscribers.listId, listId));
+}
+
+export async function addSubscriberToList(subscriberId: number, listId: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { listSubscribers } = await import("../drizzle/schema");
+  await db.insert(listSubscribers).values({ subscriberId, listId }).onDuplicateKeyUpdate({ set: { addedAt: new Date() } });
+}
+
+export async function removeSubscriberFromList(subscriberId: number, listId: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { listSubscribers } = await import("../drizzle/schema");
+  await db.delete(listSubscribers).where(and(eq(listSubscribers.subscriberId, subscriberId), eq(listSubscribers.listId, listId)));
+}
+
+export async function bulkAddSubscribersToList(subscriberIds: number[], listId: number) {
+  const db = await getDb();
+  if (!db || subscriberIds.length === 0) return;
+  const { listSubscribers } = await import("../drizzle/schema");
+  const values = subscriberIds.map(id => ({ subscriberId: id, listId }));
+  await db.insert(listSubscribers).values(values).onDuplicateKeyUpdate({ set: { addedAt: new Date() } });
+}
+
+export async function bulkRemoveSubscribersFromList(subscriberIds: number[], listId: number) {
+  const db = await getDb();
+  if (!db || subscriberIds.length === 0) return;
+  const { listSubscribers } = await import("../drizzle/schema");
+  await db.delete(listSubscribers).where(and(
+    sql`${listSubscribers.subscriberId} IN (${sql.join(subscriberIds, sql`, `)})`,
+    eq(listSubscribers.listId, listId)
+  ));
+}
+
+// Corporate Products
+export async function getAllCorporateProducts() {
+  const db = await getDb();
+  if (!db) return [];
+  const { corporateProducts } = await import("../drizzle/schema");
+  return await db.select().from(corporateProducts).orderBy(asc(corporateProducts.name));
+}
+
+export async function getActiveCorporateProducts() {
+  const db = await getDb();
+  if (!db) return [];
+  const { corporateProducts } = await import("../drizzle/schema");
+  return await db.select().from(corporateProducts).where(eq(corporateProducts.active, 1)).orderBy(asc(corporateProducts.name));
+}
+
+export async function getCorporateProductById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { corporateProducts } = await import("../drizzle/schema");
+  const result = await db.select().from(corporateProducts).where(eq(corporateProducts.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createCorporateProduct(product: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { corporateProducts } = await import("../drizzle/schema");
+  await db.insert(corporateProducts).values(product);
+}
+
+export async function updateCorporateProduct(id: number, data: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { corporateProducts } = await import("../drizzle/schema");
+  await db.update(corporateProducts).set(data).where(eq(corporateProducts.id, id));
+}
+
+export async function deleteCorporateProduct(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { corporateProducts } = await import("../drizzle/schema");
+  await db.delete(corporateProducts).where(eq(corporateProducts.id, id));
+}
+
+// Corporate Clients
+export async function getAllCorporateClients() {
+  const db = await getDb();
+  if (!db) return [];
+  const { corporateClients } = await import("../drizzle/schema");
+  return await db.select().from(corporateClients).orderBy(desc(corporateClients.createdAt));
+}
+
+export async function getCorporateClientById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { corporateClients } = await import("../drizzle/schema");
+  const result = await db.select().from(corporateClients).where(eq(corporateClients.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getCorporateClientByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { corporateClients } = await import("../drizzle/schema");
+  const result = await db.select().from(corporateClients).where(eq(corporateClients.contactEmail, email)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createCorporateClient(client: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { corporateClients } = await import("../drizzle/schema");
+  await db.insert(corporateClients).values(client);
+}
+
+export async function updateCorporateClient(id: number, data: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { corporateClients } = await import("../drizzle/schema");
+  await db.update(corporateClients).set(data).where(eq(corporateClients.id, id));
+}
+
+export async function deleteCorporateClient(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { corporateClients } = await import("../drizzle/schema");
+  await db.delete(corporateClients).where(eq(corporateClients.id, id));
+}
+
+// Quote Items
+export async function getQuoteItems(quoteId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { quoteItems } = await import("../drizzle/schema");
+  return await db.select().from(quoteItems).where(eq(quoteItems.quoteId, quoteId));
+}
+
+export async function createQuoteItem(item: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { quoteItems } = await import("../drizzle/schema");
+  await db.insert(quoteItems).values(item);
+}
+
+export async function deleteQuoteItems(quoteId: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { quoteItems } = await import("../drizzle/schema");
+  await db.delete(quoteItems).where(eq(quoteItems.quoteId, quoteId));
+}
+
+// Discount Codes
+export async function getAllDiscountCodes() {
+  const db = await getDb();
+  if (!db) return [];
+  const { discountCodes } = await import("../drizzle/schema");
+  return await db.select().from(discountCodes).orderBy(desc(discountCodes.createdAt));
+}
+
+export async function getDiscountCodeById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { discountCodes } = await import("../drizzle/schema");
+  const result = await db.select().from(discountCodes).where(eq(discountCodes.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getDiscountCodeByCode(code: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { discountCodes } = await import("../drizzle/schema");
+  const result = await db.select().from(discountCodes).where(eq(discountCodes.code, code.toUpperCase())).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createDiscountCode(codeData: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { discountCodes } = await import("../drizzle/schema");
+  await db.insert(discountCodes).values({ ...codeData, code: codeData.code.toUpperCase() });
+}
+
+export async function updateDiscountCode(id: number, data: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { discountCodes } = await import("../drizzle/schema");
+  if (data.code) data.code = data.code.toUpperCase();
+  await db.update(discountCodes).set(data).where(eq(discountCodes.id, id));
+}
+
+export async function deleteDiscountCode(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { discountCodes } = await import("../drizzle/schema");
+  await db.delete(discountCodes).where(eq(discountCodes.id, id));
+}
+
+export async function validateDiscountCode(code: string) {
+  const db = await getDb();
+  if (!db) return { valid: false, message: "Base de datos no disponible" };
+  const discCode = await getDiscountCodeByCode(code);
+
+  if (!discCode) return { valid: false, message: "Código no encontrado" };
+  if (discCode.active === 0) return { valid: false, message: "Código inactivo" };
+  if (discCode.expiresAt && new Date(discCode.expiresAt) < new Date()) {
+    return { valid: false, message: "Código expirado" };
+  }
+  if (discCode.maxUses && discCode.currentUses >= discCode.maxUses) {
+    return { valid: false, message: "Límite de usos alcanzado" };
+  }
+
+  return { valid: true, code: discCode };
+}
+
+export async function getUsagesForDiscountCode(codeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { discountCodeUsages } = await import("../drizzle/schema");
+  return await db.select().from(discountCodeUsages).where(eq(discountCodeUsages.discountCodeId, codeId));
 }
 
 // Newsletters
@@ -800,6 +1122,53 @@ export async function deleteNewsletter(id: number) {
   await db.delete(newsletterSends).where(eq(newsletterSends.newsletterId, id));
   await db.delete(newsletterLists).where(eq(newsletterLists.newsletterId, id));
   await db.delete(newsletters).where(eq(newsletters.id, id));
+}
+
+export async function bulkDeleteNewsletters(ids: number[]) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  const { newsletters, newsletterSends, newsletterLists } = await import("../drizzle/schema");
+  await db.delete(newsletterSends).where(sql`${newsletterSends.newsletterId} IN (${sql.join(ids, sql`, `)})`);
+  await db.delete(newsletterLists).where(sql`${newsletterLists.newsletterId} IN (${sql.join(ids, sql`, `)})`);
+  await db.delete(newsletters).where(sql`${newsletters.id} IN (${sql.join(ids, sql`, `)})`);
+}
+
+export async function createNewsletterSend(send: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { newsletterSends } = await import("../drizzle/schema");
+  await db.insert(newsletterSends).values(send);
+}
+
+export async function addListToNewsletter(newsletterId: number, listId: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { newsletterLists } = await import("../drizzle/schema");
+  await db.insert(newsletterLists).values({ newsletterId, listId });
+}
+
+export async function getListsForNewsletter(newsletterId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { subscriberLists, newsletterLists } = await import("../drizzle/schema");
+  return await db.select()
+    .from(subscriberLists)
+    .innerJoin(newsletterLists, eq(subscriberLists.id, newsletterLists.listId))
+    .where(eq(newsletterLists.newsletterId, newsletterId));
+}
+
+export async function duplicateNewsletter(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const newsletter = await getNewsletterById(id);
+  if (!newsletter) return;
+
+  const { id: _, createdAt: __, updatedAt: ___, ...data } = newsletter;
+  return await createNewsletter({
+    ...data,
+    subject: `${data.subject} (Copia)`,
+    status: "draft",
+  });
 }
 
 // Gift Cards
@@ -890,8 +1259,31 @@ export async function updateQuote(id: number, data: any) {
 export async function deleteQuote(id: number) {
   const db = await getDb();
   if (!db) return;
-  const { quotes } = await import("../drizzle/schema");
+  const { quotes, quoteItems } = await import("../drizzle/schema");
+  await db.delete(quoteItems).where(eq(quoteItems.quoteId, id));
   await db.delete(quotes).where(eq(quotes.id, id));
+}
+
+export async function updateQuoteStatus(id: number, status: string) {
+  const db = await getDb();
+  if (!db) return;
+  const { quotes } = await import("../drizzle/schema");
+  await db.update(quotes).set({ status: status as any }).where(eq(quotes.id, id));
+}
+
+export async function bulkDeleteQuotes(ids: number[]) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  const { quotes, quoteItems } = await import("../drizzle/schema");
+  await db.delete(quoteItems).where(sql`${quoteItems.quoteId} IN (${sql.join(ids, sql`, `)})`);
+  await db.delete(quotes).where(sql`${quotes.id} IN (${sql.join(ids, sql`, `)})`);
+}
+
+export async function bulkUpdateQuotesStatus(ids: number[], status: string) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  const { quotes } = await import("../drizzle/schema");
+  await db.update(quotes).set({ status: status as any }).where(sql`${quotes.id} IN (${sql.join(ids, sql`, `)})`);
 }
 
 // Blog Articles
@@ -1041,7 +1433,7 @@ export async function updateSiteSetting(key: string, value: string) {
   const db = await getDb();
   if (!db) return;
   const { siteSettings } = await import("../drizzle/schema");
-  
+
   const existing = await db.select().from(siteSettings).where(eq(siteSettings.key, key)).limit(1);
   if (existing.length > 0) {
     await db.update(siteSettings).set({ value, updatedAt: new Date() }).where(eq(siteSettings.key, key));
@@ -1123,17 +1515,17 @@ export async function createOrUpdateTranslation(data: {
   const db = await getDb();
   if (!db) return;
   const { contentTranslations } = await import("../drizzle/schema");
-  
+
   const existing = await db.select().from(contentTranslations)
     .where(and(
       eq(contentTranslations.contentKey, data.contentKey),
       eq(contentTranslations.language, data.language)
     ))
     .limit(1);
-  
+
   // Generar hash si no se proporciona
   const contentHash = data.contentHash || Buffer.from(data.originalContent).toString('base64').slice(0, 64);
-  
+
   if (existing.length > 0) {
     await db.update(contentTranslations)
       .set({
@@ -1179,37 +1571,44 @@ export async function redeemGiftCard(code: string, amount: number, usedBy?: stri
   const db = await getDb();
   if (!db) return { success: false, error: "Database not available" };
   const { giftCards, giftCardTransactions } = await import("../drizzle/schema");
-  
+
   const card = await db.select().from(giftCards).where(eq(giftCards.code, code)).limit(1);
   if (card.length === 0) {
     return { success: false, error: "Gift card not found" };
   }
-  
+
   const giftCard = card[0];
   if (giftCard.status !== 'active') {
     return { success: false, error: "Gift card is not active" };
   }
-  
+
   if (giftCard.balance < amount) {
     return { success: false, error: "Insufficient balance" };
   }
-  
+
   const newBalance = giftCard.balance - amount;
   const newStatus = newBalance === 0 ? 'redeemed' : 'active';
-  
+
   await db.update(giftCards)
     .set({ balance: newBalance, status: newStatus as any })
     .where(eq(giftCards.id, giftCard.id));
-  
+
   await db.insert(giftCardTransactions).values({
     giftCardId: giftCard.id,
     type: 'redemption',
     amount: -amount,
     balanceAfter: newBalance,
-    description: usedBy ? `Redeemed by ${usedBy}` : 'Redemption',
+    description: usedBy ? `Canjeado por ${usedBy}` : 'Canje de Gift Card',
   });
-  
+
   return { success: true, newBalance };
+}
+
+export async function createGiftCardTransaction(transaction: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { giftCardTransactions } = await import("../drizzle/schema");
+  await db.insert(giftCardTransactions).values(transaction);
 }
 
 export async function getGiftCardTransactions(giftCardId: number) {
@@ -1226,14 +1625,14 @@ export async function needsRetranslation(contentKey: string, language: string, c
   const db = await getDb();
   if (!db) return true;
   const { contentTranslations } = await import("../drizzle/schema");
-  
+
   const existing = await db.select().from(contentTranslations)
     .where(and(
       eq(contentTranslations.contentKey, contentKey),
       eq(contentTranslations.language, language)
     ))
     .limit(1);
-  
+
   if (existing.length === 0) return true;
   return existing[0].contentHash !== currentHash;
 }
