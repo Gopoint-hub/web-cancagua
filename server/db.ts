@@ -1699,75 +1699,79 @@ export async function deleteMarketingInvestment(id: number) {
  */
 export async function getMarketingROIReport(params: { startDate: Date; endDate: Date }) {
   const db = await getDb();
-  if (!db) return { channels: [], totals: { investment: 0, revenue: 0, roi: 0 } };
+  if (!db) return { channels: [], totals: { investment: 0, revenue: 0, roi: 0 }, comparison: { investment: 0, revenue: 0, roi: 0 } };
 
   const { marketingInvestments, bookings } = await import("../drizzle/schema");
 
-  // 1. Obtener inversiones en el periodo
-  const investments = await db.select()
-    .from(marketingInvestments)
-    .where(and(
-      gte(marketingInvestments.startDate, params.startDate),
-      sql`${marketingInvestments.endDate} <= ${params.endDate}`
-    ));
+  // Calcular periodo anterior (mismo rando de días inmediatamente antes)
+  const rangeMs = params.endDate.getTime() - params.startDate.getTime();
+  const prevEndDate = new Date(params.startDate.getTime() - 1);
+  const prevStartDate = new Date(prevEndDate.getTime() - rangeMs);
 
-  // 2. Obtener ventas atribuidas en el periodo
-  // Consideramos 'confirmed' y 'pending' (como aproximación) como ventas potenciales
-  const sales = await db.select()
-    .from(bookings)
-    .where(and(
-      or(eq(bookings.status, 'confirmed'), eq(bookings.status, 'pending')),
-      gte(bookings.createdAt, params.startDate),
-      sql`${bookings.createdAt} <= ${params.endDate}`
-    ));
+  const fetchPeriodData = async (start: Date, end: Date) => {
+    // 1. Obtener inversiones
+    const investments = await db.select()
+      .from(marketingInvestments)
+      .where(and(
+        gte(marketingInvestments.startDate, start),
+        sql`${marketingInvestments.endDate} <= ${end}`
+      ));
 
-  // 3. Agrupar por canal
-  const reportByChannel: Record<string, { investment: number, revenue: number, count: number }> = {};
+    // 2. Obtener ventas
+    const sales = await db.select()
+      .from(bookings)
+      .where(and(
+        or(eq(bookings.status, 'confirmed'), eq(bookings.status, 'pending')),
+        gte(bookings.createdAt, start),
+        sql`${bookings.createdAt} <= ${end}`
+      ));
 
-  // Canales permitidos en el enum del schema
-  const channels = ["seo", "facebook_organic", "instagram_organic", "tiktok_organic", "facebook_ads", "instagram_ads", "google_ads", "tiktok_ads", "other"];
+    // 3. Agrupar por canal
+    const reportByChannel: Record<string, { investment: number, revenue: number, count: number }> = {};
+    const channels = ["seo", "facebook_organic", "instagram_organic", "tiktok_organic", "facebook_ads", "instagram_ads", "google_ads", "tiktok_ads", "other"];
+    channels.forEach(ch => { reportByChannel[ch] = { investment: 0, revenue: 0, count: 0 }; });
 
-  channels.forEach(ch => {
-    reportByChannel[ch] = { investment: 0, revenue: 0, count: 0 };
-  });
+    investments.forEach(inv => {
+      if (reportByChannel[inv.channel]) reportByChannel[inv.channel].investment += inv.amount;
+    });
 
-  // Sumar inversiones
-  investments.forEach(inv => {
-    if (reportByChannel[inv.channel]) {
-      reportByChannel[inv.channel].investment += inv.amount;
-    }
-  });
+    sales.forEach(sale => {
+      let channel = "other";
+      const source = (sale.utmSource || "").toLowerCase();
+      const medium = (sale.utmMedium || "").toLowerCase();
 
-  // Sumar ingresos (mapear utmSource a channel si es posible)
-  sales.forEach(sale => {
-    let channel = "other";
-    const source = (sale.utmSource || "").toLowerCase();
-    const medium = (sale.utmMedium || "").toLowerCase();
+      if (source.includes("google") && (medium.includes("cpc") || medium.includes("ads"))) channel = "google_ads";
+      else if (source.includes("google")) channel = "seo";
+      else if (source.includes("facebook") && (medium.includes("cpc") || medium.includes("ads"))) channel = "facebook_ads";
+      else if (source.includes("facebook")) channel = "facebook_organic";
+      else if (source.includes("instagram") && (medium.includes("cpc") || medium.includes("ads"))) channel = "instagram_ads";
+      else if (source.includes("instagram")) channel = "instagram_organic";
+      else if (source.includes("tiktok") && (medium.includes("cpc") || medium.includes("ads"))) channel = "tiktok_ads";
+      else if (source.includes("tiktok")) channel = "tiktok_organic";
 
-    if (source.includes("google") && (medium.includes("cpc") || medium.includes("ads"))) channel = "google_ads";
-    else if (source.includes("google")) channel = "seo";
-    else if (source.includes("facebook") && (medium.includes("cpc") || medium.includes("ads"))) channel = "facebook_ads";
-    else if (source.includes("facebook")) channel = "facebook_organic";
-    else if (source.includes("instagram") && (medium.includes("cpc") || medium.includes("ads"))) channel = "instagram_ads";
-    else if (source.includes("instagram")) channel = "instagram_organic";
-    else if (source.includes("tiktok") && (medium.includes("cpc") || medium.includes("ads"))) channel = "tiktok_ads";
-    else if (source.includes("tiktok")) channel = "tiktok_organic";
+      if (reportByChannel[channel]) {
+        reportByChannel[channel].revenue += sale.amount;
+        reportByChannel[channel].count += 1;
+      }
+    });
 
-    if (reportByChannel[channel]) {
-      reportByChannel[channel].revenue += sale.amount;
-      reportByChannel[channel].count += 1;
-    }
-  });
+    const totals = { investment: 0, revenue: 0, roi: 0 };
+    const channelsList = Object.entries(reportByChannel).map(([name, data]) => {
+      const roi = data.investment > 0 ? (data.revenue - data.investment) / data.investment : 0;
+      totals.investment += data.investment;
+      totals.revenue += data.revenue;
+      return { name, ...data, roi };
+    });
 
-  const totals = { investment: 0, revenue: 0, roi: 0 };
-  const channelsList = Object.entries(reportByChannel).map(([name, data]) => {
-    const roi = data.investment > 0 ? (data.revenue - data.investment) / data.investment : 0;
-    totals.investment += data.investment;
-    totals.revenue += data.revenue;
-    return { name, ...data, roi };
-  });
+    totals.roi = totals.investment > 0 ? (totals.revenue - totals.investment) / totals.investment : 0;
+    return { channels: channelsList, totals };
+  };
 
-  totals.roi = totals.investment > 0 ? (totals.revenue - totals.investment) / totals.investment : 0;
+  const current = await fetchPeriodData(params.startDate, params.endDate);
+  const previous = await fetchPeriodData(prevStartDate, prevEndDate);
 
-  return { channels: channelsList, totals };
+  return {
+    ...current,
+    comparison: previous.totals
+  };
 }

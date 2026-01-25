@@ -444,6 +444,11 @@ export const appRouter = router({
         preferredDate: z.string(), // ISO string
         numberOfPeople: z.number().min(1),
         message: z.string().optional(),
+        utmSource: z.string().optional(),
+        utmMedium: z.string().optional(),
+        utmCampaign: z.string().optional(),
+        utmTerm: z.string().optional(),
+        utmContent: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
         const booking = {

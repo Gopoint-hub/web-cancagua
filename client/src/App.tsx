@@ -69,12 +69,14 @@ import TermasConNinos from "./pages/blog/TermasConNinos";
 import ManejoEstresLaboral from "./pages/blog/ManejoEstresLaboral";
 import TermasVsExperienciaNatural from "./pages/blog/TermasVsExperienciaNatural";
 import SpaHCDL from "./pages/SpaHCDL";
+import UTMTracker from "./components/UTMTracker";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <>
       <ScrollToTop />
+      <UTMTracker />
       <Switch>
         <Route path={"/"} component={Home} />
         <Route path={"/servicios"} component={Servicios} />

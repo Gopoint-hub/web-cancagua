@@ -25,6 +25,29 @@ export function Navbar() {
     setExpandedSection(expandedSection === section ? null : section);
   };
 
+  const getSkeduLink = (baseUrl: string) => {
+    try {
+      const stored = sessionStorage.getItem('cancagua_tracking');
+      if (!stored) return baseUrl;
+
+      const utms = JSON.parse(stored);
+      // Solo nos interesan los UTMs y GCLID/FBCLID
+      const trackingParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
+
+      const url = new URL(baseUrl);
+
+      trackingParams.forEach(param => {
+        if (utms[param]) {
+          url.searchParams.set(param, utms[param]);
+        }
+      });
+
+      return url.toString();
+    } catch (e) {
+      return baseUrl;
+    }
+  };
+
   const servicios = [
     { name: t('services.biopiscinas.name'), href: "/servicios/biopiscinas" },
     { name: t('services.hotTubs.name'), href: "/servicios/hot-tubs" },
@@ -72,9 +95,8 @@ export function Navbar() {
           <nav className="hidden md:flex items-center gap-8">
             <Link
               href="/"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
-                isActive("/") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
-              }`}
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+                }`}
             >
               {t('nav.home')}
             </Link>
@@ -93,11 +115,10 @@ export function Navbar() {
                           <NavigationMenuLink asChild>
                             <Link
                               href={servicio.href}
-                              className={`block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors ${
-                                servicio.highlight 
-                                  ? 'bg-[#1a5276]/10 hover:bg-[#1a5276]/20 text-[#1a5276] border-l-2 border-[#1a5276]' 
-                                  : 'hover:bg-[#F1E7D9] text-[#3a3a3a]'
-                              }`}
+                              className={`block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors ${servicio.highlight
+                                ? 'bg-[#1a5276]/10 hover:bg-[#1a5276]/20 text-[#1a5276] border-l-2 border-[#1a5276]'
+                                : 'hover:bg-[#F1E7D9] text-[#3a3a3a]'
+                                }`}
                             >
                               <div className="text-sm tracking-wide flex items-center gap-2">
                                 {servicio.name}
@@ -177,36 +198,32 @@ export function Navbar() {
 
             <Link
               href="/cafeteria"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
-                isActive("/cafeteria") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
-              }`}
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/cafeteria") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+                }`}
             >
               {t('nav.cafeteria')}
             </Link>
 
             <Link
               href="/nosotros"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
-                isActive("/nosotros") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
-              }`}
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/nosotros") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+                }`}
             >
               {t('nav.about')}
             </Link>
 
             <Link
               href="/contacto"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
-                isActive("/contacto") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
-              }`}
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/contacto") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+                }`}
             >
               {t('nav.contact')}
             </Link>
 
             <Link
               href="/blog"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${
-                isActive("/blog") || location.startsWith("/blog/") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
-              }`}
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/blog") || location.startsWith("/blog/") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+                }`}
             >
               Blog
             </Link>
@@ -215,9 +232,9 @@ export function Navbar() {
           {/* Selector de Idioma y Botón Reservar */}
           <div className="hidden md:flex items-center gap-4">
             <LanguageSelector />
-            <a href="https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw.." target="_blank" rel="noopener noreferrer">
-              <Button 
-                size="lg" 
+            <a href={getSkeduLink("https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw..")} target="_blank" rel="noopener noreferrer">
+              <Button
+                size="lg"
                 className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase text-sm"
               >
                 {t('nav.reserve')}
@@ -366,7 +383,7 @@ export function Navbar() {
                   <LanguageSelector />
                 </div>
 
-                <a href="https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw.." target="_blank" rel="noopener noreferrer" className="block">
+                <a href={getSkeduLink("https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw..")} target="_blank" rel="noopener noreferrer" className="block">
                   <Button
                     size="lg"
                     className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase"

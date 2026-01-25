@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { Calendar, Loader2, Users } from "lucide-react";
+import { getStoredUTMs } from "./UTMTracker";
 
 interface BookingFormProps {
   serviceType: string;
@@ -45,15 +46,18 @@ export function BookingForm({ serviceType, triggerButton }: BookingFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.email || !formData.phone || !formData.preferredDate) {
       toast.error("Por favor completa todos los campos obligatorios");
       return;
     }
 
+    const utms = getStoredUTMs();
+
     createBookingMutation.mutate({
       ...formData,
       serviceType,
+      ...utms
     });
   };
 
