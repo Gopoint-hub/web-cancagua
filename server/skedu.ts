@@ -63,13 +63,29 @@ export async function getSkeduEvents(params?: {
   status?: string;
 }) {
   try {
-    // Mapear camelCase a snake_case que es más común en APIs como Skedu
-    const skeduParams = {
+    // Sintaxis específica requerida por Skedu: Parámetros con comparadores ~ge y ~lt
+    const skeduParams: any = {
       StoreUUID: STORE_UUID,
-      ...params,
-      start_date: params?.startDate,
-      end_date: params?.endDate,
+      limit: 100,
+      offset: 0,
     };
+
+    if (params?.startDate) {
+      // Asegurar formato ISO UTC como en el ejemplo del soporte
+      skeduParams["StartsAt~ge"] = params.startDate.includes("T")
+        ? params.startDate
+        : `${params.startDate}T00:00:00Z`;
+    }
+
+    if (params?.endDate) {
+      skeduParams["StartsAt~lt"] = params.endDate.includes("T")
+        ? params.endDate
+        : `${params.endDate}T23:59:59Z`;
+    }
+
+    if (params?.status) {
+      skeduParams.Status = params.status;
+    }
 
     const response = await axios.get(`${SKEDU_API_BASE_URL}/appointments`, {
       headers: getHeaders(),

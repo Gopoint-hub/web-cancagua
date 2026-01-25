@@ -112,9 +112,9 @@ export async function syncSkeduEvents(params?: { startDate?: string; endDate?: s
                 email: item.email || item.client_email || "",
                 phone: item.phone || item.client_phone || "",
                 serviceType: item.service_name || item.serviceType || "Servicio",
-                preferredDate: new Date(item.date || item.start_date || item.createdAt || new Date()),
+                preferredDate: new Date(item.StartsAt || item.starts_at || item.date || item.start_date || item.createdAt || new Date()),
                 numberOfPeople: item.numberOfPeople || item.people || 1,
-                status: (item.status || "pending").toLowerCase() as any,
+                status: (item.status || item.Status || "pending").toLowerCase() as any,
                 amount: amount,
                 // Atribución
                 utmSource: item.utm_source || item.utmSource,
@@ -122,9 +122,9 @@ export async function syncSkeduEvents(params?: { startDate?: string; endDate?: s
                 utmCampaign: item.utm_campaign || item.utmCampaign,
                 utmTerm: item.utm_term || item.utmTerm,
                 utmContent: item.utm_content || item.utmContent,
-                createdAt: new Date(item.createdAt || item.created_at || item.date || item.start_date || new Date()),
+                createdAt: new Date(item.createdAt || item.created_at || item.StartsAt || item.starts_at || item.date || item.start_date || new Date()),
             });
-            console.log(`[SkeduSync] ✓ Reserva ${item.id} - Monto: ${amount} - Status: ${item.status}`);
+            console.log(`[SkeduSync] ✓ Reserva ${item.id || item.UUID} - Monto: ${amount} - Status: ${item.status || item.Status}`);
             syncCount++;
         }
 
