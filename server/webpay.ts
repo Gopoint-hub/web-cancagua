@@ -5,7 +5,9 @@
  * Soporta tanto el ambiente de integración (pruebas) como producción.
  */
 
-import { WebpayPlus, Options, IntegrationApiKeys, IntegrationCommerceCodes, Environment } from "transbank-sdk";
+// Importación compatible con ESM/CommonJS
+import pkg from "transbank-sdk";
+const { WebpayPlus, Options, IntegrationApiKeys, IntegrationCommerceCodes, Environment } = pkg;
 
 // Configuración del ambiente
 const isProduction = process.env.WEBPAY_ENVIRONMENT === "production";
