@@ -92,6 +92,7 @@ export const categories: Category[] = [
       { icon: MailPlus, label: "Crear Newsletter", path: "/cms/crear-newsletter" },
       { icon: UsersRound, label: "Suscriptores", path: "/cms/suscriptores" },
       { icon: ListChecks, label: "Listas", path: "/cms/listas" },
+      { icon: TrendingUp, label: "ROI de Marketing", path: "/cms/marketing-roi" },
       { icon: Tag, label: "Códigos Dcto.", path: "/cms/codigos-descuento" },
     ],
   },

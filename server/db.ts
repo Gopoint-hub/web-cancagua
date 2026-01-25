@@ -1712,11 +1712,11 @@ export async function getMarketingROIReport(params: { startDate: Date; endDate: 
     ));
 
   // 2. Obtener ventas atribuidas en el periodo
-  // Consideramos 'confirmed' como venta realizada
+  // Consideramos 'confirmed' y 'pending' (como aproximación) como ventas potenciales
   const sales = await db.select()
     .from(bookings)
     .where(and(
-      eq(bookings.status, 'confirmed'),
+      or(eq(bookings.status, 'confirmed'), eq(bookings.status, 'pending')),
       gte(bookings.createdAt, params.startDate),
       sql`${bookings.createdAt} <= ${params.endDate}`
     ));
