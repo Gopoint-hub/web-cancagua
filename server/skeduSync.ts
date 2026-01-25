@@ -71,7 +71,13 @@ export async function syncSkeduClients() {
 export async function syncSkeduEvents(params?: { startDate?: string; endDate?: string }) {
     console.log("[SkeduSync] Iniciando sincronización de reservas/eventos...");
     try {
-        const bookings = await getSkeduBookings(params);
+        // Si no hay rango, por defecto sincronizamos los últimos 90 días para poblar el dashboard
+        const syncParams = params || {
+            startDate: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+        };
+
+        const bookings = await getSkeduBookings(syncParams);
         const items = Array.isArray(bookings) ? bookings : (bookings.items || []);
 
         let syncCount = 0;
@@ -108,6 +114,7 @@ export async function syncSkeduEvents(params?: { startDate?: string; endDate?: s
                 utmContent: item.utm_content || item.utmContent,
                 createdAt: new Date(item.createdAt || item.created_at || item.date || item.start_date || new Date()),
             });
+            console.log(`[SkeduSync] ✓ Reserva ${item.id} - Monto: ${amount} - Status: ${item.status}`);
             syncCount++;
         }
 

@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import {
     TrendingUp, TrendingDown, DollarSign, Target,
-    Calendar as CalendarIcon, Plus, Trash2, ExternalLink
+    Calendar as CalendarIcon, Plus, Trash2, ExternalLink, RefreshCw
 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { format } from "date-fns";
@@ -87,6 +87,8 @@ export default function CMSMarketingROI() {
             refetchReport();
         },
     });
+
+    const syncSkedu = trpc.skedu.syncEvents.useMutation();
 
     const handleCreateInvestment = () => {
         if (newInvestment.amount <= 0) {
@@ -171,6 +173,30 @@ export default function CMSMarketingROI() {
                                 <SelectItem value="last_month">Mes Pasado</SelectItem>
                             </SelectContent>
                         </Select>
+
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                                const t = toast.loading("Sincronizando reservas con Skedu...");
+                                syncSkedu.mutate(undefined, {
+                                    onSuccess: (data) => {
+                                        toast.dismiss(t);
+                                        toast.success(`Éxito: Se sincronizaron ${data.count} reservas.`);
+                                        refetchReport();
+                                    },
+                                    onError: (err) => {
+                                        toast.dismiss(t);
+                                        toast.error(`Error: ${err.message}`);
+                                    }
+                                });
+                            }}
+                            disabled={syncSkedu.isPending}
+                            className="text-xs h-10 border-slate-200"
+                        >
+                            <RefreshCw className={`mr-2 h-3.5 w-3.5 ${syncSkedu.isPending ? "animate-spin" : ""}`} />
+                            {syncSkedu.isPending ? "Sincronizando..." : "Actualizar Datos Skedu"}
+                        </Button>
 
                         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
                             <DialogTrigger asChild>
