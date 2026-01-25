@@ -185,7 +185,7 @@ export default function CMSCodigosDescuento() {
     );
   }
 
-  if (!user || (user.role !== "admin" && user.role !== "editor")) {
+  if (!user || (user.role !== "super_admin" && user.role !== "admin" && user.role !== "editor")) {
     return (
       <DashboardLayout>
         <div className="flex items-center justify-center h-64">

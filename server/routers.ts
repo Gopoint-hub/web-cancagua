@@ -286,7 +286,7 @@ export const appRouter = router({
   menuAdmin: router({
     // Categorías
     getAllCategories: protectedProcedure.query(async ({ ctx }) => {
-      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
         throw new TRPCError({ code: "FORBIDDEN", message: "No tienes permisos para gestionar el menú" });
       }
       return await db.getAllMenuCategories();
@@ -300,7 +300,7 @@ export const appRouter = router({
         displayOrder: z.number().default(0),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.createMenuCategory(input);
@@ -317,7 +317,7 @@ export const appRouter = router({
         active: z.number().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const { id, ...data } = input;
@@ -337,7 +337,7 @@ export const appRouter = router({
     
     // Items
     getAllItems: protectedProcedure.query(async ({ ctx }) => {
-      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
       return await db.getAllMenuItems();
@@ -346,7 +346,7 @@ export const appRouter = router({
     getItemsByCategory: protectedProcedure
       .input(z.object({ categoryId: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getMenuItemsByCategory(input.categoryId);
@@ -364,7 +364,7 @@ export const appRouter = router({
         displayOrder: z.number().default(0),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.createMenuItem(input);
@@ -385,7 +385,7 @@ export const appRouter = router({
         active: z.number().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const { id, ...data } = input;
@@ -396,7 +396,7 @@ export const appRouter = router({
     deleteItem: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.deleteMenuItem(input.id);
@@ -413,7 +413,7 @@ export const appRouter = router({
         mimeType: z.string(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -464,7 +464,7 @@ export const appRouter = router({
     
     // Admin: listar todas las reservas
     list: protectedProcedure.query(async ({ ctx }) => {
-      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
       return await db.getAllBookings();
@@ -477,7 +477,7 @@ export const appRouter = router({
         status: z.enum(["pending", "confirmed", "cancelled"]),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const result = await db.updateBookingStatus(input.id, input.status);
@@ -513,7 +513,7 @@ export const appRouter = router({
         status: z.enum(["pending", "confirmed", "cancelled"]),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.bulkUpdateBookingsStatus(input.ids, input.status);
@@ -574,7 +574,7 @@ export const appRouter = router({
     
     // Admin: listar todos los mensajes
     list: protectedProcedure.query(async ({ ctx }) => {
-      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
       return await db.getAllContactMessages();
@@ -587,7 +587,7 @@ export const appRouter = router({
         status: z.enum(["new", "read", "replied"]),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const result = await db.updateContactMessageStatus(input.id, input.status);
@@ -623,7 +623,7 @@ export const appRouter = router({
         status: z.enum(["new", "read", "replied"]),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.bulkUpdateContactMessagesStatus(input.ids, input.status);
@@ -924,7 +924,7 @@ export const appRouter = router({
   // Productos corporativos (CMS - solo admin y editor)
   corporateProducts: router({
     getAll: protectedProcedure.query(async ({ ctx }) => {
-      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
         throw new TRPCError({ code: "FORBIDDEN", message: "No tienes permisos para gestionar productos corporativos" });
       }
       return await db.getAllCorporateProducts();
@@ -937,7 +937,7 @@ export const appRouter = router({
     getById: protectedProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getCorporateProductById(input.id);
@@ -956,7 +956,7 @@ export const appRouter = router({
         active: z.number().default(1),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.createCorporateProduct(input);
@@ -976,7 +976,7 @@ export const appRouter = router({
         active: z.number().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const { id, ...data } = input;
@@ -986,7 +986,7 @@ export const appRouter = router({
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteCorporateProduct(input.id);
@@ -995,7 +995,7 @@ export const appRouter = router({
     bulkDelete: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const results = await Promise.all(
@@ -1007,7 +1007,7 @@ export const appRouter = router({
     bulkDuplicate: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const products = await Promise.all(
@@ -1046,7 +1046,7 @@ export const appRouter = router({
         }))
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const results = await Promise.all(
@@ -1059,7 +1059,7 @@ export const appRouter = router({
   // Clientes corporativos (CMS - solo admin y editor)
   corporateClients: router({
     getAll: protectedProcedure.query(async ({ ctx }) => {
-      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
       return await db.getAllCorporateClients();
@@ -1068,7 +1068,7 @@ export const appRouter = router({
     getById: protectedProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getCorporateClientById(input.id);
@@ -1077,7 +1077,7 @@ export const appRouter = router({
     getByEmail: protectedProcedure
       .input(z.object({ email: z.string() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getCorporateClientByEmail(input.email);
@@ -1099,7 +1099,7 @@ export const appRouter = router({
         notes: z.string().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.createCorporateClient(input);
@@ -1122,7 +1122,7 @@ export const appRouter = router({
         notes: z.string().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const { id, ...data } = input;
@@ -1132,7 +1132,7 @@ export const appRouter = router({
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteCorporateClient(input.id);
@@ -1142,7 +1142,7 @@ export const appRouter = router({
   // Cotizaciones (CMS - solo admin y editor)
   quotes: router({
     getAll: protectedProcedure.query(async ({ ctx }) => {
-      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
       return await db.getAllQuotes();
@@ -1151,7 +1151,7 @@ export const appRouter = router({
     getById: protectedProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getQuoteById(input.id);
@@ -1160,7 +1160,7 @@ export const appRouter = router({
     getItems: protectedProcedure
       .input(z.object({ quoteId: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getQuoteItems(input.quoteId);
@@ -1197,7 +1197,7 @@ export const appRouter = router({
         })),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1259,7 +1259,7 @@ export const appRouter = router({
         })).optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1288,7 +1288,7 @@ export const appRouter = router({
         status: z.enum(["draft", "sent", "approved", "event_completed", "paid", "invoiced"]),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.updateQuoteStatus(input.id, input.status);
@@ -1297,7 +1297,7 @@ export const appRouter = router({
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteQuote(input.id);
@@ -1307,7 +1307,7 @@ export const appRouter = router({
     bulkDelete: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.bulkDeleteQuotes(input.ids);
@@ -1320,7 +1320,7 @@ export const appRouter = router({
         status: z.enum(["draft", "sent", "approved", "event_completed", "paid", "invoiced"]),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.bulkUpdateQuotesStatus(input.ids, input.status);
@@ -1330,7 +1330,7 @@ export const appRouter = router({
     bulkDuplicate: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1397,7 +1397,7 @@ export const appRouter = router({
     generatePDF: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1460,7 +1460,7 @@ export const appRouter = router({
         additionalEmails: z.array(z.string().email()).optional(), // Emails adicionales para enviar
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1546,7 +1546,7 @@ export const appRouter = router({
   newsletters: router({
     getAll: protectedProcedure
       .query(async ({ ctx }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getAllNewsletters();
@@ -1555,7 +1555,7 @@ export const appRouter = router({
     getById: protectedProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getNewsletterById(input.id);
@@ -1572,7 +1572,7 @@ export const appRouter = router({
         scheduledAt: z.date().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1609,7 +1609,7 @@ export const appRouter = router({
         scheduledAt: z.date().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const { id, ...updateData } = input;
@@ -1619,7 +1619,7 @@ export const appRouter = router({
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteNewsletter(input.id);
@@ -1628,7 +1628,7 @@ export const appRouter = router({
     bulkDelete: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.bulkDeleteNewsletters(input.ids);
@@ -1638,7 +1638,7 @@ export const appRouter = router({
     duplicate: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.duplicateNewsletter(input.id, ctx.user.id);
@@ -1651,7 +1651,7 @@ export const appRouter = router({
         generateImages: z.boolean().optional().default(true),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1804,7 +1804,7 @@ NO incluyas marcadores de código. Devuelve SOLO el JSON válido.`;
         refinementRequest: z.string(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1847,7 +1847,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
     getLists: protectedProcedure
       .input(z.object({ newsletterId: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getListsForNewsletter(input.newsletterId);
@@ -1859,7 +1859,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         testEmail: z.string().email(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1888,7 +1888,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         listIds: z.array(z.number()),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1965,7 +1965,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         fileName: z.string().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -1998,7 +1998,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         url: z.string().url(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -2187,7 +2187,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         audioData: z.string(), // Base64 encoded audio data
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -2230,7 +2230,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
   subscribers: router({
     getAll: protectedProcedure
       .query(async ({ ctx }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getAllSubscribers();
@@ -2239,7 +2239,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
     getById: protectedProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getSubscriberById(input.id);
@@ -2252,7 +2252,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         metadata: z.string().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.createSubscriber({
@@ -2270,7 +2270,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         metadata: z.string().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const { id, ...updateData } = input;
@@ -2280,7 +2280,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteSubscriber(input.id);
@@ -2289,7 +2289,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
     bulkDelete: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.bulkDeleteSubscribers(input.ids);
@@ -2302,7 +2302,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         status: z.enum(["active", "unsubscribed"]),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.bulkUpdateSubscribersStatus(input.ids, input.status);
@@ -2331,7 +2331,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         csvData: z.string(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -2393,7 +2393,7 @@ IMPORTANTE: Devuelve SOLO el código HTML puro modificado, sin marcadores de có
         csvData: z.string(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -2453,7 +2453,7 @@ Devuelve un JSON con este formato:
     getLists: protectedProcedure
       .input(z.object({ subscriberId: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getListsForSubscriber(input.subscriberId);
@@ -2466,7 +2466,7 @@ Devuelve un JSON con este formato:
   lists: router({
     getAll: protectedProcedure
       .query(async ({ ctx }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getAllLists();
@@ -2475,7 +2475,7 @@ Devuelve un JSON con este formato:
     getById: protectedProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getListById(input.id);
@@ -2488,7 +2488,7 @@ Devuelve un JSON con este formato:
         segmentationRules: z.string().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.createList(input);
@@ -2502,7 +2502,7 @@ Devuelve un JSON con este formato:
         segmentationRules: z.string().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const { id, ...updateData } = input;
@@ -2512,7 +2512,7 @@ Devuelve un JSON con este formato:
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteList(input.id);
@@ -2521,7 +2521,7 @@ Devuelve un JSON con este formato:
     getSubscribers: protectedProcedure
       .input(z.object({ listId: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getSubscribersInList(input.listId);
@@ -2533,7 +2533,7 @@ Devuelve un JSON con este formato:
         subscriberId: z.number(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.addSubscriberToList(input.listId, input.subscriberId);
@@ -2545,7 +2545,7 @@ Devuelve un JSON con este formato:
         subscriberId: z.number(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.removeSubscriberFromList(input.listId, input.subscriberId);
@@ -2557,7 +2557,7 @@ Devuelve un JSON con este formato:
         subscriberIds: z.array(z.number()),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.bulkAddSubscribersToList(input.listId, input.subscriberIds);
@@ -2570,7 +2570,7 @@ Devuelve un JSON con este formato:
         subscriberIds: z.array(z.number()),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.bulkRemoveSubscribersFromList(input.listId, input.subscriberIds);
@@ -2584,7 +2584,7 @@ Devuelve un JSON con este formato:
   discountCodes: router({
     getAll: protectedProcedure
       .query(async ({ ctx }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getAllDiscountCodes();
@@ -2593,7 +2593,7 @@ Devuelve un JSON con este formato:
     getById: protectedProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getDiscountCodeById(input.id);
@@ -2616,7 +2616,7 @@ Devuelve un JSON con este formato:
         expiresAt: z.date().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -2652,7 +2652,7 @@ Devuelve un JSON con este formato:
         active: z.number().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         
@@ -2668,7 +2668,7 @@ Devuelve un JSON con este formato:
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteDiscountCode(input.id);
@@ -2687,7 +2687,7 @@ Devuelve un JSON con este formato:
     getUsages: protectedProcedure
       .input(z.object({ discountCodeId: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getUsagesForDiscountCode(input.discountCodeId);
@@ -2700,7 +2700,7 @@ Devuelve un JSON con este formato:
   giftCards: router({
     getAll: protectedProcedure
       .query(async ({ ctx }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getAllGiftCards();
@@ -2709,7 +2709,7 @@ Devuelve un JSON con este formato:
     getById: protectedProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getGiftCardById(input.id);
@@ -2757,7 +2757,7 @@ Devuelve un JSON con este formato:
         deliveredAt: z.date().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         const { id, ...updateData } = input;
@@ -2767,7 +2767,7 @@ Devuelve un JSON con este formato:
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteGiftCard(input.id);
@@ -2812,7 +2812,7 @@ Devuelve un JSON con este formato:
         orderType: z.string().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.redeemGiftCard(input.code, input.amount, input.orderId, input.orderType);
@@ -2821,7 +2821,7 @@ Devuelve un JSON con este formato:
     getTransactions: protectedProcedure
       .input(z.object({ giftCardId: z.number() }))
       .query(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getGiftCardTransactions(input.giftCardId);
@@ -2882,7 +2882,7 @@ Devuelve un JSON con este formato:
 
     // Admin: listar todos los eventos
     list: protectedProcedure.query(async ({ ctx }) => {
-      if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
       return await db.getAllEvents();
@@ -3104,7 +3104,7 @@ Example output: {"key1": "Hello world"}`;
     // Admin: listar todas las traducciones
     list: protectedProcedure
       .query(async ({ ctx }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.getAllTranslations();
@@ -3117,7 +3117,7 @@ Example output: {"key1": "Hello world"}`;
         translatedContent: z.string(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.updateTranslationContent(input.id, input.translatedContent, ctx.user.id);
@@ -3127,7 +3127,7 @@ Example output: {"key1": "Hello world"}`;
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         return await db.deleteTranslation(input.id);
@@ -3140,7 +3140,7 @@ Example output: {"key1": "Hello world"}`;
         context: z.string().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         

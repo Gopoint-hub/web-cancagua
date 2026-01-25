@@ -91,7 +91,7 @@ export default function CMSCarta() {
     );
   }
 
-  if (!user || (user.role !== "admin" && user.role !== "editor")) {
+  if (!user || (user.role !== "super_admin" && user.role !== "admin" && user.role !== "editor")) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Card className="w-96">
