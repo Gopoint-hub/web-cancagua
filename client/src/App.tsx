@@ -42,7 +42,8 @@ import Servicios from "./pages/Servicios";
 import ServicioBiopiscinas from "./pages/ServicioBiopiscinas";
 import Eventos from "./pages/Eventos";
 import Cafeteria from "./pages/Cafeteria";
-// OCULTO - GIFT CARDS - RESTAURAR: import GiftCards from "./pages/GiftCards";
+import GiftCards from "./pages/GiftCards";
+import GiftCardPaymentResult from "./pages/GiftCardPaymentResult";
 import Contacto from "./pages/Contacto";
 import Nosotros from "./pages/Nosotros";
 import Carta from "./pages/Carta";
@@ -85,7 +86,10 @@ function Router() {
         <Route path={"/eventos/sociales"} component={EventosSociales} />
         <Route path={"/eventos/empresas"} component={EventosEmpresas} />
         <Route path={"/cafeteria"} component={Cafeteria} />
-        {/* OCULTO - GIFT CARDS - RESTAURAR: <Route path={"/tienda-regalos-preview"} component={GiftCards} /> */}
+        <Route path={"/gift-cards"} component={GiftCards} />
+        <Route path={"/gift-cards/payment-result"} component={GiftCardPaymentResult} />
+        {/* Ruta legacy para compatibilidad */}
+        <Route path={"/tienda-regalos-preview"} component={GiftCards} />
         <Route path={"/contacto"} component={Contacto} />
         <Route path={"/nosotros"} component={Nosotros} />
         <Route path={"/carta"} component={Carta} />

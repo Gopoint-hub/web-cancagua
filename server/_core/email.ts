@@ -335,3 +335,135 @@ export async function sendWelcomeEmail(
     return { success: false, error: String(error) };
   }
 }
+
+
+/**
+ * Send gift card email with PDF attachment
+ */
+export async function sendGiftCardEmail(params: {
+  to: string;
+  recipientName: string;
+  senderName?: string | null;
+  amount: number;
+  code: string;
+  message?: string | null;
+  pdfBuffer: Buffer;
+}): Promise<EmailResult> {
+  try {
+    const client = getResendClient();
+    const formattedAmount = new Intl.NumberFormat("es-CL", {
+      style: "currency",
+      currency: "CLP",
+      minimumFractionDigits: 0,
+    }).format(params.amount);
+
+    const senderText = params.senderName 
+      ? `<strong>${params.senderName}</strong> te ha enviado` 
+      : "Has recibido";
+
+    const messageSection = params.message 
+      ? `
+        <div style="margin: 24px 0; padding: 20px; background-color: #f0fdf4; border-left: 4px solid #0f766e; border-radius: 4px;">
+          <p style="margin: 0 0 8px; color: #0f766e; font-size: 12px; font-weight: 600; text-transform: uppercase;">Mensaje personal</p>
+          <p style="margin: 0; color: #18181b; font-size: 16px; line-height: 1.6; font-style: italic;">"${params.message}"</p>
+        </div>
+      ` 
+      : "";
+
+    const { data, error } = await client.emails.send({
+      from: FROM_EMAIL,
+      to: [params.to],
+      subject: `🎁 ¡Has recibido una Gift Card de Cancagua por ${formattedAmount}!`,
+      attachments: [
+        {
+          filename: `giftcard-${params.code}.pdf`,
+          content: params.pdfBuffer.toString("base64"),
+        },
+      ],
+      html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu Gift Card de Cancagua</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f5;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 0;">
+        <table role="presentation" style="width: 100%; max-width: 600px; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 20px; text-align: center; background-color: #0f766e; border-radius: 8px 8px 0 0;">
+              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 600;">🎁 Gift Card</h1>
+              <p style="margin: 8px 0 0; color: #99f6e4; font-size: 14px;">Cancagua - Experiencias de Bienestar</p>
+            </td>
+          </tr>
+          
+          <!-- Content -->
+          <tr>
+            <td style="padding: 40px;">
+              <h2 style="margin: 0 0 16px; color: #18181b; font-size: 20px; font-weight: 600;">¡Hola ${params.recipientName}!</h2>
+              <p style="margin: 0 0 24px; color: #52525b; font-size: 16px; line-height: 1.6;">
+                ${senderText} una <strong>Gift Card de Cancagua</strong> por un valor de:
+              </p>
+              
+              <!-- Amount Box -->
+              <div style="margin: 24px 0; padding: 24px; background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%); border-radius: 12px; text-align: center;">
+                <p style="margin: 0; color: #ffffff; font-size: 36px; font-weight: 700;">${formattedAmount}</p>
+                <p style="margin: 8px 0 0; color: #99f6e4; font-size: 14px;">Código: <strong>${params.code}</strong></p>
+              </div>
+              
+              ${messageSection}
+              
+              <p style="margin: 24px 0; color: #52525b; font-size: 16px; line-height: 1.6;">
+                Tu Gift Card está adjunta a este correo en formato PDF. Puedes imprimirla o mostrarla desde tu teléfono al momento de canjearla.
+              </p>
+              
+              <div style="margin: 24px 0; padding: 16px; background-color: #fef3c7; border-radius: 8px;">
+                <p style="margin: 0; color: #92400e; font-size: 14px; line-height: 1.6;">
+                  <strong>📍 ¿Dónde canjearla?</strong><br>
+                  Presenta tu Gift Card en Cancagua para disfrutar de nuestros servicios de spa, hot tubs, masajes y más.
+                </p>
+              </div>
+              
+              <hr style="margin: 32px 0; border: none; border-top: 1px solid #e4e4e7;">
+              
+              <p style="margin: 0; color: #71717a; font-size: 14px; line-height: 1.6;">
+                Si tienes alguna pregunta, contáctanos en <a href="mailto:eventos@cancagua.cl" style="color: #0f766e;">eventos@cancagua.cl</a>
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 24px 40px; background-color: #fafafa; border-radius: 0 0 8px 8px; text-align: center;">
+              <p style="margin: 0 0 8px; color: #52525b; font-size: 14px;">
+                <a href="https://cancagua.cl" style="color: #0f766e; text-decoration: none;">www.cancagua.cl</a>
+              </p>
+              <p style="margin: 0; color: #71717a; font-size: 12px;">
+                © ${new Date().getFullYear()} Cancagua. Todos los derechos reservados.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+      `,
+    });
+
+    if (error) {
+      console.error("[Email] Failed to send gift card email:", error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, messageId: data?.id };
+  } catch (error) {
+    console.error("[Email] Error sending gift card email:", error);
+    return { success: false, error: String(error) };
+  }
+}

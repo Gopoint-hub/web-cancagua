@@ -460,6 +460,14 @@ export const giftCards = mysqlTable("gift_cards", {
   purchaseStatus: mysqlEnum("purchase_status", ["pending", "completed", "cancelled"]).default("pending").notNull(),
   paymentMethod: varchar("payment_method", { length: 50 }), // Método de pago usado
   paymentReference: varchar("payment_reference", { length: 100 }), // Referencia del pago
+  // WebPay Plus integration fields
+  webpayToken: varchar("webpay_token", { length: 100 }), // Token de la transacción WebPay
+  webpayBuyOrder: varchar("webpay_buy_order", { length: 50 }), // Orden de compra única
+  webpaySessionId: varchar("webpay_session_id", { length: 100 }), // ID de sesión
+  webpayAuthorizationCode: varchar("webpay_authorization_code", { length: 20 }), // Código de autorización
+  webpayCardNumber: varchar("webpay_card_number", { length: 20 }), // Últimos 4 dígitos de la tarjeta
+  webpayTransactionDate: timestamp("webpay_transaction_date"), // Fecha de la transacción
+  webpayResponseCode: int("webpay_response_code"), // Código de respuesta (0 = aprobado)
   deliveryMethod: mysqlEnum("delivery_method", ["email", "whatsapp", "download"]).default("email").notNull(),
   deliveredAt: timestamp("delivered_at"), // Fecha de entrega
   expiresAt: timestamp("expires_at").notNull(), // Fecha de expiración (1 año por defecto)

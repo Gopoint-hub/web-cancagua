@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Check, Gift, Download, Share2, Loader2 } from "lucide-react";
+import { Check, Gift, Download, Share2, Loader2, CreditCard, ShieldCheck, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { SEOHead } from "@/components/SEOHead";
@@ -28,13 +28,14 @@ export default function GiftCards() {
   const [nombreDestinatario, setNombreDestinatario] = useState<string>("");
   const [emailDestinatario, setEmailDestinatario] = useState<string>("");
   const [nombreRemitente, setNombreRemitente] = useState<string>("");
+  const [emailRemitente, setEmailRemitente] = useState<string>("");
   const [backgroundImageId, setBackgroundImageId] = useState<string>("spa-green");
   const [compraExitosa, setCompraExitosa] = useState(false);
   const [giftCardId, setGiftCardId] = useState<number | null>(null);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const { data: backgroundImages } = trpc.giftCards.getBackgroundImages.useQuery();
-  const createGiftCard = trpc.giftCards.create.useMutation();
-  const simulatePurchase = trpc.giftCards.simulatePurchase.useMutation();
+  const initiatePayment = trpc.giftCards.initiatePayment.useMutation();
   const generatePDF = trpc.giftCards.generatePDF.useMutation();
 
   const montosPredefin_idos = [
@@ -70,42 +71,52 @@ export default function GiftCards() {
 
   const handleComprar = async () => {
     const amount = getMontoFinal();
-    if (amount < 10000) {
-      alert("El monto mínimo es $10.000");
+    if (amount < 5000) {
+      alert("El monto mínimo es $5.000");
       return;
     }
 
     if (!nombreDestinatario || !emailDestinatario) {
-      alert("Por favor completa todos los campos requeridos");
+      alert("Por favor completa el nombre y email del destinatario");
       return;
     }
 
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailDestinatario)) {
+      alert("Por favor ingresa un email válido para el destinatario");
+      return;
+    }
+
+    if (emailRemitente && !emailRegex.test(emailRemitente)) {
+      alert("Por favor ingresa un email válido para el remitente");
+      return;
+    }
+
+    setIsProcessingPayment(true);
+
     try {
-      // Crear gift card
-      const createResult = await createGiftCard.mutateAsync({
+      // Iniciar transacción de pago con WebPay
+      const result = await initiatePayment.mutateAsync({
         amount,
         backgroundImage: backgroundImages?.find((img) => img.id === backgroundImageId)?.url || "",
         recipientName: nombreDestinatario,
         recipientEmail: emailDestinatario,
         senderName: nombreRemitente || undefined,
+        senderEmail: emailRemitente || undefined,
         personalMessage: mensaje || undefined,
+        deliveryMethod: "email",
       });
 
-      if (!createResult.giftCard) {
-        throw new Error("No se pudo crear la gift card");
+      if (result.success && result.paymentUrl) {
+        // Redirigir a WebPay
+        window.location.href = `${result.paymentUrl}?token_ws=${result.token}`;
+      } else {
+        throw new Error("No se pudo iniciar el pago");
       }
-
-      // Simular compra (sin pasarela de pago)
-      await simulatePurchase.mutateAsync({
-        giftCardId: createResult.giftCard.id,
-      });
-
-      setGiftCardId(createResult.giftCard.id);
-      setCompraExitosa(true);
-
-      alert("¡Gift Card creada exitosamente!");
-    } catch (error) {
-      alert("No se pudo crear la gift card. Intenta nuevamente.");
+    } catch (error: any) {
+      setIsProcessingPayment(false);
+      alert(error.message || "No se pudo iniciar el pago. Intenta nuevamente.");
     }
   };
 
@@ -258,6 +269,7 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
                       setNombreDestinatario("");
                       setEmailDestinatario("");
                       setNombreRemitente("");
+                      setEmailRemitente("");
                     }}
                   >
                     Crear otra Gift Card
@@ -272,25 +284,22 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full bg-[#25D366]/20 flex items-center justify-center flex-shrink-0">
                     <svg className="h-6 w-6 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-light text-lg tracking-wide mb-2 text-[#3a3a3a]">Únete a nuestra comunidad</h3>
-                    <p className="text-sm text-[#8C8C8C] mb-4">
-                      Forma parte del grupo de WhatsApp de Cancagua y recibe promociones exclusivas, novedades y tips de bienestar.
+                    <h3 className="font-semibold text-lg mb-1">¿Quieres recibir ofertas exclusivas?</h3>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Únete a nuestra comunidad de WhatsApp y recibe promociones especiales, novedades y descuentos exclusivos.
                     </p>
-                    <a
-                      href="https://chat.whatsapp.com/GX12Kr6Q6jSDvBUfVrloNy"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white rounded-lg hover:bg-[#20BA5A] transition-colors font-medium text-sm"
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10"
+                      onClick={() => window.open("https://chat.whatsapp.com/LYaRz1TQqKv9Ej4qNuNkfZ", "_blank")}
                     >
-                      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                      </svg>
                       Unirme al grupo
-                    </a>
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -309,215 +318,250 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
       <SEOHead {...seoData} />
       <Navbar />
 
-      <main>
-        {/* Hero */}
-        <section className="relative h-[40vh] md:h-[50vh] overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url(/images/10_cancagua-header.jpg)" }}
-          />
-          <div className="absolute inset-0 bg-black/50" />
-          <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
-            <Gift className="h-16 w-16 mb-4" />
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              Gift Cards Cancagua
-            </h1>
-            <p className="text-lg md:text-xl max-w-2xl">
-              Regala bienestar, regala experiencias únicas en la naturaleza
-            </p>
-          </div>
-        </section>
-
-        {/* Descripción */}
-        <section className="py-16 bg-muted">
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="relative py-16 md:py-24 bg-gradient-to-b from-primary/5 to-background">
           <div className="container">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">
-                El Regalo Perfecto con Sentido
-              </h2>
+            <div className="text-center max-w-3xl mx-auto">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-6">
+                <Gift className="h-8 w-8" />
+              </div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                Regala Bienestar
+              </h1>
               <p className="text-lg text-muted-foreground">
-                La tarjeta de regalo Cancagua es una excelente opción para que
-                tus seres queridos elijan lo que quieran y cuando quieran.
-                Pueden usarla en biopiscinas, hot tubs, masajes, clases, eventos
-                o en nuestra cafetería saludable.
+                Sorprende a quienes más quieres con una experiencia única de
+                relajación y conexión con la naturaleza en Cancagua.
               </p>
             </div>
           </div>
         </section>
 
         {/* Formulario de compra */}
-        <section className="py-16 md:py-24">
+        <section className="py-12 md:py-16">
           <div className="container">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
               {/* Formulario */}
-              <div>
-                <h2 className="text-3xl font-bold mb-8">
-                  Personaliza tu Gift Card
-                </h2>
-
-                <div className="space-y-6">
-                  {/* Selección de diseño */}
-                  {backgroundImages && backgroundImages.length > 0 && (
-                    <div>
-                      <Label className="text-base font-semibold mb-3 block">
-                        Selecciona el diseño
-                      </Label>
-                      <RadioGroup
-                        value={backgroundImageId}
-                        onValueChange={setBackgroundImageId}
-                        className="grid grid-cols-2 md:grid-cols-3 gap-4"
-                      >
-                        {backgroundImages.map((image) => (
-                          <div key={image.id}>
-                            <RadioGroupItem
-                              value={image.id}
-                              id={image.id}
-                              className="peer sr-only"
-                            />
-                            <Label
-                              htmlFor={image.id}
-                              className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-popover p-2 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer overflow-hidden"
-                            >
-                              <img
-                                src={image.url}
-                                alt={image.name}
-                                className="w-full h-24 object-cover rounded mb-2"
-                              />
-                              <span className="text-xs">{image.name}</span>
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
-                    </div>
-                  )}
-
-                  {/* Selección de monto */}
-                  <div>
-                    <Label className="text-base font-semibold mb-3 block">
-                      Selecciona el monto
-                    </Label>
+              <div className="space-y-8">
+                {/* Selección de monto */}
+                <Card>
+                  <CardHeader>
+                    <h2 className="text-xl font-semibold">1. Elige el monto</h2>
+                  </CardHeader>
+                  <CardContent>
                     <RadioGroup
                       value={montoSeleccionado}
                       onValueChange={setMontoSeleccionado}
-                      className="grid grid-cols-2 gap-4"
+                      className="grid grid-cols-2 md:grid-cols-3 gap-3"
                     >
                       {montosPredefin_idos.map((monto) => (
-                        <div key={monto.valor}>
+                        <Label
+                          key={monto.valor}
+                          htmlFor={monto.valor}
+                          className={`flex items-center justify-center p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                            montoSeleccionado === monto.valor
+                              ? "border-primary bg-primary/5"
+                              : "border-muted hover:border-primary/50"
+                          }`}
+                        >
                           <RadioGroupItem
                             value={monto.valor}
                             id={monto.valor}
-                            className="peer sr-only"
+                            className="sr-only"
                           />
-                          <Label
-                            htmlFor={monto.valor}
-                            className="flex items-center justify-center rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
-                          >
-                            {monto.label}
-                          </Label>
-                        </div>
+                          <span className="font-medium">{monto.label}</span>
+                        </Label>
                       ))}
                     </RadioGroup>
 
                     {montoSeleccionado === "personalizado" && (
                       <div className="mt-4">
-                        <Label htmlFor="monto-personalizado">
-                          Ingresa el monto
+                        <Label htmlFor="montoPersonalizado">
+                          Ingresa el monto (mínimo $5.000)
                         </Label>
                         <Input
-                          id="monto-personalizado"
+                          id="montoPersonalizado"
                           type="number"
-                          placeholder="Ej: 85000"
-                          value={montoPersonalizado}
-                          onChange={(e) => setMontoPersonalizado(e.target.value)}
-                          min="10000"
+                          min="5000"
                           step="1000"
+                          placeholder="Ej: 45000"
+                          value={montoPersonalizado}
+                          onChange={(e) =>
+                            setMontoPersonalizado(e.target.value)
+                          }
+                          className="mt-2"
                         />
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Monto mínimo: $10.000
-                        </p>
                       </div>
                     )}
+                  </CardContent>
+                </Card>
+
+                {/* Selección de diseño */}
+                <Card>
+                  <CardHeader>
+                    <h2 className="text-xl font-semibold">2. Elige el diseño</h2>
+                  </CardHeader>
+                  <CardContent>
+                    <RadioGroup
+                      value={backgroundImageId}
+                      onValueChange={setBackgroundImageId}
+                      className="grid grid-cols-2 md:grid-cols-3 gap-3"
+                    >
+                      {backgroundImages?.map((img) => (
+                        <Label
+                          key={img.id}
+                          htmlFor={img.id}
+                          className={`relative aspect-video rounded-lg overflow-hidden cursor-pointer transition-all ${
+                            backgroundImageId === img.id
+                              ? "ring-2 ring-primary ring-offset-2"
+                              : "hover:opacity-80"
+                          }`}
+                        >
+                          <RadioGroupItem
+                            value={img.id}
+                            id={img.id}
+                            className="sr-only"
+                          />
+                          <img
+                            src={img.url}
+                            alt={img.name}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/20 flex items-end p-2">
+                            <span className="text-white text-xs font-medium">
+                              {img.name}
+                            </span>
+                          </div>
+                        </Label>
+                      ))}
+                    </RadioGroup>
+                  </CardContent>
+                </Card>
+
+                {/* Datos del destinatario */}
+                <Card>
+                  <CardHeader>
+                    <h2 className="text-xl font-semibold">
+                      3. Datos del destinatario
+                    </h2>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <Label htmlFor="nombreDestinatario">
+                        Nombre del destinatario *
+                      </Label>
+                      <Input
+                        id="nombreDestinatario"
+                        placeholder="¿Para quién es la gift card?"
+                        value={nombreDestinatario}
+                        onChange={(e) => setNombreDestinatario(e.target.value)}
+                        className="mt-2"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="emailDestinatario">
+                        Email del destinatario *
+                      </Label>
+                      <Input
+                        id="emailDestinatario"
+                        type="email"
+                        placeholder="email@ejemplo.com"
+                        value={emailDestinatario}
+                        onChange={(e) => setEmailDestinatario(e.target.value)}
+                        className="mt-2"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        La gift card será enviada a este email
+                      </p>
+                    </div>
+                    <div>
+                      <Label htmlFor="nombreRemitente">
+                        Tu nombre (opcional)
+                      </Label>
+                      <Input
+                        id="nombreRemitente"
+                        placeholder="¿De parte de quién?"
+                        value={nombreRemitente}
+                        onChange={(e) => setNombreRemitente(e.target.value)}
+                        className="mt-2"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="emailRemitente">
+                        Tu email (opcional)
+                      </Label>
+                      <Input
+                        id="emailRemitente"
+                        type="email"
+                        placeholder="tu@email.com"
+                        value={emailRemitente}
+                        onChange={(e) => setEmailRemitente(e.target.value)}
+                        className="mt-2"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Recibirás una copia de la gift card
+                      </p>
+                    </div>
+                    <div>
+                      <Label htmlFor="mensaje">Mensaje personalizado</Label>
+                      <Textarea
+                        id="mensaje"
+                        placeholder="Escribe un mensaje especial para el destinatario..."
+                        value={mensaje}
+                        onChange={(e) => setMensaje(e.target.value)}
+                        className="mt-2"
+                        rows={3}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Información de pago y botón */}
+                <div className="space-y-4">
+                  {/* Aviso de pago seguro */}
+                  <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-900">
+                    <ShieldCheck className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                    <div className="text-sm">
+                      <p className="font-medium text-blue-900 dark:text-blue-100">Pago 100% seguro con WebPay</p>
+                      <p className="text-blue-700 dark:text-blue-300 mt-1">
+                        Serás redirigido a la plataforma segura de Transbank para completar tu pago con tarjeta de crédito o débito.
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Datos del remitente */}
-                  <div>
-                    <Label htmlFor="nombre-remitente">
-                      Tu nombre (opcional)
-                    </Label>
-                    <Input
-                      id="nombre-remitente"
-                      placeholder="Ej: Juan Pérez"
-                      value={nombreRemitente}
-                      onChange={(e) => setNombreRemitente(e.target.value)}
-                    />
-                  </div>
-
-                  {/* Datos del destinatario */}
-                  <div>
-                    <Label htmlFor="nombre-destinatario">
-                      Nombre del destinatario *
-                    </Label>
-                    <Input
-                      id="nombre-destinatario"
-                      placeholder="Ej: María González"
-                      value={nombreDestinatario}
-                      onChange={(e) => setNombreDestinatario(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="email-destinatario">
-                      Email del destinatario *
-                    </Label>
-                    <Input
-                      id="email-destinatario"
-                      type="email"
-                      placeholder="maria@ejemplo.com"
-                      value={emailDestinatario}
-                      onChange={(e) => setEmailDestinatario(e.target.value)}
-                      required
-                    />
-                    <p className="text-xs text-muted-foreground mt-1">
-                      La gift card será enviada a este correo
-                    </p>
-                  </div>
-
-                  {/* Mensaje personalizado */}
-                  <div>
-                    <Label htmlFor="mensaje">Mensaje personalizado</Label>
-                    <Textarea
-                      id="mensaje"
-                      placeholder="Escribe un mensaje especial para el destinatario..."
-                      value={mensaje}
-                      onChange={(e) => setMensaje(e.target.value)}
-                      rows={4}
-                      maxLength={300}
-                    />
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {mensaje.length}/300 caracteres
-                    </p>
+                  {/* Aviso de envío */}
+                  <div className="flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-900">
+                    <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+                    <div className="text-sm">
+                      <p className="font-medium text-amber-900 dark:text-amber-100">Entrega inmediata</p>
+                      <p className="text-amber-700 dark:text-amber-300 mt-1">
+                        Una vez confirmado el pago, la gift card será enviada automáticamente al email del destinatario.
+                      </p>
+                    </div>
                   </div>
 
                   {/* Botón de compra */}
                   <Button
                     size="lg"
                     className="w-full"
-                    disabled={!getMontoFinal() || createGiftCard.isPending || simulatePurchase.isPending}
+                    disabled={!getMontoFinal() || getMontoFinal() < 5000 || initiatePayment.isPending || isProcessingPayment}
                     onClick={handleComprar}
                   >
-                    {createGiftCard.isPending || simulatePurchase.isPending ? (
+                    {initiatePayment.isPending || isProcessingPayment ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Procesando...
                       </>
                     ) : (
-                      "Comprar Gift Card"
+                      <>
+                        <CreditCard className="mr-2 h-4 w-4" />
+                        Pagar {getMontoFinal() > 0 ? formatPrecio(getMontoFinal()) : ""} con WebPay
+                      </>
                     )}
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center">
-                    Compra simulada para pruebas (sin pasarela de pago)
+                    Al hacer clic en "Pagar", serás redirigido a WebPay de Transbank
                   </p>
                 </div>
               </div>
@@ -613,6 +657,16 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
                     </ul>
                   </CardContent>
                 </Card>
+
+                {/* Logo de WebPay */}
+                <div className="flex items-center justify-center gap-4 p-4 bg-muted/50 rounded-lg">
+                  <span className="text-xs text-muted-foreground">Pago seguro con</span>
+                  <img 
+                    src="https://www.transbankdevelopers.cl/public/library/img/svg/logo_webpay.svg" 
+                    alt="WebPay" 
+                    className="h-8"
+                  />
+                </div>
               </div>
             </div>
           </div>

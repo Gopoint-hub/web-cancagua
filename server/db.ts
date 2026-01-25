@@ -1241,6 +1241,14 @@ export async function deleteGiftCard(id: number) {
   await db.delete(giftCards).where(eq(giftCards.id, id));
 }
 
+export async function getGiftCardByBuyOrder(buyOrder: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { giftCards } = await import("../drizzle/schema");
+  const result = await db.select().from(giftCards).where(eq(giftCards.webpayBuyOrder, buyOrder)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
 // Quotes
 export async function getAllQuotes() {
   const db = await getDb();

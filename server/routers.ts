@@ -2872,6 +2872,277 @@ Devuelve un JSON con este formato:
           filename: `giftcard-${giftCard.code}.pdf`,
         };
       }),
+
+    // ============================================
+    // WEBPAY PLUS INTEGRATION
+    // ============================================
+
+    /**
+     * Iniciar transacción de pago con WebPay Plus
+     * Crea la gift card y genera la transacción de pago
+     */
+    initiatePayment: publicProcedure
+      .input(z.object({
+        amount: z.number().min(5000, "El monto mínimo es $5.000"),
+        backgroundImage: z.string().default("default"),
+        recipientName: z.string().optional(),
+        recipientEmail: z.string().email().optional(),
+        recipientPhone: z.string().optional(),
+        senderName: z.string().optional(),
+        senderEmail: z.string().email().optional(),
+        personalMessage: z.string().optional(),
+        deliveryMethod: z.enum(["email", "whatsapp", "download"]).default("email"),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const { createTransaction, generateBuyOrder, generateSessionId } = await import("./webpay");
+        
+        // Generar código único para la gift card
+        const code = `GC-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+        
+        // Crear la gift card con estado pendiente
+        const giftCardData = {
+          code,
+          amount: input.amount,
+          balance: input.amount,
+          backgroundImage: input.backgroundImage,
+          recipientName: input.recipientName,
+          recipientEmail: input.recipientEmail,
+          recipientPhone: input.recipientPhone,
+          senderName: input.senderName,
+          senderEmail: input.senderEmail,
+          personalMessage: input.personalMessage,
+          deliveryMethod: input.deliveryMethod,
+          purchaseStatus: "pending" as const,
+          status: "active" as const,
+          expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 año
+        };
+        
+        const createdGiftCard = await db.createGiftCard(giftCardData);
+        
+        // Obtener el ID de la gift card recién creada
+        const giftCard = await db.getGiftCardByCode(code);
+        if (!giftCard) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al crear gift card" });
+        }
+        
+        // Generar identificadores para WebPay
+        const buyOrder = generateBuyOrder(giftCard.id);
+        const sessionId = generateSessionId();
+        
+        // Determinar la URL de retorno
+        const baseUrl = process.env.NODE_ENV === "production" 
+          ? "https://cancagua.cl" 
+          : ctx.req?.headers?.origin || "http://localhost:3000";
+        const returnUrl = `${baseUrl}/gift-cards/payment-result`;
+        
+        try {
+          // Crear transacción en WebPay
+          const webpayResponse = await createTransaction(
+            buyOrder,
+            sessionId,
+            input.amount,
+            returnUrl
+          );
+          
+          // Actualizar la gift card con los datos de WebPay
+          await db.updateGiftCard(giftCard.id, {
+            webpayToken: webpayResponse.token,
+            webpayBuyOrder: buyOrder,
+            webpaySessionId: sessionId,
+            paymentMethod: "webpay",
+          });
+          
+          return {
+            success: true,
+            giftCardId: giftCard.id,
+            giftCardCode: code,
+            paymentUrl: webpayResponse.url,
+            token: webpayResponse.token,
+          };
+        } catch (error: any) {
+          // Si falla WebPay, eliminar la gift card creada
+          await db.deleteGiftCard(giftCard.id);
+          throw new TRPCError({ 
+            code: "INTERNAL_SERVER_ERROR", 
+            message: `Error al iniciar pago: ${error.message}` 
+          });
+        }
+      }),
+
+    /**
+     * Confirmar transacción de WebPay Plus
+     * Se llama cuando el usuario vuelve de WebPay
+     */
+    confirmPayment: publicProcedure
+      .input(z.object({
+        token_ws: z.string().optional(),
+        TBK_TOKEN: z.string().optional(),
+        TBK_ORDEN_COMPRA: z.string().optional(),
+        TBK_ID_SESION: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { commitTransaction, isTransactionApproved } = await import("./webpay");
+        
+        // Caso 1: Pago exitoso o rechazado (viene token_ws)
+        if (input.token_ws) {
+          try {
+            const result = await commitTransaction(input.token_ws);
+            
+            // Buscar la gift card por buyOrder
+            const giftCard = await db.getGiftCardByBuyOrder(result.buyOrder);
+            if (!giftCard) {
+              throw new TRPCError({ code: "NOT_FOUND", message: "Gift card no encontrada" });
+            }
+            
+            const isApproved = isTransactionApproved(result.responseCode, result.status);
+            
+            if (isApproved) {
+              // Pago exitoso
+              await db.updateGiftCard(giftCard.id, {
+                purchaseStatus: "completed",
+                webpayAuthorizationCode: result.authorizationCode,
+                webpayCardNumber: result.cardNumber,
+                webpayTransactionDate: new Date(result.transactionDate),
+                webpayResponseCode: result.responseCode,
+                paymentReference: result.authorizationCode,
+              });
+              
+              // Registrar transacción de compra
+              await db.createGiftCardTransaction({
+                giftCardId: giftCard.id,
+                transactionType: "purchase",
+                amount: giftCard.amount,
+                balanceBefore: 0,
+                balanceAfter: giftCard.amount,
+                notes: `Pago WebPay - Auth: ${result.authorizationCode}`,
+              });
+              
+              // Enviar email con la gift card
+              try {
+                const { sendGiftCardEmail } = await import("./_core/email");
+                const { generateGiftCardPDF } = await import("./giftcardPdfGenerator");
+                
+                const pdfBuffer = await generateGiftCardPDF({
+                  amount: giftCard.amount,
+                  recipientName: giftCard.recipientName || "Destinatario",
+                  recipientEmail: giftCard.recipientEmail || "",
+                  message: giftCard.personalMessage || undefined,
+                  backgroundImage: giftCard.backgroundImage || "/images/giftcard-backgrounds/spa-green.jpg",
+                  code: giftCard.code,
+                });
+                
+                const emailTo = giftCard.recipientEmail || giftCard.senderEmail;
+                if (emailTo) {
+                  await sendGiftCardEmail({
+                    to: emailTo,
+                    recipientName: giftCard.recipientName || "Estimado/a",
+                    senderName: giftCard.senderName,
+                    amount: giftCard.amount,
+                    code: giftCard.code,
+                    message: giftCard.personalMessage,
+                    pdfBuffer,
+                  });
+                  
+                  await db.updateGiftCard(giftCard.id, {
+                    deliveredAt: new Date(),
+                  });
+                }
+              } catch (emailError) {
+                console.error("Error enviando email de gift card:", emailError);
+                // No lanzar error, el pago fue exitoso
+              }
+              
+              return {
+                success: true,
+                status: "approved",
+                giftCardId: giftCard.id,
+                giftCardCode: giftCard.code,
+                amount: giftCard.amount,
+                message: "¡Pago exitoso! Tu Gift Card ha sido enviada.",
+              };
+            } else {
+              // Pago rechazado
+              await db.updateGiftCard(giftCard.id, {
+                purchaseStatus: "cancelled",
+                webpayResponseCode: result.responseCode,
+              });
+              
+              return {
+                success: false,
+                status: "rejected",
+                giftCardId: giftCard.id,
+                message: "El pago fue rechazado. Por favor, intenta nuevamente.",
+              };
+            }
+          } catch (error: any) {
+            console.error("Error confirmando pago WebPay:", error);
+            throw new TRPCError({ 
+              code: "INTERNAL_SERVER_ERROR", 
+              message: `Error al confirmar pago: ${error.message}` 
+            });
+          }
+        }
+        
+        // Caso 2: Usuario abortó el pago (viene TBK_TOKEN)
+        if (input.TBK_TOKEN && input.TBK_ORDEN_COMPRA) {
+          const giftCard = await db.getGiftCardByBuyOrder(input.TBK_ORDEN_COMPRA);
+          if (giftCard) {
+            await db.updateGiftCard(giftCard.id, {
+              purchaseStatus: "cancelled",
+            });
+          }
+          
+          return {
+            success: false,
+            status: "aborted",
+            message: "El pago fue cancelado.",
+          };
+        }
+        
+        // Caso 3: Timeout (solo viene TBK_ORDEN_COMPRA y TBK_ID_SESION)
+        if (input.TBK_ORDEN_COMPRA && input.TBK_ID_SESION && !input.TBK_TOKEN) {
+          const giftCard = await db.getGiftCardByBuyOrder(input.TBK_ORDEN_COMPRA);
+          if (giftCard) {
+            await db.updateGiftCard(giftCard.id, {
+              purchaseStatus: "cancelled",
+            });
+          }
+          
+          return {
+            success: false,
+            status: "timeout",
+            message: "El tiempo para completar el pago ha expirado.",
+          };
+        }
+        
+        throw new TRPCError({ 
+          code: "BAD_REQUEST", 
+          message: "Parámetros de pago inválidos" 
+        });
+      }),
+
+    /**
+     * Obtener estado de pago de una gift card
+     */
+    getPaymentStatus: publicProcedure
+      .input(z.object({
+        giftCardId: z.number(),
+      }))
+      .query(async ({ input }) => {
+        const giftCard = await db.getGiftCardById(input.giftCardId);
+        if (!giftCard) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Gift card no encontrada" });
+        }
+        
+        return {
+          id: giftCard.id,
+          code: giftCard.code,
+          amount: giftCard.amount,
+          purchaseStatus: giftCard.purchaseStatus,
+          paymentMethod: giftCard.paymentMethod,
+          webpayAuthorizationCode: giftCard.webpayAuthorizationCode,
+        };
+      }),
   }),
 
   // Eventos (público)
