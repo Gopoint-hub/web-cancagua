@@ -1445,24 +1445,33 @@ export async function deleteFaq(id: number) {
 export async function getSiteSettings() {
   const db = await getDb();
   if (!db) return {};
-  const { siteSettings } = await import("../drizzle/schema");
-  const settings = await db.select().from(siteSettings);
-  return settings.reduce((acc: any, setting) => {
-    acc[setting.key] = setting.value;
-    return acc;
-  }, {});
+  try {
+    const { siteSettings } = await import("../drizzle/schema");
+    const settings = await db.select().from(siteSettings);
+    return settings.reduce((acc: any, setting) => {
+      acc[setting.key] = setting.value;
+      return acc;
+    }, {});
+  } catch (error) {
+    console.warn("[Database] Error fetching site settings, might not exist yet:", error);
+    return {};
+  }
 }
 
 export async function updateSiteSetting(key: string, value: string) {
   const db = await getDb();
   if (!db) return;
-  const { siteSettings } = await import("../drizzle/schema");
+  try {
+    const { siteSettings } = await import("../drizzle/schema");
 
-  const existing = await db.select().from(siteSettings).where(eq(siteSettings.key, key)).limit(1);
-  if (existing.length > 0) {
-    await db.update(siteSettings).set({ value, updatedAt: new Date() }).where(eq(siteSettings.key, key));
-  } else {
-    await db.insert(siteSettings).values({ key, value });
+    const existing = await db.select().from(siteSettings).where(eq(siteSettings.key, key)).limit(1);
+    if (existing.length > 0) {
+      await db.update(siteSettings).set({ value, updatedAt: new Date() }).where(eq(siteSettings.key, key));
+    } else {
+      await db.insert(siteSettings).values({ key, value });
+    }
+  } catch (error) {
+    console.error(`[Database] Error updating site setting ${key}:`, error);
   }
 }
 
