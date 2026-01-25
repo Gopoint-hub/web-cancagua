@@ -63,9 +63,17 @@ export async function getSkeduEvents(params?: {
   status?: string;
 }) {
   try {
+    // Mapear camelCase a snake_case que es más común en APIs como Skedu
+    const skeduParams = {
+      StoreUUID: STORE_UUID,
+      ...params,
+      start_date: params?.startDate,
+      end_date: params?.endDate,
+    };
+
     const response = await axios.get(`${SKEDU_API_BASE_URL}/appointments`, {
       headers: getHeaders(),
-      params: { ...params, StoreUUID: STORE_UUID },
+      params: skeduParams,
     });
     return response.data;
   } catch (error) {

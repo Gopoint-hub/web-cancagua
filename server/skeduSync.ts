@@ -78,7 +78,17 @@ export async function syncSkeduEvents(params?: { startDate?: string; endDate?: s
         };
 
         const bookings = await getSkeduBookings(syncParams);
-        const items = Array.isArray(bookings) ? bookings : (bookings.items || []);
+
+        // Intentar extraer el array de múltiples formas comunes
+        let items: any[] = [];
+        if (Array.isArray(bookings)) {
+            items = bookings;
+        } else if (bookings && typeof bookings === 'object') {
+            items = bookings.items || bookings.data || bookings.appointments || bookings.results || [];
+        }
+
+        console.log(`[SkeduSync] Skedu respondió con ${items.length} elementos. Estructura:`,
+            Array.isArray(bookings) ? "Array" : Object.keys(bookings || {}));
 
         let syncCount = 0;
         for (const item of items) {
