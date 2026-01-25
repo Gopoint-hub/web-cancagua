@@ -433,12 +433,36 @@ export async function upsertClient(client: any) {
   if (client.skeduId) {
     const existing = await db.select().from(clients).where(eq(clients.skeduId, client.skeduId)).limit(1);
     if (existing.length > 0) {
-      await db.update(clients).set({ ...client, lastSyncedAt: new Date() }).where(eq(clients.skeduId, client.skeduId));
+      await db.update(clients).set({
+        ...client,
+        lastSyncedAt: new Date(),
+        updatedAt: new Date()
+      }).where(eq(clients.skeduId, client.skeduId));
       return;
     }
   }
 
   await db.insert(clients).values({ ...client, lastSyncedAt: new Date() });
+}
+
+// Reservas (Bookings/Appointments) con soporte para montos y UTMs
+export async function upsertBooking(booking: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { bookings } = await import("../drizzle/schema");
+
+  if (booking.skeduId) {
+    const existing = await db.select().from(bookings).where(eq(bookings.skeduId, booking.skeduId)).limit(1);
+    if (existing.length > 0) {
+      await db.update(bookings).set({
+        ...booking,
+        updatedAt: new Date()
+      }).where(eq(bookings.skeduId, booking.skeduId));
+      return;
+    }
+  }
+
+  await db.insert(bookings).values(booking);
 }
 
 // Newsletter Subscribers
@@ -1635,4 +1659,115 @@ export async function needsRetranslation(contentKey: string, language: string, c
 
   if (existing.length === 0) return true;
   return existing[0].contentHash !== currentHash;
+}
+
+// ============================================
+// MARKETING ROI & INVESTMENTS
+// ============================================
+
+export async function getAllMarketingInvestments() {
+  const db = await getDb();
+  if (!db) return [];
+  const { marketingInvestments } = await import("../drizzle/schema");
+  return await db.select().from(marketingInvestments).orderBy(desc(marketingInvestments.startDate));
+}
+
+export async function createMarketingInvestment(investment: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { marketingInvestments } = await import("../drizzle/schema");
+  await db.insert(marketingInvestments).values(investment);
+}
+
+export async function updateMarketingInvestment(id: number, data: any) {
+  const db = await getDb();
+  if (!db) return;
+  const { marketingInvestments } = await import("../drizzle/schema");
+  await db.update(marketingInvestments).set(data).where(eq(marketingInvestments.id, id));
+}
+
+export async function deleteMarketingInvestment(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { marketingInvestments } = await import("../drizzle/schema");
+  await db.delete(marketingInvestments).where(eq(marketingInvestments.id, id));
+}
+
+/**
+ * Reporte de ROI de Marketing
+ * Cruza inversiones con ventas provenientes de bookings
+ */
+export async function getMarketingROIReport(params: { startDate: Date; endDate: Date }) {
+  const db = await getDb();
+  if (!db) return { channels: [], totals: { investment: 0, revenue: 0, roi: 0 } };
+
+  const { marketingInvestments, bookings } = await import("../drizzle/schema");
+
+  // 1. Obtener inversiones en el periodo
+  const investments = await db.select()
+    .from(marketingInvestments)
+    .where(and(
+      gte(marketingInvestments.startDate, params.startDate),
+      sql`${marketingInvestments.endDate} <= ${params.endDate}`
+    ));
+
+  // 2. Obtener ventas atribuidas en el periodo
+  // Consideramos 'confirmed' como venta realizada
+  const sales = await db.select()
+    .from(bookings)
+    .where(and(
+      eq(bookings.status, 'confirmed'),
+      gte(bookings.createdAt, params.startDate),
+      sql`${bookings.createdAt} <= ${params.endDate}`
+    ));
+
+  // 3. Agrupar por canal
+  const reportByChannel: Record<string, { investment: number, revenue: number, count: number }> = {};
+
+  // Canales permitidos en el enum del schema
+  const channels = ["seo", "facebook_organic", "instagram_organic", "tiktok_organic", "facebook_ads", "instagram_ads", "google_ads", "tiktok_ads", "other"];
+
+  channels.forEach(ch => {
+    reportByChannel[ch] = { investment: 0, revenue: 0, count: 0 };
+  });
+
+  // Sumar inversiones
+  investments.forEach(inv => {
+    if (reportByChannel[inv.channel]) {
+      reportByChannel[inv.channel].investment += inv.amount;
+    }
+  });
+
+  // Sumar ingresos (mapear utmSource a channel si es posible)
+  sales.forEach(sale => {
+    let channel = "other";
+    const source = (sale.utmSource || "").toLowerCase();
+    const medium = (sale.utmMedium || "").toLowerCase();
+
+    if (source.includes("google") && (medium.includes("cpc") || medium.includes("ads"))) channel = "google_ads";
+    else if (source.includes("google")) channel = "seo";
+    else if (source.includes("facebook") && (medium.includes("cpc") || medium.includes("ads"))) channel = "facebook_ads";
+    else if (source.includes("facebook")) channel = "facebook_organic";
+    else if (source.includes("instagram") && (medium.includes("cpc") || medium.includes("ads"))) channel = "instagram_ads";
+    else if (source.includes("instagram")) channel = "instagram_organic";
+    else if (source.includes("tiktok") && (medium.includes("cpc") || medium.includes("ads"))) channel = "tiktok_ads";
+    else if (source.includes("tiktok")) channel = "tiktok_organic";
+
+    if (reportByChannel[channel]) {
+      reportByChannel[channel].revenue += sale.amount;
+      reportByChannel[channel].count += 1;
+    }
+  });
+
+  const totals = { investment: 0, revenue: 0, roi: 0 };
+  const channelsList = Object.entries(reportByChannel).map(([name, data]) => {
+    const roi = data.investment > 0 ? (data.revenue - data.investment) / data.investment : 0;
+    totals.investment += data.investment;
+    totals.revenue += data.revenue;
+    return { name, ...data, roi };
+  });
+
+  totals.roi = totals.investment > 0 ? (totals.revenue - totals.investment) / totals.investment : 0;
+
+  return { channels: channelsList, totals };
 }

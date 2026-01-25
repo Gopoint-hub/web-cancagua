@@ -3161,6 +3161,72 @@ Example output: {"key1": "Hello world"}`;
       }),
   }),
 
+  // Marketing ROI & Investments (CMS - solo admin y editor)
+  marketing: router({
+    getAllInvestments: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getAllMarketingInvestments();
+    }),
+
+    createInvestment: protectedProcedure
+      .input(z.object({
+        channel: z.enum(["seo", "facebook_organic", "instagram_organic", "tiktok_organic", "facebook_ads", "instagram_ads", "google_ads", "tiktok_ads", "other"]),
+        amount: z.number(),
+        startDate: z.date(),
+        endDate: z.date(),
+        description: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.createMarketingInvestment(input);
+        return { success: true };
+      }),
+
+    updateInvestment: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        channel: z.enum(["seo", "facebook_organic", "instagram_organic", "tiktok_organic", "facebook_ads", "instagram_ads", "google_ads", "tiktok_ads", "other"]).optional(),
+        amount: z.number().optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+        description: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const { id, ...data } = input;
+        await db.updateMarketingInvestment(id, data);
+        return { success: true };
+      }),
+
+    deleteInvestment: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.deleteMarketingInvestment(input.id);
+        return { success: true };
+      }),
+
+    getROIReport: protectedProcedure
+      .input(z.object({
+        startDate: z.date(),
+        endDate: z.date(),
+      }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getMarketingROIReport(input);
+      }),
+  }),
+
   // Integración Skedu
   skedu: router({
     syncServices: protectedProcedure.mutation(async ({ ctx }) => {
@@ -3184,6 +3250,13 @@ Example output: {"key1": "Hello world"}`;
       const { syncSkeduClients } = await import("./skeduSync");
       return await syncSkeduClients();
     }),
+    syncBookings: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      const { syncSkeduBookings } = await import("./skeduSync");
+      return await syncSkeduBookings();
+    }),
     syncAll: protectedProcedure.mutation(async ({ ctx }) => {
       if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin") {
         throw new TRPCError({ code: "FORBIDDEN" });
@@ -3200,6 +3273,7 @@ Example output: {"key1": "Hello world"}`;
         services: settings.last_skedu_services_sync || null,
         events: settings.last_skedu_events_sync || null,
         clients: settings.last_skedu_clients_sync || null,
+        bookings: settings.last_skedu_bookings_sync || null,
       };
     }),
   }),

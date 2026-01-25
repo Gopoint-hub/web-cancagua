@@ -1,8 +1,8 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
-import { 
-  Newspaper, MailPlus, UsersRound, ListChecks, ArrowRight, 
+import {
+  Newspaper, MailPlus, UsersRound, ListChecks, ArrowRight,
   TrendingUp, Send, Users
 } from "lucide-react";
 import { useLocation } from "wouter";
@@ -50,6 +50,14 @@ export default function CMSMarketing() {
       path: "/cms/listas",
       color: "bg-amber-500",
       badge: totalLists > 0 ? `${totalLists} listas` : undefined,
+    },
+    {
+      title: "ROI de Marketing",
+      description: "Inversión vs Ventas Reales",
+      icon: TrendingUp,
+      path: "/cms/marketing-roi",
+      color: "bg-emerald-500",
+      badge: "Nuevo",
     },
   ];
 
@@ -114,7 +122,7 @@ export default function CMSMarketing() {
         {/* Módulos */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {modules.map((module) => (
-            <Card 
+            <Card
               key={module.path}
               className="cursor-pointer hover:shadow-md transition-all group"
               onClick={() => setLocation(module.path)}

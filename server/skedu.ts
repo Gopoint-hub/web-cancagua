@@ -1,19 +1,20 @@
 import axios from "axios";
 
-const SKEDU_API_BASE_URL = "https://api.skedu.com/v1";
+const SKEDU_API_BASE_URL = "https://api.getskedu.com";
+const STORE_UUID = "c5e0a893-7eff-42b8-815a-296b1a9c345d";
 
 // Las credenciales se configurarán mediante variables de entorno
 const getHeaders = () => {
-  const appId = process.env.SKEDU_APP_ID;
-  const secret = process.env.SKEDU_SECRET;
+  const appId = process.env.SKEDU_APP_ID || "e0fd2e66-64ce-4b44-82e1-2740581b8872";
+  const secret = process.env.SKEDU_APP_SECRET || "4b46a0a5-8e03-436a-8b11-880a4d86b48b";
 
   if (!appId || !secret) {
     throw new Error("Skedu API credentials not configured");
   }
 
   return {
-    "App-ID": appId,
-    Secret: secret,
+    "X-Skedu-App-ID": appId,
+    "X-Skedu-App-Secret": secret,
     "Content-Type": "application/json",
   };
 };
@@ -25,6 +26,7 @@ export async function getSkeduServices() {
   try {
     const response = await axios.get(`${SKEDU_API_BASE_URL}/services`, {
       headers: getHeaders(),
+      params: { StoreUUID: STORE_UUID }
     });
     return response.data;
   } catch (error) {
@@ -42,6 +44,7 @@ export async function getSkeduServiceById(serviceId: string) {
       `${SKEDU_API_BASE_URL}/services/${serviceId}`,
       {
         headers: getHeaders(),
+        params: { StoreUUID: STORE_UUID }
       }
     );
     return response.data;
@@ -52,7 +55,7 @@ export async function getSkeduServiceById(serviceId: string) {
 }
 
 /**
- * Obtener lista de eventos desde Skedu
+ * Obtener lista de eventos desde Skedu (Appointments)
  */
 export async function getSkeduEvents(params?: {
   startDate?: string;
@@ -60,9 +63,9 @@ export async function getSkeduEvents(params?: {
   status?: string;
 }) {
   try {
-    const response = await axios.get(`${SKEDU_API_BASE_URL}/events`, {
+    const response = await axios.get(`${SKEDU_API_BASE_URL}/appointments`, {
       headers: getHeaders(),
-      params,
+      params: { ...params, StoreUUID: STORE_UUID },
     });
     return response.data;
   } catch (error) {
@@ -72,25 +75,28 @@ export async function getSkeduEvents(params?: {
 }
 
 /**
- * Obtener un evento específico por ID
+ * Obtener una reserva específica por ID
  */
-export async function getSkeduEventById(eventId: string) {
+export async function getSkeduAppointmentById(appointmentId: string) {
   try {
     const response = await axios.get(
-      `${SKEDU_API_BASE_URL}/events/${eventId}`,
+      `${SKEDU_API_BASE_URL}/appointments/${appointmentId}`,
       {
         headers: getHeaders(),
+        params: { StoreUUID: STORE_UUID }
       }
     );
     return response.data;
   } catch (error) {
-    console.error(`[Skedu] Error fetching event ${eventId}:`, error);
+    console.error(`[Skedu] Error fetching appointment ${appointmentId}:`, error);
     throw error;
   }
 }
 
 /**
  * Obtener lista de clientes desde Skedu
+ * Nota: Según docs, usa /businesses/:business_uuid/users
+ * Pero intentaremos /clients si existe o el usuario provee el business_uuid
  */
 export async function getSkeduClients(params?: {
   page?: number;
@@ -98,31 +104,14 @@ export async function getSkeduClients(params?: {
   email?: string;
 }) {
   try {
+    // Intentamos el endpoint genérico primero si está disponible
     const response = await axios.get(`${SKEDU_API_BASE_URL}/clients`, {
       headers: getHeaders(),
-      params,
+      params: { ...params, StoreUUID: STORE_UUID },
     });
     return response.data;
   } catch (error) {
     console.error("[Skedu] Error fetching clients:", error);
-    throw error;
-  }
-}
-
-/**
- * Obtener un cliente específico por ID
- */
-export async function getSkeduClientById(clientId: string) {
-  try {
-    const response = await axios.get(
-      `${SKEDU_API_BASE_URL}/clients/${clientId}`,
-      {
-        headers: getHeaders(),
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error(`[Skedu] Error fetching client ${clientId}:`, error);
     throw error;
   }
 }
@@ -140,8 +129,8 @@ export async function createSkeduBooking(data: {
 }) {
   try {
     const response = await axios.post(
-      `${SKEDU_API_BASE_URL}/bookings`,
-      data,
+      `${SKEDU_API_BASE_URL}/appointments`,
+      { ...data, StoreUUID: STORE_UUID },
       {
         headers: getHeaders(),
       }
@@ -154,7 +143,35 @@ export async function createSkeduBooking(data: {
 }
 
 /**
- * Verificar disponibilidad de un servicio o evento
+ * Obtener lista de reservas (alias de getSkeduEvents para compatibilidad)
+ */
+export async function getSkeduBookings(params?: {
+  startDate?: string;
+  endDate?: string;
+  clientId?: string;
+  status?: string;
+}) {
+  return getSkeduEvents(params);
+}
+
+/**
+ * Obtener pagos asociados a una reserva
+ */
+export async function getSkeduPayments(appointmentUuid: string) {
+  try {
+    const response = await axios.get(`${SKEDU_API_BASE_URL}/payments/${appointmentUuid}`, {
+      headers: getHeaders(),
+      params: { StoreUUID: STORE_UUID }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`[Skedu] Error fetching payments for ${appointmentUuid}:`, error);
+    throw error;
+  }
+}
+
+/**
+ * Verificar disponibilidad
  */
 export async function checkSkeduAvailability(params: {
   serviceId?: string;
@@ -167,7 +184,7 @@ export async function checkSkeduAvailability(params: {
       `${SKEDU_API_BASE_URL}/availability`,
       {
         headers: getHeaders(),
-        params,
+        params: { ...params, StoreUUID: STORE_UUID },
       }
     );
     return response.data;
@@ -184,6 +201,7 @@ export async function getSkeduWebhooks() {
   try {
     const response = await axios.get(`${SKEDU_API_BASE_URL}/webhooks`, {
       headers: getHeaders(),
+      params: { StoreUUID: STORE_UUID }
     });
     return response.data;
   } catch (error) {
@@ -203,7 +221,7 @@ export async function configureSkeduWebhook(data: {
   try {
     const response = await axios.post(
       `${SKEDU_API_BASE_URL}/webhooks`,
-      data,
+      { ...data, StoreUUID: STORE_UUID },
       {
         headers: getHeaders(),
       }

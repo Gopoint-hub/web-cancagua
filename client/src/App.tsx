@@ -29,6 +29,7 @@ import CMSCRMPipeline from "./pages/cms/CRMPipeline";
 import CMSB2C from "./pages/cms/B2C";
 import CMSB2B from "./pages/cms/B2B";
 import CMSMarketing from "./pages/cms/Marketing";
+import CMSMarketingROI from "./pages/cms/MarketingROI";
 import CMSMetricas from "./pages/cms/Metricas";
 import CMSAdmin from "./pages/cms/Admin";
 import CMSTraducciones from "./pages/cms/Traducciones";
@@ -132,6 +133,7 @@ function Router() {
         <Route path={"/cms/b2c"} component={CMSB2C} />
         <Route path={"/cms/b2b"} component={CMSB2B} />
         <Route path={"/cms/marketing"} component={CMSMarketing} />
+        <Route path={"/cms/marketing-roi"} component={CMSMarketingROI} />
         <Route path={"/cms/metricas"} component={CMSMetricas} />
         <Route path={"/cms/integraciones"} component={CMSIntegraciones} />
         <Route path={"/cms/admin"} component={CMSAdmin} />

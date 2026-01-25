@@ -96,6 +96,9 @@ export const clients = mysqlTable("clients", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
   lastSyncedAt: timestamp("last_synced_at"),
+  utmSource: varchar("utm_source", { length: 100 }),
+  utmMedium: varchar("utm_medium", { length: 100 }),
+  utmCampaign: varchar("utm_campaign", { length: 100 }),
 });
 
 export type Client = typeof clients.$inferSelect;
@@ -271,6 +274,13 @@ export const bookings = mysqlTable("bookings", {
   numberOfPeople: int("number_of_people").notNull(),
   message: text("message"),
   status: mysqlEnum("status", ["pending", "confirmed", "cancelled"]).default("pending").notNull(),
+  skeduId: varchar("skedu_id", { length: 255 }),
+  amount: int("amount").default(0).notNull(),
+  utmSource: varchar("utm_source", { length: 100 }),
+  utmMedium: varchar("utm_medium", { length: 100 }),
+  utmCampaign: varchar("utm_campaign", { length: 100 }),
+  utmTerm: varchar("utm_term", { length: 100 }),
+  utmContent: varchar("utm_content", { length: 100 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });
@@ -624,3 +634,17 @@ export const galleryImages = mysqlTable("gallery_images", {
 
 export type GalleryImage = typeof galleryImages.$inferSelect;
 export type InsertGalleryImage = typeof galleryImages.$inferInsert;
+// Inversión en marketing para ROI
+export const marketingInvestments = mysqlTable("marketing_investments", {
+  id: int("id").autoincrement().primaryKey(),
+  channel: mysqlEnum("channel", ["seo", "facebook_organic", "instagram_organic", "tiktok_organic", "facebook_ads", "instagram_ads", "google_ads", "tiktok_ads", "other"]).notNull(),
+  amount: int("amount").notNull(), // Monto invertido en CLP
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date").notNull(),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type MarketingInvestment = typeof marketingInvestments.$inferSelect;
+export type InsertMarketingInvestment = typeof marketingInvestments.$inferInsert;
