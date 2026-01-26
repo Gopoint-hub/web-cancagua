@@ -2837,11 +2837,11 @@ Devuelve un JSON con este formato:
     getBackgroundImages: publicProcedure
       .query(async () => {
         return [
-          { id: "spa-green", name: "Spa Verde", url: "/images/giftcard-backgrounds/spa-green.jpg" },
-          { id: "spa-pink", name: "Spa Rosa", url: "/images/giftcard-backgrounds/spa-pink.jpg" },
-          { id: "wellness-nature", name: "Naturaleza", url: "/images/giftcard-backgrounds/wellness-nature.jpg" },
-          { id: "spa-stones", name: "Piedras", url: "/images/giftcard-backgrounds/spa-stones.jpg" },
-          { id: "spa-elegant", name: "Elegante", url: "/images/giftcard-backgrounds/spa-elegant.jpg" },
+          { id: "spa-green", name: "Spa Verde", url: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769443930/giftcard-backgrounds/spa-green.png" },
+          { id: "spa-pink", name: "Spa Rosa", url: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769443941/giftcard-backgrounds/spa-pink.png" },
+          { id: "wellness-nature", name: "Naturaleza", url: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769443955/giftcard-backgrounds/wellness-nature.png" },
+          { id: "spa-stones", name: "Piedras", url: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769443966/giftcard-backgrounds/spa-stones.png" },
+          { id: "spa-elegant", name: "Elegante", url: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769443978/giftcard-backgrounds/spa-elegant.png" },
         ];
       }),
 
