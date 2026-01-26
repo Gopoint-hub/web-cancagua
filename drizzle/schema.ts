@@ -483,12 +483,13 @@ export type InsertGiftCard = typeof giftCards.$inferInsert;
 export const giftCardTransactions = mysqlTable("gift_card_transactions", {
   id: int("id").autoincrement().primaryKey(),
   giftCardId: int("gift_card_id").notNull().references(() => giftCards.id),
-  type: mysqlEnum("transaction_type", ["purchase", "redemption", "refund"]).notNull(),
+  transactionType: mysqlEnum("transaction_type", ["purchase", "redemption", "refund"]).notNull(),
   amount: int("amount").notNull(),
+  balanceBefore: int("balance_before").notNull(),
   balanceAfter: int("balance_after").notNull(),
-  description: text("description"),
   orderType: varchar("order_type", { length: 50 }), // 'booking', 'gift_card_purchase', etc.
-  orderId: int("order_id"),
+  orderId: varchar("order_id", { length: 100 }),
+  notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
