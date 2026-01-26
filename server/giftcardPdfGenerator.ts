@@ -1,6 +1,8 @@
 import PDFDocument from "pdfkit";
 import fs from "fs";
 import path from "path";
+import https from "https";
+import http from "http";
 
 export interface GiftCardData {
   amount: number;
@@ -11,8 +13,36 @@ export interface GiftCardData {
   code: string;
 }
 
-export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
+// Función para descargar imagen desde URL
+async function downloadImage(url: string): Promise<Buffer> {
   return new Promise((resolve, reject) => {
+    const protocol = url.startsWith("https") ? https : http;
+    
+    protocol.get(url, (response) => {
+      // Manejar redirecciones
+      if (response.statusCode === 301 || response.statusCode === 302) {
+        const redirectUrl = response.headers.location;
+        if (redirectUrl) {
+          downloadImage(redirectUrl).then(resolve).catch(reject);
+          return;
+        }
+      }
+      
+      if (response.statusCode !== 200) {
+        reject(new Error(`Failed to download image: ${response.statusCode}`));
+        return;
+      }
+      
+      const chunks: Buffer[] = [];
+      response.on("data", (chunk) => chunks.push(chunk));
+      response.on("end", () => resolve(Buffer.concat(chunks)));
+      response.on("error", reject);
+    }).on("error", reject);
+  });
+}
+
+export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
+  return new Promise(async (resolve, reject) => {
     try {
       const doc = new PDFDocument({ size: [600, 400], margin: 0 });
       const buffers: Buffer[] = [];
@@ -23,22 +53,42 @@ export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
         resolve(pdfBuffer);
       });
 
-      // Fondo con imagen
-      const backgroundPath = path.join(
-        process.cwd(),
-        "client/public",
-        data.backgroundImage
-      );
+      let backgroundApplied = false;
 
-      if (fs.existsSync(backgroundPath)) {
-        doc.image(backgroundPath, 0, 0, { width: 600, height: 400 });
-      } else {
-        // Fallback: color sólido
+      // Intentar cargar imagen de fondo
+      if (data.backgroundImage) {
+        try {
+          // Si es una URL de Cloudinary o externa
+          if (data.backgroundImage.startsWith("http")) {
+            console.log("Descargando imagen de fondo desde:", data.backgroundImage);
+            const imageBuffer = await downloadImage(data.backgroundImage);
+            doc.image(imageBuffer, 0, 0, { width: 600, height: 400, cover: [600, 400] });
+            backgroundApplied = true;
+          } else {
+            // Si es una ruta local
+            const backgroundPath = path.join(
+              process.cwd(),
+              "client/public",
+              data.backgroundImage
+            );
+            
+            if (fs.existsSync(backgroundPath)) {
+              doc.image(backgroundPath, 0, 0, { width: 600, height: 400, cover: [600, 400] });
+              backgroundApplied = true;
+            }
+          }
+        } catch (imgError) {
+          console.error("Error cargando imagen de fondo:", imgError);
+        }
+      }
+
+      // Fallback: color sólido si no se pudo cargar la imagen
+      if (!backgroundApplied) {
         doc.rect(0, 0, 600, 400).fillOpacity(1).fill("#2F5233");
       }
 
       // Overlay semi-transparente para mejorar legibilidad
-      doc.rect(0, 0, 600, 400).fillOpacity(0.3).fill("#000000");
+      doc.rect(0, 0, 600, 400).fillOpacity(0.4).fill("#000000");
 
       // Logo Cancagua
       const logoPath = path.join(
