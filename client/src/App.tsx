@@ -88,8 +88,6 @@ function Router() {
         <Route path={"/cafeteria"} component={Cafeteria} />
         <Route path={"/gift-cards"} component={GiftCards} />
         <Route path={"/gift-cards/payment-result"} component={GiftCardPaymentResult} />
-        {/* Ruta legacy para compatibilidad */}
-        <Route path={"/tienda-regalos-preview"} component={GiftCards} />
         <Route path={"/contacto"} component={Contacto} />
         <Route path={"/nosotros"} component={Nosotros} />
         <Route path={"/carta"} component={Carta} />
