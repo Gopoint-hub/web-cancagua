@@ -227,6 +227,14 @@ export function Navbar() {
             >
               Blog
             </Link>
+
+            <Link
+              href="/gift-cards"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/gift-cards") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+                }`}
+            >
+              Gift Cards
+            </Link>
           </nav>
 
           {/* Selector de Idioma y Botón Reservar */}
@@ -374,6 +382,14 @@ export function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Blog
+              </Link>
+
+              <Link
+                href="/gift-cards"
+                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Gift Cards
               </Link>
 
               {/* Selector de idioma y botón reservar */}

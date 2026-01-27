@@ -14,12 +14,12 @@ import { SEOHead } from "@/components/SEOHead";
 
 
 export default function GiftCards() {
-  // SEO - Página oculta de Google (noindex)
+  // SEO - Página pública de Gift Cards
   const seoData = {
-    title: "Gift Cards | Cancagua Spa",
-    description: "Regala bienestar con nuestras gift cards. El regalo perfecto para quienes amas.",
-    canonical: "/tienda-regalos-preview",
-    noindex: true
+    title: "Gift Cards | Cancagua Spa - Regala Bienestar",
+    description: "Regala bienestar con nuestras gift cards de Cancagua Spa. El regalo perfecto para quienes amas. Válidas por 1 año, entrega inmediata por email.",
+    canonical: "/gift-cards",
+    noindex: false
   };
 
   const [montoSeleccionado, setMontoSeleccionado] = useState<string>("50000");

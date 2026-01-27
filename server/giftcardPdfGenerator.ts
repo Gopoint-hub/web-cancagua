@@ -44,7 +44,8 @@ async function downloadImage(url: string): Promise<Buffer> {
 export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
   return new Promise(async (resolve, reject) => {
     try {
-      const doc = new PDFDocument({ size: [600, 400], margin: 0 });
+      // Tamaño tipo tarjeta de regalo (proporción 16:9 aproximada)
+      const doc = new PDFDocument({ size: [700, 400], margin: 0 });
       const buffers: Buffer[] = [];
 
       doc.on("data", buffers.push.bind(buffers));
@@ -62,7 +63,7 @@ export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
           if (data.backgroundImage.startsWith("http")) {
             console.log("Descargando imagen de fondo desde:", data.backgroundImage);
             const imageBuffer = await downloadImage(data.backgroundImage);
-            doc.image(imageBuffer, 0, 0, { width: 600, height: 400, cover: [600, 400] });
+            doc.image(imageBuffer, 0, 0, { width: 700, height: 400, cover: [700, 400] });
             backgroundApplied = true;
           } else {
             // Si es una ruta local
@@ -73,7 +74,7 @@ export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
             );
             
             if (fs.existsSync(backgroundPath)) {
-              doc.image(backgroundPath, 0, 0, { width: 600, height: 400, cover: [600, 400] });
+              doc.image(backgroundPath, 0, 0, { width: 700, height: 400, cover: [700, 400] });
               backgroundApplied = true;
             }
           }
@@ -84,77 +85,85 @@ export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
 
       // Fallback: color sólido si no se pudo cargar la imagen
       if (!backgroundApplied) {
-        doc.rect(0, 0, 600, 400).fillOpacity(1).fill("#2F5233");
+        doc.rect(0, 0, 700, 400).fillOpacity(1).fill("#2F5233");
       }
 
-      // Overlay semi-transparente para mejorar legibilidad
-      doc.rect(0, 0, 600, 400).fillOpacity(0.4).fill("#000000");
+      // Overlay semi-transparente solo en el lado izquierdo para mejorar legibilidad del texto
+      doc.rect(0, 0, 350, 400).fillOpacity(0.35).fill("#000000");
 
-      // Logo Cancagua
+      // Logo Cancagua (versión blanca)
+      const logoWhitePath = path.join(
+        process.cwd(),
+        "client/public/images/logo-cancagua-white.png"
+      );
       const logoPath = path.join(
         process.cwd(),
         "client/public/images/01_logo-cancagua.png"
       );
-      if (fs.existsSync(logoPath)) {
-        doc.image(logoPath, 40, 40, { width: 120 });
+      
+      // Intentar cargar logo blanco primero, si no existe usar el normal
+      if (fs.existsSync(logoWhitePath)) {
+        doc.image(logoWhitePath, 30, 25, { width: 100 });
+      } else if (fs.existsSync(logoPath)) {
+        doc.image(logoPath, 30, 25, { width: 100 });
       }
 
       // Texto "Gift Card"
       doc
         .fillOpacity(1)
         .fillColor("#FFFFFF")
-        .fontSize(16)
+        .fontSize(14)
         .font("Helvetica")
-        .text("Gift Card", 40, 120);
+        .text("Gift Card", 30, 100);
 
-      // Monto
+      // Monto - más grande y prominente
       doc
-        .fontSize(48)
+        .fontSize(52)
         .font("Helvetica-Bold")
+        .fillColor("#FFFFFF")
         .text(
           new Intl.NumberFormat("es-CL", {
             style: "currency",
             currency: "CLP",
           }).format(data.amount),
-          40,
-          150
+          30,
+          130
         );
 
       // Destinatario
       if (data.recipientName) {
         doc
-          .fontSize(14)
+          .fontSize(16)
           .font("Helvetica")
-          .text(`Para: ${data.recipientName}`, 40, 220);
+          .fillColor("#FFFFFF")
+          .text(`Para: ${data.recipientName}`, 30, 200);
       }
 
-      // Código
-      doc
-        .fontSize(12)
-        .font("Helvetica")
-        .text(`Código: ${data.code}`, 40, 250);
-
-      // Mensaje personalizado
+      // Mensaje personalizado (si existe)
       if (data.message) {
         doc
           .fontSize(11)
           .font("Helvetica-Oblique")
-          .fillColor("#F0F0F0")
-          .text(`"${data.message}"`, 40, 290, {
-            width: 520,
+          .fillColor("#E0E0E0")
+          .text(`"${data.message}"`, 30, 235, {
+            width: 300,
             align: "left",
           });
       }
+
+      // Código de la gift card
+      doc
+        .fontSize(10)
+        .font("Helvetica")
+        .fillColor("#CCCCCC")
+        .text(`Código: ${data.code}`, 30, 340);
 
       // Información adicional en la parte inferior
       doc
         .fontSize(9)
         .font("Helvetica")
-        .fillColor("#CCCCCC")
-        .text("Válida por 1 año | Cancagua Spa & Retreat Center", 40, 360, {
-          width: 520,
-          align: "center",
-        });
+        .fillColor("#AAAAAA")
+        .text("Válida por 1 año | Cancagua Spa & Retreat Center", 30, 360);
 
       doc.end();
     } catch (error) {
