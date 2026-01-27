@@ -93,7 +93,7 @@ export default function Sauna() {
 
             <div className="relative z-10 container text-center text-white px-4">
               <span className="text-white/90 text-sm md:text-base tracking-[0.3em] uppercase mb-4 block">
-                <T>Experiencia Termal</T>
+                <T>Experiencia Ancestral</T>
               </span>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-6">
                 Sauna Nativo
