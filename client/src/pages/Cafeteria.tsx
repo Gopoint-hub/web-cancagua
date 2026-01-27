@@ -138,7 +138,7 @@ export default function Cafeteria() {
                   </div>
                   <h3 className="font-bold text-lg mb-2"><T>Brunch Todo el Día</T></h3>
                   <p className="text-muted-foreground text-sm">
-                    <T>Bowls, tostadas, panqueques y opciones saladas disponibles en cualquier horario</T>
+                    <T>Bowls, tostadas y opciones saladas disponibles en cualquier horario</T>
                   </p>
                 </div>
 
