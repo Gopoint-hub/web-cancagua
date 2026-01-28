@@ -635,6 +635,37 @@ export const appRouter = router({
         await db.bulkUpdateContactMessagesStatus(input.ids, input.status);
         return { success: true, count: input.ids.length };
       }),
+
+    // Admin: reenviar mensaje a contacto@cancagua.cl
+    resendToEmail: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        // Obtener el mensaje
+        const message = await db.getContactMessageById(input.id);
+        if (!message) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Mensaje no encontrado" });
+        }
+        
+        // Reenviar email
+        const { sendContactFormEmail } = await import("./email");
+        const emailResult = await sendContactFormEmail({
+          nombre: message.name,
+          email: message.email,
+          telefono: message.phone || "",
+          mensaje: message.message,
+          origen: "Reenvío desde CMS",
+        });
+        
+        if (!emailResult.success) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Error al enviar email" });
+        }
+        
+        return { success: true };
+      }),
   }),
 
   // Gestión de usuarios (solo admin)

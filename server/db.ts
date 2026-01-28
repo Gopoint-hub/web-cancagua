@@ -713,6 +713,14 @@ export async function getAllContactMessages() {
   return await db.select().from(contactMessages).orderBy(desc(contactMessages.createdAt));
 }
 
+export async function getContactMessageById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const { contactMessages } = await import("../drizzle/schema");
+  const result = await db.select().from(contactMessages).where(eq(contactMessages.id, id));
+  return result[0] || null;
+}
+
 export async function updateContactMessageStatus(id: number, status: string) {
   const db = await getDb();
   if (!db) return;
