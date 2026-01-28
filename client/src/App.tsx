@@ -93,6 +93,7 @@ function Router() {
         <Route path={"/carta"} component={Carta} />
         <Route path={"/navega-relax"} component={NavegaRelax} />
         <Route path={"/masajes"} component={Masajes} />
+        <Route path={"/servicios/masajes"} component={Masajes} />
         <Route path={"/clases"} component={ClasesRegulares} />
         <Route path={"/servicios/hot-tubs"} component={HotTubs} />
         <Route path={"/servicios/sauna"} component={Sauna} />
