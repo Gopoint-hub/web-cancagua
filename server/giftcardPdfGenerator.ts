@@ -13,17 +13,17 @@ export interface GiftCardData {
   code: string;
 }
 
-// Función para descargar imagen desde URL
-async function downloadImage(url: string): Promise<Buffer> {
+// Función para descargar imagen desde URL y convertirla a PNG
+async function downloadAndConvertImage(url: string): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const protocol = url.startsWith("https") ? https : http;
     
-    protocol.get(url, (response) => {
+    protocol.get(url, async (response) => {
       // Manejar redirecciones
       if (response.statusCode === 301 || response.statusCode === 302) {
         const redirectUrl = response.headers.location;
         if (redirectUrl) {
-          downloadImage(redirectUrl).then(resolve).catch(reject);
+          downloadAndConvertImage(redirectUrl).then(resolve).catch(reject);
           return;
         }
       }
@@ -35,7 +35,22 @@ async function downloadImage(url: string): Promise<Buffer> {
       
       const chunks: Buffer[] = [];
       response.on("data", (chunk) => chunks.push(chunk));
-      response.on("end", () => resolve(Buffer.concat(chunks)));
+      response.on("end", async () => {
+        try {
+          const imageBuffer = Buffer.concat(chunks);
+          
+          // Usar sharp para convertir a PNG (formato que PDFKit maneja bien)
+          const sharp = (await import("sharp")).default;
+          const pngBuffer = await sharp(imageBuffer)
+            .png()
+            .toBuffer();
+          
+          resolve(pngBuffer);
+        } catch (conversionError) {
+          console.error("Error convirtiendo imagen:", conversionError);
+          reject(conversionError);
+        }
+      });
       response.on("error", reject);
     }).on("error", reject);
   });
@@ -62,7 +77,7 @@ export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
           // Si es una URL de Cloudinary o externa
           if (data.backgroundImage.startsWith("http")) {
             console.log("Descargando imagen de fondo desde:", data.backgroundImage);
-            const imageBuffer = await downloadImage(data.backgroundImage);
+            const imageBuffer = await downloadAndConvertImage(data.backgroundImage);
             doc.image(imageBuffer, 0, 0, { width: 700, height: 400, cover: [700, 400] });
             backgroundApplied = true;
           } else {
@@ -74,7 +89,12 @@ export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
             );
             
             if (fs.existsSync(backgroundPath)) {
-              doc.image(backgroundPath, 0, 0, { width: 700, height: 400, cover: [700, 400] });
+              // Convertir imagen local también a PNG
+              const sharp = (await import("sharp")).default;
+              const pngBuffer = await sharp(backgroundPath)
+                .png()
+                .toBuffer();
+              doc.image(pngBuffer, 0, 0, { width: 700, height: 400, cover: [700, 400] });
               backgroundApplied = true;
             }
           }
@@ -102,10 +122,17 @@ export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
       );
       
       // Intentar cargar logo blanco primero, si no existe usar el normal
-      if (fs.existsSync(logoWhitePath)) {
-        doc.image(logoWhitePath, 30, 25, { width: 100 });
-      } else if (fs.existsSync(logoPath)) {
-        doc.image(logoPath, 30, 25, { width: 100 });
+      try {
+        const sharp = (await import("sharp")).default;
+        if (fs.existsSync(logoWhitePath)) {
+          const logoPng = await sharp(logoWhitePath).png().toBuffer();
+          doc.image(logoPng, 30, 25, { width: 100 });
+        } else if (fs.existsSync(logoPath)) {
+          const logoPng = await sharp(logoPath).png().toBuffer();
+          doc.image(logoPng, 30, 25, { width: 100 });
+        }
+      } catch (logoError) {
+        console.error("Error cargando logo:", logoError);
       }
 
       // Texto "Gift Card"
