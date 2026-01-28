@@ -801,10 +801,26 @@ export default function CotizacionWizard() {
                     />
                     <CommandList>
                       <CommandEmpty>No se encontraron contactos</CommandEmpty>
+                      <CommandGroup>
+                        <CommandItem
+                          value="__create_new_contact__"
+                          onSelect={() => {
+                            setIsCreatingClient(true);
+                            setSelectedClientId(null);
+                            setBuyerData({ name: "", email: "" });
+                            setClientSearchOpen(false);
+                          }}
+                          className="text-primary font-medium"
+                        >
+                          <Plus className="mr-2 h-4 w-4" />
+                          Crear nuevo contacto
+                        </CommandItem>
+                      </CommandGroup>
                       <CommandGroup heading="Contactos existentes">
                         {filteredClients.slice(0, 10).map((client: any) => (
                           <CommandItem
                             key={client.id}
+                            value={`client-${client.id}-${client.contactEmail || ''}`}
                             onSelect={() => handleSelectClient(client)}
                           >
                             <div className="flex flex-col">
@@ -815,20 +831,6 @@ export default function CotizacionWizard() {
                             </div>
                           </CommandItem>
                         ))}
-                      </CommandGroup>
-                      <CommandGroup>
-                        <CommandItem
-                          onSelect={() => {
-                            setIsCreatingClient(true);
-                            setSelectedClientId(null);
-                            setBuyerData({ name: "", email: "" });
-                            setClientSearchOpen(false);
-                          }}
-                          className="text-primary"
-                        >
-                          <Plus className="mr-2 h-4 w-4" />
-                          Crear nuevo contacto
-                        </CommandItem>
                       </CommandGroup>
                     </CommandList>
                   </Command>
