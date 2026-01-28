@@ -14,7 +14,7 @@ export default function NavegaRelax() {
     "Navegación en Catamarán Bandurria por el Lago Llanquihue",
     "Embarque desde el Muelle de Frutillar",
     "Vista panorámica de los volcanes Osorno, Calbuco y Puntiagudo",
-    "Guía experto en navegación",
+    "Audio-guiado en español, inglés o portugués durante la navegación",
     "Equipo de seguridad completo",
     "Acceso a Biopiscinas Geotermales post-navegación",
     "Entrega de batas, gorro de nado y locker por persona en Recepción Cancagua",
