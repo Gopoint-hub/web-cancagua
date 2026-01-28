@@ -604,7 +604,7 @@ export const appRouter = router({
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.deleteContactMessage(input.id);
@@ -615,7 +615,7 @@ export const appRouter = router({
     bulkDelete: protectedProcedure
       .input(z.object({ ids: z.array(z.number()) }))
       .mutation(async ({ ctx, input }) => {
-        if (ctx.user.role !== "admin") {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
           throw new TRPCError({ code: "FORBIDDEN" });
         }
         await db.bulkDeleteContactMessages(input.ids);
