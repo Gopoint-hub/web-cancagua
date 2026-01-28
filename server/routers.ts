@@ -571,7 +571,8 @@ export const appRouter = router({
         });
 
         return {
-          ...result,
+          success: true,
+          id: (result as any)?.id,
           emailSent: emailResult.success,
           whatsappLink,
           whatsappNumber: WHATSAPP_INFO.formatted,
@@ -731,8 +732,8 @@ export const appRouter = router({
           status: "pending",
           invitationToken,
           invitationExpiresAt: expiresAt,
-          invitedBy: ctx.user.id,
-          allowedModules: input.allowedModules ? JSON.stringify(input.allowedModules) : null,
+          invitedBy: ctx.user.id || undefined,
+          allowedModules: input.allowedModules ? JSON.stringify(input.allowedModules) : undefined,
         });
 
         // Enviar email de invitación
@@ -1038,7 +1039,7 @@ export const appRouter = router({
         const results = await Promise.all(
           input.ids.map(id => db.deleteCorporateProduct(id))
         );
-        return { success: true, deleted: results.filter(r => r.success).length };
+        return { success: true, deleted: results.filter(r => r).length };
       }),
 
     bulkDuplicate: protectedProcedure
@@ -1051,7 +1052,7 @@ export const appRouter = router({
           input.ids.map(id => db.getCorporateProductById(id))
         );
         const duplicated = await Promise.all(
-          products.filter(p => p !== null).map(product =>
+          products.filter((p): p is NonNullable<typeof p> => p !== null && p !== undefined).map(product =>
             db.createCorporateProduct({
               name: `${product.name} (Copia)`,
               description: product.description || undefined,
@@ -1089,7 +1090,7 @@ export const appRouter = router({
         const results = await Promise.all(
           input.products.map(product => db.createCorporateProduct(product))
         );
-        return { success: true, imported: results.filter(r => r.success).length };
+        return { success: true, imported: results.filter(r => r).length };
       }),
   }),
 
@@ -3652,6 +3653,125 @@ Example output: {"key1": "Hello world"}`;
         bookings: settings.last_skedu_bookings_sync || null,
       };
     }),
+  }),
+
+  // ============================================
+  // DEALS (NEGOCIOS) - Sistema de Cotizaciones B2B
+  // ============================================
+  deals: router({
+    getAll: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "seller") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getAllDeals();
+    }),
+
+    getWithQuoteCount: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "seller") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getDealsWithQuoteCount();
+    }),
+
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "seller") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getDealById(input.id);
+      }),
+
+    search: protectedProcedure
+      .input(z.object({ query: z.string() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "seller") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.searchDeals(input.query);
+      }),
+
+    getQuotes: protectedProcedure
+      .input(z.object({ dealId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "seller") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getQuotesByDealId(input.dealId);
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        name: z.string(),
+        pipeline: z.string().optional(),
+        stage: z.string().optional(),
+        value: z.number().optional(),
+        closeDate: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "seller") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.createDeal({
+          ...input,
+          ownerId: ctx.user.id,
+        });
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        pipeline: z.string().optional(),
+        stage: z.string().optional(),
+        value: z.number().optional(),
+        closeDate: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "seller") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const { id, ...data } = input;
+        await db.updateDeal(id, data);
+        return { success: true };
+      }),
+
+    updateStage: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        stage: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "seller") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.updateDealStage(input.id, input.stage);
+        return { success: true };
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "seller") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.deleteDeal(input.id);
+        return { success: true };
+      }),
+  }),
+
+  // Búsqueda de clientes corporativos
+  corporateClientsSearch: router({
+    search: protectedProcedure
+      .input(z.object({ query: z.string() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "seller") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.searchCorporateClients(input.query);
+      }),
   }),
 });
 

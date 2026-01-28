@@ -308,10 +308,16 @@ export default function Cotizaciones() {
             CRM para seguimiento de cotizaciones corporativas
           </p>
         </div>
-        <Button onClick={() => setLocation("/cms/crear-cotizacion")}>
-          <Plus className="h-4 w-4 mr-2" />
-          Nueva Cotización
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setLocation("/cms/crear-cotizacion")}>
+            <Plus className="h-4 w-4 mr-2" />
+            Cotización Rápida
+          </Button>
+          <Button onClick={() => setLocation("/cms/cotizacion-wizard")}>
+            <Plus className="h-4 w-4 mr-2" />
+            Crear Cotización B2B
+          </Button>
+        </div>
       </div>
 
       {/* Estadísticas */}

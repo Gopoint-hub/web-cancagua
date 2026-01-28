@@ -1644,7 +1644,7 @@ export async function redeemGiftCard(code: string, amount: number, usedBy?: stri
 
   await db.insert(giftCardTransactions).values({
     giftCardId: giftCard.id,
-    type: 'redemption',
+    transactionType: 'redemption',
     amount: -amount,
     balanceAfter: newBalance,
     description: usedBy ? `Canjeado por ${usedBy}` : 'Canje de Gift Card',
@@ -1799,4 +1799,309 @@ export async function getMarketingROIReport(params: { startDate: Date; endDate: 
     ...current,
     comparison: previous.totals
   };
+}
+
+
+// ============================================
+// DEALS (NEGOCIOS) - Sistema de Cotizaciones B2B
+// ============================================
+
+export async function getAllDeals() {
+  const db = await getDb();
+  if (!db) return [];
+  const { deals } = await import("../drizzle/schema");
+  return await db.select().from(deals).orderBy(desc(deals.createdAt));
+}
+
+export async function getDealById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { deals } = await import("../drizzle/schema");
+  const result = await db.select().from(deals).where(eq(deals.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getDealByName(name: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { deals } = await import("../drizzle/schema");
+  const result = await db.select().from(deals).where(eq(deals.name, name)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function searchDeals(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const { deals } = await import("../drizzle/schema");
+  return await db.select().from(deals)
+    .where(like(deals.name, `%${query}%`))
+    .orderBy(desc(deals.createdAt))
+    .limit(20);
+}
+
+export async function createDeal(deal: {
+  name: string;
+  pipeline?: string;
+  stage?: string;
+  value?: number;
+  closeDate?: string;
+  ownerId?: number;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { deals } = await import("../drizzle/schema");
+  
+  const result = await db.insert(deals).values({
+    name: deal.name,
+    pipeline: deal.pipeline || "jornada_autocuidado",
+    stage: (deal.stage as any) || "nuevo",
+    value: deal.value || 0,
+    closeDate: deal.closeDate ? new Date(deal.closeDate) : null,
+    ownerId: deal.ownerId,
+    notes: deal.notes,
+  });
+  
+  // Obtener el deal recién creado
+  const inserted = await db.select().from(deals)
+    .orderBy(desc(deals.id))
+    .limit(1);
+  return inserted.length > 0 ? inserted[0] : undefined;
+}
+
+export async function updateDeal(id: number, data: {
+  name?: string;
+  pipeline?: string;
+  stage?: string;
+  value?: number;
+  closeDate?: string;
+  ownerId?: number;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) return;
+  const { deals } = await import("../drizzle/schema");
+  await db.update(deals).set(data as any).where(eq(deals.id, id));
+}
+
+export async function updateDealStage(id: number, stage: string) {
+  const db = await getDb();
+  if (!db) return;
+  const { deals } = await import("../drizzle/schema");
+  await db.update(deals).set({ stage: stage as any }).where(eq(deals.id, id));
+}
+
+export async function deleteDeal(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { deals } = await import("../drizzle/schema");
+  await db.delete(deals).where(eq(deals.id, id));
+}
+
+export async function getDealsWithQuoteCount() {
+  const db = await getDb();
+  if (!db) return [];
+  const { deals, quotes } = await import("../drizzle/schema");
+  
+  const result = await db.select({
+    deal: deals,
+    quoteCount: sql<number>`COUNT(${quotes.id})`,
+    totalValue: sql<number>`COALESCE(SUM(${quotes.total}), 0)`,
+  })
+  .from(deals)
+  .leftJoin(quotes, eq(deals.id, quotes.dealId))
+  .groupBy(deals.id)
+  .orderBy(desc(deals.createdAt));
+  
+  return result;
+}
+
+// Obtener cotizaciones por deal
+export async function getQuotesByDealId(dealId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { quotes } = await import("../drizzle/schema");
+  return await db.select().from(quotes)
+    .where(eq(quotes.dealId, dealId))
+    .orderBy(desc(quotes.createdAt));
+}
+
+// Buscar clientes corporativos
+export async function searchCorporateClients(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const { corporateClients } = await import("../drizzle/schema");
+  return await db.select().from(corporateClients)
+    .where(
+      or(
+        like(corporateClients.companyName, `%${query}%`),
+        like(corporateClients.contactName, `%${query}%`),
+        like(corporateClients.contactEmail, `%${query}%`)
+      )
+    )
+    .orderBy(desc(corporateClients.createdAt))
+    .limit(20);
+}
+
+// Obtener cotización con items ordenados
+export async function getQuoteWithItems(quoteId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { quotes, quoteItems } = await import("../drizzle/schema");
+  
+  const quote = await db.select().from(quotes).where(eq(quotes.id, quoteId)).limit(1);
+  if (quote.length === 0) return undefined;
+  
+  const items = await db.select().from(quoteItems)
+    .where(eq(quoteItems.quoteId, quoteId))
+    .orderBy(asc(quoteItems.sortOrder));
+  
+  return {
+    ...quote[0],
+    items,
+  };
+}
+
+// Actualizar items de cotización (reemplaza todos los items)
+export async function updateQuoteItems(quoteId: number, items: Array<{
+  productId?: number;
+  productName: string;
+  description?: string;
+  quantity: number;
+  unitPrice: number;
+  discountType?: string;
+  discountValue?: number;
+  total: number;
+  sortOrder: number;
+  scheduleTime?: string;
+}>) {
+  const db = await getDb();
+  if (!db) return;
+  const { quoteItems } = await import("../drizzle/schema");
+  
+  // Eliminar items existentes
+  await db.delete(quoteItems).where(eq(quoteItems.quoteId, quoteId));
+  
+  // Insertar nuevos items
+  if (items.length > 0) {
+    await db.insert(quoteItems).values(
+      items.map(item => ({
+        quoteId,
+        productId: item.productId,
+        productName: item.productName,
+        description: item.description,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+        discountType: (item.discountType as any) || "percentage",
+        discountValue: item.discountValue || 0,
+        total: item.total,
+        sortOrder: item.sortOrder,
+        scheduleTime: item.scheduleTime,
+      }))
+    );
+  }
+}
+
+// Obtener cotización por slug (para URL pública)
+export async function getQuoteBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { quotes } = await import("../drizzle/schema");
+  const result = await db.select().from(quotes).where(eq(quotes.slug, slug)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+// Generar slug único para cotización
+export async function generateQuoteSlug(): Promise<string> {
+  const db = await getDb();
+  if (!db) return Math.random().toString(36).substring(2, 15);
+  const { quotes } = await import("../drizzle/schema");
+  
+  let slug: string;
+  let exists = true;
+  
+  while (exists) {
+    slug = Math.random().toString(36).substring(2, 15);
+    const result = await db.select().from(quotes).where(eq(quotes.slug, slug)).limit(1);
+    exists = result.length > 0;
+  }
+  
+  return slug!;
+}
+
+// Duplicar cotización
+export async function duplicateQuote(quoteId: number, newName?: string): Promise<number | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { quotes, quoteItems } = await import("../drizzle/schema");
+  const { generateQuoteNumber } = await import("./quoteHelpers");
+  
+  // Obtener cotización original
+  const original = await db.select().from(quotes).where(eq(quotes.id, quoteId)).limit(1);
+  if (original.length === 0) return undefined;
+  
+  const quote = original[0];
+  const newQuoteNumber = await generateQuoteNumber();
+  const newSlug = await generateQuoteSlug();
+  
+  // Crear nueva cotización
+  await db.insert(quotes).values({
+    quoteNumber: newQuoteNumber,
+    name: newName || `${quote.name || quote.clientCompany} (Copia)`,
+    dealId: quote.dealId,
+    clientId: quote.clientId,
+    clientName: quote.clientName,
+    clientEmail: quote.clientEmail,
+    clientCompany: quote.clientCompany,
+    clientPosition: quote.clientPosition,
+    clientPhone: quote.clientPhone,
+    clientWhatsapp: quote.clientWhatsapp,
+    clientRut: quote.clientRut,
+    clientAddress: quote.clientAddress,
+    clientGiro: quote.clientGiro,
+    numberOfPeople: quote.numberOfPeople,
+    eventDate: quote.eventDate,
+    eventDescription: quote.eventDescription,
+    itinerary: quote.itinerary,
+    subtotal: quote.subtotal,
+    discountType: quote.discountType,
+    discountValue: quote.discountValue,
+    total: quote.total,
+    validUntil: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+    status: "draft",
+    slug: newSlug,
+    termsOfPurchase: quote.termsOfPurchase,
+    notes: quote.notes,
+    createdBy: quote.createdBy,
+  });
+  
+  // Obtener el ID de la nueva cotización
+  const newQuote = await db.select().from(quotes)
+    .where(eq(quotes.quoteNumber, newQuoteNumber))
+    .limit(1);
+  
+  if (newQuote.length === 0) return undefined;
+  const newQuoteId = newQuote[0].id;
+  
+  // Copiar items
+  const items = await db.select().from(quoteItems).where(eq(quoteItems.quoteId, quoteId));
+  if (items.length > 0) {
+    await db.insert(quoteItems).values(
+      items.map(item => ({
+        quoteId: newQuoteId,
+        productId: item.productId,
+        productName: item.productName,
+        description: item.description,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+        discountType: item.discountType,
+        discountValue: item.discountValue,
+        total: item.total,
+        sortOrder: item.sortOrder,
+        scheduleTime: item.scheduleTime,
+      }))
+    );
+  }
+  
+  return newQuoteId;
 }

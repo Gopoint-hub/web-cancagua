@@ -302,6 +302,35 @@ export const contactMessages = mysqlTable("contact_messages", {
 
 export type ContactMessage = typeof contactMessages.$inferSelect;
 export type InsertContactMessage = typeof contactMessages.$inferInsert;
+// ============================================
+// SISTEMA DE COTIZACIONES B2B
+// ============================================
+
+// Negocios (Deals) - Entidad principal para cotizaciones B2B
+export const deals = mysqlTable("deals", {
+  id: int("id").autoincrement().primaryKey(),
+  name: text("name").notNull(), // Nombre del negocio (ej: "GCN Turismo", "Hospital Frutillar")
+  pipeline: varchar("pipeline", { length: 100 }).default("jornada_autocuidado").notNull(), // Pipeline/tipo de negocio
+  stage: mysqlEnum("stage", [
+    "nuevo",
+    "reunion_programada",
+    "cotizacion_enviada",
+    "negociacion",
+    "cerrado_ganado",
+    "cerrado_perdido"
+  ]).default("nuevo").notNull(),
+  value: int("value").default(0).notNull(), // Valor estimado del negocio
+  closeDate: date("close_date"), // Fecha estimada de cierre
+  ownerId: int("owner_id").references(() => users.id), // Propietario/vendedor asignado
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Deal = typeof deals.$inferSelect;
+export type InsertDeal = typeof deals.$inferInsert;
+export type DealStage = "nuevo" | "reunion_programada" | "cotizacion_enviada" | "negociacion" | "cerrado_ganado" | "cerrado_perdido";
+
 // Productos corporativos para cotizaciones
 export const corporateProducts = mysqlTable("corporate_products", {
   id: int("id").autoincrement().primaryKey(),
@@ -347,22 +376,33 @@ export type InsertCorporateClient = typeof corporateClients.$inferInsert;
 export const quotes = mysqlTable("quotes", {
   id: int("id").autoincrement().primaryKey(),
   quoteNumber: varchar("quote_number", { length: 50 }).notNull().unique(), // Ej: COT-1000
+  // Nombre de la cotización (ej: "GCN Turismo #1 Almuerzo", "Hospital Frutillar Alternativa")
+  name: text("name"),
+  // Relación con el negocio (Deal)
+  dealId: int("deal_id").references(() => deals.id),
+  // Datos del cliente (copiados para histórico)
   clientId: int("client_id").references(() => corporateClients.id),
-  clientName: text("client_name").notNull(), // Guardado por si el cliente no está en la BD
+  clientName: text("client_name").notNull(), // Nombre del contacto
   clientEmail: varchar("client_email", { length: 320 }).notNull(),
   clientCompany: text("client_company"), // Nombre de la empresa
   clientPosition: text("client_position"), // Cargo del contacto
   clientPhone: varchar("client_phone", { length: 50 }), // Teléfono
+  clientWhatsapp: varchar("client_whatsapp", { length: 50 }), // WhatsApp
   clientRut: varchar("client_rut", { length: 20 }), // RUT de la empresa
   clientAddress: text("client_address"), // Dirección
   clientGiro: text("client_giro"), // Giro de la empresa
+  // Datos del evento
   numberOfPeople: int("number_of_people").notNull(),
   eventDate: date("event_date"),
   eventDescription: text("event_description"), // Descripción de la jornada
   itinerary: text("itinerary"), // Texto editable del itinerario
+  // Totales
   subtotal: int("subtotal").notNull(),
+  discountType: mysqlEnum("discount_type", ["percentage", "fixed"]).default("percentage"),
+  discountValue: int("discount_value").default(0), // Porcentaje o monto fijo
   total: int("total").notNull(),
-  validUntil: date("valid_until").notNull(), // Fecha de caducidad (10 días)
+  // Validez y estado
+  validUntil: date("valid_until").notNull(), // Fecha de caducidad
   status: mysqlEnum("status", [
     "draft",
     "sent",
@@ -371,7 +411,13 @@ export const quotes = mysqlTable("quotes", {
     "paid",
     "invoiced"
   ]).default("draft").notNull(),
+  // URL pública para compartir
+  slug: varchar("slug", { length: 100 }),
+  // Términos de compra personalizados
+  termsOfPurchase: text("terms_of_purchase"),
+  // Notas internas
   notes: text("notes"),
+  // Auditoría
   createdBy: int("created_by").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
@@ -391,8 +437,15 @@ export const quoteItems = mysqlTable("quote_items", {
   description: text("description"),
   quantity: int("quantity").notNull(),
   unitPrice: int("unit_price").notNull(),
+  // Descuento por línea
+  discountType: mysqlEnum("discount_type", ["percentage", "fixed"]).default("percentage"),
+  discountValue: int("discount_value").default(0),
+  // Total después de descuento
   total: int("total").notNull(),
+  // Orden para itinerario (drag & drop)
   sortOrder: int("sort_order").default(0).notNull(),
+  // Hora del itinerario (opcional, texto libre ej: "10:30")
+  scheduleTime: varchar("schedule_time", { length: 10 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
