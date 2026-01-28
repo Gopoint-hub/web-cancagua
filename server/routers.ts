@@ -3145,6 +3145,75 @@ Devuelve un JSON con este formato:
       }),
   }),
 
+  // Gift Cards Admin (CMS)
+  giftCardsAdmin: router({
+    getAll: protectedProcedure
+      .query(async ({ ctx }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "No tienes permisos" });
+        }
+        return await db.getAllGiftCards();
+      }),
+
+    resendEmail: protectedProcedure
+      .input(z.object({ giftCardId: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "No tienes permisos" });
+        }
+
+        const giftCard = await db.getGiftCardById(input.giftCardId);
+        if (!giftCard) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Gift card no encontrada" });
+        }
+
+        if (giftCard.purchaseStatus !== "completed") {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Solo se pueden reenviar gift cards completadas" });
+        }
+
+        const emailTo = giftCard.recipientEmail || giftCard.senderEmail;
+        if (!emailTo) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "No hay email de destino" });
+        }
+
+        try {
+          const { sendGiftCardEmail } = await import("./_core/email");
+          const { generateGiftCardPDF } = await import("./giftcardPdfGenerator");
+
+          const pdfBuffer = await generateGiftCardPDF({
+            amount: giftCard.amount,
+            recipientName: giftCard.recipientName || "Destinatario",
+            recipientEmail: giftCard.recipientEmail || "",
+            message: giftCard.personalMessage || undefined,
+            backgroundImage: giftCard.backgroundImage || "/images/giftcard-backgrounds/spa-green.jpg",
+            code: giftCard.code,
+          });
+
+          await sendGiftCardEmail({
+            to: emailTo,
+            recipientName: giftCard.recipientName || "Estimado/a",
+            senderName: giftCard.senderName,
+            amount: giftCard.amount,
+            code: giftCard.code,
+            message: giftCard.personalMessage,
+            pdfBuffer,
+          });
+
+          await db.updateGiftCard(giftCard.id, {
+            deliveredAt: new Date(),
+          });
+
+          return { success: true, message: "Email reenviado correctamente" };
+        } catch (error: any) {
+          console.error("Error reenviando email de gift card:", error);
+          throw new TRPCError({ 
+            code: "INTERNAL_SERVER_ERROR", 
+            message: `Error al reenviar email: ${error.message}` 
+          });
+        }
+      }),
+  }),
+
   // Eventos (público)
   events: router({
     getActive: publicProcedure.query(async () => {

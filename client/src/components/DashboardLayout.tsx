@@ -25,7 +25,7 @@ import {
   LayoutDashboard, LogOut, PanelLeft, Users, Calendar, Mail, BarChart3,
   FileText, MessageSquare, Package, Newspaper, Settings, Store, Briefcase,
   TrendingUp, Shield, Megaphone, ChevronDown, Home, UtensilsCrossed,
-  CalendarCheck, UserCheck, Kanban, ListChecks, MailPlus, UsersRound, Tag, Languages, RefreshCw
+  CalendarCheck, UserCheck, Kanban, ListChecks, MailPlus, UsersRound, Tag, Languages, RefreshCw, Gift
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState, createContext, useContext } from "react";
 import { useLocation, Link } from "wouter";
@@ -60,9 +60,7 @@ export const categories: Category[] = [
     color: "bg-emerald-500",
     items: [
       { icon: LayoutDashboard, label: "Resumen B2C", path: "/cms/b2c" },
-      { icon: Package, label: "Servicios", path: "/cms/servicios" },
-      { icon: UtensilsCrossed, label: "Carta", path: "/cms/carta" },
-      { icon: CalendarCheck, label: "Reservas", path: "/cms/reservas" },
+      { icon: Gift, label: "Gift Cards", path: "/cms/gift-cards-sales" },
       { icon: MessageSquare, label: "Mensajes", path: "/cms/mensajes" },
       { icon: Users, label: "Clientes", path: "/cms/clientes" },
     ],

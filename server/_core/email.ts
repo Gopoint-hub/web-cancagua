@@ -373,6 +373,7 @@ export async function sendGiftCardEmail(params: {
     const { data, error } = await client.emails.send({
       from: FROM_EMAIL,
       to: [params.to],
+      cc: ["contacto@cancagua.cl"],
       subject: `🎁 ¡Has recibido una Gift Card de Cancagua por ${formattedAmount}!`,
       attachments: [
         {

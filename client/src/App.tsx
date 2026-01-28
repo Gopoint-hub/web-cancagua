@@ -34,6 +34,7 @@ import CMSMetricas from "./pages/cms/Metricas";
 import CMSAdmin from "./pages/cms/Admin";
 import CMSTraducciones from "./pages/cms/Traducciones";
 import CMSIntegraciones from "./pages/cms/Integraciones";
+import CMSGiftCardsSales from "./pages/cms/GiftCardsSales";
 import CMSLogin from "./pages/cms/Login";
 import CMSActivarCuenta from "./pages/cms/ActivarCuenta";
 import CMSRecuperarContrasena from "./pages/cms/RecuperarContrasena";
@@ -142,6 +143,7 @@ function Router() {
         <Route path={"/cms/metricas"} component={CMSMetricas} />
         <Route path={"/cms/integraciones"} component={CMSIntegraciones} />
         <Route path={"/cms/admin"} component={CMSAdmin} />
+        <Route path={"/cms/gift-cards-sales"} component={CMSGiftCardsSales} />
         <Route path={"/cms/traducciones"} component={CMSTraducciones} />
         <Route path={"/404"} component={NotFound} />
         {/* Final fallback route */}
