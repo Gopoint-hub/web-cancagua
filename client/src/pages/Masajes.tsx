@@ -231,7 +231,7 @@ export default function Masajes() {
                   <T>Spa en Hotel Cabañas del Lago</T>
                 </h3>
                 <p className="font-['Fira_Sans'] text-white/80 max-w-lg">
-                  <T>Disfruta de nuestros masajes con vista al Lago Llanquihue en el corazón de Puerto Varas.</T>
+                  <T>Disfruta de nuestros masajes en el corazón de Puerto Varas.</T>
                 </p>
               </div>
               <a href="/spa-hotel-cabanas-del-lago">
