@@ -1857,7 +1857,7 @@ export async function createDeal(deal: {
     pipeline: deal.pipeline || "jornada_autocuidado",
     stage: (deal.stage as any) || "nuevo",
     value: deal.value || 0,
-    closeDate: deal.closeDate ? new Date(deal.closeDate) : null,
+    closeDate: deal.closeDate ? new Date(deal.closeDate).toISOString().split('T')[0] : null,
     ownerId: deal.ownerId,
     notes: deal.notes,
   });
