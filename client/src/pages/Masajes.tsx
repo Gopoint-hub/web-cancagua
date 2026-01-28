@@ -59,7 +59,7 @@ export default function Masajes() {
         <section className="relative h-[70vh] min-h-[500px]">
           <div className="absolute inset-0">
             <img
-              src="/images/03_masajes-hero.webp"
+              src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1769558778/cancagua/images/masajes-hero.jpg"
               alt="Masajes Cancagua"
               className="w-full h-full object-cover"
             />
@@ -174,7 +174,7 @@ export default function Masajes() {
             </h2>
             <div className="grid grid-cols-3 gap-4">
               <img
-                src="/images/03_masajes-hero.webp"
+                src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1769558778/cancagua/images/masajes-hero.jpg"
                 alt="Masaje relajante"
                 className="rounded-lg shadow-md w-full h-64 object-cover"
               />
