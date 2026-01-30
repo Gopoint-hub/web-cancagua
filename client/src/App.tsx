@@ -34,6 +34,7 @@ import CMSMarketingROI from "./pages/cms/MarketingROI";
 import CMSMetricas from "./pages/cms/Metricas";
 import CMSAdmin from "./pages/cms/Admin";
 import CMSTraducciones from "./pages/cms/Traducciones";
+import CMSReportesMantencion from "./pages/cms/ReportesMantencion";
 import CMSIntegraciones from "./pages/cms/Integraciones";
 import CMSGiftCardsSales from "./pages/cms/GiftCardsSales";
 import CMSLogin from "./pages/cms/Login";
@@ -148,6 +149,7 @@ function Router() {
         <Route path={"/cms/admin"} component={CMSAdmin} />
         <Route path={"/cms/gift-cards-sales"} component={CMSGiftCardsSales} />
         <Route path={"/cms/traducciones"} component={CMSTraducciones} />
+        <Route path={"/cms/reportes-mantencion"} component={CMSReportesMantencion} />
         <Route path={"/404"} component={NotFound} />
         {/* Final fallback route */}
         <Route component={NotFound} />

@@ -2105,3 +2105,283 @@ export async function duplicateQuote(quoteId: number, newName?: string): Promise
   
   return newQuoteId;
 }
+
+
+// ============================================
+// REPORTES DE MANTENCIÓN
+// ============================================
+
+export async function getAllMaintenanceReports() {
+  const db = await getDb();
+  if (!db) return [];
+  const { maintenanceReports, users } = await import("../drizzle/schema");
+  
+  const reports = await db.select({
+    report: maintenanceReports,
+    reportedByName: users.name,
+    reportedByEmail: users.email,
+  })
+  .from(maintenanceReports)
+  .leftJoin(users, eq(maintenanceReports.reportedById, users.id))
+  .orderBy(desc(maintenanceReports.createdAt));
+  
+  return reports.map(r => ({
+    ...r.report,
+    reportedByName: r.reportedByName,
+    reportedByEmail: r.reportedByEmail,
+  }));
+}
+
+export async function getMaintenanceReportById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { maintenanceReports, maintenanceReportPhotos, users } = await import("../drizzle/schema");
+  
+  const reportResult = await db.select({
+    report: maintenanceReports,
+    reportedByName: users.name,
+    reportedByEmail: users.email,
+  })
+  .from(maintenanceReports)
+  .leftJoin(users, eq(maintenanceReports.reportedById, users.id))
+  .where(eq(maintenanceReports.id, id))
+  .limit(1);
+  
+  if (reportResult.length === 0) return undefined;
+  
+  const photos = await db.select().from(maintenanceReportPhotos)
+    .where(eq(maintenanceReportPhotos.reportId, id))
+    .orderBy(asc(maintenanceReportPhotos.createdAt));
+  
+  return {
+    ...reportResult[0].report,
+    reportedByName: reportResult[0].reportedByName,
+    reportedByEmail: reportResult[0].reportedByEmail,
+    photos,
+  };
+}
+
+export async function generateMaintenanceReportNumber(): Promise<string> {
+  const db = await getDb();
+  if (!db) return `MR-${Date.now()}`;
+  const { maintenanceReports } = await import("../drizzle/schema");
+  
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const prefix = `MR-${year}${month}${day}`;
+  
+  // Contar reportes del día
+  const todayStart = new Date(today.setHours(0, 0, 0, 0));
+  const todayEnd = new Date(today.setHours(23, 59, 59, 999));
+  
+  const count = await db.select({ count: sql<number>`COUNT(*)` })
+    .from(maintenanceReports)
+    .where(and(
+      gte(maintenanceReports.createdAt, todayStart),
+      sql`${maintenanceReports.createdAt} <= ${todayEnd}`
+    ));
+  
+  const sequence = String((count[0]?.count || 0) + 1).padStart(3, '0');
+  return `${prefix}-${sequence}`;
+}
+
+export async function createMaintenanceReport(report: {
+  title: string;
+  area?: string;
+  equipment?: string;
+  location?: string;
+  status?: string;
+  priority?: string;
+  maintenanceType?: string;
+  description?: string;
+  resolution?: string;
+  materialsUsed?: string;
+  observations?: string;
+  reportedById: number;
+  assignedToId?: number;
+  scheduledDate?: Date;
+  startedAt?: Date;
+  completedAt?: Date;
+  nextMaintenanceDate?: Date;
+}) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { maintenanceReports } = await import("../drizzle/schema");
+  
+  const reportNumber = await generateMaintenanceReportNumber();
+  
+  await db.insert(maintenanceReports).values({
+    reportNumber,
+    title: report.title,
+    area: report.area,
+    equipment: report.equipment,
+    location: report.location,
+    status: (report.status as any) || "pending",
+    priority: (report.priority as any) || "medium",
+    maintenanceType: (report.maintenanceType as any) || "corrective",
+    description: report.description,
+    resolution: report.resolution,
+    materialsUsed: report.materialsUsed,
+    observations: report.observations,
+    reportedById: report.reportedById,
+    assignedToId: report.assignedToId,
+    scheduledDate: report.scheduledDate,
+    startedAt: report.startedAt,
+    completedAt: report.completedAt,
+    nextMaintenanceDate: report.nextMaintenanceDate,
+  });
+  
+  // Obtener el reporte recién creado
+  const inserted = await db.select().from(maintenanceReports)
+    .where(eq(maintenanceReports.reportNumber, reportNumber))
+    .limit(1);
+  
+  return inserted.length > 0 ? inserted[0] : undefined;
+}
+
+export async function updateMaintenanceReport(id: number, data: {
+  title?: string;
+  area?: string;
+  equipment?: string;
+  location?: string;
+  status?: string;
+  priority?: string;
+  maintenanceType?: string;
+  description?: string;
+  resolution?: string;
+  materialsUsed?: string;
+  observations?: string;
+  assignedToId?: number;
+  scheduledDate?: Date;
+  startedAt?: Date;
+  completedAt?: Date;
+  nextMaintenanceDate?: Date;
+}) {
+  const db = await getDb();
+  if (!db) return;
+  const { maintenanceReports } = await import("../drizzle/schema");
+  await db.update(maintenanceReports).set(data as any).where(eq(maintenanceReports.id, id));
+}
+
+export async function deleteMaintenanceReport(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { maintenanceReports } = await import("../drizzle/schema");
+  await db.delete(maintenanceReports).where(eq(maintenanceReports.id, id));
+}
+
+// Fotos de reportes de mantención
+export async function addMaintenanceReportPhoto(photo: {
+  reportId: number;
+  url: string;
+  thumbnailUrl?: string;
+  description?: string;
+  photoType?: string;
+  uploadedById?: number;
+}) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const { maintenanceReportPhotos } = await import("../drizzle/schema");
+  
+  await db.insert(maintenanceReportPhotos).values({
+    reportId: photo.reportId,
+    url: photo.url,
+    thumbnailUrl: photo.thumbnailUrl,
+    description: photo.description,
+    photoType: (photo.photoType as any) || "evidence",
+    uploadedById: photo.uploadedById,
+  });
+  
+  // Obtener la foto recién creada
+  const inserted = await db.select().from(maintenanceReportPhotos)
+    .where(eq(maintenanceReportPhotos.reportId, photo.reportId))
+    .orderBy(desc(maintenanceReportPhotos.id))
+    .limit(1);
+  
+  return inserted.length > 0 ? inserted[0] : undefined;
+}
+
+export async function deleteMaintenanceReportPhoto(photoId: number) {
+  const db = await getDb();
+  if (!db) return;
+  const { maintenanceReportPhotos } = await import("../drizzle/schema");
+  await db.delete(maintenanceReportPhotos).where(eq(maintenanceReportPhotos.id, photoId));
+}
+
+export async function getMaintenanceReportPhotos(reportId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { maintenanceReportPhotos } = await import("../drizzle/schema");
+  return await db.select().from(maintenanceReportPhotos)
+    .where(eq(maintenanceReportPhotos.reportId, reportId))
+    .orderBy(asc(maintenanceReportPhotos.createdAt));
+}
+
+// Historial de cambios de estado
+export async function addMaintenanceReportHistory(entry: {
+  reportId: number;
+  previousStatus?: string;
+  newStatus: string;
+  changedById: number;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) return;
+  const { maintenanceReportHistory } = await import("../drizzle/schema");
+  
+  await db.insert(maintenanceReportHistory).values({
+    reportId: entry.reportId,
+    previousStatus: entry.previousStatus,
+    newStatus: entry.newStatus,
+    changedById: entry.changedById,
+    notes: entry.notes,
+  });
+}
+
+export async function getMaintenanceReportHistory(reportId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const { maintenanceReportHistory, users } = await import("../drizzle/schema");
+  
+  const history = await db.select({
+    entry: maintenanceReportHistory,
+    changedByName: users.name,
+  })
+  .from(maintenanceReportHistory)
+  .leftJoin(users, eq(maintenanceReportHistory.changedById, users.id))
+  .where(eq(maintenanceReportHistory.reportId, reportId))
+  .orderBy(desc(maintenanceReportHistory.createdAt));
+  
+  return history.map(h => ({
+    ...h.entry,
+    changedByName: h.changedByName,
+  }));
+}
+
+// Estadísticas de mantención
+export async function getMaintenanceStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, pending: 0, inProgress: 0, completed: 0, requiresFollowUp: 0 };
+  const { maintenanceReports } = await import("../drizzle/schema");
+  
+  const stats = await db.select({
+    status: maintenanceReports.status,
+    count: sql<number>`COUNT(*)`,
+  })
+  .from(maintenanceReports)
+  .groupBy(maintenanceReports.status);
+  
+  const result = { total: 0, pending: 0, inProgress: 0, completed: 0, requiresFollowUp: 0 };
+  stats.forEach(s => {
+    const count = Number(s.count);
+    result.total += count;
+    if (s.status === "pending") result.pending = count;
+    else if (s.status === "in_progress") result.inProgress = count;
+    else if (s.status === "completed") result.completed = count;
+    else if (s.status === "requires_follow_up") result.requiresFollowUp = count;
+  });
+  
+  return result;
+}

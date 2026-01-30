@@ -25,7 +25,8 @@ import {
   LayoutDashboard, LogOut, PanelLeft, Users, Calendar, Mail, BarChart3,
   FileText, MessageSquare, Package, Newspaper, Settings, Store, Briefcase,
   TrendingUp, Shield, Megaphone, ChevronDown, Home, UtensilsCrossed,
-  CalendarCheck, UserCheck, Kanban, ListChecks, MailPlus, UsersRound, Tag, Languages, RefreshCw, Gift
+  CalendarCheck, UserCheck, Kanban, ListChecks, MailPlus, UsersRound, Tag, Languages, RefreshCw, Gift,
+  Wrench, HardHat
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState, createContext, useContext } from "react";
 import { useLocation, Link } from "wouter";
@@ -34,7 +35,7 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
 // Definición de categorías y sus items de menú
-export type CategoryId = "b2c" | "b2b" | "marketing" | "metrics" | "admin";
+export type CategoryId = "b2c" | "b2b" | "marketing" | "metrics" | "operations" | "admin";
 
 interface MenuItem {
   icon: any;
@@ -103,6 +104,16 @@ export const categories: Category[] = [
     items: [
       { icon: LayoutDashboard, label: "Resumen Métricas", path: "/cms/metricas" },
       { icon: BarChart3, label: "Analytics", path: "/cms/analytics" },
+    ],
+  },
+  {
+    id: "operations",
+    label: "Operaciones",
+    icon: HardHat,
+    description: "Mantención & Operaciones",
+    color: "bg-orange-500",
+    items: [
+      { icon: Wrench, label: "Reportes Mantención", path: "/cms/reportes-mantencion" },
     ],
   },
   {

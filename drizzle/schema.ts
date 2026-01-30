@@ -710,3 +710,65 @@ export const marketingInvestments = mysqlTable("marketing_investments", {
 
 export type MarketingInvestment = typeof marketingInvestments.$inferSelect;
 export type InsertMarketingInvestment = typeof marketingInvestments.$inferInsert;
+
+
+// ============================================
+// SISTEMA DE REPORTES DE MANTENCIÓN
+// ============================================
+
+// Reportes de mantención diarios
+export const maintenanceReports = mysqlTable("maintenance_reports", {
+  id: int("id").autoincrement().primaryKey(),
+  reportNumber: varchar("report_number", { length: 50 }).notNull().unique(),
+  title: text("title").notNull(),
+  area: varchar("area", { length: 100 }), // Área donde se realizó la mantención
+  equipment: varchar("equipment", { length: 150 }), // Equipo o instalación intervenida
+  location: text("location"), // Ubicación específica
+  status: mysqlEnum("status", ["pending", "in_progress", "completed", "requires_follow_up"]).default("pending").notNull(),
+  priority: mysqlEnum("priority", ["low", "medium", "high", "critical"]).default("medium").notNull(),
+  maintenanceType: mysqlEnum("maintenance_type", ["preventive", "corrective", "emergency"]).default("corrective").notNull(),
+  description: text("description"), // Descripción del problema o trabajo realizado
+  resolution: text("resolution"), // Descripción de la solución aplicada
+  materialsUsed: text("materials_used"), // Materiales utilizados (JSON o texto)
+  observations: text("observations"), // Observaciones adicionales
+  reportedById: int("reported_by_id").references(() => users.id).notNull(),
+  assignedToId: int("assigned_to_id").references(() => users.id), // Técnico asignado
+  scheduledDate: timestamp("scheduled_date"), // Fecha programada para la mantención
+  startedAt: timestamp("started_at"), // Fecha/hora de inicio del trabajo
+  completedAt: timestamp("completed_at"), // Fecha/hora de finalización
+  nextMaintenanceDate: timestamp("next_maintenance_date"), // Próxima mantención programada
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type MaintenanceReport = typeof maintenanceReports.$inferSelect;
+export type InsertMaintenanceReport = typeof maintenanceReports.$inferInsert;
+
+// Fotos adjuntas a los reportes de mantención
+export const maintenanceReportPhotos = mysqlTable("maintenance_report_photos", {
+  id: int("id").autoincrement().primaryKey(),
+  reportId: int("report_id").references(() => maintenanceReports.id, { onDelete: "cascade" }).notNull(),
+  url: text("url").notNull(), // URL de Cloudinary
+  thumbnailUrl: text("thumbnail_url"), // URL de thumbnail (opcional)
+  description: text("description"), // Descripción de la foto
+  photoType: mysqlEnum("photo_type", ["before", "during", "after", "evidence"]).default("evidence").notNull(),
+  uploadedById: int("uploaded_by_id").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type MaintenanceReportPhoto = typeof maintenanceReportPhotos.$inferSelect;
+export type InsertMaintenanceReportPhoto = typeof maintenanceReportPhotos.$inferInsert;
+
+// Historial de cambios de estado de los reportes
+export const maintenanceReportHistory = mysqlTable("maintenance_report_history", {
+  id: int("id").autoincrement().primaryKey(),
+  reportId: int("report_id").references(() => maintenanceReports.id, { onDelete: "cascade" }).notNull(),
+  previousStatus: varchar("previous_status", { length: 50 }),
+  newStatus: varchar("new_status", { length: 50 }).notNull(),
+  changedById: int("changed_by_id").references(() => users.id).notNull(),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type MaintenanceReportHistory = typeof maintenanceReportHistory.$inferSelect;
+export type InsertMaintenanceReportHistory = typeof maintenanceReportHistory.$inferInsert;

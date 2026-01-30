@@ -3773,6 +3773,210 @@ Example output: {"key1": "Hello world"}`;
         return await db.searchCorporateClients(input.query);
       }),
   }),
+
+  // ============================================
+  // REPORTES DE MANTENCIÓN
+  // ============================================
+  maintenance: router({
+    // Listar todos los reportes
+    list: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getAllMaintenanceReports();
+    }),
+
+    // Obtener un reporte por ID con sus fotos
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        const report = await db.getMaintenanceReportById(input.id);
+        if (!report) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Reporte no encontrado" });
+        }
+        return report;
+      }),
+
+    // Obtener estadísticas
+    stats: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await db.getMaintenanceStats();
+    }),
+
+    // Crear un nuevo reporte
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string().min(1, "El título es requerido"),
+        area: z.string().optional(),
+        equipment: z.string().optional(),
+        location: z.string().optional(),
+        status: z.enum(["pending", "in_progress", "completed", "requires_follow_up"]).optional(),
+        priority: z.enum(["low", "medium", "high", "critical"]).optional(),
+        maintenanceType: z.enum(["preventive", "corrective", "emergency"]).optional(),
+        description: z.string().optional(),
+        resolution: z.string().optional(),
+        materialsUsed: z.string().optional(),
+        observations: z.string().optional(),
+        assignedToId: z.number().optional(),
+        scheduledDate: z.string().optional(),
+        startedAt: z.string().optional(),
+        completedAt: z.string().optional(),
+        nextMaintenanceDate: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const report = await db.createMaintenanceReport({
+          ...input,
+          reportedById: ctx.user.id,
+          scheduledDate: input.scheduledDate ? new Date(input.scheduledDate) : undefined,
+          startedAt: input.startedAt ? new Date(input.startedAt) : undefined,
+          completedAt: input.completedAt ? new Date(input.completedAt) : undefined,
+          nextMaintenanceDate: input.nextMaintenanceDate ? new Date(input.nextMaintenanceDate) : undefined,
+        });
+        
+        return report;
+      }),
+
+    // Actualizar un reporte
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().optional(),
+        area: z.string().optional(),
+        equipment: z.string().optional(),
+        location: z.string().optional(),
+        status: z.enum(["pending", "in_progress", "completed", "requires_follow_up"]).optional(),
+        priority: z.enum(["low", "medium", "high", "critical"]).optional(),
+        maintenanceType: z.enum(["preventive", "corrective", "emergency"]).optional(),
+        description: z.string().optional(),
+        resolution: z.string().optional(),
+        materialsUsed: z.string().optional(),
+        observations: z.string().optional(),
+        assignedToId: z.number().optional(),
+        scheduledDate: z.string().optional(),
+        startedAt: z.string().optional(),
+        completedAt: z.string().optional(),
+        nextMaintenanceDate: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { id, ...data } = input;
+        
+        // Obtener reporte actual para registrar cambio de estado
+        const currentReport = await db.getMaintenanceReportById(id);
+        if (!currentReport) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Reporte no encontrado" });
+        }
+        
+        // Si cambió el estado, registrar en historial
+        if (data.status && data.status !== currentReport.status) {
+          await db.addMaintenanceReportHistory({
+            reportId: id,
+            previousStatus: currentReport.status,
+            newStatus: data.status,
+            changedById: ctx.user.id,
+          });
+        }
+        
+        await db.updateMaintenanceReport(id, {
+          ...data,
+          scheduledDate: data.scheduledDate ? new Date(data.scheduledDate) : undefined,
+          startedAt: data.startedAt ? new Date(data.startedAt) : undefined,
+          completedAt: data.completedAt ? new Date(data.completedAt) : undefined,
+          nextMaintenanceDate: data.nextMaintenanceDate ? new Date(data.nextMaintenanceDate) : undefined,
+        });
+        
+        return { success: true };
+      }),
+
+    // Eliminar un reporte
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.deleteMaintenanceReport(input.id);
+        return { success: true };
+      }),
+
+    // Subir foto a un reporte
+    addPhoto: protectedProcedure
+      .input(z.object({
+        reportId: z.number(),
+        imageData: z.string(), // Base64 encoded image
+        description: z.string().optional(),
+        photoType: z.enum(["before", "during", "after", "evidence"]).optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        
+        const { storagePut } = await import("./storage");
+        
+        // Extraer el tipo de imagen y datos del base64
+        const matches = input.imageData.match(/^data:image\/(\w+);base64,(.+)$/);
+        if (!matches) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Formato de imagen inválido" });
+        }
+        
+        const imageType = matches[1];
+        const base64Data = matches[2];
+        const imageBuffer = Buffer.from(base64Data, 'base64');
+        
+        // Generar nombre único para el archivo
+        const timestamp = Date.now();
+        const randomSuffix = Math.random().toString(36).substring(2, 8);
+        const fileName = `maintenance-${input.reportId}-${timestamp}-${randomSuffix}.${imageType}`;
+        const fileKey = `maintenance-reports/${fileName}`;
+        
+        const { url } = await storagePut(fileKey, imageBuffer, `image/${imageType}`);
+        
+        // Guardar referencia en la base de datos
+        const photo = await db.addMaintenanceReportPhoto({
+          reportId: input.reportId,
+          url,
+          description: input.description,
+          photoType: input.photoType || "evidence",
+          uploadedById: ctx.user.id,
+        });
+        
+        return photo;
+      }),
+
+    // Eliminar foto de un reporte
+    deletePhoto: protectedProcedure
+      .input(z.object({ photoId: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        await db.deleteMaintenanceReportPhoto(input.photoId);
+        return { success: true };
+      }),
+
+    // Obtener historial de cambios de un reporte
+    getHistory: protectedProcedure
+      .input(z.object({ reportId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+        return await db.getMaintenanceReportHistory(input.reportId);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
