@@ -2166,22 +2166,19 @@ export async function generateMaintenanceReportNumber(): Promise<string> {
   if (!db) return `MR-${Date.now()}`;
   const { maintenanceReports } = await import("../drizzle/schema");
   
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
   const prefix = `MR-${year}${month}${day}`;
   
-  // Contar reportes del día
-  const todayStart = new Date(today.setHours(0, 0, 0, 0));
-  const todayEnd = new Date(today.setHours(23, 59, 59, 999));
+  // Contar reportes del día usando formato ISO para las fechas
+  const todayStart = `${year}-${month}-${day} 00:00:00`;
+  const todayEnd = `${year}-${month}-${day} 23:59:59`;
   
   const count = await db.select({ count: sql<number>`COUNT(*)` })
     .from(maintenanceReports)
-    .where(and(
-      gte(maintenanceReports.createdAt, todayStart),
-      sql`${maintenanceReports.createdAt} <= ${todayEnd}`
-    ));
+    .where(sql`${maintenanceReports.createdAt} >= ${todayStart} AND ${maintenanceReports.createdAt} <= ${todayEnd}`);
   
   const sequence = String((count[0]?.count || 0) + 1).padStart(3, '0');
   return `${prefix}-${sequence}`;

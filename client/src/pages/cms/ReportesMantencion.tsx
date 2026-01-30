@@ -148,6 +148,12 @@ export default function CMSReportesMantencion() {
   // Queries
   const { data: reports, isLoading, refetch } = trpc.maintenance.list.useQuery();
   const { data: stats } = trpc.maintenance.stats.useQuery();
+  
+  // Query para obtener el reporte con fotos cuando se selecciona
+  const { data: reportWithPhotos, refetch: refetchReportWithPhotos } = trpc.maintenance.getById.useQuery(
+    { id: selectedReport?.id ?? 0 },
+    { enabled: !!selectedReport?.id && isDetailOpen }
+  );
 
   // Mutations
   const createMutation = trpc.maintenance.create.useMutation({
@@ -228,7 +234,8 @@ export default function CMSReportesMantencion() {
   };
 
   const refetchReportDetails = async (reportId: number) => {
-    // This will be handled by the query
+    // Refetch el reporte con fotos
+    await refetchReportWithPhotos();
     refetch();
   };
 
@@ -328,6 +335,9 @@ export default function CMSReportesMantencion() {
     setSelectedReport(report);
     setIsDetailOpen(true);
   };
+
+  // Actualizar selectedReport cuando se cargan las fotos
+  const currentReportWithPhotos = reportWithPhotos || selectedReport;
 
   const handleEditReport = (report: Report) => {
     setSelectedReport(report);
@@ -1013,9 +1023,9 @@ export default function CMSReportesMantencion() {
                   </Card>
                   
                   {/* Photo Gallery */}
-                  {selectedReport.photos && selectedReport.photos.length > 0 ? (
+                  {currentReportWithPhotos?.photos && currentReportWithPhotos.photos.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {selectedReport.photos.map((photo: Photo) => (
+                      {currentReportWithPhotos.photos.map((photo: Photo) => (
                         <Card key={photo.id} className="overflow-hidden">
                           <div className="relative aspect-square">
                             <img
