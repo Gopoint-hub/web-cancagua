@@ -118,15 +118,14 @@ interface QuoteDetails {
   termsOfPurchase: string;
 }
 
-// Pasos del wizard
+// Pasos del wizard (6 pasos - se eliminó "Tu información" ya que se registra automáticamente)
 const WIZARD_STEPS = [
   { id: 1, title: "Negocio", icon: Building2, description: "Asociar con un negocio" },
   { id: 2, title: "Información del comprador", icon: User, description: "Datos del contacto" },
-  { id: 3, title: "Tu información", icon: FileText, description: "Datos del vendedor" },
-  { id: 4, title: "Elementos de pedido", icon: ShoppingCart, description: "Productos y servicios" },
-  { id: 5, title: "Firma y pago", icon: CreditCard, description: "Configuración de pago" },
-  { id: 6, title: "Plantilla y detalles", icon: Settings, description: "Nombre y términos" },
-  { id: 7, title: "Revisión", icon: CheckCircle, description: "Vista previa final" },
+  { id: 3, title: "Elementos de pedido", icon: ShoppingCart, description: "Productos y servicios" },
+  { id: 4, title: "Firma y pago", icon: CreditCard, description: "Configuración de pago" },
+  { id: 5, title: "Plantilla y detalles", icon: Settings, description: "Nombre y términos" },
+  { id: 6, title: "Revisión", icon: CheckCircle, description: "Vista previa final" },
 ];
 
 // Pipelines disponibles
@@ -259,7 +258,7 @@ export default function CotizacionWizard() {
     }).format(price);
   };
 
-  // Validar paso actual
+  // Validar paso actual (6 pasos)
   const validateStep = (step: number): boolean => {
     switch (step) {
       case 1:
@@ -267,15 +266,13 @@ export default function CotizacionWizard() {
       case 2:
         return !!buyerData.name && !!buyerData.email;
       case 3:
-        return true; // Siempre válido (auto-completado)
+        return items.length > 0; // Elementos de pedido
       case 4:
-        return items.length > 0;
-      case 5:
         return true; // Siempre válido (pago desactivado)
+      case 5:
+        return !!quoteDetails.name && !!quoteDetails.validUntil; // Plantilla y detalles
       case 6:
-        return !!quoteDetails.name && !!quoteDetails.validUntil;
-      case 7:
-        return true;
+        return true; // Revisión
       default:
         return false;
     }
@@ -334,7 +331,7 @@ export default function CotizacionWizard() {
     }
 
     // Avanzar al siguiente paso
-    if (currentStep < 7) {
+    if (currentStep < 6) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -1529,23 +1526,21 @@ export default function CotizacionWizard() {
     </Card>
   );
 
-  // Renderizar paso actual
+  // Renderizar paso actual (6 pasos)
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 1:
-        return renderStep1();
+        return renderStep1(); // Negocio
       case 2:
-        return renderStep2();
+        return renderStep2(); // Información del comprador
       case 3:
-        return renderStep3();
+        return renderStep4(); // Elementos de pedido (era paso 4)
       case 4:
-        return renderStep4();
+        return renderStep5(); // Firma y pago (era paso 5)
       case 5:
-        return renderStep5();
+        return renderStep6(); // Plantilla y detalles (era paso 6)
       case 6:
-        return renderStep6();
-      case 7:
-        return renderStep7();
+        return renderStep7(); // Revisión (era paso 7)
       default:
         return null;
     }
@@ -1561,7 +1556,7 @@ export default function CotizacionWizard() {
               {isEditing ? "Editar cotización" : "Editar una cotización"}
             </h1>
             <p className="text-muted-foreground mt-1">
-              Paso {currentStep} de 7
+              Paso {currentStep} de 6
             </p>
           </div>
           <Button variant="outline" onClick={() => setLocation("/cms/cotizaciones")}>
@@ -1587,7 +1582,7 @@ export default function CotizacionWizard() {
           </Button>
 
           <div className="flex gap-2">
-            {currentStep === 7 ? (
+            {currentStep === 6 ? (
               <>
                 <Button variant="outline" onClick={() => handleSave("draft")}>
                   <Save className="w-4 h-4 mr-2" />
