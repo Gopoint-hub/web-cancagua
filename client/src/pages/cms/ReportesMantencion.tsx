@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -42,7 +43,8 @@ import { toast } from "sonner";
 import { 
   Loader2, Wrench, Plus, Search, RefreshCw, MoreHorizontal,
   Eye, Edit, Trash2, Camera, X, Download, Clock, CheckCircle2,
-  AlertTriangle, AlertCircle, FileText, MapPin, Settings2, ImagePlus
+  AlertTriangle, AlertCircle, FileText, MapPin, Settings2, ImagePlus,
+  ArrowLeft, Printer, FileDown, ChevronRight
 } from "lucide-react";
 import { Link } from "wouter";
 import DashboardLayout from "@/components/DashboardLayout";
@@ -62,9 +64,8 @@ interface Photo {
   createdAt: string;
 }
 
-// Interfaz para fotos pendientes (antes de subir)
 interface PendingPhoto {
-  id: string; // ID temporal
+  id: string;
   file: File;
   preview: string;
   description: string;
@@ -125,18 +126,243 @@ const photoTypeLabels: Record<PhotoType, string> = {
   evidence: "Evidencia",
 };
 
+// Vista tipo documento para el reporte
+function ReportDocumentView({ 
+  report, 
+  onBack, 
+  onEdit,
+  onExportPDF 
+}: { 
+  report: Report & { photos?: Photo[] }; 
+  onBack: () => void;
+  onEdit: () => void;
+  onExportPDF: () => void;
+}) {
+  const getStatusColor = (status: ReportStatus) => {
+    switch (status) {
+      case "pending": return "bg-yellow-100 text-yellow-800 border-yellow-300";
+      case "in_progress": return "bg-blue-100 text-blue-800 border-blue-300";
+      case "completed": return "bg-green-100 text-green-800 border-green-300";
+      case "requires_follow_up": return "bg-orange-100 text-orange-800 border-orange-300";
+    }
+  };
+
+  const getPriorityColor = (priority: ReportPriority) => {
+    switch (priority) {
+      case "low": return "bg-gray-100 text-gray-800";
+      case "medium": return "bg-blue-100 text-blue-800";
+      case "high": return "bg-orange-100 text-orange-800";
+      case "critical": return "bg-red-100 text-red-800";
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header con acciones */}
+      <div className="flex items-center justify-between">
+        <Button variant="ghost" onClick={onBack} className="gap-2">
+          <ArrowLeft className="w-4 h-4" />
+          Volver a la lista
+        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={onExportPDF}>
+            <FileDown className="w-4 h-4 mr-2" />
+            Exportar PDF
+          </Button>
+          <Button onClick={onEdit}>
+            <Edit className="w-4 h-4 mr-2" />
+            Editar
+          </Button>
+        </div>
+      </div>
+
+      {/* Documento estilo PDF */}
+      <div id="report-document" className="bg-white rounded-lg shadow-lg border max-w-4xl mx-auto">
+        {/* Encabezado del documento */}
+        <div className="border-b p-8">
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-4">
+              <img 
+                src="/images/01_logo-cancagua.png" 
+                alt="Cancagua" 
+                className="h-16 w-auto"
+              />
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Reporte de Mantención</h1>
+                <p className="text-gray-500">Cancagua Spa & Retreat Center</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-lg font-mono font-bold text-primary">{report.reportNumber}</p>
+              <p className="text-sm text-gray-500">
+                {format(new Date(report.createdAt), "dd 'de' MMMM, yyyy", { locale: es })}
+              </p>
+              <p className="text-sm text-gray-500">
+                {format(new Date(report.createdAt), "HH:mm", { locale: es })} hrs
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Badges de estado */}
+        <div className="px-8 py-4 bg-gray-50 border-b flex gap-4">
+          <div className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(report.status)}`}>
+            {statusLabels[report.status]}
+          </div>
+          <div className={`px-3 py-1 rounded-full text-sm font-medium ${getPriorityColor(report.priority)}`}>
+            Prioridad: {priorityLabels[report.priority]}
+          </div>
+          <div className="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+            {maintenanceTypeLabels[report.maintenanceType]}
+          </div>
+        </div>
+
+        {/* Contenido principal */}
+        <div className="p-8 space-y-6">
+          {/* Título */}
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">{report.title}</h2>
+          </div>
+
+          {/* Información general */}
+          <div className="grid grid-cols-3 gap-6">
+            {report.area && (
+              <div>
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Área</p>
+                <p className="mt-1 text-gray-900">{report.area}</p>
+              </div>
+            )}
+            {report.equipment && (
+              <div>
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Equipo</p>
+                <p className="mt-1 text-gray-900">{report.equipment}</p>
+              </div>
+            )}
+            {report.location && (
+              <div>
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Ubicación</p>
+                <p className="mt-1 text-gray-900 flex items-center gap-1">
+                  <MapPin className="w-4 h-4 text-gray-400" />
+                  {report.location}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Descripción del problema */}
+          {report.description && (
+            <div className="border-t pt-6">
+              <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
+                Descripción del Problema
+              </h3>
+              <p className="text-gray-900 whitespace-pre-wrap leading-relaxed">
+                {report.description}
+              </p>
+            </div>
+          )}
+
+          {/* Resolución */}
+          {report.resolution && (
+            <div className="border-t pt-6">
+              <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
+                Resolución / Trabajo Realizado
+              </h3>
+              <p className="text-gray-900 whitespace-pre-wrap leading-relaxed">
+                {report.resolution}
+              </p>
+            </div>
+          )}
+
+          {/* Materiales */}
+          {report.materialsUsed && (
+            <div className="border-t pt-6">
+              <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
+                Materiales Utilizados
+              </h3>
+              <p className="text-gray-900 whitespace-pre-wrap leading-relaxed">
+                {report.materialsUsed}
+              </p>
+            </div>
+          )}
+
+          {/* Observaciones */}
+          {report.observations && (
+            <div className="border-t pt-6">
+              <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
+                Observaciones
+              </h3>
+              <p className="text-gray-900 whitespace-pre-wrap leading-relaxed">
+                {report.observations}
+              </p>
+            </div>
+          )}
+
+          {/* Galería de fotos */}
+          {report.photos && report.photos.length > 0 && (
+            <div className="border-t pt-6">
+              <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">
+                Evidencia Fotográfica ({report.photos.length} {report.photos.length === 1 ? 'foto' : 'fotos'})
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                {report.photos.map((photo) => (
+                  <div key={photo.id} className="border rounded-lg overflow-hidden">
+                    <div className="aspect-video relative">
+                      <img
+                        src={photo.url}
+                        alt={photo.description || "Foto de mantención"}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-2 left-2">
+                        <span className="px-2 py-1 bg-black/70 text-white text-xs rounded">
+                          {photoTypeLabels[photo.photoType]}
+                        </span>
+                      </div>
+                    </div>
+                    {photo.description && (
+                      <div className="p-3 bg-gray-50">
+                        <p className="text-sm text-gray-600">{photo.description}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Pie del documento */}
+        <div className="border-t p-8 bg-gray-50">
+          <div className="flex justify-between items-center text-sm text-gray-500">
+            <div>
+              <p>Reportado por: <span className="text-gray-900">{report.reportedByName || report.reportedByEmail || "Usuario"}</span></p>
+            </div>
+            <div className="text-right">
+              <p>Última actualización: {format(new Date(report.updatedAt), "dd/MM/yyyy HH:mm", { locale: es })}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function CMSReportesMantencion() {
   const { user, loading: authLoading } = useAuth();
   const [statusFilter, setStatusFilter] = useState<"all" | ReportStatus>("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+  const [viewingReport, setViewingReport] = useState<Report | null>(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const createFileInputRef = useRef<HTMLInputElement>(null);
+
+  // Bulk selection
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -153,10 +379,8 @@ export default function CMSReportesMantencion() {
     observations: "",
   });
 
-  // Fotos pendientes para el formulario de creación
   const [pendingPhotos, setPendingPhotos] = useState<PendingPhoto[]>([]);
   const [newPhotoType, setNewPhotoType] = useState<PhotoType>("evidence");
-
   const [photoDescription, setPhotoDescription] = useState("");
   const [photoType, setPhotoType] = useState<PhotoType>("evidence");
 
@@ -164,10 +388,9 @@ export default function CMSReportesMantencion() {
   const { data: reports, isLoading, refetch } = trpc.maintenance.list.useQuery();
   const { data: stats } = trpc.maintenance.stats.useQuery();
   
-  // Query para obtener el reporte con fotos cuando se selecciona
   const { data: reportWithPhotos, refetch: refetchReportWithPhotos } = trpc.maintenance.getById.useQuery(
-    { id: selectedReport?.id ?? 0 },
-    { enabled: !!selectedReport?.id && isDetailOpen }
+    { id: viewingReport?.id ?? 0 },
+    { enabled: !!viewingReport?.id }
   );
 
   // Mutations
@@ -178,6 +401,9 @@ export default function CMSReportesMantencion() {
       toast.success("Reporte actualizado");
       setIsEditOpen(false);
       refetch();
+      if (viewingReport) {
+        refetchReportWithPhotos();
+      }
     },
     onError: (error) => {
       toast.error(error.message || "Error al actualizar reporte");
@@ -199,9 +425,7 @@ export default function CMSReportesMantencion() {
       toast.success("Foto agregada");
       setUploadingPhoto(false);
       setPhotoDescription("");
-      if (selectedReport) {
-        refetchReportDetails(selectedReport.id);
-      }
+      refetchReportWithPhotos();
     },
     onError: (error) => {
       toast.error(error.message || "Error al subir foto");
@@ -212,14 +436,63 @@ export default function CMSReportesMantencion() {
   const deletePhotoMutation = trpc.maintenance.deletePhoto.useMutation({
     onSuccess: () => {
       toast.success("Foto eliminada");
-      if (selectedReport) {
-        refetchReportDetails(selectedReport.id);
-      }
+      refetchReportWithPhotos();
     },
     onError: (error) => {
       toast.error(error.message || "Error al eliminar foto");
     },
   });
+
+  // Filtrar reportes
+  const filteredReports = (reports || []).filter((report: Report) => {
+    const matchesStatus = statusFilter === "all" || report.status === statusFilter;
+    const matchesSearch = !searchTerm || 
+      report.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      report.reportNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      report.area?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      report.equipment?.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesStatus && matchesSearch;
+  });
+
+  // Bulk selection handlers
+  const handleSelectAll = () => {
+    if (selectedIds.size === filteredReports.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filteredReports.map((r: Report) => r.id)));
+    }
+  };
+
+  const handleSelectOne = (id: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newSelected = new Set(selectedIds);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedIds(newSelected);
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.size === 0) return;
+    
+    if (!confirm(`¿Eliminar ${selectedIds.size} reporte(s) seleccionado(s)?`)) return;
+    
+    setIsDeleting(true);
+    try {
+      for (const id of selectedIds) {
+        await deleteMutation.mutateAsync({ id });
+      }
+      toast.success(`${selectedIds.size} reporte(s) eliminado(s)`);
+      setSelectedIds(new Set());
+      refetch();
+    } catch (error) {
+      toast.error("Error al eliminar algunos reportes");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -235,17 +508,10 @@ export default function CMSReportesMantencion() {
       materialsUsed: "",
       observations: "",
     });
-    // Limpiar fotos pendientes y revocar URLs
     pendingPhotos.forEach(photo => URL.revokeObjectURL(photo.preview));
     setPendingPhotos([]);
   };
 
-  const refetchReportDetails = async (reportId: number) => {
-    await refetchReportWithPhotos();
-    refetch();
-  };
-
-  // Manejar selección de fotos en el formulario de creación
   const handleAddPendingPhoto = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
@@ -260,13 +526,11 @@ export default function CMSReportesMantencion() {
 
     setPendingPhotos(prev => [...prev, ...newPhotos]);
     
-    // Reset input
     if (createFileInputRef.current) {
       createFileInputRef.current.value = "";
     }
   };
 
-  // Eliminar foto pendiente
   const handleRemovePendingPhoto = (photoId: string) => {
     setPendingPhotos(prev => {
       const photo = prev.find(p => p.id === photoId);
@@ -277,14 +541,12 @@ export default function CMSReportesMantencion() {
     });
   };
 
-  // Actualizar descripción de foto pendiente
   const handleUpdatePendingPhotoDescription = (photoId: string, description: string) => {
     setPendingPhotos(prev => prev.map(p => 
       p.id === photoId ? { ...p, description } : p
     ));
   };
 
-  // Crear reporte con fotos
   const handleCreate = async () => {
     if (!formData.title) {
       toast.error("El título es requerido");
@@ -294,14 +556,12 @@ export default function CMSReportesMantencion() {
     setIsCreating(true);
 
     try {
-      // 1. Crear el reporte
       const report = await createMutation.mutateAsync(formData);
       
       if (!report?.id) {
         throw new Error("No se pudo crear el reporte");
       }
 
-      // 2. Subir las fotos si hay alguna
       if (pendingPhotos.length > 0) {
         toast.info(`Subiendo ${pendingPhotos.length} foto(s)...`);
         
@@ -327,7 +587,6 @@ export default function CMSReportesMantencion() {
     }
   };
 
-  // Convertir archivo a base64
   const fileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -337,78 +596,26 @@ export default function CMSReportesMantencion() {
     });
   };
 
-  // Verificar permisos
-  if (authLoading) {
-    return (
-      <DashboardLayout>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        </div>
-      </DashboardLayout>
-    );
-  }
-
-  if (!user || (user.role !== "super_admin" && user.role !== "admin" && user.role !== "editor")) {
-    return (
-      <DashboardLayout>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <Card className="w-96">
-            <CardHeader>
-              <CardTitle>Acceso Denegado</CardTitle>
-              <CardDescription>
-                No tienes permisos para ver los reportes de mantención.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="outline" className="w-full">
-                <Link href="/cms">Volver al Dashboard</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </DashboardLayout>
-    );
-  }
-
-  // Filtrar reportes
-  const filteredReports = reports?.filter((report: Report) => {
-    const matchesStatus = statusFilter === "all" || report.status === statusFilter;
-    const matchesSearch = !searchTerm || 
-      report.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      report.reportNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      report.area?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      report.equipment?.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesStatus && matchesSearch;
-  }) || [];
-
-  const getStatusBadge = (status: ReportStatus) => {
-    switch (status) {
-      case "pending":
-        return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100"><Clock className="w-3 h-3 mr-1" />Pendiente</Badge>;
-      case "in_progress":
-        return <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100"><Settings2 className="w-3 h-3 mr-1" />En Progreso</Badge>;
-      case "completed":
-        return <Badge className="bg-green-100 text-green-800 hover:bg-green-100"><CheckCircle2 className="w-3 h-3 mr-1" />Completado</Badge>;
-      case "requires_follow_up":
-        return <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100"><AlertTriangle className="w-3 h-3 mr-1" />Requiere Seguimiento</Badge>;
-      default:
-        return <Badge>{status}</Badge>;
-    }
+  const handleViewReport = (report: Report) => {
+    setViewingReport(report);
   };
 
-  const getPriorityBadge = (priority: ReportPriority) => {
-    switch (priority) {
-      case "low":
-        return <Badge variant="secondary">Baja</Badge>;
-      case "medium":
-        return <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">Media</Badge>;
-      case "high":
-        return <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100">Alta</Badge>;
-      case "critical":
-        return <Badge className="bg-red-100 text-red-800 hover:bg-red-100"><AlertCircle className="w-3 h-3 mr-1" />Crítica</Badge>;
-      default:
-        return <Badge>{priority}</Badge>;
-    }
+  const handleEditReport = (report: Report) => {
+    setSelectedReport(report);
+    setFormData({
+      title: report.title,
+      area: report.area || "",
+      equipment: report.equipment || "",
+      location: report.location || "",
+      status: report.status,
+      priority: report.priority,
+      maintenanceType: report.maintenanceType,
+      description: report.description || "",
+      resolution: report.resolution || "",
+      materialsUsed: report.materialsUsed || "",
+      observations: report.observations || "",
+    });
+    setIsEditOpen(true);
   };
 
   const handleUpdate = () => {
@@ -425,58 +632,170 @@ export default function CMSReportesMantencion() {
     }
   };
 
-  const handleViewDetail = (report: Report) => {
-    setSelectedReport(report);
-    setIsDetailOpen(true);
+  // Exportar a PDF
+  const handleExportPDF = async (reportToExport?: Report) => {
+    const report = reportToExport || (reportWithPhotos as Report);
+    if (!report) return;
+
+    setIsExporting(true);
+    toast.info("Generando PDF...");
+
+    try {
+      // Crear contenido HTML para el PDF
+      const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica', 'Arial', sans-serif; color: #1a1a1a; line-height: 1.6; }
+    .page { padding: 40px; max-width: 800px; margin: 0 auto; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #e5e5e5; padding-bottom: 20px; margin-bottom: 20px; }
+    .logo { height: 60px; }
+    .header-left h1 { font-size: 24px; color: #1a1a1a; margin-bottom: 4px; }
+    .header-left p { color: #666; font-size: 14px; }
+    .header-right { text-align: right; }
+    .report-number { font-size: 18px; font-weight: bold; color: #2563eb; font-family: monospace; }
+    .date { color: #666; font-size: 14px; }
+    .badges { display: flex; gap: 10px; margin-bottom: 20px; padding: 15px; background: #f9fafb; border-radius: 8px; }
+    .badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+    .badge-pending { background: #fef3c7; color: #92400e; }
+    .badge-in_progress { background: #dbeafe; color: #1e40af; }
+    .badge-completed { background: #d1fae5; color: #065f46; }
+    .badge-requires_follow_up { background: #ffedd5; color: #9a3412; }
+    .badge-priority { background: #f3f4f6; color: #374151; }
+    .title { font-size: 20px; font-weight: 600; margin-bottom: 20px; }
+    .section { margin-bottom: 24px; }
+    .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #6b7280; font-weight: 600; margin-bottom: 8px; }
+    .section-content { color: #1a1a1a; white-space: pre-wrap; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px; }
+    .photos { margin-top: 30px; }
+    .photos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .photo-item { border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden; }
+    .photo-item img { width: 100%; height: 200px; object-fit: cover; }
+    .photo-caption { padding: 12px; background: #f9fafb; }
+    .photo-type { font-size: 11px; text-transform: uppercase; color: #6b7280; font-weight: 600; }
+    .photo-desc { font-size: 13px; color: #374151; margin-top: 4px; }
+    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e5e5; display: flex; justify-content: space-between; font-size: 12px; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <div class="header-left">
+        <img src="https://cancagua.cl/images/01_logo-cancagua.png" alt="Cancagua" class="logo" />
+        <h1>Reporte de Mantención</h1>
+        <p>Cancagua Spa & Retreat Center</p>
+      </div>
+      <div class="header-right">
+        <div class="report-number">${report.reportNumber}</div>
+        <div class="date">${format(new Date(report.createdAt), "dd 'de' MMMM, yyyy", { locale: es })}</div>
+        <div class="date">${format(new Date(report.createdAt), "HH:mm", { locale: es })} hrs</div>
+      </div>
+    </div>
+
+    <div class="badges">
+      <span class="badge badge-${report.status}">${statusLabels[report.status]}</span>
+      <span class="badge badge-priority">Prioridad: ${priorityLabels[report.priority]}</span>
+      <span class="badge badge-priority">${maintenanceTypeLabels[report.maintenanceType]}</span>
+    </div>
+
+    <div class="title">${report.title}</div>
+
+    <div class="grid">
+      ${report.area ? `<div class="section"><div class="section-title">Área</div><div class="section-content">${report.area}</div></div>` : ''}
+      ${report.equipment ? `<div class="section"><div class="section-title">Equipo</div><div class="section-content">${report.equipment}</div></div>` : ''}
+      ${report.location ? `<div class="section"><div class="section-title">Ubicación</div><div class="section-content">${report.location}</div></div>` : ''}
+    </div>
+
+    ${report.description ? `
+    <div class="section">
+      <div class="section-title">Descripción del Problema</div>
+      <div class="section-content">${report.description}</div>
+    </div>
+    ` : ''}
+
+    ${report.resolution ? `
+    <div class="section">
+      <div class="section-title">Resolución / Trabajo Realizado</div>
+      <div class="section-content">${report.resolution}</div>
+    </div>
+    ` : ''}
+
+    ${report.materialsUsed ? `
+    <div class="section">
+      <div class="section-title">Materiales Utilizados</div>
+      <div class="section-content">${report.materialsUsed}</div>
+    </div>
+    ` : ''}
+
+    ${report.observations ? `
+    <div class="section">
+      <div class="section-title">Observaciones</div>
+      <div class="section-content">${report.observations}</div>
+    </div>
+    ` : ''}
+
+    ${report.photos && report.photos.length > 0 ? `
+    <div class="photos">
+      <div class="section-title">Evidencia Fotográfica (${report.photos.length} ${report.photos.length === 1 ? 'foto' : 'fotos'})</div>
+      <div class="photos-grid">
+        ${report.photos.map(photo => `
+          <div class="photo-item">
+            <img src="${photo.url}" alt="${photo.description || 'Foto'}" />
+            <div class="photo-caption">
+              <div class="photo-type">${photoTypeLabels[photo.photoType]}</div>
+              ${photo.description ? `<div class="photo-desc">${photo.description}</div>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    ` : ''}
+
+    <div class="footer">
+      <div>Reportado por: ${report.reportedByName || report.reportedByEmail || 'Usuario'}</div>
+      <div>Última actualización: ${format(new Date(report.updatedAt), "dd/MM/yyyy HH:mm", { locale: es })}</div>
+    </div>
+  </div>
+</body>
+</html>
+      `;
+
+      // Crear blob y descargar
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      
+      // Abrir en nueva ventana para imprimir como PDF
+      const printWindow = window.open(url, '_blank');
+      if (printWindow) {
+        printWindow.onload = () => {
+          printWindow.print();
+        };
+      }
+
+      toast.success("PDF generado - usa Ctrl+P o Cmd+P para guardar como PDF");
+    } catch (error) {
+      toast.error("Error al generar PDF");
+    } finally {
+      setIsExporting(false);
+    }
   };
 
-  const currentReportWithPhotos = reportWithPhotos || selectedReport;
-
-  const handleEditReport = (report: Report) => {
-    setSelectedReport(report);
-    setFormData({
-      title: report.title || "",
-      area: report.area || "",
-      equipment: report.equipment || "",
-      location: report.location || "",
-      status: report.status,
-      priority: report.priority,
-      maintenanceType: report.maintenanceType,
-      description: report.description || "",
-      resolution: report.resolution || "",
-      materialsUsed: report.materialsUsed || "",
-      observations: report.observations || "",
-    });
-    setIsEditOpen(true);
-  };
-
-  const handlePhotoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file || !selectedReport) return;
-
-    setUploadingPhoto(true);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result as string;
-      addPhotoMutation.mutate({
-        reportId: selectedReport.id,
-        imageData: base64,
-        description: photoDescription,
-        photoType: photoType,
-      });
-    };
-    reader.readAsDataURL(file);
-  };
-
+  // Exportar múltiples a CSV
   const handleExportCSV = () => {
-    if (filteredReports.length === 0) {
+    const reportsToExport = selectedIds.size > 0 
+      ? filteredReports.filter((r: Report) => selectedIds.has(r.id))
+      : filteredReports;
+
+    if (reportsToExport.length === 0) {
       toast.error("No hay reportes para exportar");
       return;
     }
 
-    const headers = ["N° Reporte", "Título", "Área", "Equipo", "Estado", "Prioridad", "Tipo", "Descripción", "Resolución", "Fecha Creación"];
-    const rows = filteredReports.map((r: Report) => [
+    const headers = ["N° Reporte", "Título", "Área", "Equipo", "Estado", "Prioridad", "Tipo", "Descripción", "Resolución", "Fecha"];
+    const rows = reportsToExport.map((r: Report) => [
       r.reportNumber,
       r.title,
       r.area || "",
@@ -484,24 +803,92 @@ export default function CMSReportesMantencion() {
       statusLabels[r.status],
       priorityLabels[r.priority],
       maintenanceTypeLabels[r.maintenanceType],
-      (r.description || "").replace(/\n/g, " ").replace(/"/g, '""'),
-      (r.resolution || "").replace(/\n/g, " ").replace(/"/g, '""'),
-      format(new Date(r.createdAt), "dd/MM/yyyy HH:mm", { locale: es }),
+      r.description || "",
+      r.resolution || "",
+      format(new Date(r.createdAt), "dd/MM/yyyy HH:mm"),
     ]);
 
-    const csvContent = [
-      headers.join(","),
-      ...rows.map(row => row.map(cell => `"${cell}"`).join(",")),
-    ].join("\n");
+    const csvContent = [headers, ...rows]
+      .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
 
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const blob = new Blob(["\ufeff" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `reportes_mantencion_${format(new Date(), "yyyy-MM-dd")}.csv`;
+    link.href = url;
+    link.download = `reportes-mantencion-${format(new Date(), "yyyy-MM-dd")}.csv`;
     link.click();
 
-    toast.success(`${filteredReports.length} reportes exportados`);
+    toast.success(`${reportsToExport.length} reportes exportados`);
   };
+
+  const getStatusBadge = (status: ReportStatus) => {
+    const variants: Record<ReportStatus, "default" | "secondary" | "destructive" | "outline"> = {
+      pending: "secondary",
+      in_progress: "default",
+      completed: "default",
+      requires_follow_up: "destructive",
+    };
+    const colors: Record<ReportStatus, string> = {
+      pending: "bg-yellow-100 text-yellow-800 hover:bg-yellow-100",
+      in_progress: "bg-blue-100 text-blue-800 hover:bg-blue-100",
+      completed: "bg-green-100 text-green-800 hover:bg-green-100",
+      requires_follow_up: "bg-orange-100 text-orange-800 hover:bg-orange-100",
+    };
+    return <Badge className={colors[status]}>{statusLabels[status]}</Badge>;
+  };
+
+  const getPriorityBadge = (priority: ReportPriority) => {
+    const colors: Record<ReportPriority, string> = {
+      low: "bg-gray-100 text-gray-800",
+      medium: "bg-blue-100 text-blue-800",
+      high: "bg-orange-100 text-orange-800",
+      critical: "bg-red-100 text-red-800",
+    };
+    return <Badge className={colors[priority]}>{priorityLabels[priority]}</Badge>;
+  };
+
+  // Verificar permisos
+  if (authLoading) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (!user || (user.role !== "super_admin" && user.role !== "admin" && user.role !== "editor")) {
+    return (
+      <DashboardLayout>
+        <div className="flex flex-col items-center justify-center min-h-[60vh]">
+          <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+          <h2 className="text-xl font-semibold">Acceso Denegado</h2>
+          <p className="text-muted-foreground">No tienes permisos para acceder a esta sección</p>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  // Vista de documento individual
+  if (viewingReport && reportWithPhotos) {
+    return (
+      <DashboardLayout>
+        <div className="p-6">
+          <ReportDocumentView
+            report={reportWithPhotos as Report & { photos?: Photo[] }}
+            onBack={() => setViewingReport(null)}
+            onEdit={() => {
+              handleEditReport(reportWithPhotos as Report);
+              setViewingReport(null);
+            }}
+            onExportPDF={() => handleExportPDF(reportWithPhotos as Report)}
+          />
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
@@ -517,7 +904,7 @@ export default function CMSReportesMantencion() {
           <div className="flex gap-2">
             <Button variant="outline" onClick={handleExportCSV}>
               <Download className="w-4 h-4 mr-2" />
-              Exportar
+              Exportar CSV
             </Button>
             <Button variant="outline" onClick={() => refetch()}>
               <RefreshCw className="w-4 h-4 mr-2" />
@@ -579,10 +966,10 @@ export default function CMSReportesMantencion() {
           </Card>
         </div>
 
-        {/* Filters */}
+        {/* Filters & Bulk Actions */}
         <Card>
           <CardContent className="pt-6">
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               <div className="flex-1">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -606,6 +993,22 @@ export default function CMSReportesMantencion() {
                   <SelectItem value="requires_follow_up">Requiere Seguimiento</SelectItem>
                 </SelectContent>
               </Select>
+              
+              {selectedIds.size > 0 && (
+                <div className="flex items-center gap-2 border-l pl-4">
+                  <span className="text-sm text-muted-foreground">
+                    {selectedIds.size} seleccionado(s)
+                  </span>
+                  <Button 
+                    variant="destructive" 
+                    size="sm"
+                    onClick={handleBulkDelete}
+                    disabled={isDeleting}
+                  >
+                    {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                  </Button>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -631,6 +1034,12 @@ export default function CMSReportesMantencion() {
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-12">
+                      <Checkbox
+                        checked={selectedIds.size === filteredReports.length && filteredReports.length > 0}
+                        onCheckedChange={handleSelectAll}
+                      />
+                    </TableHead>
                     <TableHead>N° Reporte</TableHead>
                     <TableHead>Título</TableHead>
                     <TableHead>Área</TableHead>
@@ -638,14 +1047,37 @@ export default function CMSReportesMantencion() {
                     <TableHead>Prioridad</TableHead>
                     <TableHead>Tipo</TableHead>
                     <TableHead>Fecha</TableHead>
-                    <TableHead className="text-right">Acciones</TableHead>
+                    <TableHead className="w-12"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredReports.map((report: Report) => (
-                    <TableRow key={report.id}>
+                    <TableRow 
+                      key={report.id} 
+                      className="cursor-pointer hover:bg-muted/50"
+                      onClick={() => handleViewReport(report)}
+                    >
+                      <TableCell onClick={(e) => e.stopPropagation()}>
+                        <Checkbox
+                          checked={selectedIds.has(report.id)}
+                          onCheckedChange={() => {
+                            const newSelected = new Set(selectedIds);
+                            if (newSelected.has(report.id)) {
+                              newSelected.delete(report.id);
+                            } else {
+                              newSelected.add(report.id);
+                            }
+                            setSelectedIds(newSelected);
+                          }}
+                        />
+                      </TableCell>
                       <TableCell className="font-mono text-sm">{report.reportNumber}</TableCell>
-                      <TableCell className="font-medium">{report.title}</TableCell>
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-2">
+                          {report.title}
+                          <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                        </div>
+                      </TableCell>
                       <TableCell>{report.area || "-"}</TableCell>
                       <TableCell>{getStatusBadge(report.status)}</TableCell>
                       <TableCell>{getPriorityBadge(report.priority)}</TableCell>
@@ -655,7 +1087,7 @@ export default function CMSReportesMantencion() {
                       <TableCell>
                         {format(new Date(report.createdAt), "dd/MM/yyyy", { locale: es })}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell onClick={(e) => e.stopPropagation()}>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon">
@@ -663,9 +1095,9 @@ export default function CMSReportesMantencion() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => handleViewDetail(report)}>
+                            <DropdownMenuItem onClick={() => handleViewReport(report)}>
                               <Eye className="w-4 h-4 mr-2" />
-                              Ver Detalles
+                              Ver Reporte
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleEditReport(report)}>
                               <Edit className="w-4 h-4 mr-2" />
@@ -690,7 +1122,7 @@ export default function CMSReportesMantencion() {
           </CardContent>
         </Card>
 
-        {/* Create Dialog - Con soporte para fotos */}
+        {/* Create Dialog */}
         <Dialog open={isCreateOpen} onOpenChange={(open) => {
           if (!open && !isCreating) {
             resetForm();
@@ -788,7 +1220,7 @@ export default function CMSReportesMantencion() {
                       </Select>
                     </div>
                     <div className="grid gap-2">
-                      <Label>Tipo</Label>
+                      <Label>Tipo de Mantención</Label>
                       <Select value={formData.maintenanceType} onValueChange={(v) => setFormData({ ...formData, maintenanceType: v as MaintenanceType })}>
                         <SelectTrigger>
                           <SelectValue />
@@ -807,7 +1239,7 @@ export default function CMSReportesMantencion() {
                       id="description"
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      placeholder="Describe el problema o trabajo a realizar..."
+                      placeholder="Describe el problema encontrado..."
                       rows={3}
                     />
                   </div>
@@ -817,7 +1249,7 @@ export default function CMSReportesMantencion() {
                       id="resolution"
                       value={formData.resolution}
                       onChange={(e) => setFormData({ ...formData, resolution: e.target.value })}
-                      placeholder="Describe la solución aplicada..."
+                      placeholder="Describe el trabajo realizado..."
                       rows={3}
                     />
                   </div>
@@ -827,7 +1259,7 @@ export default function CMSReportesMantencion() {
                       id="materialsUsed"
                       value={formData.materialsUsed}
                       onChange={(e) => setFormData({ ...formData, materialsUsed: e.target.value })}
-                      placeholder="Lista de materiales utilizados..."
+                      placeholder="Lista de materiales..."
                       rows={2}
                     />
                   </div>
@@ -845,46 +1277,41 @@ export default function CMSReportesMantencion() {
               </TabsContent>
               
               <TabsContent value="photos" className="space-y-4 mt-4">
-                {/* Selector de fotos */}
-                <Card>
-                  <CardContent className="pt-4">
-                    <div className="flex items-end gap-4">
-                      <div className="flex-1">
-                        <Label>Tipo de foto</Label>
-                        <Select value={newPhotoType} onValueChange={(v) => setNewPhotoType(v as PhotoType)}>
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="before">Antes</SelectItem>
-                            <SelectItem value="during">Durante</SelectItem>
-                            <SelectItem value="after">Después</SelectItem>
-                            <SelectItem value="evidence">Evidencia</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <input
-                          type="file"
-                          ref={createFileInputRef}
-                          onChange={handleAddPendingPhoto}
-                          accept="image/*"
-                          multiple
-                          className="hidden"
-                        />
-                        <Button 
-                          type="button"
-                          onClick={() => createFileInputRef.current?.click()}
-                        >
-                          <ImagePlus className="w-4 h-4 mr-2" />
-                          Agregar Fotos
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Preview de fotos pendientes */}
+                <div className="flex items-end gap-4">
+                  <div className="flex-1">
+                    <Label>Tipo de foto</Label>
+                    <Select value={newPhotoType} onValueChange={(v) => setNewPhotoType(v as PhotoType)}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="before">Antes</SelectItem>
+                        <SelectItem value="during">Durante</SelectItem>
+                        <SelectItem value="after">Después</SelectItem>
+                        <SelectItem value="evidence">Evidencia</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <input
+                      type="file"
+                      ref={createFileInputRef}
+                      onChange={handleAddPendingPhoto}
+                      accept="image/*"
+                      multiple
+                      className="hidden"
+                    />
+                    <Button 
+                      type="button"
+                      variant="outline"
+                      onClick={() => createFileInputRef.current?.click()}
+                    >
+                      <ImagePlus className="w-4 h-4 mr-2" />
+                      Agregar Fotos
+                    </Button>
+                  </div>
+                </div>
+                
                 {pendingPhotos.length > 0 ? (
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {pendingPhotos.map((photo) => (
@@ -1073,214 +1500,6 @@ export default function CMSReportesMantencion() {
               <Button onClick={handleUpdate} disabled={updateMutation.isPending}>
                 {updateMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                 Guardar Cambios
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-
-        {/* Detail Dialog */}
-        <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
-                <Wrench className="w-5 h-5" />
-                {selectedReport?.title}
-              </DialogTitle>
-              <DialogDescription>
-                {selectedReport?.reportNumber} • Creado el {selectedReport && format(new Date(selectedReport.createdAt), "dd/MM/yyyy HH:mm", { locale: es })}
-              </DialogDescription>
-            </DialogHeader>
-            
-            {selectedReport && (
-              <Tabs defaultValue="info" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="info">Información</TabsTrigger>
-                  <TabsTrigger value="photos">Fotos</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="info" className="space-y-4">
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <Label className="text-muted-foreground">Estado</Label>
-                      <div className="mt-1">{getStatusBadge(selectedReport.status)}</div>
-                    </div>
-                    <div>
-                      <Label className="text-muted-foreground">Prioridad</Label>
-                      <div className="mt-1">{getPriorityBadge(selectedReport.priority)}</div>
-                    </div>
-                    <div>
-                      <Label className="text-muted-foreground">Tipo</Label>
-                      <div className="mt-1">
-                        <Badge variant="outline">{maintenanceTypeLabels[selectedReport.maintenanceType]}</Badge>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label className="text-muted-foreground">Área</Label>
-                      <p className="mt-1">{selectedReport.area || "-"}</p>
-                    </div>
-                    <div>
-                      <Label className="text-muted-foreground">Equipo</Label>
-                      <p className="mt-1">{selectedReport.equipment || "-"}</p>
-                    </div>
-                  </div>
-                  
-                  {selectedReport.location && (
-                    <div>
-                      <Label className="text-muted-foreground">Ubicación</Label>
-                      <p className="mt-1 flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
-                        {selectedReport.location}
-                      </p>
-                    </div>
-                  )}
-                  
-                  {selectedReport.description && (
-                    <div>
-                      <Label className="text-muted-foreground">Descripción del Problema</Label>
-                      <p className="mt-1 whitespace-pre-wrap">{selectedReport.description}</p>
-                    </div>
-                  )}
-                  
-                  {selectedReport.resolution && (
-                    <div>
-                      <Label className="text-muted-foreground">Resolución / Trabajo Realizado</Label>
-                      <p className="mt-1 whitespace-pre-wrap">{selectedReport.resolution}</p>
-                    </div>
-                  )}
-                  
-                  {selectedReport.materialsUsed && (
-                    <div>
-                      <Label className="text-muted-foreground">Materiales Utilizados</Label>
-                      <p className="mt-1 whitespace-pre-wrap">{selectedReport.materialsUsed}</p>
-                    </div>
-                  )}
-                  
-                  {selectedReport.observations && (
-                    <div>
-                      <Label className="text-muted-foreground">Observaciones</Label>
-                      <p className="mt-1 whitespace-pre-wrap">{selectedReport.observations}</p>
-                    </div>
-                  )}
-                  
-                  <div className="pt-4 border-t">
-                    <Label className="text-muted-foreground">Reportado por</Label>
-                    <p className="mt-1">{selectedReport.reportedByName || selectedReport.reportedByEmail || "Usuario"}</p>
-                  </div>
-                </TabsContent>
-                
-                <TabsContent value="photos" className="space-y-4">
-                  {/* Photo Upload */}
-                  <Card>
-                    <CardContent className="pt-4">
-                      <div className="flex items-end gap-4">
-                        <div className="flex-1">
-                          <Label htmlFor="photo-description">Descripción de la foto</Label>
-                          <Input
-                            id="photo-description"
-                            value={photoDescription}
-                            onChange={(e) => setPhotoDescription(e.target.value)}
-                            placeholder="Ej: Daño en la bomba"
-                          />
-                        </div>
-                        <div>
-                          <Label>Tipo</Label>
-                          <Select value={photoType} onValueChange={(v) => setPhotoType(v as PhotoType)}>
-                            <SelectTrigger className="w-[130px]">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="before">Antes</SelectItem>
-                              <SelectItem value="during">Durante</SelectItem>
-                              <SelectItem value="after">Después</SelectItem>
-                              <SelectItem value="evidence">Evidencia</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div>
-                          <input
-                            type="file"
-                            ref={fileInputRef}
-                            onChange={handlePhotoUpload}
-                            accept="image/*"
-                            className="hidden"
-                          />
-                          <Button 
-                            onClick={() => fileInputRef.current?.click()}
-                            disabled={uploadingPhoto}
-                          >
-                            {uploadingPhoto ? (
-                              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                            ) : (
-                              <Camera className="w-4 h-4 mr-2" />
-                            )}
-                            Subir Foto
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  
-                  {/* Photo Gallery */}
-                  {currentReportWithPhotos?.photos && currentReportWithPhotos.photos.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {currentReportWithPhotos.photos.map((photo: Photo) => (
-                        <Card key={photo.id} className="overflow-hidden">
-                          <div className="relative aspect-square">
-                            <img
-                              src={photo.url}
-                              alt={photo.description || "Foto de mantención"}
-                              className="w-full h-full object-cover"
-                            />
-                            <Button
-                              variant="destructive"
-                              size="icon"
-                              className="absolute top-2 right-2 h-8 w-8"
-                              onClick={() => {
-                                if (confirm("¿Eliminar esta foto?")) {
-                                  deletePhotoMutation.mutate({ photoId: photo.id });
-                                }
-                              }}
-                            >
-                              <X className="w-4 h-4" />
-                            </Button>
-                            <Badge className="absolute bottom-2 left-2">
-                              {photoTypeLabels[photo.photoType]}
-                            </Badge>
-                          </div>
-                          {photo.description && (
-                            <CardContent className="p-3">
-                              <p className="text-sm text-muted-foreground">{photo.description}</p>
-                            </CardContent>
-                          )}
-                        </Card>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center py-12 text-center">
-                      <Camera className="w-12 h-12 text-muted-foreground mb-4" />
-                      <h3 className="text-lg font-medium">Sin fotos</h3>
-                      <p className="text-muted-foreground">
-                        Agrega fotos para documentar el trabajo realizado
-                      </p>
-                    </div>
-                  )}
-                </TabsContent>
-              </Tabs>
-            )}
-            
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsDetailOpen(false)}>
-                Cerrar
-              </Button>
-              <Button onClick={() => {
-                setIsDetailOpen(false);
-                if (selectedReport) handleEditReport(selectedReport);
-              }}>
-                <Edit className="w-4 h-4 mr-2" />
-                Editar
               </Button>
             </DialogFooter>
           </DialogContent>
