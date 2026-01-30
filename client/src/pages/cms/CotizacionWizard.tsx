@@ -215,6 +215,7 @@ export default function CotizacionWizard() {
 
   // Mutations
   const createDealMutation = trpc.deals.create.useMutation();
+  const updateDealMutation = trpc.deals.update.useMutation();
   const createClientMutation = trpc.corporateClients.create.useMutation();
   const createQuoteMutation = trpc.quotes.create.useMutation();
   const updateQuoteMutation = trpc.quotes.update.useMutation();
@@ -302,6 +303,24 @@ export default function CotizacionWizard() {
       } catch (error: any) {
         toast.error(error.message || "Error al crear negocio");
         return;
+      }
+    }
+
+    // Si seleccionamos un negocio existente, actualizarlo con los cambios
+    if (currentStep === 1 && selectedDealId && !isCreatingDeal) {
+      try {
+        await updateDealMutation.mutateAsync({
+          id: selectedDealId,
+          name: dealData.name,
+          pipeline: dealData.pipeline,
+          stage: dealData.stage,
+          closeDate: dealData.closeDate,
+          notes: dealData.notes,
+        });
+        toast.success("Negocio actualizado");
+      } catch (error: any) {
+        console.error("Error al actualizar negocio:", error);
+        // No bloqueamos el avance si falla la actualización
       }
     }
 
@@ -677,7 +696,7 @@ export default function CotizacionWizard() {
                   value={dealData.name}
                   onChange={(e) => setDealData({ ...dealData, name: e.target.value })}
                   placeholder="Ej: GCN Turismo - Evento Enero"
-                  disabled={!!selectedDealId && !isCreatingDeal}
+                  
                 />
               </div>
 
@@ -687,7 +706,7 @@ export default function CotizacionWizard() {
                   <Select
                     value={dealData.pipeline}
                     onValueChange={(value) => setDealData({ ...dealData, pipeline: value })}
-                    disabled={!!selectedDealId && !isCreatingDeal}
+                    
                   >
                     <SelectTrigger>
                       <SelectValue />
@@ -707,7 +726,7 @@ export default function CotizacionWizard() {
                   <Select
                     value={dealData.stage}
                     onValueChange={(value) => setDealData({ ...dealData, stage: value })}
-                    disabled={!!selectedDealId && !isCreatingDeal}
+                    
                   >
                     <SelectTrigger>
                       <SelectValue />
@@ -730,7 +749,7 @@ export default function CotizacionWizard() {
                   type="date"
                   value={dealData.closeDate || ""}
                   onChange={(e) => setDealData({ ...dealData, closeDate: e.target.value })}
-                  disabled={!!selectedDealId && !isCreatingDeal}
+                  
                 />
               </div>
             </>

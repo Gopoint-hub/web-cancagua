@@ -16,6 +16,7 @@ import CMSProductosCorporativos from "./pages/cms/ProductosCorporativos";
 import CMSCotizaciones from "./pages/cms/Cotizaciones";
 import CMSCrearCotizacion from "./pages/cms/CrearCotizacion";
 import CMSCotizacionWizard from "./pages/cms/CotizacionWizard";
+import CMSNegocios from "./pages/cms/Negocios";
 import CMSServicios from "./pages/cms/Servicios";
 import CMSEventos from "./pages/cms/Eventos";
 import CMSClientes from "./pages/cms/Clientes";
@@ -129,6 +130,7 @@ function Router() {
         <Route path={"/cms/crear-cotizacion"} component={CMSCrearCotizacion} />
         <Route path={"/cms/cotizacion-wizard"} component={CMSCotizacionWizard} />
         <Route path={"/cms/cotizacion-wizard/:id"} component={CMSCotizacionWizard} />
+        <Route path={"/cms/negocios"} component={CMSNegocios} />
         <Route path={"/cms/servicios"} component={CMSServicios} />
         <Route path={"/cms/eventos"} component={CMSEventos} />
         <Route path={"/cms/clientes"} component={CMSClientes} />

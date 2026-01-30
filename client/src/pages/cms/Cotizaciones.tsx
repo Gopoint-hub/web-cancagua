@@ -55,8 +55,20 @@ export default function Cotizaciones() {
   const [sendQuote, setSendQuote] = useState<any>(null);
   const [additionalEmails, setAdditionalEmails] = useState("");
   const [customMessage, setCustomMessage] = useState("");
+  const [dealFilter, setDealFilter] = useState<number | null>(null);
 
-  const { data: quotes = [], refetch } = trpc.quotes.getAll.useQuery();
+  const { data: allQuotes = [], refetch } = trpc.quotes.getAll.useQuery();
+  const { data: deals = [] } = trpc.deals.getAll.useQuery();
+
+  // Filtrar cotizaciones por negocio si hay filtro activo
+  const quotes = dealFilter
+    ? allQuotes.filter((q: any) => q.dealId === dealFilter)
+    : allQuotes;
+
+  // Obtener nombre del negocio filtrado
+  const filteredDealName = dealFilter
+    ? deals.find((d: any) => d.id === dealFilter)?.name
+    : null;
   const generatePDFMutation = trpc.quotes.generatePDF.useMutation();
   const sendByEmailMutation = trpc.quotes.sendByEmail.useMutation();
   const { data: quoteItems = [] } = trpc.quotes.getItems.useQuery(
@@ -433,7 +445,30 @@ export default function Cotizaciones() {
       {/* Tabla de cotizaciones */}
       <Card>
         <CardHeader>
-          <CardTitle>Todas las Cotizaciones ({quotes.length})</CardTitle>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>
+                {filteredDealName
+                  ? `Cotizaciones de "${filteredDealName}" (${quotes.length})`
+                  : `Todas las Cotizaciones (${quotes.length})`}
+              </CardTitle>
+              {filteredDealName && (
+                <CardDescription className="mt-1">
+                  Mostrando cotizaciones filtradas por negocio
+                </CardDescription>
+              )}
+            </div>
+            {dealFilter && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setDealFilter(null)}
+              >
+                <XCircle className="h-4 w-4 mr-2" />
+                Limpiar filtro
+              </Button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <Table>
@@ -441,9 +476,9 @@ export default function Cotizaciones() {
               <TableRow>
                 <TableHead className="w-12"></TableHead>
                 <TableHead>Número</TableHead>
+                <TableHead>Negocio</TableHead>
                 <TableHead>Cliente</TableHead>
                 <TableHead>Fecha Creación</TableHead>
-                <TableHead>Personas</TableHead>
                 <TableHead className="text-right">Total</TableHead>
                 <TableHead>Estado</TableHead>
                 <TableHead className="text-right">Acciones</TableHead>
@@ -469,13 +504,24 @@ export default function Cotizaciones() {
                       {quote.quoteNumber}
                     </TableCell>
                     <TableCell>
+                      {quote.dealName ? (
+                        <button
+                          onClick={() => setDealFilter(quote.dealId)}
+                          className="text-left hover:underline text-primary font-medium"
+                        >
+                          {quote.dealName}
+                        </button>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
                       <div>
                         <p className="font-medium">{quote.clientName}</p>
                         <p className="text-sm text-muted-foreground">{quote.clientEmail}</p>
                       </div>
                     </TableCell>
                     <TableCell>{formatDate(quote.createdAt)}</TableCell>
-                    <TableCell>{quote.numberOfPeople}</TableCell>
                     <TableCell className="text-right font-medium">
                       {formatPrice(quote.total)}
                     </TableCell>
