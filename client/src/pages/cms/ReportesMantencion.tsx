@@ -42,7 +42,7 @@ import { toast } from "sonner";
 import { 
   Loader2, Wrench, Plus, Search, RefreshCw, MoreHorizontal,
   Eye, Edit, Trash2, Camera, X, Download, Clock, CheckCircle2,
-  AlertTriangle, AlertCircle, FileText, Calendar, MapPin, Settings2
+  AlertTriangle, AlertCircle, FileText, MapPin, Settings2, ImagePlus
 } from "lucide-react";
 import { Link } from "wouter";
 import DashboardLayout from "@/components/DashboardLayout";
@@ -60,6 +60,15 @@ interface Photo {
   description?: string;
   photoType: PhotoType;
   createdAt: string;
+}
+
+// Interfaz para fotos pendientes (antes de subir)
+interface PendingPhoto {
+  id: string; // ID temporal
+  file: File;
+  preview: string;
+  description: string;
+  photoType: PhotoType;
 }
 
 interface Report {
@@ -125,7 +134,9 @@ export default function CMSReportesMantencion() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const createFileInputRef = useRef<HTMLInputElement>(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -142,6 +153,10 @@ export default function CMSReportesMantencion() {
     observations: "",
   });
 
+  // Fotos pendientes para el formulario de creación
+  const [pendingPhotos, setPendingPhotos] = useState<PendingPhoto[]>([]);
+  const [newPhotoType, setNewPhotoType] = useState<PhotoType>("evidence");
+
   const [photoDescription, setPhotoDescription] = useState("");
   const [photoType, setPhotoType] = useState<PhotoType>("evidence");
 
@@ -156,17 +171,7 @@ export default function CMSReportesMantencion() {
   );
 
   // Mutations
-  const createMutation = trpc.maintenance.create.useMutation({
-    onSuccess: () => {
-      toast.success("Reporte creado exitosamente");
-      setIsCreateOpen(false);
-      resetForm();
-      refetch();
-    },
-    onError: (error) => {
-      toast.error(error.message || "Error al crear reporte");
-    },
-  });
+  const createMutation = trpc.maintenance.create.useMutation();
 
   const updateMutation = trpc.maintenance.update.useMutation({
     onSuccess: () => {
@@ -194,7 +199,6 @@ export default function CMSReportesMantencion() {
       toast.success("Foto agregada");
       setUploadingPhoto(false);
       setPhotoDescription("");
-      // Refetch report details
       if (selectedReport) {
         refetchReportDetails(selectedReport.id);
       }
@@ -231,12 +235,106 @@ export default function CMSReportesMantencion() {
       materialsUsed: "",
       observations: "",
     });
+    // Limpiar fotos pendientes y revocar URLs
+    pendingPhotos.forEach(photo => URL.revokeObjectURL(photo.preview));
+    setPendingPhotos([]);
   };
 
   const refetchReportDetails = async (reportId: number) => {
-    // Refetch el reporte con fotos
     await refetchReportWithPhotos();
     refetch();
+  };
+
+  // Manejar selección de fotos en el formulario de creación
+  const handleAddPendingPhoto = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    const newPhotos: PendingPhoto[] = Array.from(files).map(file => ({
+      id: Math.random().toString(36).substring(7),
+      file,
+      preview: URL.createObjectURL(file),
+      description: "",
+      photoType: newPhotoType,
+    }));
+
+    setPendingPhotos(prev => [...prev, ...newPhotos]);
+    
+    // Reset input
+    if (createFileInputRef.current) {
+      createFileInputRef.current.value = "";
+    }
+  };
+
+  // Eliminar foto pendiente
+  const handleRemovePendingPhoto = (photoId: string) => {
+    setPendingPhotos(prev => {
+      const photo = prev.find(p => p.id === photoId);
+      if (photo) {
+        URL.revokeObjectURL(photo.preview);
+      }
+      return prev.filter(p => p.id !== photoId);
+    });
+  };
+
+  // Actualizar descripción de foto pendiente
+  const handleUpdatePendingPhotoDescription = (photoId: string, description: string) => {
+    setPendingPhotos(prev => prev.map(p => 
+      p.id === photoId ? { ...p, description } : p
+    ));
+  };
+
+  // Crear reporte con fotos
+  const handleCreate = async () => {
+    if (!formData.title) {
+      toast.error("El título es requerido");
+      return;
+    }
+
+    setIsCreating(true);
+
+    try {
+      // 1. Crear el reporte
+      const report = await createMutation.mutateAsync(formData);
+      
+      if (!report?.id) {
+        throw new Error("No se pudo crear el reporte");
+      }
+
+      // 2. Subir las fotos si hay alguna
+      if (pendingPhotos.length > 0) {
+        toast.info(`Subiendo ${pendingPhotos.length} foto(s)...`);
+        
+        for (const photo of pendingPhotos) {
+          const base64 = await fileToBase64(photo.file);
+          await addPhotoMutation.mutateAsync({
+            reportId: report.id,
+            imageData: base64,
+            description: photo.description,
+            photoType: photo.photoType,
+          });
+        }
+      }
+
+      toast.success("Reporte creado exitosamente");
+      setIsCreateOpen(false);
+      resetForm();
+      refetch();
+    } catch (error: any) {
+      toast.error(error.message || "Error al crear reporte");
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
+  // Convertir archivo a base64
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   };
 
   // Verificar permisos
@@ -313,10 +411,6 @@ export default function CMSReportesMantencion() {
     }
   };
 
-  const handleCreate = () => {
-    createMutation.mutate(formData);
-  };
-
   const handleUpdate = () => {
     if (!selectedReport) return;
     updateMutation.mutate({
@@ -336,7 +430,6 @@ export default function CMSReportesMantencion() {
     setIsDetailOpen(true);
   };
 
-  // Actualizar selectedReport cuando se cargan las fotos
   const currentReportWithPhotos = reportWithPhotos || selectedReport;
 
   const handleEditReport = (report: Report) => {
@@ -597,145 +690,253 @@ export default function CMSReportesMantencion() {
           </CardContent>
         </Card>
 
-        {/* Create Dialog */}
-        <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        {/* Create Dialog - Con soporte para fotos */}
+        <Dialog open={isCreateOpen} onOpenChange={(open) => {
+          if (!open && !isCreating) {
+            resetForm();
+          }
+          if (!isCreating) {
+            setIsCreateOpen(open);
+          }
+        }}>
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Nuevo Reporte de Mantención</DialogTitle>
               <DialogDescription>
-                Completa la información del reporte de mantención
+                Completa la información del reporte y adjunta fotos si es necesario
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="title">Título *</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Ej: Reparación de bomba de agua"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="area">Área</Label>
-                  <Input
-                    id="area"
-                    value={formData.area}
-                    onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-                    placeholder="Ej: Piscina"
-                  />
+            
+            <Tabs defaultValue="info" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="info">Información</TabsTrigger>
+                <TabsTrigger value="photos" className="flex items-center gap-2">
+                  Fotos
+                  {pendingPhotos.length > 0 && (
+                    <Badge variant="secondary" className="ml-1">{pendingPhotos.length}</Badge>
+                  )}
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="info" className="space-y-4 mt-4">
+                <div className="grid gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="title">Título *</Label>
+                    <Input
+                      id="title"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      placeholder="Ej: Reparación de bomba de agua"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="area">Área</Label>
+                      <Input
+                        id="area"
+                        value={formData.area}
+                        onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                        placeholder="Ej: Piscina"
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="equipment">Equipo</Label>
+                      <Input
+                        id="equipment"
+                        value={formData.equipment}
+                        onChange={(e) => setFormData({ ...formData, equipment: e.target.value })}
+                        placeholder="Ej: Bomba principal"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="location">Ubicación</Label>
+                    <Input
+                      id="location"
+                      value={formData.location}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                      placeholder="Ej: Sala de máquinas"
+                    />
+                  </div>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="grid gap-2">
+                      <Label>Estado</Label>
+                      <Select value={formData.status} onValueChange={(v) => setFormData({ ...formData, status: v as ReportStatus })}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="pending">Pendiente</SelectItem>
+                          <SelectItem value="in_progress">En Progreso</SelectItem>
+                          <SelectItem value="completed">Completado</SelectItem>
+                          <SelectItem value="requires_follow_up">Requiere Seguimiento</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid gap-2">
+                      <Label>Prioridad</Label>
+                      <Select value={formData.priority} onValueChange={(v) => setFormData({ ...formData, priority: v as ReportPriority })}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="low">Baja</SelectItem>
+                          <SelectItem value="medium">Media</SelectItem>
+                          <SelectItem value="high">Alta</SelectItem>
+                          <SelectItem value="critical">Crítica</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid gap-2">
+                      <Label>Tipo</Label>
+                      <Select value={formData.maintenanceType} onValueChange={(v) => setFormData({ ...formData, maintenanceType: v as MaintenanceType })}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="preventive">Preventiva</SelectItem>
+                          <SelectItem value="corrective">Correctiva</SelectItem>
+                          <SelectItem value="emergency">Emergencia</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="description">Descripción del Problema</Label>
+                    <Textarea
+                      id="description"
+                      value={formData.description}
+                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      placeholder="Describe el problema o trabajo a realizar..."
+                      rows={3}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="resolution">Resolución / Trabajo Realizado</Label>
+                    <Textarea
+                      id="resolution"
+                      value={formData.resolution}
+                      onChange={(e) => setFormData({ ...formData, resolution: e.target.value })}
+                      placeholder="Describe la solución aplicada..."
+                      rows={3}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="materialsUsed">Materiales Utilizados</Label>
+                    <Textarea
+                      id="materialsUsed"
+                      value={formData.materialsUsed}
+                      onChange={(e) => setFormData({ ...formData, materialsUsed: e.target.value })}
+                      placeholder="Lista de materiales utilizados..."
+                      rows={2}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="observations">Observaciones</Label>
+                    <Textarea
+                      id="observations"
+                      value={formData.observations}
+                      onChange={(e) => setFormData({ ...formData, observations: e.target.value })}
+                      placeholder="Observaciones adicionales..."
+                      rows={2}
+                    />
+                  </div>
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="equipment">Equipo</Label>
-                  <Input
-                    id="equipment"
-                    value={formData.equipment}
-                    onChange={(e) => setFormData({ ...formData, equipment: e.target.value })}
-                    placeholder="Ej: Bomba principal"
-                  />
-                </div>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="location">Ubicación</Label>
-                <Input
-                  id="location"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  placeholder="Ej: Sala de máquinas"
-                />
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="grid gap-2">
-                  <Label>Estado</Label>
-                  <Select value={formData.status} onValueChange={(v) => setFormData({ ...formData, status: v as ReportStatus })}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="pending">Pendiente</SelectItem>
-                      <SelectItem value="in_progress">En Progreso</SelectItem>
-                      <SelectItem value="completed">Completado</SelectItem>
-                      <SelectItem value="requires_follow_up">Requiere Seguimiento</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="grid gap-2">
-                  <Label>Prioridad</Label>
-                  <Select value={formData.priority} onValueChange={(v) => setFormData({ ...formData, priority: v as ReportPriority })}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="low">Baja</SelectItem>
-                      <SelectItem value="medium">Media</SelectItem>
-                      <SelectItem value="high">Alta</SelectItem>
-                      <SelectItem value="critical">Crítica</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="grid gap-2">
-                  <Label>Tipo</Label>
-                  <Select value={formData.maintenanceType} onValueChange={(v) => setFormData({ ...formData, maintenanceType: v as MaintenanceType })}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="preventive">Preventiva</SelectItem>
-                      <SelectItem value="corrective">Correctiva</SelectItem>
-                      <SelectItem value="emergency">Emergencia</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="description">Descripción del Problema</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Describe el problema o trabajo a realizar..."
-                  rows={3}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="resolution">Resolución / Trabajo Realizado</Label>
-                <Textarea
-                  id="resolution"
-                  value={formData.resolution}
-                  onChange={(e) => setFormData({ ...formData, resolution: e.target.value })}
-                  placeholder="Describe la solución aplicada..."
-                  rows={3}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="materialsUsed">Materiales Utilizados</Label>
-                <Textarea
-                  id="materialsUsed"
-                  value={formData.materialsUsed}
-                  onChange={(e) => setFormData({ ...formData, materialsUsed: e.target.value })}
-                  placeholder="Lista de materiales utilizados..."
-                  rows={2}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="observations">Observaciones</Label>
-                <Textarea
-                  id="observations"
-                  value={formData.observations}
-                  onChange={(e) => setFormData({ ...formData, observations: e.target.value })}
-                  placeholder="Observaciones adicionales..."
-                  rows={2}
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsCreateOpen(false)}>
+              </TabsContent>
+              
+              <TabsContent value="photos" className="space-y-4 mt-4">
+                {/* Selector de fotos */}
+                <Card>
+                  <CardContent className="pt-4">
+                    <div className="flex items-end gap-4">
+                      <div className="flex-1">
+                        <Label>Tipo de foto</Label>
+                        <Select value={newPhotoType} onValueChange={(v) => setNewPhotoType(v as PhotoType)}>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="before">Antes</SelectItem>
+                            <SelectItem value="during">Durante</SelectItem>
+                            <SelectItem value="after">Después</SelectItem>
+                            <SelectItem value="evidence">Evidencia</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <input
+                          type="file"
+                          ref={createFileInputRef}
+                          onChange={handleAddPendingPhoto}
+                          accept="image/*"
+                          multiple
+                          className="hidden"
+                        />
+                        <Button 
+                          type="button"
+                          onClick={() => createFileInputRef.current?.click()}
+                        >
+                          <ImagePlus className="w-4 h-4 mr-2" />
+                          Agregar Fotos
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Preview de fotos pendientes */}
+                {pendingPhotos.length > 0 ? (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {pendingPhotos.map((photo) => (
+                      <Card key={photo.id} className="overflow-hidden">
+                        <div className="relative aspect-square">
+                          <img
+                            src={photo.preview}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                          />
+                          <Button
+                            variant="destructive"
+                            size="icon"
+                            className="absolute top-2 right-2 h-8 w-8"
+                            onClick={() => handleRemovePendingPhoto(photo.id)}
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                          <Badge className="absolute bottom-2 left-2">
+                            {photoTypeLabels[photo.photoType]}
+                          </Badge>
+                        </div>
+                        <CardContent className="p-3">
+                          <Input
+                            placeholder="Descripción de la foto..."
+                            value={photo.description}
+                            onChange={(e) => handleUpdatePendingPhotoDescription(photo.id, e.target.value)}
+                            className="text-sm"
+                          />
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-dashed rounded-lg">
+                    <Camera className="w-12 h-12 text-muted-foreground mb-4" />
+                    <h3 className="text-lg font-medium">Sin fotos</h3>
+                    <p className="text-muted-foreground">
+                      Agrega fotos para documentar el trabajo
+                    </p>
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
+
+            <DialogFooter className="mt-4">
+              <Button variant="outline" onClick={() => setIsCreateOpen(false)} disabled={isCreating}>
                 Cancelar
               </Button>
-              <Button onClick={handleCreate} disabled={createMutation.isPending || !formData.title}>
-                {createMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Crear Reporte
+              <Button onClick={handleCreate} disabled={isCreating || !formData.title}>
+                {isCreating && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                {isCreating ? "Creando..." : `Crear Reporte${pendingPhotos.length > 0 ? ` (${pendingPhotos.length} fotos)` : ""}`}
               </Button>
             </DialogFooter>
           </DialogContent>
