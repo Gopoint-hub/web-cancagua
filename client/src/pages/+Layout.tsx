@@ -28,10 +28,6 @@ const ROUTES_WITH_OWN_NAVBAR = [
   '/eventos/heart-coherence-workshop',
   '/eventos/taller-wim-hof',
   '/spa-hotel-cabanas-del-lago',
-  '/blog/mejores-termas-sur-chile-2026',
-  '/blog/termas-del-sur-de-chile-con-ninos-guia-para-familias',
-  '/blog/tecnicas-manejo-estres-laboral',
-  '/blog/termas-del-sur-vs-experiencia-natural',
 ];
 
 export default function Layout({ children }: { children: ReactNode }) {
