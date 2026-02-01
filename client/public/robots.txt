@@ -10,15 +10,22 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 Disallow: /cms/
+Disallow: /cms/*
 Disallow: /dashboard/
 Disallow: /tienda-regalos-preview
 Disallow: /_next/
 Disallow: /static/
 
+# Bloquear páginas de pago y resultados de transacciones
+Disallow: /gift-cards/payment-result
+Disallow: /*payment*
+Disallow: /*checkout*
+
 # Bloquear parámetros de tracking y sesión
 Disallow: /*?*token=
 Disallow: /*?*session=
 Disallow: /*?*preview=
+Disallow: /*?*utm_*
 
 # Sitemap
 Sitemap: https://cancagua.cl/sitemap.xml
