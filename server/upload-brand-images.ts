@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { storagePut } from './storage';
 
-// URLs de imágenes de marca en CloudFront (fallback hardcodeado)
+// URLs de imágenes de marca en Cloudinary (fallback hardcodeado)
 // Estas URLs son estables y se usan cuando el archivo JSON no está disponible
 const BRAND_IMAGE_URLS_FALLBACK: Record<string, string> = {
   "logo": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960634/cancagua/brand/logo-cancagua.png",
@@ -78,32 +78,26 @@ export async function uploadBrandImages(): Promise<Record<string, string>> {
  * haya URLs disponibles en producción.
  */
 export function getBrandImageUrls(): Record<string, string> {
-  // Intentar múltiples ubicaciones para el archivo JSON
-  const possiblePaths = [
-    path.join(process.cwd(), 'brand-image-urls.json'),
-    path.join(__dirname, '..', 'brand-image-urls.json'),
-    path.join(__dirname, '..', '..', 'brand-image-urls.json'),
-  ];
+  // Intentar leer desde process.cwd() (raíz del proyecto)
+  const urlsFilePath = path.join(process.cwd(), 'brand-image-urls.json');
   
-  for (const urlsFilePath of possiblePaths) {
-    if (fs.existsSync(urlsFilePath)) {
-      try {
-        const content = fs.readFileSync(urlsFilePath, 'utf-8');
-        const parsed = JSON.parse(content);
-        
-        // Verificar que el objeto no esté vacío
-        if (Object.keys(parsed).length > 0) {
-          console.log(`[getBrandImageUrls] Usando URLs desde: ${urlsFilePath}`);
-          return parsed;
-        }
-      } catch (error) {
-        console.error(`[getBrandImageUrls] Error leyendo ${urlsFilePath}:`, error);
+  if (fs.existsSync(urlsFilePath)) {
+    try {
+      const content = fs.readFileSync(urlsFilePath, 'utf-8');
+      const parsed = JSON.parse(content);
+      
+      // Verificar que el objeto no esté vacío
+      if (Object.keys(parsed).length > 0) {
+        console.log(`[getBrandImageUrls] Usando URLs desde: ${urlsFilePath}`);
+        return parsed;
       }
+    } catch (error) {
+      console.error(`[getBrandImageUrls] Error leyendo ${urlsFilePath}:`, error);
     }
   }
   
-  // Fallback: usar URLs hardcodeadas
-  console.log('[getBrandImageUrls] Usando URLs de fallback hardcodeadas');
+  // Fallback: usar URLs hardcodeadas de Cloudinary
+  console.log('[getBrandImageUrls] Usando URLs de fallback hardcodeadas (Cloudinary)');
   return BRAND_IMAGE_URLS_FALLBACK;
 }
 
