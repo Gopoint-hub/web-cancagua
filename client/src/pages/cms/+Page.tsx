@@ -38,17 +38,36 @@ import CMSRestablecerContrasena from "./RestablecerContrasena";
 
 // Custom hook para Wouter que funciona con Vike en modo cliente
 const useHashLocation = () => {
-  const initialPath = typeof window !== "undefined" ? window.location.pathname : "/";
-  console.log("[CMS Router] 🔧 Inicializando hook con pathname:", initialPath);
+  const base = "/cms";
+
+  // Función para quitar el base del pathname
+  const stripBase = (path: string) => {
+    if (path.startsWith(base)) {
+      const stripped = path.slice(base.length) || "/";
+      console.log("[CMS Router] 🔪 Quitando base:", path, "→", stripped);
+      return stripped;
+    }
+    return path;
+  };
+
+  // Función para agregar el base al pathname
+  const addBase = (path: string) => {
+    const full = base + (path.startsWith("/") ? path : "/" + path);
+    console.log("[CMS Router] ➕ Agregando base:", path, "→", full);
+    return full;
+  };
+
+  const initialPath = typeof window !== "undefined" ? stripBase(window.location.pathname) : "/";
+  console.log("[CMS Router] 🔧 Inicializando hook con pathname relativo:", initialPath);
 
   const [loc, setLoc] = useState(() => initialPath);
 
   useEffect(() => {
-    console.log("[CMS Router] 📍 Location actual:", loc);
+    console.log("[CMS Router] 📍 Location actual (relativa):", loc);
 
     const handler = () => {
-      const newPath = window.location.pathname;
-      console.log("[CMS Router] ⬅️ Evento popstate detectado:", newPath);
+      const newPath = stripBase(window.location.pathname);
+      console.log("[CMS Router] ⬅️ Evento popstate detectado:", window.location.pathname, "→", newPath);
       setLoc(newPath);
     };
 
@@ -57,9 +76,9 @@ const useHashLocation = () => {
 
     // Para navegación programática, observar cambios en el pathname
     const observer = new MutationObserver(() => {
-      const currentPath = window.location.pathname;
+      const currentPath = stripBase(window.location.pathname);
       if (currentPath !== loc) {
-        console.log("[CMS Router] 🔄 Cambio de pathname detectado:", currentPath);
+        console.log("[CMS Router] 🔄 Cambio de pathname detectado:", window.location.pathname, "→", currentPath);
         setLoc(currentPath);
       }
     });
@@ -71,8 +90,9 @@ const useHashLocation = () => {
   }, [loc]);
 
   const navigate = useCallback((to: string) => {
-    console.log("[CMS Router] ➡️ Navegando a:", to);
-    window.history.pushState(null, "", to);
+    const fullPath = addBase(to);
+    console.log("[CMS Router] ➡️ Navegando a:", to, "→", fullPath);
+    window.history.pushState(null, "", fullPath);
     setLoc(to);
   }, []);
 
