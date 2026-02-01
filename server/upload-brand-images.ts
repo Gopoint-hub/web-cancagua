@@ -3,6 +3,25 @@ import fs from 'fs';
 import path from 'path';
 import { storagePut } from './storage';
 
+// URLs de imágenes de marca en CloudFront (fallback hardcodeado)
+// Estas URLs son estables y se usan cuando el archivo JSON no está disponible
+const BRAND_IMAGE_URLS_FALLBACK: Record<string, string> = {
+  "logo": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960634/cancagua/brand/logo-cancagua.png",
+  "logoFooter": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960572/cancagua/brand/logo-cancagua-footer.png",
+  "biopiscinas": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960602/cancagua/brand/biopiscinas-hero.jpg",
+  "masajes": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960554/cancagua/brand/masajes-hero.webp",
+  "clases": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960613/cancagua/brand/clases-hero.jpg",
+  "hottubs": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960654/cancagua/brand/hottubs-hero.png",
+  "cafeteria": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960571/cancagua/brand/cafeteria-hero.jpg",
+  "eventos": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960615/cancagua/brand/eventos-hero.jpg",
+  "cafeteriaInterior": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960553/cancagua/brand/cafeteria-interior.jpg",
+  "header": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960545/cancagua/brand/cancagua-header.jpg",
+  "hottubService": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960646/cancagua/brand/hottub-service.webp",
+  "yoga": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960555/cancagua/brand/yoga-clases.webp",
+  "masajesService": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960691/cancagua/brand/masajes-service.webp",
+  "sup": "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960594/cancagua/brand/sup-actividad.jpg"
+};
+
 // Imágenes a subir
 const imagesToUpload = [
   { file: '01_logo-cancagua.png', key: 'brand/logo-cancagua.png', contentType: 'image/png', name: 'logo' },
@@ -51,19 +70,41 @@ export async function uploadBrandImages(): Promise<Record<string, string>> {
   return results;
 }
 
-// Función para obtener las URLs de imágenes de marca desde el archivo JSON
+/**
+ * Obtener las URLs de imágenes de marca
+ * 
+ * Intenta leer desde el archivo JSON primero, si no existe o está vacío,
+ * usa las URLs hardcodeadas como fallback para garantizar que siempre
+ * haya URLs disponibles en producción.
+ */
 export function getBrandImageUrls(): Record<string, string> {
-  const urlsFilePath = path.join(process.cwd(), 'brand-image-urls.json');
+  // Intentar múltiples ubicaciones para el archivo JSON
+  const possiblePaths = [
+    path.join(process.cwd(), 'brand-image-urls.json'),
+    path.join(__dirname, '..', 'brand-image-urls.json'),
+    path.join(__dirname, '..', '..', 'brand-image-urls.json'),
+  ];
   
-  if (fs.existsSync(urlsFilePath)) {
-    try {
-      return JSON.parse(fs.readFileSync(urlsFilePath, 'utf-8'));
-    } catch (error) {
-      console.error('Error leyendo brand-image-urls.json:', error);
+  for (const urlsFilePath of possiblePaths) {
+    if (fs.existsSync(urlsFilePath)) {
+      try {
+        const content = fs.readFileSync(urlsFilePath, 'utf-8');
+        const parsed = JSON.parse(content);
+        
+        // Verificar que el objeto no esté vacío
+        if (Object.keys(parsed).length > 0) {
+          console.log(`[getBrandImageUrls] Usando URLs desde: ${urlsFilePath}`);
+          return parsed;
+        }
+      } catch (error) {
+        console.error(`[getBrandImageUrls] Error leyendo ${urlsFilePath}:`, error);
+      }
     }
   }
   
-  return {};
+  // Fallback: usar URLs hardcodeadas
+  console.log('[getBrandImageUrls] Usando URLs de fallback hardcodeadas');
+  return BRAND_IMAGE_URLS_FALLBACK;
 }
 
 // Catálogo de imágenes con descripciones para la IA
