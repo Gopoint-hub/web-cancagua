@@ -14,9 +14,8 @@ export default {
     'initialLanguage', // Para i18n
   ],
 
-  // Meta tags por defecto
-  title: 'Cancagua Spa & Retreat Center',
-  description: 'Las primeras biopiscinas geotermales del mundo',
+  // Meta tags por defecto (solo description, el title se define en cada página via +title.ts)
+  description: 'Las primeras biopiscinas geotermales del mundo en Frutillar, Chile',
 
   // Habilitar SSR por defecto para todas las páginas
   ssr: true,
