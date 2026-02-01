@@ -71,23 +71,13 @@ const useHashLocation = () => {
       setLoc(newPath);
     };
 
-    // Escuchar eventos de navegación
+    // Escuchar eventos de navegación del navegador (botones adelante/atrás)
     window.addEventListener("popstate", handler);
-
-    // Para navegación programática, observar cambios en el pathname
-    const observer = new MutationObserver(() => {
-      const currentPath = stripBase(window.location.pathname);
-      if (currentPath !== loc) {
-        console.log("[CMS Router] 🔄 Cambio de pathname detectado:", window.location.pathname, "→", currentPath);
-        setLoc(currentPath);
-      }
-    });
 
     return () => {
       window.removeEventListener("popstate", handler);
-      observer.disconnect();
     };
-  }, [loc]);
+  }, []);
 
   const navigate = useCallback((to: string) => {
     const fullPath = addBase(to);
