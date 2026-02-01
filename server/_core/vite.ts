@@ -56,10 +56,9 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export async function serveStatic(app: Express) {
-  const distPath =
-    process.env.NODE_ENV === "development"
-      ? path.resolve(import.meta.dirname, "../..", "dist", "public", "client")
-      : path.resolve(import.meta.dirname, "public", "client");
+  const distPath = path.resolve(process.cwd(), "dist", "public", "client");
+
+  console.log(`[Production] Serving static files from: ${distPath}`);
 
   if (!fs.existsSync(distPath)) {
     console.error(
