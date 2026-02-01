@@ -58,8 +58,8 @@ export async function setupVite(app: Express, server: Server) {
 export function serveStatic(app: Express) {
   const distPath =
     process.env.NODE_ENV === "development"
-      ? path.resolve(import.meta.dirname, "../..", "dist", "public")
-      : path.resolve(import.meta.dirname, "public");
+      ? path.resolve(import.meta.dirname, "../..", "dist", "public", "client")
+      : path.resolve(import.meta.dirname, "public", "client");
 
   if (!fs.existsSync(distPath)) {
     console.error(
@@ -67,7 +67,7 @@ export function serveStatic(app: Express) {
     );
   }
 
-  // Servir archivos estáticos (CSS, JS, imágenes)
+  // Servir archivos estáticos (CSS, JS, imágenes) desde dist/public/client
   app.use(express.static(distPath));
 
   // Vike SSR handler para producción

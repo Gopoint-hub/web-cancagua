@@ -9,6 +9,7 @@ const plugins = [react(), tailwindcss(), jsxLocPlugin(), vike({ prerender: false
 
 export default defineConfig({
   plugins,
+  base: "/",
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
@@ -22,6 +23,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    assetsDir: "assets",
   },
   server: {
     host: true,
