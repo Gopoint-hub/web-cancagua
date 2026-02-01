@@ -1,19 +1,11 @@
-import { generateServiceSchema } from '@/lib/seo-helpers';
-
 export default function Head() {
   const seoData = {
-    title: "Carta - Menú Saludable | Cancagua",
-    description: "Descubre nuestra carta de alimentación saludable con productos locales de la cuenca del Lago Llanquihue. Opciones veganas, vegetarianas, sin gluten, keto y sin lactosa. Bebidas naturales y café de especialidad.",
-    keywords: "menu cancagua, carta saludable frutillar, comida healthy lago llanquihue, menu vegano chile, brunch frutillar",
-    canonical: "/carta",
-    image: "https://cancagua.cl/images/10_cancagua-header.jpg",
+    title: "Navega & Relax - Día de Playa en Frutillar | Cancagua Spa",
+    description: "Disfruta de un día de playa único en el Lago Llanquihue. Navega & Relax combina kayak, stand up paddle y acceso a nuestras instalaciones de bienestar en Frutillar.",
+    keywords: "día playa frutillar, kayak lago llanquihue, stand up paddle, beach day, navega relax",
+    canonical: "/navega-relax",
+    image: "https://cancagua.cl/images/fullday-biopiscinas-hero.jpg",
   };
-
-  const serviceSchema = generateServiceSchema({
-    name: "Carta Cancagua",
-    description: seoData.description,
-    image: seoData.image,
-  });
 
   return (
     <>
@@ -36,11 +28,6 @@ export default function Head() {
       <meta name="twitter:title" content={seoData.title} />
       <meta name="twitter:description" content={seoData.description} />
       <meta name="twitter:image" content={seoData.image} />
-
-      {/* Schema.org */}
-      <script type="application/ld+json">
-        {JSON.stringify(serviceSchema)}
-      </script>
     </>
   );
 }
