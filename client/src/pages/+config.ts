@@ -14,8 +14,8 @@ export default {
     'initialLanguage', // Para i18n
   ],
 
-  // Meta tags por defecto (solo description, el title se define en cada página via +title.ts)
-  description: 'Las primeras biopiscinas geotermales del mundo en Frutillar, Chile',
+  // Nota: title y description se definen en cada página via +title.ts y +Head.tsx
+  // para permitir SEO específico por página
 
   // Habilitar SSR por defecto para todas las páginas
   ssr: true,
