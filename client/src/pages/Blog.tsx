@@ -52,7 +52,7 @@ const articles: BlogArticle[] = [
     slug: 'termas-del-sur-vs-experiencia-natural',
     title: 'Termas del Sur Tradicionales vs Experiencia Natural: Guía Completa',
     excerpt: 'Viste que algunas personas vuelven cambiadas de sus días termales, mientras que otras simplemente dicen «si, estuvo bien». Probablemente la diferencia fue en el tipo de experiencia que eligieron.',
-    image: '/images/blog/termas-vs-experiencia-natural-hero.avif',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960573/cancagua/cancagua/images/blog/termas-geometricas-hero.webp',
     date: '29 Octubre 2025',
     author: 'Mario Hermosilla',
     readTime: '11 min',
