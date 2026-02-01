@@ -1,7 +1,7 @@
 export default function Head() {
   const seoData = {
-    title: "Sobre Nosotros - Historia y Valores de Cancagua | Frutillar",
-    description: "Conoce la historia de Cancagua, el primer spa con biopiscinas geotermales del mundo. Nuestros valores de sustentabilidad, bienestar y conexión con la naturaleza.",
+    title: "Nosotros - Historia y Valores | Cancagua",
+    description: "Conoce la historia de Cancagua, el primer spa con biopiscinas geotermales del mundo. Nuestros valores de sustentabilidad, bienestar y conexión con la naturaleza en Frutillar, Chile.",
     keywords: "cancagua historia, spa sustentable chile, valores bienestar, filosofia cancagua, equipo cancagua frutillar",
     canonical: "/nosotros",
     image: "https://cancagua.cl/images/10_cancagua-header.jpg",
@@ -20,6 +20,8 @@ export default function Head() {
       <meta property="og:image" content={seoData.image} />
       <meta property="og:url" content={`https://cancagua.cl${seoData.canonical}`} />
       <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Cancagua Spa & Retreat Center" />
+      <meta property="og:locale" content="es_CL" />
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />

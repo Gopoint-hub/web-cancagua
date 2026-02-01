@@ -1,19 +1,11 @@
-import { generateServiceSchema } from '@/lib/seo-helpers';
-
 export default function Head() {
   const seoData = {
-    title: "Carta - Menú Saludable | Cancagua",
-    description: "Descubre nuestra carta de alimentación saludable con productos locales de la cuenca del Lago Llanquihue. Opciones veganas, vegetarianas, sin gluten, keto y sin lactosa. Bebidas naturales y café de especialidad.",
-    keywords: "menu cancagua, carta saludable frutillar, comida healthy lago llanquihue, menu vegano chile, brunch frutillar",
-    canonical: "/carta",
-    image: "https://cancagua.cl/images/10_cancagua-header.jpg",
+    title: "Spa Hotel Cabañas del Lago Puerto Varas | Cancagua Spa",
+    description: "Disfruta de los servicios de Cancagua Spa en Hotel Cabañas del Lago, Puerto Varas. Masajes, tratamientos y bienestar con vista al Lago Llanquihue.",
+    keywords: "spa puerto varas, hotel cabañas del lago spa, masajes puerto varas, bienestar lago llanquihue",
+    canonical: "/spa-hotel-cabanas-del-lago",
+    image: "https://cancagua.cl/images/spa-cabanas-del-lago-hero.jpg",
   };
-
-  const serviceSchema = generateServiceSchema({
-    name: "Carta Cancagua",
-    description: seoData.description,
-    image: seoData.image,
-  });
 
   return (
     <>
@@ -36,11 +28,6 @@ export default function Head() {
       <meta name="twitter:title" content={seoData.title} />
       <meta name="twitter:description" content={seoData.description} />
       <meta name="twitter:image" content={seoData.image} />
-
-      {/* Schema.org */}
-      <script type="application/ld+json">
-        {JSON.stringify(serviceSchema)}
-      </script>
     </>
   );
 }

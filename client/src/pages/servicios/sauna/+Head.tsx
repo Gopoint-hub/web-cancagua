@@ -2,16 +2,16 @@ import { generateServiceSchema } from '@/lib/seo-helpers';
 
 export default function Head() {
   const seoData = {
-    title: "Sauna Nativa en Frutillar - Experiencia de Bienestar | Cancagua",
-    description: "Sauna tradicional con vista al bosque nativo. Calor terapéutico, relajación profunda y renovación. Combina con nuestras biopiscinas y hot tubs.",
+    title: "Sauna Nativa | Cancagua",
+    description: "Reserva tu experiencia en nuestro Sauna Nativo con vista al bosque nativo. Calor terapéutico, relajación profunda y renovación a orillas del Lago Llanquihue. Combina con biopiscinas y hot tubs.",
     keywords: "sauna frutillar, sauna nativa chile, baño finlandés lago llanquihue, spa sauna puerto varas",
     canonical: "/servicios/sauna",
-    image: "/images/sauna-nativo-hero.png",
+    image: "https://cancagua.cl/images/sauna-nativo-hero.png",
   };
 
   const serviceSchema = generateServiceSchema({
-    name: "Sauna Nativa",
-    description: "Sauna tradicional con vista al bosque nativo. Calor terapéutico, relajación profunda y renovación a orillas del Lago Llanquihue.",
+    name: "Sauna Nativa Cancagua",
+    description: seoData.description,
     image: seoData.image,
   });
 
@@ -28,6 +28,8 @@ export default function Head() {
       <meta property="og:image" content={seoData.image} />
       <meta property="og:url" content={`https://cancagua.cl${seoData.canonical}`} />
       <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Cancagua Spa & Retreat Center" />
+      <meta property="og:locale" content="es_CL" />
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
