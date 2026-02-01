@@ -60,10 +60,10 @@ export const categories: Category[] = [
     description: "Clientes & Servicios",
     color: "bg-emerald-500",
     items: [
-      { icon: LayoutDashboard, label: "Resumen B2C", path: "/b2c" },
-      { icon: Gift, label: "Gift Cards", path: "/gift-cards-sales" },
-      { icon: MessageSquare, label: "Mensajes", path: "/mensajes" },
-      { icon: Users, label: "Clientes", path: "/clientes" },
+      { icon: LayoutDashboard, label: "Resumen B2C", path: "/cms/b2c" },
+      { icon: Gift, label: "Gift Cards", path: "/cms/gift-cards-sales" },
+      { icon: MessageSquare, label: "Mensajes", path: "/cms/mensajes" },
+      { icon: Users, label: "Clientes", path: "/cms/clientes" },
     ],
   },
   {
@@ -73,10 +73,10 @@ export const categories: Category[] = [
     description: "Eventos Corporativos",
     color: "bg-blue-500",
     items: [
-      { icon: LayoutDashboard, label: "Resumen B2B", path: "/b2b" },
-      { icon: FileText, label: "Cotizaciones", path: "/cotizaciones" },
-      { icon: Package, label: "Catálogo Productos", path: "/productos-corporativos" },
-      { icon: Kanban, label: "CRM Pipeline", path: "/crm-pipeline" },
+      { icon: LayoutDashboard, label: "Resumen B2B", path: "/cms/b2b" },
+      { icon: FileText, label: "Cotizaciones", path: "/cms/cotizaciones" },
+      { icon: Package, label: "Catálogo Productos", path: "/cms/productos-corporativos" },
+      { icon: Kanban, label: "CRM Pipeline", path: "/cms/crm-pipeline" },
     ],
   },
   {
@@ -86,13 +86,13 @@ export const categories: Category[] = [
     description: "Newsletters & Campañas",
     color: "bg-purple-500",
     items: [
-      { icon: LayoutDashboard, label: "Resumen Marketing", path: "/marketing" },
-      { icon: Newspaper, label: "Newsletters", path: "/newsletter" },
-      { icon: MailPlus, label: "Crear Newsletter", path: "/crear-newsletter" },
-      { icon: UsersRound, label: "Suscriptores", path: "/suscriptores" },
-      { icon: ListChecks, label: "Listas", path: "/listas" },
-      { icon: TrendingUp, label: "ROI de Marketing", path: "/marketing-roi" },
-      { icon: Tag, label: "Códigos Dcto.", path: "/codigos-descuento" },
+      { icon: LayoutDashboard, label: "Resumen Marketing", path: "/cms/marketing" },
+      { icon: Newspaper, label: "Newsletters", path: "/cms/newsletter" },
+      { icon: MailPlus, label: "Crear Newsletter", path: "/cms/crear-newsletter" },
+      { icon: UsersRound, label: "Suscriptores", path: "/cms/suscriptores" },
+      { icon: ListChecks, label: "Listas", path: "/cms/listas" },
+      { icon: TrendingUp, label: "ROI de Marketing", path: "/cms/marketing-roi" },
+      { icon: Tag, label: "Códigos Dcto.", path: "/cms/codigos-descuento" },
     ],
   },
   {
@@ -102,8 +102,8 @@ export const categories: Category[] = [
     description: "Analytics & Reportes",
     color: "bg-amber-500",
     items: [
-      { icon: LayoutDashboard, label: "Resumen Métricas", path: "/metricas" },
-      { icon: BarChart3, label: "Analytics", path: "/analytics" },
+      { icon: LayoutDashboard, label: "Resumen Métricas", path: "/cms/metricas" },
+      { icon: BarChart3, label: "Analytics", path: "/cms/analytics" },
     ],
   },
   {
@@ -113,7 +113,7 @@ export const categories: Category[] = [
     description: "Mantención & Operaciones",
     color: "bg-orange-500",
     items: [
-      { icon: Wrench, label: "Reportes Mantención", path: "/reportes-mantencion" },
+      { icon: Wrench, label: "Reportes Mantención", path: "/cms/reportes-mantencion" },
     ],
   },
   {
@@ -123,11 +123,11 @@ export const categories: Category[] = [
     description: "Usuarios & Configuración",
     color: "bg-slate-500",
     items: [
-      { icon: LayoutDashboard, label: "Resumen Admin", path: "/admin" },
-      { icon: Users, label: "Usuarios", path: "/usuarios" },
-      { icon: Languages, label: "Traducciones", path: "/traducciones" },
-      { icon: RefreshCw, label: "Integraciones", path: "/integraciones" },
-      { icon: Settings, label: "Configuración", path: "/configuracion" },
+      { icon: LayoutDashboard, label: "Resumen Admin", path: "/cms/admin" },
+      { icon: Users, label: "Usuarios", path: "/cms/usuarios" },
+      { icon: Languages, label: "Traducciones", path: "/cms/traducciones" },
+      { icon: RefreshCw, label: "Integraciones", path: "/cms/integraciones" },
+      { icon: Settings, label: "Configuración", path: "/cms/configuracion" },
     ],
   },
 ];
