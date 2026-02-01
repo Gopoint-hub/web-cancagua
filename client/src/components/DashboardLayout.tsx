@@ -170,6 +170,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [location] = useLocation();
+  console.log("[DashboardLayout] 📐 Renderizando con location:", location);
   const [sidebarWidth, setSidebarWidth] = useState(() => {
     const saved = localStorage.getItem(SIDEBAR_WIDTH_KEY);
     return saved ? parseInt(saved, 10) : DEFAULT_WIDTH;

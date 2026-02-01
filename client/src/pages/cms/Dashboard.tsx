@@ -2,15 +2,22 @@ import DashboardLayout, { CategoryId, categories } from "@/components/DashboardL
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { trpc } from "@/lib/trpc";
-import { 
+import {
   Store, Briefcase, Megaphone, TrendingUp, Shield,
   ArrowRight, Users, CalendarCheck, MessageSquare, FileText,
   Newspaper, BarChart3
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { SEOHead } from "@/components/SEOHead";
+import { useEffect } from "react";
 
 export default function CMSDashboard() {
+  console.log("[Dashboard] 🏠 Dashboard renderizando");
+
+  useEffect(() => {
+    console.log("[Dashboard] ✅ Dashboard montado correctamente");
+  }, []);
+
   // SEO - Página oculta de Google (noindex)
   const seoData = {
     title: "Dashboard | Cancagua CMS",

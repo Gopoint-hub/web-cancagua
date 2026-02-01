@@ -38,20 +38,29 @@ import CMSRestablecerContrasena from "./RestablecerContrasena";
 
 // Custom hook para Wouter que funciona con Vike en modo cliente
 const useHashLocation = () => {
-  const [loc, setLoc] = useState(() =>
-    typeof window !== "undefined" ? window.location.pathname : "/"
-  );
+  const initialPath = typeof window !== "undefined" ? window.location.pathname : "/";
+  console.log("[CMS Router] 🔧 Inicializando hook con pathname:", initialPath);
+
+  const [loc, setLoc] = useState(() => initialPath);
 
   useEffect(() => {
-    const handler = () => setLoc(window.location.pathname);
+    console.log("[CMS Router] 📍 Location actual:", loc);
+
+    const handler = () => {
+      const newPath = window.location.pathname;
+      console.log("[CMS Router] ⬅️ Evento popstate detectado:", newPath);
+      setLoc(newPath);
+    };
 
     // Escuchar eventos de navegación
     window.addEventListener("popstate", handler);
 
     // Para navegación programática, observar cambios en el pathname
     const observer = new MutationObserver(() => {
-      if (window.location.pathname !== loc) {
-        setLoc(window.location.pathname);
+      const currentPath = window.location.pathname;
+      if (currentPath !== loc) {
+        console.log("[CMS Router] 🔄 Cambio de pathname detectado:", currentPath);
+        setLoc(currentPath);
       }
     });
 
@@ -62,6 +71,7 @@ const useHashLocation = () => {
   }, [loc]);
 
   const navigate = useCallback((to: string) => {
+    console.log("[CMS Router] ➡️ Navegando a:", to);
     window.history.pushState(null, "", to);
     setLoc(to);
   }, []);
@@ -70,6 +80,13 @@ const useHashLocation = () => {
 };
 
 export default function CMSPage() {
+  console.log("[CMS] 🚀 CMSPage renderizando");
+  console.log("[CMS] 📍 URL actual:", typeof window !== "undefined" ? window.location.pathname : "SSR");
+
+  useEffect(() => {
+    console.log("[CMS] ✅ CMSPage montado correctamente");
+  }, []);
+
   return (
     <Router hook={useHashLocation} base="/cms">
       <Route path="/login" component={CMSLogin} />
