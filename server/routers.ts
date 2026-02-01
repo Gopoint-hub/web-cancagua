@@ -1749,9 +1749,11 @@ export const appRouter = router({
 - Texto principal: #3a3a3a o #2d2d2d
 
 ## TIPOGRAFÍAS
-- Títulos: font-family: 'Josefin Sans', Arial, sans-serif; font-weight: 300; letter-spacing: 2px; text-transform: uppercase;
-- Cuerpo: font-family: 'Fira Sans', Arial, sans-serif; font-weight: 400;
-- Acentos elegantes: font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+- Títulos: font-family: 'Josefin Sans', Arial, sans-serif; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; line-height: 1.3;
+- Cuerpo: font-family: 'Fira Sans', Arial, sans-serif; font-weight: 400; line-height: 1.6;
+- Acentos elegantes: font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; line-height: 1.4;
+
+IMPORTANTE: Siempre incluir line-height en todos los estilos de texto para evitar superposición de líneas.
 
 ## REQUISITOS TÉCNICOS
 - HTML completo con estilos inline (no CSS externo)
