@@ -51,7 +51,7 @@ export default function Servicios() {
     {
       title: "Pases Reconecta",
       description: "Pases mensuales para acceder a nuestros servicios de bienestar. La mejor forma de mantener tu rutina de autocuidado.",
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/pase-reconecta-hottub.png",
+      image: "/images/pase-reconecta-hottub.png",
       href: "/experiencias/pases-reconecta",
     },
     {

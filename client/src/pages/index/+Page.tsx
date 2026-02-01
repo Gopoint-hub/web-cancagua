@@ -202,7 +202,7 @@ export default function HomePage() {
             </div>
             <div className="order-1 lg:order-2">
               <img
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/08_cafeteria-interior.jpg"
+                src="/images/08_cafeteria-interior.jpg"
                 alt="Cafetería Cancagua"
                 className="rounded-sm shadow-xl w-full"
               />

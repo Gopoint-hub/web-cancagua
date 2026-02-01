@@ -93,7 +93,7 @@ export default function Page() {
               </div>
               <div className="relative">
                 <img
-                  src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/08_cafeteria-interior.jpg"
+                  src="/images/08_cafeteria-interior.jpg"
                   alt="Interior de la cafetería Cancagua"
                   className="rounded-2xl shadow-2xl w-full h-[400px] object-cover"
                 />

@@ -103,7 +103,7 @@ export default function TallerWimHof() {
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                   <div>
                     <img
-                      src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/alan-iceman.png"
+                      src="/images/alan-iceman.png"
                       alt="Alan IceMan"
                       className="rounded-lg shadow-xl w-full object-cover"
                     />

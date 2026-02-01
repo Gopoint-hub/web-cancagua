@@ -6,7 +6,7 @@ export default function Head() {
     description: "Sauna tradicional con vista al bosque nativo. Calor terapéutico, relajación profunda y renovación. Combina con nuestras biopiscinas y hot tubs.",
     keywords: "sauna frutillar, sauna nativa chile, baño finlandés lago llanquihue, spa sauna puerto varas",
     canonical: "/servicios/sauna",
-    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/sauna-nativo-hero.png",
+    image: "/images/sauna-nativo-hero.png",
   };
 
   const serviceSchema = generateServiceSchema({

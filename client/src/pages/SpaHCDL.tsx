@@ -24,7 +24,7 @@ const services = [
     },
     price: 'Desde $45.000',
     duration: '30-50 min',
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/hcdl/masaje-relajacion.webp',
+    image: '/images/hcdl/masaje-relajacion.webp',
     bookingUrl: 'https://hcdl.cancagua.cl/hcdl/s/5bd26b48-2104-4a2b-b560-911cbeeb736e',
     icon: Sparkles
   },
@@ -46,7 +46,7 @@ const services = [
     },
     price: '$65.000',
     duration: '50 min',
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/hcdl/masaje-descontracturante.webp',
+    image: '/images/hcdl/masaje-descontracturante.webp',
     bookingUrl: 'https://hcdl.cancagua.cl/hcdl/s/792047c7-04ef-4094-b946-b7debae22798',
     icon: Sparkles
   },
@@ -68,7 +68,7 @@ const services = [
     },
     price: '$60.000',
     duration: '50 min',
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/hcdl/masaje-mixto.webp',
+    image: '/images/hcdl/masaje-mixto.webp',
     bookingUrl: 'https://hcdl.cancagua.cl/hcdl/s/ac76988e-98b3-4f8e-aa34-d9b604bf70d2',
     icon: Sparkles
   },
@@ -90,7 +90,7 @@ const services = [
     },
     price: '$50.000',
     duration: '50 min',
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/hcdl/drenaje-linfatico.webp',
+    image: '/images/hcdl/drenaje-linfatico.webp',
     bookingUrl: 'https://hcdl.cancagua.cl/hcdl/s/20c2499c-afc2-478e-81ee-4c5fee9ab8ed',
     icon: Leaf
   },
@@ -112,7 +112,7 @@ const services = [
     },
     price: '$58.000',
     duration: '50 min',
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/hcdl/piedras-calientes.webp',
+    image: '/images/hcdl/piedras-calientes.webp',
     bookingUrl: 'https://hcdl.cancagua.cl/hcdl/s/5b2356cb-9422-4d0d-9cd5-a2ea56b7608a',
     icon: Sparkles
   },
@@ -134,7 +134,7 @@ const services = [
     },
     price: '$48.000',
     duration: '40 min',
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/hcdl/reflexologia.webp',
+    image: '/images/hcdl/reflexologia.webp',
     bookingUrl: 'https://hcdl.cancagua.cl/hcdl/s/dbeddcc3-aa28-42ce-b127-d9cb55f1c63a',
     icon: Sparkles
   },
@@ -156,7 +156,7 @@ const services = [
     },
     price: '$60.000',
     duration: '50 min',
-    image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/hcdl/prenatal.webp',
+    image: '/images/hcdl/prenatal.webp',
     bookingUrl: 'https://hcdl.cancagua.cl/hcdl/s/ae2d86b0-0415-4ca1-8128-b56370e2545e',
     icon: Heart
   }
@@ -284,7 +284,7 @@ export default function SpaHCDL() {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ 
-            backgroundImage: 'url(https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/hcdl/masaje-relajacion.webp)',
+            backgroundImage: 'url(/images/hcdl/masaje-relajacion.webp)',
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
