@@ -16,8 +16,12 @@ import { httpBatchLink } from "@trpc/client";
 import superjson from "superjson";
 import { useState } from 'react';
 import type { ReactNode } from 'react';
+import { usePageContext } from 'vike-react/usePageContext';
 
 export default function Layout({ children }: { children: ReactNode }) {
+  const pageContext = usePageContext();
+  const isCMSRoute = pageContext.urlPathname.startsWith('/cms');
+
   // Crear cliente de tRPC solo en el cliente
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
@@ -48,14 +52,19 @@ export default function Layout({ children }: { children: ReactNode }) {
               <ScrollToTop />
               <UTMTracker />
 
-              <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
-                <Navbar />
-                <main className="flex-1">
-                  {children}
-                </main>
-                <Footer />
-                <WhatsAppButton />
-              </div>
+              {/* Si es ruta del CMS, NO renderizar Navbar/Footer */}
+              {isCMSRoute ? (
+                children
+              ) : (
+                <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
+                  <Navbar />
+                  <main className="flex-1">
+                    {children}
+                  </main>
+                  <Footer />
+                  <WhatsAppButton />
+                </div>
+              )}
             </TooltipProvider>
           </LanguageProvider>
         </ThemeProvider>
