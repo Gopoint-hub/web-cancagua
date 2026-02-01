@@ -4,11 +4,13 @@ import { type Server } from "http";
 import path from "path";
 import { createServer as createViteServer, type ViteDevServer } from "vite";
 import { renderPage } from "vike/server";
-import viteConfig from "../../vite.config";
 
 let viteDevServer: ViteDevServer | undefined;
 
 export async function setupVite(app: Express, server: Server) {
+  // Importar viteConfig solo en desarrollo para evitar cargar el plugin de Vike en producción
+  const { default: viteConfig } = await import("../../vite.config");
+
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
