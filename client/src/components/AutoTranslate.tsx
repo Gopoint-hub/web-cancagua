@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { trpc } from '../lib/trpc';
 
 // Contexto para la página actual
@@ -122,29 +123,9 @@ interface TProps {
 }
 
 export function T({ children, id }: TProps) {
-  const { language } = useLanguage();
-  const context = useContext(PageTranslationContext);
-  
-  // Si no hay contexto o es español, mostrar original
-  if (!context || language === 'es') {
-    return <>{children}</>;
-  }
-  
-  const key = id || hashText(children);
-  const { registerText, getTranslation, isLoading } = context;
-  
-  // Registrar texto para traducción
-  useEffect(() => {
-    registerText(key, children);
-  }, [key, children, registerText]);
-  
-  const translatedText = getTranslation(key, children);
-  
-  return (
-    <span className={isLoading && translatedText === children ? 'opacity-70' : ''}>
-      {translatedText}
-    </span>
-  );
+  // Para SSR y SEO, simplemente devolver el texto original en español
+  // El sistema de traducción automática con IA se puede activar más adelante
+  return <>{children}</>;
 }
 
 // Componente simplificado que traduce sin necesidad de Provider

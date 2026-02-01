@@ -11,12 +11,13 @@ import { LanguageSelector } from "@/components/LanguageSelector";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "wouter";
+import { usePageContext } from "vike-react/usePageContext";
 
 export function Navbar() {
   const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [location] = useLocation();
+  const pageContext = usePageContext();
+  const location = pageContext.urlPathname || '/';
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
   const isActive = (path: string) => location === path;
@@ -83,23 +84,23 @@ export function Navbar() {
       <header className="sticky top-0 z-50 w-full border-b border-[#D3BC8D]/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
         <div className="container flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <a href="/" className="flex items-center space-x-2">
             <img
               src="/images/01_logo-cancagua.png"
               alt="Cancagua"
               className="h-12 w-auto"
             />
-          </Link>
+          </a>
 
           {/* Navegación Desktop */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link
+            <a
               href="/"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
                 }`}
             >
               {t('nav.home')}
-            </Link>
+            </a>
 
             {/* Dropdown Servicios */}
             <NavigationMenu>
@@ -113,7 +114,7 @@ export function Navbar() {
                       {servicios.map((servicio: { name: string; href: string; highlight?: boolean }) => (
                         <li key={servicio.href}>
                           <NavigationMenuLink asChild>
-                            <Link
+                            <a
                               href={servicio.href}
                               className={`block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors ${servicio.highlight
                                 ? 'bg-[#1a5276]/10 hover:bg-[#1a5276]/20 text-[#1a5276] border-l-2 border-[#1a5276]'
@@ -128,7 +129,7 @@ export function Navbar() {
                                   </span>
                                 )}
                               </div>
-                            </Link>
+                            </a>
                           </NavigationMenuLink>
                         </li>
                       ))}
@@ -150,14 +151,14 @@ export function Navbar() {
                       {experiencias.map((experiencia) => (
                         <li key={experiencia.href}>
                           <NavigationMenuLink asChild>
-                            <Link
+                            <a
                               href={experiencia.href}
                               className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F1E7D9] text-[#3a3a3a]"
                             >
                               <div className="text-sm tracking-wide">
                                 {experiencia.name}
                               </div>
-                            </Link>
+                            </a>
                           </NavigationMenuLink>
                         </li>
                       ))}
@@ -179,14 +180,14 @@ export function Navbar() {
                       {eventos.map((evento) => (
                         <li key={evento.href}>
                           <NavigationMenuLink asChild>
-                            <Link
+                            <a
                               href={evento.href}
                               className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F1E7D9] text-[#3a3a3a]"
                             >
                               <div className="text-sm tracking-wide">
                                 {evento.name}
                               </div>
-                            </Link>
+                            </a>
                           </NavigationMenuLink>
                         </li>
                       ))}
@@ -196,45 +197,45 @@ export function Navbar() {
               </NavigationMenuList>
             </NavigationMenu>
 
-            <Link
+            <a
               href="/cafeteria"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/cafeteria") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
                 }`}
             >
               {t('nav.cafeteria')}
-            </Link>
+            </a>
 
-            <Link
+            <a
               href="/nosotros"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/nosotros") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
                 }`}
             >
               {t('nav.about')}
-            </Link>
+            </a>
 
-            <Link
+            <a
               href="/contacto"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/contacto") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
                 }`}
             >
               {t('nav.contact')}
-            </Link>
+            </a>
 
-            <Link
+            <a
               href="/blog"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/blog") || location.startsWith("/blog/") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
                 }`}
             >
               Blog
-            </Link>
+            </a>
 
-            <Link
+            <a
               href="/gift-cards"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/gift-cards") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
                 }`}
             >
               Gift Cards
-            </Link>
+            </a>
           </nav>
 
           {/* Selector de Idioma y Botón Reservar */}
@@ -268,13 +269,13 @@ export function Navbar() {
           <div className="md:hidden border-t border-[#D3BC8D]/20 bg-white max-h-[70vh] overflow-y-auto">
             <nav className="container py-4 flex flex-col">
               {/* Inicio */}
-              <Link
+              <a
                 href="/"
                 className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.home')}
-              </Link>
+              </a>
 
               {/* Servicios - Acordeón */}
               <div className="border-b border-[#D3BC8D]/10">
@@ -288,14 +289,14 @@ export function Navbar() {
                 {expandedSection === 'servicios' && (
                   <div className="pb-3 pl-4 space-y-1 animate-in slide-in-from-top-2 duration-200">
                     {servicios.map((servicio) => (
-                      <Link
+                      <a
                         key={servicio.href}
                         href={servicio.href}
                         className="block py-2 text-sm text-[#3a3a3a] hover:text-[#D3BC8D]"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {servicio.name}
-                      </Link>
+                      </a>
                     ))}
                   </div>
                 )}
@@ -313,14 +314,14 @@ export function Navbar() {
                 {expandedSection === 'experiencias' && (
                   <div className="pb-3 pl-4 space-y-1 animate-in slide-in-from-top-2 duration-200">
                     {experiencias.map((experiencia) => (
-                      <Link
+                      <a
                         key={experiencia.href}
                         href={experiencia.href}
                         className="block py-2 text-sm text-[#3a3a3a] hover:text-[#D3BC8D]"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {experiencia.name}
-                      </Link>
+                      </a>
                     ))}
                   </div>
                 )}
@@ -338,59 +339,59 @@ export function Navbar() {
                 {expandedSection === 'eventos' && (
                   <div className="pb-3 pl-4 space-y-1 animate-in slide-in-from-top-2 duration-200">
                     {eventos.map((evento) => (
-                      <Link
+                      <a
                         key={evento.href}
                         href={evento.href}
                         className="block py-2 text-sm text-[#3a3a3a] hover:text-[#D3BC8D]"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {evento.name}
-                      </Link>
+                      </a>
                     ))}
                   </div>
                 )}
               </div>
 
               {/* Enlaces directos */}
-              <Link
+              <a
                 href="/cafeteria"
                 className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.cafeteria')}
-              </Link>
+              </a>
 
-              <Link
+              <a
                 href="/nosotros"
                 className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.about')}
-              </Link>
+              </a>
 
-              <Link
+              <a
                 href="/contacto"
                 className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.contact')}
-              </Link>
+              </a>
 
-              <Link
+              <a
                 href="/blog"
                 className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Blog
-              </Link>
+              </a>
 
-              <Link
+              <a
                 href="/gift-cards"
                 className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Gift Cards
-              </Link>
+              </a>
 
               {/* Selector de idioma y botón reservar */}
               <div className="pt-4 space-y-4">

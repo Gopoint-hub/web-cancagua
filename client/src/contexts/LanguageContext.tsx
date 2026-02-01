@@ -1,6 +1,18 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { useLocation } from 'wouter';
+import { usePageContext } from 'vike-react/usePageContext';
 import i18n from '../i18n/config';
+
+// Helper para acceso seguro a pageContext de Vike en SSR
+function getInitialLanguageFromSSR(): string | null {
+  if (typeof window === 'undefined') return null;
+  // @ts-ignore - pageContext se inyecta por Vike
+  if (window.__pageContext?.initialLanguage) {
+    // @ts-ignore
+    return window.__pageContext.initialLanguage;
+  }
+  return null;
+}
 
 // Idiomas soportados
 export const SUPPORTED_LANGUAGES = ['es', 'en', 'pt', 'fr', 'de'] as const;
@@ -41,8 +53,37 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [location, setLocation] = useLocation();
-  const [language, setLanguageState] = useState<SupportedLanguage>('es');
+  // Obtener URL desde Vike (funciona en SSR y cliente)
+  const pageContext = usePageContext();
+
+  // Obtener la URL actual - priorizar pageContext.urlPathname que funciona en SSR
+  const currentPath = pageContext.urlPathname || '/';
+
+  // Obtener idioma inicial desde SSR o localStorage
+  const getInitialLanguage = (): SupportedLanguage => {
+    // Intentar desde SSR (Vike)
+    const ssrLang = getInitialLanguageFromSSR();
+    if (ssrLang && SUPPORTED_LANGUAGES.includes(ssrLang as SupportedLanguage)) {
+      return ssrLang as SupportedLanguage;
+    }
+
+    // Solo en cliente: localStorage y navigator
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('cancagua_language');
+      if (stored && SUPPORTED_LANGUAGES.includes(stored as SupportedLanguage)) {
+        return stored as SupportedLanguage;
+      }
+
+      const browserLang = navigator.language.split('-')[0];
+      if (SUPPORTED_LANGUAGES.includes(browserLang as SupportedLanguage)) {
+        return browserLang as SupportedLanguage;
+      }
+    }
+
+    return 'es';
+  };
+
+  const [language, setLanguageState] = useState<SupportedLanguage>(getInitialLanguage);
   const [isLoading, setIsLoading] = useState(true);
 
   // Extraer idioma de la URL
@@ -93,41 +134,50 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const setLanguage = useCallback((newLang: SupportedLanguage) => {
     setLanguageState(newLang);
     i18n.changeLanguage(newLang);
-    localStorage.setItem('cancagua_language', newLang);
+
+    // Solo guardar en localStorage en el cliente
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('cancagua_language', newLang);
+    }
     // No cambiar la URL - solo cambiar el idioma del contenido
   }, []);
 
-  // Inicialización: detectar idioma de URL o navegador
+  // Inicialización: detectar idioma de URL o navegador (solo en cliente)
   useEffect(() => {
-    const urlLang = extractLanguageFromPath(location);
-    
+    // Este efecto se ejecuta tanto en SSR como en cliente
+    const urlLang = extractLanguageFromPath(currentPath);
+
     if (urlLang) {
       // Si hay idioma en la URL, usarlo
       setLanguageState(urlLang);
       i18n.changeLanguage(urlLang);
-      localStorage.setItem('cancagua_language', urlLang);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('cancagua_language', urlLang);
+      }
     } else {
       // Si no hay idioma en URL, detectar del navegador/localStorage
-      const storedLang = localStorage.getItem('cancagua_language') as SupportedLanguage;
-      const browserLang = navigator.language.split('-')[0] as SupportedLanguage;
-      
       let detectedLang: SupportedLanguage = 'es';
-      
-      if (storedLang && SUPPORTED_LANGUAGES.includes(storedLang)) {
-        detectedLang = storedLang;
-      } else if (SUPPORTED_LANGUAGES.includes(browserLang)) {
-        detectedLang = browserLang;
+
+      if (typeof window !== 'undefined') {
+        const storedLang = localStorage.getItem('cancagua_language') as SupportedLanguage;
+        const browserLang = navigator.language.split('-')[0] as SupportedLanguage;
+
+        if (storedLang && SUPPORTED_LANGUAGES.includes(storedLang)) {
+          detectedLang = storedLang;
+        } else if (SUPPORTED_LANGUAGES.includes(browserLang)) {
+          detectedLang = browserLang;
+        }
       }
-      
+
       setLanguageState(detectedLang);
       i18n.changeLanguage(detectedLang);
-      
+
       // NO redirigir automáticamente - mantener las rutas sin prefijo
       // El idioma se guarda en localStorage y se usa para traducir el contenido
     }
-    
+
     setIsLoading(false);
-  }, []);
+  }, [extractLanguageFromPath, currentPath]);
 
   return (
     <LanguageContext.Provider value={{ 

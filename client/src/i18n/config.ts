@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+// import LanguageDetector from 'i18next-browser-languagedetector'; // Deshabilitado para SSR
 
 // Importar traducciones
 import es from './locales/es.json';
@@ -17,28 +17,31 @@ const resources = {
   de: { translation: de },
 };
 
+// Solo usar initReactI18next (LanguageDetector deshabilitado para SSR)
+const plugins = [initReactI18next];
+
+// Inicializar i18n de forma síncrona
 i18n
-  .use(LanguageDetector) // Detecta idioma del navegador
-  .use(initReactI18next) // Integra con React
+  .use(...plugins)
   .init({
     resources,
+    lng: 'es', // Idioma inicial (importante para SSR)
     fallbackLng: 'es', // Idioma por defecto
     supportedLngs: ['es', 'en', 'pt', 'fr', 'de'],
-    
-    detection: {
-      // Orden de detección: localStorage -> navegador
-      order: ['localStorage', 'navigator'],
-      caches: ['localStorage'],
-      lookupLocalStorage: 'cancagua_language',
-    },
-    
+
+    // Cargar traducciones de forma síncrona (sin backend)
+    initImmediate: false,
+
     interpolation: {
       escapeValue: false, // React ya escapa por defecto
     },
-    
+
     react: {
       useSuspense: false,
     },
   });
+
+// Forzar el idioma a español inmediatamente
+i18n.changeLanguage('es');
 
 export default i18n;

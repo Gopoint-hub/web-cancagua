@@ -1,15 +1,19 @@
 import { useEffect } from 'react';
-import { useLocation } from 'wouter';
+import { usePageContext } from 'vike-react/usePageContext';
 
 /**
  * Component that scrolls to top whenever the route changes
  */
 export function ScrollToTop() {
-  const [location] = useLocation();
+  const pageContext = usePageContext();
+  const currentPath = pageContext.urlPathname || '/';
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+    // Solo ejecutar en el cliente
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+  }, [currentPath]);
 
   return null;
 }

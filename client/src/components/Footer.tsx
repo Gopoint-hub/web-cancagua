@@ -1,6 +1,5 @@
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Link } from "wouter";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -26,44 +25,44 @@ export function Footer() {
             <h3 className="text-sm tracking-[0.2em] uppercase text-[#D3BC8D] mb-6">{t('footer.quickLinks')}</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link
+                <a
                   href="/"
                   className="text-white/70 hover:text-[#D3BC8D] transition-colors"
                 >
                   {t('nav.home')}
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
+                <a
                   href="/servicios"
                   className="text-white/70 hover:text-[#D3BC8D] transition-colors"
                 >
                   {t('nav.services')}
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
+                <a
                   href="/eventos"
                   className="text-white/70 hover:text-[#D3BC8D] transition-colors"
                 >
                   {t('nav.events')}
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
+                <a
                   href="/cafeteria"
                   className="text-white/70 hover:text-[#D3BC8D] transition-colors"
                 >
                   {t('nav.cafeteria')}
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
+                <a
                   href="/nosotros"
                   className="text-white/70 hover:text-[#D3BC8D] transition-colors"
                 >
                   {t('nav.about')}
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -171,7 +170,7 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-white/10">
           <h3 className="text-sm tracking-[0.2em] uppercase text-[#D3BC8D] mb-6 text-center">Nuestras Ubicaciones</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            <Link
+            <a
               href="/"
               className="flex items-center gap-4 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
             >
@@ -184,8 +183,8 @@ export function Footer() {
                 </h4>
                 <p className="text-sm text-white/60">Frutillar, Región de Los Lagos</p>
               </div>
-            </Link>
-            <Link
+            </a>
+            <a
               href="/spa-hotel-cabanas-del-lago"
               className="flex items-center gap-4 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
             >
@@ -198,7 +197,7 @@ export function Footer() {
                 </h4>
                 <p className="text-sm text-white/60">Puerto Varas, Región de Los Lagos</p>
               </div>
-            </Link>
+            </a>
           </div>
         </div>
 

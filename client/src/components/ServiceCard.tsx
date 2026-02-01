@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "wouter";
 import { ReactNode } from "react";
 
 interface ServiceCardProps {
@@ -41,11 +40,11 @@ export function ServiceCard({
       </div>
       <CardContent className="p-6 bg-white flex flex-col flex-1">
         <p className="text-[#8C8C8C] mb-5 text-sm leading-relaxed flex-1">{description}</p>
-        <Button 
-          className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider text-sm mt-auto" 
+        <Button
+          className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider text-sm mt-auto"
           asChild
         >
-          <Link href={href}>Ver Detalles</Link>
+          <a href={href}>Ver Detalles</a>
         </Button>
       </CardContent>
     </Card>

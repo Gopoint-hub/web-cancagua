@@ -1,14 +1,18 @@
 import { useEffect } from "react";
-import { useLocation } from "wouter";
+import { usePageContext } from "vike-react/usePageContext";
 
 /**
  * UTMTracker: Captura parámetros UTM de la URL y los guarda en sessionStorage
  * para persistencia durante la navegación por todo el sitio.
  */
 export default function UTMTracker() {
-    const [location] = useLocation();
+    const pageContext = usePageContext();
+    const currentPath = pageContext.urlPathname || '/';
 
     useEffect(() => {
+        // Solo ejecutar en el cliente
+        if (typeof window === 'undefined') return;
+
         try {
             const urlParams = new URLSearchParams(window.location.search);
             const utms: Record<string, string> = {};
@@ -45,7 +49,7 @@ export default function UTMTracker() {
         } catch (e) {
             console.error("[UTMTracker] Error capturando UTMs", e);
         }
-    }, [location]);
+    }, [currentPath]);
 
     return null; // Componente invisible
 }

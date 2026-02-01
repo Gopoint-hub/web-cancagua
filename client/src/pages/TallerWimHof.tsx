@@ -49,7 +49,7 @@ export default function TallerWimHof() {
           <section className="relative h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0">
               <img
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/02_biopiscinas-hero.jpg"
+                src="/images/fullday-biopiscinas-hero.jpg"
                 alt="Taller Método Wim Hof"
                 className="w-full h-full object-cover"
               />

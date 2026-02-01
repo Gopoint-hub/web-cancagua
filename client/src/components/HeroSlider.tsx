@@ -1,7 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "wouter";
 
 interface Slide {
   image: string;
@@ -16,18 +15,17 @@ export function HeroSlider() {
   const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [, setLocation] = useLocation();
 
   const slides: Slide[] = [
     {
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/02_biopiscinas-hero.jpg",
+      image: "/images/fullday-biopiscinas-hero.jpg",
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
       ctaKey: "hero.biopiscinas.cta1",
       ctaLink: "/servicios/biopiscinas",
     },
     {
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/05_hottubs-hero.png",
+      image: "/images/11_hottub-service.webp",
       titleKey: "hero.hotTubs.title",
       subtitleKey: "hero.hotTubs.subtitle",
       ctaKey: "hero.hotTubs.cta1",
@@ -41,21 +39,21 @@ export function HeroSlider() {
       ctaLink: "/masajes",
     },
     {
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/04_clases-hero.jpg",
+      image: "/images/12_yoga-clases.webp",
       titleKey: "hero.clases.title",
       subtitleKey: "hero.clases.subtitle",
       ctaKey: "hero.clases.cta1",
       ctaLink: "/clases",
     },
     {
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/06_cafeteria-hero.jpg",
+      image: "/images/10_cancagua-header.jpg",
       titleKey: "hero.cafeteria.title",
       subtitleKey: "hero.cafeteria.subtitle",
       ctaKey: "hero.cafeteria.cta1",
       ctaLink: "/cafeteria",
     },
     {
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/07_eventos-hero.jpg",
+      image: "/images/navega-relax-header.jpg",
       titleKey: "hero.eventos.title",
       subtitleKey: "hero.eventos.subtitle",
       ctaKey: "hero.eventos.cta1",
@@ -89,11 +87,15 @@ export function HeroSlider() {
   };
 
   const handleCtaClick = (link: string) => {
-    setLocation(link);
+    if (typeof window !== 'undefined') {
+      window.location.href = link;
+    }
   };
 
   const handleServicesClick = () => {
-    setLocation('/servicios');
+    if (typeof window !== 'undefined') {
+      window.location.href = '/servicios';
+    }
   };
 
   // Get current slide

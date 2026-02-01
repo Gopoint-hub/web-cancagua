@@ -17,7 +17,7 @@ export default function Cafeteria() {
           <section className="relative h-[50vh] md:h-[70vh] overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: "url(https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/06_cafeteria-hero.jpg)" }}
+              style={{ backgroundImage: "url(/images/10_cancagua-header.jpg)" }}
             />
             <div className="absolute inset-0 bg-black/40" />
             <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">

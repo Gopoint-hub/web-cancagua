@@ -1,8 +1,9 @@
 import { MessageCircle } from "lucide-react";
-import { useLocation } from "wouter";
+import { usePageContext } from "vike-react/usePageContext";
 
 export function WhatsAppButton() {
-  const [location] = useLocation();
+  const pageContext = usePageContext();
+  const location = pageContext.urlPathname || '/';
   const phoneNumber = "56940073999"; // +56 9 4007 3999
 
   // Mensajes contextuales según la página

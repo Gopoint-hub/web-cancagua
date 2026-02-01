@@ -14,7 +14,7 @@ export default function EventosSociales() {
         {/* Hero Section */}
         <section className="relative min-h-[80vh] flex items-center justify-center">
           <div className="absolute inset-0">
-            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/cancagua/images/02_biopiscinas-hero.jpg" alt="Eventos Sociales Cancagua" className="w-full h-full object-cover" />
+            <img src="/images/fullday-biopiscinas-hero.jpg" alt="Eventos Sociales Cancagua" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
           </div>
           

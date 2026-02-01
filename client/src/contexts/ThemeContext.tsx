@@ -22,6 +22,11 @@ export function ThemeProvider({
   switchable = false,
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
+    // Solo acceder a localStorage en el cliente
+    if (typeof window === 'undefined') {
+      return defaultTheme;
+    }
+
     if (switchable) {
       const stored = localStorage.getItem("theme");
       return (stored as Theme) || defaultTheme;
@@ -30,6 +35,9 @@ export function ThemeProvider({
   });
 
   useEffect(() => {
+    // Solo ejecutar en el cliente (no en SSR)
+    if (typeof window === 'undefined') return;
+
     const root = document.documentElement;
     if (theme === "dark") {
       root.classList.add("dark");

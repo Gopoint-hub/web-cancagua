@@ -1,0 +1,3023 @@
+{
+  "https://cancagua.cl": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          }
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://cancagua.cl#webpage",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center | Biopiscinas Geotermales en Frutillar, Chile",
+        "description": "Las primeras biopiscinas geotermales del mundo. Experiencia única de bienestar en aguas termales naturales a 37°-40° con vista al Lago Llanquihue.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      }
+    ]
+  },
+  "https://cancagua.cl/servicios/biopiscinas": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/servicios/biopiscinas#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Servicios",
+            "item": "https://cancagua.cl/servicios"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Biopiscinas",
+            "item": "https://cancagua.cl/servicios/biopiscinas"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/servicios/biopiscinas#webpage",
+        "url": "https://cancagua.cl/servicios/biopiscinas",
+        "name": "Biopiscinas Geotermales | Cancagua Spa Frutillar",
+        "description": "Disfruta de las primeras biopiscinas geotermales del mundo. Aguas termales naturales a 37°-40°C con vista al Lago Llanquihue y volcanes Osorno y Calbuco.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/servicios/biopiscinas#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cancagua.cl/servicios/biopiscinas#service",
+        "name": "Biopiscinas Geotermales",
+        "description": "Piscinas de agua termal natural filtrada por plantas acuáticas, mantenidas a temperatura constante de 37°-40°C. Una experiencia única de conexión con la naturaleza.",
+        "provider": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Región de Los Lagos, Chile"
+        },
+        "image": "https://cancagua.cl/images/biopiscinas-cancagua.jpg"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://cancagua.cl/servicios/biopiscinas#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Qué son las biopiscinas geotermales?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Son piscinas de agua termal natural que utilizan plantas acuáticas para filtrar el agua de forma ecológica, sin químicos. El agua se mantiene a 37-40°C de forma natural."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cuál es la temperatura del agua?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Las biopiscinas mantienen una temperatura constante entre 37°C y 40°C, similar a la temperatura corporal, ideal para relajación."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Necesito reservar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Recomendamos reservar con anticipación en reservas.cancagua.cl, especialmente en temporada alta y fines de semana."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "https://cancagua.cl/servicios/hot-tubs": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/servicios/hot-tubs#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Servicios",
+            "item": "https://cancagua.cl/servicios"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Hot Tubs",
+            "item": "https://cancagua.cl/servicios/hot-tubs"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/servicios/hot-tubs#webpage",
+        "url": "https://cancagua.cl/servicios/hot-tubs",
+        "name": "Hot Tubs Privados | Cancagua Spa Frutillar",
+        "description": "Hot tubs privados con agua termal y vista panorámica al Lago Llanquihue. Experiencia exclusiva para parejas o grupos pequeños.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/servicios/hot-tubs#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cancagua.cl/servicios/hot-tubs#service",
+        "name": "Hot Tubs Privados",
+        "description": "Tinas de agua termal privadas con vista al lago y volcanes. Ideal para parejas o grupos pequeños que buscan una experiencia exclusiva.",
+        "provider": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Región de Los Lagos, Chile"
+        },
+        "image": "https://cancagua.cl/images/hot-tubs-cancagua.jpg"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://cancagua.cl/servicios/hot-tubs#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cuántas personas caben en un hot tub?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nuestros hot tubs tienen capacidad para 2-4 personas, ideal para parejas o grupos pequeños."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Los hot tubs son privados?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí, cada hot tub es completamente privado con su propio espacio y vista al lago."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "https://cancagua.cl/servicios/sauna": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/servicios/sauna#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Servicios",
+            "item": "https://cancagua.cl/servicios"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Sauna",
+            "item": "https://cancagua.cl/servicios/sauna"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/servicios/sauna#webpage",
+        "url": "https://cancagua.cl/servicios/sauna",
+        "name": "Sauna | Cancagua Spa Frutillar",
+        "description": "Sauna finlandesa con vista al lago. Complementa tu experiencia termal con los beneficios del calor seco.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/servicios/sauna#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cancagua.cl/servicios/sauna#service",
+        "name": "Sauna",
+        "description": "Sauna finlandesa tradicional con vista panorámica. Ideal para complementar la experiencia de las biopiscinas.",
+        "provider": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Región de Los Lagos, Chile"
+        }
+      }
+    ]
+  },
+  "https://cancagua.cl/servicios/masajes": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/servicios/masajes#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Servicios",
+            "item": "https://cancagua.cl/servicios"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Masajes",
+            "item": "https://cancagua.cl/servicios/masajes"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/servicios/masajes#webpage",
+        "url": "https://cancagua.cl/servicios/masajes",
+        "name": "Masajes y Terapias | Cancagua Spa Frutillar",
+        "description": "Masajes relajantes, descontracturantes y terapéuticos. Completa tu experiencia de bienestar con nuestros tratamientos profesionales.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/servicios/masajes#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cancagua.cl/servicios/masajes#service",
+        "name": "Masajes y Terapias",
+        "description": "Variedad de masajes y terapias corporales realizados por profesionales certificados. Incluye masajes relajantes, descontracturantes, piedras calientes y más.",
+        "provider": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Región de Los Lagos, Chile"
+        }
+      }
+    ]
+  },
+  "https://cancagua.cl/clases": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/clases#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Clases",
+            "item": "https://cancagua.cl/clases"
+          }
+        ]
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://cancagua.cl/clases#webpage",
+        "url": "https://cancagua.cl/clases",
+        "name": "Clases de Yoga y Bienestar | Cancagua Spa Frutillar",
+        "description": "Clases de yoga, meditación y actividades de bienestar en un entorno natural único frente al Lago Llanquihue.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/clases#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cancagua.cl/clases#service",
+        "name": "Clases y Actividades",
+        "description": "Programa de clases de yoga, meditación, y otras actividades de bienestar en un entorno natural privilegiado.",
+        "provider": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Región de Los Lagos, Chile"
+        }
+      }
+    ]
+  },
+  "https://cancagua.cl/experiencias/pases-reconecta": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/experiencias/pases-reconecta#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Experiencias",
+            "item": "https://cancagua.cl/experiencias"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Pases Reconecta",
+            "item": "https://cancagua.cl/experiencias/pases-reconecta"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/experiencias/pases-reconecta#webpage",
+        "url": "https://cancagua.cl/experiencias/pases-reconecta",
+        "name": "Pases Reconecta | Experiencias Cancagua Spa",
+        "description": "Pases de día completo o medio día que combinan biopiscinas, sauna, y servicios de bienestar. La experiencia Cancagua completa.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/experiencias/pases-reconecta#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cancagua.cl/experiencias/pases-reconecta#service",
+        "name": "Pases Reconecta",
+        "description": "Experiencias de bienestar completas que incluyen acceso a biopiscinas, sauna, y servicios adicionales. Disponible en versiones de medio día y día completo.",
+        "provider": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Región de Los Lagos, Chile"
+        }
+      }
+    ]
+  },
+  "https://cancagua.cl/navega-relax": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/navega-relax#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Navega & Relax",
+            "item": "https://cancagua.cl/navega-relax"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/navega-relax#webpage",
+        "url": "https://cancagua.cl/navega-relax",
+        "name": "Navega & Relax | Día de Playa Cancagua",
+        "description": "Experiencia de playa privada en el Lago Llanquihue. Kayaks, stand up paddle y relax frente al lago con vista a los volcanes.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/navega-relax#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cancagua.cl/navega-relax#service",
+        "name": "Navega & Relax",
+        "description": "Acceso a playa privada con actividades náuticas como kayak y stand up paddle, más zonas de descanso frente al Lago Llanquihue.",
+        "provider": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Región de Los Lagos, Chile"
+        }
+      }
+    ]
+  },
+  "https://cancagua.cl/eventos": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/eventos#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Eventos",
+            "item": "https://cancagua.cl/eventos"
+          }
+        ]
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://cancagua.cl/eventos#webpage",
+        "url": "https://cancagua.cl/eventos",
+        "name": "Eventos | Cancagua Spa Frutillar",
+        "description": "Organiza tu evento corporativo o celebración social en un entorno único. Espacios para reuniones, team building y celebraciones.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/eventos#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      }
+    ]
+  },
+  "https://cancagua.cl/eventos/empresas": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/eventos/empresas#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Eventos",
+            "item": "https://cancagua.cl/eventos"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Empresas",
+            "item": "https://cancagua.cl/eventos/empresas"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/eventos/empresas#webpage",
+        "url": "https://cancagua.cl/eventos/empresas",
+        "name": "Eventos Corporativos | Cancagua Spa Frutillar",
+        "description": "Eventos corporativos, team building y jornadas de bienestar empresarial. Espacios únicos para conectar equipos.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/eventos/empresas#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Event",
+        "@id": "https://cancagua.cl/eventos/empresas#event",
+        "name": "Eventos Corporativos en Cancagua",
+        "description": "Organización de eventos empresariales, team building, y jornadas de bienestar corporativo en un entorno natural único.",
+        "organizer": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "location": {
+          "@type": "Place",
+          "name": "Cancagua Spa & Retreat Center",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+            "addressLocality": "Frutillar",
+            "addressRegion": "Los Lagos",
+            "addressCountry": "CL"
+          }
+        },
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
+      }
+    ]
+  },
+  "https://cancagua.cl/eventos/sociales": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/eventos/sociales#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Eventos",
+            "item": "https://cancagua.cl/eventos"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Sociales",
+            "item": "https://cancagua.cl/eventos/sociales"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/eventos/sociales#webpage",
+        "url": "https://cancagua.cl/eventos/sociales",
+        "name": "Eventos Sociales | Celebraciones en Cancagua",
+        "description": "Celebra cumpleaños, despedidas, baby showers y eventos especiales en un spa con vista al lago.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/eventos/sociales#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Event",
+        "@id": "https://cancagua.cl/eventos/sociales#event",
+        "name": "Eventos Sociales en Cancagua",
+        "description": "Celebraciones privadas como cumpleaños, despedidas de soltera, baby showers y reuniones especiales.",
+        "organizer": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "location": {
+          "@type": "Place",
+          "name": "Cancagua Spa & Retreat Center",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+            "addressLocality": "Frutillar",
+            "addressRegion": "Los Lagos",
+            "addressCountry": "CL"
+          }
+        },
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
+      }
+    ]
+  },
+  "https://cancagua.cl/nosotros": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/nosotros#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Nosotros",
+            "item": "https://cancagua.cl/nosotros"
+          }
+        ]
+      },
+      {
+        "@type": "AboutPage",
+        "@id": "https://cancagua.cl/nosotros#webpage",
+        "url": "https://cancagua.cl/nosotros",
+        "name": "Nosotros | Historia de Cancagua Spa",
+        "description": "Conoce la historia de Cancagua, las primeras biopiscinas geotermales del mundo, y nuestra misión de bienestar sustentable.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/nosotros#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      }
+    ]
+  },
+  "https://cancagua.cl/contacto": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/contacto#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Contacto",
+            "item": "https://cancagua.cl/contacto"
+          }
+        ]
+      },
+      {
+        "@type": "ContactPage",
+        "@id": "https://cancagua.cl/contacto#webpage",
+        "url": "https://cancagua.cl/contacto",
+        "name": "Contacto | Cancagua Spa Frutillar",
+        "description": "Contáctanos para reservas, consultas o información. Ubicados en Frutillar, Región de Los Lagos, Chile.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/contacto#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      }
+    ]
+  },
+  "https://cancagua.cl/cafeteria": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/cafeteria#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Cafetería",
+            "item": "https://cancagua.cl/cafeteria"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/cafeteria#webpage",
+        "url": "https://cancagua.cl/cafeteria",
+        "name": "Cafetería Saludable | Cancagua Spa Frutillar",
+        "description": "Cafetería con opciones saludables, jugos naturales, snacks y comida consciente. Alimentación que complementa tu bienestar.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/cafeteria#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cancagua.cl/cafeteria#service",
+        "name": "Cafetería Saludable",
+        "description": "Cafetería con menú saludable, jugos naturales, batidos, snacks y opciones vegetarianas/veganas.",
+        "provider": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Región de Los Lagos, Chile"
+        }
+      }
+    ]
+  },
+  "https://cancagua.cl/carta": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/carta#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Cafetería",
+            "item": "https://cancagua.cl/cafeteria"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Carta",
+            "item": "https://cancagua.cl/carta"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/carta#webpage",
+        "url": "https://cancagua.cl/carta",
+        "name": "Carta | Menú Cafetería Cancagua",
+        "description": "Menú completo de nuestra cafetería saludable. Jugos, batidos, snacks y opciones conscientes.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/carta#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      }
+    ]
+  },
+  "https://cancagua.cl/blog": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/blog#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://cancagua.cl/blog"
+          }
+        ]
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://cancagua.cl/blog#webpage",
+        "url": "https://cancagua.cl/blog",
+        "name": "Blog | Bienestar y Termas en Chile - Cancagua",
+        "description": "Artículos sobre bienestar, termas del sur de Chile, tips de relajación y vida saludable.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/blog#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      }
+    ]
+  },
+  "https://cancagua.cl/blog/mejores-termas-sur-chile-2026": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/blog/mejores-termas-sur-chile-2026#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://cancagua.cl/blog"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Mejores Termas Sur Chile",
+            "item": "https://cancagua.cl/blog/mejores-termas-sur-chile-2026"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/blog/mejores-termas-sur-chile-2026#webpage",
+        "url": "https://cancagua.cl/blog/mejores-termas-sur-chile-2026",
+        "name": "Las 10 Mejores Termas del Sur de Chile 2026 | Guía Completa",
+        "description": "Guía completa de las mejores termas del sur de Chile. Descubre opciones desde Chillán hasta Aysén, precios y recomendaciones.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/blog/mejores-termas-sur-chile-2026#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Article",
+        "@id": "https://cancagua.cl/blog/mejores-termas-sur-chile-2026#article",
+        "headline": "Las 10 Mejores Termas del Sur de Chile 2026: Guía Completa",
+        "description": "Descubre las mejores termas y aguas termales del sur de Chile, desde Chillán hasta Aysén.",
+        "author": {
+          "@type": "Organization",
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "mainEntityOfPage": {
+          "@id": "https://cancagua.cl/blog/mejores-termas-sur-chile-2026#webpage"
+        },
+        "datePublished": "2026-01-19",
+        "dateModified": "2026-01-26",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://cancagua.cl/images/blog/termas-sur-chile.jpg",
+          "width": 1200,
+          "height": 630
+        }
+      }
+    ]
+  },
+  "https://cancagua.cl/blog/termas-con-ninos": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/blog/termas-con-ninos#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://cancagua.cl/blog"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Termas con Niños",
+            "item": "https://cancagua.cl/blog/termas-con-ninos"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/blog/termas-con-ninos#webpage",
+        "url": "https://cancagua.cl/blog/termas-con-ninos",
+        "name": "Termas del Sur de Chile con Niños | Guía para Familias",
+        "description": "Guía completa para visitar termas con niños. Tips de seguridad, mejores opciones familiares y recomendaciones.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/blog/termas-con-ninos#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Article",
+        "@id": "https://cancagua.cl/blog/termas-con-ninos#article",
+        "headline": "Termas del Sur de Chile con Niños: Guía Completa para Familias",
+        "description": "Todo lo que necesitas saber para disfrutar de las termas en familia con niños.",
+        "author": {
+          "@type": "Organization",
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "mainEntityOfPage": {
+          "@id": "https://cancagua.cl/blog/termas-con-ninos#webpage"
+        },
+        "datePublished": "2026-01-15",
+        "dateModified": "2026-01-26",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://cancagua.cl/images/blog/termas-ninos-familia.jpg",
+          "width": 1200,
+          "height": 630
+        }
+      }
+    ]
+  },
+  "https://cancagua.cl/blog/manejo-estres-laboral": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/blog/manejo-estres-laboral#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://cancagua.cl/blog"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Manejo Estrés Laboral",
+            "item": "https://cancagua.cl/blog/manejo-estres-laboral"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/blog/manejo-estres-laboral#webpage",
+        "url": "https://cancagua.cl/blog/manejo-estres-laboral",
+        "name": "Técnicas de Manejo del Estrés Laboral | Cancagua Blog",
+        "description": "4 técnicas científicamente validadas para reducir el estrés laboral en minutos. Aplicables entre reuniones.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/blog/manejo-estres-laboral#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://cancagua.cl/blog/manejo-estres-laboral#article",
+        "headline": "Cómo Manejar el Estrés Laboral con Técnicas Científicas",
+        "description": "Técnicas rápidas y efectivas para reducir el estrés en el trabajo.",
+        "author": {
+          "@type": "Organization",
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "mainEntityOfPage": {
+          "@id": "https://cancagua.cl/blog/manejo-estres-laboral#webpage"
+        },
+        "datePublished": "2026-01-10",
+        "dateModified": "2026-01-26",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://cancagua.cl/images/blog/manejo-estres.jpg",
+          "width": 1200,
+          "height": 630
+        }
+      }
+    ]
+  },
+  "https://cancagua.cl/blog/termas-vs-experiencia-natural": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/blog/termas-vs-experiencia-natural#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://cancagua.cl/blog"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Termas vs Natural",
+            "item": "https://cancagua.cl/blog/termas-vs-experiencia-natural"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/blog/termas-vs-experiencia-natural#webpage",
+        "url": "https://cancagua.cl/blog/termas-vs-experiencia-natural",
+        "name": "Termas Tradicionales vs Experiencia Natural | Comparativa",
+        "description": "Diferencias entre termas tradicionales y experiencias naturales como las biopiscinas. ¿Cuál elegir?",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/blog/termas-vs-experiencia-natural#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Article",
+        "@id": "https://cancagua.cl/blog/termas-vs-experiencia-natural#article",
+        "headline": "Termas Tradicionales vs Experiencia Natural: ¿Cuál Elegir?",
+        "description": "Comparativa entre termas convencionales y alternativas naturales como las biopiscinas.",
+        "author": {
+          "@type": "Organization",
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "mainEntityOfPage": {
+          "@id": "https://cancagua.cl/blog/termas-vs-experiencia-natural#webpage"
+        },
+        "datePublished": "2026-01-05",
+        "dateModified": "2026-01-26",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://cancagua.cl/images/blog/termas-vs-natural.jpg",
+          "width": 1200,
+          "height": 630
+        }
+      }
+    ]
+  },
+  "https://cancagua.cl/spa-hotel-cabanas-del-lago": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "DaySpa",
+          "LocalBusiness",
+          "HealthAndBeautyBusiness"
+        ],
+        "@id": "https://cancagua.cl/#organization",
+        "name": "Cancagua Spa & Retreat Center",
+        "alternateName": "Cancagua",
+        "url": "https://cancagua.cl",
+        "telephone": "+56 9 4007 3999",
+        "email": "contacto@cancagua.cl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ruta V-155, Km 2, Camino a Los Bajos",
+          "addressLocality": "Frutillar",
+          "addressRegion": "Los Lagos",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -41.1167,
+          "longitude": -73.0667
+        },
+        "priceRange": "$$$",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Monday",
+            "opens": "17:00",
+            "closes": "22:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "22:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/people/Cancaguachile/100063615547161/",
+          "https://www.instagram.com/cancaguachile/",
+          "https://www.tiktok.com/@cancaguafrutillar"
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento gratuito",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Accesible para silla de ruedas",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Se admiten mascotas",
+            "value": true
+          }
+        ],
+        "potentialAction": {
+          "@type": "ReserveAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://reservas.cancagua.cl"
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cancagua.cl/#website",
+        "url": "https://cancagua.cl",
+        "name": "Cancagua Spa & Retreat Center",
+        "publisher": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://cancagua.cl/spa-hotel-cabanas-del-lago#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://cancagua.cl"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Spa Hotel Cabañas del Lago",
+            "item": "https://cancagua.cl/spa-hotel-cabanas-del-lago"
+          }
+        ]
+      },
+      {
+        "@type": "ItemPage",
+        "@id": "https://cancagua.cl/spa-hotel-cabanas-del-lago#webpage",
+        "url": "https://cancagua.cl/spa-hotel-cabanas-del-lago",
+        "name": "Spa para Huéspedes Hotel Cabañas del Lago | Cancagua",
+        "description": "Servicios de spa exclusivos para huéspedes de Hotel Cabañas del Lago. Acceso preferencial a biopiscinas y tratamientos.",
+        "isPartOf": {
+          "@id": "https://cancagua.cl/#website"
+        },
+        "about": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://cancagua.cl/spa-hotel-cabanas-del-lago#breadcrumb"
+        },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://cancagua.cl/spa-hotel-cabanas-del-lago#service",
+        "name": "Spa para Hotel Cabañas del Lago",
+        "description": "Programa especial de spa para huéspedes del Hotel Cabañas del Lago con acceso preferencial y descuentos.",
+        "provider": {
+          "@id": "https://cancagua.cl/#organization"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Región de Los Lagos, Chile"
+        }
+      }
+    ]
+  }
+}
