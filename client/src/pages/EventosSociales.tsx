@@ -1,6 +1,3 @@
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { Calendar, Users, Sparkles } from "lucide-react";
 import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
@@ -8,8 +5,7 @@ import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
 export default function EventosSociales() {
   return (
     <AutoTranslateProvider pageId="eventos-sociales">
-      <div className="min-h-screen bg-[#F1E7D9]">
-        <Navbar />
+      <>
         
         {/* Hero Section */}
         <section className="relative min-h-[80vh] flex items-center justify-center">
@@ -111,9 +107,7 @@ export default function EventosSociales() {
           </div>
         </section>
 
-        <Footer />
-        <WhatsAppButton />
-      </div>
+      </>
     </AutoTranslateProvider>
   );
 }

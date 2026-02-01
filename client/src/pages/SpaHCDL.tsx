@@ -1,5 +1,4 @@
-import { Navbar } from '../components/Navbar';
-import { Footer } from '../components/Footer';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Clock, MapPin, Phone, Star, Sparkles, Heart, Leaf } from 'lucide-react';
@@ -276,8 +275,7 @@ export default function SpaHCDL() {
   const t = translations[language as keyof typeof translations] || translations.es;
 
   return (
-    <div className="min-h-screen bg-stone-50">
-      <Navbar />
+    <>
       
       {/* Hero Section */}
       <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
@@ -427,7 +425,6 @@ export default function SpaHCDL() {
         </div>
       </section>
 
-      <Footer />
-    </div>
+    </>
   );
 }

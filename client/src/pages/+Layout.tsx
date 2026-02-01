@@ -19,21 +19,9 @@ import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { usePageContext } from 'vike-react/usePageContext';
 
-// Rutas que tienen su propio Navbar y Footer en el componente
-// No renderizar Navbar/Footer del Layout para evitar duplicados
-const ROUTES_WITH_OWN_NAVBAR = [
-  '/eventos/empresas',
-  '/eventos/sociales',
-  '/eventos/heart-coherence-workshop',
-  '/eventos/taller-wim-hof',
-  '/spa-hotel-cabanas-del-lago',
-];
-
 export default function Layout({ children }: { children: ReactNode }) {
   const pageContext = usePageContext();
-  const pathname = pageContext.urlPathname;
-  const isCMSRoute = pathname.startsWith('/cms');
-  const hasOwnNavbar = ROUTES_WITH_OWN_NAVBAR.includes(pathname);
+  const isCMSRoute = pageContext.urlPathname.startsWith('/cms');
 
   // Crear cliente de tRPC solo en el cliente
   const [queryClient] = useState(() => new QueryClient());
@@ -67,8 +55,8 @@ export default function Layout({ children }: { children: ReactNode }) {
               {/* Componente que actualiza meta tags dinámicamente durante navegación client-side */}
               <DynamicHead />
 
-              {/* Si es ruta del CMS o tiene su propio Navbar, NO renderizar Navbar/Footer del Layout */}
-              {isCMSRoute || hasOwnNavbar ? (
+              {/* Si es ruta del CMS, NO renderizar Navbar/Footer */}
+              {isCMSRoute ? (
                 children
               ) : (
                 <div className="min-h-screen flex flex-col bg-[#FDFBF7]">

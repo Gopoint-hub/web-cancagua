@@ -4,7 +4,7 @@ import {
   Clock, MapPin, Calendar, Heart, Sparkles, Check, AlertCircle,
   Globe, User, Award, ExternalLink
 } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
+
 
 export default function HeartCoherenceWorkshop() {
   const benefits = [
@@ -29,8 +29,7 @@ export default function HeartCoherenceWorkshop() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-purple-50">
-      <Navbar />
+    <>
       {/* Hero Section */}
       <section className="relative h-[75vh] flex items-end overflow-hidden">
         <div 
@@ -290,6 +289,6 @@ export default function HeartCoherenceWorkshop() {
           </Card>
         </div>
       </section>
-    </div>
+    </>
   );
 }
