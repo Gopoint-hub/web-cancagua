@@ -55,7 +55,7 @@ export async function setupVite(app: Express, server: Server) {
   });
 }
 
-export function serveStatic(app: Express) {
+export async function serveStatic(app: Express) {
   const distPath =
     process.env.NODE_ENV === "development"
       ? path.resolve(import.meta.dirname, "../..", "dist", "public", "client")
@@ -65,6 +65,13 @@ export function serveStatic(app: Express) {
     console.error(
       `Could not find the build directory: ${distPath}, make sure to build the client first`
     );
+  }
+
+  // Importar el build de Vike en producción
+  // Esto es necesario cuando usamos un bundler custom como esbuild
+  const serverPath = path.resolve(import.meta.dirname, "public", "server");
+  if (fs.existsSync(path.join(serverPath, "entry.mjs"))) {
+    await import(path.join(serverPath, "entry.mjs"));
   }
 
   // Servir archivos estáticos (CSS, JS, imágenes) desde dist/public/client
