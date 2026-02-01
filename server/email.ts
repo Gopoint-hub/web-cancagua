@@ -255,7 +255,7 @@ export function generateNewsletterWrapper(content: string, unsubscribeUrl?: stri
 <body>
   <div class="email-container">
     <div class="email-header">
-      <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288636259/b6AHokZVYJSFV94d2D2ybb/images/logo-cancagua-white.png" alt="Cancagua" style="max-width: 200px; height: auto;" />
+      <img src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960664/cancagua/images/logo-cancagua-white.webp" alt="Cancagua" style="max-width: 200px; height: auto;" />
     </div>
     <div class="email-content">
       ${content}
