@@ -10,6 +10,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import UTMTracker from "@/components/UTMTracker";
+import { DynamicHead } from "@/components/DynamicHead";
 import { trpc } from "@/lib/trpc";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
@@ -51,6 +52,8 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Toaster />
               <ScrollToTop />
               <UTMTracker />
+              {/* Componente que actualiza meta tags dinámicamente durante navegación client-side */}
+              <DynamicHead />
 
               {/* Si es ruta del CMS, NO renderizar Navbar/Footer */}
               {isCMSRoute ? (
