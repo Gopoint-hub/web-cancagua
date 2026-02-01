@@ -1,1 +1,1 @@
-export const title = 'Taller Método Wim Hof | Cancagua Spa Frutillar';
+export default "Taller Método Wim Hof | Cancagua Spa Frutillar";

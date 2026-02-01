@@ -1,1 +1,1 @@
-export const title = 'Heart Coherence Workshop | Cancagua Spa Frutillar';
+export default "Heart Coherence Workshop | Cancagua Spa Frutillar";
