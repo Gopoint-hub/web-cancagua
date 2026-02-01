@@ -1,4 +1,5 @@
 import { Route, Router } from "wouter";
+import { useState, useEffect, useCallback } from "react";
 import CMSDashboard from "./Dashboard";
 import CMSUsuarios from "./Usuarios";
 import CMSCarta from "./Carta";
@@ -35,9 +36,42 @@ import CMSActivarCuenta from "./ActivarCuenta";
 import CMSRecuperarContrasena from "./RecuperarContrasena";
 import CMSRestablecerContrasena from "./RestablecerContrasena";
 
+// Custom hook para Wouter que funciona con Vike en modo cliente
+const useHashLocation = () => {
+  const [loc, setLoc] = useState(() =>
+    typeof window !== "undefined" ? window.location.pathname : "/"
+  );
+
+  useEffect(() => {
+    const handler = () => setLoc(window.location.pathname);
+
+    // Escuchar eventos de navegación
+    window.addEventListener("popstate", handler);
+
+    // Para navegación programática, observar cambios en el pathname
+    const observer = new MutationObserver(() => {
+      if (window.location.pathname !== loc) {
+        setLoc(window.location.pathname);
+      }
+    });
+
+    return () => {
+      window.removeEventListener("popstate", handler);
+      observer.disconnect();
+    };
+  }, [loc]);
+
+  const navigate = useCallback((to: string) => {
+    window.history.pushState(null, "", to);
+    setLoc(to);
+  }, []);
+
+  return [loc, navigate] as const;
+};
+
 export default function CMSPage() {
   return (
-    <Router base="/cms">
+    <Router hook={useHashLocation} base="/cms">
       <Route path="/login" component={CMSLogin} />
       <Route path="/activar-cuenta" component={CMSActivarCuenta} />
       <Route path="/recuperar-contrasena" component={CMSRecuperarContrasena} />
