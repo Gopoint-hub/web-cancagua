@@ -61,7 +61,7 @@ const defaultRelatedArticles: BlogArticle[] = [
     slug: 'termas-del-sur-vs-experiencia-natural',
     title: 'Termas Tradicionales vs Experiencia Natural',
     excerpt: 'Comparativa completa entre termas volcánicas y biopiscinas naturales.',
-    image: '/images/blog/termas-vs-experiencia-natural-hero.avif',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960573/cancagua/cancagua/images/blog/termas-geometricas-hero.webp',
     date: '29 Octubre 2025',
     author: 'Mario Hermosilla',
     readTime: '11 min',

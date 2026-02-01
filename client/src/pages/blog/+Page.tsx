@@ -2,8 +2,6 @@ import { Link } from 'wouter';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calendar, Clock, User, ArrowRight } from 'lucide-react';
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
 import { AutoTranslateProvider, T } from '@/components/AutoTranslate';
 
 interface BlogArticle {
@@ -60,15 +58,13 @@ const articles: BlogArticle[] = [
   }
 ];
 
-export default function Blog() {
+export default function Page() {
   const featuredArticle = articles[0];
   const otherArticles = articles.slice(1);
 
   return (
     <AutoTranslateProvider pageId="blog">
       <div className="min-h-screen bg-[#faf8f5]">
-        <Navbar />
-        
         {/* Hero Section */}
         <section className="pt-24 pb-12 bg-gradient-to-b from-[#2d3e2f] to-[#1a2a1c]">
           <div className="container max-w-6xl px-4">
@@ -197,8 +193,6 @@ export default function Blog() {
             </div>
           </div>
         </section>
-
-        <Footer />
       </div>
     </AutoTranslateProvider>
   );
