@@ -1,6 +1,3 @@
-import { Footer } from "@/components/Footer";
-import { Navbar } from "@/components/Navbar";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Clock, MapPin, Users, Wind, Snowflake, Brain, Heart } from "lucide-react";
@@ -41,10 +38,7 @@ export default function TallerWimHof() {
 
   return (
     <AutoTranslateProvider pageId="taller-wim-hof">
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-
-        <main className="flex-1">
+      <>
           {/* Hero Section */}
           <section className="relative h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0">
@@ -361,11 +355,7 @@ export default function TallerWimHof() {
               </div>
             </div>
           </section>
-        </main>
-
-        <Footer />
-        <WhatsAppButton />
-      </div>
+      </>
     </AutoTranslateProvider>
   );
 }
