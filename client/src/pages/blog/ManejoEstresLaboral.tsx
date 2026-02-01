@@ -1,13 +1,11 @@
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+
+
 import { BlogLayout } from '@/components/BlogLayout';
 import { Brain, Heart, Wind, TreePine, Clock, Zap, Sun, Volume2, Target, CheckCircle } from 'lucide-react';
 
 export default function ManejoEstresLaboral() {
   return (
-    <>
-      <Navbar />
-      <BlogLayout
+    <BlogLayout
         title="Manejo del Estrés Laboral: Técnicas Probadas por la Ciencia"
         excerpt="La mayoría de las estrategias sobre el manejo del estrés laboral están diseñadas para personas que tienen 30 minutos libres, un espacio silencioso, y la capacidad de «desconectarse» mentalmente. Es decir, para una realidad que no existe en el mundo profesional actual."
         image="/images/blog/manejo-estres-laboral-hero.webp"
@@ -265,8 +263,6 @@ export default function ManejoEstresLaboral() {
         <p className="text-lg font-medium text-[#2d3e2f]">
           ¿Estás listo para transformar tu relación con el estrés laboral? La ciencia ya nos mostró el camino. Sólo necesitas decidir implementarlo consistentemente.
         </p>
-      </BlogLayout>
-      <Footer />
-    </>
+     </BlogLayout>
   );
 }

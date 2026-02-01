@@ -1,13 +1,9 @@
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
 import { BlogLayout } from '@/components/BlogLayout';
 import { Baby, Shield, TreePine, Users, Thermometer, AlertTriangle, Heart, CheckCircle } from 'lucide-react';
 
 export default function TermasConNinos() {
   return (
-    <>
-      <Navbar />
-      <BlogLayout
+    <BlogLayout
         title="Termas del Sur de Chile con Niños: Guía para Familias"
         excerpt="Planificar unas vacaciones en el sur de Chile con niños puede ser emocionante y estresante a la vez. Sé que muchas familias buscan «termas sur chile niños» esperando encontrar ese lugar perfecto donde los adultos puedan relajarse mientras los pequeños disfrutan seguros."
         image="/images/blog/termas-ninos-familias-hero.webp"
@@ -197,8 +193,6 @@ export default function TermasConNinos() {
         <p>
           ¿Tu familia ya visitó termas o experiencias similares en el sur? ¿Qué fue lo más desafiante con los niños? Me encanta conocer las historias reales de otras familias viajeras.
         </p>
-      </BlogLayout>
-      <Footer />
-    </>
+    </BlogLayout>
   );
 }
