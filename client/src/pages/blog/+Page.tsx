@@ -3,60 +3,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calendar, Clock, User, ArrowRight } from 'lucide-react';
 import { AutoTranslateProvider, T } from '@/components/AutoTranslate';
+import { blogArticles } from '@/lib/blog-articles';
 
-interface BlogArticle {
-  slug: string;
-  title: string;
-  excerpt: string;
-  image: string;
-  date: string;
-  author: string;
-  readTime: string;
-  category: string;
-}
-
-const articles: BlogArticle[] = [
-  {
-    slug: 'mejores-termas-sur-chile-2026',
-    title: 'Las 10 mejores termas del sur de Chile 2026 y sus alternativas',
-    excerpt: 'Después de cinco años explorando cada rincón termal de la Región de Los Lagos, desde las icónicas Termas Geométricas hasta opciones menos conocidas, aprendí que elegir las mejores termas no se trata solo de agua caliente.',
-    image: '/images/blog/termas-geometricas-hero.webp',
-    date: '19 Enero 2026',
-    author: 'Mario Hermosilla',
-    readTime: '12 min',
-    category: 'Guías'
-  },
-  {
-    slug: 'termas-del-sur-de-chile-con-ninos-guia-para-familias',
-    title: 'Termas del Sur de Chile con Niños: Guía para Familias',
-    excerpt: 'Planificar unas vacaciones en el sur de Chile con niños puede ser emocionante y estresante a la vez. Sé que muchas familias buscan «termas sur chile niños» esperando encontrar ese lugar perfecto.',
-    image: '/images/blog/termas-ninos-familias-hero.webp',
-    date: '6 Enero 2026',
-    author: 'Mario Hermosilla',
-    readTime: '10 min',
-    category: 'Familias'
-  },
-  {
-    slug: 'tecnicas-manejo-estres-laboral',
-    title: 'Manejo del Estrés Laboral: Técnicas Probadas por la Ciencia',
-    excerpt: 'La neurociencia del estrés nos explica por qué pasa esto. Cuando recibes un email con el asunto «URGENTE», tu sistema nervioso no distingue entre esa notificación y un peligro físico real.',
-    image: '/images/blog/manejo-estres-laboral-hero.webp',
-    date: '12 Noviembre 2025',
-    author: 'Mario Hermosilla',
-    readTime: '15 min',
-    category: 'Bienestar'
-  },
-  {
-    slug: 'termas-del-sur-vs-experiencia-natural',
-    title: 'Termas del Sur Tradicionales vs Experiencia Natural: Guía Completa',
-    excerpt: 'Viste que algunas personas vuelven cambiadas de sus días termales, mientras que otras simplemente dicen «si, estuvo bien». Probablemente la diferencia fue en el tipo de experiencia que eligieron.',
-    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960573/cancagua/cancagua/images/blog/termas-geometricas-hero.webp',
-    date: '29 Octubre 2025',
-    author: 'Mario Hermosilla',
-    readTime: '11 min',
-    category: 'Comparativas'
-  }
-];
+// Use centralized blog articles configuration
+const articles = blogArticles;
 
 export default function Page() {
   const featuredArticle = articles[0];
