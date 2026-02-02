@@ -9,6 +9,7 @@ import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { registerRedirects } from "./redirects";
 import { registerSitemapRoute } from "../sitemap";
+import conciergeWebhook from "../conciergeWebhook";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -41,6 +42,8 @@ async function startServer() {
   registerSitemapRoute(app);
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
+  // Webhook para Skedu (Módulo Concierge)
+  app.use("/api/webhooks/skedu", conciergeWebhook);
   // tRPC API
   app.use(
     "/api/trpc",

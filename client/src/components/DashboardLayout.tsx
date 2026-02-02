@@ -26,7 +26,7 @@ import {
   FileText, MessageSquare, Package, Newspaper, Settings, Store, Briefcase,
   TrendingUp, Shield, Megaphone, ChevronDown, Home, UtensilsCrossed,
   CalendarCheck, UserCheck, Kanban, ListChecks, MailPlus, UsersRound, Tag, Languages, RefreshCw, Gift,
-  Wrench, HardHat
+Wrench, HardHat, Handshake, ShoppingCart, DollarSign
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState, createContext, useContext } from "react";
 import { useLocation, Link } from "wouter";
@@ -35,7 +35,7 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
 // Definición de categorías y sus items de menú
-export type CategoryId = "b2c" | "b2b" | "marketing" | "metrics" | "operations" | "admin";
+export type CategoryId = "b2c" | "b2b" | "ventas" | "marketing" | "metrics" | "operations" | "admin";
 
 interface MenuItem {
   icon: any;
@@ -77,6 +77,18 @@ export const categories: Category[] = [
       { icon: FileText, label: "Cotizaciones", path: "/cms/cotizaciones" },
       { icon: Package, label: "Catálogo Productos", path: "/cms/productos-corporativos" },
       { icon: Kanban, label: "CRM Pipeline", path: "/cms/crm-pipeline" },
+    ],
+  },
+  {
+    id: "ventas",
+    label: "Ventas",
+    icon: ShoppingCart,
+    description: "Canales de Venta",
+    color: "bg-teal-500",
+    items: [
+      { icon: Handshake, label: "Concierge", path: "/cms/concierge/venta" },
+      { icon: Package, label: "Servicios Concierge", path: "/cms/concierge/servicios" },
+      { icon: Users, label: "Vendedores", path: "/cms/concierge/vendedores" },
     ],
   },
   {
