@@ -7,7 +7,6 @@ import CMSReservas from "./Reservas";
 import CMSMensajes from "./Mensajes";
 import CMSProductosCorporativos from "./ProductosCorporativos";
 import CMSCotizaciones from "./Cotizaciones";
-import CMSCrearCotizacion from "./CrearCotizacion";
 import CMSCotizacionWizard from "./CotizacionWizard";
 import CMSNegocios from "./Negocios";
 import CMSServicios from "./Servicios";
@@ -56,7 +55,6 @@ export default function CMSPage() {
       <Route path="/cms/mensajes" component={CMSMensajes} />
       <Route path="/cms/productos-corporativos" component={CMSProductosCorporativos} />
       <Route path="/cms/cotizaciones" component={CMSCotizaciones} />
-      <Route path="/cms/crear-cotizacion" component={CMSCrearCotizacion} />
       <Route path="/cms/cotizacion-wizard" component={CMSCotizacionWizard} />
       <Route path="/cms/cotizacion-wizard/:id" component={CMSCotizacionWizard} />
       <Route path="/cms/negocios" component={CMSNegocios} />
