@@ -145,6 +145,12 @@ export const seoConfig: Record<string, PageSEO> = {
     keywords: 'spa puerto varas, hotel cabañas del lago spa, masajes puerto varas, bienestar lago llanquihue',
     image: 'https://cancagua.cl/images/10_cancagua-header.jpg',
   },
+  '/servicios/biopiscinas-puerto-varas': {
+    title: 'Biopiscinas Geotermales con Traslado desde Puerto Varas | Cancagua',
+    description: 'Disfruta de las primeras biopiscinas geotermales del mundo con traslado incluido desde Puerto Varas. Salida desde Hotel Cabañas del Lago de martes a domingo a las 10:00 hrs.',
+    keywords: 'biopiscinas puerto varas, termas con traslado, biopiscinas geotermales, cancagua frutillar, spa puerto varas, termas sur chile, traslado hotel cabañas del lago',
+    image: 'https://cancagua.cl/images/fullday-biopiscinas-hero.jpg',
+  },
 };
 
 /**
