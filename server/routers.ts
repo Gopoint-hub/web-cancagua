@@ -672,6 +672,16 @@ export const appRouter = router({
       }),
   }),
 
+  // Servicios (para selector en Concierge)
+  services: router({
+    getAll: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Solo administradores pueden listar servicios" });
+      }
+      return await db.getAllServices();
+    }),
+  }),
+
   // Gestión de usuarios (solo admin)
   users: router({
     // Listar todos los usuarios (solo super_admin y admin)
@@ -681,6 +691,17 @@ export const appRouter = router({
       }
       return await db.getAllUsers();
     }),
+
+    // Obtener usuarios por rol (para selector de vendedores concierge)
+    getByRole: protectedProcedure
+      .input(z.object({ role: z.string() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.role !== "admin" && ctx.user.role !== "super_admin") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Solo administradores pueden listar usuarios" });
+        }
+        const allUsers = await db.getAllUsers();
+        return allUsers.filter(u => u.role === input.role);
+      }),
 
     // Obtener usuario por ID
     getById: protectedProcedure
