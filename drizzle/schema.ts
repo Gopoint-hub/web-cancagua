@@ -510,7 +510,7 @@ export const giftCards = mysqlTable("gift_cards", {
   senderEmail: varchar("sender_email", { length: 320 }), // Email de quien regala
   personalMessage: text("personal_message"), // Mensaje personalizado
   status: mysqlEnum("status", ["active", "redeemed", "expired", "cancelled"]).default("active").notNull(),
-  purchaseStatus: mysqlEnum("purchase_status", ["pending", "completed", "cancelled"]).default("pending").notNull(),
+  purchaseStatus: mysqlEnum("purchase_status", ["pending", "completed", "rejected", "aborted", "timeout", "abandoned"]).default("pending").notNull(),
   paymentMethod: varchar("payment_method", { length: 50 }), // Método de pago usado
   paymentReference: varchar("payment_reference", { length: 100 }), // Referencia del pago
   // WebPay Plus integration fields

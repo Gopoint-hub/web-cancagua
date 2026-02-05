@@ -2789,7 +2789,7 @@ Devuelve un JSON con este formato:
     update: protectedProcedure
       .input(z.object({
         id: z.number(),
-        purchaseStatus: z.enum(["pending", "completed", "cancelled"]).optional(),
+        purchaseStatus: z.enum(["pending", "completed", "rejected", "aborted", "timeout", "abandoned"]).optional(),
         paymentMethod: z.string().optional(),
         paymentReference: z.string().optional(),
         deliveredAt: z.date().optional(),
@@ -3093,9 +3093,9 @@ Devuelve un JSON con este formato:
                 message: "¡Pago exitoso! Tu Gift Card ha sido enviada.",
               };
             } else {
-              // Pago rechazado
+              // Pago rechazado por el banco/tarjeta
               await db.updateGiftCard(giftCard.id, {
-                purchaseStatus: "cancelled",
+                purchaseStatus: "rejected",
                 webpayResponseCode: result.responseCode,
               });
               
@@ -3115,12 +3115,12 @@ Devuelve un JSON con este formato:
           }
         }
         
-        // Caso 2: Usuario abortó el pago (viene TBK_TOKEN)
+        // Caso 2: Usuario abortó el pago manualmente (viene TBK_TOKEN)
         if (input.TBK_TOKEN && input.TBK_ORDEN_COMPRA) {
           const giftCard = await db.getGiftCardByBuyOrder(input.TBK_ORDEN_COMPRA);
           if (giftCard) {
             await db.updateGiftCard(giftCard.id, {
-              purchaseStatus: "cancelled",
+              purchaseStatus: "aborted",
             });
           }
           
@@ -3131,12 +3131,12 @@ Devuelve un JSON con este formato:
           };
         }
         
-        // Caso 3: Timeout (solo viene TBK_ORDEN_COMPRA y TBK_ID_SESION)
+        // Caso 3: Timeout - tiempo expirado en WebPay (solo viene TBK_ORDEN_COMPRA y TBK_ID_SESION)
         if (input.TBK_ORDEN_COMPRA && input.TBK_ID_SESION && !input.TBK_TOKEN) {
           const giftCard = await db.getGiftCardByBuyOrder(input.TBK_ORDEN_COMPRA);
           if (giftCard) {
             await db.updateGiftCard(giftCard.id, {
-              purchaseStatus: "cancelled",
+              purchaseStatus: "timeout",
             });
           }
           
@@ -3243,6 +3243,26 @@ Devuelve un JSON con este formato:
             message: `Error al reenviar email: ${error.message}` 
           });
         }
+      }),
+
+    /**
+     * Marcar gift cards pendientes antiguas como abandonadas
+     * Gift cards en estado "pending" por más de 30 minutos se consideran abandonadas
+     */
+    markAbandonedGiftCards: protectedProcedure
+      .mutation(async ({ ctx }) => {
+        if (ctx.user.role !== "super_admin" && ctx.user.role !== "admin" && ctx.user.role !== "editor") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "No tienes permisos" });
+        }
+
+        const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+        const result = await db.markAbandonedGiftCards(thirtyMinutesAgo);
+        
+        return { 
+          success: true, 
+          message: `${result.count} gift cards marcadas como abandonadas`,
+          count: result.count
+        };
       }),
   }),
 
