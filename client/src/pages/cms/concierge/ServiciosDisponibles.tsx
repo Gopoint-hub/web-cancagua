@@ -3,7 +3,6 @@
  * Gestión de servicios que pueden vender los vendedores
  */
 import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { trpc } from "@/lib/trpc";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -74,7 +73,6 @@ interface BaseService {
 }
 
 export default function ServiciosDisponibles() {
-  const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingService, setEditingService] = useState<ConciergeService | null>(null);
   const [formData, setFormData] = useState({
@@ -86,28 +84,15 @@ export default function ServiciosDisponibles() {
   });
 
   // Obtener servicios Concierge
-  const { data: conciergeServices, isLoading } = useQuery({
-    queryKey: ["concierge", "services", "all"],
-    queryFn: () => trpc.concierge.services.getAll.query({ activeOnly: false }),
-  });
+  const { data: conciergeServices, isLoading, refetch } = trpc.concierge.services.getAll.useQuery({ activeOnly: false });
 
   // Obtener servicios base de Skedu para el selector
-  const { data: baseServices } = useQuery({
-    queryKey: ["services", "all"],
-    queryFn: async () => {
-      // Esto debería venir del endpoint de servicios de Skedu
-      // Por ahora usamos un placeholder
-      const response = await trpc.services.getAll.query();
-      return response as BaseService[];
-    },
-  });
+  const { data: baseServices } = trpc.services.getAll.useQuery();
 
   // Mutación para crear/actualizar servicio
-  const upsertMutation = useMutation({
-    mutationFn: (data: typeof formData & { id?: number }) =>
-      trpc.concierge.services.upsert.mutate(data),
+  const upsertMutation = trpc.concierge.services.upsert.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["concierge", "services"] });
+      refetch();
       setIsDialogOpen(false);
       resetForm();
       toast.success(editingService ? "Servicio actualizado" : "Servicio agregado");
@@ -118,10 +103,9 @@ export default function ServiciosDisponibles() {
   });
 
   // Mutación para eliminar servicio
-  const deleteMutation = useMutation({
-    mutationFn: (id: number) => trpc.concierge.services.delete.mutate({ id }),
+  const deleteMutation = trpc.concierge.services.delete.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["concierge", "services"] });
+      refetch();
       toast.success("Servicio eliminado");
     },
     onError: (error: any) => {

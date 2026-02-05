@@ -3,7 +3,6 @@
  * Gestión de vendedores y métricas de comisiones
  */
 import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { trpc } from "@/lib/trpc";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -89,7 +88,6 @@ interface CommissionSummary {
 type PeriodType = "today" | "week" | "month" | "custom";
 
 export default function Vendedores() {
-  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("sellers");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingSeller, setEditingSeller] = useState<ConciergeSeller | null>(null);
@@ -129,51 +127,31 @@ export default function Vendedores() {
   const dateRange = getDateRange();
 
   // Obtener vendedores
-  const { data: sellers, isLoading: loadingSellers } = useQuery({
-    queryKey: ["concierge", "sellers", "all"],
-    queryFn: () => trpc.concierge.sellers.getAll.query({ activeOnly: false }),
-  });
+  const { data: sellers, isLoading: loadingSellers, refetch: refetchSellers } = trpc.concierge.sellers.getAll.useQuery({ activeOnly: false });
 
   // Obtener usuarios con rol concierge para el selector
-  const { data: conciergeUsers } = useQuery({
-    queryKey: ["users", "concierge"],
-    queryFn: async () => {
-      // Esto debería venir del endpoint de usuarios
-      const response = await trpc.users.getByRole.query({ role: "concierge" });
-      return response;
-    },
-  });
+  const { data: conciergeUsers } = trpc.users.getByRole.useQuery({ role: "concierge" });
 
   // Obtener resumen de comisiones
-  const { data: commissionsSummary, isLoading: loadingCommissions } = useQuery({
-    queryKey: ["concierge", "commissions", "summary", dateRange],
-    queryFn: () =>
-      trpc.concierge.commissions.getSummary.query({
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
-      }),
+  const { data: commissionsSummary, isLoading: loadingCommissions } = trpc.concierge.commissions.getSummary.useQuery({
+    startDate: dateRange.startDate,
+    endDate: dateRange.endDate,
   });
 
   // Obtener métricas de un vendedor específico
-  const { data: sellerMetrics, isLoading: loadingMetrics } = useQuery({
-    queryKey: ["concierge", "seller", "metrics", selectedSeller?.id, dateRange],
-    queryFn: () =>
-      selectedSeller
-        ? trpc.concierge.sellers.getRealtimeMetrics.query({
-            sellerId: selectedSeller.id,
-            startDate: dateRange.startDate,
-            endDate: dateRange.endDate,
-          })
-        : Promise.resolve(null),
-    enabled: !!selectedSeller,
-  });
+  const { data: sellerMetrics, isLoading: loadingMetrics } = trpc.concierge.sellers.getRealtimeMetrics.useQuery(
+    {
+      sellerId: selectedSeller?.id || 0,
+      startDate: dateRange.startDate,
+      endDate: dateRange.endDate,
+    },
+    { enabled: !!selectedSeller }
+  );
 
   // Mutación para crear/actualizar vendedor
-  const upsertMutation = useMutation({
-    mutationFn: (data: typeof formData & { id?: number }) =>
-      trpc.concierge.sellers.upsert.mutate(data),
+  const upsertMutation = trpc.concierge.sellers.upsert.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["concierge", "sellers"] });
+      refetchSellers();
       setIsDialogOpen(false);
       resetForm();
       toast.success(editingSeller ? "Vendedor actualizado" : "Vendedor agregado");
@@ -184,11 +162,9 @@ export default function Vendedores() {
   });
 
   // Mutación para actualizar comisión
-  const updateCommissionMutation = useMutation({
-    mutationFn: (data: { sellerId: number; commissionRate: number }) =>
-      trpc.concierge.sellers.updateCommission.mutate(data),
+  const updateCommissionMutation = trpc.concierge.sellers.updateCommission.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["concierge", "sellers"] });
+      refetchSellers();
       toast.success("Comisión actualizada");
     },
     onError: (error: any) => {

@@ -3,7 +3,6 @@
  * Interfaz mobile-first para que los vendedores realicen ventas
  */
 import { useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
 import { trpc } from "@/lib/trpc";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -67,26 +66,13 @@ export default function HerramientaVenta() {
   const [copied, setCopied] = useState(false);
 
   // Obtener servicios disponibles
-  const { data: services, isLoading: loadingServices } = useQuery({
-    queryKey: ["concierge", "availableServices"],
-    queryFn: () => trpc.concierge.sales.getAvailableServices.query(),
-  });
+  const { data: services, isLoading: loadingServices } = trpc.concierge.sales.getAvailableServices.useQuery();
 
   // Obtener información del vendedor
-  const { data: sellerInfo } = useQuery({
-    queryKey: ["concierge", "mySellerInfo"],
-    queryFn: () => trpc.concierge.sales.getMySellerInfo.query(),
-  });
+  const { data: sellerInfo } = trpc.concierge.sales.getMySellerInfo.useQuery();
 
   // Mutación para iniciar venta
-  const initiateSaleMutation = useMutation({
-    mutationFn: (data: {
-      conciergeServiceId: number;
-      customerName: string;
-      customerEmail?: string;
-      customerPhone?: string;
-      notes?: string;
-    }) => trpc.concierge.sales.initiateSale.mutate(data),
+  const initiateSaleMutation = trpc.concierge.sales.initiateSale.useMutation({
     onSuccess: (result) => {
       setSaleResult(result);
       setView("success");
