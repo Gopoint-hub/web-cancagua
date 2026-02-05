@@ -235,7 +235,7 @@ export function BlogLayout({
                     rel="noopener noreferrer"
                     className="block"
                   >
-                    <Button className="w-full bg-[#2d3e2f] hover:bg-[#1a2a1c]">
+                    <Button className="w-full bg-[#2d3e2f] hover:bg-[#1a2a1c] text-white">
                       Reservar Ahora
                     </Button>
                   </a>

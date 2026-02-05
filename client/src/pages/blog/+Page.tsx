@@ -66,7 +66,7 @@ export default function Page() {
                         {featuredArticle.readTime}
                       </span>
                     </div>
-                    <Button className="w-fit bg-[#2d3e2f] hover:bg-[#1a2a1c] group-hover:bg-[#c4a86b]">
+                    <Button className="w-fit bg-[#2d3e2f] hover:bg-[#1a2a1c] text-white">
                       <T>Leer artículo</T>
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
