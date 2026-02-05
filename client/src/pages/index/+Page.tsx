@@ -15,7 +15,7 @@ export default function HomePage() {
       title: "Biopiscinas Geotermales",
       description:
         "Las primeras del mundo. Cuatro horas de experiencia única a 37º-40º en aguas termales naturales.",
-      image: "/images/fullday-biopiscinas-hero.jpg",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       href: "/servicios/biopiscinas",
       badge: "Primeras del Mundo",
     },
@@ -23,21 +23,21 @@ export default function HomePage() {
       title: "Hot Tubs",
       description:
         "Disfruta de spa al aire libre inmerso en bosque nativo con vista al Lago Llanquihue.",
-      image: "/images/11_hottub-service.webp",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309079/cancagua/images/11_hottub-service.webp",
       href: "/servicios/hot-tubs",
     },
     {
       title: "Masajes & Terapias",
       description:
         "Reconforta tu cuerpo con masajes descontracturantes, piedras calientes, drenaje linfático y más.",
-      image: "/images/13_masajes-service.webp",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309084/cancagua/images/13_masajes-service.webp",
       href: "/servicios/masajes",
     },
     {
       title: "Clases Regulares",
       description:
         "Hatha Yoga, Entrenamiento Funcional, Danza Infantil y mucho más. Clases para todos los niveles.",
-      image: "/images/12_yoga-clases.webp",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp",
       href: "/servicios/clases",
     },
   ];
@@ -202,7 +202,7 @@ export default function HomePage() {
             </div>
             <div className="order-1 lg:order-2">
               <img
-                src="/images/08_cafeteria-interior.jpg"
+                src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309071/cancagua/images/08_cafeteria-interior.jpg"
                 alt="Cafetería Cancagua"
                 className="rounded-sm shadow-xl w-full"
               />

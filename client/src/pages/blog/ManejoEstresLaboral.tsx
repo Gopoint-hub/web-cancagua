@@ -8,7 +8,7 @@ export default function ManejoEstresLaboral() {
     <BlogLayout
         title="Manejo del Estrés Laboral: Técnicas Probadas por la Ciencia"
         excerpt="La mayoría de las estrategias sobre el manejo del estrés laboral están diseñadas para personas que tienen 30 minutos libres, un espacio silencioso, y la capacidad de «desconectarse» mentalmente. Es decir, para una realidad que no existe en el mundo profesional actual."
-        image="/images/blog/manejo-estres-laboral-hero.webp"
+        image="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309113/cancagua/images/blog/manejo-estres-laboral-hero.webp"
         date="12 Noviembre 2025"
         author="Mario Hermosilla"
         readTime="15 min"

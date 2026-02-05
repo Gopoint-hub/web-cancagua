@@ -18,42 +18,42 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "/images/fullday-biopiscinas-hero.jpg",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
       ctaKey: "hero.biopiscinas.cta1",
       ctaLink: "/servicios/biopiscinas",
     },
     {
-      image: "/images/11_hottub-service.webp",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309079/cancagua/images/11_hottub-service.webp",
       titleKey: "hero.hotTubs.title",
       subtitleKey: "hero.hotTubs.subtitle",
       ctaKey: "hero.hotTubs.cta1",
       ctaLink: "/servicios/hot-tubs",
     },
     {
-      image: "/images/03_masajes-hero.webp",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770308908/cancagua/images/03_masajes-hero.webp",
       titleKey: "hero.masajes.title",
       subtitleKey: "hero.masajes.subtitle",
       ctaKey: "hero.masajes.cta1",
       ctaLink: "/masajes",
     },
     {
-      image: "/images/12_yoga-clases.webp",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp",
       titleKey: "hero.clases.title",
       subtitleKey: "hero.clases.subtitle",
       ctaKey: "hero.clases.cta1",
       ctaLink: "/clases",
     },
     {
-      image: "/images/10_cancagua-header.jpg",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg",
       titleKey: "hero.cafeteria.title",
       subtitleKey: "hero.cafeteria.subtitle",
       ctaKey: "hero.cafeteria.cta1",
       ctaLink: "/cafeteria",
     },
     {
-      image: "/images/navega-relax-header.jpg",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309226/cancagua/images/navega-relax-header.jpg",
       titleKey: "hero.eventos.title",
       subtitleKey: "hero.eventos.subtitle",
       ctaKey: "hero.eventos.cta1",

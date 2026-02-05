@@ -6,7 +6,7 @@ export default function Head() {
     description: "Disfruta de nuestra Cafetería Saludable frente al Lago Llanquihue. Brunch todo el día, café de especialidad y opciones Veganas, Keto y Sin Gluten. Ingredientes locales y vista al volcán. ¡Visítanos!",
     keywords: "cafetería saludable frutillar, cafetería frutillar, opciones veganas frutillar, brunch frutillar, cafe especialidad lago llanquihue",
     canonical: "/cafeteria",
-    image: "https://cancagua.cl/images/10_cancagua-header.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg",
   };
 
   const serviceSchema = generateServiceSchema({

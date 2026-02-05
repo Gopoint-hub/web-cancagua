@@ -4,7 +4,7 @@ export default function Head() {
     description: "Reserva un día completo en nuestros hot tubs privados con agua geotérmica a 40-41°C. Vista al Lago Llanquihue, terraza exclusiva y acceso a todas las instalaciones.",
     keywords: "full day hot tubs, hot tubs privados frutillar, día completo spa, termas privadas",
     canonical: "/servicios/full-day-hot-tubs",
-    image: "https://cancagua.cl/images/fullday-biopiscinas-hero.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   return (

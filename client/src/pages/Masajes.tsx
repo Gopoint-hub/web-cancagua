@@ -179,12 +179,12 @@ export default function Masajes() {
                 className="rounded-lg shadow-md w-full h-64 object-cover"
               />
               <img
-                src="/images/fullday-biopiscinas-hero.jpg"
+                src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp"
                 alt="Biopiscinas"
                 className="rounded-lg shadow-md w-full h-64 object-cover"
               />
               <img
-                src="/images/11_hottub-service.webp"
+                src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309079/cancagua/images/11_hottub-service.webp"
                 alt="Hot Tubs"
                 className="rounded-lg shadow-md w-full h-64 object-cover"
               />

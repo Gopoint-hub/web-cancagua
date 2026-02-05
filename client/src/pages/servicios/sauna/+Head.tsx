@@ -6,7 +6,7 @@ export default function Head() {
     description: "Reserva tu experiencia en nuestro Sauna Nativo con vista al bosque nativo. Calor terapéutico, relajación profunda y renovación a orillas del Lago Llanquihue. Combina con biopiscinas y hot tubs.",
     keywords: "sauna frutillar, sauna nativa chile, baño finlandés lago llanquihue, spa sauna puerto varas",
     canonical: "/servicios/sauna",
-    image: "https://cancagua.cl/images/sauna-nativo-hero.png",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309297/cancagua/images/sauna-nativo-hero.png",
   };
 
   const serviceSchema = generateServiceSchema({

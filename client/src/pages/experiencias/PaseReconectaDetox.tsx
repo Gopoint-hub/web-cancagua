@@ -42,7 +42,7 @@ export default function PaseReconectaDetox() {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/images/pase-reconecta-sauna.png')",
+            backgroundImage: "url('https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309295/cancagua/images/pase-reconecta-sauna.png')",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />

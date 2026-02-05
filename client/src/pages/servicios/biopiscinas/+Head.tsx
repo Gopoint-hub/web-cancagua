@@ -6,7 +6,7 @@ export default function Head() {
     description: "Descubre las primeras biopiscinas geotermales del mundo en Cancagua, Frutillar. Disfruta de una experiencia relajante con aguas a 35-41°C, rodeado de naturaleza y con vista al Lago Llanquihue.",
     keywords: "biopiscinas geotermales, termas frutillar, spa chile, aguas termales, biopiscina, termas naturales, spa lago llanquihue",
     canonical: "/servicios/biopiscinas",
-    image: "https://cancagua.cl/images/fullday-biopiscinas-hero.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   const serviceSchema = generateServiceSchema({

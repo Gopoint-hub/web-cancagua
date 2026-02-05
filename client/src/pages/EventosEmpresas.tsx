@@ -61,7 +61,7 @@ export default function EventosEmpresas() {
       <>
           {/* Hero */}
           <section className="relative h-[70vh] overflow-hidden">
-            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url(/images/eventos-empresas-hero.jpg)" }} />
+            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309165/cancagua/images/eventos-empresas-hero.jpg)" }} />
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
             <div className="relative h-full container flex flex-col items-center justify-center text-center text-white px-4">
               <Building2 className="h-16 w-16 text-[#D3BC8D] mb-6" />

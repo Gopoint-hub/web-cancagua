@@ -6,7 +6,7 @@ export default function Head() {
     description: "Disfruta de Hot Tubs privados en Frutillar con vista al bosque y la bahía. Agua a 40-41º, terrazas exclusivas y 4 horas de relajo total. Niños menores de 12 años gratis. ¡Reserva tu espacio aquí!",
     keywords: "hot tubs frutillar, spa aire libre chile, termas privadas lago llanquihue, hot tub puerto varas, spa geotérmico frutillar",
     canonical: "/servicios/hot-tubs",
-    image: "https://cancagua.cl/images/11_hottub-service.webp",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309079/cancagua/images/11_hottub-service.webp",
   };
 
   const serviceSchema = generateServiceSchema({

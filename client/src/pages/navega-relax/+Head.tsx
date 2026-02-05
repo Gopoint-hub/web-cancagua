@@ -4,7 +4,7 @@ export default function Head() {
     description: "Disfruta de un día de playa único en el Lago Llanquihue. Navega & Relax combina kayak, stand up paddle y acceso a nuestras instalaciones de bienestar en Frutillar.",
     keywords: "día playa frutillar, kayak lago llanquihue, stand up paddle, beach day, navega relax",
     canonical: "/navega-relax",
-    image: "https://cancagua.cl/images/fullday-biopiscinas-hero.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   return (

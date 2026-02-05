@@ -114,11 +114,11 @@ export async function generateGiftCardPDF(data: GiftCardData): Promise<Buffer> {
       // Logo Cancagua (versión blanca)
       const logoWhitePath = path.join(
         process.cwd(),
-        "client/public/images/logo-cancagua-white.png"
+        "client/publichttps://res.cloudinary.com/dhuln9b1n/image/upload/v1769960664/cancagua/images/logo-cancagua-white.webp"
       );
       const logoPath = path.join(
         process.cwd(),
-        "client/public/images/01_logo-cancagua.png"
+        "client/publichttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770308861/cancagua/images/01_logo-cancagua.png"
       );
       
       // Intentar cargar logo blanco primero, si no existe usar el normal

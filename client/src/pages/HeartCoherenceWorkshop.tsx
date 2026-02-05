@@ -179,7 +179,7 @@ export default function HeartCoherenceWorkshop() {
                 {/* Image */}
                 <div className="relative h-96 md:h-auto">
                   <img
-                    src="/images/sonja-bloder.png"
+                    src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309302/cancagua/images/sonja-bloder.png"
                     alt="Sonja Bloder"
                     className="w-full h-full object-cover"
                   />

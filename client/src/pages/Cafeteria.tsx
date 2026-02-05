@@ -17,7 +17,7 @@ export default function Cafeteria() {
           <section className="relative h-[50vh] md:h-[70vh] overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: "url(/images/10_cancagua-header.jpg)" }}
+              style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg)" }}
             />
             <div className="absolute inset-0 bg-black/40" />
             <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
@@ -100,7 +100,7 @@ export default function Cafeteria() {
                 </div>
                 <div className="relative">
                   <img
-                    src="/images/08_cafeteria-interior.jpg"
+                    src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309071/cancagua/images/08_cafeteria-interior.jpg"
                     alt="Interior de la cafetería Cancagua"
                     className="rounded-2xl shadow-2xl w-full h-[400px] object-cover"
                   />

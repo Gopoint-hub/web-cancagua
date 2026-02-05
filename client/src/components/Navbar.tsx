@@ -86,7 +86,7 @@ export function Navbar() {
           {/* Logo */}
           <a href="/" className="flex items-center space-x-2">
             <img
-              src="/images/01_logo-cancagua.png"
+              src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770308861/cancagua/images/01_logo-cancagua.png"
               alt="Cancagua"
               className="h-12 w-auto"
             />

@@ -183,7 +183,7 @@ function ReportDocumentView({
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <img 
-                src="/images/01_logo-cancagua.png" 
+                src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770308861/cancagua/images/01_logo-cancagua.png" 
                 alt="Cancagua" 
                 className="h-16 w-auto"
               />
@@ -684,7 +684,7 @@ export default function CMSReportesMantencion() {
   <div class="page">
     <div class="header">
       <div class="header-left">
-        <img src="https://cancagua.cl/images/01_logo-cancagua.png" alt="Cancagua" class="logo" />
+        <img src="https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770308861/cancagua/images/01_logo-cancagua.png" alt="Cancagua" class="logo" />
         <h1>Reporte de Mantención</h1>
         <p>Cancagua Spa & Retreat Center</p>
       </div>

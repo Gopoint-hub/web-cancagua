@@ -4,7 +4,7 @@ export default function Head() {
     description: "Descubre nuestras experiencias únicas de bienestar: Pases Reconecta, retiros de un día y programas especiales. Conecta con la naturaleza en el sur de Chile.",
     keywords: "experiencias bienestar, retiros spa, pases reconecta, wellness frutillar",
     canonical: "/experiencias",
-    image: "https://cancagua.cl/images/fullday-biopiscinas-hero.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   return (

@@ -6,7 +6,7 @@ export default function Head() {
     description: "Transforma a tu equipo con experiencias de wellness corporativo que nutren el cuerpo y el espíritu en armonía con la naturaleza. Retiros corporativos únicos que fortalecen vínculos y reducen el estrés.",
     keywords: "eventos corporativos bienestar, retiro empresarial, eventos empresariales frutillar, retiros corporativos chile, celebraciones lago llanquihue",
     canonical: "/eventos",
-    image: "https://cancagua.cl/images/navega-relax-header.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309226/cancagua/images/navega-relax-header.jpg",
   };
 
   const serviceSchema = generateServiceSchema({

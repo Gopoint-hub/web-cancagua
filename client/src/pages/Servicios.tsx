@@ -10,14 +10,14 @@ export default function Servicios() {
     {
       title: "Biopiscinas Geotermales",
       description: "Las primeras del mundo. Cuatro horas de experiencia única a 37º-40º en aguas termales naturales con vista al Lago Llanquihue.",
-      image: "/images/fullday-biopiscinas-hero.jpg",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       href: "/servicios/biopiscinas",
       badge: "Primeras del Mundo",
     },
     {
       title: "Hot Tubs",
       description: "Disfruta de spa al aire libre inmerso en bosque nativo. Experiencia privada con vista al lago y conexión con la naturaleza.",
-      image: "/images/11_hottub-service.webp",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309079/cancagua/images/11_hottub-service.webp",
       href: "/servicios/hot-tubs",
     },
     {
@@ -29,13 +29,13 @@ export default function Servicios() {
     {
       title: "Masajes & Terapias",
       description: "Reconforta tu cuerpo con masajes descontracturantes, piedras calientes, drenaje linfático, reflexología y terapias holísticas.",
-      image: "/images/13_masajes-service.webp",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309084/cancagua/images/13_masajes-service.webp",
       href: "/masajes",
     },
     {
       title: "Clases Regulares",
       description: "Movimiento y meditación: Hatha Yoga, Vinyasa, Animal Flow, Aikido, Pilates e hipopresivos en conexión con la naturaleza.",
-      image: "/images/12_yoga-clases.webp",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp",
       href: "/clases",
     },
   ];
@@ -44,27 +44,27 @@ export default function Servicios() {
     {
       title: "Navega Relax",
       description: "Navegación por el Lago Llanquihue con vistas a los volcanes Osorno y Calbuco. Una experiencia única de conexión con la naturaleza.",
-      image: "/images/navega-relax-catamaran.jpg",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309223/cancagua/images/navega-relax-catamaran.webp",
       href: "/navega-relax",
       badge: "Recomendado",
     },
     {
       title: "Pases Reconecta",
       description: "Pases mensuales para acceder a nuestros servicios de bienestar. La mejor forma de mantener tu rutina de autocuidado.",
-      image: "/images/pase-reconecta-hottub.png",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309251/cancagua/images/pase-reconecta-hottub.png",
       href: "/experiencias/pases-reconecta",
     },
     {
       title: "Full Day Hot Tubs + Biopiscinas",
       description: "Combina la experiencia de Hot Tubs privados con las Biopiscinas Geotermales. Un día completo de relajación y bienestar.",
-      image: "/images/11_hottub-service.webp",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309079/cancagua/images/11_hottub-service.webp",
       href: "/servicios/full-day-hot-tubs",
       badge: "Full Day",
     },
     {
       title: "Full Day Biopiscinas + Playa",
       description: "Disfruta de las Biopiscinas Geotermales y relájate en nuestra playa privada con vista al Lago Llanquihue.",
-      image: "/images/fullday-biopiscinas-hero.jpg",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       href: "/servicios/full-day-biopiscinas",
       badge: "Full Day",
     },
@@ -80,7 +80,7 @@ export default function Servicios() {
           <section className="relative h-[40vh] md:h-[50vh] overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: "url(/images/10_cancagua-header.jpg)" }}
+              style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg)" }}
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
             <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">

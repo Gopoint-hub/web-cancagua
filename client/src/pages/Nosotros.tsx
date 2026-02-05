@@ -43,7 +43,7 @@ export default function Nosotros() {
           <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: "url(/images/10_cancagua-header.jpg)" }}
+              style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg)" }}
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
             <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
@@ -225,7 +225,7 @@ export default function Nosotros() {
                 </div>
                 <div>
                   <img
-                    src="/images/fullday-biopiscinas-hero.jpg"
+                    src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp"
                     alt="Cancagua vista al lago"
                     className="shadow-xl w-full"
                   />

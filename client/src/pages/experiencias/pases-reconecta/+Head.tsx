@@ -4,7 +4,7 @@ export default function Head() {
     description: "Descubre nuestros Pases Reconecta: experiencias de medio día y día completo con acceso a biopiscinas, hot tubs, sauna y más. Reconecta con la naturaleza en Frutillar.",
     keywords: "pases reconecta, experiencias spa, día de spa frutillar, bienestar, retiro wellness",
     canonical: "/experiencias/pases-reconecta",
-    image: "https://cancagua.cl/images/fullday-biopiscinas-hero.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   return (

@@ -6,7 +6,7 @@ export default function Head() {
     description: "Hatha Yoga intenso y suave, entrenamiento funcional, danza infantil y más. Clases para todos los niveles con instructores certificados en entorno natural con vista al Lago Llanquihue.",
     keywords: "yoga frutillar, clases yoga chile, entrenamiento funcional, fitness lago llanquihue, clases bienestar puerto varas, aikido",
     canonical: "/clases",
-    image: "https://cancagua.cl/images/12_yoga-clases.webp",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp",
   };
 
   const serviceSchema = generateServiceSchema({

@@ -6,7 +6,7 @@ export default function Head() {
     description: "Descubre nuestra carta de alimentación saludable con productos locales de la cuenca del Lago Llanquihue. Opciones veganas, vegetarianas, sin gluten, keto y sin lactosa. Bebidas naturales y café de especialidad.",
     keywords: "menu cancagua, carta saludable frutillar, comida healthy lago llanquihue, menu vegano chile, brunch frutillar",
     canonical: "/carta",
-    image: "https://cancagua.cl/images/10_cancagua-header.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg",
   };
 
   const serviceSchema = generateServiceSchema({

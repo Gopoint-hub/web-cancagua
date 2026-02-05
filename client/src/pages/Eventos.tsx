@@ -19,7 +19,7 @@ export default function Eventos() {
       cupos: 15,
       cuposDisponibles: 8,
       precio: "$25.000",
-      imagen: "/images/navega-relax-header.jpg",
+      imagen: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309226/cancagua/images/navega-relax-header.jpg",
       categoria: "Terapias",
     },
     {
@@ -32,7 +32,7 @@ export default function Eventos() {
       cupos: 20,
       cuposDisponibles: 12,
       precio: "$30.000",
-      imagen: "/images/12_yoga-clases.webp",
+      imagen: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp",
       categoria: "Movimiento",
     },
     {
@@ -45,7 +45,7 @@ export default function Eventos() {
       cupos: 30,
       cuposDisponibles: 5,
       precio: "$20.000",
-      imagen: "/images/10_cancagua-header.jpg",
+      imagen: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg",
       categoria: "Música",
     },
     {
@@ -58,7 +58,7 @@ export default function Eventos() {
       cupos: 12,
       cuposDisponibles: 12,
       precio: "$180.000",
-      imagen: "/images/10_cancagua-header.jpg",
+      imagen: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg",
       categoria: "Retiros",
     },
   ];
@@ -91,7 +91,7 @@ export default function Eventos() {
           <section className="relative h-[40vh] md:h-[50vh] overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: "url(/images/navega-relax-header.jpg)" }}
+              style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309226/cancagua/images/navega-relax-header.jpg)" }}
             />
             <div className="absolute inset-0 bg-black/50" />
             <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">

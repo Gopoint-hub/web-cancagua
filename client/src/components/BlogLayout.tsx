@@ -31,7 +31,7 @@ const defaultRelatedArticles: BlogArticle[] = [
     slug: 'mejores-termas-sur-chile-2026',
     title: 'Las 10 mejores termas del sur de Chile 2026',
     excerpt: 'Guía completa para elegir la experiencia termal perfecta según tu perfil.',
-    image: '/images/blog/termas-geometricas-hero.webp',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309133/cancagua/images/blog/termas-geometricas-hero.webp',
     date: '19 Enero 2026',
     author: 'Mario Hermosilla',
     readTime: '12 min',
@@ -41,7 +41,7 @@ const defaultRelatedArticles: BlogArticle[] = [
     slug: 'termas-del-sur-de-chile-con-ninos-guia-para-familias',
     title: 'Termas del Sur de Chile con Niños: Guía para Familias',
     excerpt: 'Todo lo que necesitas saber para planificar unas vacaciones termales con niños.',
-    image: '/images/blog/termas-ninos-familias-hero.webp',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309150/cancagua/images/blog/termas-ninos-familias-hero.webp',
     date: '6 Enero 2026',
     author: 'Mario Hermosilla',
     readTime: '10 min',
@@ -51,7 +51,7 @@ const defaultRelatedArticles: BlogArticle[] = [
     slug: 'tecnicas-manejo-estres-laboral',
     title: 'Manejo del Estrés Laboral: Técnicas Probadas por la Ciencia',
     excerpt: 'Estrategias científicamente validadas para manejar el estrés en el trabajo.',
-    image: '/images/blog/manejo-estres-laboral-hero.webp',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309113/cancagua/images/blog/manejo-estres-laboral-hero.webp',
     date: '12 Noviembre 2025',
     author: 'Mario Hermosilla',
     readTime: '15 min',
@@ -61,7 +61,7 @@ const defaultRelatedArticles: BlogArticle[] = [
     slug: 'termas-del-sur-vs-experiencia-natural',
     title: 'Termas Tradicionales vs Experiencia Natural',
     excerpt: 'Comparativa completa entre termas volcánicas y biopiscinas naturales.',
-    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960573/cancagua/cancagua/images/blog/termas-geometricas-hero.webp',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960573/cancagua/cancaguahttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309133/cancagua/images/blog/termas-geometricas-hero.webp',
     date: '29 Octubre 2025',
     author: 'Mario Hermosilla',
     readTime: '11 min',
@@ -213,7 +213,7 @@ export function BlogLayout({
                 <div className="h-32 bg-gradient-to-br from-[#c4a86b] to-[#a08550] relative">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="/images/logo-cancagua-white.png"
+                      src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960664/cancagua/images/logo-cancagua-white.webp"
                       alt="Cancagua"
                       className="h-16 opacity-90"
                       onError={(e) => {

@@ -4,7 +4,7 @@ export default function Head() {
     description: "Conoce la historia de Cancagua, el primer spa con biopiscinas geotermales del mundo. Nuestros valores de sustentabilidad, bienestar y conexión con la naturaleza en Frutillar, Chile.",
     keywords: "cancagua historia, spa sustentable chile, valores bienestar, filosofia cancagua, equipo cancagua frutillar",
     canonical: "/nosotros",
-    image: "https://cancagua.cl/images/10_cancagua-header.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg",
   };
 
   return (

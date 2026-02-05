@@ -4,7 +4,7 @@ export default function Head() {
     description: "Regala bienestar con nuestras gift cards de Cancagua Spa. Opciones para biopiscinas, hot tubs, masajes y más. Válidas por 1 año, entrega inmediata por email. El regalo perfecto.",
     keywords: "gift card spa, regalo spa chile, tarjeta regalo cancagua, regalar bienestar, spa frutillar regalo, giftcard biopiscinas, giftcard hot tub, giftcard masajes",
     canonical: "/gift-cards",
-    image: "https://cancagua.cl/images/fullday-biopiscinas-hero.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   return (

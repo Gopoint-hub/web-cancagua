@@ -49,7 +49,7 @@ export default function PaseReconecta() {
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: "url('/images/pase-reconecta-hottub.png')",
+              backgroundImage: "url('https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309251/cancagua/images/pase-reconecta-hottub.png')",
             }}
           >
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />

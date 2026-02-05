@@ -4,7 +4,7 @@ export default function Head() {
     description: "Disfruta de 8 horas en las primeras biopiscinas geotermales del mundo. Incluye acceso a playa privada, cafetería y todas las instalaciones. Ideal para familias.",
     keywords: "full day biopiscinas, día completo spa, biopiscinas frutillar, termas todo el día",
     canonical: "/servicios/full-day-biopiscinas",
-    image: "https://cancagua.cl/images/fullday-biopiscinas-hero.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   return (

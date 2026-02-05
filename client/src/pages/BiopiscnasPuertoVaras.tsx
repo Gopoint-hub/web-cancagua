@@ -49,7 +49,7 @@ export default function BiopiscnasPuertoVaras() {
         <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url(/images/fullday-biopiscinas-hero.jpg)" }}
+            style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp)" }}
           />
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">

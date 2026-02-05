@@ -32,7 +32,7 @@ export default function HotTubs() {
         <section className="relative h-[80vh] min-h-[600px]">
           <div className="absolute inset-0">
             <img
-              src="/images/11_hottub-service.webp"
+              src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309079/cancagua/images/11_hottub-service.webp"
               alt="Hot Tubs Cancagua"
               className="w-full h-full object-cover"
             />
@@ -106,7 +106,7 @@ export default function HotTubs() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <img
-                  src="/images/fullday-biopiscinas-hero.jpg"
+                  src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp"
                   alt="Experiencia Full Day"
                   className="rounded-lg shadow-lg w-full h-[400px] object-cover"
                 />
@@ -248,7 +248,7 @@ export default function HotTubs() {
               </div>
               <div>
                 <img
-                  src="/images/10_cancagua-header.jpg"
+                  src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg"
                   alt="Cafetería Cancagua"
                   className="rounded-lg shadow-lg w-full h-[400px] object-cover"
                 />

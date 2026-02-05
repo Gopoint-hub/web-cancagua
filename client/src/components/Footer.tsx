@@ -11,7 +11,7 @@ export function Footer() {
           {/* Logo y descripción */}
           <div className="space-y-6">
             <img
-              src="/images/09_logo-cancagua-footer.png"
+              src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309073/cancagua/images/09_logo-cancagua-footer.png"
               alt="Cancagua"
               className="h-16 w-auto"
             />

@@ -7,7 +7,7 @@ export default function MejoresTermasSurChile2026() {
     <BlogLayout
       title="Las 10 mejores termas del sur de Chile 2026 y sus alternativas"
       excerpt="Después de cinco años explorando cada rincón termal de la Región de Los Lagos, desde las icónicas Termas Geométricas hasta opciones menos conocidas, aprendí que elegir las mejores termas del sur de Chile no se trata solo de agua caliente. Se trata de encontrar la experiencia que realmente necesitas."
-      image="/images/blog/termas-geometricas-hero.webp"
+      image="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309133/cancagua/images/blog/termas-geometricas-hero.webp"
       date="19 Enero 2026"
       author="Mario Hermosilla"
       readTime="12 min"

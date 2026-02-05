@@ -26,7 +26,7 @@ export function DynamicHead() {
     // Obtener datos SEO para la ruta actual
     const seoData = getSEOForPath(pathname);
     const fullCanonical = `https://cancagua.cl${pathname}`;
-    const fullImage = seoData.image || 'https://cancagua.cl/images/10_cancagua-header.jpg';
+    const fullImage = seoData.image || 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg';
 
     // Función para actualizar o crear un meta tag único
     const updateOrCreateMeta = (name: string, content: string, isProperty: boolean = false) => {

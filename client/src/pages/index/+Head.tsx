@@ -3,7 +3,7 @@ export default function Head() {
     title: "Cancagua Spa & Retreat Center | Biopiscinas Geotermales en Frutillar",
     description: "Las primeras biopiscinas geotermales del mundo. Disfruta de una experiencia única de bienestar en aguas termales naturales a 37°-40° con vista al Lago Llanquihue y volcanes del sur de Chile.",
     keywords: "spa, termas, biopiscinas, geotermales, frutillar, chile, masajes, hot tubs, bienestar, lago llanquihue, termas sur chile",
-    image: "https://cancagua.cl/images/fullday-biopiscinas-hero.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
     url: "https://cancagua.cl/",
   };
 

@@ -15,7 +15,7 @@ export function generateMetaTags(data: SEOData, currentUrl: string) {
     title,
     description,
     canonical,
-    image = '/images/fullday-biopiscinas-hero.jpg',
+    image = 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
     type = 'website',
     keywords,
     publishedTime,
@@ -65,7 +65,7 @@ export function generateLocalBusinessSchema() {
       longitude: -73.011405,
     },
     priceRange: '$$$',
-    image: '/images/fullday-biopiscinas-hero.jpg',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
     sameAs: [
       'https://www.instagram.com/cancaguaspa',
       'https://www.facebook.com/cancaguaspa',
@@ -86,7 +86,7 @@ export function generateBlogPostSchema(post: {
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.excerpt,
-    image: post.image || '/images/fullday-biopiscinas-hero.jpg',
+    image: post.image || 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
     datePublished: post.publishedAt,
     dateModified: post.modifiedAt || post.publishedAt,
     author: {
@@ -107,7 +107,7 @@ export function generateServiceSchema(service: {
     '@type': 'Service',
     name: service.name,
     description: service.description,
-    image: service.image || '/images/fullday-biopiscinas-hero.jpg',
+    image: service.image || 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
     provider: {
       '@type': 'DaySpa',
       name: 'Cancagua Spa & Retreat Center',

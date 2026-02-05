@@ -4,7 +4,7 @@ export default function Head() {
     description: "Descubre todos nuestros servicios: biopiscinas geotermales, hot tubs privados, sauna nativa y masajes terapéuticos. Bienestar integral en el sur de Chile.",
     keywords: "servicios spa, biopiscinas, hot tubs, masajes, sauna, spa frutillar",
     canonical: "/servicios",
-    image: "https://cancagua.cl/images/fullday-biopiscinas-hero.jpg",
+    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   return (
