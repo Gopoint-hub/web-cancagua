@@ -65,7 +65,6 @@ export const categories: Category[] = [
     description: "Clientes & Servicios",
     color: "bg-emerald-500",
     items: [
-      { icon: LayoutDashboard, label: "Resumen B2C", path: "/cms/b2c" },
       { icon: Gift, label: "Gift Cards", path: "/cms/gift-cards-sales" },
       { icon: MessageSquare, label: "Mensajes", path: "/cms/mensajes" },
       { icon: Users, label: "Clientes", path: "/cms/clientes" },
@@ -78,7 +77,6 @@ export const categories: Category[] = [
     description: "Eventos Corporativos",
     color: "bg-blue-500",
     items: [
-      { icon: LayoutDashboard, label: "Resumen B2B", path: "/cms/b2b" },
       { icon: FileText, label: "Cotizaciones", path: "/cms/cotizaciones" },
       { icon: Package, label: "Catálogo Productos", path: "/cms/productos-corporativos" },
       { icon: Kanban, label: "CRM Pipeline", path: "/cms/crm-pipeline" },
@@ -103,7 +101,6 @@ export const categories: Category[] = [
     description: "Newsletters & Campañas",
     color: "bg-purple-500",
     items: [
-      { icon: LayoutDashboard, label: "Resumen Marketing", path: "/cms/marketing" },
       { icon: Newspaper, label: "Newsletters", path: "/cms/newsletter" },
       { icon: MailPlus, label: "Crear Newsletter", path: "/cms/crear-newsletter" },
       { icon: UsersRound, label: "Suscriptores", path: "/cms/suscriptores" },
@@ -119,7 +116,6 @@ export const categories: Category[] = [
     description: "Analytics & Reportes",
     color: "bg-amber-500",
     items: [
-      { icon: LayoutDashboard, label: "Resumen Métricas", path: "/cms/metricas" },
       { icon: BarChart3, label: "Analytics", path: "/cms/analytics" },
     ],
   },
@@ -140,7 +136,6 @@ export const categories: Category[] = [
     description: "Usuarios & Configuración",
     color: "bg-slate-500",
     items: [
-      { icon: LayoutDashboard, label: "Resumen Admin", path: "/cms/admin" },
       { icon: Users, label: "Usuarios", path: "/cms/usuarios" },
       { icon: Languages, label: "Traducciones", path: "/cms/traducciones" },
       { icon: RefreshCw, label: "Integraciones", path: "/cms/integraciones" },
