@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { trpc } from "@/lib/trpc";
+import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -480,10 +481,12 @@ export default function HerramientaVenta() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 pb-20 max-w-lg mx-auto">
-      {view === "services" && renderServicesView()}
-      {view === "form" && renderFormView()}
-      {view === "success" && renderSuccessView()}
-    </div>
+    <DashboardLayout>
+      <div className="min-h-screen bg-gray-50 p-4 pb-20 max-w-lg mx-auto">
+        {view === "services" && renderServicesView()}
+        {view === "form" && renderFormView()}
+        {view === "success" && renderSuccessView()}
+      </div>
+    </DashboardLayout>
   );
 }
