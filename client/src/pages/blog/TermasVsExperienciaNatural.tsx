@@ -6,7 +6,7 @@ export default function TermasVsExperienciaNatural() {
     <BlogLayout
         title="Termas del Sur Tradicionales vs Experiencia Natural: Guía Completa"
         excerpt="Viste que algunas personas vuelven cambiadas de sus días termales, mientras que otras simplemente dicen «si, estuvo bien». Probablemente la diferencia fue en el tipo de experiencia que eligieron. No todas las aguas termales del sur de Chile ofrecen lo mismo, aunque a primera vista parezcan similares."
-        image="https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960573/cancagua/cancaguahttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309133/cancagua/images/blog/termas-geometricas-hero.webp"
+        image="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309133/cancagua/images/blog/termas-geometricas-hero.webp"
         date="29 Octubre 2025"
         author="Mario Hermosilla"
         readTime="11 min"

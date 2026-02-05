@@ -75,7 +75,7 @@ export const blogArticles: BlogArticle[] = [
     excerpt: 'Viste que algunas personas vuelven cambiadas de sus días termales, mientras que otras simplemente dicen «si, estuvo bien». Probablemente la diferencia fue en el tipo de experiencia que eligieron.',
     seoDescription: 'Comparativa entre termas tradicionales del sur de Chile y experiencias naturales como biopiscinas. Descubre cuál es la mejor opción según tus necesidades de bienestar.',
     keywords: 'termas tradicionales vs naturales, comparativa termas chile, biopiscinas vs termas, experiencia termal natural, termas sur chile diferencias',
-    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960573/cancagua/cancaguahttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309133/cancagua/images/blog/termas-geometricas-hero.webp',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309133/cancagua/images/blog/termas-geometricas-hero.webp',
     date: '29 Octubre 2025',
     dateISO: '2025-10-29',
     author: 'Mario Hermosilla',
