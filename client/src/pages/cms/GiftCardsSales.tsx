@@ -61,6 +61,20 @@ export default function GiftCardsSales() {
 
   const generatePDF = trpc.giftCards.generatePDF.useMutation();
 
+  const markAbandoned = trpc.giftCardsAdmin.markAbandonedGiftCards.useMutation({
+    onSuccess: (data) => {
+      if (data.count > 0) {
+        toast.success(`${data.count} gift cards marcadas como abandonadas`);
+      } else {
+        toast.info("No hay gift cards pendientes para marcar como abandonadas");
+      }
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Error: ${error.message}`);
+    },
+  });
+
   const formatPrecio = (valor: number) => {
     return new Intl.NumberFormat("es-CL", {
       style: "currency",
@@ -75,8 +89,14 @@ export default function GiftCardsSales() {
         return <Badge className="bg-green-100 text-green-800 hover:bg-green-100"><CheckCircle className="w-3 h-3 mr-1" /> Completada</Badge>;
       case "pending":
         return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100"><Clock className="w-3 h-3 mr-1" /> Pendiente</Badge>;
-      case "cancelled":
-        return <Badge className="bg-red-100 text-red-800 hover:bg-red-100"><XCircle className="w-3 h-3 mr-1" /> Cancelada</Badge>;
+      case "rejected":
+        return <Badge className="bg-red-100 text-red-800 hover:bg-red-100"><XCircle className="w-3 h-3 mr-1" /> Rechazado</Badge>;
+      case "aborted":
+        return <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100"><XCircle className="w-3 h-3 mr-1" /> Cancelado</Badge>;
+      case "timeout":
+        return <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100"><Clock className="w-3 h-3 mr-1" /> Expirado</Badge>;
+      case "abandoned":
+        return <Badge className="bg-gray-200 text-gray-600 hover:bg-gray-200"><XCircle className="w-3 h-3 mr-1" /> Abandonado</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -150,6 +170,7 @@ export default function GiftCardsSales() {
     total: giftCards?.length || 0,
     completed: giftCards?.filter((gc: any) => gc.purchaseStatus === "completed").length || 0,
     pending: giftCards?.filter((gc: any) => gc.purchaseStatus === "pending").length || 0,
+    failed: giftCards?.filter((gc: any) => ["rejected", "aborted", "timeout", "abandoned"].includes(gc.purchaseStatus)).length || 0,
     totalAmount: giftCards?.filter((gc: any) => gc.purchaseStatus === "completed").reduce((sum: number, gc: any) => sum + gc.amount, 0) || 0,
   };
 
@@ -164,10 +185,25 @@ export default function GiftCardsSales() {
             Gestiona las gift cards vendidas y reenvía emails si es necesario.
           </p>
         </div>
-        <Button variant="outline" onClick={() => refetch()}>
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Actualizar
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            onClick={() => markAbandoned.mutate()}
+            disabled={markAbandoned.isPending || stats.pending === 0}
+            title="Marcar como abandonadas las gift cards pendientes por más de 30 minutos"
+          >
+            {markAbandoned.isPending ? (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <XCircle className="w-4 h-4 mr-2" />
+            )}
+            Limpiar Pendientes
+          </Button>
+          <Button variant="outline" onClick={() => refetch()}>
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Actualizar
+          </Button>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -184,12 +220,14 @@ export default function GiftCardsSales() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pendientes</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">No Completadas</CardTitle>
+            <XCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.pending}</div>
-            <p className="text-xs text-muted-foreground">esperando pago</p>
+            <div className="text-2xl font-bold">{stats.pending + stats.failed}</div>
+            <p className="text-xs text-muted-foreground">
+              {stats.pending} pendientes, {stats.failed} fallidas
+            </p>
           </CardContent>
         </Card>
         <Card>

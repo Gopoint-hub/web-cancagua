@@ -1257,6 +1257,37 @@ export async function getGiftCardByBuyOrder(buyOrder: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+/**
+ * Marcar gift cards pendientes antiguas como abandonadas
+ * @param olderThan - Fecha límite: gift cards creadas antes de esta fecha serán marcadas como abandonadas
+ * @returns Número de gift cards actualizadas
+ */
+export async function markAbandonedGiftCards(olderThan: Date): Promise<{ count: number }> {
+  const db = await getDb();
+  if (!db) return { count: 0 };
+  const { giftCards } = await import("../drizzle/schema");
+  const { and, lt } = await import("drizzle-orm");
+  
+  // Obtener gift cards pendientes antiguas
+  const pendingCards = await db.select({ id: giftCards.id })
+    .from(giftCards)
+    .where(
+      and(
+        eq(giftCards.purchaseStatus, "pending"),
+        lt(giftCards.createdAt, olderThan)
+      )
+    );
+  
+  // Actualizar cada una a "abandoned"
+  for (const card of pendingCards) {
+    await db.update(giftCards)
+      .set({ purchaseStatus: "abandoned" })
+      .where(eq(giftCards.id, card.id));
+  }
+  
+  return { count: pendingCards.length };
+}
+
 // Quotes
 export async function getAllQuotes() {
   const db = await getDb();
