@@ -34,6 +34,9 @@ import CMSLogin from "./Login";
 import CMSActivarCuenta from "./ActivarCuenta";
 import CMSRecuperarContrasena from "./RecuperarContrasena";
 import CMSRestablecerContrasena from "./RestablecerContrasena";
+import CMSConciergeVenta from "./concierge/HerramientaVenta";
+import CMSConciergeServicios from "./concierge/ServiciosDisponibles";
+import CMSConciergeVendedores from "./concierge/Vendedores";
 
 export default function CMSPage() {
   console.log("[CMS] 🚀 CMSPage renderizando");
@@ -79,6 +82,10 @@ export default function CMSPage() {
       <Route path="/cms/gift-cards-sales" component={CMSGiftCardsSales} />
       <Route path="/cms/traducciones" component={CMSTraducciones} />
       <Route path="/cms/reportes-mantencion" component={CMSReportesMantencion} />
+      {/* Módulo Concierge */}
+      <Route path="/cms/concierge/venta" component={CMSConciergeVenta} />
+      <Route path="/cms/concierge/servicios" component={CMSConciergeServicios} />
+      <Route path="/cms/concierge/vendedores" component={CMSConciergeVendedores} />
     </Router>
   );
 }
