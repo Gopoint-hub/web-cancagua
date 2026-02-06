@@ -27,14 +27,12 @@ import CMSCodigosDescuento from "./pages/cms/CodigosDescuento";
 import CMSAnalytics from "./pages/cms/Analytics";
 import CMSConfiguracion from "./pages/cms/Configuracion";
 import CMSCRMPipeline from "./pages/cms/CRMPipeline";
-import CMSB2C from "./pages/cms/B2C";
-import CMSB2B from "./pages/cms/B2B";
-import CMSMarketing from "./pages/cms/Marketing";
 import CMSMarketingROI from "./pages/cms/MarketingROI";
-import CMSMetricas from "./pages/cms/Metricas";
-import CMSAdmin from "./pages/cms/Admin";
 import CMSTraducciones from "./pages/cms/Traducciones";
 import CMSReportesMantencion from "./pages/cms/ReportesMantencion";
+import CMSConciergeVenta from "./pages/cms/concierge/HerramientaVenta";
+import CMSConciergeServicios from "./pages/cms/concierge/ServiciosDisponibles";
+import CMSConciergeVendedores from "./pages/cms/concierge/Vendedores";
 import CMSIntegraciones from "./pages/cms/Integraciones";
 import CMSGiftCardsSales from "./pages/cms/GiftCardsSales";
 import CMSLogin from "./pages/cms/Login";
@@ -140,16 +138,15 @@ function Router() {
         <Route path={"/cms/analytics"} component={CMSAnalytics} />
         <Route path={"/cms/configuracion"} component={CMSConfiguracion} />
         <Route path={"/cms/crm-pipeline"} component={CMSCRMPipeline} />
-        <Route path={"/cms/b2c"} component={CMSB2C} />
-        <Route path={"/cms/b2b"} component={CMSB2B} />
-        <Route path={"/cms/marketing"} component={CMSMarketing} />
         <Route path={"/cms/marketing-roi"} component={CMSMarketingROI} />
-        <Route path={"/cms/metricas"} component={CMSMetricas} />
         <Route path={"/cms/integraciones"} component={CMSIntegraciones} />
-        <Route path={"/cms/admin"} component={CMSAdmin} />
         <Route path={"/cms/gift-cards-sales"} component={CMSGiftCardsSales} />
         <Route path={"/cms/traducciones"} component={CMSTraducciones} />
         <Route path={"/cms/reportes-mantencion"} component={CMSReportesMantencion} />
+        {/* Módulo Concierge */}
+        <Route path={"/cms/concierge/venta"} component={CMSConciergeVenta} />
+        <Route path={"/cms/concierge/servicios"} component={CMSConciergeServicios} />
+        <Route path={"/cms/concierge/vendedores"} component={CMSConciergeVendedores} />
         <Route path={"/404"} component={NotFound} />
         {/* Final fallback route */}
         <Route component={NotFound} />

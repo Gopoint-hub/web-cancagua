@@ -2,30 +2,87 @@ import { getSkeduServices, getSkeduEvents, getSkeduClients, getSkeduBookings, ge
 import * as db from "./db";
 
 /**
+ * Extraer items de la respuesta de Skedu
+ * Skedu puede devolver: { Data: { Items: [...] } } o { Items: [...] } o [...]
+ */
+function extractItems(response: any): any[] {
+    console.log("[SkeduSync] Tipo de respuesta:", typeof response);
+    console.log("[SkeduSync] Keys de respuesta:", response ? Object.keys(response) : "null");
+    
+    if (Array.isArray(response)) {
+        console.log("[SkeduSync] Respuesta es array directo");
+        return response;
+    }
+    if (response?.Data?.Items) {
+        console.log("[SkeduSync] Respuesta tiene Data.Items");
+        return response.Data.Items;
+    }
+    if (response?.Data && Array.isArray(response.Data)) {
+        console.log("[SkeduSync] Respuesta tiene Data como array");
+        return response.Data;
+    }
+    if (response?.Items) {
+        console.log("[SkeduSync] Respuesta tiene Items");
+        return response.Items;
+    }
+    if (response?.items) {
+        console.log("[SkeduSync] Respuesta tiene items (minuscula)");
+        return response.items;
+    }
+    if (response?.data) {
+        console.log("[SkeduSync] Respuesta tiene data");
+        return Array.isArray(response.data) ? response.data : [];
+    }
+    console.log("[SkeduSync] No se encontro estructura conocida, retornando array vacio");
+    return [];
+}
+
+/**
  * Sincronizar servicios desde Skedu
  */
 export async function syncSkeduServices() {
-    console.log("[SkeduSync] Iniciando sincronización de servicios...");
+    console.log("[SkeduSync] Iniciando sincronizacion de servicios...");
     try {
         const services = await getSkeduServices();
-        const items = Array.isArray(services) ? services : (services.items || []);
+        
+        // Log completo de la respuesta para debug
+        console.log("[SkeduSync] Respuesta completa de Skedu (primeros 1000 chars):", 
+            JSON.stringify(services).substring(0, 1000));
+        
+        const items = extractItems(services);
+        console.log("[SkeduSync] Items extraidos:", items.length);
+        
+        if (items.length > 0) {
+            console.log("[SkeduSync] Primer item:", JSON.stringify(items[0]).substring(0, 500));
+        }
 
+        let syncCount = 0;
         for (const item of items) {
-            await db.upsertService({
-                skeduId: item.id.toString(),
-                name: item.name,
-                description: item.description,
-                duration: item.duration,
-                price: item.price,
-                category: item.category,
-                imageUrl: item.image_url || item.imageUrl,
-                active: item.active ? 1 : 0,
-            });
+            try {
+                // Mapear campos de Skedu (PascalCase) a nuestro schema
+                const serviceData = {
+                    skeduId: item.UUID || item.id?.toString() || "",
+                    name: item.Name || item.name || "Sin nombre",
+                    description: item.Description || item.description || "",
+                    duration: item.Duration || item.duration || 0,
+                    price: item.Price || item.price || 0,
+                    category: item.ShowcaseUUID || item.category || "",
+                    imageUrl: item.Images?.[0] || item.image_url || item.imageUrl || "",
+                    active: 1,
+                };
+                
+                if (serviceData.skeduId) {
+                    await db.upsertService(serviceData);
+                    syncCount++;
+                }
+            } catch (itemError) {
+                console.error("[SkeduSync] Error procesando servicio:", itemError);
+            }
         }
 
         await db.updateSiteSetting("last_skedu_services_sync", new Date().toISOString());
-        console.log(`[SkeduSync] Sincronizados ${items.length} servicios.`);
-        return { success: true, count: items.length };
+        console.log("[SkeduSync] Sincronizados " + syncCount + " servicios.");
+        return { success: true, count: syncCount };
     } catch (error) {
         console.error("[SkeduSync] Error sincronizando servicios:", error);
         throw error;
@@ -34,31 +91,49 @@ export async function syncSkeduServices() {
 
 /**
  * Sincronizar clientes desde Skedu con UTMs
+ * Nota: El endpoint /clients puede no existir en todas las versiones de Skedu
  */
 export async function syncSkeduClients() {
-    console.log("[SkeduSync] Iniciando sincronización de clientes...");
+    console.log("[SkeduSync] Iniciando sincronizacion de clientes...");
     try {
         const clients = await getSkeduClients();
-        const items = Array.isArray(clients) ? clients : (clients.items || []);
+        const items = extractItems(clients);
 
+        let syncCount = 0;
         for (const item of items) {
-            await db.upsertClient({
-                skeduId: item.id.toString(),
-                email: item.email,
-                name: item.name || `${item.first_name} ${item.last_name}`,
-                phone: item.phone,
-                subscribedToNewsletter: item.subscribed_to_newsletter ? 1 : 0,
-                // Si la API provee UTMs en el cliente, los guardamos
-                utmSource: item.utm_source,
-                utmMedium: item.utm_medium,
-                utmCampaign: item.utm_campaign,
-            });
+            try {
+                const firstName = item.FirstName || item.first_name || "";
+                const lastName = item.LastName || item.last_name || "";
+                const email = item.Email || item.email || "";
+                
+                // Solo sincronizar si tiene email
+                if (email) {
+                    await db.upsertClient({
+                        skeduId: item.UUID || item.id?.toString() || "",
+                        email: email,
+                        name: item.Name || item.name || (firstName + " " + lastName).trim() || "Cliente",
+                        phone: item.Phone || item.phone || "",
+                        subscribedToNewsletter: item.subscribed_to_newsletter ? 1 : 0,
+                        utmSource: item.utm_source,
+                        utmMedium: item.utm_medium,
+                        utmCampaign: item.utm_campaign,
+                    });
+                    syncCount++;
+                }
+            } catch (itemError) {
+                console.error("[SkeduSync] Error procesando cliente:", itemError);
+            }
         }
 
         await db.updateSiteSetting("last_skedu_clients_sync", new Date().toISOString());
-        console.log(`[SkeduSync] Sincronizados ${items.length} clientes.`);
-        return { success: true, count: items.length };
-    } catch (error) {
+        console.log("[SkeduSync] Sincronizados " + syncCount + " clientes.");
+        return { success: true, count: syncCount };
+    } catch (error: any) {
+        // Si el endpoint no existe (400/404), retornar 0 en lugar de error
+        if (error?.response?.status === 400 || error?.response?.status === 404) {
+            console.warn("[SkeduSync] Endpoint de clientes no disponible en esta version de Skedu");
+            return { success: true, count: 0, warning: "Endpoint no disponible" };
+        }
         console.error("[SkeduSync] Error sincronizando clientes:", error);
         throw error;
     }
@@ -66,71 +141,76 @@ export async function syncSkeduClients() {
 
 /**
  * Sincronizar reservas e ingresos desde Skedu (Appointments)
- * Antes llamado syncSkeduEvents, ahora mejorado con montos y UTMs
  */
 export async function syncSkeduEvents(params?: { startDate?: string; endDate?: string }) {
-    console.log("[SkeduSync] Iniciando sincronización de reservas/eventos...");
+    console.log("[SkeduSync] Iniciando sincronizacion de reservas/eventos...");
     try {
-        // Si no hay rango, por defecto sincronizamos los últimos 90 días para poblar el dashboard
         const syncParams = params || {
-            startDate: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-            endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+            startDate: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+            endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
         };
 
         const bookings = await getSkeduBookings(syncParams);
+        const items = extractItems(bookings);
 
-        // Intentar extraer el array de múltiples formas comunes
-        let items: any[] = [];
-        if (Array.isArray(bookings)) {
-            items = bookings;
-        } else if (bookings && typeof bookings === 'object') {
-            items = bookings.items || bookings.data || bookings.appointments || bookings.results || [];
+        console.log("[SkeduSync] Skedu respondio con " + items.length + " reservas");
+        
+        if (items.length > 0) {
+            console.log("[SkeduSync] Primera reserva:", JSON.stringify(items[0]).substring(0, 500));
         }
 
-        console.log(`[SkeduSync] Skedu respondió con ${items.length} elementos. Estructura:`,
-            Array.isArray(bookings) ? "Array" : Object.keys(bookings || {}));
-
         let syncCount = 0;
+        let errorCount = 0;
+        
         for (const item of items) {
-            // Intentar obtener el monto del pago si no está en el objeto de reserva
-            let amount = item.amount || item.total || 0;
+            try {
+                let amount = item.Amount || item.amount || item.total || 0;
 
-            if (amount === 0) {
-                try {
-                    const payments = await getSkeduPayments(item.id.toString());
-                    if (Array.isArray(payments) && payments.length > 0) {
-                        amount = payments.reduce((acc: number, p: any) => acc + (p.amount || 0), 0);
-                    }
-                } catch (e) {
-                    // Silently ignore payment fetch errors for individual bookings
+                // Extraer datos del cliente de la reserva
+                const clientData = item.Client || item.client || {};
+                const clientName = clientData.Name || clientData.name || 
+                    item.ClientName || item.client_name || item.Name || item.name || "Cliente";
+                const clientEmail = clientData.Email || clientData.email || 
+                    item.ClientEmail || item.client_email || item.Email || item.email || "sin-email@skedu.com";
+                const clientPhone = clientData.Phone || clientData.phone || 
+                    item.ClientPhone || item.client_phone || item.Phone || item.phone || "";
+                
+                // Extraer nombre del servicio
+                const serviceData = item.Service || item.service || {};
+                const serviceName = serviceData.Name || serviceData.name || 
+                    item.ServiceName || item.service_name || item.serviceType || "Servicio Skedu";
+
+                const bookingData = {
+                    skeduId: item.UUID || item.id?.toString() || "",
+                    name: clientName,
+                    email: clientEmail,
+                    phone: clientPhone || "000000000", // Valor por defecto si no hay telefono
+                    serviceType: serviceName,
+                    preferredDate: new Date(item.StartsAt || item.starts_at || item.date || item.start_date || item.CreatedAt || new Date()),
+                    numberOfPeople: item.NumberOfPeople || item.numberOfPeople || item.people || item.Seats || 1,
+                    status: mapSkeduStatus(item.Status || item.status || "pending"),
+                    amount: amount,
+                    utmSource: item.utm_source || item.utmSource || null,
+                    utmMedium: item.utm_medium || item.utmMedium || null,
+                    utmCampaign: item.utm_campaign || item.utmCampaign || null,
+                    utmTerm: item.utm_term || item.utmTerm || null,
+                    utmContent: item.utm_content || item.utmContent || null,
+                };
+
+                if (bookingData.skeduId) {
+                    await db.upsertBooking(bookingData);
+                    console.log("[SkeduSync] Reserva " + bookingData.skeduId + " sincronizada");
+                    syncCount++;
                 }
+            } catch (itemError) {
+                console.error("[SkeduSync] Error procesando reserva:", itemError);
+                errorCount++;
             }
-
-            await db.upsertBooking({
-                skeduId: item.id.toString(),
-                name: item.name || item.client_name || "Cliente Skedu",
-                email: item.email || item.client_email || "",
-                phone: item.phone || item.client_phone || "",
-                serviceType: item.service_name || item.serviceType || "Servicio",
-                preferredDate: new Date(item.StartsAt || item.starts_at || item.date || item.start_date || item.createdAt || new Date()),
-                numberOfPeople: item.numberOfPeople || item.people || 1,
-                status: (item.status || item.Status || "pending").toLowerCase() as any,
-                amount: amount,
-                // Atribución
-                utmSource: item.utm_source || item.utmSource,
-                utmMedium: item.utm_medium || item.utmMedium,
-                utmCampaign: item.utm_campaign || item.utmCampaign,
-                utmTerm: item.utm_term || item.utmTerm,
-                utmContent: item.utm_content || item.utmContent,
-                createdAt: new Date(item.createdAt || item.created_at || item.StartsAt || item.starts_at || item.date || item.start_date || new Date()),
-            });
-            console.log(`[SkeduSync] ✓ Reserva ${item.id || item.UUID} - Monto: ${amount} - Status: ${item.status || item.Status}`);
-            syncCount++;
         }
 
         await db.updateSiteSetting("last_skedu_events_sync", new Date().toISOString());
-        console.log(`[SkeduSync] Sincronizadas ${syncCount} reservas/eventos.`);
-        return { success: true, count: syncCount };
+        console.log("[SkeduSync] Sincronizadas " + syncCount + " reservas. Errores: " + errorCount);
+        return { success: true, count: syncCount, errors: errorCount };
     } catch (error) {
         console.error("[SkeduSync] Error sincronizando reservas:", error);
         throw error;
@@ -138,17 +218,51 @@ export async function syncSkeduEvents(params?: { startDate?: string; endDate?: s
 }
 
 /**
- * Alias de syncSkeduEvents para compatibilidad con el nuevo router
+ * Mapear estados de Skedu a nuestros estados
+ */
+function mapSkeduStatus(status: string): "pending" | "confirmed" | "cancelled" {
+    const normalizedStatus = status.toLowerCase();
+    if (normalizedStatus === "confirmed" || normalizedStatus === "completed" || normalizedStatus === "paid") {
+        return "confirmed";
+    }
+    if (normalizedStatus === "cancelled" || normalizedStatus === "canceled" || normalizedStatus === "no_show") {
+        return "cancelled";
+    }
+    return "pending";
+}
+
+/**
+ * Alias de syncSkeduEvents para compatibilidad
  */
 export const syncSkeduBookings = syncSkeduEvents;
 
 /**
- * Sincronización completa
+ * Sincronizacion completa
  */
 export async function syncAll() {
-    return {
-        services: await syncSkeduServices(),
-        clients: await syncSkeduClients(),
-        events: await syncSkeduEvents(),
+    const results = {
+        services: { success: false, count: 0 } as any,
+        clients: { success: false, count: 0 } as any,
+        events: { success: false, count: 0 } as any,
     };
+    
+    try {
+        results.services = await syncSkeduServices();
+    } catch (e) {
+        console.error("[SkeduSync] Error en servicios:", e);
+    }
+    
+    try {
+        results.clients = await syncSkeduClients();
+    } catch (e) {
+        console.error("[SkeduSync] Error en clientes:", e);
+    }
+    
+    try {
+        results.events = await syncSkeduEvents();
+    } catch (e) {
+        console.error("[SkeduSync] Error en eventos:", e);
+    }
+    
+    return results;
 }
