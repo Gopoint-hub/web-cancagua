@@ -1,7 +1,7 @@
 /**
- * Unified type exports
- * Import shared types from this single entry point.
+ * Shared type exports for the frontend.
+ *
+ * Note: Database types (drizzle schema) now live in the CMS repo.
+ * This file only exports error types used by the frontend.
  */
-
-export type * from "../drizzle/schema";
 export * from "./_core/errors";
