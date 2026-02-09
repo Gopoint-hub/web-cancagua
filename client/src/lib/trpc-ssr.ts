@@ -1,23 +1,26 @@
 import { createTRPCClient, httpBatchLink } from '@trpc/client';
-import type { AppRouter } from '../../../server/routers';
 import superjson from 'superjson';
+
+// URL de la API del CMS
+const CMS_API_URL = process.env.VITE_API_BASE_URL || "https://cms.cancagua.cl";
 
 /**
  * Cliente tRPC para usar en SSR (servidor)
  *
- * @param baseUrl - URL absoluta del servidor (ej: http://localhost:3000 o https://cancagua.cl)
- * @param cookies - Cookies del request original para mantener sesiones de autenticación
+ * Apunta directamente al CMS para obtener datos durante el server-side rendering.
+ *
+ * @param cookies - Cookies del request original (opcional)
  * @returns Cliente tRPC configurado para SSR
  */
-export function createSSRTRPCClient(baseUrl: string, cookies?: string) {
-  return createTRPCClient<AppRouter>({
+export function createSSRTRPCClient(cookies?: string) {
+  return createTRPCClient<any>({
     links: [
       httpBatchLink({
-        url: `${baseUrl}/api/trpc`,
+        url: `${CMS_API_URL}/api/trpc`,
         transformer: superjson,
         headers() {
           return {
-            cookie: cookies || '', // Pasar cookies para autenticación
+            cookie: cookies || '',
           };
         },
       }),

@@ -17,19 +17,18 @@ import { httpBatchLink } from "@trpc/client";
 import superjson from "superjson";
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { usePageContext } from 'vike-react/usePageContext';
+
+// URL de la API del CMS
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://cms.cancagua.cl";
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const pageContext = usePageContext();
-  const isCMSRoute = pageContext.urlPathname.startsWith('/cms');
-
-  // Crear cliente de tRPC solo en el cliente
+  // Crear cliente de tRPC apuntando al CMS
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: "/api/trpc",
+          url: `${API_BASE_URL}/api/trpc`,
           transformer: superjson,
           fetch(input, init) {
             return globalThis.fetch(input, {
@@ -55,19 +54,14 @@ export default function Layout({ children }: { children: ReactNode }) {
               {/* Componente que actualiza meta tags dinámicamente durante navegación client-side */}
               <DynamicHead />
 
-              {/* Si es ruta del CMS, NO renderizar Navbar/Footer */}
-              {isCMSRoute ? (
-                children
-              ) : (
-                <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
-                  <Navbar />
-                  <main className="flex-1">
-                    {children}
-                  </main>
-                  <Footer />
-                  <WhatsAppButton />
-                </div>
-              )}
+              <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
+                <Navbar />
+                <main className="flex-1">
+                  {children}
+                </main>
+                <Footer />
+                <WhatsAppButton />
+              </div>
             </TooltipProvider>
           </LanguageProvider>
         </ThemeProvider>

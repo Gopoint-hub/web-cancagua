@@ -1,15 +1,23 @@
+/**
+ * Servidor SSR mínimo para cancagua.cl (Frontend Only)
+ *
+ * Este servidor solo se encarga de:
+ * 1. Redirecciones 301 (SEO - migración WordPress)
+ * 2. Sitemap.xml dinámico
+ * 3. Servir archivos estáticos
+ * 4. Server-Side Rendering (SSR) con Vike
+ *
+ * Toda la lógica de negocio (API, BD, WebPay, emails, etc.)
+ * vive en el CMS: https://cms.cancagua.cl
+ */
+
 import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import net from "net";
-import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { registerOAuthRoutes } from "./oauth";
-import { appRouter } from "../routers";
-import { createContext } from "./context";
-import { serveStatic, setupVite } from "./vite";
 import { registerRedirects } from "./redirects";
-import { registerSitemapRoute } from "../sitemap";
-import conciergeWebhook from "../conciergeWebhook";
+import { registerSitemapRoute } from "./sitemap";
+import { setupVite, serveStatic } from "./vite";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -33,26 +41,15 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
-  // Configure body parser with larger size limit for file uploads
-  app.use(express.json({ limit: "50mb" }));
-  app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
   // Redirecciones 301 para URLs antiguas del WordPress (debe ir primero)
   registerRedirects(app);
+
   // Sitemap.xml dinámico
   registerSitemapRoute(app);
-  // OAuth callback under /api/oauth/callback
-  registerOAuthRoutes(app);
-  // Webhook para Skedu (Módulo Concierge)
-  app.use("/api/webhooks/skedu", conciergeWebhook);
-  // tRPC API
-  app.use(
-    "/api/trpc",
-    createExpressMiddleware({
-      router: appRouter,
-      createContext,
-    })
-  );
-  // development mode uses Vite, production mode uses static files
+
+  // En desarrollo: Vite dev server con HMR
+  // En producción: archivos estáticos + SSR
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
   } else {
@@ -67,7 +64,8 @@ async function startServer() {
   }
 
   server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
+    console.log(`[Frontend SSR] Server running on http://localhost:${port}/`);
+    console.log(`[Frontend SSR] API calls proxied to CMS: ${process.env.VITE_API_BASE_URL || "https://cms.cancagua.cl"}`);
   });
 }
 

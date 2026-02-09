@@ -1,306 +1,166 @@
 /**
- * Redirecciones 301 para migración SEO
- * Basado en análisis de Google Search Console
+ * Redirecciones 301 para migración SEO (WordPress → Vike)
  *
  * IMPACTO TOTAL:
  * - 358 clicks/mes en riesgo
  * - 28,666 impressions/mes en riesgo
  */
 
-export interface Redirect {
-  from: string;
-  to: string;
-  permanent: boolean;
-  priority: 'critical' | 'high' | 'medium' | 'low';
-  clicks?: number;
-  impressions?: number;
+import type { Express, Request, Response, NextFunction } from "express";
+
+// Mapa de redirecciones: URL antigua → URL nueva
+const redirectMap: Record<string, string> = {
+  // ============================================
+  // CRITICAS - 280 clicks, 22,456 impressions
+  // ============================================
+  "/biopiscinas": "/servicios/biopiscinas",
+  "/biopiscinas/": "/servicios/biopiscinas",
+  "/hot-tub": "/servicios/hot-tubs",
+  "/hot-tub/": "/servicios/hot-tubs",
+  "/hot-tub/fin-de-semana": "/servicios/hot-tubs",
+  "/hot-tub/fin-de-semana/": "/servicios/hot-tubs",
+  "/servicios": "/",
+  "/servicios/": "/",
+  "/promos": "/",
+  "/promos/": "/",
+  "/cafeteria-saludable-frutillar": "/cafeteria",
+  "/cafeteria-saludable-frutillar/": "/cafeteria",
+
+  // ============================================
+  // ALTAS - 29 clicks, 1,064 impressions
+  // ============================================
+  "/sonoterapia": "/servicios/masajes",
+  "/sonoterapia/": "/servicios/masajes",
+  "/categoria/giftcards": "/",
+  "/categoria/giftcards/": "/",
+  "/menu": "/carta",
+  "/menu/": "/carta",
+  "/yoga-nueva": "/clases",
+  "/yoga-nueva/": "/clases",
+
+  // ============================================
+  // MEDIAS - 76 clicks, 5,146 impressions
+  // ============================================
+  "/home": "/",
+  "/home/": "/",
+  "/programas": "/experiencias/pases-reconecta",
+  "/programas/": "/experiencias/pases-reconecta",
+  "/dia-playa-frutillar": "/",
+  "/dia-playa-frutillar/": "/",
+  "/faq": "/contacto",
+  "/faq/": "/contacto",
+  "/faqs": "/contacto",
+  "/faqs/": "/contacto",
+  "/entrenamiento": "/clases",
+  "/entrenamiento/": "/clases",
+  "/hot-tubs": "/servicios/hot-tubs",
+  "/hot-tubs/": "/servicios/hot-tubs",
+  "/pase-mediodia": "/experiencias/pases-reconecta",
+  "/pase-mediodia/": "/experiencias/pases-reconecta",
+  "/beach-day": "/",
+  "/beach-day/": "/",
+  "/producto/giftcard-masajes": "/",
+  "/producto/giftcard-masajes/": "/",
+  "/termas-del-sur-de-chile-con-ninos-guia-para-familias": "/blog/termas-con-ninos",
+  "/termas-del-sur-de-chile-con-ninos-guia-para-familias/": "/blog/termas-con-ninos",
+  "/playa": "/",
+  "/playa/": "/",
+  "/reconnect-half-day-pass": "/experiencias/pases-reconecta",
+  "/reconnect-half-day-pass/": "/experiencias/pases-reconecta",
+
+  // ============================================
+  // BAJAS - 0 clicks pero con impressions
+  // ============================================
+  "/aikido": "/clases",
+  "/aikido/": "/clases",
+  "/services": "/",
+  "/services/": "/",
+  "/programs": "/experiencias/pases-reconecta",
+  "/programs/": "/experiencias/pases-reconecta",
+  "/producto/giftcard-biopiscinas": "/",
+  "/producto/giftcard-biopiscinas/": "/",
+
+  // ============================================
+  // BLOG - URLs existentes
+  // ============================================
+  "/articulos": "/blog",
+  "/articulos/": "/blog",
+  "/mejores-termas-sur-chile-2026": "/blog/mejores-termas-sur-chile-2026",
+  "/mejores-termas-sur-chile-2026/": "/blog/mejores-termas-sur-chile-2026",
+  "/tecnicas-manejo-estres-laboral": "/blog/manejo-estres-laboral",
+  "/tecnicas-manejo-estres-laboral/": "/blog/manejo-estres-laboral",
+  "/termas-del-sur-vs-experiencia-natural": "/blog/termas-vs-experiencia-natural",
+  "/termas-del-sur-vs-experiencia-natural/": "/blog/termas-vs-experiencia-natural",
+
+  // ============================================
+  // EVENTOS - URLs existentes
+  // ============================================
+  "/eventos-empresas": "/eventos/empresas",
+  "/eventos-empresas/": "/eventos/empresas",
+
+  // ============================================
+  // GIFT CARDS - URLs existentes
+  // ============================================
+  "/giftcards": "/",
+  "/giftcards/": "/",
+  "/gift-card": "/",
+  "/gift-card/": "/",
+
+  // ============================================
+  // SERVICIOS - URLs antiguas
+  // ============================================
+  "/masajes": "/servicios/masajes",
+  "/masajes/": "/servicios/masajes",
+  "/sauna": "/servicios/sauna",
+  "/sauna/": "/servicios/sauna",
+
+  // ============================================
+  // Trailing slash normalization
+  // ============================================
+  "/eventos/": "/eventos",
+  "/contacto/": "/contacto",
+  "/nosotros/": "/nosotros",
+  "/cafeteria/": "/cafeteria",
+  "/blog/": "/blog",
+  "/clases/": "/clases",
+  "/carta/": "/carta",
+};
+
+/**
+ * Middleware de redirecciones 301
+ * Intercepta las URLs antiguas del WordPress y redirige a las nuevas
+ */
+function redirectMiddleware(req: Request, res: Response, next: NextFunction) {
+  const path = req.path.toLowerCase();
+
+  // Redirigir /cms y /cms/* al CMS externo
+  if (path === "/cms" || path.startsWith("/cms/")) {
+    const cmsPath = path === "/cms" ? "/" : path.substring(4); // quitar "/cms" del inicio
+    const queryString = req.originalUrl.includes("?")
+      ? req.originalUrl.substring(req.originalUrl.indexOf("?"))
+      : "";
+    return res.redirect(301, `https://cms.cancagua.cl${cmsPath}${queryString}`);
+  }
+
+  // Verificar si la URL esta en el mapa de redirecciones
+  const redirectTo = redirectMap[path];
+
+  if (redirectTo) {
+    // Preservar query strings en la redireccion
+    const queryString = req.originalUrl.includes("?")
+      ? req.originalUrl.substring(req.originalUrl.indexOf("?"))
+      : "";
+
+    // Redireccion 301 (permanente) para SEO
+    return res.redirect(301, redirectTo + queryString);
+  }
+
+  next();
 }
 
-export const redirects: Redirect[] = [
-  // ============================================
-  // 🔴 CRÍTICAS - 280 clicks, 22,456 impressions
-  // ============================================
-  {
-    from: '/biopiscinas/',
-    to: '/servicios/biopiscinas',
-    permanent: true,
-    priority: 'critical',
-    clicks: 89,
-    impressions: 2769,
-  },
-  {
-    from: '/hot-tub/',
-    to: '/servicios/hot-tubs',
-    permanent: true,
-    priority: 'critical',
-    clicks: 38,
-    impressions: 7537,
-  },
-  {
-    from: '/hot-tub/fin-de-semana/',
-    to: '/servicios/hot-tubs',
-    permanent: true,
-    priority: 'critical',
-    clicks: 23,
-    impressions: 3404,
-  },
-  {
-    from: '/servicios/',
-    to: '/',
-    permanent: true,
-    priority: 'critical',
-    clicks: 54,
-    impressions: 4507,
-  },
-  {
-    from: '/promos/',
-    to: '/',
-    permanent: true,
-    priority: 'critical',
-    clicks: 49,
-    impressions: 3378,
-  },
-  {
-    from: '/cafeteria-saludable-frutillar/',
-    to: '/cafeteria',
-    permanent: true,
-    priority: 'critical',
-    clicks: 27,
-    impressions: 861,
-  },
-
-  // ============================================
-  // 🟠 ALTAS - 29 clicks, 1,064 impressions
-  // ============================================
-  {
-    from: '/sonoterapia/',
-    to: '/servicios/masajes',
-    permanent: true,
-    priority: 'high',
-    clicks: 5,
-    impressions: 716,
-  },
-  {
-    from: '/categoria/giftcards/',
-    to: '/',
-    permanent: true,
-    priority: 'high',
-    clicks: 6,
-    impressions: 161,
-  },
-  {
-    from: '/menu/',
-    to: '/carta',
-    permanent: true,
-    priority: 'high',
-    clicks: 6,
-    impressions: 75,
-  },
-  {
-    from: '/yoga-nueva/',
-    to: '/clases',
-    permanent: true,
-    priority: 'high',
-    clicks: 6,
-    impressions: 56,
-  },
-
-  // ============================================
-  // 🟡 MEDIAS - 76 clicks, 5,146 impressions
-  // ============================================
-  {
-    from: '/home/',
-    to: '/',
-    permanent: true,
-    priority: 'medium',
-    clicks: 1,
-    impressions: 1402,
-  },
-  {
-    from: '/programas/',
-    to: '/experiencias/pases-reconecta',
-    permanent: true,
-    priority: 'medium',
-    clicks: 3,
-    impressions: 867,
-  },
-  {
-    from: '/dia-playa-frutillar/',
-    to: '/',
-    permanent: true,
-    priority: 'medium',
-    clicks: 4,
-    impressions: 227,
-  },
-  {
-    from: '/faq/',
-    to: '/contacto',
-    permanent: true,
-    priority: 'medium',
-    clicks: 3,
-    impressions: 302,
-  },
-  {
-    from: '/faqs/',
-    to: '/contacto',
-    permanent: true,
-    priority: 'medium',
-    clicks: 3,
-    impressions: 57,
-  },
-  {
-    from: '/entrenamiento/',
-    to: '/clases',
-    permanent: true,
-    priority: 'medium',
-    clicks: 4,
-    impressions: 79,
-  },
-  {
-    from: '/hot-tubs/',
-    to: '/servicios/hot-tubs',
-    permanent: true,
-    priority: 'medium',
-    clicks: 2,
-    impressions: 214,
-  },
-  {
-    from: '/pase-mediodia/',
-    to: '/experiencias/pases-reconecta',
-    permanent: true,
-    priority: 'medium',
-    clicks: 3,
-    impressions: 112,
-  },
-  {
-    from: '/beach-day/',
-    to: '/',
-    permanent: true,
-    priority: 'medium',
-    clicks: 3,
-    impressions: 96,
-  },
-  {
-    from: '/producto/giftcard-masajes/',
-    to: '/',
-    permanent: true,
-    priority: 'medium',
-    clicks: 2,
-    impressions: 151,
-  },
-  {
-    from: '/termas-del-sur-de-chile-con-ninos-guia-para-familias/',
-    to: '/blog',
-    permanent: true,
-    priority: 'medium',
-    clicks: 2,
-    impressions: 107,
-  },
-  {
-    from: '/playa/',
-    to: '/',
-    permanent: true,
-    priority: 'medium',
-    clicks: 1,
-    impressions: 60,
-  },
-  {
-    from: '/reconnect-half-day-pass/',
-    to: '/experiencias/pases-reconecta',
-    permanent: true,
-    priority: 'medium',
-    clicks: 1,
-    impressions: 14,
-  },
-
-  // ============================================
-  // ⚪ BAJAS - 0 clicks pero con impressions
-  // ============================================
-  {
-    from: '/aikido/',
-    to: '/clases',
-    permanent: true,
-    priority: 'low',
-    clicks: 0,
-    impressions: 90,
-  },
-  {
-    from: '/services/',
-    to: '/',
-    permanent: true,
-    priority: 'low',
-    clicks: 0,
-    impressions: 73,
-  },
-  {
-    from: '/programs/',
-    to: '/experiencias/pases-reconecta',
-    permanent: true,
-    priority: 'low',
-    clicks: 0,
-    impressions: 51,
-  },
-  {
-    from: '/producto/giftcard-biopiscinas/',
-    to: '/',
-    permanent: true,
-    priority: 'low',
-    clicks: 0,
-    impressions: 48,
-  },
-
-  // ============================================
-  // Variantes con/sin trailing slash
-  // ============================================
-  {
-    from: '/biopiscinas',
-    to: '/servicios/biopiscinas',
-    permanent: true,
-    priority: 'critical',
-  },
-  {
-    from: '/hot-tub',
-    to: '/servicios/hot-tubs',
-    permanent: true,
-    priority: 'critical',
-  },
-  {
-    from: '/servicios',
-    to: '/',
-    permanent: true,
-    priority: 'critical',
-  },
-  {
-    from: '/promos',
-    to: '/',
-    permanent: true,
-    priority: 'critical',
-  },
-  {
-    from: '/cafeteria-saludable-frutillar',
-    to: '/cafeteria',
-    permanent: true,
-    priority: 'critical',
-  },
-];
-
-// Exportar solo las URLs para verificación rápida
-export const redirectPaths = redirects.map(r => ({
-  from: r.from,
-  to: r.to,
-}));
-
-// Función helper para buscar redirección
-export function findRedirect(path: string): Redirect | undefined {
-  // Normalizar path (remover trailing slash si existe)
-  const normalizedPath = path.endsWith('/') && path.length > 1
-    ? path.slice(0, -1)
-    : path;
-
-  // Buscar con y sin trailing slash
-  return redirects.find(r =>
-    r.from === path ||
-    r.from === normalizedPath ||
-    r.from === normalizedPath + '/'
-  );
+/**
+ * Registra el middleware de redirecciones en la aplicacion Express
+ */
+export function registerRedirects(app: Express) {
+  app.use(redirectMiddleware);
 }

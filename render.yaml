@@ -1,12 +1,15 @@
-# Render Blueprint - cancagua-web
+# Render Blueprint - cancagua-frontend (SSR Only)
 # https://render.com/docs/blueprint-spec
+#
+# Este servicio solo sirve el frontend con SSR.
+# Toda la logica de negocio (API, BD, WebPay, emails) vive en cms.cancagua.cl
 
 services:
   - type: web
-    name: cancagua-web
+    name: cancagua-frontend
     runtime: node
-    region: oregon # or your preferred region
-    plan: free # or starter, standard, etc.
+    region: oregon
+    plan: free
     buildCommand: rm -rf node_modules && pnpm install && pnpm run build
     startCommand: pnpm run start
     envVars:
@@ -14,36 +17,8 @@ services:
         value: production
       - key: PORT
         value: 3000
-      # SSR Configuration
-      - key: BASE_URL
-        value: https://cancagua.cl
-      # Database - TiDB Cloud Serverless
-      - key: DATABASE_URL
-        sync: false # Set manually in Render dashboard
-      # Authentication
-      - key: JWT_SECRET
-        generateValue: true
-      - key: VITE_APP_ID
-        sync: false
-      - key: OWNER_OPEN_ID
-        sync: false
-      # AI Services
-      - key: GEMINI_API_KEY
-        sync: false
-      - key: OPENAI_API_KEY
-        sync: false # For Whisper and DALL-E
-      # Cloudinary Storage
-      - key: CLOUDINARY_URL
-        sync: false
-      # Or use individual Cloudinary variables:
-      # - key: CLOUDINARY_CLOUD_NAME
-      #   sync: false
-      # - key: CLOUDINARY_API_KEY
-      #   sync: false
-      # - key: CLOUDINARY_API_SECRET
-      #   sync: false
-      # Email Service
-      - key: RESEND_API_KEY
-        sync: false
+      # URL de la API del CMS (usado por el cliente tRPC)
+      - key: VITE_API_BASE_URL
+        value: https://cms.cancagua.cl
     healthCheckPath: /
     autoDeploy: true
