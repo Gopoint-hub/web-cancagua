@@ -10,7 +10,7 @@ export default function Page() {
         <section className="relative h-[50vh] md:h-[70vh] overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg)" }}
+            style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1770661870/cancagua/images/shakshuka-cafeteria-hero.webp)" }}
           />
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
