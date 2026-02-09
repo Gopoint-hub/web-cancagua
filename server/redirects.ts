@@ -133,6 +133,15 @@ const redirectMap: Record<string, string> = {
 function redirectMiddleware(req: Request, res: Response, next: NextFunction) {
   const path = req.path.toLowerCase();
 
+  // Redirigir /cms y /cms/* al CMS externo
+  if (path === "/cms" || path.startsWith("/cms/")) {
+    const cmsPath = path === "/cms" ? "/" : path.substring(4); // quitar "/cms" del inicio
+    const queryString = req.originalUrl.includes("?")
+      ? req.originalUrl.substring(req.originalUrl.indexOf("?"))
+      : "";
+    return res.redirect(301, `https://cms.cancagua.cl${cmsPath}${queryString}`);
+  }
+
   // Verificar si la URL esta en el mapa de redirecciones
   const redirectTo = redirectMap[path];
 
