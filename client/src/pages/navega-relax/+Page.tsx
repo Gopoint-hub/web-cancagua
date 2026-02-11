@@ -67,10 +67,9 @@ export default function Page() {
           <p className="font-['Fira_Sans'] text-lg md:text-2xl mb-8 max-w-3xl text-white/90">
             Descubre el Lago Llanquihue desde una perspectiva única navegando en Catamarán Bandurria para luego disfrutar de una relajante estadía en nuestras Biopiscinas Geotermales
           </p>
-          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+          <a href="https://tickets.catamaranbandurria.cl/" target="_blank" rel="noopener noreferrer">
             <Button size="lg" className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-8 py-6">
-              <MessageCircle className="mr-2 h-5 w-5" />
-              Reservar por WhatsApp
+              Reserva aquí
             </Button>
           </a>
         </div>
