@@ -46,7 +46,7 @@ export function HeroSlider() {
       ctaLink: "/clases",
     },
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg",
+      image: "/images/cafeteria-cancagua-brunch.webp",
       titleKey: "hero.cafeteria.title",
       subtitleKey: "hero.cafeteria.subtitle",
       ctaKey: "hero.cafeteria.cta1",
