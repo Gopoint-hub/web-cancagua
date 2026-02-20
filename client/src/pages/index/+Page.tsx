@@ -202,7 +202,7 @@ export default function HomePage() {
             </div>
             <div className="order-1 lg:order-2">
               <img
-                src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309071/cancagua/images/08_cafeteria-interior.jpg"
+                src="/images/cafeteria-cancagua-brunch.webp"
                 alt="Cafetería Cancagua"
                 className="rounded-sm shadow-xl w-full"
               />
