@@ -17,7 +17,7 @@ export default function GiftCards() {
   // SEO - Página pública de Gift Cards
   const seoData = {
     title: "Gift Cards | Cancagua Spa - Regala Bienestar",
-    description: "Regala bienestar con nuestras gift cards de Cancagua Spa. El regalo perfecto para quienes amas. Válidas por 1 año, entrega inmediata por email.",
+    description: "Regala bienestar con nuestras gift cards de Cancagua Spa. El regalo perfecto para quienes amas. Válidas por 3 meses, entrega inmediata por email.",
     canonical: "/gift-cards",
     noindex: false
   };
@@ -47,7 +47,7 @@ export default function GiftCards() {
   ];
 
   const beneficios = [
-    "Válida por 1 año desde la compra",
+    "Válida por 3 meses desde la compra",
     "Puede usarse en cualquier servicio de Cancagua",
     "Transferible a otra persona",
     "Entrega inmediata por email",
