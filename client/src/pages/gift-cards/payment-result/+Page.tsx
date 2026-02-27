@@ -16,30 +16,56 @@ export default function PaymentResultPage() {
 
   useEffect(() => {
     const confirmWebPayTransaction = async () => {
-      // Obtener token de la URL
       const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get("token_ws");
+      const token_ws = urlParams.get("token_ws");
+      const TBK_TOKEN = urlParams.get("TBK_TOKEN");
+      const TBK_ORDEN_COMPRA = urlParams.get("TBK_ORDEN_COMPRA");
+      const TBK_ID_SESION = urlParams.get("TBK_ID_SESION");
 
-      if (!token) {
+      // Caso 1: Usuario canceló el pago en WebPay (abort)
+      if (TBK_TOKEN && TBK_ORDEN_COMPRA && !token_ws) {
+        try {
+          await confirmPayment.mutateAsync({ TBK_TOKEN, TBK_ORDEN_COMPRA });
+        } catch {
+          // best effort - actualizar estado en backend
+        }
         setStatus("error");
-        setErrorMessage("No se recibió el token de la transacción");
+        setErrorMessage("El pago fue cancelado. No se realizó ningún cargo a tu tarjeta.");
+        return;
+      }
+
+      // Caso 2: Timeout - tiempo expirado en WebPay
+      if (TBK_ORDEN_COMPRA && TBK_ID_SESION && !TBK_TOKEN && !token_ws) {
+        try {
+          await confirmPayment.mutateAsync({ TBK_ORDEN_COMPRA, TBK_ID_SESION });
+        } catch {
+          // best effort - actualizar estado en backend
+        }
+        setStatus("error");
+        setErrorMessage("El tiempo para completar el pago ha expirado. Por favor, intenta nuevamente.");
+        return;
+      }
+
+      // Caso 3: Flujo normal - pago aprobado o rechazado (token_ws presente)
+      if (!token_ws) {
+        setStatus("error");
+        setErrorMessage("No se recibieron los datos de la transacción. Si realizaste un pago, contacta a soporte.");
         return;
       }
 
       try {
-        // Confirmar pago con WebPay
-        const result = await confirmPayment.mutateAsync({ token });
+        const result = await confirmPayment.mutateAsync({ token_ws });
 
         if (result.success && result.giftCard) {
           setStatus("success");
           setGiftCardData(result.giftCard);
         } else {
           setStatus("error");
-          setErrorMessage(result.message || "No se pudo confirmar la transacción");
+          setErrorMessage(result.message || "El pago fue rechazado. Por favor, intenta con otra tarjeta.");
         }
       } catch (error: any) {
         setStatus("error");
-        setErrorMessage(error.message || "Error al procesar el pago");
+        setErrorMessage(error.message || "Error al procesar el pago. Si se descontó dinero de tu cuenta, contacta a soporte.");
       }
     };
 

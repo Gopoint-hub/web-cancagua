@@ -34,7 +34,7 @@ export default function Page() {
   ];
 
   const beneficios = [
-    "Válida por 3 meses desde la compra",
+    "Válida por 1 año desde la compra",
     "Puede usarse en cualquier servicio de Cancagua",
     "Transferible a otra persona",
     "Entrega inmediata por email",
