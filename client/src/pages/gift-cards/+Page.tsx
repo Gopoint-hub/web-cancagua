@@ -479,9 +479,13 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
                       placeholder="Escribe un mensaje especial para el destinatario..."
                       value={mensaje}
                       onChange={(e) => setMensaje(e.target.value)}
+                      maxLength={150}
                       className="mt-2"
                       rows={3}
                     />
+                    <p className="text-xs text-muted-foreground mt-1 text-right">
+                      {mensaje.length}/150 caracteres
+                    </p>
                   </div>
                 </CardContent>
               </Card>
