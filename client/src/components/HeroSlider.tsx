@@ -32,7 +32,7 @@ export function HeroSlider() {
       ctaLink: "/servicios/hot-tubs",
     },
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770308908/cancagua/images/03_masajes-hero.webp",
+      image: "/images/masajes-spa-cancagua-frutillar.jpg",
       titleKey: "hero.masajes.title",
       subtitleKey: "hero.masajes.subtitle",
       ctaKey: "hero.masajes.cta1",
