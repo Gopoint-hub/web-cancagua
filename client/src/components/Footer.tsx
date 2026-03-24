@@ -1,8 +1,13 @@
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { usePageContext } from "vike-react/usePageContext";
 
 export function Footer() {
   const { t } = useTranslation();
+  const pageContext = usePageContext();
+  const isSpaHCDL = pageContext.urlPathname === '/spa-hotel-cabanas-del-lago';
+  const displayPhone = isSpaHCDL ? '+56 9 8967 0670' : '+56 9 4007 3999';
+  const phoneHref = isSpaHCDL ? '+56989670670' : '+56940073999';
 
   return (
     <footer className="bg-[#3a3a3a] text-white">
@@ -82,10 +87,10 @@ export function Footer() {
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" />
                 <a
-                  href="tel:+56940073999"
+                  href={`tel:${phoneHref}`}
                   className="text-white/70 hover:text-[#D3BC8D] transition-colors"
                 >
-                  +56 9 4007 3999
+                  {displayPhone}
                 </a>
               </li>
               <li className="flex items-center gap-3">
