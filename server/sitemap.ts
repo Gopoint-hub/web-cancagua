@@ -26,7 +26,6 @@ const PUBLIC_ROUTES = [
   { url: "/eventos/sociales", changefreq: "weekly", priority: 0.7 },
   { url: "/eventos/empresas", changefreq: "weekly", priority: 0.7 },
   { url: "/eventos/taller-wim-hof", changefreq: "monthly", priority: 0.6 },
-  { url: "/eventos/heart-coherence-workshop", changefreq: "monthly", priority: 0.6 },
 
   // Experiencias
   { url: "/experiencias/pases-reconecta", changefreq: "weekly", priority: 0.7 },

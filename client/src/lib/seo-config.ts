@@ -103,12 +103,6 @@ export const seoConfig: Record<string, PageSEO> = {
     keywords: 'eventos sociales frutillar, cumpleaños spa chile, despedida soltera termas, celebraciones lago llanquihue',
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
   },
-  '/eventos/heart-coherence-workshop': {
-    title: 'Heart Coherence Workshop | Cancagua Spa Frutillar',
-    description: 'Taller de coherencia cardíaca para reducir el estrés y mejorar tu bienestar emocional. Aprende técnicas de respiración y meditación.',
-    keywords: 'heart coherence, coherencia cardíaca, taller bienestar, meditación frutillar, reducir estrés chile',
-    image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
-  },
   '/eventos/taller-wim-hof': {
     title: 'Taller Método Wim Hof | Cancagua Spa Frutillar',
     description: 'Descubre el Método Wim Hof: respiración, exposición al frío y meditación. Fortalece tu sistema inmune y mejora tu bienestar.',

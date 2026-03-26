@@ -6,17 +6,6 @@ import { Link } from "wouter";
 // Eventos destacados con enlaces a sus landing pages
 const featuredEvents = [
   {
-    id: 1,
-    title: "Heart Coherence Workshop",
-    description: "Taller de coherencia cardíaca con Sonja Bloder. Aprende técnicas de respiración y meditación para equilibrar tu sistema nervioso.",
-    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309302/cancagua/images/sonja-bloder.png",
-    date: "15 de Febrero, 2026",
-    time: "10:00 - 14:00",
-    location: "Cancagua Spa & Retreat Center",
-    price: "$45.000 CLP",
-    href: "/eventos/heart-coherence-workshop",
-  },
-  {
     id: 2,
     title: "Taller Método Wim Hof",
     description: "Experiencia transformadora con Alan IceMan, único instructor avanzado del Método Wim Hof en Chile. Respiración, mentalidad y exposición al frío.",
