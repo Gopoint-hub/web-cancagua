@@ -67,7 +67,6 @@ export function Navbar() {
 
   const eventos = [
     { name: "Todos los Eventos", href: "/eventos" },
-    { name: "Taller Wim Hof", href: "/eventos/taller-wim-hof" },
     { name: "Eventos Sociales", href: "/eventos/sociales" },
     { name: "Eventos Empresas", href: "/eventos/empresas" },
   ];

@@ -4,19 +4,17 @@ import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 
 // Eventos destacados con enlaces a sus landing pages
-const featuredEvents = [
-  {
-    id: 2,
-    title: "Taller Método Wim Hof",
-    description: "Experiencia transformadora con Alan IceMan, único instructor avanzado del Método Wim Hof en Chile. Respiración, mentalidad y exposición al frío.",
-    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309103/cancagua/images/alan-iceman.png",
-    date: "31 de Enero, 2026",
-    time: "09:00 - 13:15",
-    location: "Cancagua Spa & Retreat Center",
-    price: "$45.000 CLP",
-    href: "/eventos/taller-wim-hof",
-  },
-];
+const featuredEvents: Array<{
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  date: string;
+  time: string;
+  location: string;
+  price: string;
+  href: string;
+}> = [];
 
 const socialEventsList = [
   "Cumpleaños y aniversarios",

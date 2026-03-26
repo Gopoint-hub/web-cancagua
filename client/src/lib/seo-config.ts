@@ -103,12 +103,6 @@ export const seoConfig: Record<string, PageSEO> = {
     keywords: 'eventos sociales frutillar, cumpleaños spa chile, despedida soltera termas, celebraciones lago llanquihue',
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
   },
-  '/eventos/taller-wim-hof': {
-    title: 'Taller Método Wim Hof | Cancagua Spa Frutillar',
-    description: 'Descubre el Método Wim Hof: respiración, exposición al frío y meditación. Fortalece tu sistema inmune y mejora tu bienestar.',
-    keywords: 'método wim hof, taller wim hof chile, respiración wim hof, exposición frío, bienestar frutillar',
-    image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
-  },
   '/experiencias/pases-reconecta': {
     title: 'Pases Reconecta | Experiencias de Bienestar - Cancagua',
     description: 'Pases mensuales y anuales para disfrutar de todas las experiencias de Cancagua. Reconecta con tu bienestar de forma regular.',
