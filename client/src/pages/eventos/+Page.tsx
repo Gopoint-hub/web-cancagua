@@ -4,17 +4,19 @@ import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 
 // Eventos destacados con enlaces a sus landing pages
-const featuredEvents: Array<{
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  date: string;
-  time: string;
-  location: string;
-  price: string;
-  href: string;
-}> = [];
+const featuredEvents = [
+  {
+    id: 1,
+    title: "Concierto Equinoccio de Otoño — Cambio de Piel ✨",
+    description: "Concierto íntimo acústico con Daniela Conejero (voz) e Ítalo Aguilera (guitarra). Vive la música junto a las biopiscinas geotermales en el atardecer.",
+    image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/a5ac625d2db04b39a004b6b2851d0995.jpeg",
+    date: "11 de Abril, 2026",
+    time: "19:00 - 20:30",
+    location: "Cancagua Spa & Retreat Center",
+    price: "",
+    href: "/eventos/concierto",
+  },
+];
 
 const socialEventsList = [
   "Cumpleaños y aniversarios",

@@ -103,6 +103,12 @@ export const seoConfig: Record<string, PageSEO> = {
     keywords: 'eventos sociales frutillar, cumpleaños spa chile, despedida soltera termas, celebraciones lago llanquihue',
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
   },
+  '/eventos/concierto': {
+    title: 'Concierto Equinoccio de Otoño - Cambio de Piel | Cancagua Spa Frutillar',
+    description: 'Concierto íntimo acústico en Cancagua Spa. Daniela Conejero y Ítalo Aguilera celebran el equinoccio de otoño con música junto a las biopiscinas geotermales.',
+    keywords: 'concierto frutillar, concierto acústico spa, equinoccio otoño, biopiscinas concierto, cancagua eventos',
+    image: 'https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/a5ac625d2db04b39a004b6b2851d0995.jpeg',
+  },
   '/experiencias/pases-reconecta': {
     title: 'Pases Reconecta | Experiencias de Bienestar - Cancagua',
     description: 'Pases mensuales y anuales para disfrutar de todas las experiencias de Cancagua. Reconecta con tu bienestar de forma regular.',

@@ -25,6 +25,8 @@ const PUBLIC_ROUTES = [
   { url: "/eventos", changefreq: "weekly", priority: 0.8 },
   { url: "/eventos/sociales", changefreq: "weekly", priority: 0.7 },
   { url: "/eventos/empresas", changefreq: "weekly", priority: 0.7 },
+  { url: "/eventos/concierto", changefreq: "monthly", priority: 0.7 },
+
   // Experiencias
   { url: "/experiencias/pases-reconecta", changefreq: "weekly", priority: 0.7 },
   { url: "/experiencias/pase-reconecta", changefreq: "weekly", priority: 0.7 },

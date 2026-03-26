@@ -67,6 +67,7 @@ export function Navbar() {
 
   const eventos = [
     { name: "Todos los Eventos", href: "/eventos" },
+    { name: "Concierto Equinoccio", href: "/eventos/concierto" },
     { name: "Eventos Sociales", href: "/eventos/sociales" },
     { name: "Eventos Empresas", href: "/eventos/empresas" },
   ];
