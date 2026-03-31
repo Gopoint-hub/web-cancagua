@@ -34,7 +34,7 @@ export default function Servicios() {
     },
     {
       title: "Clases Regulares",
-      description: "Movimiento y meditación: Hatha Yoga, Vinyasa, Animal Flow, Aikido, Pilates e hipopresivos en conexión con la naturaleza.",
+      description: "Movimiento y bienestar: Hatha Yoga, Entrenamiento Funcional, Natación en Aguas Abiertas, Danza Consciente y Meditación en conexión con la naturaleza.",
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp",
       href: "/clases",
     },

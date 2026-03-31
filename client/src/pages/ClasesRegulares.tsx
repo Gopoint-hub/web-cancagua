@@ -20,8 +20,8 @@ interface ClassInfo {
 const classes: ClassInfo[] = [
   {
     name: "Hatha Yoga",
-    subtitle: "Intenso",
-    description: "Práctica dinámica que combina posturas, respiración y meditación. Ideal para quienes buscan un desafío físico y mental, mejorando fuerza, flexibilidad y concentración.",
+    subtitle: "Moderado a Intenso",
+    description: "Práctica dinámica que combina posturas, respiración y meditación. Ideal para quienes buscan un desafío físico y mental, mejorando fuerza, flexibilidad y concentración. Imparte Andrea Ortúzar.",
     schedule: "Lunes, Miércoles y Viernes 8:30 - 9:45",
     duration: "75 minutos",
     level: "Intermedio - Avanzado",
@@ -31,32 +31,52 @@ const classes: ClassInfo[] = [
   {
     name: "Hatha Yoga",
     subtitle: "Suave",
-    description: "Práctica gentil enfocada en la relajación y el estiramiento. Perfecta para principiantes o quienes buscan una experiencia más restaurativa y meditativa.",
+    description: "Práctica gentil enfocada en la relajación y el estiramiento. Perfecta para principiantes o quienes buscan una experiencia más restaurativa y meditativa. Imparte Andrea Ortúzar.",
     schedule: "Lunes y Miércoles 10:15 - 11:30",
-    duration: "60 minutos",
+    duration: "75 minutos",
     level: "Principiante - Todos los niveles",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/f57b8d75-45e8-4811-b705-1a72637a1a50",
     icon: "🌿"
   },
   {
-    name: "Danza Infantil",
-    subtitle: "Para niños y niñas",
-    description: "Clases divertidas donde los más pequeños desarrollan coordinación, ritmo y expresión corporal a través del movimiento y la música en un ambiente lúdico y seguro.",
-    schedule: "Miércoles 16:00 - 17:00",
+    name: "Entrenamiento Funcional",
+    subtitle: "& Movilidad",
+    description: "Entrenamiento dinámico que mejora tu fuerza, movilidad y coordinación de forma integral. Sesiones desafiantes y adaptables a todos los niveles. Imparte Bernardita Mir.",
+    schedule: "Martes 8:30 - 9:30 | Jueves 8:00 - 9:00",
     duration: "60 minutos",
-    level: "Niños 4-10 años",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/07228efe-177c-429c-89a0-676277abbdff",
-    icon: "💃"
+    level: "Moderado a Intenso",
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/3a52ff0c-89cb-48cb-b2e5-f1395a6daf71",
+    icon: "💪"
   },
   {
-    name: "Entrenamiento Funcional",
-    subtitle: "& Animal Flow",
-    description: "Entrenamiento dinámico que combina movimientos funcionales con la fluidez del Animal Flow. Mejora tu fuerza, movilidad y coordinación de forma integral.",
+    name: "Natación en Aguas Abiertas",
+    subtitle: "En el Lago Llanquihue",
+    description: "Entrena natación en las aguas del Lago Llanquihue. Una experiencia única de conexión con la naturaleza mientras mejoras tu técnica y resistencia. Imparte Marco Santana.",
     schedule: "Martes y Jueves 8:30 - 9:30",
     duration: "60 minutos",
     level: "Todos los niveles",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/3a52ff0c-89cb-48cb-b2e5-f1395a6daf71",
-    icon: "🐆"
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/c6922cd2-76e3-49ab-b8c6-53f0dfa8bcd1",
+    icon: "🏊"
+  },
+  {
+    name: "Danza y Movimiento Consciente",
+    subtitle: "Moderado a Intenso",
+    description: "Explora el movimiento libre y consciente a través de la danza. Una práctica que conecta cuerpo, mente y emociones en un espacio seguro y liberador. Imparte Javiera Anabalón.",
+    schedule: "Jueves 9:15 - 10:30",
+    duration: "75 minutos",
+    level: "Moderado a Intenso",
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/7ca0b0a5-1282-48b7-b6ae-4b5b32eb90b5",
+    icon: "💃"
+  },
+  {
+    name: "Meditación y Respiración",
+    subtitle: "Suave",
+    description: "Sesión guiada de meditación y técnicas de respiración para calmar la mente, reducir el estrés y cultivar la presencia. Ideal para cerrar el día en paz. Imparte Claudia Silva.",
+    schedule: "Martes 19:00 - 20:00",
+    duration: "60 minutos",
+    level: "Suave - Todos los niveles",
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/431fdc0d-c672-4dc9-a3ba-c4850ddd4504",
+    icon: "🧘‍♀️"
   }
 ];
 
@@ -81,7 +101,7 @@ export default function ClasesRegulares() {
             Clases Regulares
           </h1>
           <p className="font-['Josefin_Sans'] text-xl md:text-2xl font-light tracking-wide mb-8 max-w-2xl">
-            Hatha Yoga, Entrenamiento funcional, Danza infantil y mucho más
+            Hatha Yoga, Entrenamiento Funcional, Natación, Danza Consciente, Meditación y más
           </p>
           <a href="#clases">
             <Button 

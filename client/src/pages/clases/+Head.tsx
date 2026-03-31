@@ -3,7 +3,7 @@ import { generateServiceSchema } from '@/lib/seo-helpers';
 export default function Head() {
   const seoData = {
     title: "Clases - Yoga, Fitness y Bienestar | Cancagua",
-    description: "Hatha Yoga intenso y suave, entrenamiento funcional, danza infantil y más. Clases para todos los niveles con instructores certificados en entorno natural con vista al Lago Llanquihue.",
+    description: "Hatha Yoga, entrenamiento funcional, natación en aguas abiertas, danza consciente y meditación. Clases para todos los niveles con instructores certificados en entorno natural con vista al Lago Llanquihue.",
     keywords: "yoga frutillar, clases yoga chile, entrenamiento funcional, fitness lago llanquihue, clases bienestar puerto varas, aikido",
     canonical: "/clases",
     image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp",

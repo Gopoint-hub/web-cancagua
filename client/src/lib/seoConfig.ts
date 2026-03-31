@@ -46,7 +46,7 @@ export const seoConfig: Record<string, PageSEO> = {
   },
   clases: {
     title: "Clases Regulares | Yoga, Funcional y Más | Cancagua",
-    description: "Clases de yoga, entrenamiento funcional, danza infantil y más. Actividades para todos los niveles en un entorno natural único.",
+    description: "Clases de yoga, entrenamiento funcional, natación, danza consciente y meditación. Actividades para todos los niveles en un entorno natural único.",
     canonical: "/clases",
     keywords: "yoga, entrenamiento funcional, clases, bienestar, frutillar, actividades"
   },

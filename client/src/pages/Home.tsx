@@ -48,7 +48,7 @@ export default function Home() {
     {
       title: "Clases Regulares",
       description:
-        "Hatha Yoga, Entrenamiento Funcional, Danza Infantil y mucho más. Clases para todos los niveles.",
+        "Hatha Yoga, Entrenamiento Funcional, Natación, Danza Consciente, Meditación y más. Clases para todos los niveles.",
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp",
       href: "/servicios/clases",
     },
