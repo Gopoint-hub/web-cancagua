@@ -39,7 +39,7 @@ export function HeroSlider() {
       ctaLink: "/masajes",
     },
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp",
+      image: "/images/clases-regulares-hero.jpg",
       titleKey: "hero.clases.title",
       subtitleKey: "hero.clases.subtitle",
       ctaKey: "hero.clases.cta1",
