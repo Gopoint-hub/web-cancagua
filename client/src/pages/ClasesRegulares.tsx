@@ -15,6 +15,7 @@ interface ClassInfo {
   level: string;
   bookingUrl: string;
   icon: string;
+  image?: string;
 }
 
 const classes: ClassInfo[] = [
@@ -26,7 +27,8 @@ const classes: ClassInfo[] = [
     duration: "75 minutos",
     level: "Intermedio - Avanzado",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/7be8a0f0-1b7a-4b7a-819f-9fe38d26bca7",
-    icon: "🧘"
+    icon: "🧘",
+    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_600/cancagua/clases/clase-hatha-intenso"
   },
   {
     name: "Hatha Yoga",
@@ -36,7 +38,8 @@ const classes: ClassInfo[] = [
     duration: "75 minutos",
     level: "Principiante - Todos los niveles",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/f57b8d75-45e8-4811-b705-1a72637a1a50",
-    icon: "🌿"
+    icon: "🌿",
+    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_600/cancagua/clases/clase-hatha-suave"
   },
   {
     name: "Entrenamiento Funcional",
@@ -56,7 +59,8 @@ const classes: ClassInfo[] = [
     duration: "60 minutos",
     level: "Todos los niveles",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/c6922cd2-76e3-49ab-b8c6-53f0dfa8bcd1",
-    icon: "🏊"
+    icon: "🏊",
+    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_600/cancagua/clases/clase-natacion"
   },
   {
     name: "Danza y Movimiento Consciente",
@@ -66,7 +70,8 @@ const classes: ClassInfo[] = [
     duration: "75 minutos",
     level: "Moderado a Intenso",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/7ca0b0a5-1282-48b7-b6ae-4b5b32eb90b5",
-    icon: "💃"
+    icon: "💃",
+    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_600/cancagua/clases/clase-danza-consciente"
   },
   {
     name: "Meditación y Respiración",
@@ -76,7 +81,8 @@ const classes: ClassInfo[] = [
     duration: "60 minutos",
     level: "Suave - Todos los niveles",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/431fdc0d-c672-4dc9-a3ba-c4850ddd4504",
-    icon: "🧘‍♀️"
+    icon: "🧘‍♀️",
+    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_600/cancagua/clases/clase-meditacion"
   }
 ];
 
@@ -152,19 +158,39 @@ export default function ClasesRegulares() {
           <div className="grid md:grid-cols-2 gap-6">
             {classes.map((classInfo, index) => (
               <Card key={index} className="bg-white border-none shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-[#3a3a3a] to-[#4a4a4a] text-white pb-4">
-                  <div className="flex items-center gap-4">
-                    <span className="text-4xl">{classInfo.icon}</span>
-                    <div>
-                      <CardTitle className="font-['Josefin_Sans'] text-xl tracking-wide">
+                {classInfo.image ? (
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={classInfo.image}
+                      alt={`${classInfo.name} ${classInfo.subtitle}`}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#3a3a3a]/80 to-transparent" />
+                    <div className="absolute bottom-4 left-6 text-white">
+                      <h3 className="font-['Josefin_Sans'] text-xl tracking-wide">
                         {classInfo.name}
-                      </CardTitle>
+                      </h3>
                       <p className="font-['Fira_Sans'] text-white/80 text-sm">
                         {classInfo.subtitle}
                       </p>
                     </div>
                   </div>
-                </CardHeader>
+                ) : (
+                  <CardHeader className="bg-gradient-to-r from-[#3a3a3a] to-[#4a4a4a] text-white pb-4">
+                    <div className="flex items-center gap-4">
+                      <span className="text-4xl">{classInfo.icon}</span>
+                      <div>
+                        <CardTitle className="font-['Josefin_Sans'] text-xl tracking-wide">
+                          {classInfo.name}
+                        </CardTitle>
+                        <p className="font-['Fira_Sans'] text-white/80 text-sm">
+                          {classInfo.subtitle}
+                        </p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                )}
                 <CardContent className="p-6">
                   <p className="font-['Fira_Sans'] text-[#666] mb-6 leading-relaxed">
                     {classInfo.description}
