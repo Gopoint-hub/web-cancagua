@@ -53,7 +53,7 @@ export function HeroSlider() {
       ctaLink: "/cafeteria",
     },
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309226/cancagua/images/navega-relax-header.jpg",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto/cancagua/eventos/eventos-header-lago.jpg",
       titleKey: "hero.eventos.title",
       subtitleKey: "hero.eventos.subtitle",
       ctaKey: "hero.eventos.cta1",
