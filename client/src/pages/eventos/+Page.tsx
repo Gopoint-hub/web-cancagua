@@ -115,7 +115,7 @@ export default function EventosPage() {
                   </div>
                 ) : (
                   <div className="relative h-48 bg-gradient-to-br from-[#3a3a3a] to-[#5a5a5a] flex items-center justify-center">
-                    <span className="text-6xl">{event.title.match(/[\p{Emoji_Presentation}]/u)?.[0] || "✨"}</span>
+                    <span className="text-6xl">✨</span>
                   </div>
                 )}
                 <CardHeader className="pb-2">
@@ -144,14 +144,14 @@ export default function EventosPage() {
                         <ArrowRight className="w-4 h-4" />
                       </Button>
                     </Link>
-                  ) : (
+                  ) : event.bookingUrl ? (
                     <a href={event.bookingUrl} target="_blank" rel="noopener noreferrer">
                       <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
                         Reservar
                         <ArrowRight className="w-4 h-4" />
                       </Button>
                     </a>
-                  )}
+                  ) : null}
                 </CardContent>
               </Card>
             ))}
