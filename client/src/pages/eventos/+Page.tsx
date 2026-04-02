@@ -3,18 +3,43 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 
-// Eventos destacados con enlaces a sus landing pages
+// Eventos destacados — Abril 2026
 const featuredEvents = [
   {
     id: 1,
-    title: "Concierto Equinoccio de Otoño — Cambio de Piel ✨",
-    description: "Concierto íntimo acústico con Daniela Conejero (voz) e Ítalo Aguilera (guitarra). Vive la música junto a las biopiscinas geotermales en el atardecer.",
+    title: "Concierto Cambio de Piel 🎶",
+    description: "Concierto íntimo acústico con Daniela Conejero (voz) e Ítalo Aguilera (guitarra). Vive la música junto a las biopiscinas geotermales en el atardecer de otoño.",
     image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/a5ac625d2db04b39a004b6b2851d0995.jpeg",
-    date: "11 de Abril, 2026",
-    time: "19:00 - 20:30",
-    location: "Cancagua Spa & Retreat Center",
+    date: "Viernes 11 de Abril, 2026",
+    time: "19:00 – 20:30",
+    location: "Biopiscinas / Sillones — Cancagua",
     price: "",
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/203139c0-f3d8-42d6-a996-15c5ed74c511",
     href: "/eventos/concierto",
+  },
+  {
+    id: 2,
+    title: "Danza Consciente — Sesión de Profundización 💃",
+    description: "Sesión especial de danza y movimiento consciente. Explora el movimiento libre en un espacio seguro y liberador dentro del Yurt de Cancagua.",
+    image: "",
+    date: "Sábado 18 de Abril, 2026",
+    time: "18:00 – 20:00",
+    location: "Yurt — Cancagua",
+    price: "",
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/5cf1caf5-dcb8-421c-9fdf-2f1bebe36673",
+    href: "",
+  },
+  {
+    id: 3,
+    title: "Sonoterapia Grupal 🔔",
+    description: "Sesión grupal de sonoterapia con cuencos tibetanos y sonidos ancestrales para calmar la mente y restaurar el equilibrio. Facilitada por Carlos Camacho.",
+    image: "",
+    date: "Sábado 25 de Abril, 2026",
+    time: "10:15 – 11:15",
+    location: "Yurt + Biopiscinas opcional — Cancagua",
+    price: "",
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/8dc087fd-67d9-40f0-944c-0872e64e8b0a",
+    href: "",
   },
 ];
 
@@ -72,21 +97,29 @@ export default function EventosPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredEvents.map((event) => (
               <Card key={event.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 bg-white border-0 shadow-lg">
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 right-4 bg-[#D3BC8D] text-[#3a3a3a] px-4 py-2 text-sm font-medium">
-                    {event.price}
+                {event.image ? (
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    />
+                    {event.price && (
+                      <div className="absolute top-4 right-4 bg-[#D3BC8D] text-[#3a3a3a] px-4 py-2 text-sm font-medium">
+                        {event.price}
+                      </div>
+                    )}
                   </div>
-                </div>
+                ) : (
+                  <div className="relative h-48 bg-gradient-to-br from-[#3a3a3a] to-[#5a5a5a] flex items-center justify-center">
+                    <span className="text-6xl">{event.title.match(/[\p{Emoji_Presentation}]/u)?.[0] || "✨"}</span>
+                  </div>
+                )}
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-2xl font-light tracking-wide">{event.title}</CardTitle>
+                  <CardTitle className="text-xl font-light tracking-wide">{event.title}</CardTitle>
                   <CardDescription className="text-base">{event.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -104,12 +137,21 @@ export default function EventosPage() {
                       <span>{event.location}</span>
                     </div>
                   </div>
-                  <Link href={event.href}>
-                    <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
-                      Ver Detalles
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </Link>
+                  {event.href ? (
+                    <Link href={event.href}>
+                      <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
+                        Ver Detalles
+                        <ArrowRight className="w-4 h-4" />
+                      </Button>
+                    </Link>
+                  ) : (
+                    <a href={event.bookingUrl} target="_blank" rel="noopener noreferrer">
+                      <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
+                        Reservar
+                        <ArrowRight className="w-4 h-4" />
+                      </Button>
+                    </a>
+                  )}
                 </CardContent>
               </Card>
             ))}
