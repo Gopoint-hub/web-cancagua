@@ -320,16 +320,21 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative py-16 md:py-24 bg-gradient-to-b from-primary/5 to-background">
-          <div className="container">
+        <section className="relative py-24 md:py-32 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1775605436/cancagua/images/giftcards-hero-new.jpg)" }}
+          />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="relative container">
             <div className="text-center max-w-3xl mx-auto">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 text-white mb-6 backdrop-blur-sm">
                 <Gift className="h-8 w-8" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
                 Regala Bienestar
               </h1>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg text-white/90 drop-shadow-sm">
                 Sorprende a quienes más quieres con una experiencia única de
                 relajación y conexión con la naturaleza en Cancagua.
               </p>
