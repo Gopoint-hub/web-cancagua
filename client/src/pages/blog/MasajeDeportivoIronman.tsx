@@ -5,6 +5,8 @@ export default function MasajeDeportivoIronman() {
   return (
     <BlogLayout
       title="Promoción de Abril: Masaje Deportivo (Especial Ironman Puerto Varas 2026)"
+      excerpt="Potencia tu entrenamiento o acelera tu recuperación post Ironman Puerto Varas 2026 con nuestra promoción de abril: Masaje deportivo de 30 min y Sauna."
+      image="https://res.cloudinary.com/dhuln9b1n/image/upload/v1775671084/cancagua/images/blog/mmkuyhothznhsztfnvhq.jpg"
       date="8 Abril 2026"
       readTime="5 min"
       author="Cancagua Spa"
