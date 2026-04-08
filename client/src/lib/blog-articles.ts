@@ -21,8 +21,24 @@ const MejoresTermasSurChile2026 = lazy(() => import('@/pages/blog/MejoresTermasS
 const TermasConNinos = lazy(() => import('@/pages/blog/TermasConNinos'));
 const ManejoEstresLaboral = lazy(() => import('@/pages/blog/ManejoEstresLaboral'));
 const TermasVsExperienciaNatural = lazy(() => import('@/pages/blog/TermasVsExperienciaNatural'));
+const MasajeDeportivoIronman = lazy(() => import('@/pages/blog/MasajeDeportivoIronman'));
 
 export const blogArticles: BlogArticle[] = [
+  {
+    slug: 'promocion-abril-masaje-deportivo-ironman-puerto-varas',
+    title: 'Promoción de Abril: Masaje Deportivo (Especial Ironman Puerto Varas 2026)',
+    seoTitle: 'Promoción de Abril: Masaje Deportivo | Especial Ironman Puerto Varas 2026 - Cancagua',
+    excerpt: 'Potencia tu entrenamiento o acelera tu recuperación post Ironman Puerto Varas 2026 con nuestra promoción de abril: Masaje deportivo de 30 min y Sauna.',
+    seoDescription: 'Promoción especial abril 2026 en Cancagua Spa: Masaje deportivo de 30 minutos y sauna, ideal para potenciar el entrenamiento o recuperarse del Ironman Puerto Varas.',
+    keywords: 'Ironman Puerto Varas 2026, masaje deportivo, recuperacion muscular, masajes puerto varas, masajes frutillar, spa puerto varas, promocion abril spa',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1775671084/cancagua/images/blog/mmkuyhothznhsztfnvhq.jpg',
+    date: '8 Abril 2026',
+    dateISO: '2026-04-08',
+    author: 'Cancagua Spa',
+    readTime: '5 min',
+    category: 'Promociones',
+    component: MasajeDeportivoIronman,
+  },
   {
     slug: 'mejores-termas-sur-chile-2026',
     title: 'Las 10 mejores termas del sur de Chile 2026 y sus alternativas',
