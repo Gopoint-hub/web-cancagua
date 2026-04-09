@@ -193,7 +193,7 @@
     "address": "Address",
     "addressText": "Frutillar, Los Lagos Region, Chile",
     "schedule": "Schedule",
-    "scheduleText": "Mon 5PM-10PM | Tue-Sun 9AM-10PM",
+    "scheduleText": "Mon 2:30PM-10PM | Tue-Sun 9AM-10PM",
     "followUs": "Follow Us"
   },
   "footer": {
@@ -202,7 +202,7 @@
     "services": "Services",
     "contact": "Contact",
     "schedule": "Schedule",
-    "scheduleText": "Mon 5PM-10PM | Tue-Sun 9AM-10PM",
+    "scheduleText": "Mon 2:30PM-10PM | Tue-Sun 9AM-10PM",
     "social": "Social Media",
     "rights": "All rights reserved.",
     "privacy": "Privacy Policy",
