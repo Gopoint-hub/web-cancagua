@@ -18,6 +18,13 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
+      image: "/images/pulso-local-hero.jpg",
+      titleKey: "Pulso Local",
+      subtitleKey: "Membresía Exclusiva para Residentes - Bienestar Continuo",
+      ctaKey: "Ver Programa",
+      ctaLink: "/servicios/programalocal",
+    },
+    {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
@@ -121,29 +128,29 @@ export function HeroSlider() {
 
       {/* Content overlay - positioned absolutely over everything */}
       <div className="absolute inset-0 flex flex-col items-center justify-start pt-16 md:justify-center md:pt-0 text-center text-white px-4 z-10 pointer-events-none">
-        <h1 
+        <h1
           key={`title-${currentSlide}`}
           className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light tracking-wider mb-3 md:mb-6 max-w-4xl animate-fade-in px-2"
         >
-          {t(slide.titleKey)}
+          {slide.titleKey.includes("Pulso Local") ? slide.titleKey : t(slide.titleKey)}
         </h1>
-        <p 
+        <p
           key={`subtitle-${currentSlide}`}
           className="text-sm sm:text-base md:text-xl mb-6 md:mb-10 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90 px-4"
         >
-          {t(slide.subtitleKey)}
+          {slide.titleKey.includes("Pulso Local") ? slide.subtitleKey : t(slide.subtitleKey)}
         </p>
-        
+
         {/* Buttons inside content container for better mobile layout */}
-        <div 
+        <div
           key={`buttons-${currentSlide}`}
           className="flex flex-col sm:flex-row gap-3 md:gap-4 animate-fade-in animation-delay-400 pointer-events-auto w-full sm:w-auto px-6 sm:px-0"
         >
-          <button 
+          <button
             onClick={() => handleCtaClick(slide.ctaLink)}
             className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
           >
-            {t(slide.ctaKey)}
+            {slide.titleKey.includes("Pulso Local") ? slide.ctaKey : t(slide.ctaKey)}
           </button>
           <button
             onClick={handleServicesClick}
