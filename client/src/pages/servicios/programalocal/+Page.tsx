@@ -51,9 +51,15 @@ export default function PulsoLocalPage() {
       {/* Main Content */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-xl md:text-2xl text-[#2C3E35] font-light max-w-2xl mx-auto leading-relaxed">
-              Pulso Local es para quienes eligen el bienestar como hábito. Mayor frecuencia, mejor precio.
+          <div className="text-center mb-16 space-y-6">
+            <p className="text-xl md:text-2xl text-[#2C3E35] font-light max-w-3xl mx-auto leading-relaxed">
+              <span className="text-2xl">🌿</span> Queremos que tu bienestar se transforme en hábito. <span className="text-2xl">🌿</span>
+            </p>
+            <p className="text-lg text-[#2C3E35]/80 max-w-3xl mx-auto leading-relaxed">
+              Por eso creamos el Programa Pulso Local — acceso a nuestras biopiscinas geotermales con precio preferente, disponible todos los días, pensado para quienes viven entre Osorno y Puerto Montt.
+            </p>
+            <p className="text-lg text-[#2C3E35]/80 max-w-3xl mx-auto leading-relaxed">
+              Compras tus accesos una vez y los usas cuando quieras. No es necesario agendar todo de una — puedes ir reservando cada visita a tu ritmo, cuando lo necesites.
             </p>
           </div>
 
@@ -96,12 +102,34 @@ export default function PulsoLocalPage() {
           </div>
 
           {/* Conditions */}
-          <div className="bg-white/50 p-6 rounded-lg border border-[#2C3E35]/10 flex flex-col sm:flex-row gap-4 items-start sm:items-center text-sm text-[#2C3E35]/70">
-            <Info className="w-6 h-6 shrink-0 text-[#2C3E35]" />
-            <div>
-              <p>
-                <strong>Condiciones:</strong> Vigente hasta el 31 de diciembre 2026. Exclusivo para residentes de la zona (Osorno – Puerto Montt).
-              </p>
+          <div className="bg-white/50 p-8 rounded-lg border border-[#2C3E35]/10 space-y-6 text-[#2C3E35]/80">
+            <h3 className="text-2xl font-serif text-[#2C3E35] mb-4">¿Cómo funciona?</h3>
+            
+            <ul className="space-y-4">
+              <li className="flex items-start">
+                <span className="mr-3 text-xl">📌</span>
+                <p>Ingresa a tu cuenta en Skedu y agenda tu próxima visita, o escríbenos al WhatsApp y te ayudamos.</p>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-3 text-xl">📌</span>
+                <p>Para acceder al precio Pulso Local, debes presentar un documento que acredite tu residencia en la zona. Sin este requisito, se aplica el valor de entrada regular.</p>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-3 text-xl">📌</span>
+                <p>En días festivos y feriados nacionales se aplica un recargo del 20% sobre el valor por entrada de tu pack.</p>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-3 text-xl">📌</span>
+                <p>El programa es intransferible. El Pulso Local 10 permite que hasta 3 de los 10 accesos puedan ser usados por invitados, siempre que el titular esté presente y sea quien realice la reserva.</p>
+              </li>
+            </ul>
+
+            <div className="pt-6 mt-6 border-t border-[#2C3E35]/10 flex flex-col sm:flex-row gap-4 items-start sm:items-center text-sm">
+              <Info className="w-6 h-6 shrink-0 text-[#2C3E35]" />
+              <div>
+                <p><strong>Vigente hasta:</strong> 31 de diciembre 2026</p>
+                <p><strong>Exclusivo para:</strong> Residentes entre Osorno y Puerto Montt.</p>
+              </div>
             </div>
           </div>
         </div>
