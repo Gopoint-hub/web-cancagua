@@ -52,7 +52,7 @@ export default function Page() {
           <p className="mt-2">
             <strong>Cancagua Spa & Retreat Center</strong><br />
             Frutillar, Chile<br />
-            Email: hola@cancagua.cl
+            Email: contacto@cancagua.cl
           </p>
         </div>
       </div>

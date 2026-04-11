@@ -21,7 +21,7 @@ export default function Page() {
               Envía un correo a nuestro equipo de soporte con tu solicitud explícita de eliminación de datos.
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li><strong>Correo de contacto:</strong> hola@cancagua.cl</li>
+              <li><strong>Correo de contacto:</strong> contacto@cancagua.cl</li>
               <li><strong>Asunto del correo:</strong> Solicitud de eliminación de datos - [Tu Nombre]</li>
               <li><strong>Información a incluir:</strong> Tu nombre completo y la dirección de correo electrónico asociada a tus reservas o cuenta vinculada.</li>
             </ul>
