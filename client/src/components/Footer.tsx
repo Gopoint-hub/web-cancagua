@@ -208,7 +208,16 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-white/10 text-center">
-          <p className="text-sm text-white/50">© {new Date().getFullYear()} CANCAGUA. {t('footer.rights')}</p>
+          <p className="text-sm text-white/50 mb-3">© {new Date().getFullYear()} CANCAGUA. {t('footer.rights')}</p>
+          <div className="flex justify-center items-center gap-4 text-xs text-white/50">
+            <a href="/politica-de-privacidad" className="hover:text-[#D3BC8D] transition-colors">
+              Política de Privacidad
+            </a>
+            <span>|</span>
+            <a href="/eliminacion-de-datos" className="hover:text-[#D3BC8D] transition-colors">
+              Eliminación de Datos
+            </a>
+          </div>
         </div>
       </div>
     </footer>
