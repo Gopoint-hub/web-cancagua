@@ -5,12 +5,12 @@ export default function Head() {
     <>
       <meta
         name="description"
-        content="Programa Pulso Local: Membresía exclusiva para residentes de Osorno a Puerto Montt. Bienestar continuo con sesiones en paquete y descuentos especiales en Cancagua."
+        content="Pulso Local: Membresía exclusiva para residentes de Osorno a Puerto Montt. Bienestar continuo con sesiones de Biopiscinas Geotermales en paquete y descuentos especiales en Cancagua."
       />
-      <meta property="og:title" content="Programa Pulso Local | Cancagua" />
+      <meta property="og:title" content="Pulso Local | Cancagua" />
       <meta
         property="og:description"
-        content="Programa Pulso Local: Membresía exclusiva para residentes de Osorno a Puerto Montt. Bienestar continuo con sesiones en paquete y descuentos especiales en Cancagua."
+        content="Pulso Local: Membresía exclusiva para residentes de Osorno a Puerto Montt. Bienestar continuo con sesiones de Biopiscinas Geotermales en paquete y descuentos especiales en Cancagua."
       />
       <meta property="og:type" content="website" />
       <meta

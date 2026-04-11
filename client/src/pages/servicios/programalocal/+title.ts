@@ -1,1 +1,1 @@
-export const title = "Programa Pulso Local | Cancagua";
+export const title = "Pulso Local | Cancagua";

@@ -33,7 +33,7 @@ export default function Servicios() {
       href: "/masajes",
     },
     {
-      title: "Programa Pulso Local",
+      title: "Pulso Local",
       description: "Membresía exclusiva para residentes de Osorno a Puerto Montt. Bienestar continuo con sesiones en paquete y descuentos especiales.",
       image: "/images/pulso-local-hero.jpg",
       href: "/servicios/programalocal",

@@ -34,7 +34,7 @@ export default function PulsoLocalPage() {
         <div className="absolute inset-0">
           <img
             src="/images/pulso-local-hero.jpg"
-            alt="Programa Pulso Local"
+            alt="Pulso Local"
             className="w-full h-full object-cover brightness-[0.6]"
           />
         </div>
@@ -56,7 +56,7 @@ export default function PulsoLocalPage() {
               <span className="text-2xl">🌿</span> Queremos que tu bienestar se transforme en hábito. <span className="text-2xl">🌿</span>
             </p>
             <p className="text-lg text-[#2C3E35]/80 max-w-3xl mx-auto leading-relaxed">
-              Por eso creamos el Programa Pulso Local — acceso a nuestras biopiscinas geotermales con precio preferente, disponible todos los días, pensado para quienes viven entre Osorno y Puerto Montt.
+              Por eso creamos Pulso Local — acceso a nuestras Biopiscinas Geotermales con precio preferente, disponible todos los días, pensado para quienes viven entre Osorno y Puerto Montt. Cada sesión tiene una duración de 4 horas.
             </p>
             <p className="text-lg text-[#2C3E35]/80 max-w-3xl mx-auto leading-relaxed">
               Compras tus accesos una vez y los usas cuando quieras. No es necesario agendar todo de una — puedes ir reservando cada visita a tu ritmo, cuando lo necesites.
@@ -79,11 +79,11 @@ export default function PulsoLocalPage() {
                   </div>
                   <ul className="space-y-3 mb-8 text-left">
                     <li className="flex items-center text-[#2C3E35]/80">
-                      <Check className="w-5 h-5 mr-3 text-[#2C3E35]" />
-                      <span>{plan.sessions} Sesiones incluidas</span>
+                      <Check className="w-5 h-5 mr-3 text-[#2C3E35] shrink-0" />
+                      <span>{plan.sessions} Sesiones de Biopiscinas Geotermales (4 hrs c/u)</span>
                     </li>
                     <li className="flex items-center text-[#2C3E35]/80">
-                      <Check className="w-5 h-5 mr-3 text-[#2C3E35]" />
+                      <Check className="w-5 h-5 mr-3 text-[#2C3E35] shrink-0" />
                       <span>Acceso a instalaciones</span>
                     </li>
                   </ul>

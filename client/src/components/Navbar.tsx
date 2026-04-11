@@ -53,7 +53,7 @@ export function Navbar() {
     { name: t('services.biopiscinas.name'), href: "/servicios/biopiscinas" },
     { name: t('services.hotTubs.name'), href: "/servicios/hot-tubs" },
     { name: "Sauna Nativo", href: "/servicios/sauna" },
-    { name: "Programa Pulso Local", href: "/servicios/programalocal", highlight: true },
+    { name: "Pulso Local", href: "/servicios/programalocal", highlight: true },
     { name: t('services.masajes.name'), href: "/masajes" },
     { name: "Masajes en Puerto Varas", href: "/spa-hotel-cabanas-del-lago", highlight: true },
     { name: t('services.clases.name'), href: "/clases" },
