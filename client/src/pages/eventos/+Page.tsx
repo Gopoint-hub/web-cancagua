@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
-import { Link } from "wouter";
 
 // Eventos destacados — Abril 2026
 const featuredEvents = [
@@ -138,12 +137,12 @@ export default function EventosPage() {
                     </div>
                   </div>
                   {event.href ? (
-                    <Link href={event.href}>
+                    <a href={event.href} className="block">
                       <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
                         Ver Detalles
                         <ArrowRight className="w-4 h-4" />
                       </Button>
-                    </Link>
+                    </a>
                   ) : event.bookingUrl ? (
                     <a href={event.bookingUrl} target="_blank" rel="noopener noreferrer">
                       <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
