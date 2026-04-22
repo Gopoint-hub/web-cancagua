@@ -18,18 +18,13 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/d7fb8a3878714e9091e5a2e33f69e292.jpeg",
-      titleKey: "Reset: Pausa Consciente",
-      subtitleKey: "Biopiscinas + Nutrición: Comienza o finaliza tu día conectando con la naturaleza 🌿",
-      ctaKey: "Reservar",
-      ctaLink: "https://reservas.cancagua.cl/cancaguaspa/s/9dafaba2-53b4-4eb3-838f-39b2168827fa",
-    },
-    {
-      image: "/images/pulso-local-hero.jpg",
-      titleKey: "Pulso Local",
-      subtitleKey: "Membresía Exclusiva para Residentes - Bienestar Continuo",
-      ctaKey: "Ver Programa",
-      ctaLink: "/servicios/programalocal",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto/cancagua/eventos/eventos-header-lago.jpg",
+      titleKey: "hero.concierto.title",
+      subtitleKey: "hero.concierto.subtitle",
+      ctaKey: "hero.concierto.cta1",
+      ctaLink: "https://reservas.cancagua.cl/cancaguaspa/s/203139c0-f3d8-42d6-a996-15c5ed74c511",
+      isExternal: true
+
     },
     {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
