@@ -103,7 +103,7 @@ export function HeroSlider() {
 
   const handleServicesClick = () => {
     if (typeof window !== 'undefined') {
-      window.location.href = '/servicios';
+      window.location.href = 'https://reservas.cancagua.cl';
     }
   };
 
