@@ -18,7 +18,7 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto/cancagua/eventos/eventos-header-lago.jpg",
+      image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/a5ac625d2db04b39a004b6b2851d0995.jpeg",
       titleKey: "hero.concierto.title",
       subtitleKey: "hero.concierto.subtitle",
       ctaKey: "hero.concierto.cta1",
