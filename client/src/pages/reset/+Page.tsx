@@ -8,24 +8,37 @@ export default function Page() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
         <div className="absolute inset-0 bg-primary/10 -skew-y-3 transform origin-top-left -z-10" />
-        <div className="container mx-auto px-4 max-w-4xl text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
-            <Leaf className="w-4 h-4" />
-            <span className="text-sm font-medium">Experiencia de Bienestar</span>
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="flex-1 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
+                <Leaf className="w-4 h-4" />
+                <span className="text-sm font-medium">Experiencia de Bienestar</span>
+              </div>
+              <h1 className="text-4xl md:text-5xl font-serif text-slate-900 mb-6 leading-tight">
+                Reset: Una Pausa Consciente
+              </h1>
+              <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl leading-relaxed">
+                Comienza o finaliza tu día con una pausa consciente en medio de la naturaleza. 🌿 Disfruta de alimentación nutritiva, seguido de un momento de relajación en nuestras Biopiscinas Geotermales.
+              </p>
+              <Button 
+                size="lg" 
+                className="text-lg px-8 py-6 rounded-full shadow-lg hover:scale-105 transition-transform"
+                onClick={() => window.open("https://reservas.cancagua.cl/cancaguaspa/s/9dafaba2-53b4-4eb3-838f-39b2168827fa", "_blank")}
+              >
+                Reservar mi Pausa Consciente
+              </Button>
+            </div>
+            <div className="flex-1 w-full max-w-md mx-auto md:max-w-none">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/5] md:aspect-square">
+                <img 
+                  src="https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/d7fb8a3878714e9091e5a2e33f69e292.jpeg" 
+                  alt="Biopiscinas Geotermales - Experiencia Reset" 
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
+            </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-serif text-slate-900 mb-6 leading-tight">
-            Reset: Una Pausa Consciente
-          </h1>
-          <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Comienza o finaliza tu día con una pausa consciente en medio de la naturaleza. 🌿 Disfruta de alimentación nutritiva, seguido de un momento de relajación en nuestras Biopiscinas Geotermales.
-          </p>
-          <Button 
-            size="lg" 
-            className="text-lg px-8 py-6 rounded-full shadow-lg hover:scale-105 transition-transform"
-            onClick={() => window.open("https://reservas.cancagua.cl/cancaguaspa/s/9dafaba2-53b4-4eb3-838f-39b2168827fa", "_blank")}
-          >
-            Reservar mi Pausa Consciente
-          </Button>
         </div>
       </section>
 
