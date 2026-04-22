@@ -33,7 +33,7 @@ export default function ConciertoEquinoccio() {
             </div>
 
             <h1 className="text-4xl md:text-6xl font-josefin font-bold tracking-tight leading-tight">
-              Concierto Equinoccio de Otoño & Pascua
+              Concierto Equinoccio de Otoño
             </h1>
             <p className="text-3xl text-white/90 font-light italic">
               Cambio de Piel ✨
@@ -42,7 +42,7 @@ export default function ConciertoEquinoccio() {
             <div className="flex flex-wrap gap-4 pt-4">
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-lg border border-white/20">
                 <Calendar className="h-5 w-5" />
-                <span className="font-semibold">Viernes 11 de Abril</span>
+                <span className="font-semibold">Sábado 25 de Abril</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-lg border border-white/20">
                 <Clock className="h-5 w-5" />
@@ -61,6 +61,21 @@ export default function ConciertoEquinoccio() {
       <section className="py-20 container">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-4">
+          {/* Promociones Destacadas */}
+          <div className="bg-amber-100/50 border border-amber-200 rounded-2xl p-6 mb-8 text-center space-y-4">
+            <h3 className="text-2xl font-josefin font-bold text-amber-800 flex items-center justify-center gap-2">
+              <Sparkles className="h-6 w-6" />
+              Promociones Exclusivas
+              <Sparkles className="h-6 w-6" />
+            </h3>
+            <p className="text-lg text-stone-700">
+              <strong>Promo 2x1 en Concierto + Biopiscinas:</strong> Compras tu entrada y traes a un acompañante <strong>GRATIS</strong>.
+            </p>
+            <p className="text-lg text-stone-700">
+              <strong>Happy Hour 2x1 desde las 17:00 hrs:</strong> A cargo de Casawer. ¡No te pierdas el Sour de Murta y Menta Jengibre!
+            </p>
+          </div>
+
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-100 mb-4">
               <Sparkles className="h-8 w-8 text-amber-600" />
             </div>
@@ -267,7 +282,7 @@ export default function ConciertoEquinoccio() {
               <div className="flex flex-col items-center gap-2 text-white/90 pt-2">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
-                  <span className="font-semibold">Viernes 11 de Abril | 19:00 - 20:30 hrs</span>
+                  <span className="font-semibold">Sábado 25 de Abril | 19:00 - 20:30 hrs</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className="h-5 w-5" />
