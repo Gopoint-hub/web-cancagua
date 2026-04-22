@@ -18,6 +18,13 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
+      image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/d7fb8a3878714e9091e5a2e33f69e292.jpeg",
+      titleKey: "Reset: Pausa Consciente",
+      subtitleKey: "Biopiscinas + Nutrición: Comienza o finaliza tu día conectando con la naturaleza 🌿",
+      ctaKey: "Reservar",
+      ctaLink: "https://reservas.cancagua.cl/cancaguaspa/s/9dafaba2-53b4-4eb3-838f-39b2168827fa",
+    },
+    {
       image: "/images/pulso-local-hero.jpg",
       titleKey: "Pulso Local",
       subtitleKey: "Membresía Exclusiva para Residentes - Bienestar Continuo",
@@ -132,13 +139,13 @@ export function HeroSlider() {
           key={`title-${currentSlide}`}
           className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light tracking-wider mb-3 md:mb-6 max-w-4xl animate-fade-in px-2"
         >
-          {slide.titleKey.includes("Pulso Local") ? slide.titleKey : t(slide.titleKey)}
+          {!slide.titleKey.startsWith("hero.") ? slide.titleKey : t(slide.titleKey)}
         </h1>
         <p
           key={`subtitle-${currentSlide}`}
           className="text-sm sm:text-base md:text-xl mb-6 md:mb-10 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90 px-4"
         >
-          {slide.titleKey.includes("Pulso Local") ? slide.subtitleKey : t(slide.subtitleKey)}
+          {!slide.titleKey.startsWith("hero.") ? slide.subtitleKey : t(slide.subtitleKey)}
         </p>
 
         {/* Buttons inside content container for better mobile layout */}
@@ -150,7 +157,7 @@ export function HeroSlider() {
             onClick={() => handleCtaClick(slide.ctaLink)}
             className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
           >
-            {slide.titleKey.includes("Pulso Local") ? slide.ctaKey : t(slide.ctaKey)}
+            {!slide.titleKey.startsWith("hero.") ? slide.ctaKey : t(slide.ctaKey)}
           </button>
           <button
             onClick={handleServicesClick}
