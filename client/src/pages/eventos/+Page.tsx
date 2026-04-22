@@ -33,7 +33,7 @@ const featuredEvents = [
     id: 3,
     title: "Sonoterapia Grupal 🔔",
     description: "Sesión grupal de sonoterapia con cuencos tibetanos y sonidos ancestrales para calmar la mente y restaurar el equilibrio. Facilitada por Carlos Camacho.",
-    image: "",
+    image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/ade5667f370540e0a215b67e29e79cdf.png",
     date: "Sábado 25 de Abril, 2026",
     time: "10:15 – 11:15",
     location: "Yurt + Biopiscinas opcional — Cancagua",
