@@ -21,7 +21,7 @@ const featuredEvents = [
     id: 2,
     title: "Danza Consciente — Sesión de Profundización 💃",
     description: "Sesión especial de danza y movimiento consciente. Explora el movimiento libre en un espacio seguro y liberador dentro del Yurt de Cancagua.",
-    image: "",
+    image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/8991d643ef0c4b2eb2d326260ab5eb37.jpeg",
     date: "Sábado 18 de Abril, 2026",
     time: "18:00 – 20:00",
     location: "Yurt — Cancagua",
