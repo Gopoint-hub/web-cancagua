@@ -18,15 +18,6 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/a5ac625d2db04b39a004b6b2851d0995.jpeg",
-      titleKey: "hero.concierto.title",
-      subtitleKey: "hero.concierto.subtitle",
-      ctaKey: "hero.concierto.cta1",
-      ctaLink: "https://reservas.cancagua.cl/cancaguaspa/s/203139c0-f3d8-42d6-a996-15c5ed74c511",
-      isExternal: true
-
-    },
-    {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
