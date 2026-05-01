@@ -34,7 +34,7 @@ export default function Page() {
   ];
 
   const beneficios = [
-    "Válida por 1 año desde la compra",
+    "Válida por 3 meses desde la compra",
     "Puede usarse en cualquier servicio de Cancagua",
     "Transferible a otra persona",
     "Entrega inmediata por email",
@@ -137,18 +137,7 @@ export default function Page() {
 
   const handleCompartirWhatsApp = () => {
     const amount = getMontoFinal();
-    const message = `🎁 ¡Te han enviado una Gift Card de Cancagua!
-
-${nombreRemitente ? `De: ${nombreRemitente}` : ""}
-${nombreDestinatario ? `Para: ${nombreDestinatario}` : ""}
-
-💵 Monto: ${formatPrecio(amount)}
-
-${mensaje ? `💬 Mensaje: "${mensaje}"` : ""}
-
-Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Center.
-
-🌍 Reserva en: https://cancagua.cl`;
+    const message = `🎁 ¡Te han enviado una Gift Card de Cancagua!\n\n${nombreRemitente ? `De: ${nombreRemitente}` : ""}\n${nombreDestinatario ? `Para: ${nombreDestinatario}` : ""}\n\n💵 Monto: ${formatPrecio(amount)}\n\n${mensaje ? `💬 Mensaje: "${mensaje}"` : ""}\n\nPuedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Center.\n\n🌍 Reserva en: https://cancagua.cl`;
 
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
