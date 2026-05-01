@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check, Clock, Users, MessageCircle, Phone, Anchor, Compass } from "lucide-react";
+import { Check, Clock, Users, Phone, Anchor, Compass } from "lucide-react";
 
-const WHATSAPP_URL = "https://wa.me/56940073999?text=Hola,%20quiero%20reservar%20la%20experiencia%20Navega%20Relax";
+const RESERVA_URL = "https://tickets.catamaranbandurria.cl/";
 const PHONE_NUMBER = "+56 9 4007 3999";
 
 export default function Page() {
@@ -67,7 +67,7 @@ export default function Page() {
           <p className="font-['Fira_Sans'] text-lg md:text-2xl mb-8 max-w-3xl text-white/90">
             Descubre el Lago Llanquihue desde una perspectiva única navegando en Catamarán Bandurria para luego disfrutar de una relajante estadía en nuestras Biopiscinas Geotermales
           </p>
-          <a href="https://tickets.catamaranbandurria.cl/" target="_blank" rel="noopener noreferrer">
+          <a href={RESERVA_URL} target="_blank" rel="noopener noreferrer">
             <Button size="lg" className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-8 py-6">
               Reserva aquí
             </Button>
@@ -161,13 +161,12 @@ export default function Page() {
             ¿Listo para navegar?
           </h2>
           <p className="font-['Fira_Sans'] text-lg mb-8 text-white/80 max-w-2xl mx-auto">
-            Contáctanos por WhatsApp para coordinar tu experiencia de navegación en el Lago Llanquihue
+            Reserva tu experiencia de navegación en el Lago Llanquihue
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+            <a href={RESERVA_URL} target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-8">
-                <MessageCircle className="mr-2 h-5 w-5" />
-                Reservar por WhatsApp
+                Reservar
               </Button>
             </a>
             <a href={`tel:${PHONE_NUMBER.replace(/\s/g, '')}`}>
