@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check, Clock, Users, Phone, Anchor, Compass } from "lucide-react";
+import { Check, Clock, Users, Anchor, Compass } from "lucide-react";
 
 const RESERVA_URL = "https://tickets.catamaranbandurria.cl/";
-const PHONE_NUMBER = "+56 9 4007 3999";
 
 export default function Page() {
   const incluye = [
@@ -69,7 +68,7 @@ export default function Page() {
           </p>
           <a href={RESERVA_URL} target="_blank" rel="noopener noreferrer">
             <Button size="lg" className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-8 py-6">
-              Reserva aquí
+              Reservar
             </Button>
           </a>
         </div>
@@ -163,26 +162,11 @@ export default function Page() {
           <p className="font-['Fira_Sans'] text-lg mb-8 text-white/80 max-w-2xl mx-auto">
             Reserva tu experiencia de navegación en el Lago Llanquihue
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={RESERVA_URL} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-8">
-                Reservar
-              </Button>
-            </a>
-            <a href={`tel:${PHONE_NUMBER.replace(/\s/g, '')}`}>
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-lg px-8 border-white text-white hover:bg-white hover:text-[#3a3a3a]"
-              >
-                <Phone className="mr-2 h-5 w-5" />
-                Llamar Ahora
-              </Button>
-            </a>
-          </div>
-          <p className="mt-6 text-sm text-white/60">
-            Teléfono: {PHONE_NUMBER}
-          </p>
+          <a href={RESERVA_URL} target="_blank" rel="noopener noreferrer">
+            <Button size="lg" className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-8">
+              Reservar
+            </Button>
+          </a>
         </div>
       </section>
     </main>
