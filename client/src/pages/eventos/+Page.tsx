@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
-import { Link } from "wouter";
 
 // Eventos destacados — Abril 2026
 const featuredEvents = [
@@ -21,7 +20,7 @@ const featuredEvents = [
     id: 2,
     title: "Danza Consciente — Sesión de Profundización 💃",
     description: "Sesión especial de danza y movimiento consciente. Explora el movimiento libre en un espacio seguro y liberador dentro del Yurt de Cancagua.",
-    image: "",
+    image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/8991d643ef0c4b2eb2d326260ab5eb37.jpeg",
     date: "Sábado 18 de Abril, 2026",
     time: "18:00 – 20:00",
     location: "Yurt — Cancagua",
@@ -33,7 +32,7 @@ const featuredEvents = [
     id: 3,
     title: "Sonoterapia Grupal 🔔",
     description: "Sesión grupal de sonoterapia con cuencos tibetanos y sonidos ancestrales para calmar la mente y restaurar el equilibrio. Facilitada por Carlos Camacho.",
-    image: "",
+    image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/ade5667f370540e0a215b67e29e79cdf.png",
     date: "Sábado 25 de Abril, 2026",
     time: "10:15 – 11:15",
     location: "Yurt + Biopiscinas opcional — Cancagua",
@@ -138,12 +137,12 @@ export default function EventosPage() {
                     </div>
                   </div>
                   {event.href ? (
-                    <Link href={event.href}>
+                    <a href={event.href} className="block">
                       <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
                         Ver Detalles
                         <ArrowRight className="w-4 h-4" />
                       </Button>
-                    </Link>
+                    </a>
                   ) : event.bookingUrl ? (
                     <a href={event.bookingUrl} target="_blank" rel="noopener noreferrer">
                       <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">

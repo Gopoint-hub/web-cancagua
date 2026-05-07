@@ -18,18 +18,12 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/d7fb8a3878714e9091e5a2e33f69e292.jpeg",
-      titleKey: "Reset: Pausa Consciente",
-      subtitleKey: "Biopiscinas + Nutrición: Comienza o finaliza tu día conectando con la naturaleza 🌿",
-      ctaKey: "Reservar",
-      ctaLink: "https://reservas.cancagua.cl/cancaguaspa/s/9dafaba2-53b4-4eb3-838f-39b2168827fa",
-    },
-    {
-      image: "/images/pulso-local-hero.jpg",
-      titleKey: "Pulso Local",
-      subtitleKey: "Membresía Exclusiva para Residentes - Bienestar Continuo",
-      ctaKey: "Ver Programa",
-      ctaLink: "/servicios/programalocal",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto:face,f_auto,q_auto/v1777589677/cancagua/cancagua/hero_regalo_mama",
+      titleKey: "Regalo para Mamá",
+      subtitleKey: "Biopiscina o Hot tub · Masaje · Tabla",
+      ctaKey: "Reservar ahora",
+      ctaLink: "https://reservas.cancagua.cl/",
+      isExternal: true,
     },
     {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
@@ -100,15 +94,19 @@ export function HeroSlider() {
     goToSlide((currentSlide - 1 + slides.length) % slides.length);
   };
 
-  const handleCtaClick = (link: string) => {
+  const handleCtaClick = (slide: Slide) => {
     if (typeof window !== 'undefined') {
-      window.location.href = link;
+      if (slide.isExternal) {
+        window.open(slide.ctaLink, '_blank');
+      } else {
+        window.location.href = slide.ctaLink;
+      }
     }
   };
 
   const handleServicesClick = () => {
     if (typeof window !== 'undefined') {
-      window.location.href = '/servicios';
+      window.location.href = 'https://reservas.cancagua.cl';
     }
   };
 
@@ -154,7 +152,7 @@ export function HeroSlider() {
           className="flex flex-col sm:flex-row gap-3 md:gap-4 animate-fade-in animation-delay-400 pointer-events-auto w-full sm:w-auto px-6 sm:px-0"
         >
           <button
-            onClick={() => handleCtaClick(slide.ctaLink)}
+            onClick={() => handleCtaClick(slide)}
             className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
           >
             {!slide.titleKey.startsWith("hero.") ? slide.ctaKey : t(slide.ctaKey)}
