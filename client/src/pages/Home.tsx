@@ -303,6 +303,7 @@ export default function Home() {
               <h2 className="text-2xl font-light tracking-wide text-[#3a3a3a]">
                 <T>Cómo Llegar</T>
               </h2>
+              <p className="text-[#666] mt-2 text-sm">A sólo 30 min de Puerto Varas</p>
             </div>
 
             {/* Mapa */}
