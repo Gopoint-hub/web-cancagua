@@ -101,10 +101,18 @@ const redirectMap: Record<string, string> = {
   // ============================================
   // GIFT CARDS - URLs existentes
   // ============================================
-  "/giftcards": "/",
-  "/giftcards/": "/",
-  "/gift-card": "/",
-  "/gift-card/": "/",
+  // Mantener rutas antiguas apuntando al flujo activo.
+  // Sin estos redirects Vike intenta resolver rutas inexistentes y devuelve 500.
+  "/giftcard": "/gift-cards",
+  "/giftcard/": "/gift-cards",
+  "/giftcard/checkout": "/gift-cards",
+  "/giftcard/checkout/": "/gift-cards",
+  "/giftcard/pay": "/gift-cards",
+  "/giftcard/pay/": "/gift-cards",
+  "/giftcards": "/gift-cards",
+  "/giftcards/": "/gift-cards",
+  "/gift-card": "/gift-cards",
+  "/gift-card/": "/gift-cards",
 
   // ============================================
   // SERVICIOS - URLs antiguas
