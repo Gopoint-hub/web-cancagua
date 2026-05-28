@@ -24,7 +24,6 @@ export default function Contacto() {
   });
   const [defaultCountry, setDefaultCountry] = useState<CountryCode>("CL");
 
-  // Detectar país del usuario automáticamente
   useEffect(() => {
     fetch('https://ipapi.co/json/')
       .then(res => res.json())
@@ -34,7 +33,6 @@ export default function Contacto() {
         }
       })
       .catch(() => {
-        // Si falla, mantener Chile por defecto
         setDefaultCountry("CL");
       });
   }, []);
@@ -42,12 +40,7 @@ export default function Contacto() {
   const sendMessageMutation = trpc.contactMessages.send.useMutation({
     onSuccess: () => {
       toast.success("¡Mensaje enviado exitosamente! Te responderemos pronto.");
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
-      });
+      setFormData({ name: "", email: "", phone: "", message: "" });
     },
     onError: (error) => {
       toast.error(error.message || "Error al enviar mensaje. Inténtalo nuevamente.");
@@ -56,12 +49,10 @@ export default function Contacto() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!formData.name || !formData.email || !formData.phone || !formData.message) {
       toast.error("Por favor completa todos los campos obligatorios");
       return;
     }
-
     sendMessageMutation.mutate(formData);
   };
 
@@ -115,10 +106,7 @@ export default function Contacto() {
                     <PhoneIcon className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
                   <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Teléfono</T></h3>
-                  <a
-                    href="tel:+56940073999"
-                    className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors block"
-                  >
+                  <a href="tel:+56940073999" className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors block">
                     +56 9 4007 3999
                   </a>
                 </CardContent>
@@ -130,10 +118,7 @@ export default function Contacto() {
                     <Mail className="h-7 w-7 text-[#D3BC8D]" />
                   </div>
                   <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Email</T></h3>
-                  <a
-                    href="mailto:contacto@cancagua.cl"
-                    className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors"
-                  >
+                  <a href="mailto:contacto@cancagua.cl" className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors">
                     contacto@cancagua.cl
                   </a>
                 </CardContent>
@@ -222,10 +207,10 @@ export default function Contacto() {
                     />
                   </div>
 
-                  <Button 
-                    size="lg" 
-                    className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider" 
-                    type="submit" 
+                  <Button
+                    size="lg"
+                    className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider"
+                    type="submit"
                     disabled={sendMessageMutation.isPending}
                   >
                     {sendMessageMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
@@ -305,6 +290,54 @@ export default function Contacto() {
                         Desde Osorno: 60 minutos por Ruta 5 Norte
                       </li>
                     </ul>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Transporte - Transmark */}
+              <div className="mt-8">
+                <Card className="border-none shadow-sm bg-white" style={{ borderLeft: "3px solid #D3BC8D" }}>
+                  <CardContent className="p-5">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100 bg-white flex items-center justify-center">
+                        <img
+                          src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1748471200/cancagua/partners/transmark-logo.jpg"
+                          alt="Transmark logo"
+                          className="w-full h-full object-contain"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-[10px] tracking-[0.25em] uppercase text-[#D3BC8D] mb-1">Servicio de transporte</p>
+                        <h3 className="font-light text-lg tracking-wide mb-2 text-[#3a3a3a]">Transporte &amp; Turismo Trans Mark</h3>
+                        <p className="text-sm text-[#8C8C8C] mb-3 leading-relaxed">
+                          ¿Necesitas transporte de acercamiento a Cancagua? <strong className="text-[#3a3a3a] font-medium">Transmark</strong> es nuestro transportista de confianza para llegar desde cualquier punto de la región.
+                        </p>
+                        <div className="flex flex-col gap-2 mb-3">
+                          <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
+                            <PhoneIcon className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" />
+                            <a href="tel:+56971008399" className="hover:text-[#D3BC8D] transition-colors">+56 9 7100 8399</a>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
+                            <Mail className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" />
+                            <a href="mailto:transmark2022@gmail.com" className="hover:text-[#D3BC8D] transition-colors">transmark2022@gmail.com</a>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
+                            <svg className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+                            </svg>
+                            <a href="https://www.transmark.cl" target="_blank" rel="noopener noreferrer" className="hover:text-[#D3BC8D] transition-colors">www.transmark.cl</a>
+                          </div>
+                        </div>
+                        <a
+                          href="tel:+56971008399"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#D3BC8D] text-[#3a3a3a] rounded-lg hover:bg-[#c4a976] transition-colors font-medium text-sm tracking-wide"
+                        >
+                          <PhoneIcon className="h-4 w-4" />
+                          Contactar a Transmark
+                        </a>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
