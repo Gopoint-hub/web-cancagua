@@ -311,7 +311,7 @@ export default function Page() {
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-16 h-16 rounded-lg bg-white flex items-center justify-center flex-shrink-0 overflow-hidden border border-[#eee] shadow-sm">
                       <img
-                        src="/images/transmark-logo.jpg"
+                        src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1780092029/cancagua/partners/transmark-logo.jpg"
                         alt="Transmark"
                         className="w-full h-full object-contain p-1"
                       />
