@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Clock, Mail, MapPin, Phone as PhoneIcon, Loader2 } from "lucide-react";
+import { Clock, Mail, MapPin, Phone as PhoneIcon, Loader2, Globe } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import PhoneInput from 'react-phone-number-input';
@@ -301,8 +301,65 @@ export default function Page() {
               </Card>
             </div>
 
+            {/* Servicio de Transporte - Transmark */}
+            <div className="mt-8 lg:col-span-2">
+              <Card className="border border-[#D3BC8D]/40 border-l-4 border-l-[#D3BC8D] shadow-sm bg-white">
+                <CardContent className="p-6">
+                  <span className="text-[#D3BC8D] text-xs tracking-[0.25em] uppercase mb-3 block">
+                    Servicio de Transporte
+                  </span>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-16 h-16 rounded-lg bg-white flex items-center justify-center flex-shrink-0 overflow-hidden border border-[#eee] shadow-sm">
+                      <img
+                        src="/images/transmark-logo.jpg"
+                        alt="Transmark"
+                        className="w-full h-full object-contain p-1"
+                      />
+                    </div>
+                    <h3 className="font-light text-lg tracking-wide text-[#3a3a3a]">
+                      Transporte & Turismo Trans Mark
+                    </h3>
+                  </div>
+                  <p className="text-sm text-[#8C8C8C] mb-5">
+                    ¿Necesitas transporte de acercamiento a Cancagua?{" "}
+                    <strong className="text-[#3a3a3a]">Transmark</strong> es nuestro
+                    transportista de confianza para llegar desde cualquier punto de la región.
+                  </p>
+                  <ul className="space-y-2 mb-5 text-sm text-[#8C8C8C]">
+                    <li className="flex items-center gap-3">
+                      <PhoneIcon className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" />
+                      <a href="tel:+56971008399" className="hover:text-[#D3BC8D] transition-colors">
+                        +56 9 7100 8399
+                      </a>
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <Mail className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" />
+                      <a href="mailto:transmark2022@gmail.com" className="hover:text-[#D3BC8D] transition-colors">
+                        transmark2022@gmail.com
+                      </a>
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <Globe className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" />
+                      <a href="https://www.transmark.cl" target="_blank" rel="noopener noreferrer" className="hover:text-[#D3BC8D] transition-colors">
+                        www.transmark.cl
+                      </a>
+                    </li>
+                  </ul>
+                  <a
+                    href="https://wa.me/56971008399"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#D3BC8D] text-[#3a3a3a] rounded-lg hover:bg-[#c4a976] transition-colors font-medium text-sm"
+                  >
+                    <PhoneIcon className="h-4 w-4" />
+                    Contactar a Transmark
+                  </a>
+                </CardContent>
+              </Card>
+            </div>
+
             {/* Invitación al grupo de WhatsApp */}
-            <div className="mt-8">
+            <div className="mt-8 lg:col-span-2">
               <Card className="border-[#25D366]/30 bg-[#25D366]/5">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
