@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 interface Slide {
   image: string;
   titleKey: string;
+  titleLine2?: string;
   subtitleKey: string;
   ctaKey: string;
   ctaLink: string;
@@ -20,9 +21,10 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto,f_auto,q_auto/v1780341912/cancagua/images/cyber-day-biopiscina-hero.jpg",
-      eyebrow: "Cyber Day · Solo 1, 2 y 3 de Junio",
-      titleKey: "40% OFF en Biopiscinas y Hot Tubs",
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto,f_auto,q_auto/v1780345232/cancagua/images/cyber-day-biopiscina-hero.jpg",
+      eyebrow: "Cyber Day · Sólo 1, 2 y 3 de Junio",
+      titleKey: "40% OFF",
+      titleLine2: "Biopiscinas y Hot Tubs",
       subtitleKey: "Compra hoy. Reserva cuando quieras, hasta diciembre 2026.",
       promoCode: "CYBERCANCAGUA",
       ctaKey: "Reservar",
@@ -147,11 +149,11 @@ export function HeroSlider() {
       <div className="absolute inset-0 flex flex-col items-center justify-start pt-16 md:justify-center md:pt-0 text-center text-white px-4 z-10 pointer-events-none">
         {slide.eyebrow && (
           <div key={`eyebrow-${currentSlide}`} className="inline-flex items-center gap-2 mb-4 animate-fade-in">
-            <span className="w-5 h-px bg-[#D3BC8D]" />
-            <span className="text-[#D3BC8D] text-xs md:text-sm tracking-[0.25em] uppercase font-medium">
+            <span className="w-5 h-px bg-white/70" />
+            <span className="text-white text-xs md:text-sm tracking-[0.25em] uppercase font-medium">
               {slide.eyebrow}
             </span>
-            <span className="w-5 h-px bg-[#D3BC8D]" />
+            <span className="w-5 h-px bg-white/70" />
           </div>
         )}
         <h1
@@ -159,6 +161,9 @@ export function HeroSlider() {
           className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light tracking-wider mb-3 md:mb-6 max-w-4xl animate-fade-in px-2"
         >
           {!slide.titleKey.startsWith("hero.") ? slide.titleKey : t(slide.titleKey)}
+          {slide.titleLine2 && (
+            <><br />{slide.titleLine2}</>
+          )}
         </h1>
         <p
           key={`subtitle-${currentSlide}`}
