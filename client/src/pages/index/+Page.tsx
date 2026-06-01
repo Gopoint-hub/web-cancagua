@@ -71,6 +71,55 @@ export default function HomePage() {
 
   return (
     <AutoTranslateProvider pageId="home">
+      {/* Hero Cyber Day */}
+      <section className="relative h-[85vh] overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto,f_auto,q_auto/v1780341912/cancagua/images/cyber-day-biopiscina-hero.jpg)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
+        <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4 z-10">
+          {/* Eyebrow */}
+          <div className="inline-flex items-center gap-2 mb-6">
+            <span className="w-6 h-px bg-[#D3BC8D]" />
+            <span className="text-[#D3BC8D] text-xs md:text-sm tracking-[0.3em] uppercase font-medium">
+              Cyber Day · Solo 1, 2 y 3 de Junio
+            </span>
+            <span className="w-6 h-px bg-[#D3BC8D]" />
+          </div>
+
+          {/* Headline */}
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-light tracking-wide mb-4 max-w-4xl leading-tight">
+            40% OFF en Biopiscinas<br className="hidden md:block" /> y Hot Tubs
+          </h1>
+
+          {/* Subheadline */}
+          <p className="text-base md:text-xl font-light opacity-90 mb-8 max-w-xl">
+            Compra hoy. Reserva cuando quieras, hasta diciembre 2026.
+          </p>
+
+          {/* Promo badge */}
+          <div className="inline-flex items-center gap-3 border border-[#D3BC8D]/60 bg-black/30 backdrop-blur-sm px-5 py-3 mb-10">
+            <span className="text-white/70 text-sm tracking-wide">Usa el código</span>
+            <span className="text-[#D3BC8D] font-mono font-semibold tracking-[0.15em] text-sm md:text-base">CYBERCANCAGUA</span>
+            <span className="text-white/70 text-sm tracking-wide">al momento de pagar</span>
+          </div>
+
+          {/* CTA */}
+          <a
+            href="https://reservas.cancagua.cl"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-10 py-5 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase font-medium text-sm transition-colors"
+          >
+            Reservar
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
       {/* Hero Slider */}
       <HeroSlider />
 
