@@ -32,14 +32,6 @@ export function HeroSlider() {
       isExternal: true,
     },
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto:face,f_auto,q_auto/v1777589677/cancagua/cancagua/hero_regalo_mama",
-      titleKey: "Regalo para Mamá",
-      subtitleKey: "Biopiscina o Hot tub · Masaje · Tabla",
-      ctaKey: "Reservar ahora",
-      ctaLink: "https://reservas.cancagua.cl/",
-      isExternal: true,
-    },
-    {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
