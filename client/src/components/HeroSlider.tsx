@@ -9,6 +9,8 @@ interface Slide {
   ctaKey: string;
   ctaLink: string;
   isExternal?: boolean;
+  eyebrow?: string;
+  promoCode?: string;
 }
 
 export function HeroSlider() {
@@ -17,6 +19,24 @@ export function HeroSlider() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   const slides: Slide[] = [
+    {
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto,f_auto,q_auto/v1780341912/cancagua/images/cyber-day-biopiscina-hero.jpg",
+      eyebrow: "Cyber Day · Solo 1, 2 y 3 de Junio",
+      titleKey: "40% OFF en Biopiscinas y Hot Tubs",
+      subtitleKey: "Compra hoy. Reserva cuando quieras, hasta diciembre 2026.",
+      promoCode: "CYBERCANCAGUA",
+      ctaKey: "Reservar",
+      ctaLink: "https://reservas.cancagua.cl",
+      isExternal: true,
+    },
+    {
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto:face,f_auto,q_auto/v1777589677/cancagua/cancagua/hero_regalo_mama",
+      titleKey: "Regalo para Mamá",
+      subtitleKey: "Biopiscina o Hot tub · Masaje · Tabla",
+      ctaKey: "Reservar ahora",
+      ctaLink: "https://reservas.cancagua.cl/",
+      isExternal: true,
+    },
     {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       titleKey: "hero.biopiscinas.title",
@@ -125,6 +145,15 @@ export function HeroSlider() {
 
       {/* Content overlay - positioned absolutely over everything */}
       <div className="absolute inset-0 flex flex-col items-center justify-start pt-16 md:justify-center md:pt-0 text-center text-white px-4 z-10 pointer-events-none">
+        {slide.eyebrow && (
+          <div key={`eyebrow-${currentSlide}`} className="inline-flex items-center gap-2 mb-4 animate-fade-in">
+            <span className="w-5 h-px bg-[#D3BC8D]" />
+            <span className="text-[#D3BC8D] text-xs md:text-sm tracking-[0.25em] uppercase font-medium">
+              {slide.eyebrow}
+            </span>
+            <span className="w-5 h-px bg-[#D3BC8D]" />
+          </div>
+        )}
         <h1
           key={`title-${currentSlide}`}
           className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light tracking-wider mb-3 md:mb-6 max-w-4xl animate-fade-in px-2"
@@ -133,10 +162,17 @@ export function HeroSlider() {
         </h1>
         <p
           key={`subtitle-${currentSlide}`}
-          className="text-sm sm:text-base md:text-xl mb-6 md:mb-10 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90 px-4"
+          className="text-sm sm:text-base md:text-xl mb-4 md:mb-6 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90 px-4"
         >
           {!slide.titleKey.startsWith("hero.") ? slide.subtitleKey : t(slide.subtitleKey)}
         </p>
+        {slide.promoCode && (
+          <div key={`promo-${currentSlide}`} className="inline-flex items-center gap-2 border border-[#D3BC8D]/60 bg-black/30 backdrop-blur-sm px-4 py-2 mb-6 animate-fade-in animation-delay-200">
+            <span className="text-white/70 text-xs tracking-wide hidden sm:inline">Usa el código</span>
+            <span className="text-[#D3BC8D] font-mono font-semibold tracking-[0.15em] text-sm">{slide.promoCode}</span>
+            <span className="text-white/70 text-xs tracking-wide hidden sm:inline">al pagar</span>
+          </div>
+        )}
 
         {/* Buttons inside content container for better mobile layout */}
         <div
