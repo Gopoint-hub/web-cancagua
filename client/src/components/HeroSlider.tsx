@@ -30,6 +30,15 @@ export function HeroSlider() {
       isExternal: true,
     },
     {
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto,f_auto,q_auto/v1780587020/cancagua/images/junio-en-familia-biopiscinas-hero.jpg",
+      eyebrow: "Junio · Biopiscinas Geotermales",
+      titleKey: "Junio en Familia",
+      subtitleKey: "Niños de 5 a 12 años entran gratis",
+      ctaKey: "Reservar Programa",
+      ctaLink: "https://reservas.cancagua.cl/cancaguaspa/s/52ac62ba-1fc2-4c81-8daf-9d3b55c3e7a3",
+      isExternal: true,
+    },
+    {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
