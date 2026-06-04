@@ -37,7 +37,7 @@ export default function EventosEmpresas() {
       return;
     }
     const fullMessage = `SOLICITUD DE COTIZACIÓN EMPRESARIAL\n\nEmpresa: ${formData.companyName}\nContacto: ${formData.contactName}\nNúmero de personas: ${formData.numberOfPeople || "Por definir"}\nFecha estimada: ${formData.eventDate || "Por definir"}\n\nMensaje:\n${formData.message}`;
-    sendQuoteRequestMutation.mutate({ name: `${formData.contactName} (${formData.companyName})`, email: formData.email, phone: formData.phone, message: fullMessage });
+    sendQuoteRequestMutation.mutate({ name: `${formData.contactName} (${formData.companyName})`, email: formData.email, phone: formData.phone, message: fullMessage, recipient: "eventos" });
   };
 
   const services = [
