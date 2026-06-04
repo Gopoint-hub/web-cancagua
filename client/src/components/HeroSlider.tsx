@@ -21,17 +21,6 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto,f_auto,q_auto/v1780345232/cancagua/images/cyber-day-biopiscina-hero.jpg",
-      eyebrow: "Cyber Day · Sólo 1, 2 y 3 de Junio",
-      titleKey: "40% OFF",
-      titleLine2: "Biopiscinas y Hot Tubs",
-      subtitleKey: "Compra hoy. Reserva cuando quieras, hasta diciembre 2026.",
-      promoCode: "CYBERCANCAGUA",
-      ctaKey: "Reservar",
-      ctaLink: "https://reservas.cancagua.cl",
-      isExternal: true,
-    },
-    {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
