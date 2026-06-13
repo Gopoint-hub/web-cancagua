@@ -53,7 +53,7 @@ export default function Page() {
       <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1781277939/cancagua/images/navega-relax-hero-2026-06-12.jpg)" }}
+          style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/w_1920,h_1080,c_fill,q_auto,f_auto/v1781368292/cancagua/images/navega-relax-hero-lago-catamaran-2026-06-13.jpg)" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50" />
         <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
