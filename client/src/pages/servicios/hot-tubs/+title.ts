@@ -1,1 +1,1 @@
-export default "Hot Tubs Frutillar | Spa al Aire Libre con Vista al Lago - Cancagua";
+export default "Hot Tubs en Frutillar | Reserva Spa Privado Cancagua";

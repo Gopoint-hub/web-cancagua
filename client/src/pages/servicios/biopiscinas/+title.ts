@@ -1,1 +1,1 @@
-export default "Biopiscinas Geotermales Frutillar | Las Primeras del Mundo - Cancagua";
+export default "Biopiscinas Geotermales en Frutillar | Cancagua";

@@ -1,1 +1,1 @@
-export default "Contacto Cancagua Spa | Ubicación, Teléfono y Reservas";
+export default "Contacto Cancagua | Reservas, WhatsApp y Cómo Llegar";
