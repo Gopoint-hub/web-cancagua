@@ -74,9 +74,9 @@ export default function Page() {
           <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4">
             Hablemos
           </span>
-          <h1 className="text-4xl md:text-6xl font-light tracking-wide mb-4">Contacto</h1>
+          <h1 className="text-4xl md:text-6xl font-light tracking-wide mb-4">Contacto y Reservas Cancagua</h1>
           <p className="text-lg md:text-xl max-w-2xl font-light opacity-90">
-            Estamos aquí para ayudarte
+            Reserva biopiscinas, hot tubs, masajes o consulta cómo llegar a Cancagua desde Frutillar y Puerto Varas
           </p>
         </div>
       </section>
@@ -232,11 +232,12 @@ export default function Page() {
                 <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
                   Visitános
                 </span>
-                <h2 className="text-3xl font-light tracking-wide mb-4 text-[#3a3a3a]">Cómo Llegar</h2>
+                <h2 className="text-3xl font-light tracking-wide mb-4 text-[#3a3a3a]">Cómo Llegar a Cancagua</h2>
                 <p className="text-[#8C8C8C] mb-6">
                   Estamos ubicados a 2 kilómetros de Frutillar Bajo, con vista
                   privilegiada al Lago Llanquihue y los volcanes Osorno y
-                  Calbuco.
+                  Calbuco. Puedes llegar en auto desde Puerto Varas en aproximadamente
+                  30 minutos, desde Puerto Montt en 45 minutos y desde Osorno en 60 minutos.
                 </p>
               </div>
 

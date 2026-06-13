@@ -34,10 +34,10 @@ export default function HotTubsPage() {
 
         <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
           <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-7xl font-light mb-4">
-            Hot Tubs
+            Hot Tubs en Frutillar
           </h1>
           <p className="font-['Josefin_Sans'] text-xl md:text-2xl font-light tracking-wide mb-8 max-w-2xl">
-            Descubre una experiencia única en nuestro spa al aire libre
+            Spa privado con agua geotérmica a 40-41°C, terrazas exclusivas y vista al Lago Llanquihue
           </p>
           <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
             <Button
@@ -58,6 +58,9 @@ export default function HotTubsPage() {
           </h2>
           <p className="font-['Fira_Sans'] text-lg text-[#666] leading-relaxed mb-6">
             Contamos con seis espacios privados, cada uno con terrazas que incluyen ducha y cambiadores. Disfrutarás de una estadía de 4 horas, considerando 2.5 horas en el agua y 1.5 horas para disfrutar de nuestra infraestructura de cafetería, playa, baños y amenities.
+          </p>
+          <p className="font-['Fira_Sans'] text-lg text-[#666] leading-relaxed mb-6">
+            Si buscas <strong>termas privadas cerca de Frutillar o Puerto Varas</strong>, nuestros hot tubs son una alternativa íntima y natural: agua temperada con geotermia y aerotermia, cupos limitados y reserva online para asegurar tu horario.
           </p>
           <p className="font-['Fira_Sans'] text-lg text-[#666] leading-relaxed mb-10">
             Cada hot tub es especial, y está inmerso en un entorno natural para que disfrutes de cada experiencia, ya sea con vista al bosque nativo o a la bahía de Frutillar.

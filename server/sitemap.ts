@@ -15,7 +15,8 @@ const PUBLIC_ROUTES = [
   // Servicios
   { url: "/servicios", changefreq: "weekly", priority: 0.9 },
   { url: "/servicios/biopiscinas", changefreq: "weekly", priority: 0.9 },
-  { url: "/servicios/hot-tubs", changefreq: "weekly", priority: 0.8 },
+  { url: "/servicios/biopiscinas-puerto-varas", changefreq: "weekly", priority: 0.8 },
+  { url: "/servicios/hot-tubs", changefreq: "weekly", priority: 0.9 },
   { url: "/servicios/masajes", changefreq: "weekly", priority: 0.8 },
   { url: "/servicios/sauna", changefreq: "weekly", priority: 0.7 },
   { url: "/servicios/full-day-hot-tubs", changefreq: "weekly", priority: 0.7 },
@@ -40,7 +41,7 @@ const PUBLIC_ROUTES = [
   { url: "/blog/mejores-termas-sur-chile-2026", changefreq: "monthly", priority: 0.7 },
   { url: "/blog/termas-del-sur-de-chile-con-ninos-guia-para-familias", changefreq: "monthly", priority: 0.7 },
   { url: "/blog/tecnicas-manejo-estres-laboral", changefreq: "monthly", priority: 0.7 },
-  { url: "/blog/termas-del-sur-vs-experiencia-natural", changefreq: "monthly", priority: 0.7 },
+  { url: "/blog/termas-del-sur-vs-experiencia-natural", changefreq: "monthly", priority: 0.8 },
 
   // Informacion
   { url: "/nosotros", changefreq: "monthly", priority: 0.8 },

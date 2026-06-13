@@ -4,14 +4,22 @@ import { TreePine, Building2, Droplets, MapPin, DollarSign, Calendar, Backpack, 
 export default function TermasVsExperienciaNatural() {
   return (
     <BlogLayout
-        title="Termas del Sur Tradicionales vs Experiencia Natural: Guía Completa"
-        excerpt="Viste que algunas personas vuelven cambiadas de sus días termales, mientras que otras simplemente dicen «si, estuvo bien». Probablemente la diferencia fue en el tipo de experiencia que eligieron. No todas las aguas termales del sur de Chile ofrecen lo mismo, aunque a primera vista parezcan similares."
+        title="Termas cerca de Frutillar: tradicionales vs experiencia natural"
+        excerpt="Si buscas termas cerca de Frutillar o Puerto Varas, esta guía compara las termas tradicionales del sur de Chile con alternativas naturales como las biopiscinas geotermales y hot tubs de Cancagua."
         image="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309133/cancagua/images/blog/termas-geometricas-hero.webp"
         date="29 Octubre 2025"
         author="Mario Hermosilla"
         readTime="11 min"
         category="Comparativas"
       >
+        <h2>Termas cerca de Frutillar y Puerto Varas: ¿qué alternativa elegir?</h2>
+        <p>
+          Frutillar y Puerto Varas concentran muchas búsquedas de escapadas de bienestar: aguas calientes, termas, spa y experiencias de naturaleza. Si quieres una experiencia cerca del Lago Llanquihue sin viajar varias horas hacia complejos termales masivos, Cancagua funciona como una alternativa local: biopiscinas geotermales, hot tubs privados y espacios con cupos controlados.
+        </p>
+        <p>
+          La decisión no es solo “termas sí o no”. Lo importante es elegir entre una infraestructura termal tradicional y una experiencia natural más silenciosa, cerca de Frutillar Bajo, con reserva previa y foco en descanso.
+        </p>
+
         <h2>Diferencias Entre Termas Tradicionales y Experiencia Natural</h2>
 
         <h3>Infraestructura y Comodidades</h3>

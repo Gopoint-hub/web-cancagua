@@ -2,11 +2,11 @@ import { generateServiceSchema } from '@/lib/seo-helpers';
 
 export default function Head() {
   const seoData = {
-    title: "Biopiscinas - Cancagua",
-    description: "Descubre las primeras biopiscinas geotermales del mundo en Cancagua, Frutillar. Disfruta de una experiencia relajante con aguas a 35-41°C, rodeado de naturaleza y con vista al Lago Llanquihue.",
-    keywords: "biopiscinas geotermales, termas frutillar, spa chile, aguas termales, biopiscina, termas naturales, spa lago llanquihue",
+    title: "Biopiscinas Geotermales en Frutillar | Cancagua",
+    description: "Reserva biopiscinas geotermales en Frutillar: agua natural a 37-40°C, sin cloro, vista al Lago Llanquihue y alternativa a termas cerca de Puerto Varas.",
+    keywords: "biopiscinas geotermales frutillar, biopiscinas cancagua, termas frutillar, termas cerca de frutillar, bio piscinas geotermales, aguas termales lago llanquihue, biopiscinas puerto varas",
     canonical: "/servicios/biopiscinas",
-    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
+    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   const serviceSchema = generateServiceSchema({

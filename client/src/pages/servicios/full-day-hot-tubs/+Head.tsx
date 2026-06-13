@@ -1,10 +1,10 @@
 export default function Head() {
   const seoData = {
-    title: "Full Day Hot Tubs - Experiencia Privada Completa | Cancagua Spa",
-    description: "Reserva un día completo en nuestros hot tubs privados con agua geotérmica a 40-41°C. Vista al Lago Llanquihue, terraza exclusiva y acceso a todas las instalaciones.",
-    keywords: "full day hot tubs, hot tubs privados frutillar, día completo spa, termas privadas",
+    title: "Full Day Hot Tubs en Frutillar | Reserva Cancagua",
+    description: "Reserva Full Day Hot Tubs en Frutillar: spa privado con agua geotérmica a 40-41°C, terraza exclusiva, vista al Lago Llanquihue y experiencia cerca de Puerto Varas.",
+    keywords: "full day hot tubs frutillar, hot tubs privados frutillar, día completo spa frutillar, termas privadas frutillar, cancagua hot tubs precios",
     canonical: "/servicios/full-day-hot-tubs",
-    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
+    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   return (

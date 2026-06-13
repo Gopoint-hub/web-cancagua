@@ -50,7 +50,7 @@ export default function ServicioBiopiscinas() {
             <T>Biopiscinas Geotermales</T>
           </h1>
           <p className="text-lg md:text-2xl mb-8 max-w-3xl">
-            <T>Cuatro horas de una maravillosa experiencia a 37º-40º en las primeras biopiscinas geotermales del mundo</T>
+            <T>Cuatro horas de experiencia natural a 37º-40º: una alternativa a las termas cerca de Frutillar y Puerto Varas, sin cloro y con vista al Lago Llanquihue</T>
           </p>
           <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
             <Button size="lg" className="text-lg px-8 py-6">
@@ -74,8 +74,11 @@ export default function ServicioBiopiscinas() {
               <p className="text-lg leading-relaxed mb-4">
                 <T>A diferencia de las piscinas tradicionales, nuestras biopiscinas no utilizan cloro ni químicos. El agua se purifica naturalmente a través de plantas acuáticas y microorganismos beneficiosos, creando un ambiente completamente natural y saludable para tu piel.</T>
               </p>
-              <p className="text-lg leading-relaxed">
+              <p className="text-lg leading-relaxed mb-4">
                 <T>Ubicadas a orillas del Lago Llanquihue y rodeadas de bosque nativo, ofrecen una experiencia de inmersión total en la naturaleza mientras disfrutas del calor terapéutico del agua geotérmica.</T>
+              </p>
+              <p className="text-lg leading-relaxed">
+                <T>Para quienes buscan termas cerca de Frutillar, Cancagua propone una experiencia distinta: biopiscinas naturales sin cloro, temperatura confortable todo el año y cupos controlados para mantener un ambiente tranquilo.</T>
               </p>
             </div>
           </div>

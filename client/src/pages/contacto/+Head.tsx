@@ -1,10 +1,10 @@
 export default function Head() {
   const seoData = {
-    title: "Contacto | Cancagua",
-    description: "Contáctanos para reservas, consultas o información. Ubicados en Frutillar, Región de Los Lagos. Teléfono: +56 9 4007 3999. Email: contacto@cancagua.cl. Preguntas frecuentes y cómo llegar.",
-    keywords: "contacto cancagua, telefono spa frutillar, como llegar cancagua, ubicacion spa lago llanquihue, reservas cancagua, faq, preguntas frecuentes",
+    title: "Contacto Cancagua | Reservas, WhatsApp y Cómo Llegar",
+    description: "Contacta a Cancagua Spa en Frutillar: reservas, WhatsApp, teléfono, email, ubicación a 2 km de Frutillar Bajo, mapa, Waze y rutas desde Puerto Varas.",
+    keywords: "contacto cancagua, reservas cancagua, whatsapp cancagua, telefono cancagua spa, como llegar cancagua, ubicación spa frutillar, cancagua frutillar precios",
     canonical: "/contacto",
-    image: "https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg",
+    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg",
   };
 
   return (
