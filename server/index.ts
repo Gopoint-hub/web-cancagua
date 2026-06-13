@@ -17,6 +17,7 @@ import { createServer } from "http";
 import net from "net";
 import { registerRedirects } from "./redirects";
 import { registerSitemapRoute } from "./sitemap";
+import { registerInstagramRoutes } from "./instagram";
 import { setupVite, serveStatic } from "./vite";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -47,6 +48,9 @@ async function startServer() {
 
   // Sitemap.xml dinámico
   registerSitemapRoute(app);
+
+  // Últimos Reels de Instagram para la home
+  registerInstagramRoutes(app);
 
   // En desarrollo: Vite dev server con HMR
   // En producción: archivos estáticos + SSR

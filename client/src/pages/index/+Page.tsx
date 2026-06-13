@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Heart, Leaf, Waves } from "lucide-react";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { InstagramReelsSection } from "@/components/InstagramReelsSection";
 import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -301,6 +302,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Instagram Reels */}
+      <InstagramReelsSection />
 
       {/* Newsletter */}
       <section className="py-20 bg-[#D3BC8D]">
