@@ -5,7 +5,12 @@ import path from "path";
 import { defineConfig } from "vite";
 import vike from "vike/plugin";
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vike({ prerender: false })];
+const plugins = [
+  react(),
+  tailwindcss(),
+  jsxLocPlugin(),
+  vike({ prerender: false }),
+];
 
 export default defineConfig({
   plugins,
@@ -30,10 +35,11 @@ export default defineConfig({
     allowedHosts: true, // Allow all hosts for Render deployment
     fs: {
       strict: true,
+      allow: [path.resolve(import.meta.dirname)],
       deny: ["**/.*"],
     },
   },
   ssr: {
-    noExternal: ['wouter'], // Para coexistencia temporal con Wouter durante la migración
+    noExternal: ["wouter"], // Para coexistencia temporal con Wouter durante la migración
   },
 });
