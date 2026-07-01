@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Clock, Sparkles, Heart, Leaf, ArrowUpRight } from "lucide-react";
 
 const CMS_MASSAGE_CATALOG_URL = "https://cms.cancagua.cl/api/public/masajes/techniques";
-const FALLBACK_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769558778/cancagua/images/masajes-hero.jpg";
+const FALLBACK_IMAGE = "/images/masajes-hero-cancagua.jpg";
 
 interface MassagePrice {
   duration: number;

@@ -6,7 +6,7 @@ export default function Head() {
     description: "Reserva masajes en Frutillar: relajación, descontracturante, piedras calientes, drenaje linfático y terapias junto al Lago Llanquihue en Cancagua Spa.",
     keywords: "masajes frutillar, masajes cancagua, spa masajes frutillar, masajes puerto varas, terapias holísticas chile, masajes descontracturantes, drenaje linfático frutillar",
     canonical: "/servicios/masajes",
-    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769558778/cancagua/images/masajes-hero.jpg",
+    image: "https://cancagua.cl/images/masajes-hero-cancagua.jpg",
   };
 
   const serviceSchema = generateServiceSchema({
