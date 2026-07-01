@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Clock, Sparkles, Heart, Leaf, ArrowUpRight } from "lucide-react";
+import { Clock, Sparkles, Heart, Leaf } from "lucide-react";
 
 const CMS_MASSAGE_CATALOG_URL = "https://cms.cancagua.cl/api/public/masajes/techniques";
 const FALLBACK_IMAGE = "/images/masajes-hero-cancagua.jpg";
@@ -68,18 +68,18 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/65" />
-        <h3 className="absolute bottom-5 left-5 right-5 font-['Cormorant_Garamond'] text-3xl leading-none text-white md:text-4xl">
+        <h3 className="absolute bottom-5 left-5 right-5 font-['Newsreader'] text-3xl font-medium leading-none text-white md:text-4xl">
           {technique.name}
         </h3>
       </div>
 
       <div className="flex min-h-[230px] flex-col p-6">
-        <p className="font-['Fira_Sans'] text-lg leading-relaxed text-[#3a3a3a]">
+        <p className="text-justify font-['IBM_Plex_Sans'] text-lg leading-[1.6] text-[#3a3a3a]">
           {technique.description || "Sesión terapéutica diseñada para renovar el cuerpo y relajar la mente en un entorno natural."}
         </p>
 
         <div className="mt-6">
-          <p className="mb-3 font-['Josefin_Sans'] text-xs uppercase tracking-[0.18em] text-[#3a3a3a]/70">
+          <p className="mb-3 font-['IBM_Plex_Mono'] text-xs font-medium uppercase tracking-[0.1em] text-[#3a3a3a]/70">
             Duraciones disponibles
           </p>
           <div className="flex flex-wrap gap-2">
@@ -88,7 +88,7 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
                 key={duration}
                 onMouseEnter={() => setHoveredDuration(duration)}
                 onFocus={() => setHoveredDuration(duration)}
-                className="rounded-full border border-[#a99480] bg-[#b09b89] px-4 py-2 font-['Josefin_Sans'] text-xs font-semibold uppercase tracking-wide text-white outline-none transition-colors hover:bg-[#8fa1ad]"
+                className="rounded-full border border-[#a99480] bg-[#b09b89] px-4 py-2 font-['IBM_Plex_Mono'] text-xs font-medium uppercase tracking-[0.1em] text-white outline-none transition-colors hover:bg-[#8fa1ad]"
                 tabIndex={0}
               >
                 <Clock className="mr-1 inline h-3 w-3" />
@@ -99,16 +99,15 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
         </div>
 
         <div className="mt-auto flex items-end justify-between gap-4 pt-8">
-          <span className="font-['Fira_Sans'] text-xl text-[#1f1f1f]">
+          <span className="font-['Spline_Sans_Mono'] text-xl text-[#1f1f1f]">
             {formatPrice(selectedPrice)}
           </span>
           <a href={technique.bookingUrl} className="shrink-0">
             <Button
               variant="outline"
-              className="rounded-full border-[#3a3a3a] bg-white px-6 font-['Josefin_Sans'] text-sm uppercase tracking-wide text-[#3a3a3a] hover:bg-[#3a3a3a] hover:text-white"
+              className="rounded-full border-[#3a3a3a] bg-white px-6 font-['IBM_Plex_Mono'] text-sm font-medium uppercase tracking-[0.1em] text-[#3a3a3a] hover:bg-[#3a3a3a] hover:text-white"
             >
-              Reservar
-              <ArrowUpRight className="ml-2 h-4 w-4" />
+              Reservar →
             </Button>
           </a>
         </div>
@@ -165,10 +164,10 @@ export default function Page() {
         </div>
 
         <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
-          <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-7xl font-light mb-4">
+          <h1 className="mb-4 font-['IBM_Plex_Sans'] text-5xl font-light leading-[1.05] tracking-normal md:text-7xl">
             Masajes & Terapias
           </h1>
-          <p className="font-['Josefin_Sans'] text-xl md:text-2xl font-light tracking-wide max-w-2xl">
+          <p className="max-w-2xl font-['IBM_Plex_Sans'] text-xl font-light leading-[1.5] tracking-normal md:text-2xl">
             Descubre nuestras sesiones de renovación y descanso en un ambiente armónico y natural
           </p>
         </div>
@@ -177,21 +176,21 @@ export default function Page() {
       {/* Descripción */}
       <section className="py-16 bg-white">
         <div className="container max-w-4xl text-center">
-          <p className="font-['Fira_Sans'] text-lg text-[#666] leading-relaxed mb-6">
+          <p className="mb-6 font-['IBM_Plex_Sans'] text-lg leading-[1.6] text-[#666]">
             Tu bienestar es nuestro compromiso. Tenemos diversos tipos de masajes diseñados para renovar tu cuerpo y mente en un entorno natural único.
           </p>
           <div className="flex justify-center gap-8 mt-8 flex-wrap">
             <div className="flex items-center gap-2 text-[#D3BC8D]">
               <Sparkles className="h-5 w-5" />
-              <span className="font-['Fira_Sans'] text-sm text-[#666]">Ambiente relajante</span>
+              <span className="font-['IBM_Plex_Sans'] text-sm text-[#666]">Ambiente relajante</span>
             </div>
             <div className="flex items-center gap-2 text-[#D3BC8D]">
               <Heart className="h-5 w-5" />
-              <span className="font-['Fira_Sans'] text-sm text-[#666]">Terapeutas certificados</span>
+              <span className="font-['IBM_Plex_Sans'] text-sm text-[#666]">Terapeutas certificados</span>
             </div>
             <div className="flex items-center gap-2 text-[#D3BC8D]">
               <Leaf className="h-5 w-5" />
-              <span className="font-['Fira_Sans'] text-sm text-[#666]">Productos naturales</span>
+              <span className="font-['IBM_Plex_Sans'] text-sm text-[#666]">Productos naturales</span>
             </div>
           </div>
         </div>
@@ -200,10 +199,10 @@ export default function Page() {
       {/* Lista de Servicios */}
       <section id="tecnicas" className="py-20 bg-[#F1E7D9]">
         <div className="container max-w-6xl">
-          <h2 className="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3a3a3a] text-center mb-4">
+          <h2 className="mb-4 text-center font-['IBM_Plex_Sans'] text-4xl font-light leading-[1.2] tracking-normal text-[#3a3a3a] md:text-5xl">
             Selecciona tu experiencia
           </h2>
-          <p className="font-['Fira_Sans'] text-[#666] text-center mb-12">
+          <p className="mb-12 text-center font-['IBM_Plex_Sans'] text-[#666]">
             Elige el masaje que mejor se adapte a tus necesidades
           </p>
 
@@ -214,7 +213,7 @@ export default function Page() {
               ))}
             </div>
           ) : catalogError || visibleTechniques.length === 0 ? (
-            <div className="rounded-lg bg-white p-10 text-center font-['Fira_Sans'] text-[#666]">
+            <div className="rounded-lg bg-white p-10 text-center font-['IBM_Plex_Sans'] text-[#666]">
               Estamos actualizando la disponibilidad de masajes. Escríbenos y te ayudamos a reservar.
             </div>
           ) : (
@@ -230,7 +229,7 @@ export default function Page() {
       {/* Galería */}
       <section className="py-20 bg-white">
         <div className="container">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] text-center mb-12">
+          <h2 className="mb-12 text-center font-['IBM_Plex_Sans'] text-3xl font-light leading-[1.2] tracking-normal text-[#3a3a3a] md:text-4xl">
             Nuestro espacio
           </h2>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -256,16 +255,16 @@ export default function Page() {
       {/* Beneficios */}
       <section className="py-20 bg-[#3a3a3a] text-white">
         <div className="container max-w-4xl">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-center mb-12">
+          <h2 className="mb-12 text-center font-['IBM_Plex_Sans'] text-3xl font-light leading-[1.2] tracking-normal md:text-4xl">
             Beneficios de nuestros masajes
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {beneficios.map((beneficio, index) => (
               <div key={index} className="space-y-4">
-                <h3 className="font-['Josefin_Sans'] text-lg tracking-wider uppercase text-[#D3BC8D]">
+                <h3 className="font-['IBM_Plex_Mono'] text-lg font-medium uppercase tracking-[0.1em] text-[#D3BC8D]">
                   {beneficio.title}
                 </h3>
-                <p className="font-['Fira_Sans'] text-white/80">
+                <p className="font-['IBM_Plex_Sans'] leading-[1.6] text-white/80">
                   {beneficio.description}
                 </p>
               </div>
@@ -284,21 +283,21 @@ export default function Page() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span className="font-['Josefin_Sans'] text-sm text-white/80 uppercase tracking-wider">
+                <span className="font-['IBM_Plex_Mono'] text-sm uppercase tracking-[0.1em] text-white/80">
                   También en Puerto Varas
                 </span>
               </div>
-              <h3 className="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-white mb-2">
+              <h3 className="mb-2 font-['Newsreader'] text-2xl font-medium text-white md:text-3xl">
                 Spa en Hotel Cabañas del Lago
               </h3>
-              <p className="font-['Fira_Sans'] text-white/80 max-w-lg">
+              <p className="max-w-lg font-['IBM_Plex_Sans'] text-white/80">
                 Disfruta de nuestros masajes en el corazón de Puerto Varas.
               </p>
             </div>
             <a href="/spa-hotel-cabanas-del-lago">
               <Button
                 size="lg"
-                className="bg-white hover:bg-white/90 text-[#1a5276] font-['Josefin_Sans'] tracking-wider px-8 py-6 whitespace-nowrap"
+                className="whitespace-nowrap bg-white px-8 py-6 font-['IBM_Plex_Mono'] uppercase tracking-[0.1em] text-[#1a5276] hover:bg-white/90"
               >
                 VER SERVICIOS EN PUERTO VARAS
               </Button>
@@ -310,18 +309,18 @@ export default function Page() {
       {/* CTA Final */}
       <section className="py-20 bg-[#F1E7D9]">
         <div className="container text-center">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] mb-6">
+          <h2 className="mb-6 font-['IBM_Plex_Sans'] text-3xl font-light leading-[1.2] tracking-normal text-[#3a3a3a] md:text-4xl">
             Regálate un momento de bienestar
           </h2>
-          <p className="font-['Fira_Sans'] text-lg text-[#666] mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mb-8 max-w-2xl font-['IBM_Plex_Sans'] text-lg leading-[1.6] text-[#666]">
             Elige tu técnica y reserva tu sesión de masaje desde nuestro nuevo flujo de compra.
           </p>
           <a href="#tecnicas">
             <Button
               size="lg"
-              className="bg-[#D3BC8D] hover:bg-[#c4ad7e] text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider text-lg px-12 py-6"
+              className="bg-[#D3BC8D] px-12 py-6 font-['IBM_Plex_Mono'] text-lg uppercase tracking-[0.1em] text-[#3a3a3a] hover:bg-[#c4ad7e]"
             >
-              VER TÉCNICAS
+              VER TÉCNICAS →
             </Button>
           </a>
         </div>
