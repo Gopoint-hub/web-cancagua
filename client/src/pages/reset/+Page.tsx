@@ -15,7 +15,7 @@ export default function Page() {
                 <Leaf className="w-4 h-4" />
                 <span className="text-sm font-medium">Experiencia de Bienestar</span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-serif text-slate-900 mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl text-slate-900 mb-6 leading-tight">
                 Reset: Una Pausa Consciente
               </h1>
               <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl leading-relaxed">
@@ -46,7 +46,7 @@ export default function Page() {
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-serif text-slate-900 mb-4">Elige tu Momento</h2>
+            <h2 className="text-3xl text-slate-900 mb-4">Elige tu Momento</h2>
             <p className="text-slate-600 max-w-2xl mx-auto">Selecciona cómo deseas vivir tu experiencia de bienestar.</p>
           </div>
 
@@ -57,7 +57,7 @@ export default function Page() {
                 <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Sun className="w-7 h-7 text-orange-600" />
                 </div>
-                <h3 className="text-2xl font-serif text-slate-900 mb-2">Morning Reset</h3>
+                <h3 className="text-2xl text-slate-900 mb-2">Morning Reset</h3>
                 <p className="text-orange-600 font-medium mb-6">Horarios: 10:00 o 11:00 hrs</p>
                 
                 <ul className="space-y-4 mb-8">
@@ -83,7 +83,7 @@ export default function Page() {
                 <div className="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Moon className="w-7 h-7 text-indigo-600" />
                 </div>
-                <h3 className="text-2xl font-serif text-slate-900 mb-2">Sunset Reset</h3>
+                <h3 className="text-2xl text-slate-900 mb-2">Sunset Reset</h3>
                 <p className="text-indigo-600 font-medium mb-6">Horarios: 18:00 o 19:00 hrs</p>
                 
                 <ul className="space-y-4 mb-8">
@@ -110,7 +110,7 @@ export default function Page() {
       <section className="py-16 md:py-24 bg-stone-100">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-serif text-slate-900 mb-4">Nuestra Alimentación</h2>
+            <h2 className="text-3xl text-slate-900 mb-4">Nuestra Alimentación</h2>
             <p className="text-slate-600">Opciones nutritivas pensadas para complementar tu experiencia.</p>
           </div>
 
@@ -119,7 +119,7 @@ export default function Page() {
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <Coffee className="w-6 h-6 text-orange-600" />
-                <h3 className="text-2xl font-serif text-slate-900">Opciones de Desayuno</h3>
+                <h3 className="text-2xl text-slate-900">Opciones de Desayuno</h3>
               </div>
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-stone-200/60">
                 <ul className="space-y-6">
@@ -144,7 +144,7 @@ export default function Page() {
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <UtensilsCrossed className="w-6 h-6 text-indigo-600" />
-                <h3 className="text-2xl font-serif text-slate-900">Opciones de Cena</h3>
+                <h3 className="text-2xl text-slate-900">Opciones de Cena</h3>
               </div>
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-stone-200/60">
                 <ul className="space-y-6">
@@ -166,7 +166,7 @@ export default function Page() {
       {/* Bottom CTA */}
       <section className="py-20 bg-primary/5">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-serif text-slate-900 mb-8">¿Listo para tu pausa consciente?</h2>
+          <h2 className="text-3xl text-slate-900 mb-8">¿Listo para tu pausa consciente?</h2>
           <Button 
             size="lg" 
             className="text-lg px-8 py-6 rounded-full shadow-lg hover:scale-105 transition-transform"

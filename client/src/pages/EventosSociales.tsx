@@ -19,7 +19,7 @@ export default function EventosSociales() {
               <Sparkles className="w-16 h-16 mx-auto mb-6 text-[#D3BC8D]" />
             </div>
             
-            <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-7xl font-light mb-6">
+            <h1 className="text-4xl md:text-6xl font-light mb-6">
               <T>Eventos Sociales</T>
             </h1>
             
@@ -42,7 +42,7 @@ export default function EventosSociales() {
         <section className="py-20 bg-white">
           <div className="container max-w-4xl">
             <div className="text-center mb-16">
-              <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] mb-6">
+              <h2 className="text-3xl md:text-4xl text-[#3a3a3a] mb-6">
                 <T>Celebra con nosotros</T>
               </h2>
               <p className="font-['Fira_Sans'] text-lg text-[#666] leading-relaxed max-w-2xl mx-auto">
@@ -93,7 +93,7 @@ export default function EventosSociales() {
         {/* CTA Section */}
         <section className="py-20 bg-[#3a3a3a] text-white">
           <div className="container max-w-3xl text-center">
-            <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl mb-6">
+            <h2 className="text-3xl md:text-4xl mb-6">
               <T>¿Quieres ser el primero en saber?</T>
             </h2>
             <p className="font-['Fira_Sans'] text-lg mb-8 text-gray-300">

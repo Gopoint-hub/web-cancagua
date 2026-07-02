@@ -12,7 +12,7 @@ export default function Page() {
         <p className="mb-4 text-7xl font-bold text-[#c4a86b] md:text-8xl">
           {isNotFound ? "404" : "Error"}
         </p>
-        <h1 className="mb-4 text-3xl font-serif font-bold text-[#2d3e2f] md:text-4xl">
+        <h1 className="mb-4 text-3xl font-bold text-[#2d3e2f] md:text-4xl">
           {isNotFound ? "Página no encontrada" : "Algo salió mal"}
         </h1>
         <p className="mb-8 max-w-xl text-lg leading-relaxed text-gray-600">

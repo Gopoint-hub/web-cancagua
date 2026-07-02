@@ -101,7 +101,7 @@ export function BlogLayout({
             <span className="inline-block px-3 py-1 bg-[#c4a86b] text-white text-sm font-medium rounded-full mb-4">
               {category}
             </span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mb-4 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
               {title}
             </h1>
             <div className="flex flex-wrap items-center gap-4 text-white/90 text-sm">
@@ -133,13 +133,13 @@ export function BlogLayout({
             </p>
 
             {/* Article Content */}
-            <div className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-[#2d3e2f] prose-headings:mt-12 prose-headings:mb-8 prose-p:text-gray-700 prose-p:leading-[1.9] prose-p:mb-8 prose-a:text-[#c4a86b] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#2d3e2f] prose-blockquote:border-l-[#c4a86b] prose-blockquote:bg-[#f5f0e8] prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:my-10 prose-li:marker:text-[#c4a86b] prose-li:mb-4 prose-ul:my-8 prose-ol:my-8 [&>h2]:mt-14 [&>h3]:mt-10">
+            <div className="prose prose-lg max-w-none prose-headings:text-[#2d3e2f] prose-headings:mt-12 prose-headings:mb-8 prose-p:text-gray-700 prose-p:leading-[1.9] prose-p:mb-8 prose-a:text-[#c4a86b] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#2d3e2f] prose-blockquote:border-l-[#c4a86b] prose-blockquote:bg-[#f5f0e8] prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:my-10 prose-li:marker:text-[#c4a86b] prose-li:mb-4 prose-ul:my-8 prose-ol:my-8 [&>h2]:mt-14 [&>h3]:mt-10">
               {children}
             </div>
 
             {/* CTA Box */}
             <div className="mt-12 p-8 bg-gradient-to-br from-[#2d3e2f] to-[#1a2a1c] rounded-2xl text-white">
-              <h3 className="text-2xl font-serif font-bold mb-3">
+              <h3 className="text-2xl font-bold mb-3">
                 ¿Listo para vivir la experiencia Cancagua?
               </h3>
               <p className="text-white/80 mb-6">
@@ -223,7 +223,7 @@ export function BlogLayout({
                   </div>
                 </div>
                 <CardContent className="p-6">
-                  <h3 className="font-serif text-xl font-bold text-[#2d3e2f] mb-2">
+                  <h3 className="text-xl font-bold text-[#2d3e2f] mb-2">
                     Visita Cancagua
                   </h3>
                   <p className="text-gray-600 text-sm mb-4">
@@ -244,7 +244,7 @@ export function BlogLayout({
 
               {/* Related Articles */}
               <div>
-                <h3 className="font-serif text-xl font-bold text-[#2d3e2f] mb-4">
+                <h3 className="text-xl font-bold text-[#2d3e2f] mb-4">
                   Artículos Relacionados
                 </h3>
                 <div className="space-y-4">
@@ -277,7 +277,7 @@ export function BlogLayout({
               {/* Newsletter */}
               <Card className="border-0 shadow-lg bg-[#f5f0e8]">
                 <CardContent className="p-6">
-                  <h3 className="font-serif text-lg font-bold text-[#2d3e2f] mb-2">
+                  <h3 className="text-lg font-bold text-[#2d3e2f] mb-2">
                     Suscríbete al Newsletter
                   </h3>
                   <p className="text-gray-600 text-sm mb-4">
@@ -310,7 +310,7 @@ export function BlogLayout({
       <div className="bg-white py-16">
         <div className="container max-w-6xl px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#2d3e2f]">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#2d3e2f]">
               Más Artículos
             </h2>
             <Link href="/blog">
@@ -335,7 +335,7 @@ export function BlogLayout({
                     <span className="text-xs text-[#c4a86b] font-medium">
                       {article.category}
                     </span>
-                    <h3 className="font-serif font-bold text-[#2d3e2f] mt-1 line-clamp-2 group-hover:text-[#c4a86b] transition-colors">
+                    <h3 className="font-bold text-[#2d3e2f] mt-1 line-clamp-2 group-hover:text-[#c4a86b] transition-colors">
                       {article.title}
                     </h3>
                     <p className="text-sm text-gray-500 mt-2">

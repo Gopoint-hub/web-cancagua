@@ -68,7 +68,7 @@ export default function Page() {
             <Sparkles className="h-4 w-4" />
             <span className="text-sm font-medium">Experiencias de Reconexión</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-josefin font-bold tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-['Josefin_Sans'] font-bold tracking-tight">
             Pases Reconecta
           </h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto text-white/90">
@@ -101,7 +101,7 @@ export default function Page() {
 
                 {/* Title Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-josefin font-bold mb-1">{pase.title}</h3>
+                  <h3 className="text-2xl font-['Josefin_Sans'] font-bold mb-1">{pase.title}</h3>
                   <p className="text-white/90 text-sm">{pase.subtitle}</p>
                 </div>
               </div>
@@ -141,7 +141,7 @@ export default function Page() {
                     rel="noopener noreferrer"
                     className="flex-1"
                   >
-                    <Button className="w-full bg-amber-600 hover:bg-amber-700">
+                    <Button className="w-full bg-amber-600 hover:bg-amber-700 font-['Josefin_Sans'] tracking-wider">
                       Reservar ahora
                     </Button>
                   </a>
@@ -155,7 +155,7 @@ export default function Page() {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-amber-50 to-stone-100">
         <div className="container text-center space-y-6">
-          <h2 className="text-3xl md:text-4xl font-josefin font-bold text-stone-800">
+          <h2 className="text-3xl md:text-4xl font-['Josefin_Sans'] font-bold text-stone-800">
             ¿Necesitas ayuda para elegir?
           </h2>
           <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -163,7 +163,7 @@ export default function Page() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a href="https://wa.me/56940073999" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-green-600 hover:bg-green-700">
+              <Button size="lg" className="bg-green-600 hover:bg-green-700 font-['Josefin_Sans'] tracking-wider">
                 Contactar por WhatsApp
               </Button>
             </a>

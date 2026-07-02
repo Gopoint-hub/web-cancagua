@@ -35,7 +35,7 @@ export default function FullDayBiopiscinas() {
           >
             <Button 
               size="lg" 
-              className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-8 py-6 tracking-wider uppercase"
+              className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] font-['Josefin_Sans'] text-lg px-8 py-6 tracking-wider uppercase"
             >
               Reservar Ahora
             </Button>
@@ -55,7 +55,7 @@ export default function FullDayBiopiscinas() {
               <div className="w-12 h-12 bg-[#D3BC8D]/20 rounded-full flex items-center justify-center flex-shrink-0">
                 <Leaf className="w-6 h-6 text-[#D3BC8D]" />
               </div>
-              <p className="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-[#3a3a3a] leading-relaxed">
+              <p className="text-2xl md:text-3xl text-[#3a3a3a] leading-relaxed">
                 Son piscinas naturales diseñadas de manera sostenible, que utilizan plantas y sistemas 
                 ecológicos para mantener el agua cristalina, <span className="text-[#D3BC8D] font-semibold">sin químicos</span> y 
                 en armonía con el medio ambiente.
@@ -273,7 +273,7 @@ export default function FullDayBiopiscinas() {
           >
             <Button 
               size="lg" 
-              className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-12 py-6 tracking-wider uppercase"
+              className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] font-['Josefin_Sans'] text-lg px-12 py-6 tracking-wider uppercase"
             >
               Reservar Full Day
             </Button>

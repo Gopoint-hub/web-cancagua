@@ -35,7 +35,7 @@ export default function FullDayHotTubs() {
           >
             <Button 
               size="lg" 
-              className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-8 py-6 tracking-wider uppercase"
+              className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] font-['Josefin_Sans'] text-lg px-8 py-6 tracking-wider uppercase"
             >
               Reservar Ahora
             </Button>
@@ -47,7 +47,7 @@ export default function FullDayHotTubs() {
       <section className="py-16 px-4">
         <div className="container max-w-4xl mx-auto">
           <div className="bg-white rounded-lg shadow-lg p-8 md:p-12">
-            <p className="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-[#3a3a3a] leading-relaxed mb-8 text-center">
+            <p className="text-2xl md:text-3xl text-[#3a3a3a] leading-relaxed mb-8 text-center">
               Vive una experiencia inigualable en nuestras piscinas calientes, donde la pureza de las 
               <span className="text-[#D3BC8D] font-semibold"> Biopiscinas geotermales</span> se une con la 
               comodidad y calidez de los <span className="text-[#D3BC8D] font-semibold">Hot-Tub</span>.
@@ -221,7 +221,7 @@ export default function FullDayHotTubs() {
           >
             <Button 
               size="lg" 
-              className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] text-lg px-12 py-6 tracking-wider uppercase"
+              className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] font-['Josefin_Sans'] text-lg px-12 py-6 tracking-wider uppercase"
             >
               Reservar Full Day
             </Button>

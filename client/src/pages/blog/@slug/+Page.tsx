@@ -33,7 +33,7 @@ export default function Page() {
           <span className="mb-4 inline-block w-fit rounded-full bg-[#c4a86b] px-3 py-1 text-sm font-medium text-white">
             {article.category}
           </span>
-          <h1 className="max-w-4xl text-3xl font-serif font-bold leading-tight text-white md:text-5xl">
+          <h1 className="max-w-4xl text-3xl font-bold leading-tight text-white md:text-4xl">
             {article.title}
           </h1>
           <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-white/90">
@@ -58,12 +58,12 @@ export default function Page() {
           {article.excerpt}
         </p>
 
-        <article className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-[#2d3e2f] prose-headings:mt-12 prose-headings:mb-6 prose-p:text-gray-700 prose-p:leading-[1.9] prose-p:mb-7 prose-a:text-[#9f8247] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#2d3e2f] prose-li:marker:text-[#c4a86b] prose-li:mb-3 prose-ul:my-7">
+        <article className="prose prose-lg max-w-none prose-headings:text-[#2d3e2f] prose-headings:mt-12 prose-headings:mb-6 prose-p:text-gray-700 prose-p:leading-[1.9] prose-p:mb-7 prose-a:text-[#9f8247] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#2d3e2f] prose-li:marker:text-[#c4a86b] prose-li:mb-3 prose-ul:my-7">
           <MarkdownContent content={article.content} />
         </article>
 
         <section className="mt-12 rounded-lg bg-gradient-to-br from-[#2d3e2f] to-[#1a2a1c] p-8 text-white">
-          <h2 className="mb-3 text-2xl font-serif font-bold">
+          <h2 className="mb-3 text-2xl font-bold">
             ¿Listo para vivir la experiencia Cancagua?
           </h2>
           <p className="mb-6 text-white/80">

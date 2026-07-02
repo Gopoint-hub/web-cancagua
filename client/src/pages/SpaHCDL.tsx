@@ -292,7 +292,7 @@ export default function SpaHCDL() {
             <MapPin className="w-5 h-5" />
             <span className="text-lg">{t.heroLocation}</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-serif font-light mb-6 tracking-wide">
+          <h1 className="text-4xl md:text-5xl font-light mb-6 tracking-wide">
             {t.heroTitle}
           </h1>
           <p className="text-xl md:text-2xl font-light mb-8 text-white/90">
@@ -317,7 +317,7 @@ export default function SpaHCDL() {
       <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif text-[#2C3E2D] mb-4">
+            <h2 className="text-3xl md:text-4xl text-[#2C3E2D] mb-4">
               {t.servicesTitle}
             </h2>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -404,7 +404,7 @@ export default function SpaHCDL() {
       <section className="py-20 px-4 bg-stone-100">
         <div className="max-w-4xl mx-auto text-center">
           <Star className="w-12 h-12 mx-auto mb-6 text-[#C4A77D]" />
-          <h2 className="text-3xl md:text-4xl font-serif text-[#2C3E2D] mb-4">
+          <h2 className="text-3xl md:text-4xl text-[#2C3E2D] mb-4">
             {t.ctaTitle}
           </h2>
           <p className="text-lg text-stone-600 mb-8">

@@ -53,7 +53,7 @@ export default function ServicioBiopiscinas() {
             <T>Cuatro horas de experiencia natural a 37º-40º: una alternativa a las termas cerca de Frutillar y Puerto Varas, sin cloro y con vista al Lago Llanquihue</T>
           </p>
           <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-            <Button size="lg" className="text-lg px-8 py-6">
+            <Button size="lg" className="font-['Josefin_Sans'] tracking-wider text-lg px-8 py-6">
               <T>Reservar Ahora</T>
             </Button>
           </a>
@@ -206,7 +206,7 @@ export default function ServicioBiopiscinas() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" variant="secondary" className="text-lg px-8">
+              <Button size="lg" variant="secondary" className="font-['Josefin_Sans'] tracking-wider text-lg px-8">
                 <T>Reservar Ahora</T>
               </Button>
             </a>
@@ -214,7 +214,7 @@ export default function ServicioBiopiscinas() {
               <Button
                 size="lg"
                 variant="outline"
-                className="text-lg px-8 border-white text-white hover:bg-white hover:text-primary"
+                className="font-['Josefin_Sans'] tracking-wider text-lg px-8 border-white text-white hover:bg-white hover:text-primary"
               >
                 <MessageCircle className="mr-2 h-5 w-5" />
                 <T>Consultar Disponibilidad</T>

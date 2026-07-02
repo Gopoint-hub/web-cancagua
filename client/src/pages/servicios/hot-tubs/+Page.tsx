@@ -33,7 +33,7 @@ export default function HotTubsPage() {
         </div>
 
         <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
-          <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-7xl font-light mb-4">
+          <h1 className="text-5xl md:text-7xl font-light mb-4">
             Hot Tubs en Frutillar
           </h1>
           <p className="font-['Josefin_Sans'] text-xl md:text-2xl font-light tracking-wide mb-8 max-w-2xl">
@@ -53,7 +53,7 @@ export default function HotTubsPage() {
       {/* Descripción Principal */}
       <section className="py-20 bg-white">
         <div className="container max-w-4xl text-center">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] mb-8">
+          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] mb-8">
             6 Espacios Privados con Vista Privilegiada
           </h2>
           <p className="font-['Fira_Sans'] text-lg text-[#666] leading-relaxed mb-6">
@@ -88,7 +88,7 @@ export default function HotTubsPage() {
                   <h3 className="font-['Josefin_Sans'] text-sm tracking-wider uppercase text-[#3a3a3a] mb-2">
                     {item.label}
                   </h3>
-                  <p className="font-['Cormorant_Garamond'] text-2xl text-[#D3BC8D]">{item.value}</p>
+                  <p className="font-['Josefin_Sans'] tracking-wide text-2xl text-[#D3BC8D]">{item.value}</p>
                 </CardContent>
               </Card>
             ))}
@@ -108,7 +108,7 @@ export default function HotTubsPage() {
               />
             </div>
             <div>
-              <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] mb-6">
+              <h2 className="text-3xl md:text-4xl text-[#3a3a3a] mb-6">
                 Combina nuestros servicios para una experiencia full day
               </h2>
               <p className="font-['Fira_Sans'] text-lg text-[#666] leading-relaxed mb-6">
@@ -133,7 +133,7 @@ export default function HotTubsPage() {
       {/* Antes de tu Visita */}
       <section className="py-16 bg-[#F1E7D9]">
         <div className="container max-w-4xl">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] mb-8 text-center">
+          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] mb-8 text-center">
             Antes de tu Visita
           </h2>
           <div className="bg-white rounded-lg p-8 shadow-sm">
@@ -198,7 +198,7 @@ export default function HotTubsPage() {
       {/* CTA Final */}
       <section className="py-20 bg-[#F1E7D9]">
         <div className="container text-center">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] mb-6">
+          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] mb-6">
             ¿Listo para vivir la experiencia?
           </h2>
           <p className="font-['Fira_Sans'] text-lg text-[#666] mb-8 max-w-2xl mx-auto">
@@ -220,7 +220,7 @@ export default function HotTubsPage() {
         <div className="container">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] mb-6">
+              <h2 className="text-3xl md:text-4xl text-[#3a3a3a] mb-6">
                 Conoce nuestra cafetería
               </h2>
               <p className="font-['Fira_Sans'] text-lg text-[#666] leading-relaxed mb-4">

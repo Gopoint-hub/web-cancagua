@@ -98,7 +98,7 @@ export default function Page() {
         </div>
 
         <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
-          <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-7xl font-light mb-4">
+          <h1 className="text-5xl md:text-7xl font-light mb-4 tracking-wide">
             Clases Regulares
           </h1>
           <p className="font-['Josefin_Sans'] text-xl md:text-2xl font-light tracking-wide mb-8 max-w-2xl">
@@ -143,7 +143,7 @@ export default function Page() {
       {/* Clases */}
       <section id="clases" className="py-20 bg-[#F1E7D9]">
         <div className="container max-w-6xl">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] text-center mb-4">
+          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] text-center mb-4">
             Nuestras Clases
           </h2>
           <p className="font-['Fira_Sans'] text-[#666] text-center mb-12">
@@ -223,7 +223,7 @@ export default function Page() {
       {/* Beneficios */}
       <section className="py-20 bg-white">
         <div className="container max-w-4xl">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] text-center mb-12">
+          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] text-center mb-12">
             Beneficios de practicar con nosotros
           </h2>
           <div className="grid md:grid-cols-3 gap-8 text-center">
@@ -261,7 +261,7 @@ export default function Page() {
       {/* Pases y Membresías */}
       <section className="py-20 bg-[#3a3a3a] text-white">
         <div className="container max-w-4xl text-center">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl mb-6">
+          <h2 className="text-3xl md:text-4xl mb-6">
             Pases y Membresías
           </h2>
           <p className="font-['Fira_Sans'] text-white/80 mb-8 max-w-2xl mx-auto">
@@ -283,7 +283,7 @@ export default function Page() {
       {/* Formulario de Reserva */}
       <section className="py-20 bg-white">
         <div className="container max-w-2xl">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] text-center mb-12">
+          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] text-center mb-12">
             Reserva tu clase directamente
           </h2>
           <ReservaClasesForm
@@ -295,7 +295,7 @@ export default function Page() {
       {/* CTA Final */}
       <section className="py-20 bg-[#F1E7D9]">
         <div className="container text-center">
-          <h2 className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3a3a3a] mb-6">
+          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] mb-6">
             Comienza tu práctica hoy
           </h2>
           <p className="font-['Fira_Sans'] text-lg text-[#666] mb-8 max-w-2xl mx-auto">

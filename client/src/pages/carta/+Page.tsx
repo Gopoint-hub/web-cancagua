@@ -51,7 +51,7 @@ export default function Carta() {
         {/* Hero Section */}
         <section className="relative bg-[#44580E] text-white py-20">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-5xl font-serif mb-4">Nuestra Carta</h1>
+            <h1 className="text-4xl md:text-5xl mb-4">Nuestra Carta</h1>
             <div className="w-24 h-1 bg-[#8BC4B8] mx-auto mb-6"></div>
             <p className="text-lg max-w-2xl mx-auto">
               Comida sana, consciente y local de la zona donde posible.
@@ -109,7 +109,7 @@ export default function Carta() {
               return (
                 <div key={category.id} className="mb-16">
                   <div className="text-center mb-8">
-                    <h2 className="text-3xl font-serif text-[#44580E] mb-2">
+                    <h2 className="text-3xl text-[#44580E] mb-2">
                       {category.name}
                     </h2>
                     {category.description && (

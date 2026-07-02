@@ -85,7 +85,7 @@ export default function Page() {
           </div>
 
           <div className="relative z-10 container text-center text-white px-4">
-            <span className="text-white/90 text-sm md:text-base tracking-[0.3em] uppercase mb-4 block">
+            <span className="font-['Josefin_Sans'] text-white/90 text-sm md:text-base tracking-[0.3em] uppercase mb-4 block">
               Experiencia Ancestral
             </span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-6">
@@ -96,7 +96,7 @@ export default function Page() {
             </p>
             <Button
               size="lg"
-              className="bg-[#D3BC8D] hover:bg-[#C5AE7F] text-white px-8 py-6 text-lg"
+              className="bg-[#D3BC8D] hover:bg-[#C5AE7F] text-white font-['Josefin_Sans'] tracking-wider px-8 py-6 text-lg"
               asChild
             >
               <a href="#opciones">Ver Opciones</a>
@@ -108,7 +108,7 @@ export default function Page() {
         <section id="opciones" className="py-20 bg-white">
           <div className="container">
             <div className="text-center mb-16">
-              <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+              <span className="font-['Josefin_Sans'] text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
                 Elige Tu Experiencia
               </span>
               <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
@@ -157,7 +157,7 @@ export default function Page() {
                       <p className="text-3xl font-light text-[#D3BC8D]">{option.price}</p>
                     </div>
                     <Button
-                      className="w-full bg-[#D3BC8D] hover:bg-[#C5AE7F] text-white"
+                      className="w-full bg-[#D3BC8D] hover:bg-[#C5AE7F] text-white font-['Josefin_Sans'] tracking-wider"
                       asChild
                     >
                       <a href={option.reservaUrl} target="_blank" rel="noopener noreferrer">
@@ -175,7 +175,7 @@ export default function Page() {
         <section className="py-20 bg-gradient-to-br from-[#F5F5F0] to-white">
           <div className="container">
             <div className="text-center mb-16">
-              <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+              <span className="font-['Josefin_Sans'] text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
                 Bienestar Integral
               </span>
               <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
@@ -247,7 +247,7 @@ export default function Page() {
             </p>
             <Button
               size="lg"
-              className="bg-white hover:bg-white/90 text-[#3a3a3a] px-8 py-6 text-lg"
+              className="bg-white hover:bg-white/90 text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider px-8 py-6 text-lg"
               asChild
             >
               <a href="#opciones">Reservar Ahora</a>
