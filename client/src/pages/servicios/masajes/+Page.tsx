@@ -181,7 +181,7 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/65" />
-        <h3 className="absolute bottom-5 left-5 right-5 font-['Cormorant_Garamond'] text-3xl font-medium leading-none text-white md:text-4xl">
+        <h3 className="absolute bottom-5 left-5 right-5 font-['Josefin_Sans'] text-2xl font-normal leading-tight tracking-wide text-white md:text-3xl">
           {technique.name}
         </h3>
       </div>
@@ -211,8 +211,8 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
           </div>
         </div>
 
-        <div className="mt-auto flex items-center justify-between gap-4 pt-8">
-          <span className="font-['Cormorant_Garamond'] text-3xl font-medium text-[#3a3a3a]">
+        <div className="mt-auto flex items-center justify-between gap-4 pt-6">
+          <span className="font-['Josefin_Sans'] text-2xl font-medium leading-none text-[#3a3a3a]">
             {formatPrice(selectedPrice)}
           </span>
           <a href={technique.bookingUrl} className="shrink-0">
@@ -277,7 +277,7 @@ export default function Page() {
         </div>
 
         <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
-          <h1 className="mb-4 font-['Cormorant_Garamond'] text-5xl font-light md:text-7xl">
+          <h1 className="mb-4 font-['Josefin_Sans'] text-5xl font-light tracking-wide md:text-7xl">
             Masajes & Terapias
           </h1>
           <p className="max-w-2xl font-['Josefin_Sans'] text-xl font-light tracking-wide md:text-2xl">
@@ -312,7 +312,7 @@ export default function Page() {
       {/* Lista de Servicios */}
       <section id="tecnicas" className="py-20 bg-[#F1E7D9]">
         <div className="container max-w-6xl">
-          <h2 className="mb-4 text-center font-['Cormorant_Garamond'] text-4xl font-light text-[#3a3a3a] md:text-5xl">
+          <h2 className="mb-4 text-center font-['Josefin_Sans'] text-4xl font-light tracking-wide text-[#3a3a3a] md:text-5xl">
             Selecciona tu experiencia
           </h2>
           <p className="mb-12 text-center font-['Fira_Sans'] text-[#666]">
@@ -342,7 +342,7 @@ export default function Page() {
       {/* Galería */}
       <section className="py-20 bg-white">
         <div className="container">
-          <h2 className="mb-12 text-center font-['Cormorant_Garamond'] text-3xl font-light text-[#3a3a3a] md:text-4xl">
+          <h2 className="mb-12 text-center font-['Josefin_Sans'] text-3xl font-light tracking-wide text-[#3a3a3a] md:text-4xl">
             Nuestro espacio
           </h2>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -368,7 +368,7 @@ export default function Page() {
       {/* Beneficios */}
       <section className="py-20 bg-[#3a3a3a] text-white">
         <div className="container max-w-4xl">
-          <h2 className="mb-12 text-center font-['Cormorant_Garamond'] text-3xl font-light md:text-4xl">
+          <h2 className="mb-12 text-center font-['Josefin_Sans'] text-3xl font-light tracking-wide md:text-4xl">
             Beneficios de nuestros masajes
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
@@ -400,7 +400,7 @@ export default function Page() {
                   También en Puerto Varas
                 </span>
               </div>
-              <h3 className="mb-2 font-['Cormorant_Garamond'] text-2xl font-medium text-white md:text-3xl">
+              <h3 className="mb-2 font-['Josefin_Sans'] text-2xl font-normal tracking-wide text-white md:text-3xl">
                 Spa en Hotel Cabañas del Lago
               </h3>
               <p className="max-w-lg font-['Fira_Sans'] text-white/80">
@@ -422,7 +422,7 @@ export default function Page() {
       {/* CTA Final */}
       <section className="py-20 bg-[#F1E7D9]">
         <div className="container text-center">
-          <h2 className="mb-6 font-['Cormorant_Garamond'] text-3xl font-light text-[#3a3a3a] md:text-4xl">
+          <h2 className="mb-6 font-['Josefin_Sans'] text-3xl font-light tracking-wide text-[#3a3a3a] md:text-4xl">
             Regálate un momento de bienestar
           </h2>
           <p className="mx-auto mb-8 max-w-2xl font-['Fira_Sans'] text-lg leading-relaxed text-[#666]">
