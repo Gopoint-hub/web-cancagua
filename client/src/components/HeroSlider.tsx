@@ -21,15 +21,6 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto,f_auto,q_auto/v1780586349/cancagua/images/ritual-papa-hottub-hero.jpg",
-      eyebrow: "Junio · Día del Padre",
-      titleKey: "Ritual para Papá",
-      subtitleKey: "Hot Tub · Masaje · Cerveza",
-      ctaKey: "Reservar Programa",
-      ctaLink: "https://reservas.cancagua.cl/cancaguaspa/s/c08ea2ea-467e-4121-9c16-b3f7b78c3e7c",
-      isExternal: true,
-    },
-    {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto,f_auto,q_auto/v1780587020/cancagua/images/junio-en-familia-biopiscinas-hero.jpg",
       eyebrow: "Regalonea a papá junto a toda la familia",
       titleKey: "Junio en Familia",
