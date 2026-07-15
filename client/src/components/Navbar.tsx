@@ -18,6 +18,8 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pageContext = usePageContext();
   const location = pageContext.urlPathname || '/';
+  const isMassagePage = location === "/servicios/masajes" || location === "/masajes";
+  const generalBookingUrl = "https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw..";
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
   const isActive = (path: string) => location === path;
@@ -48,13 +50,14 @@ export function Navbar() {
       return baseUrl;
     }
   };
+  const bookingUrl = isMassagePage ? "#tecnicas" : getSkeduLink(generalBookingUrl);
 
   const servicios = [
     { name: t('services.biopiscinas.name'), href: "/servicios/biopiscinas" },
     { name: t('services.hotTubs.name'), href: "/servicios/hot-tubs" },
     { name: "Sauna Nativo", href: "/servicios/sauna" },
     { name: "Pulso Local", href: "/servicios/programalocal", highlight: true },
-    { name: t('services.masajes.name'), href: "/masajes" },
+    { name: t('services.masajes.name'), href: "/servicios/masajes" },
     { name: "Masajes en Puerto Varas", href: "/spa-hotel-cabanas-del-lago", highlight: true },
     { name: t('services.clases.name'), href: "/clases" },
   ];
@@ -241,7 +244,7 @@ export function Navbar() {
           {/* Selector de Idioma y Botón Reservar */}
           <div className="hidden md:flex items-center gap-4">
             <LanguageSelector />
-            <a href={getSkeduLink("https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw..")} target="_blank" rel="noopener noreferrer">
+            <a href={bookingUrl} target={isMassagePage ? undefined : "_blank"} rel={isMassagePage ? undefined : "noopener noreferrer"}>
               <Button
                 size="lg"
                 className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase text-sm"
@@ -400,7 +403,7 @@ export function Navbar() {
                   <LanguageSelector />
                 </div>
 
-                <a href={getSkeduLink("https://reservas.cancagua.cl/?_gl=1*e0alyp*_gcl_au*NjA5MTYyNzYuMTc2ODQzMjIyNw..")} target="_blank" rel="noopener noreferrer" className="block">
+                <a href={bookingUrl} target={isMassagePage ? undefined : "_blank"} rel={isMassagePage ? undefined : "noopener noreferrer"} className="block">
                   <Button
                     size="lg"
                     className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase"

@@ -48,7 +48,7 @@ export function HeroSlider() {
       titleKey: "hero.masajes.title",
       subtitleKey: "hero.masajes.subtitle",
       ctaKey: "hero.masajes.cta1",
-      ctaLink: "/masajes",
+      ctaLink: "/servicios/masajes",
     },
     {
       image: "/images/clases-regulares-hero.jpg",

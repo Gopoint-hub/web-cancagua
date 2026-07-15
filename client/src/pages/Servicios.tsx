@@ -30,7 +30,7 @@ export default function Servicios() {
       title: "Masajes & Terapias",
       description: "Reconforta tu cuerpo con masajes descontracturantes, piedras calientes, drenaje linfático, reflexología y terapias holísticas.",
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309084/cancagua/images/13_masajes-service.webp",
-      href: "/masajes",
+      href: "/servicios/masajes",
     },
     {
       title: "Pulso Local",

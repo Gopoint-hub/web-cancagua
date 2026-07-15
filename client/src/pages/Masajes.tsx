@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Clock, Sparkles, Heart, Leaf } from "lucide-react";
 import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
 
-const BOOKING_URL = "https://reservas.cancagua.cl/cancaguaspa/s/502a130d-2e50-472a-aabc-a7917d5b5fbe";
+const BOOKING_URL = "/servicios/masajes#tecnicas";
 
 interface MassageService {
   name: string;
@@ -73,7 +73,7 @@ export default function Masajes() {
             <p className="font-['Josefin_Sans'] text-xl md:text-2xl font-light tracking-wide mb-8 max-w-2xl">
               <T>Descubre nuestras sesiones de renovación y descanso en un ambiente armónico y natural</T>
             </p>
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+            <a href={BOOKING_URL}>
               <Button 
                 size="lg" 
                 className="bg-[#D3BC8D] hover:bg-[#c4ad7e] text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider text-lg px-10 py-6"
@@ -122,8 +122,6 @@ export default function Masajes() {
                 <a 
                   key={index} 
                   href={BOOKING_URL} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
                   className="block"
                 >
                   <Card className="bg-white border-none shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer group">
@@ -154,7 +152,7 @@ export default function Masajes() {
             </div>
 
             <div className="text-center mt-12">
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              <a href={BOOKING_URL}>
                 <Button 
                   size="lg" 
                   className="bg-[#D3BC8D] hover:bg-[#c4ad7e] text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider text-lg px-12 py-6"
@@ -255,7 +253,7 @@ export default function Masajes() {
             <p className="font-['Fira_Sans'] text-lg text-[#666] mb-8 max-w-2xl mx-auto">
               <T>Reserva tu sesión de masaje y vive una experiencia de renovación en el corazón de la Patagonia.</T>
             </p>
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+            <a href={BOOKING_URL}>
               <Button 
                 size="lg" 
                 className="bg-[#D3BC8D] hover:bg-[#c4ad7e] text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider text-lg px-12 py-6"

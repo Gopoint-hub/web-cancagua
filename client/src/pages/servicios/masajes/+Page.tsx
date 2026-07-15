@@ -5,12 +5,6 @@ import { Clock, Sparkles, Heart, Leaf } from "lucide-react";
 const CMS_MASSAGE_CATALOG_URL = "https://cms.cancagua.cl/api/public/masajes/techniques";
 const FALLBACK_IMAGE = "/images/masajes-hero-cancagua.jpg";
 
-// TEMPORAL (jul 2026): mientras los terapeutas in-house no carguen sus
-// calendarios en el CMS, las reservas vuelven a Skedu. Para volver al flujo
-// del CMS basta con poner USE_SKEDU_BOOKING = false.
-const USE_SKEDU_BOOKING = true;
-const SKEDU_BOOKING_URL = "https://reservas.cancagua.cl/cancaguaspa/s/502a130d-2e50-472a-aabc-a7917d5b5fbe";
-
 interface MassagePrice {
   duration: number;
   price: number | null;
@@ -25,113 +19,6 @@ interface MassageTechnique {
   prices: MassagePrice[];
   bookingUrl: string;
 }
-
-// Variantes según el servicio publicado en Skedu (mismos nombres, duraciones y precios)
-const SKEDU_TECHNIQUES: MassageTechnique[] = [
-  {
-    id: 1,
-    name: "Masaje de Relajación",
-    description:
-      "Masaje de cuerpo completo de presión suave, que ayuda a mejorar la circulación y otorga una sensación de bienestar integral con un efecto sedante.",
-    imageUrl:
-      "https://res.cloudinary.com/dhuln9b1n/image/upload/v1782926865/massage-techniques/massage-techniques/1782926864562-eq8f1p.jpg",
-    durations: [50, 90],
-    prices: [
-      { duration: 50, price: 45000 },
-      { duration: 90, price: 81000 },
-    ],
-    bookingUrl: SKEDU_BOOKING_URL,
-  },
-  {
-    id: 2,
-    name: "Masaje Descontracturante",
-    description:
-      "Técnicas manuales profundas que buscan aliviar tejidos tensionados, proporcionando un descanso revitalizante.",
-    imageUrl:
-      "https://res.cloudinary.com/dhuln9b1n/image/upload/v1782926820/massage-techniques/massage-techniques/1782926819782-j5bpdz.jpg",
-    durations: [50, 90],
-    prices: [
-      { duration: 50, price: 50000 },
-      { duration: 90, price: 90000 },
-    ],
-    bookingUrl: SKEDU_BOOKING_URL,
-  },
-  {
-    id: 3,
-    name: "Masaje Mixto",
-    description:
-      "Sesión personalizada que fusiona técnicas de relajación con maniobras profundas, adaptándose a las necesidades de cada receptor para una experiencia integral de bienestar.",
-    imageUrl:
-      "https://res.cloudinary.com/dhuln9b1n/image/upload/v1782926117/massage-techniques/massage-techniques/1782926116429-g3r9m7.jpg",
-    durations: [50, 90],
-    prices: [
-      { duration: 50, price: 50000 },
-      { duration: 90, price: 90000 },
-    ],
-    bookingUrl: SKEDU_BOOKING_URL,
-  },
-  {
-    id: 4,
-    name: "Masaje con Piedras Calientes",
-    description:
-      "Mediante maniobras suaves y el calor de las piedras de origen volcánico se vive una sensación cálida y envolvente que alivia tensiones musculares y disminuye el estrés.",
-    imageUrl:
-      "https://res.cloudinary.com/dhuln9b1n/image/upload/v1782926096/massage-techniques/massage-techniques/1782926095227-942gac.jpg",
-    durations: [50, 90],
-    prices: [
-      { duration: 50, price: 45000 },
-      { duration: 90, price: 81000 },
-    ],
-    bookingUrl: SKEDU_BOOKING_URL,
-  },
-  {
-    id: 5,
-    name: "Drenaje Linfático",
-    description:
-      "Técnica que usa bombeos manuales y rítmicos para estimular la circulación linfática, facilitar la movilización de líquidos retenidos y fortalecer el sistema inmunológico.",
-    imageUrl:
-      "https://res.cloudinary.com/dhuln9b1n/image/upload/v1782926804/massage-techniques/massage-techniques/1782926803984-2kryu8.jpg",
-    durations: [50, 90],
-    prices: [
-      { duration: 50, price: 45000 },
-      { duration: 90, price: 81000 },
-    ],
-    bookingUrl: SKEDU_BOOKING_URL,
-  },
-  {
-    id: 6,
-    name: "Masaje Prenatal",
-    description:
-      "Combinación de técnicas de relajación y drenaje linfático, con el objetivo de disminuir la retención de líquidos y el estrés de la zona lumbar para mujeres en gestación desde la novena semana de embarazo.",
-    imageUrl:
-      "https://res.cloudinary.com/dhuln9b1n/image/upload/v1782926897/massage-techniques/massage-techniques/1782926896407-8vgw9l.jpg",
-    durations: [50],
-    prices: [{ duration: 50, price: 45000 }],
-    bookingUrl: SKEDU_BOOKING_URL,
-  },
-  {
-    id: 7,
-    name: "Reflexología Podal",
-    description:
-      "Terapia holística que usa la presión de puntos específicos de los pies, para activar órganos y sistemas del cuerpo de manera distal.",
-    imageUrl:
-      "https://res.cloudinary.com/dhuln9b1n/image/upload/v1782926882/massage-techniques/massage-techniques/1782926881382-5aef9n.jpg",
-    durations: [40],
-    prices: [{ duration: 40, price: 40000 }],
-    bookingUrl: SKEDU_BOOKING_URL,
-  },
-  {
-    id: 8,
-    name: "Cuidado Facial",
-    description:
-      "Rutina facial universal y sencilla indicada para todo tipo de piel, que limpia e hidrata la zona de cuello y rostro, otorgando elasticidad y protección con los productos Germaine de Capuccini.",
-    imageUrl:
-      "https://res.cloudinary.com/dhuln9b1n/image/upload/v1782926058/massage-techniques/massage-techniques/1782926057203-4b4u81.jpg",
-    durations: [20],
-    prices: [{ duration: 20, price: 30000 }],
-    bookingUrl: SKEDU_BOOKING_URL,
-  },
-];
 
 const beneficios = [
   {
@@ -227,17 +114,14 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
 }
 
 export default function Page() {
-  const [techniques, setTechniques] = useState<MassageTechnique[]>(
-    USE_SKEDU_BOOKING ? SKEDU_TECHNIQUES : []
-  );
-  const [isLoadingCatalog, setIsLoadingCatalog] = useState(!USE_SKEDU_BOOKING);
+  const [techniques, setTechniques] = useState<MassageTechnique[]>([]);
+  const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
   const [catalogError, setCatalogError] = useState(false);
 
   useEffect(() => {
-    if (USE_SKEDU_BOOKING) return;
     let cancelled = false;
 
-    fetch(CMS_MASSAGE_CATALOG_URL)
+    fetch(CMS_MASSAGE_CATALOG_URL, { cache: "no-store" })
       .then((res) => {
         if (!res.ok) throw new Error(`CMS catalog error ${res.status}`);
         return res.json();
