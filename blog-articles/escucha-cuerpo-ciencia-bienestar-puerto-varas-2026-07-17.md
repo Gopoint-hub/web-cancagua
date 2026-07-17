@@ -7,6 +7,7 @@ author: "Cancagua"
 category: "Bienestar"
 metaDescription: "Descubre cómo la ciencia confirma la sabiduría de tu cuerpo. Aprende sobre el estrés beneficioso y cómo las biopiscinas y masajes en Cancagua Spa, te ayudan a reconectar."
 keywords: ["bienestar Puerto Varas", "spa sur de Chile", "manejo del estrés", "biopiscinas geotermales", "retiros de bienestar Chile", "hormesis y salud", "masajes terapéuticos", "Cancagua Spa"]
+image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1784322114/blog/blog/1784322113544-axopf6.jpg"
 status: "published"
 ---
 
