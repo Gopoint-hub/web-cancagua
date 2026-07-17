@@ -2,43 +2,31 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
 
-// Eventos destacados — Abril 2026
+// Próximos eventos — Julio 2026
 const featuredEvents = [
   {
     id: 1,
-    title: "Concierto Cambio de Piel 🎶",
-    description: "Concierto íntimo acústico con Daniela Conejero (voz) e Ítalo Aguilera (guitarra). Vive la música junto a las biopiscinas geotermales en el atardecer de otoño.",
-    image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/a5ac625d2db04b39a004b6b2851d0995.jpeg",
-    date: "Viernes 11 de Abril, 2026",
-    time: "19:00 – 20:30",
-    location: "Biopiscinas / Sillones — Cancagua",
-    price: "",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/203139c0-f3d8-42d6-a996-15c5ed74c511",
-    href: "/eventos/concierto",
+    title: "Sonoterapia",
+    description: "Una sesión grupal en la calidez del yurt, guiada por Sebastián Diez con cuencos, gong, didgeridoo y otros instrumentos para entrar en un estado de relajación y calma. Incluye té del día y opción de extender la experiencia en las biopiscinas.",
+    image: "https://cdn.skedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/29598e93ddc94c3f83f84f8e5afac156.png",
+    imagePosition: "center top",
+    date: "Sábado 25 de julio de 2026",
+    time: "Llegada 10:00 · Sesión 10:15–11:15",
+    location: "Yurt de Cancagua",
+    price: "Desde $15.000",
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/8dc087fd-67d9-40f0-944c-0872e64e8b0a",
   },
   {
     id: 2,
-    title: "Danza Consciente — Sesión de Profundización 💃",
-    description: "Sesión especial de danza y movimiento consciente. Explora el movimiento libre en un espacio seguro y liberador dentro del Yurt de Cancagua.",
-    image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/8991d643ef0c4b2eb2d326260ab5eb37.jpeg",
-    date: "Sábado 18 de Abril, 2026",
-    time: "18:00 – 20:00",
-    location: "Yurt — Cancagua",
-    price: "",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/5cf1caf5-dcb8-421c-9fdf-2f1bebe36673",
-    href: "",
-  },
-  {
-    id: 3,
-    title: "Sonoterapia Grupal 🔔",
-    description: "Sesión grupal de sonoterapia con cuencos tibetanos y sonidos ancestrales para calmar la mente y restaurar el equilibrio. Facilitada por Carlos Camacho.",
-    image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/ade5667f370540e0a215b67e29e79cdf.png",
-    date: "Sábado 25 de Abril, 2026",
-    time: "10:15 – 11:15",
-    location: "Yurt + Biopiscinas opcional — Cancagua",
-    price: "",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/8dc087fd-67d9-40f0-944c-0872e64e8b0a",
-    href: "",
+    title: "Encuentro de Inmersión Julio",
+    description: "Un ritual de reconexión que integra aromaterapia, respiración, movimiento consciente, inmersión en el Lago Llanquihue y recuperación en sauna nativo. Una experiencia acompañada para despertar los sentidos y cultivar presencia.",
+    image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/0d6784633a564379a3f4dc5de2c3f18b.png",
+    imagePosition: "center 42%",
+    date: "Domingo 26 de julio de 2026",
+    time: "Check-in 10:00 · Inicio 10:30",
+    location: "Yurt, Lago Llanquihue y sauna nativo",
+    price: "Desde $10.000",
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/29ee2d1b-a529-4ad4-857b-c0e45facec62",
   },
 ];
 
@@ -96,7 +84,7 @@ export default function EventosPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {featuredEvents.map((event) => (
               <Card key={event.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 bg-white border-0 shadow-lg">
                 {event.image ? (
@@ -105,6 +93,7 @@ export default function EventosPage() {
                       src={event.image}
                       alt={event.title}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      style={{ objectPosition: event.imagePosition }}
                     />
                     {event.price && (
                       <div className="absolute top-4 right-4 bg-[#D3BC8D] text-[#3a3a3a] px-4 py-2 text-sm font-medium">
@@ -136,21 +125,12 @@ export default function EventosPage() {
                       <span>{event.location}</span>
                     </div>
                   </div>
-                  {event.href ? (
-                    <a href={event.href} className="block">
-                      <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
-                        Ver Detalles
-                        <ArrowRight className="w-4 h-4" />
-                      </Button>
-                    </a>
-                  ) : event.bookingUrl ? (
-                    <a href={event.bookingUrl} target="_blank" rel="noopener noreferrer">
-                      <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
-                        Reservar
-                        <ArrowRight className="w-4 h-4" />
-                      </Button>
-                    </a>
-                  ) : null}
+                  <a href={event.bookingUrl} target="_blank" rel="noopener noreferrer" className="block">
+                    <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
+                      Reservar
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </a>
                 </CardContent>
               </Card>
             ))}

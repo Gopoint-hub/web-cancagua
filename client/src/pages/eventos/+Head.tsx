@@ -2,15 +2,15 @@ import { generateServiceSchema } from '@/lib/seo-helpers';
 
 export default function Head() {
   const seoData = {
-    title: "Eventos Corporativos y Sociales | Cancagua",
-    description: "Transforma a tu equipo con experiencias de wellness corporativo que nutren el cuerpo y el espíritu en armonía con la naturaleza. Retiros corporativos únicos que fortalecen vínculos y reducen el estrés.",
-    keywords: "eventos corporativos bienestar, retiro empresarial, eventos empresariales frutillar, retiros corporativos chile, celebraciones lago llanquihue",
+    title: "Próximos Eventos y Talleres | Cancagua",
+    description: "Descubre los próximos eventos de Cancagua en Frutillar: sonoterapia, encuentros de inmersión y experiencias de bienestar conectadas con la naturaleza.",
+    keywords: "eventos Cancagua, sonoterapia Frutillar, inmersión Lago Llanquihue, talleres de bienestar, eventos julio Frutillar",
     canonical: "/eventos",
-    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309226/cancagua/images/navega-relax-header.jpg",
+    image: "https://cdn.skedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/29598e93ddc94c3f83f84f8e5afac156.png",
   };
 
   const serviceSchema = generateServiceSchema({
-    name: "Eventos Corporativos y Sociales Cancagua",
+    name: "Próximos Eventos y Talleres Cancagua",
     description: seoData.description,
     image: seoData.image,
   });

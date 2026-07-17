@@ -71,7 +71,8 @@ export function Navbar() {
 
   const eventos = [
     { name: "Todos los Eventos", href: "/eventos" },
-    { name: "Concierto Equinoccio", href: "/eventos/concierto" },
+    { name: "Sonoterapia — 25 de julio", href: "https://reservas.cancagua.cl/cancaguaspa/s/8dc087fd-67d9-40f0-944c-0872e64e8b0a" },
+    { name: "Encuentro de Inmersión — 26 de julio", href: "https://reservas.cancagua.cl/cancaguaspa/s/29ee2d1b-a529-4ad4-857b-c0e45facec62" },
     { name: "Eventos Sociales", href: "/eventos/sociales" },
     { name: "Eventos Empresas", href: "/eventos/empresas" },
   ];
