@@ -1,5 +1,5 @@
 ---
-title: "Escucha a tu Cuerpo: La Ciencia Detrás del Bienestar en el Corazón de Frutillar"
+title: "Escucha a tu cuerpo: La ciencia cetrás del bienestar en el corazón de Frutillar"
 slug: "escucha-cuerpo-ciencia-bienestar-puerto-varas"
 cmsArticleId: "1"
 date: "2026-07-17"
