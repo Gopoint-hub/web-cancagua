@@ -1,5 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
+
+@font-face {
+  font-family: "P22 Mackinac Pro";
+  src: url("https://cms.cancagua.cl/brand/fonts/P22MackinacPro-Book.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "P22 Mackinac Pro";
+  src: url("https://cms.cancagua.cl/brand/fonts/P22MackinacPro-BookItalic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "CoFo Sans";
+  src: url("https://cms.cancagua.cl/brand/fonts/CoFoSans-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -207,6 +230,34 @@
   .text-cancagua-tierra { color: #D3BC8D; }
   .text-cancagua-gris { color: #8C8C8C; }
   .border-cancagua-tierra { border-color: #D3BC8D; }
+  .font-cg-serif { font-family: "P22 Mackinac Pro", Georgia, serif; }
+  .font-cg-sans { font-family: "IBM Plex Sans", Arial, sans-serif; }
+  .font-cg-soft { font-family: "CoFo Sans", "IBM Plex Sans", Arial, sans-serif; }
+  .font-cg-mono { font-family: "IBM Plex Mono", "Courier New", monospace; }
+}
+
+@layer components {
+  .cg-blog-prose { font-family: "IBM Plex Sans", Arial, sans-serif; color: #46423F; }
+  .cg-blog-prose h1,
+  .cg-blog-prose h2,
+  .cg-blog-prose h3,
+  .cg-blog-prose h4,
+  .cg-blog-prose h5,
+  .cg-blog-prose h6 {
+    font-family: "P22 Mackinac Pro", Georgia, serif;
+    color: #222221;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .cg-blog-prose h2 { font-size: 2rem; line-height: 1.2; margin: 3.5rem 0 1.25rem; }
+  .cg-blog-prose h3 { font-size: 1.5rem; line-height: 1.3; margin: 2.5rem 0 1rem; color: #333D51; }
+  .cg-blog-prose h4 { font-size: 1.2rem; line-height: 1.4; margin: 2rem 0 0.75rem; }
+  .cg-blog-prose p { font-size: 1.0625rem; line-height: 1.85; margin: 0 0 1.5rem; }
+  .cg-blog-prose ul { margin: 0 0 1.75rem; padding-left: 1.4rem; list-style: disc; }
+  .cg-blog-prose li { line-height: 1.75; margin: 0.45rem 0; padding-left: 0.35rem; }
+  .cg-blog-prose li::marker { color: #696F4D; }
+  .cg-blog-prose strong { color: #222221; font-weight: 600; }
+  .cg-blog-prose a { color: #4B5872; text-decoration: underline; text-underline-offset: 3px; }
 }
 
 @layer components {

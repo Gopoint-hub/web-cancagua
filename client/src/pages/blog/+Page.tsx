@@ -1,175 +1,109 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Calendar, Clock, User, ArrowRight } from "lucide-react";
 import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
 import { blogArticles } from "@/lib/blog-articles";
 
-const articles = blogArticles;
-
 export default function Page() {
-  const featuredArticle = articles[0];
-  const otherArticles = articles.slice(1);
+  const featuredArticle = blogArticles[0];
+  const otherArticles = blogArticles.slice(1);
 
   return (
     <AutoTranslateProvider pageId="blog">
-      <div className="min-h-screen bg-[#faf8f5]">
-        {/* Hero Section */}
-        <section className="pt-24 pb-12 bg-gradient-to-b from-[#2d3e2f] to-[#1a2a1c]">
-          <div className="container max-w-6xl px-4">
-            <div className="text-center">
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                <T>Blog de Bienestar</T>
+      <div className="font-cg-sans min-h-screen bg-[#F4F2ED] text-[#222221]">
+        <header className="border-b border-white/20 bg-[#1B212D] px-6 pb-20 pt-32 text-[#FCF9F9] md:pb-28">
+          <div className="mx-auto max-w-6xl">
+            <p className="font-cg-mono mb-8 text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">
+              CANCAGUA · CUERPO, MÉTODO Y NATURALEZA
+            </p>
+            <div className="max-w-4xl">
+              <h1 className="font-cg-serif text-5xl font-normal leading-[1.05] tracking-[-0.02em] md:text-7xl">
+                <T>Historias para volver al cuerpo.</T>
               </h1>
-              <p className="text-xl text-white/80 max-w-2xl mx-auto">
-                <T>
-                  Guías, consejos y experiencias sobre termas, bienestar y vida
-                  consciente en el sur de Chile.
-                </T>
+              <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1] md:text-xl">
+                <T>Conocimiento, experiencias y preguntas sobre bienestar en el sur de Chile.</T>
               </p>
             </div>
           </div>
-        </section>
+        </header>
 
-        {/* Featured Article */}
         {featuredArticle ? (
-          <section className="py-12">
-            <div className="container max-w-6xl px-4">
-              <a href={`/blog/${featuredArticle.slug}`}>
-                <Card className="overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-shadow cursor-pointer group">
-                  <div className="grid md:grid-cols-2">
-                    <div className="aspect-[4/3] md:aspect-auto overflow-hidden">
-                      <img
-                        src={featuredArticle.image}
-                        alt={featuredArticle.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                    <CardContent className="p-8 md:p-12 flex flex-col justify-center bg-white">
-                      <span className="inline-block px-3 py-1 bg-[#c4a86b]/10 text-[#c4a86b] text-sm font-medium rounded-full w-fit mb-4">
-                        <T>{featuredArticle.category}</T>
-                      </span>
-                      <h2 className="text-2xl md:text-3xl font-bold text-[#2d3e2f] mb-4 group-hover:text-[#c4a86b] transition-colors">
-                        <T>{featuredArticle.title}</T>
-                      </h2>
-                      <p className="text-gray-600 mb-6 line-clamp-3">
-                        <T>{featuredArticle.excerpt}</T>
-                      </p>
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
-                        <span className="flex items-center gap-2">
-                          <User className="w-4 h-4" />
-                          {featuredArticle.author}
-                        </span>
-                        <span className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4" />
-                          {featuredArticle.date}
-                        </span>
-                        <span className="flex items-center gap-2">
-                          <Clock className="w-4 h-4" />
-                          {featuredArticle.readTime}
-                        </span>
-                      </div>
-                      <Button className="w-fit bg-[#2d3e2f] hover:bg-[#1a2a1c] text-white">
-                        <T>Leer artículo</T>
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </Button>
-                    </CardContent>
-                  </div>
-                </Card>
-              </a>
-            </div>
-          </section>
-        ) : (
-          <section className="py-16">
-            <div className="container max-w-3xl px-4 text-center">
-              <h2 className="text-2xl md:text-3xl font-bold text-[#2d3e2f] mb-4">
-                <T>Pronto tendremos nuevos artículos</T>
-              </h2>
-              <p className="text-gray-600">
-                <T>
-                  Estamos preparando guías y consejos de bienestar para
-                  compartir contigo.
-                </T>
-              </p>
-            </div>
-          </section>
-        )}
-
-        {/* Other Articles */}
-        {otherArticles.length > 0 && (
-          <section className="py-12 bg-white">
-            <div className="container max-w-6xl px-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-[#2d3e2f] mb-8">
-                <T>Más Artículos</T>
-              </h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {otherArticles.map(article => (
-                  <a key={article.slug} href={`/blog/${article.slug}`}>
-                    <Card className="overflow-hidden border-0 shadow-md hover:shadow-xl transition-all cursor-pointer group h-full flex flex-col">
-                      <div className="aspect-[16/10] overflow-hidden">
-                        <img
-                          src={article.image}
-                          alt={article.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <CardContent className="p-6 flex flex-col flex-grow">
-                        <span className="text-xs text-[#c4a86b] font-medium uppercase tracking-wider">
-                          <T>{article.category}</T>
-                        </span>
-                        <h3 className="text-xl font-bold text-[#2d3e2f] mt-2 mb-3 group-hover:text-[#c4a86b] transition-colors line-clamp-2">
-                          <T>{article.title}</T>
-                        </h3>
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
-                          <T>{article.excerpt}</T>
-                        </p>
-                        <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-100">
-                          <span>{article.date}</span>
-                          <span>{article.readTime}</span>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-br from-[#c4a86b] to-[#a08550]">
-          <div className="container max-w-4xl px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              <T>¿Listo para vivir la experiencia?</T>
-            </h2>
-            <p className="text-xl text-white/90 mb-8">
-              <T>
-                Reserva tu visita a las primeras biopiscinas geotermales del
-                mundo.
-              </T>
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
+          <main>
+            <section className="px-6 py-16 md:py-24">
               <a
-                href="https://wa.me/56940073999?text=Hola,%20me%20gustaría%20reservar%20una%20visita%20a%20Cancagua"
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/blog/${featuredArticle.slug}`}
+                className="group mx-auto grid max-w-6xl overflow-hidden rounded-[20px] border border-black/10 bg-[#FCF9F9] transition-transform duration-300 hover:-translate-y-1 md:grid-cols-2"
               >
-                <Button
-                  size="lg"
-                  className="bg-white text-[#2d3e2f] hover:bg-gray-100"
-                >
-                  <T>Reservar por WhatsApp</T>
-                </Button>
+                <div className="min-h-[320px] overflow-hidden md:min-h-[560px]">
+                  <img
+                    src={featuredArticle.image}
+                    alt={featuredArticle.title}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+                  />
+                </div>
+                <div className="flex flex-col justify-between p-8 md:p-14">
+                  <div>
+                    <p className="font-cg-mono text-xs uppercase tracking-[0.18em] text-[#696F4D]">
+                      {featuredArticle.category} · NUEVO
+                    </p>
+                    <h2 className="font-cg-serif mt-8 text-4xl font-normal leading-[1.12] tracking-[-0.02em] text-[#222221] md:text-5xl">
+                      {featuredArticle.title}
+                    </h2>
+                    <p className="mt-7 text-base leading-relaxed text-[#635E5A] md:text-lg">
+                      {featuredArticle.excerpt}
+                    </p>
+                  </div>
+                  <div className="mt-12">
+                    <div className="font-cg-soft flex flex-wrap gap-x-5 gap-y-2 border-t border-black/10 pt-6 text-sm text-[#827D78]">
+                      <span className="flex items-center gap-2"><User className="h-4 w-4" />{featuredArticle.author}</span>
+                      <span className="flex items-center gap-2"><Calendar className="h-4 w-4" />{featuredArticle.date}</span>
+                      <span className="flex items-center gap-2"><Clock className="h-4 w-4" />{featuredArticle.readTime}</span>
+                    </div>
+                    <span className="font-cg-mono mt-8 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.16em] text-[#333D51]">
+                      LEER ARTÍCULO <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </div>
+                </div>
               </a>
-              <a href="/servicios">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white text-white hover:bg-white/10"
-                >
-                  <T>Ver Servicios</T>
-                </Button>
-              </a>
-            </div>
+            </section>
+
+            {otherArticles.length > 0 && (
+              <section className="border-t border-black/10 bg-[#FCF9F9] px-6 py-16 md:py-24">
+                <div className="mx-auto max-w-6xl">
+                  <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">ARCHIVO EDITORIAL</p>
+                  <h2 className="font-cg-serif mt-5 text-4xl font-normal text-[#222221] md:text-5xl">Más historias</h2>
+                  <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {otherArticles.map(article => (
+                      <a key={article.slug} href={`/blog/${article.slug}`} className="group overflow-hidden rounded-[20px] border border-black/10 bg-white">
+                        <div className="aspect-[4/3] overflow-hidden">
+                          <img src={article.image} alt={article.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+                        </div>
+                        <div className="p-7">
+                          <p className="font-cg-mono text-[11px] uppercase tracking-[0.16em] text-[#696F4D]">{article.category}</p>
+                          <h3 className="font-cg-serif mt-4 text-2xl font-normal leading-tight text-[#222221]">{article.title}</h3>
+                          <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-[#635E5A]">{article.excerpt}</p>
+                          <div className="font-cg-soft mt-7 flex justify-between border-t border-black/10 pt-5 text-xs text-[#827D78]">
+                            <span>{article.date}</span><span>{article.readTime}</span>
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+          </main>
+        ) : (
+          <section className="px-6 py-24 text-center">
+            <h2 className="font-cg-serif text-4xl font-normal"><T>Estamos preparando nuevas historias.</T></h2>
+          </section>
+        )}
+
+        <section className="bg-[#333D51] px-6 py-20 text-[#FCF9F9]">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">EL MUNDO CANCAGUA</p>
+            <h2 className="font-cg-serif mt-6 text-4xl font-normal leading-tight md:text-5xl"><T>Una pausa también puede ser un comienzo.</T></h2>
+            <a href="/servicios" className="font-cg-mono mt-10 inline-flex rounded-full bg-[#FCF9F9] px-8 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51]">
+              <T>DESCUBRIR EXPERIENCIAS →</T>
+            </a>
           </div>
         </section>
       </div>

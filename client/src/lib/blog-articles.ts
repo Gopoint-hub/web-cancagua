@@ -19,7 +19,7 @@ type FrontmatterValue = string | string[];
 type Frontmatter = Record<string, FrontmatterValue>;
 
 const DEFAULT_BLOG_IMAGE =
-  "https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960664/cancagua/images/logo-cancagua-white.webp";
+  "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309133/cancagua/images/blog/termas-geometricas-hero.webp";
 
 const markdownFiles = import.meta.glob("../../../blog-articles/*.md", {
   query: "?raw",

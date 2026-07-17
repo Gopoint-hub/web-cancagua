@@ -1,6 +1,5 @@
-import { Calendar, Clock, Phone, User } from "lucide-react";
+import { Calendar, Clock, User } from "lucide-react";
 import { usePageContext } from "vike-react/usePageContext";
-import { Button } from "@/components/ui/button";
 import { MarkdownContent } from "@/components/MarkdownContent";
 import { getArticleBySlug } from "@/lib/blog-articles";
 
@@ -12,84 +11,33 @@ export default function Page() {
   if (!article) return null;
 
   return (
-    <div className="min-h-screen bg-[#faf8f5]">
-      <header className="relative min-h-[460px] overflow-hidden bg-[#2d3e2f] pt-24">
-        {article.image && (
-          <img
-            src={article.image}
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover opacity-35"
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1a2a1c] via-[#1a2a1c]/70 to-[#1a2a1c]/30" />
+    <div className="font-cg-sans min-h-screen bg-[#F4F2ED] text-[#222221]">
+      <header className="relative min-h-[620px] overflow-hidden bg-[#1B212D] pt-24 text-[#FCF9F9]">
+        <img src={article.image} alt={article.title} className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-[#1B212D]/65" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1B212D] via-[#1B212D]/35 to-transparent" />
 
-        <div className="container relative z-10 flex min-h-[360px] max-w-5xl flex-col justify-end px-4 pb-12">
-          <a
-            href="/blog"
-            className="mb-6 text-sm font-medium text-white/80 hover:text-white"
-          >
-            Volver al blog
-          </a>
-          <span className="mb-4 inline-block w-fit rounded-full bg-[#c4a86b] px-3 py-1 text-sm font-medium text-white">
-            {article.category}
-          </span>
-          <h1 className="max-w-4xl text-3xl font-bold leading-tight text-white md:text-4xl">
-            {article.title}
-          </h1>
-          <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-white/90">
-            <span className="flex items-center gap-2">
-              <User className="h-4 w-4" />
-              {article.author}
-            </span>
-            <span className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              {article.date}
-            </span>
-            <span className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              {article.readTime} de lectura
-            </span>
+        <div className="relative z-10 mx-auto flex min-h-[520px] max-w-6xl flex-col justify-end px-6 pb-16 md:pb-20">
+          <a href="/blog" className="font-cg-mono mb-10 text-xs uppercase tracking-[0.18em] text-[#D7D4D1] hover:text-white">← VOLVER AL BLOG</a>
+          <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">{article.category} · CANCAGUA</p>
+          <h1 className="font-cg-serif mt-6 max-w-5xl text-4xl font-normal leading-[1.08] tracking-[-0.025em] md:text-6xl lg:text-7xl">{article.title}</h1>
+          <div className="font-cg-soft mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/25 pt-6 text-sm text-[#D7D4D1]">
+            <span className="flex items-center gap-2"><User className="h-4 w-4" />{article.author}</span>
+            <span className="flex items-center gap-2"><Calendar className="h-4 w-4" />{article.date}</span>
+            <span className="flex items-center gap-2"><Clock className="h-4 w-4" />{article.readTime} de lectura</span>
           </div>
         </div>
       </header>
 
-      <main className="container max-w-4xl px-4 py-12">
-        <p className="mb-10 border-l-4 border-[#c4a86b] pl-6 text-xl font-light italic leading-relaxed text-gray-600">
-          {article.excerpt}
-        </p>
+      <main className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+        <p className="font-cg-serif mb-16 border-y border-black/15 py-10 text-2xl font-normal italic leading-relaxed text-[#333D51] md:text-3xl">{article.excerpt}</p>
+        <article className="cg-blog-prose"><MarkdownContent content={article.content} /></article>
 
-        <article className="prose prose-lg max-w-none prose-headings:text-[#2d3e2f] prose-headings:mt-12 prose-headings:mb-6 prose-p:text-gray-700 prose-p:leading-[1.9] prose-p:mb-7 prose-a:text-[#9f8247] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#2d3e2f] prose-li:marker:text-[#c4a86b] prose-li:mb-3 prose-ul:my-7">
-          <MarkdownContent content={article.content} />
-        </article>
-
-        <section className="mt-12 rounded-lg bg-gradient-to-br from-[#2d3e2f] to-[#1a2a1c] p-8 text-white">
-          <h2 className="mb-3 text-2xl font-bold">
-            ¿Listo para vivir la experiencia Cancagua?
-          </h2>
-          <p className="mb-6 text-white/80">
-            Reserva tu visita a las primeras biopiscinas geotermales del mundo y
-            descubre una nueva forma de bienestar.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="https://wa.me/56940073999?text=Hola,%20me%20gustaría%20reservar%20una%20visita%20a%20Cancagua"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button className="bg-[#c4a86b] text-white hover:bg-[#b39a5c]">
-                <Phone className="mr-2 h-4 w-4" />
-                Reservar por WhatsApp
-              </Button>
-            </a>
-            <a href="/servicios">
-              <Button
-                variant="outline"
-                className="border-white text-white hover:bg-white/10"
-              >
-                Ver Servicios
-              </Button>
-            </a>
-          </div>
+        <section className="mt-20 rounded-[20px] bg-[#333D51] p-8 text-[#FCF9F9] md:p-12">
+          <p className="font-cg-mono text-xs uppercase tracking-[0.18em] text-[#CCD1DB]">RESTORE · SPA & NATURE</p>
+          <h2 className="font-cg-serif mt-5 text-3xl font-normal leading-tight md:text-4xl">El cuerpo también reconoce el camino de vuelta.</h2>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-[#D7D4D1]">Descubre experiencias creadas para recuperar calma, claridad y equilibrio en Frutillar.</p>
+          <a href="/servicios" className="font-cg-mono mt-8 inline-flex rounded-full bg-[#FCF9F9] px-7 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#333D51]">DESCUBRIR EXPERIENCIAS →</a>
         </section>
       </main>
     </div>
