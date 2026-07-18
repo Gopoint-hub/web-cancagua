@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
 
 // Próximos eventos — Julio 2026
@@ -46,214 +44,160 @@ const corporateEventsList = [
   "Jornadas de bienestar corporativo",
 ];
 
+const whatsappLink = (message: string) =>
+  `https://wa.me/56940073999?text=${encodeURIComponent(message)}`;
+
 export default function EventosPage() {
   return (
-    <div className="min-h-screen bg-[#FDFBF7]">
-      {/* Hero Section */}
-      <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto/cancagua/eventos/eventos-header-lago.jpg')" }}
+    <div className="font-cg-sans min-h-screen bg-[#F4F2ED] text-[#222221]">
+      <header className="relative min-h-[620px] overflow-hidden bg-[#1B212D] px-6 pb-20 pt-32 text-[#FCF9F9] md:pb-28">
+        <img
+          src="https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto/cancagua/eventos/eventos-header-lago.jpg"
+          alt="Entorno natural de Cancagua junto al Lago Llanquihue"
+          className="absolute inset-0 h-full w-full object-cover opacity-55"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
-        <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-          <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
-            Experiencias Transformadoras
-          </span>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wider text-white mb-6">
-            Eventos & Talleres
-          </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl font-light">
-            Vive experiencias únicas de bienestar, crecimiento personal y conexión con la naturaleza
-          </p>
-        </div>
-      </section>
-
-      {/* Próximos Eventos Section */}
-      <section className="py-20 md:py-28 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
-              Agenda
-            </span>
-            <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-6">
-              Próximos Eventos
-            </h2>
-            <p className="text-lg text-[#8C8C8C] font-accent italic max-w-2xl mx-auto">
-              Descubre nuestros talleres y experiencias diseñadas para tu bienestar integral
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1B212D] via-[#1B212D]/80 to-[#1B212D]/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1B212D] via-transparent to-[#1B212D]/25" />
+        <div className="relative mx-auto flex min-h-[460px] max-w-6xl items-end">
+          <div className="max-w-4xl">
+            <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">
+              CANCAGUA · ENCUENTROS EN LA NATURALEZA
+            </p>
+            <h1 className="font-cg-serif mt-8 max-w-3xl text-5xl font-normal leading-[1.03] tracking-[-0.025em] md:text-7xl lg:text-[5.5rem]">
+              Experiencias para sentir, conectar y volver al cuerpo.
+            </h1>
+            <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1] md:text-xl">
+              Talleres y encuentros de bienestar creados para vivir con presencia el paisaje del sur de Chile.
             </p>
           </div>
+        </div>
+      </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <main>
+        <section className="px-6 py-20 md:py-28">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid gap-8 border-b border-black/10 pb-12 md:grid-cols-[1fr_1fr] md:items-end">
+              <div>
+                <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">AGENDA · JULIO 2026</p>
+                <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl">
+                  Próximos eventos
+                </h2>
+              </div>
+              <p className="max-w-xl text-base font-light leading-relaxed text-[#635E5A] md:justify-self-end md:text-lg">
+                Dos invitaciones a detener el ritmo cotidiano y abrir espacio a la respiración, el movimiento y la naturaleza.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-8 md:grid-cols-2">
             {featuredEvents.map((event) => (
-              <Card key={event.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 bg-white border-0 shadow-lg">
-                {event.image ? (
-                  <div className="relative h-64 overflow-hidden">
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                      style={{ objectPosition: event.imagePosition }}
-                    />
-                    {event.price && (
-                      <div className="absolute top-4 right-4 bg-[#D3BC8D] text-[#3a3a3a] px-4 py-2 text-sm font-medium">
-                        {event.price}
-                      </div>
-                    )}
+              <article key={event.id} className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-black/10 bg-[#FCF9F9]">
+                <div className="relative h-72 overflow-hidden md:h-80">
+                  <img
+                    src={event.image}
+                    alt={event.title}
+                    className={`h-full w-full object-cover transition-transform duration-700 ${event.id === 1 ? "scale-[1.4] group-hover:scale-[1.44]" : "group-hover:scale-[1.03]"}`}
+                    style={{ objectPosition: event.imagePosition }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1B212D]/45 via-transparent to-transparent" />
+                  <div className="font-cg-mono absolute left-5 top-5 rounded-full bg-[#FCF9F9]/95 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.12em] text-[#333D51]">
+                    {event.price}
                   </div>
-                ) : (
-                  <div className="relative h-48 bg-gradient-to-br from-[#3a3a3a] to-[#5a5a5a] flex items-center justify-center">
-                    <span className="text-6xl">✨</span>
+                </div>
+                <div className="flex flex-1 flex-col p-7 md:p-9">
+                  <div className="flex-1">
+                    <p className="font-cg-mono text-[11px] uppercase tracking-[0.18em] text-[#696F4D]">EXPERIENCIA CANCAGUA</p>
+                    <h3 className="font-cg-serif mt-4 text-3xl font-normal leading-tight tracking-[-0.015em] md:text-4xl">{event.title}</h3>
+                    <p className="mt-5 text-[15px] font-light leading-[1.75] text-[#635E5A] md:text-base">{event.description}</p>
                   </div>
-                )}
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xl font-light tracking-wide">{event.title}</CardTitle>
-                  <CardDescription className="text-base">{event.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-3 text-[#5a5a5a]">
-                      <Calendar className="w-4 h-4 text-[#D3BC8D]" />
+                  <div className="font-cg-soft mt-8 space-y-3 border-t border-black/10 pt-6 text-sm text-[#635E5A]">
+                    <div className="flex items-start gap-3">
+                      <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-[#696F4D]" />
                       <span>{event.date}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-[#5a5a5a]">
-                      <Clock className="w-4 h-4 text-[#D3BC8D]" />
+                    <div className="flex items-start gap-3">
+                      <Clock className="mt-0.5 h-4 w-4 shrink-0 text-[#696F4D]" />
                       <span>{event.time}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-[#5a5a5a]">
-                      <MapPin className="w-4 h-4 text-[#D3BC8D]" />
+                    <div className="flex items-start gap-3">
+                      <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#696F4D]" />
                       <span>{event.location}</span>
                     </div>
                   </div>
-                  <a href={event.bookingUrl} target="_blank" rel="noopener noreferrer" className="block">
-                    <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
-                      Reservar
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
+                  <a href={event.bookingUrl} target="_blank" rel="noopener noreferrer" className="font-cg-mono mt-8 inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#333D51] px-7 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-[#FCF9F9] transition-colors hover:bg-[#1B212D]">
+                    RESERVAR CUPO <ArrowRight className="h-4 w-4" />
                   </a>
-                </CardContent>
-              </Card>
+                </div>
+              </article>
             ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Eventos Sociales Section */}
-      <section className="py-20 md:py-28 px-4 bg-[#F1E7D9]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <section className="border-y border-black/10 bg-[#FCF9F9] px-6 py-20 md:py-28">
+          <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-20">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[24px]">
+              <img src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp" alt="Eventos sociales en Cancagua" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1B212D]/30 to-transparent" />
+            </div>
             <div>
-              <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
-                Celebra con Nosotros
-              </span>
-              <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6">
-                Eventos Sociales
-              </h2>
-              <p className="text-[#5a5a5a] text-lg mb-6 font-light">
+              <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">CELEBRAR CON OTROS</p>
+              <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-5xl">Eventos sociales</h2>
+              <p className="mt-6 text-lg font-light leading-relaxed text-[#635E5A]">
                 Celebra momentos especiales en nuestro espacio único. Cumpleaños, aniversarios, reuniones familiares y más, en el ambiente perfecto rodeado de naturaleza.
               </p>
-              <ul className="space-y-3 mb-8">
+              <ul className="font-cg-soft mt-7 grid gap-3 text-sm text-[#635E5A] sm:grid-cols-2">
                 {socialEventsList.map((item, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-[#D3BC8D] rounded-full" />
-                    <span className="text-[#5a5a5a]">{item}</span>
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#696F4D]" />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <Button
-                onClick={() => {
-                  const message = encodeURIComponent(
-                    "Hola, me gustaría cotizar un evento social en Cancagua"
-                  );
-                  window.open(`https://wa.me/56940073999?text=${message}`, "_blank");
-                }}
-                className="gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase"
-              >
-                Cotizar
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </div>
-            <div className="relative h-96 rounded-lg overflow-hidden shadow-xl">
-              <img
-                src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp"
-                alt="Eventos Sociales en Cancagua"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+              <a href={whatsappLink("Hola, me gustaría cotizar un evento social en Cancagua")} target="_blank" rel="noopener noreferrer" className="font-cg-mono mt-9 inline-flex items-center gap-3 rounded-full border border-[#333D51] px-7 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] transition-colors hover:bg-[#333D51] hover:text-white">
+                COTIZAR EVENTO <ArrowRight className="h-4 w-4" />
+              </a>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Eventos Corporativos Section */}
-      <section className="py-20 md:py-28 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="relative h-96 rounded-lg overflow-hidden shadow-xl order-2 md:order-1">
-              <img
-                src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309226/cancagua/images/navega-relax-header.jpg"
-                alt="Eventos Corporativos en Cancagua"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-            </div>
-            <div className="order-1 md:order-2">
-              <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
-                Experiencias Corporativas
-              </span>
-              <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6">
-                Eventos Corporativos
-              </h2>
-              <p className="text-[#5a5a5a] text-lg mb-6 font-light">
+        <section className="px-6 py-20 md:py-28">
+          <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-20">
+            <div>
+              <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">BIENESTAR EN EQUIPO</p>
+              <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-5xl">Eventos corporativos</h2>
+              <p className="mt-6 text-lg font-light leading-relaxed text-[#635E5A]">
                 Diseñamos experiencias corporativas únicas para tu equipo. Team building, retiros de liderazgo, conferencias y eventos de incentivo en un ambiente inspirador.
               </p>
-              <ul className="space-y-3 mb-8">
+              <ul className="font-cg-soft mt-7 grid gap-3 text-sm text-[#635E5A] sm:grid-cols-2">
                 {corporateEventsList.map((item, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-[#D3BC8D] rounded-full" />
-                    <span className="text-[#5a5a5a]">{item}</span>
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#696F4D]" />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <Button
-                onClick={() => {
-                  const message = encodeURIComponent(
-                    "Hola, me gustaría cotizar un evento corporativo en Cancagua"
-                  );
-                  window.open(`https://wa.me/56940073999?text=${message}`, "_blank");
-                }}
-                className="gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase"
-              >
-                Cotizar
-                <ArrowRight className="w-4 h-4" />
-              </Button>
+              <a href={whatsappLink("Hola, me gustaría cotizar un evento corporativo en Cancagua")} target="_blank" rel="noopener noreferrer" className="font-cg-mono mt-9 inline-flex items-center gap-3 rounded-full border border-[#333D51] px-7 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] transition-colors hover:bg-[#333D51] hover:text-white">
+                COTIZAR EVENTO <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[24px]">
+              <img src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309226/cancagua/images/navega-relax-header.jpg" alt="Eventos corporativos en Cancagua" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1B212D]/30 to-transparent" />
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      {/* CTA Section */}
-      <section className="py-20 md:py-28 px-4 bg-[#3a3a3a]">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-white mb-6">
-            ¿Listo para crear tu evento?
-          </h2>
-          <p className="text-lg text-white/80 mb-8 font-light">
+      <section className="bg-[#333D51] px-6 py-20 text-[#FCF9F9] md:py-28">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">UNA EXPERIENCIA A TU MEDIDA</p>
+          <h2 className="font-cg-serif mt-6 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl">¿Imaginamos tu próximo encuentro?</h2>
+          <p className="mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1]">
             Contáctanos para diseñar la experiencia perfecta para ti. Nuestro equipo está listo para hacer realidad tu evento.
           </p>
-          <Button
-            onClick={() => {
-              const message = encodeURIComponent(
-                "Hola, me gustaría información sobre eventos en Cancagua"
-              );
-              window.open(`https://wa.me/56940073999?text=${message}`, "_blank");
-            }}
-            size="lg"
-            className="gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase"
-          >
-            Contactar
-            <ArrowRight className="w-4 h-4" />
-          </Button>
+          <a href={whatsappLink("Hola, me gustaría información sobre eventos en Cancagua")} target="_blank" rel="noopener noreferrer" className="font-cg-mono mt-10 inline-flex items-center gap-3 rounded-full bg-[#FCF9F9] px-8 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] transition-transform hover:-translate-y-0.5">
+            CONVERSEMOS <ArrowRight className="h-4 w-4" />
+          </a>
         </div>
       </section>
     </div>
