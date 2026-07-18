@@ -4,7 +4,7 @@ export default function Head() {
     description: "Organiza eventos corporativos únicos en Cancagua Spa. Team building, reuniones ejecutivas y retiros empresariales con vista al Lago Llanquihue y volcanes del sur de Chile.",
     keywords: "eventos corporativos frutillar, team building sur chile, reuniones empresariales lago llanquihue, retiros corporativos",
     canonical: "/eventos/empresas",
-    image: "https://cancagua.cl/images/eventos-corporativos-hero.jpg",
+    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309165/cancagua/images/eventos-empresas-hero.jpg",
   };
 
   return (
