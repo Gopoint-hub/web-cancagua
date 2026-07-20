@@ -9,16 +9,22 @@ export default function Page() {
   return (
     <AutoTranslateProvider pageId="blog">
       <div className="font-cg-sans min-h-screen bg-[#F4F2ED] text-[#222221]">
-        <header className="border-b border-white/20 bg-[#1B212D] px-6 pb-20 pt-32 text-[#FCF9F9] md:pb-28">
+        <header className="relative isolate overflow-hidden border-b border-white/20 bg-[#1B212D] px-6 pb-20 pt-32 text-[#FCF9F9] md:pb-28">
+          <img
+            src="/images/blog-hero-water.jpg"
+            alt="Reflejos de luz sobre el agua"
+            className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+          />
+          <div className="absolute inset-0 -z-10 bg-[#1B212D]/65" aria-hidden="true" />
           <div className="mx-auto max-w-6xl">
-            <p className="font-cg-mono mb-8 text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">
+            <p className="font-cg-mono mb-8 text-xs uppercase tracking-[0.2em] text-[#F4F2ED]">
               CANCAGUA · CUERPO, MÉTODO Y NATURALEZA
             </p>
             <div className="max-w-4xl">
-              <h1 className="font-cg-serif text-5xl font-normal leading-[1.05] tracking-[-0.02em] md:text-7xl">
+              <h1 className="font-cg-serif text-5xl font-normal leading-[1.05] tracking-[-0.02em] text-white drop-shadow-sm md:text-7xl">
                 <T>Historias para volver al cuerpo.</T>
               </h1>
-              <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1] md:text-xl">
+              <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#F4F2ED] drop-shadow-sm md:text-xl">
                 <T>Conocimiento, experiencias y preguntas sobre bienestar en el sur de Chile.</T>
               </p>
             </div>
