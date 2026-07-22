@@ -21,7 +21,7 @@ export default function Page() {
               CANCAGUA · CUERPO, MÉTODO Y NATURALEZA
             </p>
             <div className="max-w-4xl">
-              <h1 className="font-cg-serif text-5xl font-normal leading-[1.05] tracking-[-0.02em] text-white drop-shadow-sm md:text-7xl">
+              <h1 className="font-cg-sans text-5xl font-light leading-[1.05] tracking-[-0.02em] text-white drop-shadow-sm md:text-7xl">
                 <T>Historias para volver al cuerpo.</T>
               </h1>
               <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#F4F2ED] drop-shadow-sm md:text-xl">
@@ -75,7 +75,7 @@ export default function Page() {
               <section className="border-t border-black/10 bg-[#FCF9F9] px-6 py-16 md:py-24">
                 <div className="mx-auto max-w-6xl">
                   <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">ARCHIVO EDITORIAL</p>
-                  <h2 className="font-cg-serif mt-5 text-4xl font-normal text-[#222221] md:text-5xl">Más historias</h2>
+                  <h2 className="font-cg-sans mt-5 text-4xl font-light text-[#222221] md:text-5xl">Más historias</h2>
                   <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {otherArticles.map(article => (
                       <a key={article.slug} href={`/blog/${article.slug}`} className="group overflow-hidden rounded-[20px] border border-black/10 bg-white">
@@ -99,14 +99,14 @@ export default function Page() {
           </main>
         ) : (
           <section className="px-6 py-24 text-center">
-            <h2 className="font-cg-serif text-4xl font-normal"><T>Estamos preparando nuevas historias.</T></h2>
+            <h2 className="font-cg-sans text-4xl font-light"><T>Estamos preparando nuevas historias.</T></h2>
           </section>
         )}
 
         <section className="bg-[#333D51] px-6 py-20 text-[#FCF9F9]">
           <div className="mx-auto max-w-4xl text-center">
             <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">EL MUNDO CANCAGUA</p>
-            <h2 className="font-cg-serif mt-6 text-4xl font-normal leading-tight md:text-5xl"><T>Una pausa también puede ser un comienzo.</T></h2>
+            <h2 className="font-cg-sans mt-6 text-4xl font-light leading-tight md:text-5xl"><T>Una pausa también puede ser un comienzo.</T></h2>
             <a href="/servicios" className="font-cg-mono mt-10 inline-flex rounded-full bg-[#FCF9F9] px-8 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51]">
               <T>DESCUBRIR EXPERIENCIAS →</T>
             </a>

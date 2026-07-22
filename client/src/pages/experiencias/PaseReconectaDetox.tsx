@@ -97,8 +97,8 @@ export default function PaseReconectaDetox() {
             {includes.map((item, index) => (
               <Card key={index} className="border-0 shadow-md">
                 <CardContent className="p-6 flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-                    <Check className="h-5 w-5 text-orange-600" />
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-clay-100 flex items-center justify-center">
+                    <Check className="h-5 w-5 text-clay-600" />
                   </div>
                   <p className="text-stone-700 leading-relaxed pt-2">{item}</p>
                 </CardContent>
@@ -106,11 +106,11 @@ export default function PaseReconectaDetox() {
             ))}
           </div>
 
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 flex gap-4">
-            <AlertTriangle className="h-6 w-6 text-amber-600 flex-shrink-0 mt-1" />
+          <div className="bg-clay-100 border border-clay-200 rounded-xl p-6 flex gap-4">
+            <AlertTriangle className="h-6 w-6 text-clay-600 flex-shrink-0 mt-1" />
             <div className="space-y-2">
-              <p className="font-semibold text-amber-900">Importante</p>
-              <p className="text-amber-800">
+              <p className="font-semibold text-clay-800">Importante</p>
+              <p className="text-clay-800">
                 Sauna no apto para embarazadas. Stand Up Padel/Kayak sujeto a condiciones climáticas y Clase de Yoga sujeto a horario de clase regular.
               </p>
             </div>
@@ -119,12 +119,12 @@ export default function PaseReconectaDetox() {
       </section>
 
       {/* Hot-Tub Features */}
-      <section className="py-20 bg-gradient-to-br from-orange-50 to-amber-100">
+      <section className="py-20 bg-gradient-to-br from-clay-100 to-clay-100">
         <div className="container">
           <div className="max-w-4xl mx-auto space-y-12">
             <div className="text-center space-y-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-orange-200 mb-4">
-                <Waves className="h-8 w-8 text-orange-700" />
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-clay-200 mb-4">
+                <Waves className="h-8 w-8 text-clay-700" />
               </div>
               <h2 className="text-4xl font-josefin font-bold text-stone-800">
                 Los Hot-Tubs disponen de
@@ -141,7 +141,7 @@ export default function PaseReconectaDetox() {
                   className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-orange-500" />
+                    <div className="w-2 h-2 rounded-full bg-clay-500" />
                     <p className="text-stone-700 font-medium">{feature}</p>
                   </div>
                 </div>
@@ -155,7 +155,7 @@ export default function PaseReconectaDetox() {
       <section className="py-20 container">
         <div className="max-w-4xl mx-auto">
           <Card className="border-0 shadow-xl overflow-hidden">
-            <div className="bg-gradient-to-r from-rose-600 to-orange-600 p-8 text-white">
+            <div className="bg-gradient-to-r from-rose-600 to-clay-600 p-8 text-white">
               <div className="flex items-center gap-3 mb-4">
                 <Heart className="h-8 w-8" />
                 <h2 className="text-3xl font-josefin font-bold">
@@ -187,8 +187,8 @@ export default function PaseReconectaDetox() {
         <div className="container">
           <div className="max-w-4xl mx-auto space-y-8">
             <div className="text-center space-y-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
-                <Info className="h-8 w-8 text-blue-600" />
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-200 mb-4">
+                <Info className="h-8 w-8 text-slate-600" />
               </div>
               <h2 className="text-4xl font-josefin font-bold text-stone-800">
                 Información importante
@@ -201,8 +201,8 @@ export default function PaseReconectaDetox() {
                   key={index}
                   className="bg-white rounded-lg p-6 shadow-sm flex gap-4 items-start"
                 >
-                  <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-blue-600 text-sm font-semibold">{index + 1}</span>
+                  <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-slate-600 text-sm font-semibold">{index + 1}</span>
                   </div>
                   <p className="text-stone-700 leading-relaxed">{info}</p>
                 </div>
@@ -216,7 +216,7 @@ export default function PaseReconectaDetox() {
       <section className="py-20 container">
         <div className="max-w-4xl mx-auto">
           <Card className="border-0 shadow-2xl overflow-hidden">
-            <div className="bg-gradient-to-br from-orange-600 to-red-600 p-12 text-center text-white space-y-6">
+            <div className="bg-gradient-to-br from-clay-600 to-red-600 p-12 text-center text-white space-y-6">
               <Calendar className="h-16 w-16 mx-auto mb-4" />
               <h2 className="text-4xl font-josefin font-bold">
                 ¡Reserva tu experiencia detox!
@@ -230,7 +230,7 @@ export default function PaseReconectaDetox() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Button size="lg" className="bg-white text-orange-600 hover:bg-stone-100 font-semibold">
+                  <Button size="lg" className="bg-white text-clay-600 hover:bg-stone-100 font-semibold">
                     Reservar ahora
                   </Button>
                 </a>

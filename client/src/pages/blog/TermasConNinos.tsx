@@ -26,31 +26,31 @@ export default function TermasConNinos() {
         </p>
 
         <div className="my-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex items-start gap-3 p-4 bg-[#f5f0e8] rounded-lg">
-            <Shield className="w-6 h-6 text-[#c4a86b] flex-shrink-0 mt-1" />
+          <div className="flex items-start gap-3 p-4 bg-[#F4F2ED] rounded-lg">
+            <Shield className="w-6 h-6 text-[#4B5872] flex-shrink-0 mt-1" />
             <div>
-              <h4 className="font-semibold text-[#2d3e2f]">Espacio seguro</h4>
+              <h4 className="font-semibold text-[#282C1C]">Espacio seguro</h4>
               <p className="text-sm text-gray-600 m-0">Donde los niños puedan jugar en el agua</p>
             </div>
           </div>
-          <div className="flex items-start gap-3 p-4 bg-[#f5f0e8] rounded-lg">
-            <Heart className="w-6 h-6 text-[#c4a86b] flex-shrink-0 mt-1" />
+          <div className="flex items-start gap-3 p-4 bg-[#F4F2ED] rounded-lg">
+            <Heart className="w-6 h-6 text-[#4B5872] flex-shrink-0 mt-1" />
             <div>
-              <h4 className="font-semibold text-[#2d3e2f]">Bienestar inclusivo</h4>
+              <h4 className="font-semibold text-[#282C1C]">Bienestar inclusivo</h4>
               <p className="text-sm text-gray-600 m-0">Experiencias que no excluyan a los más pequeños</p>
             </div>
           </div>
-          <div className="flex items-start gap-3 p-4 bg-[#f5f0e8] rounded-lg">
-            <Users className="w-6 h-6 text-[#c4a86b] flex-shrink-0 mt-1" />
+          <div className="flex items-start gap-3 p-4 bg-[#F4F2ED] rounded-lg">
+            <Users className="w-6 h-6 text-[#4B5872] flex-shrink-0 mt-1" />
             <div>
-              <h4 className="font-semibold text-[#2d3e2f]">Menos aglomeración</h4>
+              <h4 className="font-semibold text-[#282C1C]">Menos aglomeración</h4>
               <p className="text-sm text-gray-600 m-0">Que las piscinas urbanas y termas en temporada alta</p>
             </div>
           </div>
-          <div className="flex items-start gap-3 p-4 bg-[#f5f0e8] rounded-lg">
-            <TreePine className="w-6 h-6 text-[#c4a86b] flex-shrink-0 mt-1" />
+          <div className="flex items-start gap-3 p-4 bg-[#F4F2ED] rounded-lg">
+            <TreePine className="w-6 h-6 text-[#4B5872] flex-shrink-0 mt-1" />
             <div>
-              <h4 className="font-semibold text-[#2d3e2f]">Conexión real</h4>
+              <h4 className="font-semibold text-[#282C1C]">Conexión real</h4>
               <p className="text-sm text-gray-600 m-0">Con la naturaleza del sur de Chile</p>
             </div>
           </div>
@@ -84,9 +84,9 @@ export default function TermasConNinos() {
           Una vez que los niños se aburren del agua (y créeme, se aburren más rápido de lo que imaginas), no hay mucho más por hacer en las termas tradicionales.
         </p>
 
-        <div className="my-8 p-6 bg-gradient-to-r from-[#2d3e2f] to-[#3d5240] rounded-xl text-white">
+        <div className="my-8 p-6 bg-gradient-to-r from-[#282C1C] to-[#4A4F35] rounded-xl text-white">
           <div className="flex items-start gap-4">
-            <Baby className="w-8 h-8 text-[#c4a86b] flex-shrink-0 mt-1" />
+            <Baby className="w-8 h-8 text-[#4B5872] flex-shrink-0 mt-1" />
             <div>
               <h3 className="text-xl font-bold mb-2 text-white">Cancagua: La alternativa natural para familias</h3>
               <p className="text-white/90 mb-4">
@@ -103,11 +103,11 @@ export default function TermasConNinos() {
 
         <div className="space-y-6 my-8">
           <div className="flex gap-4 p-5 bg-white rounded-xl shadow-md border border-gray-100">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <Thermometer className="w-6 h-6 text-green-600" />
+            <div className="w-12 h-12 bg-sage-200 rounded-full flex items-center justify-center flex-shrink-0">
+              <Thermometer className="w-6 h-6 text-sage-600" />
             </div>
             <div>
-              <h4 className="font-bold text-[#2d3e2f] mb-2">Temperatura controlada y segura</h4>
+              <h4 className="font-bold text-[#282C1C] mb-2">Temperatura controlada y segura</h4>
               <p className="text-gray-600 m-0">
                 Nuestras biopiscinas se mantienen entre <strong>37° y 40°C</strong>, cálidas y reconfortantes pero seguras para niños desde los 5 años. Los Hot Tubs individuales permiten ajustar la experiencia según las necesidades de cada familia.
               </p>
@@ -115,11 +115,11 @@ export default function TermasConNinos() {
           </div>
 
           <div className="flex gap-4 p-5 bg-white rounded-xl shadow-md border border-gray-100">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <Shield className="w-6 h-6 text-blue-600" />
+            <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center flex-shrink-0">
+              <Shield className="w-6 h-6 text-slate-600" />
             </div>
             <div>
-              <h4 className="font-bold text-[#2d3e2f] mb-2">Entorno natural pero accesible</h4>
+              <h4 className="font-bold text-[#282C1C] mb-2">Entorno natural pero accesible</h4>
               <p className="text-gray-600 m-0">
                 Estamos rodeados de un bosque nativo con vistas al lago y los volcanes, pero con <strong>accesos planos y seguros</strong>. No hay escaleras complicadas ni senderos resbalosos. Los niños pueden moverse libremente en un espacio contenido.
               </p>
@@ -131,7 +131,7 @@ export default function TermasConNinos() {
               <Heart className="w-6 h-6 text-purple-600" />
             </div>
             <div>
-              <h4 className="font-bold text-[#2d3e2f] mb-2">Experiencia integral más allá del agua</h4>
+              <h4 className="font-bold text-[#282C1C] mb-2">Experiencia integral más allá del agua</h4>
               <p className="text-gray-600 m-0">
                 En Cancagua no solo «te metes al agua y listo». Ofrecemos una experiencia completa que incluye <strong>alimentación consciente</strong>, espacios de descanso con vista al lago, y actividades complementarias como yoga suave.
               </p>
@@ -139,11 +139,11 @@ export default function TermasConNinos() {
           </div>
 
           <div className="flex gap-4 p-5 bg-white rounded-xl shadow-md border border-gray-100">
-            <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <Users className="w-6 h-6 text-amber-600" />
+            <div className="w-12 h-12 bg-clay-100 rounded-full flex items-center justify-center flex-shrink-0">
+              <Users className="w-6 h-6 text-clay-600" />
             </div>
             <div>
-              <h4 className="font-bold text-[#2d3e2f] mb-2">Menos gente, más conexión</h4>
+              <h4 className="font-bold text-[#282C1C] mb-2">Menos gente, más conexión</h4>
               <p className="text-gray-600 m-0">
                 Controlamos nuestros aforos para garantizar una experiencia tranquila. Esto no es una piscina municipal ni un parque acuático, es un <strong>espacio de bienestar</strong> donde las familias pueden realmente conectarse.
               </p>
@@ -171,8 +171,8 @@ export default function TermasConNinos() {
           Sí, también pueden simplemente estar. Descansar en reposeras mirando el lago, compartir una comida consciente juntos, o participar en sesiones de yoga familiar suave. Estas experiencias, aunque son menos «adrenalínicas» para los niños, crean recuerdos más profundos.
         </p>
 
-        <div className="my-6 p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-lg">
-          <p className="text-amber-800 m-0">
+        <div className="my-6 p-4 bg-clay-100 border-l-4 border-clay-500 rounded-r-lg">
+          <p className="text-clay-800 m-0">
             <strong>La clave es ajustar las expectativas:</strong> si lo que buscas es un parque de entretenciones acuático, este no es el lugar. Si buscas una experiencia de bienestar familiar donde la naturaleza es la protagonista, aquí encontrarás exactamente eso.
           </p>
         </div>

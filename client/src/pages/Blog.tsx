@@ -66,11 +66,11 @@ export default function Blog() {
 
   return (
     <AutoTranslateProvider pageId="blog">
-      <div className="min-h-screen bg-[#faf8f5]">
+      <div className="min-h-screen bg-[#FCF9F9]">
         <Navbar />
         
         {/* Hero Section */}
-        <section className="pt-24 pb-12 bg-gradient-to-b from-[#2d3e2f] to-[#1a2a1c]">
+        <section className="pt-24 pb-12 bg-gradient-to-b from-[#282C1C] to-[#282C1C]">
           <div className="container max-w-6xl px-4">
             <div className="text-center">
               <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4">
@@ -97,10 +97,10 @@ export default function Blog() {
                     />
                   </div>
                   <CardContent className="p-8 md:p-12 flex flex-col justify-center bg-white">
-                    <span className="inline-block px-3 py-1 bg-[#c4a86b]/10 text-[#c4a86b] text-sm font-medium rounded-full w-fit mb-4">
+                    <span className="inline-block px-3 py-1 bg-[#4B5872]/10 text-[#4B5872] text-sm font-medium rounded-full w-fit mb-4">
                       <T>{featuredArticle.category}</T>
                     </span>
-                    <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#2d3e2f] mb-4 group-hover:text-[#c4a86b] transition-colors">
+                    <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#282C1C] mb-4 group-hover:text-[#4B5872] transition-colors">
                       <T>{featuredArticle.title}</T>
                     </h2>
                     <p className="text-gray-600 mb-6 line-clamp-3">
@@ -120,7 +120,7 @@ export default function Blog() {
                         {featuredArticle.readTime}
                       </span>
                     </div>
-                    <Button className="w-fit bg-[#2d3e2f] hover:bg-[#1a2a1c] text-white">
+                    <Button className="w-fit bg-[#282C1C] hover:bg-[#282C1C] text-white">
                       <T>Leer artículo</T>
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -134,7 +134,7 @@ export default function Blog() {
         {/* Other Articles */}
         <section className="py-12 bg-white">
           <div className="container max-w-6xl px-4">
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#2d3e2f] mb-8">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#282C1C] mb-8">
               <T>Más Artículos</T>
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -149,10 +149,10 @@ export default function Blog() {
                       />
                     </div>
                     <CardContent className="p-6 flex flex-col flex-grow">
-                      <span className="text-xs text-[#c4a86b] font-medium uppercase tracking-wider">
+                      <span className="text-xs text-[#4B5872] font-medium uppercase tracking-wider">
                         <T>{article.category}</T>
                       </span>
-                      <h3 className="font-serif text-xl font-bold text-[#2d3e2f] mt-2 mb-3 group-hover:text-[#c4a86b] transition-colors line-clamp-2">
+                      <h3 className="font-serif text-xl font-bold text-[#282C1C] mt-2 mb-3 group-hover:text-[#4B5872] transition-colors line-clamp-2">
                         <T>{article.title}</T>
                       </h3>
                       <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
@@ -171,7 +171,7 @@ export default function Blog() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-br from-[#c4a86b] to-[#a08550]">
+        <section className="py-16 bg-gradient-to-br from-[#4B5872] to-[#333D51]">
           <div className="container max-w-4xl px-4 text-center">
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">
               <T>¿Listo para vivir la experiencia?</T>
@@ -185,7 +185,7 @@ export default function Blog() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button size="lg" className="bg-white text-[#2d3e2f] hover:bg-gray-100">
+                <Button size="lg" className="bg-white text-[#282C1C] hover:bg-gray-100">
                   <T>Reservar por WhatsApp</T>
                 </Button>
               </a>

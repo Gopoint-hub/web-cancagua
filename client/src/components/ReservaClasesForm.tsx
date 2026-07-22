@@ -56,8 +56,8 @@ export function ReservaClasesForm({ classes }: ReservaClasesFormProps) {
 
   return (
     <Card className="bg-white border-none shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-[#3a3a3a] to-[#4a4a4a] text-white">
-        <CardTitle className="font-['Josefin_Sans'] text-2xl tracking-wide flex items-center gap-3">
+      <CardHeader className="bg-gradient-to-r from-[#222221] to-[#46423F] text-white">
+        <CardTitle className="font-cg-mono text-2xl tracking-wide flex items-center gap-3">
           <BookOpen className="h-6 w-6" />
           Reserva tu Clase
         </CardTitle>
@@ -66,7 +66,7 @@ export function ReservaClasesForm({ classes }: ReservaClasesFormProps) {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Nombre */}
           <div>
-            <label className="block font-['Fira_Sans'] text-sm font-medium text-[#3a3a3a] mb-2">
+            <label className="block font-cg-sans text-sm font-medium text-[#222221] mb-2">
               <User className="inline h-4 w-4 mr-2" />
               Nombre
             </label>
@@ -76,14 +76,14 @@ export function ReservaClasesForm({ classes }: ReservaClasesFormProps) {
               value={formData.nombre}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-[#D3BC8D] rounded-lg font-['Fira_Sans'] focus:outline-none focus:ring-2 focus:ring-[#D3BC8D]"
+              className="w-full px-4 py-3 border border-[#4B5872] rounded-lg font-cg-sans focus:outline-none focus:ring-2 focus:ring-[#4B5872]"
               placeholder="Tu nombre completo"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="block font-['Fira_Sans'] text-sm font-medium text-[#3a3a3a] mb-2">
+            <label className="block font-cg-sans text-sm font-medium text-[#222221] mb-2">
               <Mail className="inline h-4 w-4 mr-2" />
               Email
             </label>
@@ -93,14 +93,14 @@ export function ReservaClasesForm({ classes }: ReservaClasesFormProps) {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-[#D3BC8D] rounded-lg font-['Fira_Sans'] focus:outline-none focus:ring-2 focus:ring-[#D3BC8D]"
+              className="w-full px-4 py-3 border border-[#4B5872] rounded-lg font-cg-sans focus:outline-none focus:ring-2 focus:ring-[#4B5872]"
               placeholder="tu@email.com"
             />
           </div>
 
           {/* Teléfono */}
           <div>
-            <label className="block font-['Fira_Sans'] text-sm font-medium text-[#3a3a3a] mb-2">
+            <label className="block font-cg-sans text-sm font-medium text-[#222221] mb-2">
               <Phone className="inline h-4 w-4 mr-2" />
               Teléfono
             </label>
@@ -110,14 +110,14 @@ export function ReservaClasesForm({ classes }: ReservaClasesFormProps) {
               value={formData.telefono}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-[#D3BC8D] rounded-lg font-['Fira_Sans'] focus:outline-none focus:ring-2 focus:ring-[#D3BC8D]"
+              className="w-full px-4 py-3 border border-[#4B5872] rounded-lg font-cg-sans focus:outline-none focus:ring-2 focus:ring-[#4B5872]"
               placeholder="+56 9 XXXX XXXX"
             />
           </div>
 
           {/* Clase */}
           <div>
-            <label className="block font-['Fira_Sans'] text-sm font-medium text-[#3a3a3a] mb-2">
+            <label className="block font-cg-sans text-sm font-medium text-[#222221] mb-2">
               <BookOpen className="inline h-4 w-4 mr-2" />
               Selecciona una clase
             </label>
@@ -126,7 +126,7 @@ export function ReservaClasesForm({ classes }: ReservaClasesFormProps) {
               value={formData.clase}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-[#D3BC8D] rounded-lg font-['Fira_Sans'] focus:outline-none focus:ring-2 focus:ring-[#D3BC8D]"
+              className="w-full px-4 py-3 border border-[#4B5872] rounded-lg font-cg-sans focus:outline-none focus:ring-2 focus:ring-[#4B5872]"
             >
               <option value="">-- Elige una clase --</option>
               {classes.map((classItem) => (
@@ -139,15 +139,15 @@ export function ReservaClasesForm({ classes }: ReservaClasesFormProps) {
 
           {/* Status Messages */}
           {submitStatus === "success" && (
-            <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-              <p className="font-['Fira_Sans'] text-green-700 text-sm">
+            <div className="p-4 bg-sage-100 border border-sage-300 rounded-lg">
+              <p className="font-cg-sans text-sage-700 text-sm">
                 ✓ Redirigiendo a WhatsApp... Se abrirá una ventana con tu reserva.
               </p>
             </div>
           )}
           {submitStatus === "error" && (
             <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="font-['Fira_Sans'] text-red-700 text-sm">
+              <p className="font-cg-sans text-red-700 text-sm">
                 ✗ Hubo un error. Por favor intenta de nuevo.
               </p>
             </div>
@@ -157,12 +157,12 @@ export function ReservaClasesForm({ classes }: ReservaClasesFormProps) {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-[#D3BC8D] hover:bg-[#c4ad7e] text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider py-3 text-lg"
+            className="w-full bg-[#4B5872] hover:bg-[#333D51] text-[#FCF9F9] font-cg-mono tracking-wider py-3 text-lg"
           >
             {isSubmitting ? "Procesando..." : "RESERVAR AHORA"}
           </Button>
 
-          <p className="text-center font-['Fira_Sans'] text-xs text-[#999]">
+          <p className="text-center font-cg-sans text-xs text-[#9F9C98]">
             Se abrirá WhatsApp para confirmar tu reserva
           </p>
         </form>

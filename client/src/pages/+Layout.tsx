@@ -54,7 +54,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               {/* Componente que actualiza meta tags dinámicamente durante navegación client-side */}
               <DynamicHead />
 
-              <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
+              <div className="min-h-screen flex flex-col bg-[#FCF9F9]">
                 <Navbar />
                 <main className="flex-1">
                   {children}

@@ -59,10 +59,10 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
             <CheckCircle className="w-10 h-10 text-white" />
           </div>
           <div>
-            <h3 className={`text-xl font-light tracking-wide mb-2 ${variant === "dark" ? "text-[#3a3a3a]" : "text-[#3a3a3a]"}`}>
+            <h3 className={`text-xl font-light tracking-wide mb-2 ${variant === "dark" ? "text-[#222221]" : "text-[#222221]"}`}>
               ¡Gracias por suscribirte!
             </h3>
-            <p className={`${variant === "dark" ? "text-[#3a3a3a]/70" : "text-[#8C8C8C]"}`}>
+            <p className={`${variant === "dark" ? "text-[#222221]/70" : "text-[#827D78]"}`}>
               Pronto recibirás nuestras novedades en tu correo
             </p>
           </div>
@@ -70,7 +70,7 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
             variant="outline"
             size="sm"
             onClick={() => setIsSubscribed(false)}
-            className={variant === "dark" ? "border-[#3a3a3a]/30 text-[#3a3a3a] hover:bg-[#3a3a3a]/10" : "border-[#D3BC8D] text-[#3a3a3a]"}
+            className={variant === "dark" ? "border-[#222221]/30 text-[#222221] hover:bg-[#222221]/10" : "border-[#4B5872] text-[#222221]"}
           >
             Suscribir otro correo
           </Button>
@@ -87,13 +87,13 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Tu correo electrónico"
-          className="flex-1 border-[#D3BC8D]/30 focus:border-[#D3BC8D]"
+          className="flex-1 border-[#4B5872]/30 focus:border-[#4B5872]"
           disabled={subscribeMutation.isPending}
         />
         <Button
           type="submit"
           disabled={subscribeMutation.isPending}
-          className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976]"
+          className="bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51]"
         >
           {subscribeMutation.isPending ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -114,13 +114,13 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Tu correo electrónico"
-            className="flex-1 bg-white text-[#3a3a3a] border-0 h-12"
+            className="flex-1 bg-white text-[#222221] border-0 h-12"
             disabled={subscribeMutation.isPending}
           />
           <Button
             type="submit"
             size="lg"
-            className="sm:w-auto bg-[#3a3a3a] text-white hover:bg-[#2a2a2a] h-12 px-8 tracking-wider uppercase text-sm"
+            className="sm:w-auto bg-[#222221] text-white hover:bg-[#222221] h-12 px-8 tracking-wider uppercase text-sm"
             disabled={subscribeMutation.isPending}
           >
             {subscribeMutation.isPending ? (
@@ -146,7 +146,7 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Tu nombre (opcional)"
-          className="sm:w-40 border-[#D3BC8D]/30 focus:border-[#D3BC8D]"
+          className="sm:w-40 border-[#4B5872]/30 focus:border-[#4B5872]"
           disabled={subscribeMutation.isPending}
         />
         <Input
@@ -154,13 +154,13 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Tu correo electrónico"
-          className="flex-1 border-[#D3BC8D]/30 focus:border-[#D3BC8D]"
+          className="flex-1 border-[#4B5872]/30 focus:border-[#4B5872]"
           disabled={subscribeMutation.isPending}
         />
         <Button
           type="submit"
           disabled={subscribeMutation.isPending}
-          className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider"
+          className="bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-wider"
         >
           {subscribeMutation.isPending ? (
             <>
@@ -175,7 +175,7 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
           )}
         </Button>
       </div>
-      <p className="text-sm text-[#8C8C8C] text-center">
+      <p className="text-sm text-[#827D78] text-center">
         Al suscribirte aceptas recibir correos de Cancagua. Puedes darte de baja en cualquier momento.
       </p>
     </form>

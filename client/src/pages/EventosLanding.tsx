@@ -41,7 +41,7 @@ const corporateEventsList = [
 export function EventosLanding() {
   return (
     <AutoTranslateProvider pageId="eventos-landing">
-      <div className="min-h-screen bg-[#FDFBF7]">
+      <div className="min-h-screen bg-[#FCF9F9]">
         <Navbar />
 
         {/* Hero Section */}
@@ -52,7 +52,7 @@ export function EventosLanding() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
           <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-            <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+            <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
               <T>Experiencias Transformadoras</T>
             </span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wider text-white mb-6">
@@ -68,13 +68,13 @@ export function EventosLanding() {
         <section className="py-20 md:py-28 px-4">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-14">
-              <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+              <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                 <T>Agenda</T>
               </span>
               <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-6">
                 <T>Próximos Eventos</T>
               </h2>
-              <p className="text-lg text-[#8C8C8C] font-accent italic max-w-2xl mx-auto">
+              <p className="text-lg text-[#827D78] font-accent italic max-w-2xl mx-auto">
                 <T>Descubre nuestros talleres y experiencias diseñadas para tu bienestar integral</T>
               </p>
             </div>
@@ -88,7 +88,7 @@ export function EventosLanding() {
                       alt={event.title}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute top-4 right-4 bg-[#D3BC8D] text-[#3a3a3a] px-4 py-2 text-sm font-medium">
+                    <div className="absolute top-4 right-4 bg-[#4B5872] text-[#FCF9F9] px-4 py-2 text-sm font-medium">
                       {event.price}
                     </div>
                   </div>
@@ -98,21 +98,21 @@ export function EventosLanding() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2 text-sm">
-                      <div className="flex items-center gap-3 text-[#5a5a5a]">
-                        <Calendar className="w-4 h-4 text-[#D3BC8D]" />
+                      <div className="flex items-center gap-3 text-[#635E5A]">
+                        <Calendar className="w-4 h-4 text-[#4B5872]" />
                         <span>{event.date}</span>
                       </div>
-                      <div className="flex items-center gap-3 text-[#5a5a5a]">
-                        <Clock className="w-4 h-4 text-[#D3BC8D]" />
+                      <div className="flex items-center gap-3 text-[#635E5A]">
+                        <Clock className="w-4 h-4 text-[#4B5872]" />
                         <span>{event.time}</span>
                       </div>
-                      <div className="flex items-center gap-3 text-[#5a5a5a]">
-                        <MapPin className="w-4 h-4 text-[#D3BC8D]" />
+                      <div className="flex items-center gap-3 text-[#635E5A]">
+                        <MapPin className="w-4 h-4 text-[#4B5872]" />
                         <span>{event.location}</span>
                       </div>
                     </div>
                     <Link href={event.href}>
-                      <Button className="w-full gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase">
+                      <Button className="w-full gap-2 bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-widest uppercase">
                         <T>Ver Detalles</T>
                         <ArrowRight className="w-4 h-4" />
                       </Button>
@@ -125,24 +125,24 @@ export function EventosLanding() {
         </section>
 
         {/* Eventos Sociales Section */}
-        <section className="py-20 md:py-28 px-4 bg-[#F1E7D9]">
+        <section className="py-20 md:py-28 px-4 bg-[#F4F2ED]">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div>
-                <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                   <T>Celebra con Nosotros</T>
                 </span>
                 <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6">
                   <T>Eventos Sociales</T>
                 </h2>
-                <p className="text-[#5a5a5a] text-lg mb-6 font-light">
+                <p className="text-[#635E5A] text-lg mb-6 font-light">
                   <T>Celebra momentos especiales en nuestro espacio único. Cumpleaños, aniversarios, reuniones familiares y más, en el ambiente perfecto rodeado de naturaleza.</T>
                 </p>
                 <ul className="space-y-3 mb-8">
                   {socialEventsList.map((item, i) => (
                     <li key={i} className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-[#D3BC8D] rounded-full" />
-                      <span className="text-[#5a5a5a]"><T>{item}</T></span>
+                      <div className="w-2 h-2 bg-[#4B5872] rounded-full" />
+                      <span className="text-[#635E5A]"><T>{item}</T></span>
                     </li>
                   ))}
                 </ul>
@@ -153,7 +153,7 @@ export function EventosLanding() {
                     );
                     window.open(`https://wa.me/56940073999?text=${message}`, "_blank");
                   }}
-                  className="gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase"
+                  className="gap-2 bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-widest uppercase"
                 >
                   <T>Cotizar</T>
                   <ArrowRight className="w-4 h-4" />
@@ -184,20 +184,20 @@ export function EventosLanding() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
               </div>
               <div className="order-1 md:order-2">
-                <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                   <T>Experiencias Corporativas</T>
                 </span>
                 <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6">
                   <T>Eventos Corporativos</T>
                 </h2>
-                <p className="text-[#5a5a5a] text-lg mb-6 font-light">
+                <p className="text-[#635E5A] text-lg mb-6 font-light">
                   <T>Diseñamos experiencias corporativas únicas para tu equipo. Team building, retiros de liderazgo, conferencias y eventos de incentivo en un ambiente inspirador.</T>
                 </p>
                 <ul className="space-y-3 mb-8">
                   {corporateEventsList.map((item, i) => (
                     <li key={i} className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-[#D3BC8D] rounded-full" />
-                      <span className="text-[#5a5a5a]"><T>{item}</T></span>
+                      <div className="w-2 h-2 bg-[#4B5872] rounded-full" />
+                      <span className="text-[#635E5A]"><T>{item}</T></span>
                     </li>
                   ))}
                 </ul>
@@ -208,7 +208,7 @@ export function EventosLanding() {
                     );
                     window.open(`https://wa.me/56940073999?text=${message}`, "_blank");
                   }}
-                  className="gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase"
+                  className="gap-2 bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-widest uppercase"
                 >
                   <T>Cotizar</T>
                   <ArrowRight className="w-4 h-4" />
@@ -219,7 +219,7 @@ export function EventosLanding() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 md:py-28 px-4 bg-[#3a3a3a]">
+        <section className="py-20 md:py-28 px-4 bg-[#222221]">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-light tracking-wide text-white mb-6">
               <T>¿Listo para crear tu evento?</T>
@@ -235,7 +235,7 @@ export function EventosLanding() {
                 window.open(`https://wa.me/56940073999?text=${message}`, "_blank");
               }}
               size="lg"
-              className="gap-2 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase"
+              className="gap-2 bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-widest uppercase"
             >
               <T>Contactar</T>
               <ArrowRight className="w-4 h-4" />

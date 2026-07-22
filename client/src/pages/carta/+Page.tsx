@@ -35,7 +35,7 @@ export default function Carta() {
       );
     }
     if (prices.default) {
-      return <p className="text-lg font-semibold text-[#44580E]">{formatPrice(prices.default)}</p>;
+      return <p className="text-lg font-semibold text-[#4A4F35]">{formatPrice(prices.default)}</p>;
     }
     return null;
   };
@@ -46,13 +46,13 @@ export default function Carta() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F5F1E8]">
+    <div className="min-h-screen flex flex-col bg-[#F4F2ED]">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative bg-[#44580E] text-white py-20">
+        <section className="relative bg-[#4A4F35] text-white py-20">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-4xl md:text-5xl mb-4">Nuestra Carta</h1>
-            <div className="w-24 h-1 bg-[#8BC4B8] mx-auto mb-6"></div>
+            <div className="w-24 h-1 bg-[#899169] mx-auto mb-6"></div>
             <p className="text-lg max-w-2xl mx-auto">
               Comida sana, consciente y local de la zona donde posible.
               <br />
@@ -68,18 +68,18 @@ export default function Carta() {
         <section className="py-8 bg-white border-b">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap gap-3 justify-center">
-              <button onClick={() => setSelectedDietaryFilter(null)} className={`px-4 py-2 rounded-full border-2 transition-colors ${!selectedDietaryFilter ? "bg-[#44580E] text-white border-[#44580E]" : "bg-white text-gray-700 border-gray-300 hover:border-[#44580E]"}`}>
+              <button onClick={() => setSelectedDietaryFilter(null)} className={`px-4 py-2 rounded-full border-2 transition-colors ${!selectedDietaryFilter ? "bg-[#4A4F35] text-white border-[#4A4F35]" : "bg-white text-gray-700 border-gray-300 hover:border-[#4A4F35]"}`}>
                 Todos
               </button>
-              <button onClick={() => setSelectedDietaryFilter("vegan")} className={`px-4 py-2 rounded-full border-2 transition-colors flex items-center gap-2 ${selectedDietaryFilter === "vegan" ? "bg-[#44580E] text-white border-[#44580E]" : "bg-white text-gray-700 border-gray-300 hover:border-[#44580E]"}`}>
+              <button onClick={() => setSelectedDietaryFilter("vegan")} className={`px-4 py-2 rounded-full border-2 transition-colors flex items-center gap-2 ${selectedDietaryFilter === "vegan" ? "bg-[#4A4F35] text-white border-[#4A4F35]" : "bg-white text-gray-700 border-gray-300 hover:border-[#4A4F35]"}`}>
                 <Leaf className="w-4 h-4" />
                 Vegano
               </button>
-              <button onClick={() => setSelectedDietaryFilter("gluten_free")} className={`px-4 py-2 rounded-full border-2 transition-colors flex items-center gap-2 ${selectedDietaryFilter === "gluten_free" ? "bg-[#44580E] text-white border-[#44580E]" : "bg-white text-gray-700 border-gray-300 hover:border-[#44580E]"}`}>
+              <button onClick={() => setSelectedDietaryFilter("gluten_free")} className={`px-4 py-2 rounded-full border-2 transition-colors flex items-center gap-2 ${selectedDietaryFilter === "gluten_free" ? "bg-[#4A4F35] text-white border-[#4A4F35]" : "bg-white text-gray-700 border-gray-300 hover:border-[#4A4F35]"}`}>
                 <Wheat className="w-4 h-4" />
                 Sin Gluten
               </button>
-              <button onClick={() => setSelectedDietaryFilter("keto")} className={`px-4 py-2 rounded-full border-2 transition-colors flex items-center gap-2 ${selectedDietaryFilter === "keto" ? "bg-[#44580E] text-white border-[#44580E]" : "bg-white text-gray-700 border-gray-300 hover:border-[#44580E]"}`}>
+              <button onClick={() => setSelectedDietaryFilter("keto")} className={`px-4 py-2 rounded-full border-2 transition-colors flex items-center gap-2 ${selectedDietaryFilter === "keto" ? "bg-[#4A4F35] text-white border-[#4A4F35]" : "bg-white text-gray-700 border-gray-300 hover:border-[#4A4F35]"}`}>
                 <Flame className="w-4 h-4" />
                 Keto
               </button>
@@ -92,7 +92,7 @@ export default function Carta() {
           <div className="container mx-auto px-4 max-w-4xl">
             {isLoading && (
               <div className="flex justify-center items-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-[#44580E]" />
+                <Loader2 className="w-8 h-8 animate-spin text-[#4A4F35]" />
               </div>
             )}
 
@@ -109,7 +109,7 @@ export default function Carta() {
               return (
                 <div key={category.id} className="mb-16">
                   <div className="text-center mb-8">
-                    <h2 className="text-3xl text-[#44580E] mb-2">
+                    <h2 className="text-3xl text-[#4A4F35] mb-2">
                       {category.name}
                     </h2>
                     {category.description && (
@@ -117,7 +117,7 @@ export default function Carta() {
                         {category.description}
                       </p>
                     )}
-                    <div className="w-16 h-1 bg-[#8BC4B8] mx-auto mt-4"></div>
+                    <div className="w-16 h-1 bg-[#899169] mx-auto mt-4"></div>
                   </div>
 
                   <div className="space-y-8">
@@ -140,7 +140,7 @@ export default function Carta() {
                             {item.dietaryTags && item.dietaryTags.length > 0 && (
                               <div className="flex flex-wrap gap-2 mb-3">
                                 {item.dietaryTags.map((tag: string) => (
-                                  <Badge key={tag} variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                                  <Badge key={tag} variant="outline" className="bg-sage-100 text-sage-700 border-sage-300">
                                     {dietaryIcons[tag]}
                                     <span className="ml-1">{dietaryLabels[tag]}</span>
                                   </Badge>
@@ -148,7 +148,7 @@ export default function Carta() {
                               </div>
                             )}
                             {item.specialNotes && (
-                              <p className="text-sm text-amber-700 bg-amber-50 px-3 py-2 rounded border border-amber-200">
+                              <p className="text-sm text-clay-700 bg-clay-100 px-3 py-2 rounded border border-clay-200">
                                 {item.specialNotes}
                               </p>
                             )}

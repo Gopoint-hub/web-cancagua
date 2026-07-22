@@ -162,9 +162,9 @@ export function HeroSlider() {
           {!slide.titleKey.startsWith("hero.") ? slide.subtitleKey : t(slide.subtitleKey)}
         </p>
         {slide.promoCode && (
-          <div key={`promo-${currentSlide}`} className="inline-flex items-center gap-2 border border-[#D3BC8D]/60 bg-black/30 backdrop-blur-sm px-4 py-2 mb-6 animate-fade-in animation-delay-200">
+          <div key={`promo-${currentSlide}`} className="inline-flex items-center gap-2 border border-[#4B5872]/60 bg-black/30 backdrop-blur-sm px-4 py-2 mb-6 animate-fade-in animation-delay-200">
             <span className="text-white/70 text-xs tracking-wide hidden sm:inline">Usa el código</span>
-            <span className="text-[#D3BC8D] font-mono font-semibold tracking-[0.15em] text-sm">{slide.promoCode}</span>
+            <span className="text-[#4B5872] font-mono font-semibold tracking-[0.15em] text-sm">{slide.promoCode}</span>
             <span className="text-white/70 text-xs tracking-wide hidden sm:inline">al pagar</span>
           </div>
         )}
@@ -176,13 +176,13 @@ export function HeroSlider() {
         >
           <button
             onClick={() => handleCtaClick(slide)}
-            className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
+            className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
           >
             {!slide.titleKey.startsWith("hero.") ? slide.ctaKey : t(slide.ctaKey)}
           </button>
           <button
             onClick={handleServicesClick}
-            className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-transparent backdrop-blur-sm border border-white/50 text-white hover:bg-white hover:text-[#3a3a3a] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
+            className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-transparent backdrop-blur-sm border border-white/50 text-white hover:bg-white hover:text-[#222221] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
           >
             {t('home.hero.viewAllServices')}
           </button>
@@ -192,7 +192,7 @@ export function HeroSlider() {
       {/* Navigation controls - smaller on mobile */}
       <button
         onClick={prevSlide}
-        className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-2 md:p-4 transition-all z-20"
+        className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#4B5872] backdrop-blur-sm text-white hover:text-[#FCF9F9] p-2 md:p-4 transition-all z-20"
         aria-label={t('common.previousSlide')}
       >
         <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" />
@@ -200,7 +200,7 @@ export function HeroSlider() {
 
       <button
         onClick={nextSlide}
-        className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#D3BC8D] backdrop-blur-sm text-white hover:text-[#3a3a3a] p-2 md:p-4 transition-all z-20"
+        className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#4B5872] backdrop-blur-sm text-white hover:text-[#FCF9F9] p-2 md:p-4 transition-all z-20"
         aria-label={t('common.nextSlide')}
       >
         <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
@@ -214,7 +214,7 @@ export function HeroSlider() {
             onClick={() => goToSlide(index)}
             className={`h-0.5 transition-all ${
               index === currentSlide
-                ? "w-8 md:w-10 bg-[#D3BC8D]"
+                ? "w-8 md:w-10 bg-[#4B5872]"
                 : "w-4 md:w-6 bg-white/40 hover:bg-white/60"
             }`}
             aria-label={t('common.goToSlide', { number: index + 1 })}
@@ -225,7 +225,7 @@ export function HeroSlider() {
       {/* Scroll indicator - hidden on mobile */}
       <div className="absolute bottom-24 left-1/2 -translate-x-1/2 animate-bounce hidden md:block z-20">
         <div className="w-6 h-10 border border-white/50 rounded-full flex items-start justify-center p-2">
-          <div className="w-0.5 h-3 bg-[#D3BC8D] rounded-full animate-scroll" />
+          <div className="w-0.5 h-3 bg-[#4B5872] rounded-full animate-scroll" />
         </div>
       </div>
     </div>

@@ -80,12 +80,12 @@ export function Navbar() {
   return (
     <>
       {/* Barra superior con mensaje */}
-      <div className="bg-[#D3BC8D] text-[#3a3a3a] py-2 text-center text-sm tracking-wide">
+      <div className="bg-[#4B5872] text-[#FCF9F9] py-2 text-center text-sm tracking-wide">
         <p>{t('footer.scheduleText')}</p>
       </div>
 
       {/* Navegación principal */}
-      <header className="sticky top-0 z-50 w-full border-b border-[#D3BC8D]/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
+      <header className="sticky top-0 z-50 w-full border-b border-[#4B5872]/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
         <div className="container flex h-20 items-center justify-between">
           {/* Logo */}
           <a href="/" className="flex items-center space-x-2">
@@ -100,7 +100,7 @@ export function Navbar() {
           <nav className="hidden md:flex items-center gap-8">
             <a
               href="/"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/") ? "text-[#4B5872]" : "text-[#222221]"
                 }`}
             >
               {t('nav.home')}
@@ -110,25 +110,25 @@ export function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm tracking-wider uppercase text-[#3a3a3a] hover:text-[#D3BC8D] bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
+                  <NavigationMenuTrigger className="text-sm tracking-wider uppercase text-[#222221] hover:text-[#4B5872] bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
                     {t('nav.services')}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-2 p-4 bg-white border border-[#D3BC8D]/20">
+                    <ul className="grid w-[400px] gap-2 p-4 bg-white border border-[#4B5872]/20">
                       {servicios.map((servicio: { name: string; href: string; highlight?: boolean }) => (
                         <li key={servicio.href}>
                           <NavigationMenuLink asChild>
                             <a
                               href={servicio.href}
                               className={`block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors ${servicio.highlight
-                                ? 'bg-[#1a5276]/10 hover:bg-[#1a5276]/20 text-[#1a5276] border-l-2 border-[#1a5276]'
-                                : 'hover:bg-[#F1E7D9] text-[#3a3a3a]'
+                                ? 'bg-[#324853]/10 hover:bg-[#324853]/20 text-[#324853] border-l-2 border-[#324853]'
+                                : 'hover:bg-[#F4F2ED] text-[#222221]'
                                 }`}
                             >
                               <div className="text-sm tracking-wide flex items-center gap-2">
                                 {servicio.name}
                                 {servicio.highlight && (
-                                  <span className="text-[10px] bg-[#1a5276] text-white px-1.5 py-0.5 rounded uppercase tracking-wider">
+                                  <span className="text-[10px] bg-[#324853] text-white px-1.5 py-0.5 rounded uppercase tracking-wider">
                                     Nuevo
                                   </span>
                                 )}
@@ -147,17 +147,17 @@ export function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm tracking-wider uppercase text-[#3a3a3a] hover:text-[#D3BC8D] bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
+                  <NavigationMenuTrigger className="text-sm tracking-wider uppercase text-[#222221] hover:text-[#4B5872] bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
                     EXPERIENCIAS
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[300px] gap-2 p-4 bg-white border border-[#D3BC8D]/20">
+                    <ul className="grid w-[300px] gap-2 p-4 bg-white border border-[#4B5872]/20">
                       {experiencias.map((experiencia) => (
                         <li key={experiencia.href}>
                           <NavigationMenuLink asChild>
                             <a
                               href={experiencia.href}
-                              className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F1E7D9] text-[#3a3a3a]"
+                              className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F4F2ED] text-[#222221]"
                             >
                               <div className="text-sm tracking-wide">
                                 {experiencia.name}
@@ -176,17 +176,17 @@ export function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm tracking-wider uppercase text-[#3a3a3a] hover:text-[#D3BC8D] bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
+                  <NavigationMenuTrigger className="text-sm tracking-wider uppercase text-[#222221] hover:text-[#4B5872] bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
                     {t('nav.events')}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[300px] gap-2 p-4 bg-white border border-[#D3BC8D]/20">
+                    <ul className="grid w-[300px] gap-2 p-4 bg-white border border-[#4B5872]/20">
                       {eventos.map((evento) => (
                         <li key={evento.href}>
                           <NavigationMenuLink asChild>
                             <a
                               href={evento.href}
-                              className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F1E7D9] text-[#3a3a3a]"
+                              className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F4F2ED] text-[#222221]"
                             >
                               <div className="text-sm tracking-wide">
                                 {evento.name}
@@ -203,7 +203,7 @@ export function Navbar() {
 
             <a
               href="/cafeteria"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/cafeteria") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/cafeteria") ? "text-[#4B5872]" : "text-[#222221]"
                 }`}
             >
               {t('nav.cafeteria')}
@@ -211,7 +211,7 @@ export function Navbar() {
 
             <a
               href="/nosotros"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/nosotros") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/nosotros") ? "text-[#4B5872]" : "text-[#222221]"
                 }`}
             >
               {t('nav.about')}
@@ -219,7 +219,7 @@ export function Navbar() {
 
             <a
               href="/contacto"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/contacto") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/contacto") ? "text-[#4B5872]" : "text-[#222221]"
                 }`}
             >
               {t('nav.contact')}
@@ -227,7 +227,7 @@ export function Navbar() {
 
             <a
               href="/blog"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/blog") || location.startsWith("/blog/") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/blog") || location.startsWith("/blog/") ? "text-[#4B5872]" : "text-[#222221]"
                 }`}
             >
               Blog
@@ -235,7 +235,7 @@ export function Navbar() {
 
             <a
               href="/gift-cards"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#D3BC8D] ${isActive("/gift-cards") ? "text-[#D3BC8D]" : "text-[#3a3a3a]"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/gift-cards") ? "text-[#4B5872]" : "text-[#222221]"
                 }`}
             >
               Gift Cards
@@ -248,7 +248,7 @@ export function Navbar() {
             <a href={bookingUrl} target={isMassagePage ? undefined : "_blank"} rel={isMassagePage ? undefined : "noopener noreferrer"}>
               <Button
                 size="lg"
-                className="bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase text-sm"
+                className="bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-wider uppercase text-sm"
               >
                 {t('nav.reserve')}
               </Button>
@@ -257,7 +257,7 @@ export function Navbar() {
 
           {/* Menú Mobile */}
           <button
-            className="md:hidden text-[#3a3a3a]"
+            className="md:hidden text-[#222221]"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
@@ -270,21 +270,21 @@ export function Navbar() {
 
         {/* Menú Mobile Expandido */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-[#D3BC8D]/20 bg-white max-h-[70vh] overflow-y-auto">
+          <div className="md:hidden border-t border-[#4B5872]/20 bg-white max-h-[70vh] overflow-y-auto">
             <nav className="container py-4 flex flex-col">
               {/* Inicio */}
               <a
                 href="/"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10"
+                className="py-3 text-sm tracking-wider uppercase text-[#222221] border-b border-[#4B5872]/10"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.home')}
               </a>
 
               {/* Servicios - Acordeón */}
-              <div className="border-b border-[#D3BC8D]/10">
+              <div className="border-b border-[#4B5872]/10">
                 <button
-                  className="w-full py-3 flex items-center justify-between text-sm tracking-wider uppercase text-[#3a3a3a]"
+                  className="w-full py-3 flex items-center justify-between text-sm tracking-wider uppercase text-[#222221]"
                   onClick={() => toggleSection('servicios')}
                 >
                   <span>{t('nav.services')}</span>
@@ -296,7 +296,7 @@ export function Navbar() {
                       <a
                         key={servicio.href}
                         href={servicio.href}
-                        className="block py-2 text-sm text-[#3a3a3a] hover:text-[#D3BC8D]"
+                        className="block py-2 text-sm text-[#222221] hover:text-[#4B5872]"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {servicio.name}
@@ -307,9 +307,9 @@ export function Navbar() {
               </div>
 
               {/* Experiencias - Acordeón */}
-              <div className="border-b border-[#D3BC8D]/10">
+              <div className="border-b border-[#4B5872]/10">
                 <button
-                  className="w-full py-3 flex items-center justify-between text-sm tracking-wider uppercase text-[#3a3a3a]"
+                  className="w-full py-3 flex items-center justify-between text-sm tracking-wider uppercase text-[#222221]"
                   onClick={() => toggleSection('experiencias')}
                 >
                   <span>EXPERIENCIAS</span>
@@ -321,7 +321,7 @@ export function Navbar() {
                       <a
                         key={experiencia.href}
                         href={experiencia.href}
-                        className="block py-2 text-sm text-[#3a3a3a] hover:text-[#D3BC8D]"
+                        className="block py-2 text-sm text-[#222221] hover:text-[#4B5872]"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {experiencia.name}
@@ -332,9 +332,9 @@ export function Navbar() {
               </div>
 
               {/* Eventos - Acordeón */}
-              <div className="border-b border-[#D3BC8D]/10">
+              <div className="border-b border-[#4B5872]/10">
                 <button
-                  className="w-full py-3 flex items-center justify-between text-sm tracking-wider uppercase text-[#3a3a3a]"
+                  className="w-full py-3 flex items-center justify-between text-sm tracking-wider uppercase text-[#222221]"
                   onClick={() => toggleSection('eventos')}
                 >
                   <span>{t('nav.events')}</span>
@@ -346,7 +346,7 @@ export function Navbar() {
                       <a
                         key={evento.href}
                         href={evento.href}
-                        className="block py-2 text-sm text-[#3a3a3a] hover:text-[#D3BC8D]"
+                        className="block py-2 text-sm text-[#222221] hover:text-[#4B5872]"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {evento.name}
@@ -359,7 +359,7 @@ export function Navbar() {
               {/* Enlaces directos */}
               <a
                 href="/cafeteria"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
+                className="py-3 text-sm tracking-wider uppercase text-[#222221] border-b border-[#4B5872]/10 hover:text-[#4B5872]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.cafeteria')}
@@ -367,7 +367,7 @@ export function Navbar() {
 
               <a
                 href="/nosotros"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
+                className="py-3 text-sm tracking-wider uppercase text-[#222221] border-b border-[#4B5872]/10 hover:text-[#4B5872]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.about')}
@@ -375,7 +375,7 @@ export function Navbar() {
 
               <a
                 href="/contacto"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
+                className="py-3 text-sm tracking-wider uppercase text-[#222221] border-b border-[#4B5872]/10 hover:text-[#4B5872]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('nav.contact')}
@@ -383,7 +383,7 @@ export function Navbar() {
 
               <a
                 href="/blog"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
+                className="py-3 text-sm tracking-wider uppercase text-[#222221] border-b border-[#4B5872]/10 hover:text-[#4B5872]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Blog
@@ -391,7 +391,7 @@ export function Navbar() {
 
               <a
                 href="/gift-cards"
-                className="py-3 text-sm tracking-wider uppercase text-[#3a3a3a] border-b border-[#D3BC8D]/10 hover:text-[#D3BC8D]"
+                className="py-3 text-sm tracking-wider uppercase text-[#222221] border-b border-[#4B5872]/10 hover:text-[#4B5872]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Gift Cards
@@ -400,14 +400,14 @@ export function Navbar() {
               {/* Selector de idioma y botón reservar */}
               <div className="pt-4 space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-[#8C8C8C]">Idioma</span>
+                  <span className="text-sm text-[#827D78]">Idioma</span>
                   <LanguageSelector />
                 </div>
 
                 <a href={bookingUrl} target={isMassagePage ? undefined : "_blank"} rel={isMassagePage ? undefined : "noopener noreferrer"} className="block">
                   <Button
                     size="lg"
-                    className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider uppercase"
+                    className="w-full bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-wider uppercase"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {t('nav.reserve')}

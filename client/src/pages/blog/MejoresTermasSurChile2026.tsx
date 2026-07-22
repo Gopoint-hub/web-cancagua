@@ -22,9 +22,9 @@ export default function MejoresTermasSurChile2026() {
         He visitado personalmente cada lugar que está en esta lista, algunos más de una vez. No te voy a vender un «top 10» genérico copiado de otras listas. Te compartiré lo que a mi parecer funciona perfecto dependiendo del grupo que va a hacer esta visita y la intención: familias con niños pequeños, parejas buscando un espacio más íntimo, grupos de amigos, o personas que simplemente necesitan desconectarse del ruido de la ciudad.
       </p>
 
-      <div className="my-8 p-6 bg-gradient-to-r from-[#2d3e2f] to-[#3d5240] rounded-xl text-white">
+      <div className="my-8 p-6 bg-gradient-to-r from-[#282C1C] to-[#4A4F35] rounded-xl text-white">
         <div className="flex items-start gap-4">
-          <Leaf className="w-8 h-8 text-[#c4a86b] flex-shrink-0 mt-1" />
+          <Leaf className="w-8 h-8 text-[#4B5872] flex-shrink-0 mt-1" />
           <div>
             <h3 className="text-xl font-bold mb-2 text-white">Cancagua: La revolución de las biopiscinas geotermales</h3>
             <p className="text-white/90 mb-4">
@@ -48,10 +48,10 @@ export default function MejoresTermasSurChile2026() {
       <p>
         Cuando las visité en marzo de 2024, pude ver personalmente que el diseño arquitectónico por sí solo justificó el viaje. Sin embargo, ten en cuenta que por este nivel de atractivo, suelen estar bastante concurridas, especialmente en temporada alta. Los precios rondan los $25.000-$35.000 por persona.
       </p>
-      <div className="my-4 p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-lg">
+      <div className="my-4 p-4 bg-clay-100 border-l-4 border-clay-500 rounded-r-lg">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-          <p className="text-amber-800 m-0">
+          <AlertTriangle className="w-5 h-5 text-clay-600 flex-shrink-0 mt-0.5" />
+          <p className="text-clay-800 m-0">
             <strong>Consideración importante:</strong> La temperatura del agua varía significativamente entre las piscinas (35°-45°C), lo que puede ser peligroso para niños pequeños sin supervisión constante.
           </p>
         </div>
@@ -101,10 +101,10 @@ export default function MejoresTermasSurChile2026() {
       <p>
         Para familias con niños menores de 5 a 12 años, el cálculo económico es imbatible comparado con las termas tradicionales.
       </p>
-      <div className="my-4 p-4 bg-green-50 border-l-4 border-green-500 rounded-r-lg">
+      <div className="my-4 p-4 bg-sage-100 border-l-4 border-sage-500 rounded-r-lg">
         <div className="flex items-start gap-3">
-          <Leaf className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-          <p className="text-green-800 m-0">
+          <Leaf className="w-5 h-5 text-sage-600 flex-shrink-0 mt-0.5" />
+          <p className="text-sage-800 m-0">
             <strong>Punto clave:</strong> Si tu prioridad es la seguridad de tus niños pequeños, más un espacio preocupado por la sustentabilidad ambiental, más la experiencia de bienestar integral (no solo agua), Cancagua supera a las opciones geotermales convencionales.
           </p>
         </div>
@@ -164,7 +164,7 @@ export default function MejoresTermasSurChile2026() {
       <div className="my-6 overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-[#2d3e2f] text-white">
+            <tr className="bg-[#282C1C] text-white">
               <th className="p-3 text-left">Si buscas...</th>
               <th className="p-3 text-left">Te recomiendo</th>
             </tr>
@@ -190,9 +190,9 @@ export default function MejoresTermasSurChile2026() {
               <td className="p-3">Desconexión total</td>
               <td className="p-3 font-medium">Aguas Calientes o Los Pozones</td>
             </tr>
-            <tr className="bg-[#f5f0e8]">
+            <tr className="bg-[#F4F2ED]">
               <td className="p-3">Sustentabilidad + experiencia integral</td>
-              <td className="p-3 font-medium text-[#c4a86b]">Cancagua</td>
+              <td className="p-3 font-medium text-[#4B5872]">Cancagua</td>
             </tr>
           </tbody>
         </table>

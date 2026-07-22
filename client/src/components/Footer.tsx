@@ -10,7 +10,7 @@ export function Footer() {
   const phoneHref = isSpaHCDL ? '+56989670670' : '+56940073999';
 
   return (
-    <footer className="bg-[#3a3a3a] text-white">
+    <footer className="bg-[#222221] text-white">
       <div className="container py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Logo y descripción */}
@@ -27,12 +27,12 @@ export function Footer() {
 
           {/* Enlaces rápidos */}
           <div>
-            <h3 className="text-sm tracking-[0.2em] uppercase text-[#D3BC8D] mb-6">{t('footer.quickLinks')}</h3>
+            <h3 className="text-sm tracking-[0.2em] uppercase text-[#4B5872] mb-6">{t('footer.quickLinks')}</h3>
             <ul className="space-y-3 text-sm">
               <li>
                 <a
                   href="/"
-                  className="text-white/70 hover:text-[#D3BC8D] transition-colors"
+                  className="text-white/70 hover:text-[#4B5872] transition-colors"
                 >
                   {t('nav.home')}
                 </a>
@@ -40,7 +40,7 @@ export function Footer() {
               <li>
                 <a
                   href="/servicios"
-                  className="text-white/70 hover:text-[#D3BC8D] transition-colors"
+                  className="text-white/70 hover:text-[#4B5872] transition-colors"
                 >
                   {t('nav.services')}
                 </a>
@@ -48,7 +48,7 @@ export function Footer() {
               <li>
                 <a
                   href="/eventos"
-                  className="text-white/70 hover:text-[#D3BC8D] transition-colors"
+                  className="text-white/70 hover:text-[#4B5872] transition-colors"
                 >
                   {t('nav.events')}
                 </a>
@@ -56,7 +56,7 @@ export function Footer() {
               <li>
                 <a
                   href="/cafeteria"
-                  className="text-white/70 hover:text-[#D3BC8D] transition-colors"
+                  className="text-white/70 hover:text-[#4B5872] transition-colors"
                 >
                   {t('nav.cafeteria')}
                 </a>
@@ -64,7 +64,7 @@ export function Footer() {
               <li>
                 <a
                   href="/nosotros"
-                  className="text-white/70 hover:text-[#D3BC8D] transition-colors"
+                  className="text-white/70 hover:text-[#4B5872] transition-colors"
                 >
                   {t('nav.about')}
                 </a>
@@ -74,10 +74,10 @@ export function Footer() {
 
           {/* Contacto */}
           <div>
-            <h3 className="text-sm tracking-[0.2em] uppercase text-[#D3BC8D] mb-6">{t('footer.contact')}</h3>
+            <h3 className="text-sm tracking-[0.2em] uppercase text-[#4B5872] mb-6">{t('footer.contact')}</h3>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
-                <MapPin className="h-4 w-4 mt-0.5 text-[#D3BC8D] flex-shrink-0" />
+                <MapPin className="h-4 w-4 mt-0.5 text-[#4B5872] flex-shrink-0" />
                 <span className="text-white/70">
                   {t('contact.addressText')}
                   <br />
@@ -85,19 +85,19 @@ export function Footer() {
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" />
+                <Phone className="h-4 w-4 text-[#4B5872] flex-shrink-0" />
                 <a
                   href={`tel:${phoneHref}`}
-                  className="text-white/70 hover:text-[#D3BC8D] transition-colors"
+                  className="text-white/70 hover:text-[#4B5872] transition-colors"
                 >
                   {displayPhone}
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" />
+                <Mail className="h-4 w-4 text-[#4B5872] flex-shrink-0" />
                 <a
                   href="mailto:contacto@cancagua.cl"
-                  className="text-white/70 hover:text-[#D3BC8D] transition-colors"
+                  className="text-white/70 hover:text-[#4B5872] transition-colors"
                 >
                   contacto@cancagua.cl
                 </a>
@@ -107,18 +107,18 @@ export function Footer() {
 
           {/* Horarios y redes */}
           <div>
-            <h3 className="text-sm tracking-[0.2em] uppercase text-[#D3BC8D] mb-6">{t('footer.schedule')}</h3>
+            <h3 className="text-sm tracking-[0.2em] uppercase text-[#4B5872] mb-6">{t('footer.schedule')}</h3>
             <p className="text-sm text-white/70 mb-6 leading-relaxed">
               {t('footer.scheduleText')}
             </p>
 
-            <h3 className="text-sm tracking-[0.2em] uppercase text-[#D3BC8D] mb-4">{t('contact.followUs')}</h3>
+            <h3 className="text-sm tracking-[0.2em] uppercase text-[#4B5872] mb-4">{t('contact.followUs')}</h3>
             <div className="flex gap-4">
               <a
                 href="https://www.facebook.com/Cancaguachile-100421855205587"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-[#D3BC8D]/20 flex items-center justify-center text-white/70 hover:bg-[#D3BC8D] hover:text-[#3a3a3a] transition-all"
+                className="w-10 h-10 rounded-full bg-[#4B5872]/20 flex items-center justify-center text-white/70 hover:bg-[#4B5872] hover:text-[#FCF9F9] transition-all"
               >
                 <Facebook className="h-5 w-5" />
               </a>
@@ -126,7 +126,7 @@ export function Footer() {
                 href="https://www.instagram.com/cancaguachile/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-[#D3BC8D]/20 flex items-center justify-center text-white/70 hover:bg-[#D3BC8D] hover:text-[#3a3a3a] transition-all"
+                className="w-10 h-10 rounded-full bg-[#4B5872]/20 flex items-center justify-center text-white/70 hover:bg-[#4B5872] hover:text-[#FCF9F9] transition-all"
               >
                 <Instagram className="h-5 w-5" />
               </a>
@@ -134,7 +134,7 @@ export function Footer() {
                 href="https://www.tiktok.com/@cancaguafrutillar"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-[#D3BC8D]/20 flex items-center justify-center text-white/70 hover:bg-[#D3BC8D] hover:text-[#3a3a3a] transition-all"
+                className="w-10 h-10 rounded-full bg-[#4B5872]/20 flex items-center justify-center text-white/70 hover:bg-[#4B5872] hover:text-[#FCF9F9] transition-all"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
@@ -163,7 +163,7 @@ export function Footer() {
                 href="https://drive.google.com/drive/u/1/folders/1A02wUkV1mkZTl0REkHqiKr8E490SI6fD"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-white/70 hover:text-[#D3BC8D] transition-colors"
+                className="text-sm text-white/70 hover:text-[#4B5872] transition-colors"
               >
                 Media Kit
               </a>
@@ -173,17 +173,17 @@ export function Footer() {
 
         {/* Ubicaciones */}
         <div className="mt-12 pt-8 border-t border-white/10">
-          <h3 className="text-sm tracking-[0.2em] uppercase text-[#D3BC8D] mb-6 text-center">Nuestras Ubicaciones</h3>
+          <h3 className="text-sm tracking-[0.2em] uppercase text-[#4B5872] mb-6 text-center">Nuestras Ubicaciones</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             <a
               href="/"
               className="flex items-center gap-4 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
             >
-              <div className="w-12 h-12 rounded-full bg-[#D3BC8D]/20 flex items-center justify-center flex-shrink-0">
-                <MapPin className="h-5 w-5 text-[#D3BC8D]" />
+              <div className="w-12 h-12 rounded-full bg-[#4B5872]/20 flex items-center justify-center flex-shrink-0">
+                <MapPin className="h-5 w-5 text-[#4B5872]" />
               </div>
               <div>
-                <h4 className="font-['Josefin_Sans'] text-white group-hover:text-[#D3BC8D] transition-colors">
+                <h4 className="font-cg-mono text-white group-hover:text-[#4B5872] transition-colors">
                   Cancagua Spa
                 </h4>
                 <p className="text-sm text-white/60">Frutillar, Región de Los Lagos</p>
@@ -193,11 +193,11 @@ export function Footer() {
               href="/spa-hotel-cabanas-del-lago"
               className="flex items-center gap-4 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors group"
             >
-              <div className="w-12 h-12 rounded-full bg-[#1a5276]/40 flex items-center justify-center flex-shrink-0">
-                <MapPin className="h-5 w-5 text-[#5dade2]" />
+              <div className="w-12 h-12 rounded-full bg-[#324853]/40 flex items-center justify-center flex-shrink-0">
+                <MapPin className="h-5 w-5 text-[#648596]" />
               </div>
               <div>
-                <h4 className="font-['Josefin_Sans'] text-white group-hover:text-[#5dade2] transition-colors">
+                <h4 className="font-cg-mono text-white group-hover:text-[#648596] transition-colors">
                   Spa Hotel Cabañas del Lago
                 </h4>
                 <p className="text-sm text-white/60">Puerto Varas, Región de Los Lagos</p>
@@ -210,11 +210,11 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-white/10 text-center">
           <p className="text-sm text-white/50 mb-3">© {new Date().getFullYear()} CANCAGUA. {t('footer.rights')}</p>
           <div className="flex justify-center items-center gap-4 text-xs text-white/50">
-            <a href="/politica-de-privacidad" className="hover:text-[#D3BC8D] transition-colors">
+            <a href="/politica-de-privacidad" className="hover:text-[#4B5872] transition-colors">
               Política de Privacidad
             </a>
             <span>|</span>
-            <a href="/eliminacion-de-datos" className="hover:text-[#D3BC8D] transition-colors">
+            <a href="/eliminacion-de-datos" className="hover:text-[#4B5872] transition-colors">
               Eliminación de Datos
             </a>
           </div>

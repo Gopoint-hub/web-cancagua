@@ -27,12 +27,12 @@ export default function ConciertoEquinoccio() {
 
         <div className="relative z-10 container pb-16 text-white">
           <div className="max-w-4xl space-y-6">
-            <div className="inline-flex items-center gap-3 bg-amber-700/80 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
+            <div className="inline-flex items-center gap-3 bg-clay-700/80 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
               <Music className="h-5 w-5" />
               <span className="font-semibold">Ciclo de Conciertos Cancagua 2026</span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-['Josefin_Sans'] font-bold tracking-tight leading-tight">
+            <h1 className="text-4xl md:text-6xl font-cg-mono font-bold tracking-tight leading-tight">
               Concierto Equinoccio de Otoño
             </h1>
             <p className="text-3xl text-white/90 font-light italic">
@@ -62,8 +62,8 @@ export default function ConciertoEquinoccio() {
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-4">
           {/* Promociones Destacadas */}
-          <div className="bg-amber-100/50 border border-amber-200 rounded-2xl p-6 mb-8 text-center space-y-4">
-            <h3 className="text-2xl font-['Josefin_Sans'] font-bold text-amber-800 flex items-center justify-center gap-2">
+          <div className="bg-clay-100/50 border border-clay-200 rounded-2xl p-6 mb-8 text-center space-y-4">
+            <h3 className="text-2xl font-cg-mono font-bold text-clay-800 flex items-center justify-center gap-2">
               <Sparkles className="h-6 w-6" />
               Promociones Exclusivas
               <Sparkles className="h-6 w-6" />
@@ -76,10 +76,10 @@ export default function ConciertoEquinoccio() {
             </p>
           </div>
 
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-100 mb-4">
-              <Sparkles className="h-8 w-8 text-amber-600" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-clay-100 mb-4">
+              <Sparkles className="h-8 w-8 text-clay-600" />
             </div>
-            <h2 className="text-4xl font-['Josefin_Sans'] font-bold text-stone-800">
+            <h2 className="text-4xl font-cg-mono font-bold text-stone-800">
               Una invitación a renovarte
             </h2>
           </div>
@@ -101,7 +101,7 @@ export default function ConciertoEquinoccio() {
       </section>
 
       {/* Experiencia Biopiscinas */}
-      <section className="py-20 bg-gradient-to-br from-sky-50 to-amber-50">
+      <section className="py-20 bg-gradient-to-br from-sky-50 to-clay-100">
         <div className="container">
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -109,7 +109,7 @@ export default function ConciertoEquinoccio() {
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sky-100">
                   <Waves className="h-8 w-8 text-sky-600" />
                 </div>
-                <h2 className="text-4xl font-['Josefin_Sans'] font-bold text-stone-800">
+                <h2 className="text-4xl font-cg-mono font-bold text-stone-800">
                   Música desde el agua
                 </h2>
                 <p className="text-lg text-stone-700 leading-relaxed">
@@ -138,7 +138,7 @@ export default function ConciertoEquinoccio() {
       <section className="py-20 container">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-4">
-            <h2 className="text-4xl font-['Josefin_Sans'] font-bold text-stone-800">
+            <h2 className="text-4xl font-cg-mono font-bold text-stone-800">
               🕯 Programa
             </h2>
           </div>
@@ -146,22 +146,22 @@ export default function ConciertoEquinoccio() {
           <div className="grid md:grid-cols-2 gap-6">
             <Card className="border-0 shadow-lg">
               <CardContent className="p-8 text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto">
-                  <MapPin className="h-8 w-8 text-amber-600" />
+                <div className="w-16 h-16 rounded-full bg-clay-100 flex items-center justify-center mx-auto">
+                  <MapPin className="h-8 w-8 text-clay-600" />
                 </div>
-                <h3 className="text-2xl font-['Josefin_Sans'] font-bold text-stone-800">Llegada</h3>
-                <p className="text-3xl font-light text-amber-700">18:30 hrs</p>
+                <h3 className="text-2xl font-cg-mono font-bold text-stone-800">Llegada</h3>
+                <p className="text-3xl font-light text-clay-700">18:30 hrs</p>
                 <p className="text-stone-600">Recepción y bienvenida</p>
               </CardContent>
             </Card>
 
             <Card className="border-0 shadow-lg">
               <CardContent className="p-8 text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto">
-                  <Music className="h-8 w-8 text-amber-600" />
+                <div className="w-16 h-16 rounded-full bg-clay-100 flex items-center justify-center mx-auto">
+                  <Music className="h-8 w-8 text-clay-600" />
                 </div>
-                <h3 className="text-2xl font-['Josefin_Sans'] font-bold text-stone-800">Concierto</h3>
-                <p className="text-3xl font-light text-amber-700">19:00 - 20:30 hrs</p>
+                <h3 className="text-2xl font-cg-mono font-bold text-stone-800">Concierto</h3>
+                <p className="text-3xl font-light text-clay-700">19:00 - 20:30 hrs</p>
                 <p className="text-stone-600">Daniela Conejero (voz) & Ítalo Aguilera (guitarra)</p>
               </CardContent>
             </Card>
@@ -170,14 +170,14 @@ export default function ConciertoEquinoccio() {
       </section>
 
       {/* Modalidades de entrada */}
-      <section className="py-20 bg-gradient-to-br from-amber-50 to-stone-50">
+      <section className="py-20 bg-gradient-to-br from-clay-100 to-stone-50">
         <div className="container">
           <div className="max-w-4xl mx-auto space-y-12">
             <div className="text-center space-y-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-100 mb-4">
-                <Ticket className="h-8 w-8 text-amber-600" />
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-clay-100 mb-4">
+                <Ticket className="h-8 w-8 text-clay-600" />
               </div>
-              <h2 className="text-4xl font-['Josefin_Sans'] font-bold text-stone-800">
+              <h2 className="text-4xl font-cg-mono font-bold text-stone-800">
                 🎟 Modalidades de Entrada
               </h2>
             </div>
@@ -188,7 +188,7 @@ export default function ConciertoEquinoccio() {
                   <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center mx-auto">
                     <Music className="h-8 w-8 text-stone-600" />
                   </div>
-                  <h3 className="text-2xl font-['Josefin_Sans'] font-bold text-stone-800">
+                  <h3 className="text-2xl font-cg-mono font-bold text-stone-800">
                     Ticket Concierto
                   </h3>
                   <p className="text-stone-600 leading-relaxed">
@@ -206,15 +206,15 @@ export default function ConciertoEquinoccio() {
                 </CardContent>
               </Card>
 
-              <Card className="border-0 shadow-xl hover:shadow-2xl transition-shadow ring-2 ring-amber-300">
-                <div className="bg-amber-600 text-white text-center py-2 text-sm font-['Josefin_Sans'] font-semibold uppercase tracking-wider">
+              <Card className="border-0 shadow-xl hover:shadow-2xl transition-shadow ring-2 ring-clay-300">
+                <div className="bg-clay-600 text-white text-center py-2 text-sm font-cg-mono font-semibold uppercase tracking-wider">
                   EXPERIENCIA COMPLETA
                 </div>
                 <CardContent className="p-8 space-y-6 text-center">
-                  <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto">
-                    <Waves className="h-8 w-8 text-amber-600" />
+                  <div className="w-16 h-16 rounded-full bg-clay-100 flex items-center justify-center mx-auto">
+                    <Waves className="h-8 w-8 text-clay-600" />
                   </div>
-                  <h3 className="text-2xl font-['Josefin_Sans'] font-bold text-stone-800">
+                  <h3 className="text-2xl font-cg-mono font-bold text-stone-800">
                     Ticket Concierto + Biopiscinas
                   </h3>
                   <p className="text-stone-600 leading-relaxed">
@@ -225,7 +225,7 @@ export default function ConciertoEquinoccio() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold">
+                    <Button className="w-full bg-clay-600 hover:bg-clay-700 text-white font-semibold">
                       Reservar <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </a>
@@ -240,7 +240,7 @@ export default function ConciertoEquinoccio() {
       <section className="py-20 container">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-4">
-            <h2 className="text-4xl font-['Josefin_Sans'] font-bold text-stone-800">
+            <h2 className="text-4xl font-cg-mono font-bold text-stone-800">
               Próximas Fechas del Ciclo
             </h2>
             <p className="text-lg text-stone-600">
@@ -252,12 +252,12 @@ export default function ConciertoEquinoccio() {
             {proximasFechas.map((evento, index) => (
               <Card key={index} className="border-0 shadow-md hover:shadow-lg transition-shadow">
                 <CardContent className="p-6 flex items-center gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center">
-                    <Calendar className="h-5 w-5 text-amber-600" />
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-clay-100 flex items-center justify-center">
+                    <Calendar className="h-5 w-5 text-clay-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-amber-700">{evento.fecha}</p>
-                    <p className="text-lg font-['Josefin_Sans'] font-bold text-stone-800">{evento.titulo}</p>
+                    <p className="text-sm font-semibold text-clay-700">{evento.fecha}</p>
+                    <p className="text-lg font-cg-mono font-bold text-stone-800">{evento.titulo}</p>
                     <p className="text-sm text-stone-500">{evento.subtitulo}</p>
                   </div>
                 </CardContent>
@@ -271,9 +271,9 @@ export default function ConciertoEquinoccio() {
       <section className="py-20 container">
         <div className="max-w-4xl mx-auto">
           <Card className="border-0 shadow-2xl overflow-hidden">
-            <div className="bg-gradient-to-br from-amber-700 to-stone-800 p-12 text-center text-white space-y-6">
+            <div className="bg-gradient-to-br from-clay-700 to-stone-800 p-12 text-center text-white space-y-6">
               <Music className="h-16 w-16 mx-auto mb-4 opacity-90" />
-              <h2 className="text-4xl font-['Josefin_Sans'] font-bold">
+              <h2 className="text-4xl font-cg-mono font-bold">
                 Reserva tu lugar
               </h2>
               <p className="text-xl text-white/90 max-w-2xl mx-auto">
@@ -295,7 +295,7 @@ export default function ConciertoEquinoccio() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Button size="lg" className="bg-white text-amber-700 hover:bg-stone-100 font-semibold">
+                  <Button size="lg" className="bg-white text-clay-700 hover:bg-stone-100 font-semibold">
                     Reservar Ahora
                   </Button>
                 </a>

@@ -63,7 +63,7 @@ export default function EventosPage() {
             <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">
               CANCAGUA · ENCUENTROS EN LA NATURALEZA
             </p>
-            <h1 className="font-cg-serif mt-8 max-w-3xl text-5xl font-normal leading-[1.03] tracking-[-0.025em] md:text-7xl lg:text-[5.5rem]">
+            <h1 className="font-cg-sans mt-8 max-w-3xl text-5xl font-light leading-[1.03] tracking-[-0.025em] md:text-7xl lg:text-[5.5rem]">
               Experiencias para sentir, conectar y volver al cuerpo.
             </h1>
             <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1] md:text-xl">
@@ -79,7 +79,7 @@ export default function EventosPage() {
             <div className="grid gap-8 border-b border-black/10 pb-12 md:grid-cols-[1fr_1fr] md:items-end">
               <div>
                 <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">AGENDA · JULIO 2026</p>
-                <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl">
+                <h2 className="font-cg-sans mt-5 text-4xl font-light leading-tight tracking-[-0.02em] md:text-6xl">
                   Próximos eventos
                 </h2>
               </div>
@@ -141,7 +141,7 @@ export default function EventosPage() {
             </div>
             <div>
               <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">CELEBRAR CON OTROS</p>
-              <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-5xl">Eventos sociales</h2>
+              <h2 className="font-cg-sans mt-5 text-4xl font-light leading-tight tracking-[-0.02em] md:text-5xl">Eventos sociales</h2>
               <p className="mt-6 text-lg font-light leading-relaxed text-[#635E5A]">
                 Celebra momentos especiales en nuestro espacio único. Cumpleaños, aniversarios, reuniones familiares y más, en el ambiente perfecto rodeado de naturaleza.
               </p>
@@ -164,7 +164,7 @@ export default function EventosPage() {
           <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-20">
             <div>
               <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">BIENESTAR EN EQUIPO</p>
-              <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-5xl">Eventos corporativos</h2>
+              <h2 className="font-cg-sans mt-5 text-4xl font-light leading-tight tracking-[-0.02em] md:text-5xl">Eventos corporativos</h2>
               <p className="mt-6 text-lg font-light leading-relaxed text-[#635E5A]">
                 Diseñamos experiencias corporativas únicas para tu equipo. Team building, retiros de liderazgo, conferencias y eventos de incentivo en un ambiente inspirador.
               </p>
@@ -191,7 +191,7 @@ export default function EventosPage() {
       <section className="bg-[#333D51] px-6 py-20 text-[#FCF9F9] md:py-28">
         <div className="mx-auto max-w-4xl text-center">
           <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">UNA EXPERIENCIA A TU MEDIDA</p>
-          <h2 className="font-cg-serif mt-6 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl">¿Imaginamos tu próximo encuentro?</h2>
+          <h2 className="font-cg-sans mt-6 text-4xl font-light leading-tight tracking-[-0.02em] md:text-6xl">¿Imaginamos tu próximo encuentro?</h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1]">
             Contáctanos para diseñar la experiencia perfecta para ti. Nuestro equipo está listo para hacer realidad tu evento.
           </p>

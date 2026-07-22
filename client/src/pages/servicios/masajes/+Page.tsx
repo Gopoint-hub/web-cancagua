@@ -59,8 +59,8 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
   const selectedPrice = selectedDuration ? getPriceForDuration(technique, selectedDuration) : technique.prices[0]?.price;
 
   return (
-    <article className="group flex h-full flex-col rounded-lg border border-[#d8cdbd] bg-white p-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <div className="relative h-56 shrink-0 overflow-hidden rounded-md bg-[#3a3a3a]">
+    <article className="group flex h-full flex-col rounded-lg border border-[#DBD3CC] bg-white p-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+      <div className="relative h-56 shrink-0 overflow-hidden rounded-md bg-[#222221]">
         <img
           src={technique.imageUrl || FALLBACK_IMAGE}
           alt={technique.name}
@@ -68,18 +68,18 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/65" />
-        <h3 className="absolute bottom-5 left-5 right-5 font-['Josefin_Sans'] text-2xl font-normal leading-tight tracking-wide text-white md:text-3xl">
+        <h3 className="absolute bottom-5 left-5 right-5 font-cg-mono text-2xl font-normal leading-tight tracking-wide text-white md:text-3xl">
           {technique.name}
         </h3>
       </div>
 
       <div className="flex flex-1 flex-col p-6">
-        <p className="font-['Fira_Sans'] text-base leading-relaxed text-[#666]">
+        <p className="font-cg-sans text-base leading-relaxed text-[#635E5A]">
           {technique.description || "Sesión terapéutica diseñada para renovar el cuerpo y relajar la mente en un entorno natural."}
         </p>
 
         <div className="mt-6">
-          <p className="mb-3 font-['Josefin_Sans'] text-xs uppercase tracking-wider text-[#3a3a3a]/70">
+          <p className="mb-3 font-cg-mono text-xs uppercase tracking-wider text-[#222221]/70">
             Duraciones disponibles
           </p>
           <div className="flex flex-wrap gap-2">
@@ -88,7 +88,7 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
                 key={duration}
                 onMouseEnter={() => setHoveredDuration(duration)}
                 onFocus={() => setHoveredDuration(duration)}
-                className="rounded-full border border-[#a99480] bg-[#b09b89] px-4 py-2 font-['Josefin_Sans'] text-xs uppercase tracking-wider text-white outline-none transition-colors hover:bg-[#D3BC8D] hover:text-[#3a3a3a]"
+                className="rounded-full border border-[#AD9A8A] bg-[#AD9A8A] px-4 py-2 font-cg-mono text-xs uppercase tracking-wider text-white outline-none transition-colors hover:bg-[#4B5872] hover:text-[#FCF9F9]"
                 tabIndex={0}
               >
                 <Clock className="mr-1 inline h-3 w-3" />
@@ -99,11 +99,11 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
         </div>
 
         <div className="mt-auto flex items-center justify-between gap-4 pt-6">
-          <span className="font-['Josefin_Sans'] text-2xl font-medium leading-none text-[#3a3a3a]">
+          <span className="font-cg-mono text-2xl font-medium leading-none text-[#222221]">
             {formatPrice(selectedPrice)}
           </span>
           <a href={technique.bookingUrl} className="shrink-0">
-            <Button className="rounded-full bg-[#D3BC8D] px-6 font-['Josefin_Sans'] text-sm uppercase tracking-wider text-[#3a3a3a] hover:bg-[#c4ad7e]">
+            <Button className="rounded-full bg-[#4B5872] px-6 font-cg-mono text-sm uppercase tracking-wider text-[#FCF9F9] hover:bg-[#333D51]">
               Reservar →
             </Button>
           </a>
@@ -148,7 +148,7 @@ export default function Page() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F1E7D9]">
+    <div className="min-h-screen bg-[#F4F2ED]">
       {/* Hero Section */}
       <section className="relative h-[70vh] min-h-[500px]">
         <div className="absolute inset-0">
@@ -161,10 +161,10 @@ export default function Page() {
         </div>
 
         <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
-          <h1 className="mb-4 font-['Josefin_Sans'] text-5xl font-light tracking-wide md:text-7xl">
+          <h1 className="mb-4 font-cg-mono text-5xl font-light tracking-wide md:text-7xl">
             Masajes & Terapias
           </h1>
-          <p className="max-w-2xl font-['Josefin_Sans'] text-xl font-light tracking-wide md:text-2xl">
+          <p className="max-w-2xl font-cg-mono text-xl font-light tracking-wide md:text-2xl">
             Descubre nuestras sesiones de renovación y descanso en un ambiente armónico y natural
           </p>
         </div>
@@ -173,33 +173,33 @@ export default function Page() {
       {/* Descripción */}
       <section className="py-16 bg-white">
         <div className="container max-w-4xl text-center">
-          <p className="mb-6 font-['Fira_Sans'] text-lg leading-relaxed text-[#666]">
+          <p className="mb-6 font-cg-sans text-lg leading-relaxed text-[#635E5A]">
             Tu bienestar es nuestro compromiso. Tenemos diversos tipos de masajes diseñados para renovar tu cuerpo y mente en un entorno natural único.
           </p>
           <div className="flex justify-center gap-8 mt-8 flex-wrap">
-            <div className="flex items-center gap-2 text-[#D3BC8D]">
+            <div className="flex items-center gap-2 text-[#4B5872]">
               <Sparkles className="h-5 w-5" />
-              <span className="font-['Fira_Sans'] text-sm text-[#666]">Ambiente relajante</span>
+              <span className="font-cg-sans text-sm text-[#635E5A]">Ambiente relajante</span>
             </div>
-            <div className="flex items-center gap-2 text-[#D3BC8D]">
+            <div className="flex items-center gap-2 text-[#4B5872]">
               <Heart className="h-5 w-5" />
-              <span className="font-['Fira_Sans'] text-sm text-[#666]">Terapeutas certificados</span>
+              <span className="font-cg-sans text-sm text-[#635E5A]">Terapeutas certificados</span>
             </div>
-            <div className="flex items-center gap-2 text-[#D3BC8D]">
+            <div className="flex items-center gap-2 text-[#4B5872]">
               <Leaf className="h-5 w-5" />
-              <span className="font-['Fira_Sans'] text-sm text-[#666]">Productos naturales</span>
+              <span className="font-cg-sans text-sm text-[#635E5A]">Productos naturales</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Lista de Servicios */}
-      <section id="tecnicas" className="py-20 bg-[#F1E7D9]">
+      <section id="tecnicas" className="py-20 bg-[#F4F2ED]">
         <div className="container max-w-6xl">
-          <h2 className="mb-4 text-center font-['Josefin_Sans'] text-4xl font-light tracking-wide text-[#3a3a3a] md:text-5xl">
+          <h2 className="mb-4 text-center font-cg-mono text-4xl font-light tracking-wide text-[#222221] md:text-5xl">
             Selecciona tu experiencia
           </h2>
-          <p className="mb-12 text-center font-['Fira_Sans'] text-[#666]">
+          <p className="mb-12 text-center font-cg-sans text-[#635E5A]">
             Elige el masaje que mejor se adapte a tus necesidades
           </p>
 
@@ -210,7 +210,7 @@ export default function Page() {
               ))}
             </div>
           ) : catalogError || visibleTechniques.length === 0 ? (
-            <div className="rounded-lg bg-white p-10 text-center font-['Fira_Sans'] text-[#666]">
+            <div className="rounded-lg bg-white p-10 text-center font-cg-sans text-[#635E5A]">
               Estamos actualizando la disponibilidad de masajes. Escríbenos y te ayudamos a reservar.
             </div>
           ) : (
@@ -226,7 +226,7 @@ export default function Page() {
       {/* Galería */}
       <section className="py-20 bg-white">
         <div className="container">
-          <h2 className="mb-12 text-center font-['Josefin_Sans'] text-3xl font-light tracking-wide text-[#3a3a3a] md:text-4xl">
+          <h2 className="mb-12 text-center font-cg-mono text-3xl font-light tracking-wide text-[#222221] md:text-4xl">
             Nuestro espacio
           </h2>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -250,18 +250,18 @@ export default function Page() {
       </section>
 
       {/* Beneficios */}
-      <section className="py-20 bg-[#3a3a3a] text-white">
+      <section className="py-20 bg-[#222221] text-white">
         <div className="container max-w-4xl">
-          <h2 className="mb-12 text-center font-['Josefin_Sans'] text-3xl font-light tracking-wide md:text-4xl">
+          <h2 className="mb-12 text-center font-cg-mono text-3xl font-light tracking-wide md:text-4xl">
             Beneficios de nuestros masajes
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {beneficios.map((beneficio, index) => (
               <div key={index} className="space-y-4">
-                <h3 className="font-['Josefin_Sans'] text-lg uppercase tracking-wider text-[#D3BC8D]">
+                <h3 className="font-cg-mono text-lg uppercase tracking-wider text-[#4B5872]">
                   {beneficio.title}
                 </h3>
-                <p className="font-['Fira_Sans'] leading-relaxed text-white/80">
+                <p className="font-cg-sans leading-relaxed text-white/80">
                   {beneficio.description}
                 </p>
               </div>
@@ -271,7 +271,7 @@ export default function Page() {
       </section>
 
       {/* Banner Puerto Varas */}
-      <section className="py-12 bg-gradient-to-r from-[#1a5276] to-[#2874a6]">
+      <section className="py-12 bg-gradient-to-r from-[#324853] to-[#496674]">
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
@@ -280,21 +280,21 @@ export default function Page() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span className="font-['Josefin_Sans'] text-sm uppercase tracking-wider text-white/80">
+                <span className="font-cg-mono text-sm uppercase tracking-wider text-white/80">
                   También en Puerto Varas
                 </span>
               </div>
-              <h3 className="mb-2 font-['Josefin_Sans'] text-2xl font-normal tracking-wide text-white md:text-3xl">
+              <h3 className="mb-2 font-cg-mono text-2xl font-normal tracking-wide text-white md:text-3xl">
                 Spa en Hotel Cabañas del Lago
               </h3>
-              <p className="max-w-lg font-['Fira_Sans'] text-white/80">
+              <p className="max-w-lg font-cg-sans text-white/80">
                 Disfruta de nuestros masajes en el corazón de Puerto Varas.
               </p>
             </div>
             <a href="/spa-hotel-cabanas-del-lago">
               <Button
                 size="lg"
-                className="whitespace-nowrap bg-white px-8 py-6 font-['Josefin_Sans'] uppercase tracking-wider text-[#1a5276] hover:bg-white/90"
+                className="whitespace-nowrap bg-white px-8 py-6 font-cg-mono uppercase tracking-wider text-[#324853] hover:bg-white/90"
               >
                 VER SERVICIOS EN PUERTO VARAS
               </Button>
@@ -304,18 +304,18 @@ export default function Page() {
       </section>
 
       {/* CTA Final */}
-      <section className="py-20 bg-[#F1E7D9]">
+      <section className="py-20 bg-[#F4F2ED]">
         <div className="container text-center">
-          <h2 className="mb-6 font-['Josefin_Sans'] text-3xl font-light tracking-wide text-[#3a3a3a] md:text-4xl">
+          <h2 className="mb-6 font-cg-mono text-3xl font-light tracking-wide text-[#222221] md:text-4xl">
             Regálate un momento de bienestar
           </h2>
-          <p className="mx-auto mb-8 max-w-2xl font-['Fira_Sans'] text-lg leading-relaxed text-[#666]">
+          <p className="mx-auto mb-8 max-w-2xl font-cg-sans text-lg leading-relaxed text-[#635E5A]">
             Elige tu técnica y reserva tu sesión de masaje en línea.
           </p>
           <a href="#tecnicas">
             <Button
               size="lg"
-              className="bg-[#D3BC8D] px-12 py-6 font-['Josefin_Sans'] text-lg uppercase tracking-wider text-[#3a3a3a] hover:bg-[#c4ad7e]"
+              className="bg-[#4B5872] px-12 py-6 font-cg-mono text-lg uppercase tracking-wider text-[#FCF9F9] hover:bg-[#333D51]"
             >
               VER TÉCNICAS →
             </Button>

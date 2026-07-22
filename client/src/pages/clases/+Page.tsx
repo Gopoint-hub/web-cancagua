@@ -85,7 +85,7 @@ const classes: ClassInfo[] = [
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-[#F1E7D9]">
+    <div className="min-h-screen bg-[#F4F2ED]">
       {/* Hero Section */}
       <section className="relative h-[70vh] min-h-[500px]">
         <div className="absolute inset-0">
@@ -101,13 +101,13 @@ export default function Page() {
           <h1 className="text-5xl md:text-7xl font-light mb-4 tracking-wide">
             Clases Regulares
           </h1>
-          <p className="font-['Josefin_Sans'] text-xl md:text-2xl font-light tracking-wide mb-8 max-w-2xl">
+          <p className="font-cg-mono text-xl md:text-2xl font-light tracking-wide mb-8 max-w-2xl">
             Hatha Yoga, Entrenamiento Funcional, Natación, Danza Consciente, Meditación y más
           </p>
           <a href="#clases">
             <Button
               size="lg"
-              className="bg-[#D3BC8D] hover:bg-[#c4ad7e] text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider text-lg px-10 py-6"
+              className="bg-[#4B5872] hover:bg-[#333D51] text-[#FCF9F9] font-cg-mono tracking-wider text-lg px-10 py-6"
             >
               VER CLASES
             </Button>
@@ -118,35 +118,35 @@ export default function Page() {
       {/* Introducción */}
       <section className="py-16 bg-white">
         <div className="container max-w-4xl text-center">
-          <p className="font-['Fira_Sans'] text-lg text-[#666] leading-relaxed mb-6">
+          <p className="font-cg-sans text-lg text-[#635E5A] leading-relaxed mb-6">
             Únete a nuestra comunidad y descubre el poder transformador del movimiento consciente.
             Nuestras clases están diseñadas para todos los niveles, en un ambiente acogedor
             con vista al Lago Llanquihue.
           </p>
           <div className="flex flex-wrap justify-center gap-8 mt-8">
-            <div className="flex items-center gap-2 text-[#D3BC8D]">
+            <div className="flex items-center gap-2 text-[#4B5872]">
               <Users className="h-5 w-5" />
-              <span className="font-['Fira_Sans'] text-sm text-[#666]">Grupos reducidos</span>
+              <span className="font-cg-sans text-sm text-[#635E5A]">Grupos reducidos</span>
             </div>
-            <div className="flex items-center gap-2 text-[#D3BC8D]">
+            <div className="flex items-center gap-2 text-[#4B5872]">
               <Sparkles className="h-5 w-5" />
-              <span className="font-['Fira_Sans'] text-sm text-[#666]">Instructores certificados</span>
+              <span className="font-cg-sans text-sm text-[#635E5A]">Instructores certificados</span>
             </div>
-            <div className="flex items-center gap-2 text-[#D3BC8D]">
+            <div className="flex items-center gap-2 text-[#4B5872]">
               <Calendar className="h-5 w-5" />
-              <span className="font-['Fira_Sans'] text-sm text-[#666]">Horarios flexibles</span>
+              <span className="font-cg-sans text-sm text-[#635E5A]">Horarios flexibles</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Clases */}
-      <section id="clases" className="py-20 bg-[#F1E7D9]">
+      <section id="clases" className="py-20 bg-[#F4F2ED]">
         <div className="container max-w-6xl">
-          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] text-center mb-4">
+          <h2 className="text-3xl md:text-4xl text-[#222221] text-center mb-4">
             Nuestras Clases
           </h2>
-          <p className="font-['Fira_Sans'] text-[#666] text-center mb-12">
+          <p className="font-cg-sans text-[#635E5A] text-center mb-12">
             Elige la clase que mejor se adapte a tus objetivos
           </p>
 
@@ -163,23 +163,23 @@ export default function Page() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <CardTitle className="font-['Josefin_Sans'] text-xl tracking-wide text-white">
+                      <CardTitle className="font-cg-mono text-xl tracking-wide text-white">
                         {classInfo.name}
                       </CardTitle>
-                      <p className="font-['Fira_Sans'] text-white/80 text-sm">
+                      <p className="font-cg-sans text-white/80 text-sm">
                         {classInfo.subtitle}
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <CardHeader className="bg-gradient-to-r from-[#3a3a3a] to-[#4a4a4a] text-white pb-4">
+                  <CardHeader className="bg-gradient-to-r from-[#222221] to-[#46423F] text-white pb-4">
                     <div className="flex items-center gap-4">
                       <span className="text-4xl">{classInfo.icon}</span>
                       <div>
-                        <CardTitle className="font-['Josefin_Sans'] text-xl tracking-wide">
+                        <CardTitle className="font-cg-mono text-xl tracking-wide">
                           {classInfo.name}
                         </CardTitle>
-                        <p className="font-['Fira_Sans'] text-white/80 text-sm">
+                        <p className="font-cg-sans text-white/80 text-sm">
                           {classInfo.subtitle}
                         </p>
                       </div>
@@ -187,28 +187,28 @@ export default function Page() {
                   </CardHeader>
                 )}
                 <CardContent className="p-6">
-                  <p className="font-['Fira_Sans'] text-[#666] mb-6 leading-relaxed">
+                  <p className="font-cg-sans text-[#635E5A] mb-6 leading-relaxed">
                     {classInfo.description}
                   </p>
 
                   <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-3 text-[#666]">
-                      <Calendar className="h-4 w-4 text-[#D3BC8D]" />
-                      <span className="font-['Fira_Sans'] text-sm">{classInfo.schedule}</span>
+                    <div className="flex items-center gap-3 text-[#635E5A]">
+                      <Calendar className="h-4 w-4 text-[#4B5872]" />
+                      <span className="font-cg-sans text-sm">{classInfo.schedule}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-[#666]">
-                      <Clock className="h-4 w-4 text-[#D3BC8D]" />
-                      <span className="font-['Fira_Sans'] text-sm">{classInfo.duration}</span>
+                    <div className="flex items-center gap-3 text-[#635E5A]">
+                      <Clock className="h-4 w-4 text-[#4B5872]" />
+                      <span className="font-cg-sans text-sm">{classInfo.duration}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-[#666]">
-                      <Users className="h-4 w-4 text-[#D3BC8D]" />
-                      <span className="font-['Fira_Sans'] text-sm">{classInfo.level}</span>
+                    <div className="flex items-center gap-3 text-[#635E5A]">
+                      <Users className="h-4 w-4 text-[#4B5872]" />
+                      <span className="font-cg-sans text-sm">{classInfo.level}</span>
                     </div>
                   </div>
 
                   <a href={classInfo.bookingUrl} target="_blank" rel="noopener noreferrer" className="block">
                     <Button
-                      className="w-full bg-[#D3BC8D] hover:bg-[#c4ad7e] text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider"
+                      className="w-full bg-[#4B5872] hover:bg-[#333D51] text-[#FCF9F9] font-cg-mono tracking-wider"
                     >
                       RESERVAR CLASE
                     </Button>
@@ -223,34 +223,34 @@ export default function Page() {
       {/* Beneficios */}
       <section className="py-20 bg-white">
         <div className="container max-w-4xl">
-          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] text-center mb-12">
+          <h2 className="text-3xl md:text-4xl text-[#222221] text-center mb-12">
             Beneficios de practicar con nosotros
           </h2>
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
-              <div className="w-16 h-16 bg-[#D3BC8D]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#4B5872]/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">🌊</span>
               </div>
-              <h3 className="font-['Josefin_Sans'] text-lg text-[#3a3a3a] mb-2">Entorno Natural</h3>
-              <p className="font-['Fira_Sans'] text-sm text-[#666]">
+              <h3 className="font-cg-mono text-lg text-[#222221] mb-2">Entorno Natural</h3>
+              <p className="font-cg-sans text-sm text-[#635E5A]">
                 Practica con vista al Lago Llanquihue y los volcanes de la Patagonia
               </p>
             </div>
             <div>
-              <div className="w-16 h-16 bg-[#D3BC8D]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#4B5872]/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">👥</span>
               </div>
-              <h3 className="font-['Josefin_Sans'] text-lg text-[#3a3a3a] mb-2">Comunidad</h3>
-              <p className="font-['Fira_Sans'] text-sm text-[#666]">
+              <h3 className="font-cg-mono text-lg text-[#222221] mb-2">Comunidad</h3>
+              <p className="font-cg-sans text-sm text-[#635E5A]">
                 Únete a un grupo de personas que comparten tu pasión por el bienestar
               </p>
             </div>
             <div>
-              <div className="w-16 h-16 bg-[#D3BC8D]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#4B5872]/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">✨</span>
               </div>
-              <h3 className="font-['Josefin_Sans'] text-lg text-[#3a3a3a] mb-2">Experiencia Integral</h3>
-              <p className="font-['Fira_Sans'] text-sm text-[#666]">
+              <h3 className="font-cg-mono text-lg text-[#222221] mb-2">Experiencia Integral</h3>
+              <p className="font-cg-sans text-sm text-[#635E5A]">
                 Combina tu clase con nuestras biopiscinas, hot tubs o cafetería
               </p>
             </div>
@@ -259,12 +259,12 @@ export default function Page() {
       </section>
 
       {/* Pases y Membresías */}
-      <section className="py-20 bg-[#3a3a3a] text-white">
+      <section className="py-20 bg-[#222221] text-white">
         <div className="container max-w-4xl text-center">
           <h2 className="text-3xl md:text-4xl mb-6">
             Pases y Membresías
           </h2>
-          <p className="font-['Fira_Sans'] text-white/80 mb-8 max-w-2xl mx-auto">
+          <p className="font-cg-sans text-white/80 mb-8 max-w-2xl mx-auto">
             Consulta por nuestros pases mensuales y descuentos para clases regulares.
             Contáctanos para más información sobre planes personalizados.
           </p>
@@ -272,7 +272,7 @@ export default function Page() {
             <Button
               size="lg"
               variant="outline"
-              className="border-[#D3BC8D] text-[#D3BC8D] hover:bg-[#D3BC8D] hover:text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider text-lg px-10 py-6"
+              className="border-[#4B5872] text-[#4B5872] hover:bg-[#4B5872] hover:text-[#FCF9F9] font-cg-mono tracking-wider text-lg px-10 py-6"
             >
               CONSULTAR POR WHATSAPP
             </Button>
@@ -283,7 +283,7 @@ export default function Page() {
       {/* Formulario de Reserva */}
       <section className="py-20 bg-white">
         <div className="container max-w-2xl">
-          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] text-center mb-12">
+          <h2 className="text-3xl md:text-4xl text-[#222221] text-center mb-12">
             Reserva tu clase directamente
           </h2>
           <ReservaClasesForm
@@ -293,12 +293,12 @@ export default function Page() {
       </section>
 
       {/* CTA Final */}
-      <section className="py-20 bg-[#F1E7D9]">
+      <section className="py-20 bg-[#F4F2ED]">
         <div className="container text-center">
-          <h2 className="text-3xl md:text-4xl text-[#3a3a3a] mb-6">
+          <h2 className="text-3xl md:text-4xl text-[#222221] mb-6">
             Comienza tu práctica hoy
           </h2>
-          <p className="font-['Fira_Sans'] text-lg text-[#666] mb-8 max-w-2xl mx-auto">
+          <p className="font-cg-sans text-lg text-[#635E5A] mb-8 max-w-2xl mx-auto">
             No necesitas experiencia previa. Nuestros instructores te guiarán en cada paso del camino.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
@@ -306,7 +306,7 @@ export default function Page() {
               <a key={index} href={classInfo.bookingUrl} target="_blank" rel="noopener noreferrer">
                 <Button
                   size="lg"
-                  className="bg-[#D3BC8D] hover:bg-[#c4ad7e] text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider px-8 py-6"
+                  className="bg-[#4B5872] hover:bg-[#333D51] text-[#FCF9F9] font-cg-mono tracking-wider px-8 py-6"
                 >
                   {classInfo.name} {classInfo.subtitle}
                 </Button>

@@ -100,7 +100,7 @@ export default function HeartCoherenceWorkshop() {
       </section>
 
       {/* Practices */}
-      <section className="py-20 bg-gradient-to-br from-purple-50 to-blue-50">
+      <section className="py-20 bg-gradient-to-br from-purple-50 to-slate-100">
         <div className="container">
           <div className="max-w-4xl mx-auto space-y-12">
             <div className="text-center space-y-4">
@@ -133,11 +133,11 @@ export default function HeartCoherenceWorkshop() {
               ))}
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 flex gap-4">
-              <Heart className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+            <div className="bg-slate-100 border border-slate-300 rounded-xl p-6 flex gap-4">
+              <Heart className="h-6 w-6 text-slate-600 flex-shrink-0 mt-1" />
               <div className="space-y-2">
-                <p className="font-semibold text-blue-900">A Natural Approach</p>
-                <p className="text-blue-800">
+                <p className="font-semibold text-slate-800">A Natural Approach</p>
+                <p className="text-slate-800">
                   Rather than "fixing" or forcing change, this session creates the internal conditions for alignment to naturally emerge. As the heart, mind, and emotions come into rhythm, many participants experience greater clarity, emotional ease, and a renewed sense of connection—to themselves and to others.
                 </p>
               </div>
@@ -159,8 +159,8 @@ export default function HeartCoherenceWorkshop() {
             {benefits.map((benefit, index) => (
               <Card key={index} className="border-0 shadow-md">
                 <CardContent className="p-6 flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                    <Check className="h-5 w-5 text-emerald-600" />
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-sage-200 flex items-center justify-center">
+                    <Check className="h-5 w-5 text-sage-600" />
                   </div>
                   <p className="text-lg text-stone-700 leading-relaxed pt-2">{benefit}</p>
                 </CardContent>
@@ -171,7 +171,7 @@ export default function HeartCoherenceWorkshop() {
       </section>
 
       {/* Instructor */}
-      <section className="py-20 bg-gradient-to-br from-stone-50 to-amber-50">
+      <section className="py-20 bg-gradient-to-br from-stone-50 to-clay-100">
         <div className="container">
           <div className="max-w-5xl mx-auto">
             <Card className="border-0 shadow-2xl overflow-hidden">
@@ -198,22 +198,22 @@ export default function HeartCoherenceWorkshop() {
 
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <Award className="h-5 w-5 text-amber-600 flex-shrink-0 mt-1" />
+                      <Award className="h-5 w-5 text-clay-600 flex-shrink-0 mt-1" />
                       <div>
                         <p className="font-semibold text-stone-800">Certified Somatic Coach</p>
                         <p className="text-sm text-stone-600">(trauma-informed)</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Award className="h-5 w-5 text-amber-600 flex-shrink-0 mt-1" />
+                      <Award className="h-5 w-5 text-clay-600 flex-shrink-0 mt-1" />
                       <p className="font-semibold text-stone-800">Breathwork Practitioner</p>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Award className="h-5 w-5 text-amber-600 flex-shrink-0 mt-1" />
+                      <Award className="h-5 w-5 text-clay-600 flex-shrink-0 mt-1" />
                       <p className="font-semibold text-stone-800">Yoga Teacher</p>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Award className="h-5 w-5 text-amber-600 flex-shrink-0 mt-1" />
+                      <Award className="h-5 w-5 text-clay-600 flex-shrink-0 mt-1" />
                       <p className="font-semibold text-stone-800">Retreat Host</p>
                     </div>
                   </div>

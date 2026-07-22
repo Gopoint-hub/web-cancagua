@@ -87,7 +87,7 @@ export function BlogLayout({
   const shareTitle = encodeURIComponent(title);
 
   return (
-    <div className="min-h-screen bg-[#faf8f5]">
+    <div className="min-h-screen bg-[#FCF9F9]">
       {/* Hero Section */}
       <div className="relative h-[50vh] min-h-[400px] w-full overflow-hidden">
         <img
@@ -98,7 +98,7 @@ export function BlogLayout({
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
           <div className="container max-w-5xl">
-            <span className="inline-block px-3 py-1 bg-[#c4a86b] text-white text-sm font-medium rounded-full mb-4">
+            <span className="inline-block px-3 py-1 bg-[#4B5872] text-white text-sm font-medium rounded-full mb-4">
               {category}
             </span>
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
@@ -128,17 +128,17 @@ export function BlogLayout({
           {/* Main Content */}
           <article className="lg:col-span-2">
             {/* Excerpt */}
-            <p className="text-xl text-gray-600 leading-relaxed mb-8 font-light italic border-l-4 border-[#c4a86b] pl-6">
+            <p className="text-xl text-gray-600 leading-relaxed mb-8 font-light italic border-l-4 border-[#4B5872] pl-6">
               {excerpt}
             </p>
 
             {/* Article Content */}
-            <div className="prose prose-lg max-w-none prose-headings:text-[#2d3e2f] prose-headings:mt-12 prose-headings:mb-8 prose-p:text-gray-700 prose-p:leading-[1.9] prose-p:mb-8 prose-a:text-[#c4a86b] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#2d3e2f] prose-blockquote:border-l-[#c4a86b] prose-blockquote:bg-[#f5f0e8] prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:my-10 prose-li:marker:text-[#c4a86b] prose-li:mb-4 prose-ul:my-8 prose-ol:my-8 [&>h2]:mt-14 [&>h3]:mt-10">
+            <div className="prose prose-lg max-w-none prose-headings:text-[#282C1C] prose-headings:mt-12 prose-headings:mb-8 prose-p:text-gray-700 prose-p:leading-[1.9] prose-p:mb-8 prose-a:text-[#4B5872] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#282C1C] prose-blockquote:border-l-[#4B5872] prose-blockquote:bg-[#F4F2ED] prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:my-10 prose-li:marker:text-[#4B5872] prose-li:mb-4 prose-ul:my-8 prose-ol:my-8 [&>h2]:mt-14 [&>h3]:mt-10">
               {children}
             </div>
 
             {/* CTA Box */}
-            <div className="mt-12 p-8 bg-gradient-to-br from-[#2d3e2f] to-[#1a2a1c] rounded-2xl text-white">
+            <div className="mt-12 p-8 bg-gradient-to-br from-[#282C1C] to-[#282C1C] rounded-2xl text-white">
               <h3 className="text-2xl font-bold mb-3">
                 ¿Listo para vivir la experiencia Cancagua?
               </h3>
@@ -151,7 +151,7 @@ export function BlogLayout({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Button className="bg-[#c4a86b] hover:bg-[#b39a5c] text-white">
+                  <Button className="bg-[#4B5872] hover:bg-[#4B5872] text-white">
                     <Phone className="w-4 h-4 mr-2" />
                     Reservar por WhatsApp
                   </Button>
@@ -210,7 +210,7 @@ export function BlogLayout({
             <div className="lg:sticky lg:top-24 space-y-8">
               {/* CTA Card */}
               <Card className="overflow-hidden border-0 shadow-lg">
-                <div className="h-32 bg-gradient-to-br from-[#c4a86b] to-[#a08550] relative">
+                <div className="h-32 bg-gradient-to-br from-[#4B5872] to-[#333D51] relative">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
                       src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960664/cancagua/images/logo-cancagua-white.webp"
@@ -223,7 +223,7 @@ export function BlogLayout({
                   </div>
                 </div>
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-[#2d3e2f] mb-2">
+                  <h3 className="text-xl font-bold text-[#282C1C] mb-2">
                     Visita Cancagua
                   </h3>
                   <p className="text-gray-600 text-sm mb-4">
@@ -235,7 +235,7 @@ export function BlogLayout({
                     rel="noopener noreferrer"
                     className="block"
                   >
-                    <Button className="w-full bg-[#2d3e2f] hover:bg-[#1a2a1c] text-white">
+                    <Button className="w-full bg-[#282C1C] hover:bg-[#282C1C] text-white">
                       Reservar Ahora
                     </Button>
                   </a>
@@ -244,7 +244,7 @@ export function BlogLayout({
 
               {/* Related Articles */}
               <div>
-                <h3 className="text-xl font-bold text-[#2d3e2f] mb-4">
+                <h3 className="text-xl font-bold text-[#282C1C] mb-4">
                   Artículos Relacionados
                 </h3>
                 <div className="space-y-4">
@@ -260,7 +260,7 @@ export function BlogLayout({
                             />
                           </div>
                           <CardContent className="p-3 flex flex-col justify-center">
-                            <h4 className="font-medium text-sm text-[#2d3e2f] line-clamp-2 leading-tight">
+                            <h4 className="font-medium text-sm text-[#282C1C] line-clamp-2 leading-tight">
                               {article.title}
                             </h4>
                             <span className="text-xs text-gray-500 mt-1">
@@ -275,16 +275,16 @@ export function BlogLayout({
               </div>
 
               {/* Newsletter */}
-              <Card className="border-0 shadow-lg bg-[#f5f0e8]">
+              <Card className="border-0 shadow-lg bg-[#F4F2ED]">
                 <CardContent className="p-6">
-                  <h3 className="text-lg font-bold text-[#2d3e2f] mb-2">
+                  <h3 className="text-lg font-bold text-[#282C1C] mb-2">
                     Suscríbete al Newsletter
                   </h3>
                   <p className="text-gray-600 text-sm mb-4">
                     Recibe consejos de bienestar y ofertas exclusivas.
                   </p>
                   <Link href="/#newsletter">
-                    <Button variant="outline" className="w-full border-[#c4a86b] text-[#c4a86b] hover:bg-[#c4a86b] hover:text-white">
+                    <Button variant="outline" className="w-full border-[#4B5872] text-[#4B5872] hover:bg-[#4B5872] hover:text-white">
                       Suscribirme
                     </Button>
                   </Link>
@@ -296,7 +296,7 @@ export function BlogLayout({
                 <p className="mb-2">¿Tienes preguntas?</p>
                 <a
                   href="tel:+56940073999"
-                  className="text-[#c4a86b] hover:underline font-medium"
+                  className="text-[#4B5872] hover:underline font-medium"
                 >
                   +56 9 4007 3999
                 </a>
@@ -310,11 +310,11 @@ export function BlogLayout({
       <div className="bg-white py-16">
         <div className="container max-w-6xl px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#2d3e2f]">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#282C1C]">
               Más Artículos
             </h2>
             <Link href="/blog">
-              <Button variant="ghost" className="text-[#c4a86b] hover:text-[#b39a5c]">
+              <Button variant="ghost" className="text-[#4B5872] hover:text-[#4B5872]">
                 Ver todos
                 <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
@@ -332,10 +332,10 @@ export function BlogLayout({
                     />
                   </div>
                   <CardContent className="p-4">
-                    <span className="text-xs text-[#c4a86b] font-medium">
+                    <span className="text-xs text-[#4B5872] font-medium">
                       {article.category}
                     </span>
-                    <h3 className="font-bold text-[#2d3e2f] mt-1 line-clamp-2 group-hover:text-[#c4a86b] transition-colors">
+                    <h3 className="font-bold text-[#282C1C] mt-1 line-clamp-2 group-hover:text-[#4B5872] transition-colors">
                       {article.title}
                     </h3>
                     <p className="text-sm text-gray-500 mt-2">

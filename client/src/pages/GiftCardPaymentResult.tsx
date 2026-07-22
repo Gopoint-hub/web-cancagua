@@ -142,7 +142,7 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
       case "approved":
         return (
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 text-green-600 mb-6">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-sage-200 text-sage-600 mb-6">
               <Check className="h-10 w-10" />
             </div>
             <h1 className="text-3xl font-bold mb-2">¡Pago Exitoso!</h1>
@@ -167,9 +167,9 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
                     </p>
                   </div>
 
-                  <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-left">
-                    <AlertCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-blue-700 dark:text-blue-300">
+                  <div className="flex items-start gap-3 p-4 bg-slate-100 dark:bg-slate-800/30 rounded-lg text-left">
+                    <AlertCircle className="h-5 w-5 text-slate-600 dark:text-slate-500 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700 dark:text-slate-400">
                       Hemos enviado la Gift Card al email del destinatario. También puedes descargarla o compartirla usando los botones de abajo.
                     </p>
                   </div>
@@ -229,9 +229,9 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
 
             <Card className="mb-6">
               <CardContent className="pt-6">
-                <div className="flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg text-left">
-                  <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm text-amber-700 dark:text-amber-300">
+                <div className="flex items-start gap-3 p-4 bg-clay-100 dark:bg-clay-800/30 rounded-lg text-left">
+                  <AlertCircle className="h-5 w-5 text-clay-600 dark:text-clay-500 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm text-clay-700 dark:text-clay-300">
                     <p className="font-medium mb-1">Posibles razones del rechazo:</p>
                     <ul className="list-disc list-inside space-y-1">
                       <li>Fondos insuficientes</li>
@@ -264,7 +264,7 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
       case "aborted":
         return (
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-100 text-amber-600 mb-6">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-clay-100 text-clay-600 mb-6">
               <X className="h-10 w-10" />
             </div>
             <h1 className="text-3xl font-bold mb-2">Pago Cancelado</h1>
@@ -292,7 +292,7 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
       case "timeout":
         return (
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-100 text-amber-600 mb-6">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-clay-100 text-clay-600 mb-6">
               <Clock className="h-10 w-10" />
             </div>
             <h1 className="text-3xl font-bold mb-2">Tiempo Agotado</h1>
@@ -331,9 +331,9 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
 
             <Card className="mb-6">
               <CardContent className="pt-6">
-                <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-left">
-                  <AlertCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-blue-700 dark:text-blue-300">
+                <div className="flex items-start gap-3 p-4 bg-slate-100 dark:bg-slate-800/30 rounded-lg text-left">
+                  <AlertCircle className="h-5 w-5 text-slate-600 dark:text-slate-500 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-slate-700 dark:text-slate-400">
                     Si el problema persiste, por favor contáctanos a{" "}
                     <a href="mailto:eventos@cancagua.cl" className="underline font-medium">
                       eventos@cancagua.cl

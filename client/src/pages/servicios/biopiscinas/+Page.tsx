@@ -53,7 +53,7 @@ export default function ServicioBiopiscinas() {
             <T>Cuatro horas de experiencia natural a 37º-40º: una alternativa a las termas cerca de Frutillar y Puerto Varas, sin cloro y con vista al Lago Llanquihue</T>
           </p>
           <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-            <Button size="lg" className="font-['Josefin_Sans'] tracking-wider text-lg px-8 py-6">
+            <Button size="lg" className="font-cg-mono tracking-wider text-lg px-8 py-6">
               <T>Reservar Ahora</T>
             </Button>
           </a>
@@ -162,12 +162,12 @@ export default function ServicioBiopiscinas() {
                 ))}
               </ul>
 
-              <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                <h3 className="font-semibold text-amber-800 mb-2"><T>No Incluye</T></h3>
+              <div className="mt-6 p-4 bg-clay-100 border border-clay-200 rounded-lg">
+                <h3 className="font-semibold text-clay-800 mb-2"><T>No Incluye</T></h3>
                 <ul className="space-y-2">
                   {noIncluye.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2 text-amber-700">
-                      <span className="text-amber-500">•</span>
+                    <li key={index} className="flex items-start gap-2 text-clay-700">
+                      <span className="text-clay-500">•</span>
                       <span><T>{item}</T></span>
                     </li>
                   ))}
@@ -206,7 +206,7 @@ export default function ServicioBiopiscinas() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" variant="secondary" className="font-['Josefin_Sans'] tracking-wider text-lg px-8">
+              <Button size="lg" variant="secondary" className="font-cg-mono tracking-wider text-lg px-8">
                 <T>Reservar Ahora</T>
               </Button>
             </a>
@@ -214,7 +214,7 @@ export default function ServicioBiopiscinas() {
               <Button
                 size="lg"
                 variant="outline"
-                className="font-['Josefin_Sans'] tracking-wider text-lg px-8 border-white text-white hover:bg-white hover:text-primary"
+                className="font-cg-mono tracking-wider text-lg px-8 border-white text-white hover:bg-white hover:text-primary"
               >
                 <MessageCircle className="mr-2 h-5 w-5" />
                 <T>Consultar Disponibilidad</T>

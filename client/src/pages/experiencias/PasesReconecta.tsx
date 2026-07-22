@@ -102,7 +102,7 @@ export default function PasesReconecta() {
                   
                   {/* Duration Badge */}
                   <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
-                    <Clock className="h-4 w-4 text-amber-600" />
+                    <Clock className="h-4 w-4 text-clay-600" />
                     <span className="text-sm font-semibold text-stone-800"><T>{pase.duration}</T></span>
                   </div>
 
@@ -123,7 +123,7 @@ export default function PasesReconecta() {
                     {pase.highlights.map((highlight, i) => (
                       <span 
                         key={i}
-                        className="inline-flex items-center gap-1 bg-amber-50 text-amber-800 px-3 py-1 rounded-full text-xs font-medium"
+                        className="inline-flex items-center gap-1 bg-clay-100 text-clay-800 px-3 py-1 rounded-full text-xs font-medium"
                       >
                         <Sparkles className="h-3 w-3" />
                         <T>{highlight}</T>
@@ -148,7 +148,7 @@ export default function PasesReconecta() {
                       rel="noopener noreferrer"
                       className="flex-1"
                     >
-                      <Button className="w-full bg-amber-600 hover:bg-amber-700">
+                      <Button className="w-full bg-clay-600 hover:bg-clay-700">
                         <T>Reservar ahora</T>
                       </Button>
                     </a>
@@ -160,7 +160,7 @@ export default function PasesReconecta() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-br from-amber-50 to-stone-100">
+        <section className="py-20 bg-gradient-to-br from-clay-100 to-stone-100">
           <div className="container text-center space-y-6">
             <h2 className="text-3xl md:text-4xl font-josefin font-bold text-stone-800">
               <T>¿Necesitas ayuda para elegir?</T>
@@ -170,7 +170,7 @@ export default function PasesReconecta() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a href="https://wa.me/56940073999" target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="bg-green-600 hover:bg-green-700">
+                <Button size="lg" className="bg-sage-600 hover:bg-sage-700">
                   <T>Contactar por WhatsApp</T>
                 </Button>
               </a>

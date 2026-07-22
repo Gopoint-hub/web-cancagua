@@ -180,7 +180,7 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
         <main className="flex-1 py-16 md:py-24">
           <div className="container max-w-2xl">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sage-200 text-sage-600 mb-4">
                 <Check className="h-8 w-8" />
               </div>
               <h1 className="text-3xl font-bold mb-2">¡Gift Card Creada!</h1>
@@ -528,22 +528,22 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
                 {/* Información de pago y botón */}
                 <div className="space-y-4">
                   {/* Aviso de pago seguro */}
-                  <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-900">
-                    <ShieldCheck className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-3 p-4 bg-slate-100 dark:bg-slate-800/30 rounded-lg border border-slate-300 dark:border-slate-800">
+                    <ShieldCheck className="h-5 w-5 text-slate-600 dark:text-slate-500 flex-shrink-0 mt-0.5" />
                     <div className="text-sm">
-                      <p className="font-medium text-blue-900 dark:text-blue-100">Pago 100% seguro con WebPay</p>
-                      <p className="text-blue-700 dark:text-blue-300 mt-1">
+                      <p className="font-medium text-slate-800 dark:text-slate-200">Pago 100% seguro con WebPay</p>
+                      <p className="text-slate-700 dark:text-slate-400 mt-1">
                         Serás redirigido a la plataforma segura de Transbank para completar tu pago con tarjeta de crédito o débito.
                       </p>
                     </div>
                   </div>
 
                   {/* Aviso de envío */}
-                  <div className="flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-900">
-                    <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-3 p-4 bg-clay-100 dark:bg-clay-800/30 rounded-lg border border-clay-200 dark:border-clay-800">
+                    <AlertCircle className="h-5 w-5 text-clay-600 dark:text-clay-500 flex-shrink-0 mt-0.5" />
                     <div className="text-sm">
-                      <p className="font-medium text-amber-900 dark:text-amber-100">Entrega inmediata</p>
-                      <p className="text-amber-700 dark:text-amber-300 mt-1">
+                      <p className="font-medium text-clay-800 dark:text-clay-100">Entrega inmediata</p>
+                      <p className="text-clay-700 dark:text-clay-300 mt-1">
                         Una vez confirmado el pago, la gift card será enviada automáticamente al email del destinatario.
                       </p>
                     </div>

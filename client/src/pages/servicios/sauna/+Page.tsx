@@ -85,7 +85,7 @@ export default function Page() {
           </div>
 
           <div className="relative z-10 container text-center text-white px-4">
-            <span className="font-['Josefin_Sans'] text-white/90 text-sm md:text-base tracking-[0.3em] uppercase mb-4 block">
+            <span className="font-cg-mono text-white/90 text-sm md:text-base tracking-[0.3em] uppercase mb-4 block">
               Experiencia Ancestral
             </span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-6">
@@ -96,7 +96,7 @@ export default function Page() {
             </p>
             <Button
               size="lg"
-              className="bg-[#D3BC8D] hover:bg-[#C5AE7F] text-white font-['Josefin_Sans'] tracking-wider px-8 py-6 text-lg"
+              className="bg-[#4B5872] hover:bg-[#333D51] text-white font-cg-mono tracking-wider px-8 py-6 text-lg"
               asChild
             >
               <a href="#opciones">Ver Opciones</a>
@@ -108,13 +108,13 @@ export default function Page() {
         <section id="opciones" className="py-20 bg-white">
           <div className="container">
             <div className="text-center mb-16">
-              <span className="font-['Josefin_Sans'] text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+              <span className="font-cg-mono text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                 Elige Tu Experiencia
               </span>
-              <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
+              <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#222221]">
                 Opciones de Sauna
               </h2>
-              <p className="text-lg text-[#8C8C8C] max-w-2xl mx-auto">
+              <p className="text-lg text-[#827D78] max-w-2xl mx-auto">
                 Selecciona la opción que mejor se adapte a tu grupo
               </p>
             </div>
@@ -124,7 +124,7 @@ export default function Page() {
                 <Card
                   key={index}
                   className={`overflow-hidden hover:shadow-xl transition-all ${
-                    option.featured ? "ring-2 ring-[#D3BC8D]" : ""
+                    option.featured ? "ring-2 ring-[#4B5872]" : ""
                   }`}
                 >
                   <div className="relative h-48">
@@ -134,30 +134,30 @@ export default function Page() {
                       className="w-full h-full object-cover"
                     />
                     {option.featured && (
-                      <div className="absolute top-4 right-4 bg-[#D3BC8D] text-white px-3 py-1 rounded-full text-xs font-medium">
+                      <div className="absolute top-4 right-4 bg-[#4B5872] text-white px-3 py-1 rounded-full text-xs font-medium">
                         Más Popular
                       </div>
                     )}
                   </div>
                   <CardContent className="p-6">
-                    <h3 className="text-xl font-light tracking-wide mb-3 text-[#3a3a3a]">
+                    <h3 className="text-xl font-light tracking-wide mb-3 text-[#222221]">
                       {option.title}
                     </h3>
                     <div className="space-y-2 mb-6">
-                      <div className="flex items-center gap-2 text-sm text-[#8C8C8C]">
+                      <div className="flex items-center gap-2 text-sm text-[#827D78]">
                         <Clock className="h-4 w-4" />
                         <span>{option.duration}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-[#8C8C8C]">
+                      <div className="flex items-center gap-2 text-sm text-[#827D78]">
                         <Users className="h-4 w-4" />
                         <span>{option.capacity}</span>
                       </div>
                     </div>
                     <div className="mb-6">
-                      <p className="text-3xl font-light text-[#D3BC8D]">{option.price}</p>
+                      <p className="text-3xl font-light text-[#4B5872]">{option.price}</p>
                     </div>
                     <Button
-                      className="w-full bg-[#D3BC8D] hover:bg-[#C5AE7F] text-white font-['Josefin_Sans'] tracking-wider"
+                      className="w-full bg-[#4B5872] hover:bg-[#333D51] text-white font-cg-mono tracking-wider"
                       asChild
                     >
                       <a href={option.reservaUrl} target="_blank" rel="noopener noreferrer">
@@ -172,13 +172,13 @@ export default function Page() {
         </section>
 
         {/* Beneficios */}
-        <section className="py-20 bg-gradient-to-br from-[#F5F5F0] to-white">
+        <section className="py-20 bg-gradient-to-br from-[#F5F6F4] to-white">
           <div className="container">
             <div className="text-center mb-16">
-              <span className="font-['Josefin_Sans'] text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+              <span className="font-cg-mono text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                 Bienestar Integral
               </span>
-              <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
+              <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#222221]">
                 Beneficios del Sauna
               </h2>
             </div>
@@ -189,13 +189,13 @@ export default function Page() {
                 return (
                   <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                     <CardContent className="p-8">
-                      <div className="w-16 h-16 rounded-full bg-[#D3BC8D]/10 flex items-center justify-center mx-auto mb-6">
-                        <Icon className="h-8 w-8 text-[#D3BC8D]" />
+                      <div className="w-16 h-16 rounded-full bg-[#4B5872]/10 flex items-center justify-center mx-auto mb-6">
+                        <Icon className="h-8 w-8 text-[#4B5872]" />
                       </div>
-                      <h3 className="text-xl font-light tracking-wide mb-3 text-[#3a3a3a]">
+                      <h3 className="text-xl font-light tracking-wide mb-3 text-[#222221]">
                         {beneficio.title}
                       </h3>
-                      <p className="text-sm text-[#8C8C8C]">{beneficio.description}</p>
+                      <p className="text-sm text-[#827D78]">{beneficio.description}</p>
                     </CardContent>
                   </Card>
                 );
@@ -207,9 +207,9 @@ export default function Page() {
         {/* Información Adicional */}
         <section className="py-20 bg-white">
           <div className="container max-w-4xl">
-            <Card className="border-[#D3BC8D]/30">
+            <Card className="border-[#4B5872]/30">
               <CardContent className="p-8 md:p-12">
-                <h3 className="text-2xl font-light tracking-wide mb-6 text-[#3a3a3a]">
+                <h3 className="text-2xl font-light tracking-wide mb-6 text-[#222221]">
                   Antes de tu Visita
                 </h3>
                 <div className="flex items-start gap-4 mb-6 p-4 bg-red-50 rounded-lg border border-red-200">
@@ -223,10 +223,10 @@ export default function Page() {
                     </p>
                   </div>
                 </div>
-                <ul className="space-y-4 text-[#8C8C8C]">
+                <ul className="space-y-4 text-[#827D78]">
                   {antesDeVisita.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D] mt-2 flex-shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#4B5872] mt-2 flex-shrink-0" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -237,7 +237,7 @@ export default function Page() {
         </section>
 
         {/* CTA Final */}
-        <section className="py-20 bg-[#D3BC8D]">
+        <section className="py-20 bg-[#4B5872]">
           <div className="container text-center">
             <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-white">
               ¿Listo para renovarte?
@@ -247,7 +247,7 @@ export default function Page() {
             </p>
             <Button
               size="lg"
-              className="bg-white hover:bg-white/90 text-[#3a3a3a] font-['Josefin_Sans'] tracking-wider px-8 py-6 text-lg"
+              className="bg-white hover:bg-white/90 text-[#222221] font-cg-mono tracking-wider px-8 py-6 text-lg"
               asChild
             >
               <a href="#opciones">Reservar Ahora</a>

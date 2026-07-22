@@ -305,7 +305,7 @@ export default function SpaHCDL() {
           >
             <Button 
               size="lg" 
-              className="bg-[#8B7355] hover:bg-[#6B5A45] text-white px-8 py-6 text-lg rounded-full"
+              className="bg-[#745D49] hover:bg-[#534132] text-white px-8 py-6 text-lg rounded-full"
             >
               {t.bookNow}
             </Button>
@@ -317,7 +317,7 @@ export default function SpaHCDL() {
       <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl text-[#2C3E2D] mb-4">
+            <h2 className="text-3xl md:text-4xl text-[#282C1C] mb-4">
               {t.servicesTitle}
             </h2>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -364,7 +364,7 @@ export default function SpaHCDL() {
                       className="block"
                     >
                       <Button 
-                        className="w-full bg-[#2C3E2D] hover:bg-[#1a2a1b] text-white"
+                        className="w-full bg-[#282C1C] hover:bg-[#282C1C] text-white"
                       >
                         {t.book}
                       </Button>
@@ -378,21 +378,21 @@ export default function SpaHCDL() {
       </section>
 
       {/* Info Section */}
-      <section className="py-16 bg-[#2C3E2D] text-white">
+      <section className="py-16 bg-[#282C1C] text-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
-              <MapPin className="w-10 h-10 mx-auto mb-4 text-[#C4A77D]" />
+              <MapPin className="w-10 h-10 mx-auto mb-4 text-[#4B5872]" />
               <h3 className="text-xl font-semibold mb-2">{t.locationTitle}</h3>
               <p className="text-white/80">{t.locationAddress}</p>
             </div>
             <div>
-              <Phone className="w-10 h-10 mx-auto mb-4 text-[#C4A77D]" />
+              <Phone className="w-10 h-10 mx-auto mb-4 text-[#4B5872]" />
               <h3 className="text-xl font-semibold mb-2">{t.contactTitle}</h3>
               <p className="text-white/80">{t.contactPhone}</p>
             </div>
             <div>
-              <Clock className="w-10 h-10 mx-auto mb-4 text-[#C4A77D]" />
+              <Clock className="w-10 h-10 mx-auto mb-4 text-[#4B5872]" />
               <h3 className="text-xl font-semibold mb-2">{t.hoursTitle}</h3>
               <p className="text-white/80">{t.hoursText}</p>
             </div>
@@ -403,8 +403,8 @@ export default function SpaHCDL() {
       {/* CTA Section */}
       <section className="py-20 px-4 bg-stone-100">
         <div className="max-w-4xl mx-auto text-center">
-          <Star className="w-12 h-12 mx-auto mb-6 text-[#C4A77D]" />
-          <h2 className="text-3xl md:text-4xl text-[#2C3E2D] mb-4">
+          <Star className="w-12 h-12 mx-auto mb-6 text-[#4B5872]" />
+          <h2 className="text-3xl md:text-4xl text-[#282C1C] mb-4">
             {t.ctaTitle}
           </h2>
           <p className="text-lg text-stone-600 mb-8">
@@ -417,7 +417,7 @@ export default function SpaHCDL() {
           >
             <Button 
               size="lg" 
-              className="bg-[#8B7355] hover:bg-[#6B5A45] text-white px-10 py-6 text-lg rounded-full"
+              className="bg-[#745D49] hover:bg-[#534132] text-white px-10 py-6 text-lg rounded-full"
             >
               {t.ctaButton}
             </Button>

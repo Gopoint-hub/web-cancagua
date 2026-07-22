@@ -29,7 +29,7 @@ export default function PaseBioReconectaDetox() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-teal-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-100 to-white">
       {/* Hero Section */}
       <section className="relative h-[70vh] flex items-end overflow-hidden">
         <div 
@@ -78,8 +78,8 @@ export default function PaseBioReconectaDetox() {
       <section className="py-20 container">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-4">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-teal-100 mb-4">
-              <Waves className="h-8 w-8 text-teal-600" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-200 mb-4">
+              <Waves className="h-8 w-8 text-slate-600" />
             </div>
             <h2 className="text-4xl font-josefin font-bold text-stone-800">
               ¿Qué son nuestras Biopiscinas?
@@ -100,7 +100,7 @@ export default function PaseBioReconectaDetox() {
       </section>
 
       {/* What's Included */}
-      <section className="py-20 bg-gradient-to-br from-teal-50 to-emerald-50">
+      <section className="py-20 bg-gradient-to-br from-slate-100 to-sage-100">
         <div className="container">
           <div className="max-w-4xl mx-auto space-y-12">
             <div className="text-center space-y-4">
@@ -116,8 +116,8 @@ export default function PaseBioReconectaDetox() {
               {includes.map((item, index) => (
                 <Card key={index} className="border-0 shadow-md">
                   <CardContent className="p-6 flex items-start gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
-                      <Check className="h-5 w-5 text-teal-600" />
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center">
+                      <Check className="h-5 w-5 text-slate-600" />
                     </div>
                     <p className="text-stone-700 leading-relaxed pt-2">{item}</p>
                   </CardContent>
@@ -125,11 +125,11 @@ export default function PaseBioReconectaDetox() {
               ))}
             </div>
 
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 flex gap-4">
-              <AlertTriangle className="h-6 w-6 text-amber-600 flex-shrink-0 mt-1" />
+            <div className="bg-clay-100 border border-clay-200 rounded-xl p-6 flex gap-4">
+              <AlertTriangle className="h-6 w-6 text-clay-600 flex-shrink-0 mt-1" />
               <div className="space-y-2">
-                <p className="font-semibold text-amber-900">Importante</p>
-                <p className="text-amber-800">
+                <p className="font-semibold text-clay-800">Importante</p>
+                <p className="text-clay-800">
                   Sauna no apto para embarazadas. Stand Up Padel/Kayak sujeto a condiciones climáticas y Clase de Yoga sujeto a horario de clase regular.
                 </p>
               </div>
@@ -142,7 +142,7 @@ export default function PaseBioReconectaDetox() {
       <section className="py-20 container">
         <div className="max-w-4xl mx-auto">
           <Card className="border-0 shadow-xl overflow-hidden">
-            <div className="bg-gradient-to-r from-teal-600 to-emerald-600 p-8 text-white">
+            <div className="bg-gradient-to-r from-slate-600 to-sage-600 p-8 text-white">
               <div className="flex items-center gap-3 mb-4">
                 <Heart className="h-8 w-8" />
                 <h2 className="text-3xl font-josefin font-bold">
@@ -157,7 +157,7 @@ export default function PaseBioReconectaDetox() {
               <div className="grid sm:grid-cols-2 gap-6">
                 {weProvide.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    <Check className="h-6 w-6 text-teal-600 flex-shrink-0" />
+                    <Check className="h-6 w-6 text-slate-600 flex-shrink-0" />
                     <span className="text-stone-700">{item}</span>
                   </div>
                 ))}
@@ -168,11 +168,11 @@ export default function PaseBioReconectaDetox() {
       </section>
 
       {/* Cafe & Beach Bar */}
-      <section className="py-20 bg-gradient-to-br from-amber-50 to-orange-50">
+      <section className="py-20 bg-gradient-to-br from-clay-100 to-clay-100">
         <div className="container">
           <div className="max-w-4xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-200 mb-4">
-              <Coffee className="h-8 w-8 text-amber-700" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-clay-200 mb-4">
+              <Coffee className="h-8 w-8 text-clay-700" />
             </div>
             <h2 className="text-4xl font-josefin font-bold text-stone-800">
               Café & Beach Bar
@@ -188,8 +188,8 @@ export default function PaseBioReconectaDetox() {
       <section className="py-20 container">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-4">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
-              <Info className="h-8 w-8 text-blue-600" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-200 mb-4">
+              <Info className="h-8 w-8 text-slate-600" />
             </div>
             <h2 className="text-4xl font-josefin font-bold text-stone-800">
               Información importante
@@ -202,8 +202,8 @@ export default function PaseBioReconectaDetox() {
                 key={index}
                 className="bg-white rounded-lg p-6 shadow-sm flex gap-4 items-start border border-stone-100"
               >
-                <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-blue-600 text-sm font-semibold">{index + 1}</span>
+                <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-slate-600 text-sm font-semibold">{index + 1}</span>
                 </div>
                 <p className="text-stone-700 leading-relaxed">{info}</p>
               </div>
@@ -216,7 +216,7 @@ export default function PaseBioReconectaDetox() {
       <section className="py-20 container">
         <div className="max-w-4xl mx-auto">
           <Card className="border-0 shadow-2xl overflow-hidden">
-            <div className="bg-gradient-to-br from-teal-600 to-emerald-700 p-12 text-center text-white space-y-6">
+            <div className="bg-gradient-to-br from-slate-600 to-sage-700 p-12 text-center text-white space-y-6">
               <Calendar className="h-16 w-16 mx-auto mb-4" />
               <h2 className="text-4xl font-josefin font-bold">
                 ¡Reserva tu experiencia Bio-Detox!
@@ -230,7 +230,7 @@ export default function PaseBioReconectaDetox() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Button size="lg" className="bg-white text-teal-600 hover:bg-stone-100 font-semibold">
+                  <Button size="lg" className="bg-white text-slate-600 hover:bg-stone-100 font-semibold">
                     Reservar ahora
                   </Button>
                 </a>

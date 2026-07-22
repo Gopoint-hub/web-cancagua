@@ -51,7 +51,7 @@ export default function TallerWimHof() {
             </div>
 
             <div className="relative z-10 container text-center text-white px-4">
-              <div className="inline-block bg-[#D3BC8D] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <div className="inline-block bg-[#4B5872] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
                 <T>Evento Especial</T>
               </div>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-6">
@@ -75,7 +75,7 @@ export default function TallerWimHof() {
               </div>
               <Button
                 size="lg"
-                className="bg-[#D3BC8D] hover:bg-[#C5AE7F] text-white px-10 py-7 text-lg"
+                className="bg-[#4B5872] hover:bg-[#333D51] text-white px-10 py-7 text-lg"
                 asChild
               >
                 <a
@@ -103,16 +103,16 @@ export default function TallerWimHof() {
                     />
                   </div>
                   <div>
-                    <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                    <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                       <T>Tu Instructor</T>
                     </span>
-                    <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
+                    <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#222221]">
                       Alan IceMan
                     </h2>
-                    <p className="text-lg text-[#8C8C8C] mb-6">
+                    <p className="text-lg text-[#827D78] mb-6">
                       <T>Único Instructor Avanzado del Método Wim Hof en Chile, certificado directamente por Wim Hof. Con años de experiencia guiando a cientos de personas en su transformación personal a través de las técnicas de respiración, exposición al frío y entrenamiento mental.</T>
                     </p>
-                    <p className="text-lg text-[#8C8C8C]">
+                    <p className="text-lg text-[#827D78]">
                       <T>Alan combina su profundo conocimiento del método con una pasión genuina por ayudar a otros a descubrir su potencial interno y superar sus límites mentales y físicos.</T>
                     </p>
                   </div>
@@ -122,16 +122,16 @@ export default function TallerWimHof() {
           </section>
 
           {/* Qué es el Método Wim Hof */}
-          <section className="py-20 bg-gradient-to-br from-[#F5F5F0] to-white">
+          <section className="py-20 bg-gradient-to-br from-[#F5F6F4] to-white">
             <div className="container max-w-4xl">
               <div className="text-center mb-16">
-                <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                   <T>Descubre el Método</T>
                 </span>
-                <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
+                <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#222221]">
                   <T>¿Qué es el Método Wim Hof?</T>
                 </h2>
-                <p className="text-lg text-[#8C8C8C] max-w-2xl mx-auto">
+                <p className="text-lg text-[#827D78] max-w-2xl mx-auto">
                   <T>Un sistema científicamente probado que combina tres pilares fundamentales para transformar tu salud y bienestar</T>
                 </p>
               </div>
@@ -139,13 +139,13 @@ export default function TallerWimHof() {
               <div className="grid md:grid-cols-3 gap-8 mb-12">
                 <Card className="text-center">
                   <CardContent className="p-8">
-                    <div className="w-16 h-16 rounded-full bg-[#D3BC8D]/10 flex items-center justify-center mx-auto mb-6">
-                      <Wind className="h-8 w-8 text-[#D3BC8D]" />
+                    <div className="w-16 h-16 rounded-full bg-[#4B5872]/10 flex items-center justify-center mx-auto mb-6">
+                      <Wind className="h-8 w-8 text-[#4B5872]" />
                     </div>
-                    <h3 className="text-xl font-light tracking-wide mb-3 text-[#3a3a3a]">
+                    <h3 className="text-xl font-light tracking-wide mb-3 text-[#222221]">
                       <T>Respiración</T>
                     </h3>
-                    <p className="text-sm text-[#8C8C8C]">
+                    <p className="text-sm text-[#827D78]">
                       <T>Técnicas específicas que aumentan la oxigenación celular y alcalinizan el cuerpo</T>
                     </p>
                   </CardContent>
@@ -153,13 +153,13 @@ export default function TallerWimHof() {
 
                 <Card className="text-center">
                   <CardContent className="p-8">
-                    <div className="w-16 h-16 rounded-full bg-[#D3BC8D]/10 flex items-center justify-center mx-auto mb-6">
-                      <Snowflake className="h-8 w-8 text-[#D3BC8D]" />
+                    <div className="w-16 h-16 rounded-full bg-[#4B5872]/10 flex items-center justify-center mx-auto mb-6">
+                      <Snowflake className="h-8 w-8 text-[#4B5872]" />
                     </div>
-                    <h3 className="text-xl font-light tracking-wide mb-3 text-[#3a3a3a]">
+                    <h3 className="text-xl font-light tracking-wide mb-3 text-[#222221]">
                       <T>Exposición al Frío</T>
                     </h3>
-                    <p className="text-sm text-[#8C8C8C]">
+                    <p className="text-sm text-[#827D78]">
                       <T>Fortalece el sistema inmune, mejora la circulación y aumenta la energía vital</T>
                     </p>
                   </CardContent>
@@ -167,13 +167,13 @@ export default function TallerWimHof() {
 
                 <Card className="text-center">
                   <CardContent className="p-8">
-                    <div className="w-16 h-16 rounded-full bg-[#D3BC8D]/10 flex items-center justify-center mx-auto mb-6">
-                      <Brain className="h-8 w-8 text-[#D3BC8D]" />
+                    <div className="w-16 h-16 rounded-full bg-[#4B5872]/10 flex items-center justify-center mx-auto mb-6">
+                      <Brain className="h-8 w-8 text-[#4B5872]" />
                     </div>
-                    <h3 className="text-xl font-light tracking-wide mb-3 text-[#3a3a3a]">
+                    <h3 className="text-xl font-light tracking-wide mb-3 text-[#222221]">
                       <T>Compromiso Mental</T>
                     </h3>
-                    <p className="text-sm text-[#8C8C8C]">
+                    <p className="text-sm text-[#827D78]">
                       <T>Desarrolla fuerza mental, concentración y control sobre tu sistema nervioso</T>
                     </p>
                   </CardContent>
@@ -186,10 +186,10 @@ export default function TallerWimHof() {
           <section className="py-20 bg-white">
             <div className="container">
               <div className="text-center mb-16">
-                <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                   <T>Transforma Tu Vida</T>
                 </span>
-                <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
+                <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#222221]">
                   <T>Beneficios del Taller</T>
                 </h2>
               </div>
@@ -200,13 +200,13 @@ export default function TallerWimHof() {
                   return (
                     <Card key={index} className="hover:shadow-lg transition-shadow">
                       <CardContent className="p-6">
-                        <div className="w-12 h-12 rounded-full bg-[#D3BC8D]/10 flex items-center justify-center mb-4">
-                          <Icon className="h-6 w-6 text-[#D3BC8D]" />
+                        <div className="w-12 h-12 rounded-full bg-[#4B5872]/10 flex items-center justify-center mb-4">
+                          <Icon className="h-6 w-6 text-[#4B5872]" />
                         </div>
-                        <h3 className="text-lg font-light tracking-wide mb-3 text-[#3a3a3a]">
+                        <h3 className="text-lg font-light tracking-wide mb-3 text-[#222221]">
                           <T>{beneficio.title}</T>
                         </h3>
-                        <p className="text-sm text-[#8C8C8C]"><T>{beneficio.description}</T></p>
+                        <p className="text-sm text-[#827D78]"><T>{beneficio.description}</T></p>
                       </CardContent>
                     </Card>
                   );
@@ -216,13 +216,13 @@ export default function TallerWimHof() {
           </section>
 
           {/* Qué Incluye */}
-          <section className="py-20 bg-gradient-to-br from-[#F5F5F0] to-white">
+          <section className="py-20 bg-gradient-to-br from-[#F5F6F4] to-white">
             <div className="container max-w-4xl">
               <div className="text-center mb-12">
-                <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                   <T>Experiencia Completa</T>
                 </span>
-                <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
+                <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#222221]">
                   <T>Qué Incluye el Taller</T>
                 </h2>
               </div>
@@ -232,7 +232,7 @@ export default function TallerWimHof() {
                   <ul className="space-y-4">
                     {queIncluye.map((item, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full bg-[#D3BC8D] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="w-6 h-6 rounded-full bg-[#4B5872] flex items-center justify-center flex-shrink-0 mt-0.5">
                           <svg
                             className="h-4 w-4 text-white"
                             fill="none"
@@ -245,7 +245,7 @@ export default function TallerWimHof() {
                             <path d="M5 13l4 4L19 7" />
                           </svg>
                         </div>
-                        <span className="text-[#3a3a3a]"><T>{item}</T></span>
+                        <span className="text-[#222221]"><T>{item}</T></span>
                       </li>
                     ))}
                   </ul>
@@ -258,10 +258,10 @@ export default function TallerWimHof() {
           <section className="py-20 bg-white">
             <div className="container max-w-4xl">
               <div className="text-center mb-12">
-                <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                   <T>Información Práctica</T>
                 </span>
-                <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
+                <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#222221]">
                   <T>Detalles del Evento</T>
                 </h2>
               </div>
@@ -270,12 +270,12 @@ export default function TallerWimHof() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-full bg-[#D3BC8D]/10 flex items-center justify-center flex-shrink-0">
-                        <Calendar className="h-6 w-6 text-[#D3BC8D]" />
+                      <div className="w-12 h-12 rounded-full bg-[#4B5872]/10 flex items-center justify-center flex-shrink-0">
+                        <Calendar className="h-6 w-6 text-[#4B5872]" />
                       </div>
                       <div>
-                        <h3 className="font-light text-lg mb-2 text-[#3a3a3a]"><T>Fecha</T></h3>
-                        <p className="text-[#8C8C8C]"><T>Sábado 31 de Enero 2026</T></p>
+                        <h3 className="font-light text-lg mb-2 text-[#222221]"><T>Fecha</T></h3>
+                        <p className="text-[#827D78]"><T>Sábado 31 de Enero 2026</T></p>
                       </div>
                     </div>
                   </CardContent>
@@ -284,12 +284,12 @@ export default function TallerWimHof() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-full bg-[#D3BC8D]/10 flex items-center justify-center flex-shrink-0">
-                        <Clock className="h-6 w-6 text-[#D3BC8D]" />
+                      <div className="w-12 h-12 rounded-full bg-[#4B5872]/10 flex items-center justify-center flex-shrink-0">
+                        <Clock className="h-6 w-6 text-[#4B5872]" />
                       </div>
                       <div>
-                        <h3 className="font-light text-lg mb-2 text-[#3a3a3a]"><T>Duración</T></h3>
-                        <p className="text-[#8C8C8C]"><T>4 horas 15 minutos</T></p>
+                        <h3 className="font-light text-lg mb-2 text-[#222221]"><T>Duración</T></h3>
+                        <p className="text-[#827D78]"><T>4 horas 15 minutos</T></p>
                       </div>
                     </div>
                   </CardContent>
@@ -298,12 +298,12 @@ export default function TallerWimHof() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-full bg-[#D3BC8D]/10 flex items-center justify-center flex-shrink-0">
-                        <MapPin className="h-6 w-6 text-[#D3BC8D]" />
+                      <div className="w-12 h-12 rounded-full bg-[#4B5872]/10 flex items-center justify-center flex-shrink-0">
+                        <MapPin className="h-6 w-6 text-[#4B5872]" />
                       </div>
                       <div>
-                        <h3 className="font-light text-lg mb-2 text-[#3a3a3a]"><T>Ubicación</T></h3>
-                        <p className="text-[#8C8C8C]">Cancagua Spa & Retreat Center, Frutillar, Chile</p>
+                        <h3 className="font-light text-lg mb-2 text-[#222221]"><T>Ubicación</T></h3>
+                        <p className="text-[#827D78]">Cancagua Spa & Retreat Center, Frutillar, Chile</p>
                       </div>
                     </div>
                   </CardContent>
@@ -312,12 +312,12 @@ export default function TallerWimHof() {
                 <Card>
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-full bg-[#D3BC8D]/10 flex items-center justify-center flex-shrink-0">
-                        <Users className="h-6 w-6 text-[#D3BC8D]" />
+                      <div className="w-12 h-12 rounded-full bg-[#4B5872]/10 flex items-center justify-center flex-shrink-0">
+                        <Users className="h-6 w-6 text-[#4B5872]" />
                       </div>
                       <div>
-                        <h3 className="font-light text-lg mb-2 text-[#3a3a3a]"><T>Cupos</T></h3>
-                        <p className="text-[#8C8C8C]"><T>Limitados - ¡Solo quedan 5 disponibles!</T></p>
+                        <h3 className="font-light text-lg mb-2 text-[#222221]"><T>Cupos</T></h3>
+                        <p className="text-[#827D78]"><T>Limitados - ¡Solo quedan 5 disponibles!</T></p>
                       </div>
                     </div>
                   </CardContent>
@@ -327,7 +327,7 @@ export default function TallerWimHof() {
           </section>
 
           {/* CTA Final */}
-          <section className="py-20 bg-[#D3BC8D]">
+          <section className="py-20 bg-[#4B5872]">
             <div className="container text-center">
               <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-white">
                 <T>¿Listo para transformar tu vida?</T>
@@ -338,7 +338,7 @@ export default function TallerWimHof() {
               <div className="flex flex-col items-center gap-4">
                 <Button
                   size="lg"
-                  className="bg-white hover:bg-white/90 text-[#3a3a3a] px-10 py-7 text-lg"
+                  className="bg-white hover:bg-white/90 text-[#222221] px-10 py-7 text-lg"
                   asChild
                 >
                   <a

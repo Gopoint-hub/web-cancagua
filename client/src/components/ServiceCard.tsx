@@ -29,7 +29,7 @@ export function ServiceCard({
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
         {badge && (
-          <div className="absolute top-4 right-4 bg-[#D3BC8D] text-[#3a3a3a] px-4 py-1.5 text-xs tracking-wider uppercase">
+          <div className="absolute top-4 right-4 bg-[#4B5872] text-[#FCF9F9] px-4 py-1.5 text-xs tracking-wider uppercase">
             {badge}
           </div>
         )}
@@ -39,9 +39,9 @@ export function ServiceCard({
         </h3>
       </div>
       <CardContent className="p-6 bg-white flex flex-col flex-1">
-        <p className="text-[#8C8C8C] mb-5 text-sm leading-relaxed flex-1">{description}</p>
+        <p className="text-[#827D78] mb-5 text-sm leading-relaxed flex-1">{description}</p>
         <Button
-          className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider text-sm mt-auto"
+          className="w-full bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-wider text-sm mt-auto"
           asChild
         >
           <a href={href}>Ver Detalles</a>

@@ -47,27 +47,27 @@ export default function ManejoEstresLaboral() {
         <div className="space-y-8 my-8">
           <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                <Wind className="w-5 h-5 text-blue-600" />
+              <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center">
+                <Wind className="w-5 h-5 text-slate-600" />
               </div>
-              <h3 className="text-xl font-bold text-[#2d3e2f] m-0">1. Respiración 4-7-8</h3>
+              <h3 className="text-xl font-bold text-[#282C1C] m-0">1. Respiración 4-7-8</h3>
             </div>
             <p className="text-gray-600 mb-4">
               Desarrollada por el Dr. Andrew Weil y validada por múltiples estudios de neuroimagen, esta técnica activa específicamente el nervio vago, que literalmente le «dice» a tu sistema nervioso que puede relajarse.
             </p>
-            <div className="bg-[#f5f0e8] p-4 rounded-lg">
-              <p className="font-semibold text-[#2d3e2f] mb-2">Cómo funciona:</p>
+            <div className="bg-[#F4F2ED] p-4 rounded-lg">
+              <p className="font-semibold text-[#282C1C] mb-2">Cómo funciona:</p>
               <ul className="space-y-2 m-0 list-none p-0">
                 <li className="flex items-center gap-2">
-                  <span className="w-6 h-6 bg-[#c4a86b] text-white rounded-full flex items-center justify-center text-sm">1</span>
+                  <span className="w-6 h-6 bg-[#4B5872] text-white rounded-full flex items-center justify-center text-sm">1</span>
                   Inhala por <strong>4 segundos</strong>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-6 h-6 bg-[#c4a86b] text-white rounded-full flex items-center justify-center text-sm">2</span>
+                  <span className="w-6 h-6 bg-[#4B5872] text-white rounded-full flex items-center justify-center text-sm">2</span>
                   Mantén por <strong>7 segundos</strong>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-6 h-6 bg-[#c4a86b] text-white rounded-full flex items-center justify-center text-sm">3</span>
+                  <span className="w-6 h-6 bg-[#4B5872] text-white rounded-full flex items-center justify-center text-sm">3</span>
                   Exhala por <strong>8 segundos</strong>
                 </li>
               </ul>
@@ -82,24 +82,24 @@ export default function ManejoEstresLaboral() {
               <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
                 <Heart className="w-5 h-5 text-red-600" />
               </div>
-              <h3 className="text-xl font-bold text-[#2d3e2f] m-0">2. Técnica de Coherencia Cardíaca</h3>
+              <h3 className="text-xl font-bold text-[#282C1C] m-0">2. Técnica de Coherencia Cardíaca</h3>
             </div>
             <p className="text-gray-600 mb-4">
               Mi favorita para ejecutivos escépticos porque se puede medir objetivamente con cualquier smartwatch que monitoree variabilidad de frecuencia cardíaca.
             </p>
-            <div className="bg-[#f5f0e8] p-4 rounded-lg">
-              <p className="font-semibold text-[#2d3e2f] mb-2">El protocolo específico:</p>
+            <div className="bg-[#F4F2ED] p-4 rounded-lg">
+              <p className="font-semibold text-[#282C1C] mb-2">El protocolo específico:</p>
               <ul className="space-y-2 m-0 list-none p-0">
                 <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <CheckCircle className="w-5 h-5 text-sage-600" />
                   Respiración constante: 5 segundos inhalar, 5 segundos exhalar
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <CheckCircle className="w-5 h-5 text-sage-600" />
                   Enfoque en área del corazón durante la respiración
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <CheckCircle className="w-5 h-5 text-sage-600" />
                   Duración mínima: 3 minutos
                 </li>
               </ul>
@@ -114,24 +114,24 @@ export default function ManejoEstresLaboral() {
               <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                 <Zap className="w-5 h-5 text-purple-600" />
               </div>
-              <h3 className="text-xl font-bold text-[#2d3e2f] m-0">3. Micro-Descargas de Tensión Muscular</h3>
+              <h3 className="text-xl font-bold text-[#282C1C] m-0">3. Micro-Descargas de Tensión Muscular</h3>
             </div>
             <p className="text-gray-600 mb-4">
               El estrés laboral se acumula físicamente en patrones específicos: mandíbula apretada, hombros elevados, puños cerrados inconscientemente.
             </p>
-            <div className="bg-[#f5f0e8] p-4 rounded-lg">
-              <p className="font-semibold text-[#2d3e2f] mb-2">Aplicación práctica cada 2 horas:</p>
+            <div className="bg-[#F4F2ED] p-4 rounded-lg">
+              <p className="font-semibold text-[#282C1C] mb-2">Aplicación práctica cada 2 horas:</p>
               <ul className="space-y-2 m-0 list-none p-0">
                 <li className="flex items-center gap-2">
-                  <span className="w-6 h-6 bg-[#c4a86b] text-white rounded-full flex items-center justify-center text-sm">1</span>
+                  <span className="w-6 h-6 bg-[#4B5872] text-white rounded-full flex items-center justify-center text-sm">1</span>
                   Tensa músculos faciales por 5 segundos, luego relaja
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-6 h-6 bg-[#c4a86b] text-white rounded-full flex items-center justify-center text-sm">2</span>
+                  <span className="w-6 h-6 bg-[#4B5872] text-white rounded-full flex items-center justify-center text-sm">2</span>
                   Eleva hombros hacia las orejas, mantén 5 segundos, suelta
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-6 h-6 bg-[#c4a86b] text-white rounded-full flex items-center justify-center text-sm">3</span>
+                  <span className="w-6 h-6 bg-[#4B5872] text-white rounded-full flex items-center justify-center text-sm">3</span>
                   Cierra puños fuertemente, mantén, libera
                 </li>
               </ul>
@@ -140,16 +140,16 @@ export default function ManejoEstresLaboral() {
 
           <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                <Target className="w-5 h-5 text-green-600" />
+              <div className="w-10 h-10 bg-sage-200 rounded-full flex items-center justify-center">
+                <Target className="w-5 h-5 text-sage-600" />
               </div>
-              <h3 className="text-xl font-bold text-[#2d3e2f] m-0">4. Técnica de Grounding 5-4-3-2-1</h3>
+              <h3 className="text-xl font-bold text-[#282C1C] m-0">4. Técnica de Grounding 5-4-3-2-1</h3>
             </div>
             <p className="text-gray-600 mb-4">
               Especialmente efectiva cuando tu mente está acelerada o en modo «catastrófico» sobre situaciones laborales futuras.
             </p>
-            <div className="bg-[#f5f0e8] p-4 rounded-lg">
-              <p className="font-semibold text-[#2d3e2f] mb-2">El proceso específico:</p>
+            <div className="bg-[#F4F2ED] p-4 rounded-lg">
+              <p className="font-semibold text-[#282C1C] mb-2">El proceso específico:</p>
               <ul className="space-y-2 m-0 list-none p-0">
                 <li><strong>5</strong> cosas que puedes ver inmediatamente</li>
                 <li><strong>4</strong> cosas que puedes tocar físicamente</li>
@@ -167,29 +167,29 @@ export default function ManejoEstresLaboral() {
         <h2>Estrategias Ambientales Para Optimizar Tu Entorno</h2>
 
         <div className="grid md:grid-cols-3 gap-6 my-8">
-          <div className="text-center p-6 bg-[#f5f0e8] rounded-xl">
-            <div className="w-12 h-12 bg-[#c4a86b] rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="text-center p-6 bg-[#F4F2ED] rounded-xl">
+            <div className="w-12 h-12 bg-[#4B5872] rounded-full flex items-center justify-center mx-auto mb-4">
               <Sun className="w-6 h-6 text-white" />
             </div>
-            <h4 className="font-bold text-[#2d3e2f] mb-2">Temperatura</h4>
+            <h4 className="font-bold text-[#282C1C] mb-2">Temperatura</h4>
             <p className="text-sm text-gray-600 m-0">
               La temperatura de tu entorno impacta directamente tus niveles de confianza y rendimiento.
             </p>
           </div>
-          <div className="text-center p-6 bg-[#f5f0e8] rounded-xl">
-            <div className="w-12 h-12 bg-[#c4a86b] rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="text-center p-6 bg-[#F4F2ED] rounded-xl">
+            <div className="w-12 h-12 bg-[#4B5872] rounded-full flex items-center justify-center mx-auto mb-4">
               <Sun className="w-6 h-6 text-white" />
             </div>
-            <h4 className="font-bold text-[#2d3e2f] mb-2">Luz Natural</h4>
+            <h4 className="font-bold text-[#282C1C] mb-2">Luz Natural</h4>
             <p className="text-sm text-gray-600 m-0">
               10 minutos de exposición a luz natural en las primeras 2 horas normaliza tu ciclo de cortisol.
             </p>
           </div>
-          <div className="text-center p-6 bg-[#f5f0e8] rounded-xl">
-            <div className="w-12 h-12 bg-[#c4a86b] rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="text-center p-6 bg-[#F4F2ED] rounded-xl">
+            <div className="w-12 h-12 bg-[#4B5872] rounded-full flex items-center justify-center mx-auto mb-4">
               <Volume2 className="w-6 h-6 text-white" />
             </div>
-            <h4 className="font-bold text-[#2d3e2f] mb-2">Sonidos Naturales</h4>
+            <h4 className="font-bold text-[#282C1C] mb-2">Sonidos Naturales</h4>
             <p className="text-sm text-gray-600 m-0">
               Agua corriente y viento entre árboles reducen la actividad de la amígdala cerebral.
             </p>
@@ -201,18 +201,18 @@ export default function ManejoEstresLaboral() {
           Desarrollé esta estrategia específicamente para ejecutivos que me decían «no tengo ni 5 minutos libres»:
         </p>
 
-        <div className="my-6 p-6 bg-gradient-to-r from-[#2d3e2f] to-[#3d5240] rounded-xl text-white">
+        <div className="my-6 p-6 bg-gradient-to-r from-[#282C1C] to-[#4A4F35] rounded-xl text-white">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <span className="w-10 h-10 bg-[#c4a86b] rounded-full flex items-center justify-center font-bold">3</span>
+              <span className="w-10 h-10 bg-[#4B5872] rounded-full flex items-center justify-center font-bold">3</span>
               <p className="m-0">Respiraciones conscientes al inicio de cada reunión</p>
             </div>
             <div className="flex items-center gap-4">
-              <span className="w-10 h-10 bg-[#c4a86b] rounded-full flex items-center justify-center font-bold">3</span>
+              <span className="w-10 h-10 bg-[#4B5872] rounded-full flex items-center justify-center font-bold">3</span>
               <p className="m-0">Micro-liberaciones de tensión durante transiciones entre tareas</p>
             </div>
             <div className="flex items-center gap-4">
-              <span className="w-10 h-10 bg-[#c4a86b] rounded-full flex items-center justify-center font-bold">3</span>
+              <span className="w-10 h-10 bg-[#4B5872] rounded-full flex items-center justify-center font-bold">3</span>
               <p className="m-0">Minutos de coherencia cardíaca antes de revisar emails por la mañana</p>
             </div>
           </div>
@@ -260,7 +260,7 @@ export default function ManejoEstresLaboral() {
           El estrés laboral seguirá existiendo. La diferencia está en desarrollar herramientas científicamente validadas para procesarlo sin que se vuelva tóxico.
         </p>
 
-        <p className="text-lg font-medium text-[#2d3e2f]">
+        <p className="text-lg font-medium text-[#282C1C]">
           ¿Estás listo para transformar tu relación con el estrés laboral? La ciencia ya nos mostró el camino. Sólo necesitas decidir implementarlo consistentemente.
         </p>
      </BlogLayout>

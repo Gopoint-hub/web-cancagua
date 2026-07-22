@@ -35,7 +35,7 @@ export default function Nosotros() {
 
   return (
     <AutoTranslateProvider pageId="nosotros">
-      <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
+      <div className="min-h-screen flex flex-col bg-[#FCF9F9]">
         <Navbar />
 
         <main>
@@ -47,7 +47,7 @@ export default function Nosotros() {
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
             <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
-              <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4">
+              <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4">
                 <T>Nuestra Esencia</T>
               </span>
               <h1 className="text-4xl md:text-6xl font-light tracking-wide mb-4">
@@ -64,14 +64,14 @@ export default function Nosotros() {
             <div className="container">
               <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
-                  <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                  <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                     <T>Orígenes</T>
                   </span>
-                  <h2 className="text-3xl md:text-4xl font-light tracking-wide text-[#3a3a3a]">
+                  <h2 className="text-3xl md:text-4xl font-light tracking-wide text-[#222221]">
                     <T>Nuestra Historia</T>
                   </h2>
                 </div>
-                <div className="space-y-6 text-[#8C8C8C]">
+                <div className="space-y-6 text-[#827D78]">
                   <p className="text-lg leading-relaxed">
                     <T>Cancagua nace del sueño de crear un espacio donde las personas puedan reconectar con la naturaleza y consigo mismas. Ubicados a orillas del Lago Llanquihue, en Frutillar, hemos desarrollado las primeras biopiscinas geotermales del mundo, combinando innovación tecnológica con respeto por el medio ambiente.</T>
                   </p>
@@ -87,16 +87,16 @@ export default function Nosotros() {
           </section>
 
           {/* Misión y Visión */}
-          <section className="py-20 bg-[#F1E7D9]">
+          <section className="py-20 bg-[#F4F2ED]">
             <div className="container">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
                 <Card className="border-none shadow-sm bg-white">
                   <CardContent className="pt-10 pb-10">
-                    <span className="text-[#D3BC8D] text-sm tracking-[0.2em] uppercase mb-4 block">
+                    <span className="text-[#4B5872] text-sm tracking-[0.2em] uppercase mb-4 block">
                       <T>Propósito</T>
                     </span>
-                    <h3 className="text-2xl font-light tracking-wide mb-6 text-[#3a3a3a]"><T>Nuestra Misión</T></h3>
-                    <p className="text-[#8C8C8C] leading-relaxed">
+                    <h3 className="text-2xl font-light tracking-wide mb-6 text-[#222221]"><T>Nuestra Misión</T></h3>
+                    <p className="text-[#827D78] leading-relaxed">
                       <T>Ofrecer experiencias de bienestar integral que promuevan la reconexión con la naturaleza, el cuidado del cuerpo y la mente, y el desarrollo de una comunidad consciente y sostenible. Buscamos ser un espacio de transformación personal donde cada visitante encuentre paz, salud y renovación.</T>
                     </p>
                   </CardContent>
@@ -104,11 +104,11 @@ export default function Nosotros() {
 
                 <Card className="border-none shadow-sm bg-white">
                   <CardContent className="pt-10 pb-10">
-                    <span className="text-[#D3BC8D] text-sm tracking-[0.2em] uppercase mb-4 block">
+                    <span className="text-[#4B5872] text-sm tracking-[0.2em] uppercase mb-4 block">
                       <T>Futuro</T>
                     </span>
-                    <h3 className="text-2xl font-light tracking-wide mb-6 text-[#3a3a3a]"><T>Nuestra Visión</T></h3>
-                    <p className="text-[#8C8C8C] leading-relaxed">
+                    <h3 className="text-2xl font-light tracking-wide mb-6 text-[#222221]"><T>Nuestra Visión</T></h3>
+                    <p className="text-[#827D78] leading-relaxed">
                       <T>Ser reconocidos como el principal centro de bienestar sostenible del sur de Chile, referentes en innovación ecológica y experiencias transformadoras. Aspiramos a expandir nuestro modelo de biopiscinas geotermales y prácticas de bienestar consciente, inspirando a otros a adoptar estilos de vida más saludables y en armonía con el planeta.</T>
                     </p>
                   </CardContent>
@@ -121,10 +121,10 @@ export default function Nosotros() {
           <section className="py-20 md:py-28 bg-white">
             <div className="container">
               <div className="text-center mb-14">
-                <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                   <T>Lo Que Nos Define</T>
                 </span>
-                <h2 className="text-3xl md:text-4xl font-light tracking-wide text-[#3a3a3a]">
+                <h2 className="text-3xl md:text-4xl font-light tracking-wide text-[#222221]">
                   <T>Nuestros Valores</T>
                 </h2>
               </div>
@@ -133,15 +133,15 @@ export default function Nosotros() {
                 {valores.map((valor, index) => {
                   const Icon = valor.icon;
                   return (
-                    <Card key={index} className="border-none shadow-sm bg-[#FDFBF7]">
+                    <Card key={index} className="border-none shadow-sm bg-[#FCF9F9]">
                       <CardContent className="pt-10 pb-10 text-center">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
-                          <Icon className="h-7 w-7 text-[#D3BC8D]" />
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#4B5872]/20 mb-6">
+                          <Icon className="h-7 w-7 text-[#4B5872]" />
                         </div>
-                        <h3 className="font-light text-xl tracking-wide mb-4 text-[#3a3a3a]">
+                        <h3 className="font-light text-xl tracking-wide mb-4 text-[#222221]">
                           <T>{valor.titulo}</T>
                         </h3>
-                        <p className="text-sm text-[#8C8C8C] leading-relaxed">
+                        <p className="text-sm text-[#827D78] leading-relaxed">
                           <T>{valor.descripcion}</T>
                         </p>
                       </CardContent>
@@ -153,32 +153,32 @@ export default function Nosotros() {
           </section>
 
           {/* Compromiso Ambiental */}
-          <section className="py-20 bg-[#D3BC8D]">
+          <section className="py-20 bg-[#4B5872]">
             <div className="container">
               <div className="max-w-4xl mx-auto text-center">
-                <Leaf className="h-14 w-14 mx-auto mb-6 text-[#3a3a3a]" />
-                <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
+                <Leaf className="h-14 w-14 mx-auto mb-6 text-[#222221]" />
+                <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#222221]">
                   <T>Compromiso Ambiental</T>
                 </h2>
-                <p className="text-lg text-[#3a3a3a]/80 mb-10">
+                <p className="text-lg text-[#222221]/80 mb-10">
                   <T>En Cancagua, la sostenibilidad no es solo una palabra, es el corazón de todo lo que hacemos. Desde nuestras biopiscinas que no utilizan químicos, hasta nuestra cafetería que trabaja con productos locales y de temporada, cada decisión está guiada por el respeto al medio ambiente.</T>
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                   <div className="bg-white/30 backdrop-blur-sm p-8">
-                    <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Energía Geotérmica</T></h3>
-                    <p className="text-sm text-[#3a3a3a]/80">
+                    <h3 className="font-light text-lg tracking-wide mb-3 text-[#222221]"><T>Energía Geotérmica</T></h3>
+                    <p className="text-sm text-[#222221]/80">
                       <T>Aprovechamos la energía natural de la tierra para calentar nuestras biopiscinas</T>
                     </p>
                   </div>
                   <div className="bg-white/30 backdrop-blur-sm p-8">
-                    <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Purificación Natural</T></h3>
-                    <p className="text-sm text-[#3a3a3a]/80">
+                    <h3 className="font-light text-lg tracking-wide mb-3 text-[#222221]"><T>Purificación Natural</T></h3>
+                    <p className="text-sm text-[#222221]/80">
                       <T>Sistema biológico sin cloro ni químicos para el tratamiento del agua</T>
                     </p>
                   </div>
                   <div className="bg-white/30 backdrop-blur-sm p-8">
-                    <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Productos Locales</T></h3>
-                    <p className="text-sm text-[#3a3a3a]/80">
+                    <h3 className="font-light text-lg tracking-wide mb-3 text-[#222221]"><T>Productos Locales</T></h3>
+                    <p className="text-sm text-[#222221]/80">
                       <T>Trabajamos con productores de la región para reducir nuestra huella de carbono</T>
                     </p>
                   </div>
@@ -192,33 +192,33 @@ export default function Nosotros() {
             <div className="container">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div>
-                  <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                  <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                     <T>Ubicación</T>
                   </span>
-                  <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#3a3a3a]">
+                  <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6 text-[#222221]">
                     <T>Un Entorno Privilegiado</T>
                   </h2>
-                  <p className="text-lg text-[#8C8C8C] mb-6 leading-relaxed">
+                  <p className="text-lg text-[#827D78] mb-6 leading-relaxed">
                     <T>Cancagua está ubicado en uno de los lugares más hermosos del sur de Chile. A orillas del Lago Llanquihue, rodeado de bosque nativo y con vistas espectaculares a los volcanes Osorno y Calbuco, nuestro espacio es un verdadero refugio de paz y belleza natural.</T>
                   </p>
-                  <p className="text-lg text-[#8C8C8C] mb-8 leading-relaxed">
+                  <p className="text-lg text-[#827D78] mb-8 leading-relaxed">
                     <T>La ubicación en Frutillar, a solo 2 kilómetros de Frutillar Bajo, nos permite combinar la tranquilidad de la naturaleza con la cercanía a servicios y comodidades. Es el lugar perfecto para desconectar del estrés urbano y reconectar con lo esencial.</T>
                   </p>
-                  <ul className="space-y-3 text-[#3a3a3a]">
+                  <ul className="space-y-3 text-[#222221]">
                     <li className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-[#D3BC8D]" />
+                      <div className="w-2 h-2 rounded-full bg-[#4B5872]" />
                       <span><T>Vista panorámica al Lago Llanquihue</T></span>
                     </li>
                     <li className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-[#D3BC8D]" />
+                      <div className="w-2 h-2 rounded-full bg-[#4B5872]" />
                       <span><T>Rodeado de bosque nativo</T></span>
                     </li>
                     <li className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-[#D3BC8D]" />
+                      <div className="w-2 h-2 rounded-full bg-[#4B5872]" />
                       <span><T>Vistas a los volcanes Osorno y Calbuco</T></span>
                     </li>
                     <li className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-[#D3BC8D]" />
+                      <div className="w-2 h-2 rounded-full bg-[#4B5872]" />
                       <span><T>Aire puro y naturaleza virgen</T></span>
                     </li>
                   </ul>

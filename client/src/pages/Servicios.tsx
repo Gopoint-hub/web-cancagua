@@ -79,7 +79,7 @@ export default function Servicios() {
 
   return (
     <AutoTranslateProvider pageId="servicios">
-      <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
+      <div className="min-h-screen flex flex-col bg-[#FCF9F9]">
         <Navbar />
 
         <main>
@@ -91,7 +91,7 @@ export default function Servicios() {
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
             <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
-              <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4">
+              <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4">
                 <T>Bienestar Integral</T>
               </span>
               <h1 className="text-4xl md:text-6xl font-light tracking-wide mb-6">
@@ -107,14 +107,14 @@ export default function Servicios() {
           <section className="py-20 md:py-28 bg-white">
             <div className="container">
               <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4">
+                <div className="inline-flex items-center gap-2 text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4">
                   <Sparkles className="h-4 w-4" />
                   <T>Recomendado</T>
                 </div>
                 <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-6">
                   <T>Experiencias</T>
                 </h2>
-                <p className="text-lg text-[#8C8C8C] max-w-2xl mx-auto">
+                <p className="text-lg text-[#827D78] max-w-2xl mx-auto">
                   <T>Combina nuestros servicios en experiencias únicas diseñadas para maximizar tu bienestar</T>
                 </p>
               </div>
@@ -134,17 +134,17 @@ export default function Servicios() {
           </section>
 
           {/* Sección Servicios */}
-          <section className="py-20 md:py-28 bg-[#F1E7D9]">
+          <section className="py-20 md:py-28 bg-[#F4F2ED]">
             <div className="container">
               <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4">
+                <div className="inline-flex items-center gap-2 text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4">
                   <Leaf className="h-4 w-4" />
                   <T>Nuestros Servicios</T>
                 </div>
                 <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-6">
                   <T>Servicios Individuales</T>
                 </h2>
-                <p className="text-lg text-[#8C8C8C] max-w-2xl mx-auto">
+                <p className="text-lg text-[#827D78] max-w-2xl mx-auto">
                   <T>Cada servicio está diseñado para brindarte una experiencia única de bienestar y conexión con la naturaleza</T>
                 </p>
               </div>
@@ -166,20 +166,20 @@ export default function Servicios() {
           {/* CTA Section */}
           <section className="py-20 bg-white">
             <div className="container text-center">
-              <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+              <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                 <T>¿Necesitas Ayuda?</T>
               </span>
               <h2 className="text-3xl md:text-4xl font-light tracking-wide mb-6">
                 <T>¿No sabes cuál elegir?</T>
               </h2>
-              <p className="text-lg text-[#8C8C8C] mb-10 max-w-2xl mx-auto">
+              <p className="text-lg text-[#827D78] mb-10 max-w-2xl mx-auto">
                 <T>Contáctanos y te ayudaremos a encontrar la experiencia perfecta para ti</T>
               </p>
               <a
                 href="https://wa.me/56940073999?text=Hola,%20me%20gustaría%20información%20sobre%20los%20servicios"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center h-12 px-10 bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] transition-colors tracking-widest uppercase text-sm"
+                className="inline-flex items-center justify-center h-12 px-10 bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] transition-colors tracking-widest uppercase text-sm"
               >
                 <T>Contactar por WhatsApp</T>
               </a>

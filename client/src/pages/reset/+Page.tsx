@@ -52,13 +52,13 @@ export default function Page() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Morning Option */}
-            <Card className="border-none shadow-xl bg-gradient-to-br from-orange-50 to-amber-50/50 overflow-hidden group">
+            <Card className="border-none shadow-xl bg-gradient-to-br from-clay-100 to-clay-100/50 overflow-hidden group">
               <CardContent className="p-8">
-                <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Sun className="w-7 h-7 text-orange-600" />
+                <div className="w-14 h-14 bg-clay-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Sun className="w-7 h-7 text-clay-600" />
                 </div>
                 <h3 className="text-2xl text-slate-900 mb-2">Morning Reset</h3>
-                <p className="text-orange-600 font-medium mb-6">Horarios: 10:00 o 11:00 hrs</p>
+                <p className="text-clay-600 font-medium mb-6">Horarios: 10:00 o 11:00 hrs</p>
                 
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start gap-3">
@@ -78,7 +78,7 @@ export default function Page() {
             </Card>
 
             {/* Sunset Option */}
-            <Card className="border-none shadow-xl bg-gradient-to-br from-indigo-50 to-blue-50/50 overflow-hidden group">
+            <Card className="border-none shadow-xl bg-gradient-to-br from-indigo-50 to-slate-100/50 overflow-hidden group">
               <CardContent className="p-8">
                 <div className="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Moon className="w-7 h-7 text-indigo-600" />
@@ -118,17 +118,17 @@ export default function Page() {
             {/* Breakfast Menu */}
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <Coffee className="w-6 h-6 text-orange-600" />
+                <Coffee className="w-6 h-6 text-clay-600" />
                 <h3 className="text-2xl text-slate-900">Opciones de Desayuno</h3>
               </div>
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-stone-200/60">
                 <ul className="space-y-6">
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-1" />
+                    <CheckCircle2 className="w-5 h-5 text-sage-600 shrink-0 mt-1" />
                     <span className="text-slate-700 text-lg">Tostadas integrales con huevo revuelto, tomates cherry y palta.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-1" />
+                    <CheckCircle2 className="w-5 h-5 text-sage-600 shrink-0 mt-1" />
                     <span className="text-slate-700 text-lg">Huevos revueltos con pastrami, palta y tostadas integrales.</span>
                   </li>
                 </ul>
@@ -149,11 +149,11 @@ export default function Page() {
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-stone-200/60">
                 <ul className="space-y-6">
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-1" />
+                    <CheckCircle2 className="w-5 h-5 text-sage-600 shrink-0 mt-1" />
                     <span className="text-slate-700 text-lg">Sopa de zapallo con caldo de hueso + tostadas.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-1" />
+                    <CheckCircle2 className="w-5 h-5 text-sage-600 shrink-0 mt-1" />
                     <span className="text-slate-700 text-lg">Sopa de verduras o sopas del día + tostadas.</span>
                   </li>
                 </ul>

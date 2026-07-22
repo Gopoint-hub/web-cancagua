@@ -61,11 +61,11 @@ export function InstagramReelsSection() {
   }, []);
 
   return (
-    <section className="py-20 md:py-28 bg-[#3a3a3a] text-white overflow-hidden">
+    <section className="py-20 md:py-28 bg-[#222221] text-white overflow-hidden">
       <div className="container">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-2xl">
-            <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+            <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
               <T>En nuestro Instagram</T>
             </span>
             <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-4">
@@ -80,7 +80,7 @@ export function InstagramReelsSection() {
             href="https://www.instagram.com/cancaguachile/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 px-6 py-3 border border-[#D3BC8D] text-[#D3BC8D] hover:bg-[#D3BC8D] hover:text-[#3a3a3a] transition-colors tracking-wider text-sm uppercase"
+            className="inline-flex items-center justify-center gap-3 px-6 py-3 border border-[#4B5872] text-[#4B5872] hover:bg-[#4B5872] hover:text-[#FCF9F9] transition-colors tracking-wider text-sm uppercase"
           >
             <Instagram className="h-4 w-4" />
             <T>Ver más en Instagram</T>
@@ -95,7 +95,7 @@ export function InstagramReelsSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Ver reel en Instagram"
-              className="group relative aspect-[9/14] min-h-[430px] overflow-hidden rounded-sm bg-[#2f2f2f] shadow-2xl"
+              className="group relative aspect-[9/14] min-h-[430px] overflow-hidden rounded-sm bg-[#222221] shadow-2xl"
             >
               <img
                 src={reel.thumbnailUrl || reel.mediaUrl || FALLBACK_REELS[index % FALLBACK_REELS.length].thumbnailUrl}
@@ -105,7 +105,7 @@ export function InstagramReelsSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/50 bg-white/15 text-white backdrop-blur-sm transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#D3BC8D] group-hover:text-[#3a3a3a]">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/50 bg-white/15 text-white backdrop-blur-sm transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#4B5872] group-hover:text-[#FCF9F9]">
                   <Play className="h-7 w-7 translate-x-0.5 fill-current" />
                 </div>
               </div>
@@ -117,7 +117,7 @@ export function InstagramReelsSection() {
                 <span className="text-5xl font-light text-white/25">0{index + 1}</span>
               </div>
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="mb-3 text-xs uppercase tracking-[0.3em] text-[#D3BC8D]">@cancaguachile</p>
+                <p className="mb-3 text-xs uppercase tracking-[0.3em] text-[#4B5872]">@cancaguachile</p>
                 <p className="line-clamp-3 text-lg font-light leading-snug text-white">
                   {cleanCaption(reel.caption)}
                 </p>

@@ -159,11 +159,11 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
 
           <Card>
             <CardContent className="pt-6 space-y-4">
-              <div className="flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-900">
-                <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 p-4 bg-clay-100 dark:bg-clay-800/30 rounded-lg border border-clay-200 dark:border-clay-800">
+                <AlertCircle className="h-5 w-5 text-clay-600 dark:text-clay-500 flex-shrink-0 mt-0.5" />
                 <div className="text-sm">
-                  <p className="font-medium text-amber-900 dark:text-amber-100">¿Qué puedes hacer?</p>
-                  <ul className="text-amber-700 dark:text-amber-300 mt-2 space-y-1 list-disc list-inside">
+                  <p className="font-medium text-clay-800 dark:text-clay-100">¿Qué puedes hacer?</p>
+                  <ul className="text-clay-700 dark:text-clay-300 mt-2 space-y-1 list-disc list-inside">
                     <li>Verifica que tu tarjeta tenga fondos suficientes</li>
                     <li>Intenta nuevamente con otra tarjeta</li>
                     <li>Contacta a tu banco si el problema persiste</li>
@@ -205,7 +205,7 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
     <div className="min-h-screen flex items-center justify-center py-16">
       <div className="container max-w-2xl">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sage-200 text-sage-600 mb-4">
             <Check className="h-8 w-8" />
           </div>
           <h1 className="text-3xl font-bold mb-2">¡Pago exitoso!</h1>
@@ -253,8 +253,8 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
               </div>
             )}
 
-            <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-900">
-              <p className="text-sm text-green-700 dark:text-green-300">
+            <div className="p-4 bg-sage-100 dark:bg-sage-800/30 rounded-lg border border-sage-300 dark:border-sage-800">
+              <p className="text-sm text-sage-700 dark:text-sage-400">
                 <strong>Email enviado a:</strong> {giftCardData?.recipientEmail}
                 {giftCardData?.senderEmail && (
                   <><br /><strong>Copia enviada a:</strong> {giftCardData.senderEmail}</>

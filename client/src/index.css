@@ -1,25 +1,88 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @font-face {
   font-family: "P22 Mackinac Pro";
-  src: url("https://cms.cancagua.cl/brand/fonts/P22MackinacPro-Book.otf") format("opentype");
+  src: url("/fonts/P22MackinacPro-Book.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "P22 Mackinac Pro";
-  src: url("https://cms.cancagua.cl/brand/fonts/P22MackinacPro-BookItalic.otf") format("opentype");
+  src: url("/fonts/P22MackinacPro-BookItalic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "P22 Mackinac Pro";
+  src: url("/fonts/P22MackinacPro-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "P22 Mackinac Pro";
+  src: url("/fonts/P22MackinacPro-MediumItalic.otf") format("opentype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "P22 Mackinac Pro";
+  src: url("/fonts/P22MackinacPro-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "P22 Mackinac Pro";
+  src: url("/fonts/P22MackinacPro-BoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "P22 Mackinac Pro";
+  src: url("/fonts/P22MackinacPro-ExtraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "CoFo Sans";
+  src: url("/fonts/CoFoSans-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "CoFo Sans";
+  src: url("/fonts/CoFoSans-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "CoFo Sans";
+  src: url("/fonts/CoFoSans-Italic.otf") format("opentype");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: "CoFo Sans";
-  src: url("https://cms.cancagua.cl/brand/fonts/CoFoSans-Regular.otf") format("opentype");
-  font-weight: 400;
+  src: url("/fonts/CoFoSans-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "CoFo Sans";
+  src: url("/fonts/CoFoSans-Bold.otf") format("opentype");
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -27,6 +90,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-cg-sans);
+  --font-serif: var(--font-cg-serif);
+  --font-mono: var(--font-cg-mono);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -63,115 +129,191 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-slate-100: var(--slate-100);
+  --color-slate-200: var(--slate-200);
+  --color-slate-300: var(--slate-300);
+  --color-slate-400: var(--slate-400);
+  --color-slate-500: var(--slate-500);
+  --color-slate-600: var(--slate-600);
+  --color-slate-700: var(--slate-700);
+  --color-slate-800: var(--slate-800);
+  --color-sage-100: var(--sage-100);
+  --color-sage-200: var(--sage-200);
+  --color-sage-300: var(--sage-300);
+  --color-sage-400: var(--sage-400);
+  --color-sage-500: var(--sage-500);
+  --color-sage-600: var(--sage-600);
+  --color-sage-700: var(--sage-700);
+  --color-sage-800: var(--sage-800);
+  --color-stone-100: var(--stone-100);
+  --color-stone-200: var(--stone-200);
+  --color-stone-300: var(--stone-300);
+  --color-stone-400: var(--stone-400);
+  --color-stone-500: var(--stone-500);
+  --color-stone-600: var(--stone-600);
+  --color-stone-700: var(--stone-700);
+  --color-stone-800: var(--stone-800);
+  --color-clay-100: var(--clay-100);
+  --color-clay-200: var(--clay-200);
+  --color-clay-300: var(--clay-300);
+  --color-clay-400: var(--clay-400);
+  --color-clay-500: var(--clay-500);
+  --color-clay-600: var(--clay-600);
+  --color-clay-700: var(--clay-700);
+  --color-clay-800: var(--clay-800);
+  --color-indigo-100: var(--indigo-100);
+  --color-indigo-200: var(--indigo-200);
+  --color-indigo-300: var(--indigo-300);
+  --color-indigo-400: var(--indigo-400);
+  --color-indigo-500: var(--indigo-500);
+  --color-indigo-600: var(--indigo-600);
+  --color-indigo-700: var(--indigo-700);
+  --color-indigo-800: var(--indigo-800);
   
-  /* Cancagua Brand Colors */
-  --color-cancagua-tierra: oklch(0.78 0.06 75);
-  --color-cancagua-crema: oklch(0.93 0.02 75);
-  --color-cancagua-gris: oklch(0.70 0 0);
-  --color-cancagua-gris-oscuro: oklch(0.58 0 0);
+  --color-cancagua-tierra: var(--indigo-600);
+  --color-cancagua-crema: var(--paper);
+  --color-cancagua-gris: var(--stone-400);
+  --color-cancagua-gris-oscuro: var(--stone-500);
 }
 
 :root {
-  /* ============================================
-     CANCAGUA BRAND COLORS
-     Basado en Manual de Marca Oficial
-     
-     Paleta Principal:
-     - Tierra/Arena: #D3BC8D (PANTONE 467C)
-     - Crema Claro: #F1E7D9
-     - Gris Medio: #AAAAAA
-     - Gris Oscuro: #8C8C8C
-     ============================================ */
-  
-  /* Primary: Color Tierra/Arena - Principal de marca */
-  --primary: oklch(0.78 0.06 75); /* #D3BC8D */
-  --primary-foreground: oklch(0.25 0.02 75); /* Texto oscuro sobre tierra */
-  
-  /* Secondary: Crema claro */
-  --secondary: oklch(0.93 0.02 75); /* #F1E7D9 */
-  --secondary-foreground: oklch(0.35 0.02 75);
-  
-  /* Accent: Tierra más intenso para destacar */
-  --accent: oklch(0.72 0.08 75); /* Tierra más saturado */
-  --accent-foreground: oklch(0.20 0.02 75);
-  
-  /* Muted: Grises neutros */
-  --muted: oklch(0.96 0.01 75); /* Gris muy claro con tono cálido */
-  --muted-foreground: oklch(0.58 0 0); /* #8C8C8C */
+  --font-cg-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-cg-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-cg-soft: "CoFo Sans", "Spline Sans Mono", "IBM Plex Mono", sans-serif;
+  --font-cg-serif: "P22 Mackinac Pro", Georgia, "Times New Roman", serif;
+  --font-cg-code: "Courier Prime", "Courier New", monospace;
+
+  --slate-100: #F4F5F6;
+  --slate-200: #CCD6DB;
+  --slate-300: #B0BEC4;
+  --slate-400: #8AA1AD;
+  --slate-500: #648596;
+  --slate-600: #496674;
+  --slate-700: #324853;
+  --slate-800: #1A272E;
+  --sage-100: #F5F6F4;
+  --sage-200: #D8DACD;
+  --sage-300: #BFC2B2;
+  --sage-400: #A4A98E;
+  --sage-500: #899169;
+  --sage-600: #696F4D;
+  --sage-700: #4A4F35;
+  --sage-800: #282C1C;
+  --stone-100: #F4F2ED;
+  --stone-200: #D7D4D1;
+  --stone-300: #BCBAB8;
+  --stone-400: #9F9C98;
+  --stone-500: #827D78;
+  --stone-600: #635E5A;
+  --stone-700: #46423F;
+  --stone-800: #262422;
+  --clay-100: #F6F5F4;
+  --clay-200: #DBD3CC;
+  --clay-300: #C4B9B0;
+  --clay-400: #AD9A8A;
+  --clay-500: #967B64;
+  --clay-600: #745D49;
+  --clay-700: #534132;
+  --clay-800: #2E231A;
+  --indigo-100: #F4F5F6;
+  --indigo-200: #CCD1DB;
+  --indigo-300: #B1B7C3;
+  --indigo-400: #8C96AB;
+  --indigo-500: #667594;
+  --indigo-600: #4B5872;
+  --indigo-700: #333D51;
+  --indigo-800: #1B212D;
+  --ink: #222221;
+  --paper: #F4F2ED;
+  --canvas: #FCF9F9;
+  --mist: #F5F5F5;
+
+  --text-display-xl: clamp(4rem, 8vw, 8.125rem);
+  --text-display-l: clamp(3rem, 5vw, 4.75rem);
+  --text-display-m: clamp(2.25rem, 3.4vw, 3rem);
+  --text-h1: clamp(2.25rem, 4vw, 3.5rem);
+  --text-h2: clamp(1.875rem, 3vw, 2.5rem);
+  --text-h3: clamp(1.5rem, 2vw, 1.875rem);
+  --text-body-l: clamp(1.25rem, 1.7vw, 1.875rem);
+  --text-body: 1.125rem;
+  --text-label: 0.875rem;
+  --text-caption: 0.8125rem;
+
+  --primary: var(--indigo-600);
+  --primary-foreground: var(--canvas);
+  --secondary: var(--stone-200);
+  --secondary-foreground: var(--stone-800);
+  --accent: var(--indigo-600);
+  --accent-foreground: var(--canvas);
+  --muted: var(--mist);
+  --muted-foreground: var(--stone-500);
   
   /* Destructive */
   --destructive: oklch(0.55 0.20 27);
   --destructive-foreground: oklch(1 0 0);
   
   /* Layout */
-  --radius: 0.5rem;
-  --background: oklch(0.995 0.005 75); /* Blanco cálido */
-  --foreground: oklch(0.25 0.02 75); /* Gris oscuro cálido */
+  --radius: 1.25rem;
+  --background: var(--paper);
+  --foreground: var(--ink);
   
   /* Cards */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.02 75);
+  --card-foreground: var(--ink);
   
   /* Popover */
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.25 0.02 75);
+  --popover-foreground: var(--ink);
   
   /* Borders & Inputs */
-  --border: oklch(0.88 0.02 75);
-  --input: oklch(0.92 0.01 75);
-  --ring: oklch(0.78 0.06 75);
+  --border: rgba(0, 0, 0, 0.14);
+  --input: var(--stone-200);
+  --ring: var(--indigo-600);
   
-  /* Sidebar - CMS Admin */
-  --sidebar: oklch(0.97 0.01 75);
-  --sidebar-foreground: oklch(0.30 0.02 75);
-  --sidebar-primary: oklch(0.78 0.06 75);
-  --sidebar-primary-foreground: oklch(0.20 0.02 75);
-  --sidebar-accent: oklch(0.93 0.02 75);
-  --sidebar-accent-foreground: oklch(0.25 0.02 75);
-  --sidebar-border: oklch(0.90 0.02 75);
-  --sidebar-ring: oklch(0.78 0.06 75);
-  
-  /* Charts - Tonos tierra y grises */
-  --chart-1: oklch(0.78 0.06 75);
-  --chart-2: oklch(0.70 0 0);
-  --chart-3: oklch(0.65 0.05 75);
-  --chart-4: oklch(0.58 0 0);
-  --chart-5: oklch(0.85 0.04 75);
+  --sidebar: var(--canvas);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--indigo-600);
+  --sidebar-primary-foreground: var(--canvas);
+  --sidebar-accent: var(--stone-200);
+  --sidebar-accent-foreground: var(--stone-800);
+  --sidebar-border: rgba(0, 0, 0, 0.14);
+  --sidebar-ring: var(--indigo-600);
+
+  --chart-1: var(--indigo-600);
+  --chart-2: var(--sage-600);
+  --chart-3: var(--clay-500);
+  --chart-4: var(--slate-600);
+  --chart-5: var(--stone-500);
 }
 
 .dark {
-  --primary: oklch(0.78 0.06 75);
-  --primary-foreground: oklch(0.15 0.02 75);
-  --background: oklch(0.18 0.02 75);
-  --foreground: oklch(0.92 0.01 75);
-  --card: oklch(0.22 0.02 75);
-  --card-foreground: oklch(0.92 0.01 75);
-  --popover: oklch(0.22 0.02 75);
-  --popover-foreground: oklch(0.92 0.01 75);
-  --secondary: oklch(0.28 0.02 75);
-  --secondary-foreground: oklch(0.85 0.01 75);
-  --muted: oklch(0.30 0.02 75);
-  --muted-foreground: oklch(0.65 0.01 75);
-  --accent: oklch(0.35 0.03 75);
-  --accent-foreground: oklch(0.92 0.01 75);
+  --primary: var(--indigo-400);
+  --primary-foreground: var(--indigo-800);
+  --background: var(--stone-800);
+  --foreground: var(--canvas);
+  --card: var(--stone-700);
+  --card-foreground: var(--canvas);
+  --popover: var(--stone-700);
+  --popover-foreground: var(--canvas);
+  --secondary: var(--stone-600);
+  --secondary-foreground: var(--canvas);
+  --muted: var(--stone-700);
+  --muted-foreground: var(--stone-300);
+  --accent: var(--indigo-400);
+  --accent-foreground: var(--indigo-800);
   --destructive: oklch(0.60 0.20 27);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.35 0.02 75);
-  --input: oklch(0.30 0.02 75);
-  --ring: oklch(0.78 0.06 75);
-  --chart-1: oklch(0.78 0.06 75);
-  --chart-2: oklch(0.65 0.04 75);
-  --chart-3: oklch(0.55 0.03 75);
-  --chart-4: oklch(0.70 0 0);
-  --chart-5: oklch(0.85 0.04 75);
-  --sidebar: oklch(0.20 0.02 75);
-  --sidebar-foreground: oklch(0.90 0.01 75);
-  --sidebar-primary: oklch(0.78 0.06 75);
-  --sidebar-primary-foreground: oklch(0.15 0.02 75);
-  --sidebar-accent: oklch(0.28 0.02 75);
-  --sidebar-accent-foreground: oklch(0.92 0.01 75);
-  --sidebar-border: oklch(0.35 0.02 75);
-  --sidebar-ring: oklch(0.78 0.06 75);
+  --border: rgba(255, 255, 255, 0.22);
+  --input: var(--stone-600);
+  --ring: var(--indigo-400);
+  --sidebar: var(--stone-800);
+  --sidebar-foreground: var(--canvas);
+  --sidebar-primary: var(--indigo-400);
+  --sidebar-primary-foreground: var(--indigo-800);
+  --sidebar-accent: var(--stone-700);
+  --sidebar-accent-foreground: var(--canvas);
+  --sidebar-border: rgba(255, 255, 255, 0.22);
+  --sidebar-ring: var(--indigo-400);
 }
 
 @layer base {
@@ -180,20 +322,40 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: var(--font-cg-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Josefin Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-weight: 400;
-    letter-spacing: 0.05em;
+    font-family: var(--font-cg-sans);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  h1 { line-height: 1.05; }
+  h2 { line-height: 1.1; }
+  h3, h4, h5, h6 { line-height: 1.2; }
+  small, figcaption, caption {
+    font-family: var(--font-cg-soft);
+  }
+  label {
+    font-family: var(--font-cg-mono);
+    letter-spacing: 0.04em;
+  }
+  button {
+    font-family: var(--font-cg-mono);
+    letter-spacing: 0.06em;
   }
   .font-display, .font-accent {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: var(--font-cg-serif);
     font-style: italic;
+    letter-spacing: -0.01em;
   }
   .font-brand {
-    font-family: 'Josefin Sans', sans-serif;
-    font-weight: 300;
+    font-family: var(--font-cg-mono);
+    font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
@@ -225,15 +387,32 @@
   .animation-delay-200 { animation-delay: 0.2s; opacity: 0; }
   .animation-delay-400 { animation-delay: 0.4s; opacity: 0; }
   
-  .bg-cancagua-tierra { background-color: #D3BC8D; }
-  .bg-cancagua-crema { background-color: #F1E7D9; }
-  .text-cancagua-tierra { color: #D3BC8D; }
-  .text-cancagua-gris { color: #8C8C8C; }
-  .border-cancagua-tierra { border-color: #D3BC8D; }
-  .font-cg-serif { font-family: "P22 Mackinac Pro", Georgia, serif; }
-  .font-cg-sans { font-family: "IBM Plex Sans", Arial, sans-serif; }
-  .font-cg-soft { font-family: "CoFo Sans", "IBM Plex Sans", Arial, sans-serif; }
-  .font-cg-mono { font-family: "IBM Plex Mono", "Courier New", monospace; }
+  .bg-cancagua-tierra { background-color: var(--indigo-600); }
+  .bg-cancagua-crema { background-color: var(--paper); }
+  .text-cancagua-tierra { color: var(--indigo-600); }
+  .text-cancagua-gris { color: var(--stone-500); }
+  .border-cancagua-tierra { border-color: var(--indigo-600); }
+  .font-cg-serif { font-family: var(--font-cg-serif); }
+  .font-cg-sans { font-family: var(--font-cg-sans); }
+  .font-cg-soft { font-family: var(--font-cg-soft); }
+  .font-cg-mono { font-family: var(--font-cg-mono); }
+  .cg-eyebrow {
+    font-family: var(--font-cg-mono);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .cg-program-title {
+    font-family: var(--font-cg-serif);
+    font-size: var(--text-display-l);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .text-display-xl { font-size: var(--text-display-xl); line-height: 1; letter-spacing: -0.02em; }
+  .text-display-l { font-size: var(--text-display-l); line-height: 1.1; letter-spacing: -0.01em; }
+  .text-display-m { font-size: var(--text-display-m); line-height: 1.1; letter-spacing: -0.02em; }
 }
 
 @layer components {
@@ -276,19 +455,22 @@
     .container { padding-left: 2rem; padding-right: 2rem; max-width: 1280px; }
   }
   .btn-cancagua {
-    @apply bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] transition-colors;
-    font-family: 'Josefin Sans', sans-serif;
-    letter-spacing: 0.05em;
+    @apply bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] transition-colors;
+    font-family: var(--font-cg-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
   .card-cancagua {
-    @apply bg-white border border-[#D3BC8D]/30 shadow-sm;
+    @apply bg-white border border-black/10 shadow-sm;
   }
   
   /* Botones verdes del CMS con texto blanco para mejor contraste */
-  .bg-\[\#44580E\] {
+  .bg-\[\#4A4F35\] {
     color: white !important;
   }
-  .bg-\[\#44580E\]:hover {
+  .bg-\[\#4A4F35\]:hover {
     color: white !important;
   }
 }

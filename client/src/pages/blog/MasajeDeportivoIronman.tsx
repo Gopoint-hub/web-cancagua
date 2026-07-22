@@ -43,7 +43,7 @@ export default function MasajeDeportivoIronman() {
             target="_blank" 
             rel="noopener noreferrer"
             className="inline-block bg-primary-600 text-white font-bold py-3 px-8 rounded hover:bg-primary-700 transition-colors"
-            style={{ backgroundColor: '#1d4ed8' }} /* Tailwind blue-700 as fallback */
+            style={{ backgroundColor: '#4B5872' }} /* Tailwind slate-700 as fallback */
           >
             Reserva tu Masaje Deportivo aquí
           </a>

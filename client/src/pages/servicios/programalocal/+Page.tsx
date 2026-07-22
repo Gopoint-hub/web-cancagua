@@ -47,7 +47,7 @@ export default function PulsoLocalPage() {
             Acceso a nuestras Biopiscinas Geotermales (4 horas) con precio preferente para quienes viven entre Osorno y Puerto Montt.
           </p>
           <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-            <Button size="lg" className="font-['Josefin_Sans'] tracking-wider text-lg px-8 py-6">
+            <Button size="lg" className="font-cg-mono tracking-wider text-lg px-8 py-6">
               Quiero ser parte
             </Button>
           </a>
@@ -101,7 +101,7 @@ export default function PulsoLocalPage() {
           {/* CTA */}
           <div className="text-center mb-16">
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="font-['Josefin_Sans'] tracking-wider text-lg px-8 py-6">
+              <Button size="lg" className="font-cg-mono tracking-wider text-lg px-8 py-6">
                 Comprar Pulso Local
               </Button>
             </a>

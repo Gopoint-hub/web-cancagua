@@ -104,8 +104,8 @@ export default function PaseReconecta() {
               {includes.map((item, index) => (
                 <Card key={index} className="border-0 shadow-md">
                   <CardContent className="p-6 flex items-start gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-                      <Check className="h-5 w-5 text-amber-600" />
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-clay-100 flex items-center justify-center">
+                      <Check className="h-5 w-5 text-clay-600" />
                     </div>
                     <p className="text-stone-700 leading-relaxed pt-2"><T>{item}</T></p>
                   </CardContent>
@@ -113,11 +113,11 @@ export default function PaseReconecta() {
               ))}
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 flex gap-4">
-              <Info className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+            <div className="bg-slate-100 border border-slate-300 rounded-xl p-6 flex gap-4">
+              <Info className="h-6 w-6 text-slate-600 flex-shrink-0 mt-1" />
               <div className="space-y-2">
-                <p className="font-semibold text-blue-900"><T>Actividades opcionales</T></p>
-                <p className="text-blue-800">
+                <p className="font-semibold text-slate-800"><T>Actividades opcionales</T></p>
+                <p className="text-slate-800">
                   <T>Stand Up Padel/Kayak sujeto a condiciones climáticas y Clase de Yoga sujeto a horario de clase regular.</T>
                 </p>
               </div>
@@ -126,12 +126,12 @@ export default function PaseReconecta() {
         </section>
 
         {/* Hot-Tub Features */}
-        <section className="py-20 bg-gradient-to-br from-amber-50 to-stone-100">
+        <section className="py-20 bg-gradient-to-br from-clay-100 to-stone-100">
           <div className="container">
             <div className="max-w-4xl mx-auto space-y-12">
               <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-200 mb-4">
-                  <Waves className="h-8 w-8 text-amber-700" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-clay-200 mb-4">
+                  <Waves className="h-8 w-8 text-clay-700" />
                 </div>
                 <h2 className="text-4xl font-josefin font-bold text-stone-800">
                   <T>Los Hot-Tub disponen de</T>
@@ -148,7 +148,7 @@ export default function PaseReconecta() {
                     className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-amber-500" />
+                      <div className="w-2 h-2 rounded-full bg-clay-500" />
                       <p className="text-stone-700 font-medium"><T>{feature}</T></p>
                     </div>
                   </div>
@@ -162,7 +162,7 @@ export default function PaseReconecta() {
         <section className="py-20 container">
           <div className="max-w-4xl mx-auto">
             <Card className="border-0 shadow-xl overflow-hidden">
-              <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-8 text-white">
+              <div className="bg-gradient-to-r from-sage-600 to-slate-600 p-8 text-white">
                 <div className="flex items-center gap-3 mb-4">
                   <Heart className="h-8 w-8" />
                   <h2 className="text-3xl font-josefin font-bold">
@@ -177,7 +177,7 @@ export default function PaseReconecta() {
                 <div className="grid sm:grid-cols-2 gap-6">
                   {weProvide.map((item, index) => (
                     <div key={index} className="flex items-center gap-3">
-                      <Check className="h-6 w-6 text-emerald-600 flex-shrink-0" />
+                      <Check className="h-6 w-6 text-sage-600 flex-shrink-0" />
                       <span className="text-stone-700"><T>{item}</T></span>
                     </div>
                   ))}
@@ -192,8 +192,8 @@ export default function PaseReconecta() {
           <div className="container">
             <div className="max-w-4xl mx-auto space-y-8">
               <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
-                  <Info className="h-8 w-8 text-blue-600" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-200 mb-4">
+                  <Info className="h-8 w-8 text-slate-600" />
                 </div>
                 <h2 className="text-4xl font-josefin font-bold text-stone-800">
                   <T>Información importante</T>
@@ -206,8 +206,8 @@ export default function PaseReconecta() {
                     key={index}
                     className="bg-white rounded-lg p-6 shadow-sm flex gap-4 items-start"
                   >
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-blue-600 text-sm font-semibold">{index + 1}</span>
+                    <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-slate-600 text-sm font-semibold">{index + 1}</span>
                     </div>
                     <p className="text-stone-700 leading-relaxed"><T>{info}</T></p>
                   </div>
@@ -221,7 +221,7 @@ export default function PaseReconecta() {
         <section className="py-20 container">
           <div className="max-w-4xl mx-auto">
             <Card className="border-0 shadow-2xl overflow-hidden">
-              <div className="bg-gradient-to-br from-amber-600 to-orange-600 p-12 text-center text-white space-y-6">
+              <div className="bg-gradient-to-br from-clay-600 to-clay-600 p-12 text-center text-white space-y-6">
                 <Calendar className="h-16 w-16 mx-auto mb-4" />
                 <h2 className="text-4xl font-josefin font-bold">
                   <T>¡Reserva tu momento de bienestar!</T>
@@ -235,7 +235,7 @@ export default function PaseReconecta() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Button size="lg" className="bg-white text-amber-600 hover:bg-stone-100 font-semibold">
+                    <Button size="lg" className="bg-white text-clay-600 hover:bg-stone-100 font-semibold">
                       <T>Reservar ahora</T>
                     </Button>
                   </a>

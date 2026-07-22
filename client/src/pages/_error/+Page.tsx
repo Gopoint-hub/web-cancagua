@@ -7,12 +7,12 @@ export default function Page() {
   const isNotFound = pageContext.abortStatusCode === 404 || pageContext.is404;
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] px-4 py-24">
+    <div className="min-h-screen bg-[#FCF9F9] px-4 py-24">
       <main className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center text-center">
-        <p className="mb-4 text-7xl font-bold text-[#c4a86b] md:text-8xl">
+        <p className="mb-4 text-7xl font-bold text-[#4B5872] md:text-8xl">
           {isNotFound ? "404" : "Error"}
         </p>
-        <h1 className="mb-4 text-3xl font-bold text-[#2d3e2f] md:text-4xl">
+        <h1 className="mb-4 text-3xl font-bold text-[#282C1C] md:text-4xl">
           {isNotFound ? "Página no encontrada" : "Algo salió mal"}
         </h1>
         <p className="mb-8 max-w-xl text-lg leading-relaxed text-gray-600">
@@ -24,7 +24,7 @@ export default function Page() {
           <a href="/">
             <Button
               size="lg"
-              className="bg-[#2d3e2f] text-white hover:bg-[#1a2a1c]"
+              className="bg-[#282C1C] text-white hover:bg-[#282C1C]"
             >
               <Home className="mr-2 h-5 w-5" />
               Volver al inicio
@@ -34,7 +34,7 @@ export default function Page() {
             <Button
               size="lg"
               variant="outline"
-              className="border-[#2d3e2f] text-[#2d3e2f]"
+              className="border-[#282C1C] text-[#282C1C]"
             >
               <Phone className="mr-2 h-5 w-5" />
               Contacto

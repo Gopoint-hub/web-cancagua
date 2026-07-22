@@ -58,7 +58,7 @@ export default function Contacto() {
 
   return (
     <AutoTranslateProvider pageId="contacto">
-    <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
+    <div className="min-h-screen flex flex-col bg-[#FCF9F9]">
       <Navbar />
 
       <main>
@@ -70,7 +70,7 @@ export default function Contacto() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
-            <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4">
+            <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4">
               <T>Hablemos</T>
             </span>
             <h1 className="text-4xl md:text-6xl font-light tracking-wide mb-4"><T>Contacto</T></h1>
@@ -84,13 +84,13 @@ export default function Contacto() {
         <section className="py-20 bg-white">
           <div className="container">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              <Card className="border-none shadow-sm bg-[#FDFBF7]">
+              <Card className="border-none shadow-sm bg-[#FCF9F9]">
                 <CardContent className="pt-8 pb-8 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
-                    <MapPin className="h-7 w-7 text-[#D3BC8D]" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#4B5872]/20 mb-6">
+                    <MapPin className="h-7 w-7 text-[#4B5872]" />
                   </div>
-                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Ubicación</T></h3>
-                  <p className="text-sm text-[#8C8C8C] leading-relaxed">
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#222221]"><T>Ubicación</T></h3>
+                  <p className="text-sm text-[#827D78] leading-relaxed">
                     Frutillar, Región de Los Lagos
                     <br />
                     Chile
@@ -100,37 +100,37 @@ export default function Contacto() {
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-sm bg-[#FDFBF7]">
+              <Card className="border-none shadow-sm bg-[#FCF9F9]">
                 <CardContent className="pt-8 pb-8 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
-                    <PhoneIcon className="h-7 w-7 text-[#D3BC8D]" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#4B5872]/20 mb-6">
+                    <PhoneIcon className="h-7 w-7 text-[#4B5872]" />
                   </div>
-                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Teléfono</T></h3>
-                  <a href="tel:+56940073999" className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors block">
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#222221]"><T>Teléfono</T></h3>
+                  <a href="tel:+56940073999" className="text-sm text-[#827D78] hover:text-[#4B5872] transition-colors block">
                     +56 9 4007 3999
                   </a>
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-sm bg-[#FDFBF7]">
+              <Card className="border-none shadow-sm bg-[#FCF9F9]">
                 <CardContent className="pt-8 pb-8 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
-                    <Mail className="h-7 w-7 text-[#D3BC8D]" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#4B5872]/20 mb-6">
+                    <Mail className="h-7 w-7 text-[#4B5872]" />
                   </div>
-                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Email</T></h3>
-                  <a href="mailto:contacto@cancagua.cl" className="text-sm text-[#8C8C8C] hover:text-[#D3BC8D] transition-colors">
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#222221]"><T>Email</T></h3>
+                  <a href="mailto:contacto@cancagua.cl" className="text-sm text-[#827D78] hover:text-[#4B5872] transition-colors">
                     contacto@cancagua.cl
                   </a>
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-sm bg-[#FDFBF7]">
+              <Card className="border-none shadow-sm bg-[#FCF9F9]">
                 <CardContent className="pt-8 pb-8 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D3BC8D]/20 mb-6">
-                    <Clock className="h-7 w-7 text-[#D3BC8D]" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#4B5872]/20 mb-6">
+                    <Clock className="h-7 w-7 text-[#4B5872]" />
                   </div>
-                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#3a3a3a]"><T>Horarios</T></h3>
-                  <p className="text-sm text-[#8C8C8C] leading-relaxed">
+                  <h3 className="font-light text-lg tracking-wide mb-3 text-[#222221]"><T>Horarios</T></h3>
+                  <p className="text-sm text-[#827D78] leading-relaxed">
                     Lunes a Domingo
                     <br />
                     Todo el año
@@ -142,34 +142,34 @@ export default function Contacto() {
         </section>
 
         {/* Formulario y Mapa */}
-        <section className="py-20 bg-[#F1E7D9]">
+        <section className="py-20 bg-[#F4F2ED]">
           <div className="container">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
               {/* Formulario */}
               <div>
-                <span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+                <span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                   <T>Escríbenos</T>
                 </span>
-                <h2 className="text-3xl font-light tracking-wide mb-4 text-[#3a3a3a]"><T>Envíanos un Mensaje</T></h2>
-                <p className="text-[#8C8C8C] mb-8">
+                <h2 className="text-3xl font-light tracking-wide mb-4 text-[#222221]"><T>Envíanos un Mensaje</T></h2>
+                <p className="text-[#827D78] mb-8">
                   <T>Completa el formulario y te responderemos a la brevedad</T>
                 </p>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div>
-                    <Label htmlFor="name" className="text-[#3a3a3a]">Nombre Completo *</Label>
+                    <Label htmlFor="name" className="text-[#222221]">Nombre Completo *</Label>
                     <Input
                       id="name"
                       placeholder="Tu nombre completo"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       required
-                      className="border-[#D3BC8D]/30 focus:border-[#D3BC8D] bg-white"
+                      className="border-[#4B5872]/30 focus:border-[#4B5872] bg-white"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="email" className="text-[#3a3a3a]">Email *</Label>
+                    <Label htmlFor="email" className="text-[#222221]">Email *</Label>
                     <Input
                       id="email"
                       type="email"
@@ -177,25 +177,25 @@ export default function Contacto() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
-                      className="border-[#D3BC8D]/30 focus:border-[#D3BC8D] bg-white"
+                      className="border-[#4B5872]/30 focus:border-[#4B5872] bg-white"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="phone" className="text-[#3a3a3a]">Teléfono *</Label>
+                    <Label htmlFor="phone" className="text-[#222221]">Teléfono *</Label>
                     <PhoneInput
                       international
                       defaultCountry={defaultCountry}
                       value={formData.phone}
                       onChange={(value) => setFormData({ ...formData, phone: value || "" })}
-                      className="phone-input-custom border border-[#D3BC8D]/30 rounded-md px-3 py-2 bg-white focus-within:border-[#D3BC8D] focus-within:ring-1 focus-within:ring-[#D3BC8D]"
+                      className="phone-input-custom border border-[#4B5872]/30 rounded-md px-3 py-2 bg-white focus-within:border-[#4B5872] focus-within:ring-1 focus-within:ring-[#4B5872]"
                       placeholder="Ingresa tu número de teléfono"
                       required
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="message" className="text-[#3a3a3a]">Mensaje *</Label>
+                    <Label htmlFor="message" className="text-[#222221]">Mensaje *</Label>
                     <Textarea
                       id="message"
                       placeholder="Escribe tu mensaje aquí..."
@@ -203,13 +203,13 @@ export default function Contacto() {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       required
-                      className="border-[#D3BC8D]/30 focus:border-[#D3BC8D] bg-white"
+                      className="border-[#4B5872]/30 focus:border-[#4B5872] bg-white"
                     />
                   </div>
 
                   <Button
                     size="lg"
-                    className="w-full bg-[#D3BC8D] text-[#3a3a3a] hover:bg-[#c4a976] tracking-wider"
+                    className="w-full bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-wider"
                     type="submit"
                     disabled={sendMessageMutation.isPending}
                   >
@@ -222,11 +222,11 @@ export default function Contacto() {
               {/* Mapa e información adicional */}
               <div className="space-y-6">
                 <div>
-<span className="text-[#D3BC8D] text-sm tracking-[0.3em] uppercase mb-4 block">
+<span className="text-[#4B5872] text-sm tracking-[0.3em] uppercase mb-4 block">
                     <T>Visitános</T>
                   </span>
-                  <h2 className="text-3xl font-light tracking-wide mb-4 text-[#3a3a3a]"><T>Cómo Llegar</T></h2>
-                  <p className="text-[#8C8C8C] mb-6">
+                  <h2 className="text-3xl font-light tracking-wide mb-4 text-[#222221]"><T>Cómo Llegar</T></h2>
+                  <p className="text-[#827D78] mb-6">
                     Estamos ubicados a 2 kilómetros de Frutillar Bajo, con vista
                     privilegiada al Lago Llanquihue y los volcanes Osorno y
                     Calbuco.
@@ -275,18 +275,18 @@ export default function Contacto() {
 
                 <Card className="border-none shadow-sm bg-white">
                   <CardContent className="pt-6">
-                    <h3 className="font-light text-lg tracking-wide mb-4 text-[#3a3a3a]">Indicaciones</h3>
-                    <ul className="space-y-3 text-sm text-[#8C8C8C]">
+                    <h3 className="font-light text-lg tracking-wide mb-4 text-[#222221]">Indicaciones</h3>
+                    <ul className="space-y-3 text-sm text-[#827D78]">
                       <li className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#4B5872]" />
                         Desde Puerto Montt: 45 minutos por Ruta 5 Sur
                       </li>
                       <li className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#4B5872]" />
                         Desde Puerto Varas: 30 minutos por Ruta 5 Sur
                       </li>
                       <li className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#D3BC8D]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#4B5872]" />
                         Desde Osorno: 60 minutos por Ruta 5 Norte
                       </li>
                     </ul>
@@ -296,7 +296,7 @@ export default function Contacto() {
 
               {/* Transporte - Transmark */}
               <div className="mt-8">
-                <Card className="border-none shadow-sm bg-white" style={{ borderLeft: "3px solid #D3BC8D" }}>
+                <Card className="border-none shadow-sm bg-white" style={{ borderLeft: "3px solid #4B5872" }}>
                   <CardContent className="p-5">
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100 bg-white flex items-center justify-center">
@@ -308,30 +308,30 @@ export default function Contacto() {
                         />
                       </div>
                       <div className="flex-1">
-                        <p className="text-[10px] tracking-[0.25em] uppercase text-[#D3BC8D] mb-1">Servicio de transporte</p>
-                        <h3 className="font-light text-lg tracking-wide mb-2 text-[#3a3a3a]">Transporte &amp; Turismo Trans Mark</h3>
-                        <p className="text-sm text-[#8C8C8C] mb-3 leading-relaxed">
-                          ¿Necesitas transporte de acercamiento a Cancagua? <strong className="text-[#3a3a3a] font-medium">Transmark</strong> es nuestro transportista de confianza para llegar desde cualquier punto de la región.
+                        <p className="text-[10px] tracking-[0.25em] uppercase text-[#4B5872] mb-1">Servicio de transporte</p>
+                        <h3 className="font-light text-lg tracking-wide mb-2 text-[#222221]">Transporte &amp; Turismo Trans Mark</h3>
+                        <p className="text-sm text-[#827D78] mb-3 leading-relaxed">
+                          ¿Necesitas transporte de acercamiento a Cancagua? <strong className="text-[#222221] font-medium">Transmark</strong> es nuestro transportista de confianza para llegar desde cualquier punto de la región.
                         </p>
                         <div className="flex flex-col gap-2 mb-3">
-                          <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
-                            <PhoneIcon className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" />
-                            <a href="tel:+56971008399" className="hover:text-[#D3BC8D] transition-colors">+56 9 7100 8399</a>
+                          <div className="flex items-center gap-2 text-sm text-[#827D78]">
+                            <PhoneIcon className="h-4 w-4 text-[#4B5872] flex-shrink-0" />
+                            <a href="tel:+56971008399" className="hover:text-[#4B5872] transition-colors">+56 9 7100 8399</a>
                           </div>
-                          <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
-                            <Mail className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" />
-                            <a href="mailto:transmark2022@gmail.com" className="hover:text-[#D3BC8D] transition-colors">transmark2022@gmail.com</a>
+                          <div className="flex items-center gap-2 text-sm text-[#827D78]">
+                            <Mail className="h-4 w-4 text-[#4B5872] flex-shrink-0" />
+                            <a href="mailto:transmark2022@gmail.com" className="hover:text-[#4B5872] transition-colors">transmark2022@gmail.com</a>
                           </div>
-                          <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
-                            <svg className="h-4 w-4 text-[#D3BC8D] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <div className="flex items-center gap-2 text-sm text-[#827D78]">
+                            <svg className="h-4 w-4 text-[#4B5872] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                               <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
                             </svg>
-                            <a href="https://www.transmark.cl" target="_blank" rel="noopener noreferrer" className="hover:text-[#D3BC8D] transition-colors">www.transmark.cl</a>
+                            <a href="https://www.transmark.cl" target="_blank" rel="noopener noreferrer" className="hover:text-[#4B5872] transition-colors">www.transmark.cl</a>
                           </div>
                         </div>
                         <a
                           href="tel:+56971008399"
-                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#D3BC8D] text-[#3a3a3a] rounded-lg hover:bg-[#c4a976] transition-colors font-medium text-sm tracking-wide"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#4B5872] text-[#FCF9F9] rounded-lg hover:bg-[#333D51] transition-colors font-medium text-sm tracking-wide"
                         >
                           <PhoneIcon className="h-4 w-4" />
                           Contactar a Transmark
@@ -353,8 +353,8 @@ export default function Contacto() {
                         </svg>
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-light text-lg tracking-wide mb-2 text-[#3a3a3a]">Únete a nuestra comunidad</h3>
-                        <p className="text-sm text-[#8C8C8C] mb-4">
+                        <h3 className="font-light text-lg tracking-wide mb-2 text-[#222221]">Únete a nuestra comunidad</h3>
+                        <p className="text-sm text-[#827D78] mb-4">
                           Forma parte del grupo de WhatsApp de Cancagua y recibe promociones exclusivas, novedades y tips de bienestar.
                         </p>
                         <a
