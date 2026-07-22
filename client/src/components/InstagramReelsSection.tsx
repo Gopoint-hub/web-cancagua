@@ -16,13 +16,13 @@ const FALLBACK_REELS: InstagramReel[] = [
     id: "fallback-1",
     permalink: "https://www.instagram.com/cancaguachile/",
     caption: "Momentos de bienestar en Cancagua",
-    thumbnailUrl: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_700,h_1000,c_fill,f_auto,q_auto/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
+    thumbnailUrl: "/images/reels/ingresando-biopiscinas.jpg",
   },
   {
     id: "fallback-2",
     permalink: "https://www.instagram.com/cancaguachile/",
     caption: "Biopiscinas geotermales junto al Lago Llanquihue",
-    thumbnailUrl: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_700,h_1000,c_fill,f_auto,q_auto/v1770309079/cancagua/images/11_hottub-service.webp",
+    thumbnailUrl: "/images/reels/sauna-nativo.jpg",
   },
   {
     id: "fallback-3",
@@ -98,7 +98,7 @@ export function InstagramReelsSection() {
               className="group relative aspect-[9/14] min-h-[430px] overflow-hidden rounded-sm bg-[#222221] shadow-2xl"
             >
               <img
-                src={reel.thumbnailUrl || reel.mediaUrl || FALLBACK_REELS[index % FALLBACK_REELS.length].thumbnailUrl}
+                src={FALLBACK_REELS[index % FALLBACK_REELS.length].thumbnailUrl || reel.thumbnailUrl || reel.mediaUrl}
                 alt={cleanCaption(reel.caption)}
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"

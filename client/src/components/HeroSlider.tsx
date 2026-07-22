@@ -21,15 +21,6 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_1400,h_800,c_fill,g_auto,f_auto,q_auto/v1780587020/cancagua/images/junio-en-familia-biopiscinas-hero.jpg",
-      eyebrow: "Regalonea a papá junto a toda la familia",
-      titleKey: "Julio en Familia",
-      subtitleKey: "Niños de 0-12 gratis en hot tubs",
-      ctaKey: "Reservar Programa",
-      ctaLink: "https://reservas.cancagua.cl/cancaguaspa/s/f4975ff2-fd9c-4519-8103-97d6f75108bf",
-      isExternal: true,
-    },
-    {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
