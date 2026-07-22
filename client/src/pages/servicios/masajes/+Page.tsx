@@ -68,7 +68,7 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/65" />
-        <h3 className="absolute bottom-5 left-5 right-5 font-cg-mono text-2xl font-normal leading-tight tracking-wide text-white md:text-3xl">
+        <h3 className="absolute bottom-5 left-5 right-5 font-cg-serif text-xl font-normal leading-[1.12] tracking-[-0.01em] text-white md:text-2xl">
           {technique.name}
         </h3>
       </div>
@@ -164,7 +164,7 @@ export default function Page() {
           <h1 className="mb-4 font-cg-serif text-5xl font-light tracking-wide md:text-7xl">
             Masajes & Terapias
           </h1>
-          <p className="max-w-2xl font-cg-mono text-xl font-light tracking-wide md:text-2xl">
+          <p className="max-w-2xl font-cg-soft text-xl font-light leading-relaxed tracking-normal md:text-2xl">
             Descubre nuestras sesiones de renovación y descanso en un ambiente armónico y natural
           </p>
         </div>
@@ -196,7 +196,7 @@ export default function Page() {
       {/* Lista de Servicios */}
       <section id="tecnicas" className="py-20 bg-[#F4F2ED]">
         <div className="container max-w-6xl">
-          <h2 className="mb-4 text-center font-cg-mono text-4xl font-light tracking-wide text-[#222221] md:text-5xl">
+          <h2 className="mb-4 text-center font-cg-serif text-4xl font-normal tracking-[-0.01em] text-[#222221] md:text-5xl">
             Selecciona tu experiencia
           </h2>
           <p className="mb-12 text-center font-cg-sans text-[#635E5A]">

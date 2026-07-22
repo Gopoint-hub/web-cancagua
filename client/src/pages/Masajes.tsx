@@ -70,7 +70,7 @@ export default function Masajes() {
             <h1 className="font-cg-serif text-5xl md:text-7xl font-light mb-4">
               <T>Masajes & Terapias</T>
             </h1>
-            <p className="font-cg-mono text-xl md:text-2xl font-light tracking-wide mb-8 max-w-2xl">
+            <p className="font-cg-soft text-xl md:text-2xl font-light leading-relaxed tracking-normal mb-8 max-w-2xl">
               <T>Descubre nuestras sesiones de renovación y descanso en un ambiente armónico y natural</T>
             </p>
             <a href={BOOKING_URL}>
@@ -128,7 +128,7 @@ export default function Masajes() {
                     <CardContent className="p-6">
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className="font-cg-mono text-lg text-[#222221] mb-2 group-hover:text-[#4B5872] transition-colors">
+                          <h3 className="font-cg-serif text-base md:text-lg font-normal leading-snug tracking-[-0.01em] text-[#222221] mb-2 group-hover:text-[#4B5872] transition-colors">
                             <T>{service.name}</T> ({service.duration})
                           </h3>
                           <div className="flex items-center gap-2 text-[#827D78]">
