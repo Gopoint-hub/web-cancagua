@@ -28,7 +28,7 @@ const FALLBACK_REELS: InstagramReel[] = [
     id: "fallback-3",
     permalink: "https://www.instagram.com/cancaguachile/",
     caption: "Experiencias para reconectar con la naturaleza",
-    thumbnailUrl: "https://res.cloudinary.com/dhuln9b1n/image/upload/w_700,h_1000,c_fill,f_auto,q_auto/v1770309084/cancagua/images/13_masajes-service.webp",
+    thumbnailUrl: "/images/reels/masaje-cancagua.jpg",
   },
 ];
 
