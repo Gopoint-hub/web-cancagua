@@ -54,7 +54,7 @@ export default function PaseReconectaDetox() {
               <Flame className="h-4 w-4" />
               <span className="text-sm font-medium">Experiencia Detox</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-josefin font-bold tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-cg-serif font-bold tracking-tight">
               Pase Reconecta Detox 6,5hrs
             </h1>
             <p className="text-2xl text-white/90">

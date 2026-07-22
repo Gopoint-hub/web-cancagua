@@ -59,7 +59,7 @@ export default function Carta() {
           {/* Hero Section */}
           <section className="relative bg-[#4A4F35] text-white py-20">
             <div className="container mx-auto px-4 text-center">
-              <h1 className="text-4xl md:text-5xl font-serif mb-4"><T>Nuestra Carta</T></h1>
+              <h1 className="text-4xl md:text-5xl font-cg-serif mb-4"><T>Nuestra Carta</T></h1>
               <div className="w-24 h-1 bg-[#899169] mx-auto mb-6"></div>
               <p className="text-lg max-w-2xl mx-auto">
                 <T>Comida sana, consciente y local de la zona donde posible.</T>

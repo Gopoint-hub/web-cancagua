@@ -63,7 +63,7 @@ export default function EventosPage() {
             <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">
               CANCAGUA · ENCUENTROS EN LA NATURALEZA
             </p>
-            <h1 className="font-cg-sans mt-8 max-w-3xl text-5xl font-light leading-[1.03] tracking-[-0.025em] md:text-7xl lg:text-[5.5rem]">
+            <h1 className="font-cg-serif mt-8 max-w-3xl text-5xl font-light leading-[1.03] tracking-[-0.025em] md:text-7xl lg:text-[5.5rem]">
               Experiencias para sentir, conectar y volver al cuerpo.
             </h1>
             <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1] md:text-xl">

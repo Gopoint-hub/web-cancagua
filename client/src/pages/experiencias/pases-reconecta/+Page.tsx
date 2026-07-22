@@ -68,7 +68,7 @@ export default function Page() {
             <Sparkles className="h-4 w-4" />
             <span className="text-sm font-medium">Experiencias de Reconexión</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-cg-mono font-bold tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-cg-serif font-bold tracking-tight">
             Pases Reconecta
           </h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto text-white/90">

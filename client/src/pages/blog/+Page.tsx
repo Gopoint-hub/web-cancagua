@@ -21,7 +21,7 @@ export default function Page() {
               CANCAGUA · CUERPO, MÉTODO Y NATURALEZA
             </p>
             <div className="max-w-4xl">
-              <h1 className="font-cg-sans text-5xl font-light leading-[1.05] tracking-[-0.02em] text-white drop-shadow-sm md:text-7xl">
+              <h1 className="font-cg-serif text-5xl font-light leading-[1.05] tracking-[-0.02em] text-white drop-shadow-sm md:text-7xl">
                 <T>Historias para volver al cuerpo.</T>
               </h1>
               <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#F4F2ED] drop-shadow-sm md:text-xl">

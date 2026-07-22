@@ -73,7 +73,7 @@ export default function Blog() {
         <section className="pt-24 pb-12 bg-gradient-to-b from-[#282C1C] to-[#282C1C]">
           <div className="container max-w-6xl px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4">
+              <h1 className="text-4xl md:text-5xl font-cg-serif font-bold text-white mb-4">
                 <T>Blog de Bienestar</T>
               </h1>
               <p className="text-xl text-white/80 max-w-2xl mx-auto">

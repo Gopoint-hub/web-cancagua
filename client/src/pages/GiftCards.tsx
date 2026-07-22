@@ -203,9 +203,9 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
                   <div className="absolute inset-0 bg-black/30 p-8 flex flex-col justify-between text-white">
                     <div>
                       <img
-                        src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770308861/cancagua/images/01_logo-cancagua.png"
+                        src="/brand/logos/cancagua-wordmark-medium-white.png"
                         alt="Cancagua"
-                        className="h-12 w-auto mb-4 brightness-0 invert"
+                        className="h-12 w-auto mb-4"
                       />
                       <p className="text-sm opacity-90">Gift Card</p>
                     </div>
@@ -590,9 +590,9 @@ Puedes usar esta gift card en cualquier servicio de Cancagua Spa & Retreat Cente
                     <div className="absolute inset-0 bg-black/30 p-8 flex flex-col justify-between text-white">
                       <div>
                         <img
-                          src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770308861/cancagua/images/01_logo-cancagua.png"
+                          src="/brand/logos/cancagua-wordmark-medium-white.png"
                           alt="Cancagua"
-                          className="h-12 w-auto mb-4 brightness-0 invert"
+                          className="h-12 w-auto mb-4"
                         />
                         <p className="text-sm opacity-90">Gift Card</p>
                       </div>

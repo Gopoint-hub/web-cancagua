@@ -20,7 +20,7 @@ export default function Page() {
         <div className="relative z-10 mx-auto flex min-h-[520px] max-w-6xl flex-col justify-end px-6 pb-16 md:pb-20">
           <a href="/blog" className="font-cg-mono mb-10 text-xs uppercase tracking-[0.18em] text-[#D7D4D1] hover:text-white">← VOLVER AL BLOG</a>
           <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">{article.category} · CANCAGUA</p>
-          <h1 className="font-cg-sans mt-6 max-w-5xl text-4xl font-light leading-[1.08] tracking-[-0.025em] md:text-6xl lg:text-7xl">{article.title}</h1>
+          <h1 className="font-cg-serif mt-6 max-w-5xl text-4xl font-light leading-[1.08] tracking-[-0.025em] md:text-6xl lg:text-7xl">{article.title}</h1>
           <div className="font-cg-soft mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/25 pt-6 text-sm text-[#D7D4D1]">
             <span className="flex items-center gap-2"><User className="h-4 w-4" />{article.author}</span>
             <span className="flex items-center gap-2"><Calendar className="h-4 w-4" />{article.date}</span>

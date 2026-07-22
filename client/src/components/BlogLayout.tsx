@@ -213,12 +213,9 @@ export function BlogLayout({
                 <div className="h-32 bg-gradient-to-br from-[#4B5872] to-[#333D51] relative">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1769960664/cancagua/images/logo-cancagua-white.webp"
-                      alt="Cancagua"
-                      className="h-16 opacity-90"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
+                      src="/brand/logos/cancagua-lockup-medium-white.png"
+                      alt="Cancagua — Restore Spa & Nature"
+                      className="h-auto w-44 opacity-90"
                     />
                   </div>
                 </div>

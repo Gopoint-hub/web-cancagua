@@ -49,7 +49,7 @@ export default function HeartCoherenceWorkshop() {
               <span className="font-semibold">Sesión dictada en INGLÉS // This session will be held in English</span>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-josefin font-bold tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-cg-serif font-bold tracking-tight">
               Heart Coherence Workshop
             </h1>
             <p className="text-3xl text-white/90 font-light">

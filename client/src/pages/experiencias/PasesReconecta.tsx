@@ -75,7 +75,7 @@ export default function PasesReconecta() {
               <Sparkles className="h-4 w-4" />
               <span className="text-sm font-medium"><T>Experiencias de Reconexión</T></span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-josefin font-bold tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-cg-serif font-bold tracking-tight">
               <T>Pases Reconecta</T>
             </h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto text-white/90">

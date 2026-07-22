@@ -129,7 +129,7 @@ export function HeroSlider() {
       {/* Content overlay - positioned absolutely over everything */}
       <div className="absolute inset-0 flex flex-col items-center justify-start pt-16 md:justify-center md:pt-0 text-center text-white px-4 z-10 pointer-events-none">
         {slide.eyebrow && (
-          <div key={`eyebrow-${currentSlide}`} className="inline-flex items-center gap-2 mb-4 animate-fade-in">
+          <div key={`eyebrow-${currentSlide}`} className="font-cg-mono inline-flex items-center gap-2 mb-4 animate-fade-in uppercase">
             <span className="w-5 h-px bg-white/70" />
             <span className="text-white text-xs md:text-sm tracking-[0.25em] uppercase font-medium">
               {slide.eyebrow}
@@ -139,7 +139,7 @@ export function HeroSlider() {
         )}
         <h1
           key={`title-${currentSlide}`}
-          className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light tracking-wider mb-3 md:mb-6 max-w-4xl animate-fade-in px-2"
+          className="font-cg-serif text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light tracking-[-0.02em] mb-3 md:mb-6 max-w-4xl animate-fade-in px-2"
         >
           {!slide.titleKey.startsWith("hero.") ? slide.titleKey : t(slide.titleKey)}
           {slide.titleLine2 && (
@@ -148,7 +148,7 @@ export function HeroSlider() {
         </h1>
         <p
           key={`subtitle-${currentSlide}`}
-          className="text-sm sm:text-base md:text-xl mb-4 md:mb-6 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90 px-4"
+          className="font-cg-soft text-sm sm:text-base md:text-xl mb-4 md:mb-6 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90 px-4"
         >
           {!slide.titleKey.startsWith("hero.") ? slide.subtitleKey : t(slide.subtitleKey)}
         </p>

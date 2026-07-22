@@ -61,7 +61,7 @@ export default function PaseReconecta() {
                 <Sparkles className="h-4 w-4" />
                 <span className="text-sm font-medium"><T>Experiencia Reconecta</T></span>
               </div>
-              <h1 className="text-5xl md:text-6xl font-josefin font-bold tracking-tight">
+              <h1 className="text-5xl md:text-6xl font-cg-serif font-bold tracking-tight">
                 <T>Pase Reconecta 5,5hrs</T>
               </h1>
               <p className="text-2xl text-white/90">

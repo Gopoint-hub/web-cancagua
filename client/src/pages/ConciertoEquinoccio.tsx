@@ -32,7 +32,7 @@ export default function ConciertoEquinoccio() {
               <span className="font-semibold">Ciclo de Conciertos Cancagua 2026</span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-cg-mono font-bold tracking-tight leading-tight">
+            <h1 className="text-4xl md:text-6xl font-cg-serif font-bold tracking-tight leading-tight">
               Concierto Equinoccio de Otoño
             </h1>
             <p className="text-3xl text-white/90 font-light italic">

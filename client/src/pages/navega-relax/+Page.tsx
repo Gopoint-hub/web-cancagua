@@ -60,7 +60,7 @@ export default function Page() {
           <div className="inline-block bg-[#4B5872] text-[#FCF9F9] px-4 py-2 rounded-full text-sm font-semibold mb-4">
             Experiencia Única
           </div>
-          <h1 className="font-cg-mono text-4xl md:text-6xl lg:text-7xl font-light mb-4 tracking-wide">
+          <h1 className="font-cg-serif text-4xl md:text-6xl lg:text-7xl font-light mb-4 tracking-wide">
             Navega Relax
           </h1>
           <p className="font-cg-sans text-lg md:text-2xl mb-8 max-w-3xl text-white/90">

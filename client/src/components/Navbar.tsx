@@ -90,14 +90,14 @@ export function Navbar() {
           {/* Logo */}
           <a href="/" className="flex items-center space-x-2">
             <img
-              src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770308861/cancagua/images/01_logo-cancagua.png"
-              alt="Cancagua"
-              className="h-12 w-auto"
+              src="/brand/logos/cancagua-lockup-medium-black.png"
+              alt="Cancagua — Restore Spa & Nature"
+              className="h-auto w-[148px]"
             />
           </a>
 
           {/* Navegación Desktop */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8 font-cg-mono uppercase">
             <a
               href="/"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/") ? "text-[#4B5872]" : "text-[#222221]"

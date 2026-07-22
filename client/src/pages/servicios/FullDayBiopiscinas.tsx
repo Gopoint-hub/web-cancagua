@@ -19,7 +19,7 @@ export default function FullDayBiopiscinas() {
         </div>
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-          <h1 className="font-cg-mono text-5xl md:text-7xl font-light mb-6 tracking-wide">
+          <h1 className="font-cg-serif text-5xl md:text-7xl font-light mb-6 tracking-wide">
             Full Day Biopiscinas + Playa
           </h1>
           <p className="font-cg-sans text-xl md:text-2xl mb-4 text-white/90">

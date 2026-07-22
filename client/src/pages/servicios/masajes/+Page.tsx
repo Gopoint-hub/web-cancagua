@@ -161,7 +161,7 @@ export default function Page() {
         </div>
 
         <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
-          <h1 className="mb-4 font-cg-mono text-5xl font-light tracking-wide md:text-7xl">
+          <h1 className="mb-4 font-cg-serif text-5xl font-light tracking-wide md:text-7xl">
             Masajes & Terapias
           </h1>
           <p className="max-w-2xl font-cg-mono text-xl font-light tracking-wide md:text-2xl">

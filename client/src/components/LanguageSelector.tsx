@@ -28,7 +28,7 @@ export function LanguageSelector() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2">
+        <Button variant="ghost" size="sm" className="gap-2 font-cg-mono uppercase tracking-wider">
           <Globe className="h-4 w-4" />
           <span className="hidden sm:inline">{currentLanguage.flag} {currentLanguage.name}</span>
           <span className="sm:hidden">{currentLanguage.flag}</span>
@@ -39,7 +39,7 @@ export function LanguageSelector() {
           <DropdownMenuItem
             key={lang.code}
             onClick={() => changeLanguage(lang.code)}
-            className={i18n.language === lang.code ? "bg-accent" : ""}
+            className={`font-cg-mono uppercase tracking-wider ${i18n.language === lang.code ? "bg-accent" : ""}`}
           >
             <span className="mr-2">{lang.flag}</span>
             {lang.name}

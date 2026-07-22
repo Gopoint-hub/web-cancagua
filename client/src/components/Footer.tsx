@@ -16,9 +16,9 @@ export function Footer() {
           {/* Logo y descripción */}
           <div className="space-y-6">
             <img
-              src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309073/cancagua/images/09_logo-cancagua-footer.png"
-              alt="Cancagua"
-              className="h-16 w-auto"
+              src="/brand/logos/cancagua-lockup-medium-white.png"
+              alt="Cancagua — Restore Spa & Nature"
+              className="h-auto w-48"
             />
             <p className="text-sm text-white/70 leading-relaxed">
               {t('footer.tagline')}

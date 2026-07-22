@@ -334,7 +334,18 @@
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
-  h1 { line-height: 1.05; }
+  h1 {
+    font-family: var(--font-cg-serif);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  h1 + p {
+    font-family: var(--font-cg-soft) !important;
+  }
+  :where(p, span, div):has(+ h1) {
+    font-family: var(--font-cg-mono);
+    text-transform: uppercase;
+  }
   h2 { line-height: 1.1; }
   h3, h4, h5, h6 { line-height: 1.2; }
   small, figcaption, caption {
@@ -343,10 +354,12 @@
   label {
     font-family: var(--font-cg-mono);
     letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
   button {
     font-family: var(--font-cg-mono);
     letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
   .font-display, .font-accent {
     font-family: var(--font-cg-serif);
@@ -395,7 +408,10 @@
   .font-cg-serif { font-family: var(--font-cg-serif); }
   .font-cg-sans { font-family: var(--font-cg-sans); }
   .font-cg-soft { font-family: var(--font-cg-soft); }
-  .font-cg-mono { font-family: var(--font-cg-mono); }
+  .font-cg-mono {
+    font-family: var(--font-cg-mono);
+    text-transform: uppercase;
+  }
   .cg-eyebrow {
     font-family: var(--font-cg-mono);
     font-size: var(--text-label);
