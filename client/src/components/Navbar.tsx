@@ -88,16 +88,16 @@ export function Navbar() {
       <header className="sticky top-0 z-50 w-full border-b border-[#4B5872]/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
         <div className="container flex h-20 items-center justify-between">
           {/* Logo */}
-          <a href="/" className="flex items-center space-x-2">
+          <a href="/" className="flex shrink-0 items-center md:w-[190px] md:justify-center xl:w-[210px]">
             <img
               src="/brand/logos/cancagua-lockup-medium-black.png"
               alt="Cancagua — Restore Spa & Nature"
-              className="h-auto w-[148px]"
+              className="h-auto w-[140px] xl:w-[148px]"
             />
           </a>
 
           {/* Navegación Desktop */}
-          <nav className="hidden md:flex items-center gap-8 font-cg-mono uppercase">
+          <nav className="hidden md:flex items-center gap-3 font-cg-mono uppercase xl:gap-5 2xl:gap-8">
             <a
               href="/"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/") ? "text-[#4B5872]" : "text-[#222221]"
@@ -243,7 +243,7 @@ export function Navbar() {
           </nav>
 
           {/* Selector de Idioma y Botón Reservar */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden shrink-0 items-center gap-2 md:flex xl:gap-4">
             <LanguageSelector />
             <a href={bookingUrl} target={isMassagePage ? undefined : "_blank"} rel={isMassagePage ? undefined : "noopener noreferrer"}>
               <Button
