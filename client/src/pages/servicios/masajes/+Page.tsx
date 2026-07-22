@@ -22,20 +22,20 @@ interface MassageTechnique {
 
 const beneficios = [
   {
-    title: "Masaje de Relajación",
-    description: "Ideal para liberar el estrés acumulado y alcanzar un estado de calma profunda. Utiliza movimientos suaves y fluidos que relajan los músculos y la mente."
+    title: "Regulación del sistema nervioso por inmersión sensorial real",
+    description: "El sonido del bosque y el aire puro potencian el efecto del masaje: mientras las manos liberan tensión muscular, el entorno natural regula tu sistema nervioso desde el primer minuto."
   },
   {
-    title: "Masaje Descontracturante",
-    description: "Enfocado en aliviar tensiones musculares profundas y contracturas. Perfecto para quienes sufren de dolores cervicales, lumbares o de espalda."
+    title: "Desconexión sin esfuerzo",
+    description: "No tienes que esforzarte por desconectar: el bosque hace ese trabajo por ti. Solo debes llegar y dejar que el cuerpo se rinda."
   },
   {
-    title: "Piedras Calientes",
-    description: "Combina el masaje tradicional con piedras volcánicas calientes que penetran profundamente en los músculos, aliviando tensiones y mejorando la circulación."
+    title: "Un ritual, no un trámite",
+    description: "Cada sesión ocurre en un espacio diseñado para el ritual, no para la eficiencia: sin apuro, sin ruido urbano, con el bosque nativo como única referencia de tiempo."
   },
   {
-    title: "Drenaje Linfático",
-    description: "Técnica suave que estimula el sistema linfático, ayudando a eliminar toxinas, reducir la retención de líquidos y mejorar el sistema inmunológico."
+    title: "El paisaje como parte activa de la recuperación del cuerpo",
+    description: "Volcán Calbuco, Lago Llanquihue y bosque nativo no son el paisaje de fondo: son parte del tratamiento. La vista, el aire y el silencio trabajan junto con cada técnica manual."
   }
 ];
 
@@ -250,21 +250,24 @@ export default function Page() {
       </section>
 
       {/* Beneficios */}
-      <section className="py-20 bg-[#222221] text-white">
-        <div className="container max-w-4xl">
-          <h2 className="mb-12 text-center font-cg-mono text-3xl font-light tracking-wide md:text-4xl">
+      <section className="bg-[#222221] py-20 text-white md:py-24">
+        <div className="container max-w-6xl">
+          <h2 className="mb-12 text-center font-cg-serif text-3xl font-normal tracking-[-0.01em] md:mb-16 md:text-5xl">
             Beneficios de nuestros masajes
           </h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid gap-px overflow-hidden rounded-lg border border-white/15 bg-white/15 md:grid-cols-2">
             {beneficios.map((beneficio, index) => (
-              <div key={index} className="space-y-4">
-                <h3 className="font-cg-mono text-lg uppercase tracking-wider text-[#4B5872]">
+              <article key={beneficio.title} className="flex min-h-72 flex-col bg-[#222221] p-7 md:p-10">
+                <span className="mb-8 font-cg-mono text-sm tracking-[0.18em] text-sage-300">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mb-5 max-w-xl font-cg-serif text-2xl font-normal leading-tight tracking-[-0.01em] text-[#F4F2ED] md:text-3xl">
                   {beneficio.title}
                 </h3>
-                <p className="font-cg-sans leading-relaxed text-white/80">
+                <p className="mt-auto max-w-xl font-cg-soft text-base leading-relaxed text-white/75 md:text-lg">
                   {beneficio.description}
                 </p>
-              </div>
+              </article>
             ))}
           </div>
         </div>
