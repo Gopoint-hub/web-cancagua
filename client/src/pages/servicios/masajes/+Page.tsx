@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Clock, Sparkles, Heart, Leaf } from "lucide-react";
+import { Clock, Sparkles, Heart, Leaf, Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
+import { toast } from "sonner";
 
 const CMS_MASSAGE_CATALOG_URL = "https://cms.cancagua.cl/api/public/masajes/techniques";
 const FALLBACK_IMAGE = "/images/masajes-hero-cancagua.jpg";
@@ -18,6 +19,15 @@ interface MassageTechnique {
   durations: number[];
   prices: MassagePrice[];
   bookingUrl: string;
+}
+
+interface MassageCartItem {
+  key: string;
+  techniqueId: number;
+  techniqueName: string;
+  duration: number;
+  price: number;
+  quantity: number;
 }
 
 const beneficios = [
@@ -52,10 +62,12 @@ function getPriceForDuration(technique: MassageTechnique, duration: number) {
   return technique.prices.find((price) => price.duration === duration)?.price ?? null;
 }
 
-function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
+function MassageTechniqueCard({ technique, onAdd }: {
+  technique: MassageTechnique;
+  onAdd: (technique: MassageTechnique, duration: number) => void;
+}) {
   const defaultDuration = technique.durations[0] ?? technique.prices[0]?.duration;
-  const [hoveredDuration, setHoveredDuration] = useState<number | null>(null);
-  const selectedDuration = hoveredDuration ?? defaultDuration;
+  const [selectedDuration, setSelectedDuration] = useState<number | undefined>(defaultDuration);
   const selectedPrice = selectedDuration ? getPriceForDuration(technique, selectedDuration) : technique.prices[0]?.price;
 
   return (
@@ -84,16 +96,20 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
           </p>
           <div className="flex flex-wrap gap-2">
             {technique.durations.map((duration) => (
-              <span
+              <button
+                type="button"
                 key={duration}
-                onMouseEnter={() => setHoveredDuration(duration)}
-                onFocus={() => setHoveredDuration(duration)}
-                className="rounded-full border border-[#AD9A8A] bg-[#AD9A8A] px-4 py-2 font-cg-mono text-xs uppercase tracking-wider text-white outline-none transition-colors hover:bg-[#4B5872] hover:text-[#FCF9F9]"
-                tabIndex={0}
+                onClick={() => setSelectedDuration(duration)}
+                className={`rounded-full border px-4 py-2 font-cg-mono text-xs uppercase tracking-wider outline-none transition-colors ${
+                  selectedDuration === duration
+                    ? "border-[#4B5872] bg-[#4B5872] text-[#FCF9F9]"
+                    : "border-[#AD9A8A] bg-transparent text-[#635E5A] hover:bg-[#AD9A8A] hover:text-white"
+                }`}
+                aria-pressed={selectedDuration === duration}
               >
                 <Clock className="mr-1 inline h-3 w-3" />
                 {duration} min
-              </span>
+              </button>
             ))}
           </div>
         </div>
@@ -102,14 +118,114 @@ function MassageTechniqueCard({ technique }: { technique: MassageTechnique }) {
           <span className="font-cg-mono text-2xl font-medium leading-none text-[#222221]">
             {formatPrice(selectedPrice)}
           </span>
-          <a href={technique.bookingUrl} className="shrink-0">
-            <Button className="rounded-full bg-[#4B5872] px-6 font-cg-mono text-sm uppercase tracking-wider text-[#FCF9F9] hover:bg-[#333D51]">
-              Reservar →
-            </Button>
-          </a>
+          <Button
+            type="button"
+            onClick={() => selectedDuration && onAdd(technique, selectedDuration)}
+            disabled={!selectedDuration || !selectedPrice}
+            className="shrink-0 rounded-full bg-[#4B5872] px-6 font-cg-mono text-sm uppercase tracking-wider text-[#FCF9F9] hover:bg-[#333D51]"
+          >
+            Agregar
+          </Button>
         </div>
       </div>
     </article>
+  );
+}
+
+function MassageCartDrawer({
+  items,
+  open,
+  onClose,
+  onQuantityChange,
+  onRemove,
+}: {
+  items: MassageCartItem[];
+  open: boolean;
+  onClose: () => void;
+  onQuantityChange: (key: string, quantity: number) => void;
+  onRemove: (key: string) => void;
+}) {
+  const totalUnits = items.reduce((sum, item) => sum + item.quantity, 0);
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleBooking = () => {
+    const cart = items.map(({ techniqueId, duration, quantity }) => ({ techniqueId, duration, quantity }));
+    const params = new URLSearchParams({ cart: JSON.stringify(cart) });
+    window.location.href = `https://cms.cancagua.cl/reservar/masajes?${params.toString()}`;
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        aria-label="Cerrar carrito"
+        onClick={onClose}
+        className={`fixed inset-0 z-[70] bg-black/40 backdrop-blur-[2px] transition-opacity ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
+      />
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label="Carrito de masajes"
+        className={`fixed inset-y-0 right-0 z-[80] flex w-full max-w-md flex-col bg-[#FCF9F9] shadow-2xl transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}`}
+      >
+        <div className="flex items-center justify-between border-b border-[#D7D4D1] px-6 py-5">
+          <div>
+            <p className="font-cg-mono text-xs tracking-[0.16em] text-[#635E5A]">TU SELECCIÓN</p>
+            <h2 className="mt-1 font-cg-serif text-3xl font-normal text-[#222221]">Carrito de masajes</h2>
+          </div>
+          <button type="button" onClick={onClose} className="rounded-full p-2 text-[#635E5A] hover:bg-[#F4F2ED]" aria-label="Cerrar">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="flex-1 space-y-4 overflow-y-auto p-6">
+          {items.length === 0 ? (
+            <div className="flex h-full flex-col items-center justify-center text-center text-[#635E5A]">
+              <ShoppingBag className="mb-4 h-8 w-8" />
+              <p className="font-cg-soft">Aún no has agregado masajes.</p>
+            </div>
+          ) : items.map((item) => (
+            <article key={item.key} className="rounded-lg border border-[#D7D4D1] bg-white p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-cg-serif text-xl leading-tight text-[#222221]">{item.techniqueName}</h3>
+                  <p className="mt-1 font-cg-soft text-sm text-[#635E5A]">{item.duration} minutos · {formatPrice(item.price)} c/u</p>
+                </div>
+                <button type="button" onClick={() => onRemove(item.key)} className="p-1 text-[#827D78] hover:text-red-700" aria-label={`Eliminar ${item.techniqueName}`}>
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+              <div className="mt-5 flex items-center justify-between">
+                <span className="font-cg-soft text-sm text-[#635E5A]">Cantidad</span>
+                <div className="flex items-center rounded-full border border-[#BCBAB8]">
+                  <button type="button" onClick={() => onQuantityChange(item.key, item.quantity - 1)} className="p-2" aria-label="Restar uno">
+                    <Minus className="h-4 w-4" />
+                  </button>
+                  <span className="w-8 text-center font-cg-mono text-sm">{item.quantity}</span>
+                  <button type="button" disabled={item.quantity >= 4} onClick={() => onQuantityChange(item.key, item.quantity + 1)} className="p-2 disabled:cursor-not-allowed disabled:opacity-30" aria-label="Agregar uno">
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+              {item.quantity === 4 && <p className="mt-3 text-right font-cg-soft text-xs text-[#745D49]">Máximo 4 en un mismo horario</p>}
+            </article>
+          ))}
+        </div>
+
+        {items.length > 0 && (
+          <div className="border-t border-[#D7D4D1] bg-white p-6">
+            <div className="mb-4 flex items-end justify-between">
+              <span className="font-cg-soft text-sm text-[#635E5A]">{totalUnits} masaje{totalUnits === 1 ? "" : "s"}</span>
+              <span className="font-cg-serif text-2xl text-[#222221]">{formatPrice(total)}</span>
+            </div>
+            <Button type="button" onClick={handleBooking} className="h-12 w-full rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] text-white hover:bg-[#333D51]">
+              Reservar y elegir horarios
+            </Button>
+            <p className="mt-3 text-center font-cg-soft text-xs leading-relaxed text-[#827D78]">En el siguiente paso podrás asignar fecha y hora a cada selección.</p>
+          </div>
+        )}
+      </aside>
+    </>
   );
 }
 
@@ -117,6 +233,32 @@ export default function Page() {
   const [techniques, setTechniques] = useState<MassageTechnique[]>([]);
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
   const [catalogError, setCatalogError] = useState(false);
+  const [cart, setCart] = useState<MassageCartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const addToCart = (technique: MassageTechnique, duration: number) => {
+    const price = getPriceForDuration(technique, duration);
+    if (!price) {
+      toast.error("Esta duración no tiene un precio disponible.");
+      return;
+    }
+    setCart((current) => {
+      const availableLine = current.find((item) => item.techniqueId === technique.id && item.duration === duration && item.quantity < 4);
+      if (availableLine) {
+        return current.map((item) => item.key === availableLine.key ? { ...item, quantity: item.quantity + 1 } : item);
+      }
+      return [...current, {
+        key: `${technique.id}-${duration}-${Date.now()}`,
+        techniqueId: technique.id,
+        techniqueName: technique.name,
+        duration,
+        price,
+        quantity: 1,
+      }];
+    });
+    setIsCartOpen(true);
+    toast.success("Masaje agregado al carrito");
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -216,12 +358,27 @@ export default function Page() {
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {visibleTechniques.map((technique) => (
-                <MassageTechniqueCard key={technique.id} technique={technique} />
+                <MassageTechniqueCard key={technique.id} technique={technique} onAdd={addToCart} />
               ))}
             </div>
           )}
         </div>
       </section>
+
+      {!isCartOpen && cart.length > 0 && (
+        <button type="button" onClick={() => setIsCartOpen(true)} className="fixed right-5 top-28 z-40 flex items-center gap-3 rounded-full bg-[#333D51] px-5 py-3 font-cg-mono text-xs uppercase tracking-[0.12em] text-white shadow-xl hover:bg-[#1B212D]">
+          <ShoppingBag className="h-4 w-4" />
+          Carrito ({cart.reduce((sum, item) => sum + item.quantity, 0)})
+        </button>
+      )}
+
+      <MassageCartDrawer
+        items={cart}
+        open={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        onQuantityChange={(key, quantity) => setCart((current) => quantity <= 0 ? current.filter((item) => item.key !== key) : current.map((item) => item.key === key ? { ...item, quantity: Math.min(4, quantity) } : item))}
+        onRemove={(key) => setCart((current) => current.filter((item) => item.key !== key))}
+      />
 
       {/* Galería */}
       <section className="py-20 bg-white">
