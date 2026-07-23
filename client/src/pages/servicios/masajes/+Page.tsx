@@ -145,12 +145,47 @@ function MassageCartDrawer({
   onQuantityChange: (key: string, quantity: number) => void;
   onRemove: (key: string) => void;
 }) {
+  const [showDiscount, setShowDiscount] = useState(false);
+  const [discountCode, setDiscountCode] = useState("");
+  const [discount, setDiscount] = useState<{ code: string; discountTotal: number; finalTotal: number } | null>(null);
+  const [discountError, setDiscountError] = useState("");
+  const [isValidatingDiscount, setIsValidatingDiscount] = useState(false);
   const totalUnits = items.reduce((sum, item) => sum + item.quantity, 0);
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  useEffect(() => {
+    setDiscount(null);
+    setDiscountError("");
+  }, [items]);
+
+  const applyDiscount = async () => {
+    setIsValidatingDiscount(true);
+    setDiscountError("");
+    try {
+      const response = await fetch("https://cms.cancagua.cl/api/public/masajes/discount/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code: discountCode,
+          items: items.map(({ techniqueId, duration, quantity }) => ({ techniqueId, duration, quantity })),
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "El código no es válido.");
+      setDiscount(result);
+      setDiscountCode(result.code);
+    } catch (error) {
+      setDiscount(null);
+      setDiscountError(error instanceof Error ? error.message : "El código no es válido.");
+    } finally {
+      setIsValidatingDiscount(false);
+    }
+  };
 
   const handleBooking = () => {
     const cart = items.map(({ techniqueId, duration, quantity }) => ({ techniqueId, duration, quantity }));
     const params = new URLSearchParams({ cart: JSON.stringify(cart) });
+    if (discount?.code) params.set("discount", discount.code);
     window.location.href = `https://cms.cancagua.cl/reservar/masajes?${params.toString()}`;
   };
 
@@ -214,10 +249,26 @@ function MassageCartDrawer({
 
         {items.length > 0 && (
           <div className="border-t border-[#D7D4D1] bg-white p-6">
-            <div className="mb-4 flex items-end justify-between">
+            <button type="button" onClick={() => setShowDiscount((value) => !value)} className="mb-4 font-cg-soft text-sm font-medium text-[#4B5872] underline underline-offset-4">
+              ¿Tienes un código de descuento?
+            </button>
+            {showDiscount && (
+              <div className="mb-4">
+                <div className="flex gap-2">
+                  <input value={discountCode} onChange={(event) => { setDiscountCode(event.target.value.toUpperCase()); setDiscount(null); setDiscountError(""); }} placeholder="Ingresa tu código" className="min-w-0 flex-1 rounded-full border border-[#BCBAB8] bg-white px-4 py-2 font-cg-mono text-sm uppercase outline-none focus:border-[#4B5872]" />
+                  <Button type="button" variant="outline" onClick={applyDiscount} disabled={!discountCode.trim() || isValidatingDiscount} className="rounded-full">
+                    {isValidatingDiscount ? "Validando…" : "Aplicar"}
+                  </Button>
+                </div>
+                {discountError && <p className="mt-2 font-cg-soft text-sm text-red-700">{discountError}</p>}
+                {discount && <p className="mt-2 font-cg-soft text-sm text-green-700">Código {discount.code} aplicado correctamente.</p>}
+              </div>
+            )}
+            <div className="mb-1 flex items-end justify-between">
               <span className="font-cg-soft text-sm text-[#635E5A]">{totalUnits} masaje{totalUnits === 1 ? "" : "s"}</span>
-              <span className="font-cg-serif text-2xl text-[#222221]">{formatPrice(total)}</span>
+              <span className={discount ? "font-cg-mono text-sm text-[#827D78] line-through" : "font-cg-serif text-2xl text-[#222221]"}>{formatPrice(total)}</span>
             </div>
+            {discount && <><div className="flex justify-between font-cg-soft text-sm text-green-700"><span>Descuento</span><span>−{formatPrice(discount.discountTotal)}</span></div><div className="mb-4 mt-2 flex justify-between border-t border-[#D7D4D1] pt-2"><span className="font-cg-soft text-sm text-[#635E5A]">Total</span><span className="font-cg-serif text-2xl text-[#222221]">{formatPrice(discount.finalTotal)}</span></div></>}
             <Button type="button" onClick={handleBooking} className="h-12 w-full rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] text-white hover:bg-[#333D51]">
               Reservar y elegir horarios
             </Button>
