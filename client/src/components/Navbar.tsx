@@ -97,7 +97,7 @@ export function Navbar() {
           </a>
 
           {/* Navegación Desktop */}
-          <nav className="hidden md:flex items-center gap-3 font-cg-mono uppercase xl:gap-5 2xl:gap-8">
+          <nav className="hidden 2xl:flex items-center gap-4 font-cg-mono uppercase">
             <a
               href="/"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/") ? "text-[#4B5872]" : "text-[#222221]"
@@ -243,7 +243,7 @@ export function Navbar() {
           </nav>
 
           {/* Selector de Idioma y Botón Reservar */}
-          <div className="hidden shrink-0 items-center gap-2 md:flex xl:gap-4">
+          <div className="hidden shrink-0 items-center gap-3 2xl:flex">
             <LanguageSelector />
             <a href={bookingUrl} target={isMassagePage ? undefined : "_blank"} rel={isMassagePage ? undefined : "noopener noreferrer"}>
               <Button
@@ -255,22 +255,39 @@ export function Navbar() {
             </a>
           </div>
 
-          {/* Menú Mobile */}
-          <button
-            className="md:hidden text-[#222221]"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
+          {/* Navegación compacta para móvil, tablet y notebooks */}
+          <div className="flex items-center gap-2 2xl:hidden">
+            <a
+              href={bookingUrl}
+              target={isMassagePage ? undefined : "_blank"}
+              rel={isMassagePage ? undefined : "noopener noreferrer"}
+              className="hidden sm:block"
+            >
+              <Button
+                className="bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-wider uppercase text-xs"
+              >
+                {t('nav.reserve')}
+              </Button>
+            </a>
+            <button
+              type="button"
+              className="flex h-11 w-11 items-center justify-center text-[#222221]"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Menú Mobile Expandido */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-[#4B5872]/20 bg-white max-h-[70vh] overflow-y-auto">
+          <div className="2xl:hidden border-t border-[#4B5872]/20 bg-white max-h-[70vh] overflow-y-auto">
             <nav className="container py-4 flex flex-col">
               {/* Inicio */}
               <a
