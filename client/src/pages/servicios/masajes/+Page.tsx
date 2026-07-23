@@ -308,7 +308,7 @@ export default function Page() {
       }];
     });
     setIsCartOpen(true);
-    toast.success("Masaje agregado al carrito");
+    toast.success("Masaje agregado al carrito", { position: "top-center" });
   };
 
   useEffect(() => {
