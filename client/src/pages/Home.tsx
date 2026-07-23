@@ -117,7 +117,7 @@ export default function Home() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-[#4B5872] text-[#FCF9F9] hover:bg-[#4B5872] hover:text-[#FCF9F9] tracking-wider"
+                className="border-[#4B5872] text-[#4B5872] hover:bg-[#4B5872] hover:text-[#FCF9F9] tracking-wider"
                 asChild
               >
                 <Link href="/servicios">
@@ -211,7 +211,7 @@ export default function Home() {
                   <Button 
                     size="lg" 
                     variant="outline"
-                    className="border-[#4B5872] text-[#FCF9F9] hover:bg-[#4B5872]/10 tracking-wider"
+                    className="border-[#4B5872] text-[#4B5872] hover:bg-[#4B5872] hover:text-[#FCF9F9] tracking-wider"
                   >
                     <T>Reservar Mesa</T>
                   </Button>
