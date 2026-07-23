@@ -86,18 +86,18 @@ export function Navbar() {
 
       {/* Navegación principal */}
       <header className="sticky top-0 z-50 w-full border-b border-[#4B5872]/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
-        <div className="container flex h-20 items-center justify-between">
+        <div className="container flex h-20 items-center justify-between md:grid md:h-auto md:grid-cols-[1fr_auto_1fr] md:gap-y-2 md:py-3 2xl:flex 2xl:h-20 2xl:gap-y-0 2xl:py-0">
           {/* Logo */}
-          <a href="/" className="flex shrink-0 items-center md:w-[190px] md:justify-center xl:w-[210px]">
+          <a href="/" className="flex shrink-0 items-center md:col-start-1 md:row-start-1 md:w-auto md:justify-start 2xl:w-[190px] 2xl:justify-center">
             <img
               src="/brand/logos/cancagua-lockup-medium-black.png"
               alt="Cancagua — Restore Spa & Nature"
-              className="h-auto w-[140px] xl:w-[148px]"
+              className="h-auto w-[132px] xl:w-[140px] 2xl:w-[148px]"
             />
           </a>
 
           {/* Navegación Desktop */}
-          <nav className="hidden 2xl:flex items-center gap-4 font-cg-mono uppercase">
+          <nav className="hidden flex-wrap items-center justify-center gap-x-2 gap-y-1 font-cg-mono uppercase md:col-span-3 md:row-start-2 md:flex md:w-full md:border-t md:border-[#4B5872]/10 md:pt-2 lg:gap-x-3 2xl:w-auto 2xl:flex-nowrap 2xl:gap-4 2xl:border-0 2xl:pt-0 [&>a]:whitespace-nowrap [&>a]:text-[11px] xl:[&>a]:text-xs 2xl:[&>a]:text-sm [&_[data-slot=navigation-menu-trigger]]:px-1.5 [&_[data-slot=navigation-menu-trigger]]:text-[11px] lg:[&_[data-slot=navigation-menu-trigger]]:px-2 xl:[&_[data-slot=navigation-menu-trigger]]:px-3 xl:[&_[data-slot=navigation-menu-trigger]]:text-xs 2xl:[&_[data-slot=navigation-menu-trigger]]:px-4 2xl:[&_[data-slot=navigation-menu-trigger]]:text-sm">
             <a
               href="/"
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/") ? "text-[#4B5872]" : "text-[#222221]"
@@ -243,12 +243,12 @@ export function Navbar() {
           </nav>
 
           {/* Selector de Idioma y Botón Reservar */}
-          <div className="hidden shrink-0 items-center gap-3 2xl:flex">
+          <div className="hidden shrink-0 items-center justify-end gap-2 md:col-start-3 md:row-start-1 md:flex xl:gap-3">
             <LanguageSelector />
             <a href={bookingUrl} target={isMassagePage ? undefined : "_blank"} rel={isMassagePage ? undefined : "noopener noreferrer"}>
               <Button
                 size="lg"
-                className="bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] tracking-wider uppercase text-sm"
+                className="bg-[#4B5872] px-4 text-xs uppercase tracking-wider text-[#FCF9F9] hover:bg-[#333D51] xl:px-6 2xl:text-sm"
               >
                 {t('nav.reserve')}
               </Button>
@@ -256,7 +256,7 @@ export function Navbar() {
           </div>
 
           {/* Navegación compacta para móvil, tablet y notebooks */}
-          <div className="flex items-center gap-2 2xl:hidden">
+          <div className="flex items-center gap-2 md:hidden">
             <a
               href={bookingUrl}
               target={isMassagePage ? undefined : "_blank"}
@@ -287,7 +287,7 @@ export function Navbar() {
 
         {/* Menú Mobile Expandido */}
         {mobileMenuOpen && (
-          <div className="2xl:hidden border-t border-[#4B5872]/20 bg-white max-h-[70vh] overflow-y-auto">
+          <div className="border-t border-[#4B5872]/20 bg-white max-h-[70vh] overflow-y-auto md:hidden">
             <nav className="container py-4 flex flex-col">
               {/* Inicio */}
               <a
