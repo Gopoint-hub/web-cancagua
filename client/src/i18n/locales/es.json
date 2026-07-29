@@ -10,6 +10,11 @@
     "reserve": "Reservar"
   },
   "hero": {
+    "promoAgosto": {
+      "title": "Agosto en Familia",
+      "subtitle": "Hot tub privado o biopiscinas geotermales, con pizza incluida. Los niños hasta 12 años entran gratis al hot tub.",
+      "cta1": "Ver la Promo"
+    },
     "biopiscinas": {
       "title": "Primeras Biopiscinas Geotermales del Mundo",
       "subtitle": "¡Cuatro horas de una maravillosa experiencia a 37º-40º!",

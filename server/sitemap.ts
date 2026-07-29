@@ -38,6 +38,11 @@ const PUBLIC_ROUTES = [
 
   // Blog
   { url: "/blog", changefreq: "weekly", priority: 0.8 },
+  { url: "/blog/promo-agosto-familia-hot-tub-biopiscinas-pizza", changefreq: "weekly", priority: 0.9 },
+  { url: "/blog/cuando-el-cuerpo-recuerda-bienestar-cancagua", changefreq: "monthly", priority: 0.7 },
+  { url: "/blog/escucha-cuerpo-ciencia-bienestar-puerto-varas", changefreq: "monthly", priority: 0.7 },
+  { url: "/blog/itinerarios-dia-frio-spa-cancagua-frutillar", changefreq: "monthly", priority: 0.7 },
+  { url: "/blog/la-doble-llamada-del-agua-lago-llanquihue-cancagua", changefreq: "monthly", priority: 0.7 },
   { url: "/blog/mejores-termas-sur-chile-2026", changefreq: "monthly", priority: 0.7 },
   { url: "/blog/termas-del-sur-de-chile-con-ninos-guia-para-familias", changefreq: "monthly", priority: 0.7 },
   { url: "/blog/tecnicas-manejo-estres-laboral", changefreq: "monthly", priority: 0.7 },

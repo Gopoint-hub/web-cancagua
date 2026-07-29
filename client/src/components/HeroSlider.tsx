@@ -21,6 +21,14 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
+      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/c_fill,g_north,w_2400,h_1350,f_auto,q_auto/cancagua/images/blog/promo-hottub-familia-pizza-agosto-2026.png",
+      eyebrow: "PROMO AGOSTO",
+      titleKey: "hero.promoAgosto.title",
+      subtitleKey: "hero.promoAgosto.subtitle",
+      ctaKey: "hero.promoAgosto.cta1",
+      ctaLink: "/blog/promo-agosto-familia-hot-tub-biopiscinas-pizza",
+    },
+    {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",

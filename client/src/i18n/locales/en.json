@@ -10,6 +10,11 @@
     "reserve": "Book Now"
   },
   "hero": {
+    "promoAgosto": {
+      "title": "August with the Family",
+      "subtitle": "Private hot tub or geothermal biopools, pizza included. Kids up to 12 go free in the hot tub.",
+      "cta1": "See the Deal"
+    },
     "biopiscinas": {
       "title": "World's First Geothermal Biopools",
       "subtitle": "Four hours of a wonderful experience at 37º-40º!",
