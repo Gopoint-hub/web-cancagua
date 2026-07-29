@@ -23,6 +23,7 @@ export default function BiopiscnasPuertoVaras() {
     "Traslado ida y vuelta desde Hotel Cabañas del Lago, Puerto Varas",
     "4 horas de acceso a biopiscinas geotermales",
     "Batas para adultos",
+    "Gorro de nado por persona",
     "Toallas para niños",
     "Casilleros de seguridad",
     "Duchas y vestuarios",

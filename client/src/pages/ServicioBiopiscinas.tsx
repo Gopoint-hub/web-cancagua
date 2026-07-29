@@ -25,6 +25,7 @@ export default function ServicioBiopiscinas() {
   const incluye = [
     "4 horas de acceso a biopiscinas geotermales",
     "Batas para adultos",
+    "Gorro de nado por persona",
     "Toallas para niños",
     "Casilleros de seguridad",
     "Duchas y vestuarios",
