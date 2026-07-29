@@ -27,6 +27,7 @@ function renderInline(text: string): ReactNode[] {
           href={href}
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
+          className={href.startsWith("https://reservas.cancagua.cl/") ? "cg-reservation-cta" : undefined}
         >
           {match[3]}
         </a>

@@ -12,8 +12,10 @@
   "hero": {
     "promoAgosto": {
       "title": "Agosto em Família",
-      "subtitle": "Hot tub privativo ou biopiscinas geotermais, com pizza incluída. Crianças até 12 anos não pagam no hot tub.",
-      "cta1": "Ver a Promoção"
+      "subtitle": "Celebre em Hot Tub privativo ou biopiscinas com pizza incluída. Crianças até 12 anos não pagam no Hot Tub.",
+      "cta1": "Ver a Promoção",
+      "ctaBiopiscinas": "Reservar experiência com Biopiscinas",
+      "ctaHotTub": "Reservar experiência com Hot Tub"
     },
     "biopiscinas": {
       "title": "Primeiras Biopiscinas Geotermais do Mundo",

@@ -30,7 +30,7 @@ Un hot tub privado para tu grupo, con terraza techada, servicio de mesero, ducha
 
 Lo privado es la clave acá: nadie más comparte tu hot tub. Si los niños gritan, chapotean o piden la pizza tres veces, es tu espacio y nadie está mirando.
 
-[Reservar Hot Tub Familiar](https://reservas.cancagua.cl/cancaguaspa/s/c08ea2ea-467e-4121-9c16-b3f7b78c3e7c)
+[Reservar experiencia con Hot tub](https://reservas.cancagua.cl/cancaguaspa/s/c08ea2ea-467e-4121-9c16-b3f7b78c3e7c)
 
 ## Biopiscina Familiar + Pizza para los niños
 
@@ -45,7 +45,7 @@ Las **primeras biopiscinas geotermales del mundo**: agua entre 37° y 40°, sin 
 - **4 adultos + 2 niños** — **$142.000**
 - **4 adultos + 3 niños** — **$173.000**
 
-[Reservar Biopiscina Familiar](https://reservas.cancagua.cl/cancaguaspa/s/52ac62ba-1fc2-4c81-8daf-9d3b55c3e7a3)
+[Reservar experiencia con Biopiscinas](https://reservas.cancagua.cl/cancaguaspa/s/52ac62ba-1fc2-4c81-8daf-9d3b55c3e7a3)
 
 ## ¿Cuál de las dos me conviene?
 

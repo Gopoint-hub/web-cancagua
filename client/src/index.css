@@ -453,6 +453,29 @@
   .cg-blog-prose li::marker { color: #696F4D; }
   .cg-blog-prose strong { color: #222221; font-weight: 600; }
   .cg-blog-prose a { color: #4B5872; text-decoration: underline; text-underline-offset: 3px; }
+  .cg-blog-prose a.cg-reservation-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+    border-radius: 9999px;
+    background: #333D51;
+    padding: 0.9rem 1.5rem;
+    color: #FCF9F9;
+    font-family: "IBM Plex Mono", "Courier New", monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    line-height: 1.35;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+  .cg-blog-prose a.cg-reservation-cta:hover {
+    background: #4B5872;
+    transform: translateY(-1px);
+  }
 }
 
 @layer components {

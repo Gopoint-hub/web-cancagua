@@ -12,8 +12,10 @@
   "hero": {
     "promoAgosto": {
       "title": "August mit der Familie",
-      "subtitle": "Privater Hot Tub oder geothermische Biopools, Pizza inklusive. Kinder bis 12 Jahre im Hot Tub gratis.",
-      "cta1": "Zum Angebot"
+      "subtitle": "Feiert im privaten Hot Tub oder in den Biopools mit inklusive Pizza. Kinder bis 12 Jahre sind im Hot Tub gratis.",
+      "cta1": "Zum Angebot",
+      "ctaBiopiscinas": "Biopools-Erlebnis buchen",
+      "ctaHotTub": "Hot-Tub-Erlebnis buchen"
     },
     "biopiscinas": {
       "title": "Weltweit Erste Geothermische Biopools",

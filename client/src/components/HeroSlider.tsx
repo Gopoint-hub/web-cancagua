@@ -12,6 +12,10 @@ interface Slide {
   isExternal?: boolean;
   eyebrow?: string;
   promoCode?: string;
+  bookingCtas?: Array<{
+    labelKey: string;
+    link: string;
+  }>;
 }
 
 export function HeroSlider() {
@@ -21,12 +25,22 @@ export function HeroSlider() {
 
   const slides: Slide[] = [
     {
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/c_fill,g_north,w_2400,h_1350,f_auto,q_auto/cancagua/images/blog/promo-hottub-familia-pizza-agosto-2026.png",
-      eyebrow: "PROMO AGOSTO",
+      image: "/images/promo-agosto-familia-hero.jpg",
+      eyebrow: "PROMO AGOSTO: MES DE LA NIÑEZ",
       titleKey: "hero.promoAgosto.title",
       subtitleKey: "hero.promoAgosto.subtitle",
       ctaKey: "hero.promoAgosto.cta1",
       ctaLink: "/blog/promo-agosto-familia-hot-tub-biopiscinas-pizza",
+      bookingCtas: [
+        {
+          labelKey: "hero.promoAgosto.ctaBiopiscinas",
+          link: "https://reservas.cancagua.cl/cancaguaspa/s/52ac62ba-1fc2-4c81-8daf-9d3b55c3e7a3",
+        },
+        {
+          labelKey: "hero.promoAgosto.ctaHotTub",
+          link: "https://reservas.cancagua.cl/cancaguaspa/s/c08ea2ea-467e-4121-9c16-b3f7b78c3e7c",
+        },
+      ],
     },
     {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
@@ -171,7 +185,7 @@ export function HeroSlider() {
         {/* Buttons inside content container for better mobile layout */}
         <div
           key={`buttons-${currentSlide}`}
-          className="flex flex-col sm:flex-row gap-3 md:gap-4 animate-fade-in animation-delay-400 pointer-events-auto w-full sm:w-auto px-6 sm:px-0"
+          className="flex flex-col items-center gap-3 md:gap-4 animate-fade-in animation-delay-400 pointer-events-auto w-full px-6 sm:px-0"
         >
           <button
             onClick={() => handleCtaClick(slide)}
@@ -179,19 +193,35 @@ export function HeroSlider() {
           >
             {!slide.titleKey.startsWith("hero.") ? slide.ctaKey : t(slide.ctaKey)}
           </button>
-          <button
-            onClick={handleServicesClick}
-            className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-transparent backdrop-blur-sm border border-white/50 text-white hover:bg-white hover:text-[#222221] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
-          >
-            {t('home.hero.viewAllServices')}
-          </button>
+          {slide.bookingCtas ? (
+            <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row md:gap-4">
+              {slide.bookingCtas.map((cta) => (
+                <a
+                  key={cta.link}
+                  href={cta.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs sm:text-sm px-6 py-3 md:px-8 md:py-5 bg-transparent backdrop-blur-sm border border-white/60 text-white hover:bg-white hover:text-[#222221] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
+                >
+                  {t(cta.labelKey)}
+                </a>
+              ))}
+            </div>
+          ) : (
+            <button
+              onClick={handleServicesClick}
+              className="text-xs sm:text-sm px-6 py-3 md:px-10 md:py-6 bg-transparent backdrop-blur-sm border border-white/50 text-white hover:bg-white hover:text-[#222221] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
+            >
+              {t('home.hero.viewAllServices')}
+            </button>
+          )}
         </div>
       </div>
 
       {/* Navigation controls - smaller on mobile */}
       <button
         onClick={prevSlide}
-        className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#4B5872] backdrop-blur-sm text-white hover:text-[#FCF9F9] p-2 md:p-4 transition-all z-20"
+        className="hidden md:block absolute left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#4B5872] backdrop-blur-sm text-white hover:text-[#FCF9F9] p-4 transition-all z-20"
         aria-label={t('common.previousSlide')}
       >
         <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" />
@@ -199,7 +229,7 @@ export function HeroSlider() {
 
       <button
         onClick={nextSlide}
-        className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#4B5872] backdrop-blur-sm text-white hover:text-[#FCF9F9] p-2 md:p-4 transition-all z-20"
+        className="hidden md:block absolute right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#4B5872] backdrop-blur-sm text-white hover:text-[#FCF9F9] p-4 transition-all z-20"
         aria-label={t('common.nextSlide')}
       >
         <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
