@@ -1,147 +1,182 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Café Cancagua — Pide desde tu hot tub</title>
+<title>Cancagua — Carta del hot tub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+  /* Tipografías de la marca, tal como las carga el sitio */
+  @font-face{font-family:"P22 Mackinac Pro";src:url("/fonts/P22MackinacPro-Book.otf") format("opentype");
+    font-weight:400;font-display:swap}
+  @font-face{font-family:"P22 Mackinac Pro";src:url("/fonts/P22MackinacPro-Medium.otf") format("opentype");
+    font-weight:500;font-display:swap}
+  @font-face{font-family:"P22 Mackinac Pro";src:url("/fonts/P22MackinacPro-BookItalic.otf") format("opentype");
+    font-weight:400;font-style:italic;font-display:swap}
+
   :root{
-    --crema:#F4F2ED; --papel:#FBFAF7; --tinta:#222221; --clay:#2E231A;
-    --gris:#7C7873; --linea:rgba(0,0,0,.12); --tenue:rgba(0,0,0,.04);
-    --verde:#3D5A45; --verde-claro:#EAF0EB; --ambar:#8A5A2B;
+    /* paleta del sistema de Cancagua */
+    --paper:#F4F2ED; --canvas:#FCF9F9; --ink:#222221;
+    --stone-200:#D7D4D1; --stone-500:#827D78; --stone-700:#46423F;
+    --clay-800:#2E231A; --clay-400:#AD9A8A;
+    --sage-200:#D8DACD; --sage-600:#696F4D; --sage-700:#4A4F35;
+    --linea:var(--stone-200); --tenue:rgba(0,0,0,.035);
+    --serif:"P22 Mackinac Pro",Georgia,"Times New Roman",serif;
+    --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --logo:invert(0);
   }
   @media (prefers-color-scheme: dark){
-    :root{ --crema:#16171A; --papel:#1E2024; --tinta:#ECEAE5; --clay:#C9B79F;
-      --gris:#9A958C; --linea:rgba(255,255,255,.15); --tenue:rgba(255,255,255,.05);
-      --verde:#8FB79A; --verde-claro:rgba(143,183,154,.14); --ambar:#D9A46C; }
+    :root{ --paper:#1A1815; --canvas:#231F1B; --ink:#EFEBE4;
+      --stone-200:rgba(255,255,255,.15); --stone-500:#A49E97; --stone-700:#CFC8C0;
+      --clay-800:#E4D8CB; --clay-400:#8A7663;
+      --sage-200:rgba(216,218,205,.16); --sage-600:#B6BC9C; --sage-700:#CBD0B4;
+      --tenue:rgba(255,255,255,.05); --logo:invert(1); }
   }
-  :root[data-theme="dark"]{ --crema:#16171A; --papel:#1E2024; --tinta:#ECEAE5; --clay:#C9B79F;
-    --gris:#9A958C; --linea:rgba(255,255,255,.15); --tenue:rgba(255,255,255,.05);
-    --verde:#8FB79A; --verde-claro:rgba(143,183,154,.14); --ambar:#D9A46C; }
-  :root[data-theme="light"]{ --crema:#F4F2ED; --papel:#FBFAF7; --tinta:#222221; --clay:#2E231A;
-    --gris:#7C7873; --linea:rgba(0,0,0,.12); --tenue:rgba(0,0,0,.04);
-    --verde:#3D5A45; --verde-claro:#EAF0EB; --ambar:#8A5A2B; }
+  :root[data-theme="dark"]{ --paper:#1A1815; --canvas:#231F1B; --ink:#EFEBE4;
+    --stone-200:rgba(255,255,255,.15); --stone-500:#A49E97; --stone-700:#CFC8C0;
+    --clay-800:#E4D8CB; --clay-400:#8A7663;
+    --sage-200:rgba(216,218,205,.16); --sage-600:#B6BC9C; --sage-700:#CBD0B4;
+    --tenue:rgba(255,255,255,.05); --logo:invert(1); }
+  :root[data-theme="light"]{ --paper:#F4F2ED; --canvas:#FCF9F9; --ink:#222221;
+    --stone-200:#D7D4D1; --stone-500:#827D78; --stone-700:#46423F;
+    --clay-800:#2E231A; --clay-400:#AD9A8A;
+    --sage-200:#D8DACD; --sage-600:#696F4D; --sage-700:#4A4F35;
+    --tenue:rgba(0,0,0,.035); --logo:invert(0); }
 
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{margin:0;background:var(--crema);color:var(--tinta);
-    font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
-    font-size:17px;line-height:1.55;padding-bottom:104px}
-  .maqueta{background:var(--ambar);color:#fff;font-size:12.5px;text-align:center;
-    padding:7px 14px;letter-spacing:.02em}
-  header{background:var(--papel);border-bottom:1px solid var(--linea);padding:20px 18px 16px;
-    text-align:center}
-  .marca{font-family:Georgia,serif;font-size:25px;letter-spacing:.02em;color:var(--clay)}
-  .bajada{font-size:14px;color:var(--gris);margin-top:2px}
-  .env{padding:0 14px}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    font-size:16.5px;line-height:1.6;padding-bottom:106px;
+    -webkit-font-smoothing:antialiased}
+  .maqueta{background:var(--clay-800);color:var(--paper);font-size:12px;text-align:center;
+    padding:8px 14px;font-family:var(--mono);letter-spacing:.03em}
 
-  /* quién pide */
-  .quien{background:var(--papel);border:1px solid var(--linea);border-radius:12px;
-    padding:16px;margin:16px 0}
-  .quien h2{font-family:Georgia,serif;font-weight:400;font-size:18px;margin:0 0 3px}
-  .quien p{font-size:13.5px;color:var(--gris);margin:0 0 14px}
-  label.f{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--gris);margin:0 0 7px;font-family:ui-monospace,Menlo,monospace}
-  .tinas{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-  .tina{flex:1;min-width:62px;padding:13px 4px;border:1px solid var(--linea);border-radius:10px;
-    background:var(--crema);font-family:Georgia,serif;font-size:19px;text-align:center;
-    cursor:pointer;transition:border-color .18s,background .18s}
-  .tina[aria-pressed="true"]{background:var(--verde-claro);border-color:var(--verde);
-    box-shadow:0 0 0 1px var(--verde) inset}
-  input[type=text],input[type=number],input[type=search]{width:100%;padding:14px 13px;font-size:17px;
-    border:1px solid var(--linea);border-radius:10px;background:var(--crema);color:var(--tinta);
-    font-family:inherit}
+  header{padding:34px 22px 26px;text-align:center;border-bottom:1px solid var(--linea)}
+  header img{width:min(230px,62vw);height:auto;filter:var(--logo)}
+  .bajada{font-family:var(--mono);font-size:11px;letter-spacing:.19em;text-transform:uppercase;
+    color:var(--stone-500);margin-top:16px}
 
-  /* navegación de secciones */
-  .navsec{position:sticky;top:0;z-index:20;background:var(--crema);
-    border-bottom:1px solid var(--linea);margin:0 -14px;padding:10px 14px}
-  .navsec .fila{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .env{padding:0 18px;max-width:640px;margin:0 auto}
+
+  /* identificación: una de dos, nunca las dos */
+  .quien{border-bottom:1px solid var(--linea);padding:26px 0}
+  .quien h2{font-family:var(--serif);font-weight:400;font-size:21px;margin:0 0 4px}
+  .quien p{font-size:14px;color:var(--stone-500);margin:0 0 18px}
+  .modo{display:flex;gap:0;border:1px solid var(--linea);border-radius:999px;
+    background:var(--canvas);padding:4px;margin-bottom:18px}
+  .modo button{flex:1;border:0;background:transparent;color:var(--stone-500);
+    font-family:var(--sans);font-size:14.5px;padding:11px 8px;border-radius:999px;cursor:pointer;
+    transition:background .2s,color .2s}
+  .modo button[aria-selected="true"]{background:var(--clay-800);color:var(--paper)}
+  label.f{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--stone-500);margin:0 0 10px}
+  .tinas{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  .tina{padding:15px 4px;border:1px solid var(--linea);border-radius:12px;background:var(--canvas);
+    font-family:var(--serif);font-size:19px;color:var(--ink);cursor:pointer;
+    transition:border-color .2s,background .2s}
+  .tina[aria-pressed="true"]{background:var(--sage-200);border-color:var(--sage-600);
+    box-shadow:0 0 0 1px var(--sage-600) inset}
+  input[type=number]{width:100%;padding:15px 14px;font-size:17px;font-family:var(--sans);
+    border:1px solid var(--linea);border-radius:12px;background:var(--canvas);color:var(--ink)}
+
+  /* secciones */
+  .navsec{position:sticky;top:0;z-index:20;background:var(--paper);
+    border-bottom:1px solid var(--linea);margin:0 -18px;padding:11px 18px}
+  .navsec .fila{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}
   .navsec .fila::-webkit-scrollbar{display:none}
-  .chip{flex:none;padding:8px 14px;border:1px solid var(--linea);border-radius:999px;
-    background:var(--papel);font-size:14px;color:var(--tinta);cursor:pointer;white-space:nowrap}
-  .chip[aria-current="true"]{background:var(--clay);border-color:var(--clay);color:var(--crema)}
-  .buscar{margin-top:9px}
+  .chip{flex:none;padding:8px 15px;border:1px solid var(--linea);border-radius:999px;
+    background:var(--canvas);font-size:13.5px;color:var(--stone-700);cursor:pointer;white-space:nowrap}
 
-  /* carta */
-  h2.sec{font-family:Georgia,serif;font-weight:400;font-size:22px;margin:28px 0 3px;
-    scroll-margin-top:120px}
-  .sec-nota{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--gris);margin-bottom:12px}
-  .item{display:flex;gap:13px;align-items:flex-start;padding:14px 0;
+  h2.sec{font-family:var(--serif);font-weight:400;font-size:27px;margin:34px 0 2px;
+    scroll-margin-top:130px;text-wrap:balance}
+  .sec-nota{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--stone-500);margin-bottom:16px}
+
+  .item{display:flex;gap:15px;align-items:flex-start;padding:17px 0;
     border-bottom:1px solid var(--linea)}
   .item:last-child{border-bottom:0}
   .item .txt{flex:1;min-width:0}
-  .item .nom{font-family:Georgia,serif;font-size:18px;line-height:1.25}
-  .item .nom .sub{font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
-    font-size:13.5px;color:var(--gris);white-space:nowrap}
-  .item .desc{font-size:13.5px;color:var(--gris);margin-top:3px}
-  .item .precio{font-family:ui-monospace,Menlo,monospace;font-size:15px;margin-top:5px;
+  .item .nom{font-family:var(--serif);font-size:19px;line-height:1.3}
+  .item .nom .sub{font-family:var(--sans);font-size:13.5px;color:var(--stone-500)}
+  .item .desc{font-size:13.5px;color:var(--stone-500);margin-top:5px;line-height:1.5}
+  .item .precio{font-family:var(--mono);font-size:14px;margin-top:8px;color:var(--clay-800);
+    font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .mas{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--clay-800);
+    background:transparent;color:var(--clay-800);font-size:25px;line-height:1;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s}
+  .mas:hover,.mas:focus-visible{background:var(--clay-800);color:var(--paper)}
+  .cant{flex:none;display:flex;align-items:center;gap:11px}
+  .cant b{font-family:var(--serif);font-weight:500;font-size:19px;min-width:18px;text-align:center;
     font-variant-numeric:tabular-nums}
-  .mas{flex:none;width:46px;height:46px;border-radius:50%;border:1px solid var(--clay);
-    background:var(--papel);color:var(--clay);font-size:26px;line-height:1;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;transition:background .18s,color .18s}
-  .mas:hover,.mas:focus-visible{background:var(--clay);color:var(--crema)}
-  .cant{flex:none;display:flex;align-items:center;gap:10px}
-  .cant b{font-family:Georgia,serif;font-size:19px;min-width:20px;text-align:center;
-    font-variant-numeric:tabular-nums}
-  .menos{width:38px;height:38px;border-radius:50%;border:1px solid var(--linea);
-    background:var(--papel);color:var(--tinta);font-size:22px;line-height:1;cursor:pointer}
-  .vacio{color:var(--gris);font-size:15px;padding:26px 0;text-align:center}
+  .menos{width:36px;height:36px;border-radius:50%;border:1px solid var(--linea);
+    background:transparent;color:var(--stone-700);font-size:21px;line-height:1;cursor:pointer}
 
   /* barra del pedido */
-  .barra{position:fixed;left:0;right:0;bottom:0;background:var(--papel);
-    border-top:1px solid var(--linea);padding:12px 14px calc(12px + env(safe-area-inset-bottom));
-    display:flex;gap:12px;align-items:center;z-index:40;
-    box-shadow:0 -6px 24px -14px rgba(0,0,0,.35)}
+  .barra{position:fixed;left:0;right:0;bottom:0;background:var(--canvas);
+    border-top:1px solid var(--linea);padding:13px 18px calc(13px + env(safe-area-inset-bottom));
+    display:flex;gap:14px;align-items:center;z-index:40;
+    box-shadow:0 -8px 30px -18px rgba(0,0,0,.4)}
   .barra .resumen{flex:1;min-width:0}
-  .barra .n{font-size:13px;color:var(--gris)}
-  .barra .t{font-family:Georgia,serif;font-size:22px;font-variant-numeric:tabular-nums}
-  button.principal{background:var(--clay);color:var(--crema);border:0;border-radius:10px;
-    padding:16px 22px;font-family:ui-monospace,Menlo,monospace;font-size:12px;
-    letter-spacing:.11em;text-transform:uppercase;cursor:pointer}
-  button.principal[disabled]{opacity:.4;cursor:default}
-  button.sec2{background:transparent;color:var(--clay);border:1px solid var(--clay)}
+  .barra .n{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--stone-500)}
+  .barra .t{font-family:var(--serif);font-size:23px;font-variant-numeric:tabular-nums;margin-top:1px}
+  button.principal{background:var(--clay-800);color:var(--paper);border:0;border-radius:12px;
+    padding:16px 22px;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+    text-transform:uppercase;cursor:pointer}
+  button.principal[disabled]{opacity:.35;cursor:default}
 
-  /* pantalla de confirmación */
-  .capa{position:fixed;inset:0;background:var(--crema);z-index:60;overflow-y:auto;
-    padding:0 0 40px;display:none}
+  /* confirmación */
+  .capa{position:fixed;inset:0;background:var(--paper);z-index:60;overflow-y:auto;display:none}
   .capa.abierta{display:block}
-  .capa .env2{padding:22px 18px}
-  .capa h1{font-family:Georgia,serif;font-weight:400;font-size:27px;margin:6px 0 4px;
-    text-wrap:balance}
-  .lin{display:flex;justify-content:space-between;gap:14px;padding:11px 0;
-    border-bottom:1px solid var(--linea);font-size:16px}
-  .lin .q{font-family:ui-monospace,Menlo,monospace;color:var(--gris);font-size:14px}
-  .lin .v{font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .total{display:flex;justify-content:space-between;padding:15px 0 0;font-family:Georgia,serif;
-    font-size:22px}
-  .msg{background:var(--papel);border:1px solid var(--linea);border-radius:12px;
-    padding:15px 16px;margin-top:14px}
-  .msg .a{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--gris);margin-bottom:8px}
-  .msg pre{margin:0;white-space:pre-wrap;font-family:inherit;font-size:15px;line-height:1.5}
-  .fudo{background:var(--verde-claro);border:1px solid var(--verde);border-radius:12px;
-    padding:15px 16px;margin-top:14px;font-size:15px}
-  .cerrar{background:none;border:0;color:var(--gris);font-size:15px;cursor:pointer;padding:8px 0}
-  a{color:var(--verde)}
-  :focus-visible{outline:2px solid var(--verde);outline-offset:2px}
+  .capa .env2{padding:24px 18px 60px;max-width:640px;margin:0 auto}
+  .capa h1{font-family:var(--serif);font-weight:400;font-size:29px;margin:10px 0 6px;
+    text-wrap:balance;line-height:1.2}
+  .lin{display:flex;justify-content:space-between;gap:16px;padding:13px 0;
+    border-bottom:1px solid var(--linea);font-size:15.5px}
+  .lin .q{font-family:var(--mono);color:var(--stone-500);font-size:13px}
+  .lin .v{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;font-size:14px}
+  .total{display:flex;justify-content:space-between;padding:17px 0 0;font-family:var(--serif);
+    font-size:23px}
+  .msg{background:var(--canvas);border:1px solid var(--linea);border-radius:14px;
+    padding:16px 17px;margin-top:14px}
+  .msg .a{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--stone-500);margin-bottom:9px}
+  .msg pre{margin:0;white-space:pre-wrap;font-family:var(--sans);font-size:15px;line-height:1.55}
+  .fudo{background:var(--sage-200);border:1px solid var(--sage-600);border-radius:14px;
+    padding:16px 17px;margin-top:14px;font-size:15px}
+  .cerrar{background:none;border:0;color:var(--stone-500);font-size:14.5px;cursor:pointer;
+    padding:8px 0;font-family:var(--sans)}
+  .nota-pie{font-size:13px;color:var(--stone-500);margin-top:18px}
+  :focus-visible{outline:2px solid var(--sage-600);outline-offset:3px}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
-<div class="maqueta">Maqueta para revisión — ningún pedido se envía de verdad</div>
+<div class="maqueta">Maqueta — no se envía ningún pedido</div>
 
 <header>
-  <div class="marca">Café Cancagua</div>
-  <div class="bajada">Carta del hot tub · pide sin salir del agua</div>
+  <img src="/brand/logos/cancagua-lockup-medium-black.png" alt="Cancagua · Restore Spa &amp; Nature">
+  <div class="bajada">Carta del hot tub</div>
 </header>
 
 <div class="env">
   <div class="quien">
-    <h2>¿Dónde estás?</h2>
-    <p>Para llevarte el pedido y cargarlo a tu llavero.</p>
+    <h2>¿Cómo te identificamos?</h2>
+    <p>Elige una de las dos para llevarte el pedido y cargarlo a tu cuenta.</p>
 
-    <label class="f" id="lbl-tina">Tu hot tub</label>
-    <div class="tinas" role="group" aria-labelledby="lbl-tina" id="tinas"></div>
+    <div class="modo" id="modo" role="tablist">
+      <button type="button" data-modo="tina" role="tab" aria-selected="true">Por hot tub</button>
+      <button type="button" data-modo="llavero" role="tab" aria-selected="false">Por llavero</button>
+    </div>
 
-    <label class="f" for="llavero">Número de tu llavero</label>
-    <input type="number" id="llavero" inputmode="numeric" placeholder="Ej: 14" min="1" max="99">
+    <div id="campoTina">
+      <label class="f" id="lbl-tina">Tu hot tub</label>
+      <div class="tinas" role="group" aria-labelledby="lbl-tina" id="tinas"></div>
+    </div>
+
+    <div id="campoLlavero" hidden>
+      <label class="f" for="llavero">Número de tu llavero</label>
+      <input type="number" id="llavero" inputmode="numeric" placeholder="Ej: 14" min="1" max="99">
+    </div>
   </div>
 
   <nav class="navsec" aria-label="Secciones de la carta">
@@ -165,109 +200,113 @@
     <h1 id="capaTitulo">Tu pedido</h1>
     <div id="detalle"></div>
     <div id="simulacion"></div>
-    <button class="principal" id="btnConfirmar" style="width:100%;margin-top:22px">Enviar pedido</button>
-    <p style="font-size:13px;color:var(--gris);text-align:center;margin-top:12px">
-      Esto es una maqueta: al enviar verás lo que le llegaría a cada área, pero no sale nada.</p>
+    <button class="principal" id="btnConfirmar" style="width:100%;margin-top:24px">Enviar pedido</button>
+    <p class="nota-pie" style="text-align:center">Maqueta: al enviar verás lo que le llegaría a
+      cada área, pero no sale nada.</p>
   </div>
 </div>
 
 <script>
-const CARTA = [{"titulo": "Tablas", "destino": "comida", "items": [{"n": "Charcutería & Quesos", "sub": "para 2 a 3 personas", "p": 28000, "d": "Quesos de Los Bajos, charcutería Nueva Braun, 3 tipos de salsa untable, galletitas sacapita, papitas Gololo, fruta de la estación y aceitunas.", "id": "0-0"}, {"n": "Charcutería & Quesos", "sub": "para 4 a 6 personas", "p": 38000, "d": "Quesos de Los Bajos, charcutería Nueva Braun, 3 tipos de salsa untable, galletitas sacapita, papitas Gololo, fruta de la estación y aceitunas.", "id": "0-1"}, {"n": "Tabla de Niños", "sub": "para 3 personas", "p": 28000, "d": "Queso de Los Bajos, salame, pepinillos dill, tomates cherry, fruta de la estación, pocillo de mermelada, galletas bañadas en chocolate, galletas saladas, papitas Gololo, palomitas y frutos secos.", "id": "0-2"}, {"n": "Tabla Otoño (vegana)", "sub": "para 2 a 3 personas", "p": 28000, "d": "Quesos veganos Pepilú, pepinillos dill, tomates cherry, fruta de la estación, salsas untables veganas, papitas Gololo, galletitas sacapita y frutos secos.", "id": "0-3"}, {"n": "Tabla Otoño (vegana)", "sub": "para 4 a 6 personas", "p": 38000, "d": "Quesos veganos Pepilú, pepinillos dill, tomates cherry, fruta de la estación, salsas untables veganas, papitas Gololo, galletitas sacapita y frutos secos.", "id": "0-4"}]}, {"titulo": "Vinos y espumante", "destino": "bebestible", "items": [{"n": "Espumante Berla Extra Brut", "sub": "botella 750 cc", "p": 13000, "d": "", "id": "1-0"}, {"n": "Vino Berla Chardonnay Moscale", "sub": "botella 750 cc", "p": 12000, "d": "", "id": "1-1"}, {"n": "Vino Berla Cinsault", "sub": "botella 750 cc", "p": 12000, "d": "", "id": "1-2"}]}, {"titulo": "Jugos Rubén Avilés", "destino": "bebestible", "nota": "100% natural · 300 cc", "items": [{"n": "Manzana - Maqui", "sub": "", "p": 4000, "d": "", "id": "2-0"}, {"n": "Manzana - Naranja", "sub": "", "p": 4000, "d": "", "id": "2-1"}, {"n": "Manzana - Cranberry", "sub": "", "p": 4000, "d": "", "id": "2-2"}, {"n": "Manzana", "sub": "", "p": 4000, "d": "", "id": "2-3"}]}, {"titulo": "Kombucha La Ida", "destino": "bebestible", "nota": "355 cc", "items": [{"n": "Maracuyá Cardamomo", "sub": "", "p": 4000, "d": "", "id": "3-0"}, {"n": "Maqui Hops", "sub": "", "p": 4000, "d": "", "id": "3-1"}, {"n": "Lemon Fresh", "sub": "", "p": 4000, "d": "", "id": "3-2"}, {"n": "Té verde y lúpulo", "sub": "", "p": 4000, "d": "", "id": "3-3"}, {"n": "Piña Albahaca", "sub": "", "p": 4000, "d": "", "id": "3-4"}]}, {"titulo": "Aguas Puyehue", "destino": "bebestible", "nota": "330 cc", "items": [{"n": "Agua con gas", "sub": "", "p": 3000, "d": "", "id": "4-0"}, {"n": "Agua sin gas", "sub": "", "p": 3000, "d": "", "id": "4-1"}]}, {"titulo": "Cervezas Tropera", "destino": "bebestible", "nota": "473 cc", "items": [{"n": "Crazy Juan", "sub": "Brown Ale", "p": 4000, "d": "", "id": "5-0"}, {"n": "Strong #47", "sub": "Strong Ale", "p": 4000, "d": "", "id": "5-1"}, {"n": "Don Manu", "sub": "Classic IPA", "p": 4000, "d": "", "id": "5-2"}, {"n": "Guadalina", "sub": "Blonde Ale", "p": 4000, "d": "", "id": "5-3"}, {"n": "Blanché", "sub": "bota sucia", "p": 4000, "d": "", "id": "5-4"}]}, {"titulo": "Cervezas Chester", "destino": "bebestible", "nota": "473 cc", "items": [{"n": "Dos Kombis", "sub": "Summer Ale", "p": 4000, "d": "", "id": "6-0"}, {"n": "Rustic 99", "sub": "Chilen pañe ale", "p": 4000, "d": "", "id": "6-1"}, {"n": "Obama´s Redemption", "sub": "Stout", "p": 4000, "d": "", "id": "6-2"}, {"n": "Che´s IPA", "sub": "India pais ale", "p": 4000, "d": "", "id": "6-3"}]}, {"titulo": "Sour Catedral", "destino": "bebestible", "nota": "330 cc", "items": [{"n": "Menta jengibre", "sub": "", "p": 7900, "d": "", "id": "7-0"}, {"n": "Murta", "sub": "", "p": 7900, "d": "", "id": "7-1"}]}];
+const CARTA = [{"titulo": "Tablas", "destino": "comida", "items": [{"n": "Charcutería & Quesos", "sub": "para 2 a 3 personas", "p": 28000, "d": "Quesos de Los Bajos, charcutería Nueva Braun, 3 tipos de salsa untable, galletitas sacapita, papitas Gololo, fruta de la estación y aceitunas.", "id": "0-0"}, {"n": "Charcutería & Quesos", "sub": "para 4 a 6 personas", "p": 38000, "d": "Quesos de Los Bajos, charcutería Nueva Braun, 3 tipos de salsa untable, galletitas sacapita, papitas Gololo, fruta de la estación y aceitunas.", "id": "0-1"}, {"n": "Tabla de Niños", "sub": "para 3 personas", "p": 28000, "d": "Queso de Los Bajos, salame, pepinillos dill, tomates cherry, fruta de la estación, pocillo de mermelada, galletas bañadas en chocolate, galletas saladas, papitas Gololo, palomitas y frutos secos.", "id": "0-2"}, {"n": "Tabla Otoño (vegana)", "sub": "para 2 a 3 personas", "p": 28000, "d": "Quesos veganos Pepilú, pepinillos dill, tomates cherry, fruta de la estación, salsas untables veganas, papitas Gololo, galletitas sacapita y frutos secos.", "id": "0-3"}, {"n": "Tabla Otoño (vegana)", "sub": "para 4 a 6 personas", "p": 38000, "d": "Quesos veganos Pepilú, pepinillos dill, tomates cherry, fruta de la estación, salsas untables veganas, papitas Gololo, galletitas sacapita y frutos secos.", "id": "0-4"}]}, {"titulo": "Vinos y espumante", "destino": "bebestible", "items": [{"n": "Espumante Berla Extra Brut", "sub": "botella 750 cc", "p": 13000, "d": "", "id": "1-0"}, {"n": "Vino Berla Chardonnay Moscatel", "sub": "botella 750 cc", "p": 12000, "d": "", "id": "1-1"}, {"n": "Vino Berla Cinsault", "sub": "botella 750 cc", "p": 12000, "d": "", "id": "1-2"}]}, {"titulo": "Jugos Rubén Avilés", "destino": "bebestible", "nota": "100% natural · 300 cc", "items": [{"n": "Manzana - Maqui", "sub": "", "p": 4000, "d": "", "id": "2-0"}, {"n": "Manzana - Naranja", "sub": "", "p": 4000, "d": "", "id": "2-1"}, {"n": "Manzana - Cranberry", "sub": "", "p": 4000, "d": "", "id": "2-2"}, {"n": "Manzana", "sub": "", "p": 4000, "d": "", "id": "2-3"}]}, {"titulo": "Kombucha La Ida", "destino": "bebestible", "nota": "355 cc", "items": [{"n": "Maracuyá Cardamomo", "sub": "", "p": 4000, "d": "", "id": "3-0"}, {"n": "Maqui Hops", "sub": "", "p": 4000, "d": "", "id": "3-1"}, {"n": "Lemon Fresh", "sub": "", "p": 4000, "d": "", "id": "3-2"}, {"n": "Té verde y lúpulo", "sub": "", "p": 4000, "d": "", "id": "3-3"}, {"n": "Piña Albahaca", "sub": "", "p": 4000, "d": "", "id": "3-4"}]}, {"titulo": "Aguas Puyehue", "destino": "bebestible", "nota": "330 cc", "items": [{"n": "Agua con gas", "sub": "", "p": 3000, "d": "", "id": "4-0"}, {"n": "Agua sin gas", "sub": "", "p": 3000, "d": "", "id": "4-1"}]}, {"titulo": "Cervezas Tropera", "destino": "bebestible", "nota": "473 cc", "items": [{"n": "Crazy Juan", "sub": "Brown Ale", "p": 4000, "d": "", "id": "5-0"}, {"n": "Strong #47", "sub": "Strong Ale", "p": 4000, "d": "", "id": "5-1"}, {"n": "Don Manu", "sub": "Classic IPA", "p": 4000, "d": "", "id": "5-2"}, {"n": "Guadalina", "sub": "Blonde Ale", "p": 4000, "d": "", "id": "5-3"}, {"n": "Blanché", "sub": "bota sucia", "p": 4000, "d": "", "id": "5-4"}]}, {"titulo": "Cervezas Chester", "destino": "bebestible", "nota": "473 cc", "items": [{"n": "Dos Kombis", "sub": "Summer Ale", "p": 4000, "d": "", "id": "6-0"}, {"n": "Rustic 99", "sub": "Chilean Pale Ale", "p": 4000, "d": "", "id": "6-1"}, {"n": "Obama´s Redemption", "sub": "Stout", "p": 4000, "d": "", "id": "6-2"}, {"n": "Che´s IPA", "sub": "India Pale Ale", "p": 4000, "d": "", "id": "6-3"}]}, {"titulo": "Sour Catedral", "destino": "bebestible", "nota": "330 cc", "items": [{"n": "Menta jengibre", "sub": "", "p": 7900, "d": "", "id": "7-0"}, {"n": "Murta", "sub": "", "p": 7900, "d": "", "id": "7-1"}]}];
 const TINAS = [1001,1002,1003,1004,1005,1006];
-const DESTINOS = {
-  bebestible: "Recepción",
-  comida: "Café Cancagua",
-};
+const DESTINOS = {bebestible:"Recepción", comida:"Café Cancagua"};
 
 const $ = s => document.querySelector(s);
 const plata = n => "$" + n.toLocaleString("es-CL");
-/* con el sub incluido: "Charcutería & Quesos para 4 a 6 personas", no solo el nombre */
+/* el sub va en el nombre: hay dos tablas iguales de distinto tamaño y precio */
 const nombre = i => i.n + (i.sub ? " " + i.sub : "");
-const pedido = new Map();   // id -> {item, seccion, cant}
+const pedido = new Map();
+let modo = "tina";      // "tina" o "llavero" — una de las dos, nunca ambas
 let tina = null;
 
-/* ---- hot tubs ---- */
+/* ---- cómo se identifica ---- */
 $("#tinas").innerHTML = TINAS.map(n =>
   `<button class="tina" type="button" aria-pressed="false" data-tina="${n}">${n}</button>`).join("");
+
+$("#modo").addEventListener("click", e => {
+  const b = e.target.closest("button[data-modo]"); if(!b) return;
+  modo = b.dataset.modo;
+  $("#modo").querySelectorAll("button").forEach(x =>
+    x.setAttribute("aria-selected", String(x === b)));
+  $("#campoTina").hidden = modo !== "tina";
+  $("#campoLlavero").hidden = modo !== "llavero";
+  tina = null;
+  $("#tinas").querySelectorAll(".tina").forEach(x => x.setAttribute("aria-pressed","false"));
+  $("#llavero").value = "";
+});
+
 $("#tinas").addEventListener("click", e => {
   const b = e.target.closest(".tina"); if(!b) return;
   tina = Number(b.dataset.tina);
   $("#tinas").querySelectorAll(".tina").forEach(x =>
     x.setAttribute("aria-pressed", String(x === b)));
-  pintarBarra();
 });
+
+function identidad(){
+  return modo === "tina"
+    ? (tina ? {tipo:"tina", valor:tina} : null)
+    : ($("#llavero").value.trim() ? {tipo:"llavero", valor:$("#llavero").value.trim()} : null);
+}
+const comoTexto = id => id.tipo === "tina" ? `hot tub ${id.valor}` : `llavero ${id.valor}`;
 
 /* ---- carta ---- */
 function pintarCarta(){
   $("#carta").innerHTML = CARTA.map((s, si) =>
     `<h2 class="sec" id="sec${si}">${s.titulo}</h2>
-     <div class="sec-nota">${s.nota ? s.nota + " · " : ""}va a ${DESTINOS[s.destino]}</div>
+     <div class="sec-nota">${s.nota ? s.nota + " &middot; " : ""}va a ${DESTINOS[s.destino]}</div>
      ${s.items.map(i => fila(i, si)).join("")}`).join("");
 }
 
 function fila(i, si){
-  const enPedido = pedido.get(i.id);
+  const p = pedido.get(i.id);
   return `<div class="item" data-id="${i.id}" data-sec="${si}">
     <div class="txt">
       <div class="nom">${i.n}${i.sub ? ` <span class="sub">${i.sub}</span>` : ""}</div>
       ${i.d ? `<div class="desc">${i.d}</div>` : ""}
       <div class="precio">${plata(i.p)}</div>
     </div>
-    ${enPedido
-      ? `<div class="cant">
-           <button class="menos" type="button" data-quitar="${i.id}" aria-label="Quitar uno">−</button>
-           <b>${enPedido.cant}</b>
-           <button class="mas" type="button" data-sumar="${i.id}" aria-label="Agregar otro">+</button>
-         </div>`
-      : `<button class="mas" type="button" data-sumar="${i.id}" aria-label="Agregar ${i.n}">+</button>`}
+    ${p ? `<div class="cant">
+             <button class="menos" type="button" data-quitar="${i.id}" aria-label="Quitar uno">&minus;</button>
+             <b>${p.cant}</b>
+             <button class="mas" type="button" data-sumar="${i.id}" aria-label="Agregar otro">+</button>
+           </div>`
+        : `<button class="mas" type="button" data-sumar="${i.id}" aria-label="Agregar ${nombre(i)}">+</button>`}
   </div>`;
 }
 
 $("#carta").addEventListener("click", e => {
-  const sumar = e.target.closest("[data-sumar]"), quitar = e.target.closest("[data-quitar]");
-  if(!sumar && !quitar) return;
-  const fila = e.target.closest(".item");
-  const id = (sumar || quitar).dataset.sumar || (sumar || quitar).dataset.quitar;
-  const si = Number(fila.dataset.sec);
-  const item = CARTA[si].items.find(x => x.id === id);
+  const s = e.target.closest("[data-sumar]"), q = e.target.closest("[data-quitar]");
+  if(!s && !q) return;
+  const f = e.target.closest(".item");
+  const id = (s||q).dataset.sumar || (s||q).dataset.quitar;
+  const item = CARTA[Number(f.dataset.sec)].items.find(x => x.id === id);
   const actual = pedido.get(id);
-  if(sumar){
-    pedido.set(id, {item, seccion: si, cant: (actual ? actual.cant : 0) + 1});
-  }else if(actual){
-    actual.cant -= 1;
-    if(actual.cant <= 0) pedido.delete(id);
-  }
-  pintarCarta();
-  pintarBarra();
+  if(s) pedido.set(id, {item, seccion:Number(f.dataset.sec), cant:(actual?actual.cant:0)+1});
+  else if(actual){ actual.cant--; if(actual.cant<=0) pedido.delete(id); }
+  pintarCarta(); pintarBarra();
 });
 
-/* ---- chips de sección ---- */
-$("#chips").innerHTML = CARTA.map((s, i) =>
+$("#chips").innerHTML = CARTA.map((s,i) =>
   `<button class="chip" type="button" data-ir="sec${i}">${s.titulo}</button>`).join("");
 $("#chips").addEventListener("click", e => {
   const c = e.target.closest("[data-ir]"); if(!c) return;
-  const destino = document.getElementById(c.dataset.ir);
-  if(destino) destino.scrollIntoView({behavior:"smooth", block:"start"});
+  document.getElementById(c.dataset.ir)?.scrollIntoView({behavior:"smooth", block:"start"});
 });
 
-/* ---- barra ---- */
-function totales(){
-  let n = 0, t = 0;
-  pedido.forEach(p => { n += p.cant; t += p.cant * p.item.p; });
-  return {n, t};
-}
+function totales(){ let n=0,t=0; pedido.forEach(p=>{n+=p.cant;t+=p.cant*p.item.p;}); return {n,t}; }
 function pintarBarra(){
-  const {n, t} = totales();
-  $("#cuenta").textContent = n === 0 ? "Tu pedido está vacío"
-    : n === 1 ? "1 producto" : `${n} productos`;
+  const {n,t} = totales();
+  $("#cuenta").textContent = n===0 ? "Tu pedido está vacío" : n===1 ? "1 producto" : `${n} productos`;
   $("#total").textContent = plata(t);
-  $("#btnPedir").disabled = n === 0;
+  $("#btnPedir").disabled = n===0;
 }
 
 /* ---- confirmación ---- */
 $("#btnPedir").addEventListener("click", () => {
-  if(!tina){ alert("Primero dinos en qué hot tub estás."); return; }
-  if(!$("#llavero").value.trim()){ alert("Falta el número de tu llavero."); return; }
+  if(!identidad()){
+    alert(modo==="tina" ? "Primero elige tu hot tub." : "Escribe el número de tu llavero.");
+    return;
+  }
   pintarDetalle();
   $("#capa").classList.add("abierta");
   window.scrollTo(0,0);
@@ -281,59 +320,51 @@ $("#btnVolver").addEventListener("click", () => {
 });
 
 function porDestino(){
-  const g = {bebestible: [], comida: []};
+  const g = {bebestible:[], comida:[]};
   pedido.forEach(p => g[CARTA[p.seccion].destino].push(p));
   return g;
 }
 
 function pintarDetalle(){
-  const {t} = totales();
+  const {t} = totales(); const id = identidad();
   let h = "";
   pedido.forEach(p => {
-    h += `<div class="lin"><span><span class="q">${p.cant}×</span> ${nombre(p.item)}</span>
-          <span class="v">${plata(p.cant * p.item.p)}</span></div>`;
+    h += `<div class="lin"><span><span class="q">${p.cant}&times;</span> ${nombre(p.item)}</span>
+          <span class="v">${plata(p.cant*p.item.p)}</span></div>`;
   });
-  h += `<div class="total"><span>Total</span><span>${plata(t)}</span></div>`;
-  h += `<p style="font-size:14px;color:var(--gris);margin-top:14px">
-        Hot tub <b>${tina}</b> · llavero <b>${$("#llavero").value}</b> ·
-        se carga a tu cuenta y lo pagas al salir.</p>`;
+  h += `<div class="total"><span>Total</span><span>${plata(t)}</span></div>
+        <p class="nota-pie">Te lo llevamos a tu ${comoTexto(id)} y se carga a tu cuenta.
+        Lo pagas al salir.</p>`;
   $("#detalle").innerHTML = h;
   $("#simulacion").innerHTML = "";
 }
 
 $("#btnConfirmar").addEventListener("click", () => {
-  const g = porDestino();
-  const llavero = $("#llavero").value;
+  const g = porDestino(), id = identidad(), {n,t} = totales();
   const hora = new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",hour12:false});
   const lista = arr => arr.map(p => `• ${p.cant}× ${nombre(p.item)}`).join("\n");
+  const cab = `Pedido · ${comoTexto(id)} · ${hora}`;
 
-  let h = `<h1 style="margin-top:26px">Listo, ya lo estamos preparando</h1>
-    <p style="color:var(--gris);margin-top:0">Te lo llevamos al hot tub ${tina}.</p>
+  let h = `<h1>Listo, ya lo estamos preparando</h1>
+    <p style="color:var(--stone-500);margin:0">Te lo llevamos a tu ${comoTexto(id)}.</p>
     <div class="fudo"><b>Entra a Fudo</b><br>
-      Mesa <b>${tina}</b> (sala Hot-tub) · llavero <b>${llavero}</b> ·
-      ${totales().n} productos · ${plata(totales().t)}</div>`;
+      ${id.tipo==="tina" ? `Mesa <b>${id.valor}</b> · sala Hot-tub` : `Llavero <b>${id.valor}</b>`}
+      &middot; ${n} ${n===1?"producto":"productos"} &middot; ${plata(t)}</div>`;
 
-  if(g.comida.length){
-    h += `<div class="msg"><div class="a">WhatsApp de Café Cancagua</div><pre>`
-      + `Pedido hot tub ${tina} · llavero ${llavero} · ${hora}\n${lista(g.comida)}</pre></div>`;
-  }
-  if(g.bebestible.length){
-    h += `<div class="msg"><div class="a">WhatsApp de Recepción</div><pre>`
-      + `Pedido hot tub ${tina} · llavero ${llavero} · ${hora}\n${lista(g.bebestible)}</pre></div>`;
-  }
-  h += `<div class="msg"><div class="a">WhatsApp de Cancagua — todo</div><pre>`
-    + `Pedido hot tub ${tina} · llavero ${llavero} · ${hora}\n`
-    + `${lista([...g.comida, ...g.bebestible])}\nTotal ${plata(totales().t)}</pre></div>`;
-
-  h += `<p style="font-size:13.5px;color:var(--gris);margin-top:18px">
-        Arriba está lo que le llegaría a cada área. <b>En esta maqueta no se envía
-        nada</b>: es para que vean cómo se ve y cómo se siente.</p>`;
+  if(g.comida.length)
+    h += `<div class="msg"><div class="a">WhatsApp de Café Cancagua</div><pre>${cab}\n${lista(g.comida)}</pre></div>`;
+  if(g.bebestible.length)
+    h += `<div class="msg"><div class="a">WhatsApp de Recepción</div><pre>${cab}\n${lista(g.bebestible)}</pre></div>`;
+  h += `<div class="msg"><div class="a">WhatsApp de Cancagua &mdash; todo</div><pre>${cab}\n`
+     + `${lista([...g.comida, ...g.bebestible])}\nTotal ${plata(t)}</pre></div>`;
+  h += `<p class="nota-pie">Arriba está lo que le llegaría a cada área.
+        <b>En esta maqueta no se envía nada</b>: es para ver cómo se ve y cómo se siente.</p>`;
 
   $("#detalle").innerHTML = "";
-  $("#capaTitulo").style.display = "none";   /* la confirmación trae su propio título */
+  $("#capaTitulo").style.display = "none";
   $("#btnVolver").textContent = "← Hacer otro pedido";
-  $("#simulacion").innerHTML = h;
   $("#btnConfirmar").style.display = "none";
+  $("#simulacion").innerHTML = h;
   window.scrollTo(0,0);
 });
 
