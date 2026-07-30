@@ -1,0 +1,1595 @@
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cancagua — Ficha de mantención</title>
+<style>
+  :root{
+    --crema:#F4F2ED; --tinta:#222221; --clay:#2E231A; --gris:#827D78;
+    --linea:rgba(0,0,0,.14); --ok:#3D5A45; --alerta:#8A5A2B; --blanco:#fff;
+    --rojo:#A8322D;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:var(--crema);color:var(--tinta);
+    font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:17px;line-height:1.5;
+    padding-bottom:110px}
+  header{background:var(--blanco);border-bottom:1px solid var(--linea);padding:16px 18px 14px;
+    position:sticky;top:0;z-index:20}
+  .marca{font-family:Georgia,serif;font-size:20px;letter-spacing:.02em}
+  .sub{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--gris);margin-top:2px}
+  .wrap{padding:16px 14px 0}
+  .card{background:var(--blanco);border:1px solid var(--linea);border-radius:10px;
+    padding:16px;margin-bottom:14px}
+  .card h2{font-family:Georgia,serif;font-weight:400;font-size:19px;margin:0 0 4px}
+  .hint{font-size:13px;color:var(--gris);margin:0 0 14px}
+  label.f{display:block;font-size:13px;color:var(--gris);margin:0 0 5px}
+  select,input[type=text],input[type=number],textarea{width:100%;padding:13px 12px;font-size:17px;
+    border:1px solid var(--linea);border-radius:8px;background:var(--blanco);color:var(--tinta);
+    font-family:inherit}
+  .row{display:flex;gap:10px;margin-bottom:12px}
+  .row>div{flex:1}
+
+  /* ---- clima ---- */
+  #clima{background:#EDF1F0;border-color:#CBD8D4}
+  .climaGrid{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0 0}
+  .climaGrid div{font-size:14px}
+  .climaGrid b{display:block;font-size:22px;font-family:Georgia,serif;font-weight:400}
+  .sugerencia{margin-top:14px;padding:13px;background:var(--blanco);border:1px solid #CBD8D4;
+    border-radius:8px}
+  .sugerencia b{font-size:16px}
+
+  /* ---- tareas ---- */
+  .bloque{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--gris);margin:22px 4px 8px}
+  .tarea{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.07)}
+  .tarea:last-child{border-bottom:0}
+  .tarea input[type=checkbox]{width:26px;height:26px;margin:1px 0 0;flex:none;accent-color:var(--ok)}
+  .tarea .txt{flex:1;min-width:0}
+  .tarea .nom{font-size:16px}
+  .tarea.hecha .nom{color:var(--gris);text-decoration:line-through}
+  .nota{font-size:13px;color:var(--gris);font-style:italic;margin-top:3px}
+  .meta{display:flex;align-items:center;gap:8px;margin-top:7px;flex-wrap:wrap}
+  .meta select{width:auto;padding:6px 9px;font-size:13px;border-radius:6px}
+  .sello{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ok);
+    background:#EAF0EB;padding:4px 9px;border-radius:20px;display:none}
+  .tarea.hecha .sello{display:inline-block}
+
+  /* ---- aguas ---- */
+  .agua{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(0,0,0,.07)}
+  .agua:last-child{border-bottom:0}
+  .agua span{flex:1;font-size:16px}
+  .agua input{width:92px;text-align:center;flex:none}
+  .agua .u{flex:none;color:var(--gris);font-size:14px;width:18px}
+  .fuera{border-color:var(--alerta)!important;background:#FBF3EA}
+  .proxima{padding:12px;border-radius:8px;background:#EAF0EB;border:1px solid #C7D6C9;
+    font-size:15px;margin-bottom:14px}
+  .proxima.toca{background:#FBF3EA;border-color:#E0C4A0}
+  .proxima b{font-family:Georgia,serif;font-size:17px}
+  .ronda{border-top:1px solid rgba(0,0,0,.09);padding:11px 0;font-size:14px}
+  .ronda .h{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--gris);
+    letter-spacing:.08em}
+  .ronda .v{margin-top:4px;color:var(--tinta)}
+  .ronda .v i{font-style:normal;color:var(--alerta);font-weight:600}
+
+  /* ---- banner de reservas de última hora ---- */
+  .alerta{border:2px solid var(--rojo);border-left-width:6px;border-radius:10px;
+    background:#FCEFEE;padding:14px;margin-bottom:16px}
+  .alerta .tit{font-family:Georgia,serif;font-size:17px;color:var(--rojo);
+    font-weight:700;margin-bottom:2px}
+  .alerta .cuando{font-size:13px;color:var(--gris);margin-bottom:10px}
+  .alerta .item{border-top:1px solid rgba(168,50,45,.25);padding:9px 0;font-size:15px}
+  .alerta .item:first-of-type{border-top:0}
+  .alerta .item b{font-family:ui-monospace,Menlo,monospace;font-size:15px;color:var(--rojo)}
+  .alerta .item .d{font-size:13px;color:var(--gris);margin-top:2px}
+  .aldia{font-size:13px;color:var(--gris);margin:0 4px 16px}
+  /* la misma reserva, marcada dentro de su propia tarjeta */
+  .card.esNueva{border-color:var(--rojo);box-shadow:0 0 0 1px var(--rojo) inset}
+  .chip{display:inline-block;background:var(--rojo);color:#fff;font-size:11px;
+    letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:20px;
+    vertical-align:middle;margin-left:7px}
+
+  /* ---- barra ---- */
+  .barra{position:fixed;left:0;right:0;bottom:0;background:var(--blanco);
+    border-top:1px solid var(--linea);padding:12px 14px calc(12px + env(safe-area-inset-bottom));
+    display:flex;gap:10px;align-items:center;z-index:30}
+  .prog{flex:1;font-size:13px;color:var(--gris)}
+  .prog b{display:block;font-size:17px;color:var(--tinta);font-family:Georgia,serif}
+  button{background:var(--clay);color:#FCF9F9;border:0;border-radius:8px;padding:15px 18px;
+    font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.1em;
+    text-transform:uppercase;cursor:pointer}
+  button.sec{background:var(--blanco);color:var(--clay);border:1px solid var(--clay)}
+  .aviso{font-size:13px;color:var(--gris);text-align:center;padding:0 18px 22px}
+</style>
+
+<header>
+  <div class="marca">Cancagua</div>
+  <div class="sub">Ficha de mantención diaria</div>
+</header>
+
+<div class="wrap">
+
+  <!-- reservas que entraron después de armarse el formulario del día -->
+  <div id="banner"></div>
+
+  <!-- lo que quedó pendiente del turno anterior -->
+  <div id="traspaso"></div>
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label class="f">Fecha</label>
+        <input type="text" id="fecha" readonly>
+      </div>
+      <div>
+        <label class="f">Turno</label>
+        <select id="turno">
+          <option value="apertura">Apertura · 08:00–16:00</option>
+          <option value="cierre">Cierre · 14:00–22:00</option>
+        </select>
+      </div>
+    </div>
+    <div id="turnoHoy" class="proxima" style="margin-bottom:14px"></div>
+
+    <label class="f">¿Quién está llenando esta ficha?</label>
+    <select id="quien">
+      <option value="">— elige tu nombre —</option>
+    </select>
+  </div>
+
+  <div class="card" id="clima">
+    <h2>Clima en Frutillar</h2>
+    <p class="hint" id="climaEstado">Cargando…</p>
+    <div class="climaGrid" id="climaDatos"></div>
+    <div class="sugerencia" id="sugerencia" style="display:none"></div>
+  </div>
+
+  <div class="card">
+    <h2>Temperatura del agua</h2>
+    <p class="hint">A primera hora y después cada 2 horas.</p>
+
+    <div id="proxima" class="proxima"></div>
+
+    <div id="aguas"></div>
+    <button id="btnMedir" style="width:100%;margin-top:14px" onclick="guardarRonda()">Guardar medición</button>
+
+    <div id="rondas"></div>
+  </div>
+
+  <div class="card">
+    <h2>Calidad del agua</h2>
+    <p class="hint">Biopiscinas. De esto depende cuántas horas de filtrado van hoy.</p>
+
+    <label class="f">Transparencia</label>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <input type="range" id="cal_transp" min="0" max="100" step="5" value="100"
+             style="flex:1;padding:0;accent-color:var(--ok)">
+      <b id="cal_transp_v" style="font-family:Georgia,serif;font-size:20px;min-width:56px;text-align:right">100%</b>
+    </div>
+
+    <label class="f">Partículas en suspensión</label>
+    <select id="cal_susp" style="margin-bottom:16px">
+      <option value="ausente">Ausente</option>
+      <option value="pocas">Pocas</option>
+      <option value="muchas">Muchas</option>
+    </select>
+
+    <label class="f">Partículas decantadas</label>
+    <select id="cal_dec" style="margin-bottom:16px">
+      <option value="ausente">Ausente</option>
+      <option value="pocas">Pocas</option>
+      <option value="muchas">Muchas</option>
+    </select>
+
+    <div id="cal_acciones"></div>
+
+    <label class="f">Observación</label>
+    <textarea id="cal_obs" rows="2" placeholder="Qué se ve en el agua…"
+              style="margin-bottom:16px"></textarea>
+
+    <label class="f">Medidas a tomar</label>
+    <textarea id="cal_medidas" rows="2" placeholder="Qué se va a hacer para solucionarlo…"></textarea>
+  </div>
+
+  <div class="card">
+    <h2>Filtrado de hoy</h2>
+    <p class="hint">Se calcula solo con la transparencia, la salida de los clientes y la temperatura de mañana.</p>
+    <div id="filtrado"></div>
+  </div>
+
+  <div id="hottubs"></div>
+
+  <div id="saunas"></div>
+
+  <div id="tareas"></div>
+
+  <div class="card">
+    <h2>Observaciones</h2>
+    <p class="hint">Algo que se rompió, algo que falta, algo que avisar.</p>
+    <textarea id="obs" rows="3" placeholder="Escribe aquí si hay algo que reportar…"></textarea>
+  </div>
+
+  <div id="envio"></div>
+
+  <div class="card">
+    <h2>Notas para el turno siguiente</h2>
+    <p class="hint">Lo que el que viene tiene que saber. Aparece arriba en su ficha.</p>
+    <textarea id="notas_turno" rows="3"
+      placeholder="Quedó a medias el filtro de la Piscina 2, hay que terminarlo…"></textarea>
+  </div>
+
+</div>
+
+<div class="barra">
+  <div class="prog"><b id="cuenta">0 / 0</b>tareas hechas</div>
+  <button class="sec" onclick="limpiar()">Borrar</button>
+  <button onclick="cerrar()">Completar reporte y enviar</button>
+</div>
+
+<p class="aviso">Los datos quedan guardados en este teléfono hasta que envíes el turno.</p>
+
+<script>
+/* ====== CONFIGURACIÓN — esto es lo que Lu ajusta ====== */
+
+const EQUIPO = ["Pepe", "Oscar", "Favian"];   // equipo de mantención (Lu, 29-jul-2026)
+
+/* Turnos leídos de "HORARIOS CANCAGUA.xlsx" (Drive) el 29-jul-2026.
+   Códigos según la leyenda del propio Excel. Hay que regenerarlos
+   cuando el Excel cambie: la página no lo lee sola. */
+const HORARIOS = {
+  A:  "Apertura · 8:00–16:00",
+  D:  "Día · 10:00–18:00",
+  C:  "Cierre · 14:00–22:00",
+  FD: "8:00–18:00",
+  TC: "Cortado · 10–14 y 18–22",
+  L:  "Libre",
+  VAC:"Vacaciones",
+};
+const TURNOS = {
+  "2026-07": {
+    "Pepe": ["A", "A", "A", "L", "L", "A", "A", "C", "A", "A", "L", "L", "A", "A", "A", "A", "A", "L", "L", "A", "A", "A", "A", "A", "L", "L", "A", "A", "A", "A", "A"],
+    "Oscar": ["C", "C", "C", "FD", "L", "L", "C", "A", "C", "C", "8-14", "8-14", "L", "C", "C", "C", "C", "FD", "8-14", "L", "L", "C", "C", "C", "8-14", "8-14", "L", "C", "C", "C", "C"]
+  },
+  "2026-08": {
+    "Pepe": ["L", "L", "A", "A", "A", "A", "A", "L", "L", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+  }
+};
+
+
+/* 2 biopiscinas + 6 hot tubs (Lu, 29-jul-2026).
+   Rango de las bios: 37–40°, que es lo que publica la web.
+   El de los hot tubs lo puse yo de referencia — falta que Lu lo confirme. */
+const AGUAS = [
+  {n:"Biopiscina 1", min:37, max:40},
+  {n:"Biopiscina 2", min:37, max:40},
+  {n:"Hot Tub 1",    min:38, max:40},
+  {n:"Hot Tub 2",    min:38, max:40},
+  {n:"Hot Tub 3",    min:38, max:40},
+  {n:"Hot Tub 4",    min:38, max:40},
+  {n:"Hot Tub 5",    min:38, max:40},
+  {n:"Hot Tub 6",    min:38, max:40},
+];
+
+/* ====== Checklist por horario ======
+   Transcrito del PDF "CHECKLIST DE MANTENCION - CANCAGUA SPA" que mandó Lu el
+   30-jul-2026. La estructura es la del propio documento: cada turno es una
+   lista de bloques horarios, y dentro de cada bloque van sus tareas.
+
+   Dos lecturas mías, las dos confirmadas por Lu el 30-jul-2026:
+   - El original dice "2:50" y "3:00" en el turno de apertura. Como ese turno
+     va de 08:00 a 16:00, se leen como 14:50 y 15:00. ("1. OK")
+   - El lunes tiene una fila de las 21:30 sin ninguna tarea escrita al lado;
+     queda como campo libre para anotar. ("2. OK")
+
+   Una tarea puede ser texto suelto, o {t:"…", nota:"…"} / {t:"…", campo:"…"}
+   si necesita aclaración o pide anotar un dato. */
+const CHECKLIST = {
+  /* El lunes solo hay turno de cierre, y su lista es distinta a la del resto
+     de la semana: es el día de mantención mayor. */
+  lunes: [
+    {hora:"14:00", tareas:[
+      "Restablecer equipo de Geotermia (Bio-piscina)",
+      "Limpieza de filtros de Bio-Piscina",
+      "Verificación de equipo completo de Geotermia",
+      "Realizar tareas planificadas",
+      "Verificar pasarelas",
+      "Verificar equipo de aerotermia",
+      "Verificar limpieza de estanques",
+      {t:"Estar disponible a tareas", nota:"Mario, Lu y Don Pepe"},
+      {t:"Destapar Bio-piscina", nota:"según el horario del día"},
+      {t:"Llenado y vaciado de hot tub", nota:"dejar los cojines en hilera"},
+      {t:"Rellenado de estanque y pastillas de cloro", nota:"5 a 7 min · 1/2 o 1 pastilla"},
+    ]},
+    {hora:"21:30", tareas:[
+      /* El checklist no trae tarea escrita a esta hora. Lu confirmó el 30-jul
+         que quede así: se anota a mano lo que se haya hecho. */
+      {t:"Tarea de cierre del lunes", nota:"el checklist no la especifica — anotar qué se hizo", campo:"qué se hizo"},
+    ]},
+  ],
+
+  apertura: [
+    {hora:"8:00", tareas:[
+      "Verificar equipos y estanque de Bio-Piscina",
+      "Encender Sauna",
+      {t:"Tomar temperatura", nota:"activar cascada si está vacía la zona de regeneración"},
+    ]},
+    {hora:"8:30", tareas:[
+      {t:"Verificar nivel de estanques hot tub y hacer retrolavado", nota:"30 segundos"},
+      {t:"Restablecimiento de agua de estanques", nota:"5 a 7 minutos"},
+      "Verificar los equipos",
+    ]},
+    {hora:"8:50", tareas:[
+      {t:"Llenar hot tubs del horario de la mañana", nota:"pasar la red y acomodar los cojines"},
+    ]},
+    {hora:"9:45", tareas:[
+      "Destapar Bio-piscina y tomar temperatura",
+    ]},
+    {hora:"10:15–12:00", tareas:[
+      "Avanzar con tareas extras",
+    ]},
+    {hora:"12:30–14:30", tareas:[
+      "Vaciado y llenado de Hot-tubs",
+    ]},
+    {hora:"14:50", tareas:[
+      {t:"Tomar temperatura biopiscina y verificar equipo de sala de máquinas", nota:"el original dice 2:50 · confirmado por Lu"},
+    ]},
+    {hora:"15:00", tareas:[
+      {t:"Colación", nota:"el original dice 3:00 · confirmado por Lu"},
+    ]},
+  ],
+
+  cierre: [
+    {hora:"14:00–15:30", tareas:[
+      "Tomar temperaturas biopiscinas",
+      "Llenado de hot-tub",
+      "Encendido de SAUNA",
+    ]},
+    {hora:"15:30", tareas:[
+      "Avanzar con tareas extras",
+    ]},
+    {hora:"16:30–17:45", tareas:[
+      "Vaciado y llenado de Hot-tubs",
+      "Bajar bandejas",
+    ]},
+    {hora:"17:50", tareas:[
+      "Ayuda a recepción",
+    ]},
+    {hora:"19:00", tareas:[
+      "Colación",
+    ]},
+    {hora:"20:00", tareas:[
+      "Rellenar libro",
+    ]},
+    {hora:"20:30", tareas:[
+      "Vaciado de hot-tub",
+    ]},
+    {hora:"20:30–21:30", tareas:[
+      "Llenado de estanques y cloro",
+    ]},
+    {hora:"21:00", tareas:[
+      "Tapar Bio-piscinas y tomar temperatura",
+      "Limpiar profundamente las paredes de biopiscina",
+      "Limpiar fondo y aspirar piscina",
+    ]},
+  ],
+};
+
+/* Sin hora asignada: se avanzan en los bloques de "tareas extras". Van en un
+   bloque aparte y no cuentan como pendientes del turno. */
+const OTRAS_LABORES = [
+  "Reparación de lo que se haya averiado (bombas)",
+  "Hacer carteles",
+  "Pintar bodegas y pasarelas",
+  "Ayudar al montaje de eventos",
+  "Ayudar al traslado de elementos",
+  "Mantener el pasto corto",
+  "Podar árboles y arbustos",
+  "Trasplantar árboles o helechos",
+  "Mantener el orden en espacios de trabajo",
+  {t:"Ordenar playa, kayaks y ramas", nota:"el original dice «kayas»"},
+  "Hacer astillas y picar leña",
+  "Mantener el orden en área de sauna",
+  "Mantener stock de cloro y bombas",
+  "Avisar de falta de materiales",
+  "Compra de materiales cuando sea necesario",
+  "Informar en datos técnicos cualquier avería o tarea realizada",
+  "Utilizar walkie talkie para coordinación con áreas",
+  "Revisar ratoneras y reponer pastillas",
+  "Hacer lista de tareas en la pizarra de mantención",
+];
+
+/* Estas las dictó Lu el 29-jul y no aparecen en el checklist por horario.
+   Lu confirmó el 30-jul: **se mantienen**. Van con su propio encabezado al
+   final del turno que les corresponde. */
+const TITULO_HEREDADAS = {
+  apertura: "Revisión de equipos y agua",
+  cierre:   "Cierre del día",
+};
+const HEREDADAS = {
+  apertura: [
+    "Equipo de ozono funcionando — Piscina 1",
+    "Equipo de ozono funcionando — Piscina 2",
+    "Revisar canasto de skimmer — Piscina 1",
+    "Revisar canasto de skimmer — Piscina 2",
+    {t:"Calidad del agua: transparencia", nota:"bios y hot tubs"},
+    {t:"Calidad del agua: partículas en suspensión", nota:"bios y hot tubs"},
+    {t:"Calidad del agua: partículas decantadas", nota:"bios y hot tubs"},
+    "Aire acondicionado · sala de espera",
+    "Aire acondicionado · sala de masajes",
+    "Aire acondicionado · yurt",
+  ],
+  cierre: [
+    "Todas las puertas y portones cerrados",
+    "Luces apagadas",
+    "Cascada apagada",
+    {t:"Filtrado seteado correctamente", nota:"como queda para la noche"},
+    {t:"Estado del pozo", campo:"cómo quedó el pozo"},
+    {t:"Cloro en hot tubs", campo:"dosis / observación"},
+    {t:"Leña seca dentro del sauna para mañana", nota:"que quede adentro, seca"},
+  ],
+};
+
+/* ====== Envío del reporte al cierre de turno ======
+   Al apretar "Completar reporte y enviar", el reporte va a un Apps Script que
+   corre en la cuenta de Google de Lu: ahí se arma el PDF, se guarda en Drive
+   por mes, se anota en una planilla y sale el correo.
+
+   ⚠️ La clave viaja dentro de esta página, así que **cualquiera que abra el
+   código fuente del sitio puede leerla**. Sirve para que un robot suelto no
+   deje reportes falsos, no como seguridad de verdad. Está avisado a Lu. */
+const ENVIO = {
+  url: "https://script.google.com/macros/s/AKfycbx7dXQvBpeJ7IqXBnlUoZoUJA4VMvOCca0UPaDAK1Q9zQnMo8oo0umbmTkgbwSPWBBU/exec",
+  clave: "cancaguareportesdemantencion",      // la misma que está en CONFIG.clave del script
+};
+
+/* ====== Fin de la configuración ====== */
+
+const $ = s => document.querySelector(s);
+const KEY = "cancagua-mantencion-v1";
+let estado = JSON.parse(localStorage.getItem(KEY) || "{}");
+
+/* fecha */
+const hoy = new Date();
+$("#fecha").value = hoy.toLocaleDateString("es-CL", {weekday:"short", day:"numeric", month:"short"});
+
+/* ---------- quién está de turno hoy, según el Excel de horarios ---------- */
+function turnoDeHoy(){
+  const mes = hoy.getFullYear() + "-" + String(hoy.getMonth()+1).padStart(2,"0");
+  const dia = hoy.getDate();
+  const tabla = TURNOS[mes];
+  if(!tabla) return null;
+  const trabajan = [], libres = [];
+  Object.entries(tabla).forEach(([nom, dias])=>{
+    const cod = (dias[dia-1] || "").trim();
+    if(!cod) return;
+    if(cod === "L" || cod === "VAC") libres.push(nom);
+    else trabajan.push({nom, cod, txt: HORARIOS[cod] || cod});
+  });
+  return {trabajan, libres, sinDato: !Object.keys(tabla).length};
+}
+
+const T = turnoDeHoy();
+const el = $("#turnoHoy");
+if(!T){
+  el.className = "proxima toca";
+  el.innerHTML = "<b>No tengo los turnos de este mes.</b> Hay que actualizarlos desde el Excel de horarios.";
+}else if(!T.trabajan.length){
+  el.className = "proxima toca";
+  el.innerHTML = "<b>Hoy no hay nadie de mantención asignado</b> en el Excel de horarios.";
+}else{
+  el.className = "proxima";
+  el.innerHTML = "<b>Hoy de turno</b><br>" +
+    T.trabajan.map(t=>`${t.nom} — ${t.txt}`).join("<br>") +
+    (T.libres.length ? `<div style="font-size:13px;color:var(--gris);margin-top:6px">Libre: ${T.libres.join(", ")}</div>` : "");
+}
+
+/* equipo: primero los que están de turno hoy */
+const deTurno = T ? T.trabajan.map(t=>t.nom) : [];
+const ordenados = [...deTurno, ...EQUIPO.filter(p=>!deTurno.includes(p))];
+ordenados.forEach(p => {
+  const o = document.createElement("option");
+  o.textContent = deTurno.includes(p) ? p : p + " (no está de turno)";
+  o.value = p;
+  $("#quien").appendChild(o);
+});
+if(deTurno.length === 1) $("#quien").value = deTurno[0];
+
+/* aguas */
+AGUAS.forEach((a, i) => {
+  const d = document.createElement("div");
+  d.className = "agua";
+  d.innerHTML = `<span>${a.n}</span>
+    <input type="number" inputmode="decimal" step="0.1" id="agua${i}" placeholder="--">
+    <span class="u">°</span>`;
+  $("#aguas").appendChild(d);
+  const inp = d.querySelector("input");
+  inp.addEventListener("input", () => {
+    const v = parseFloat(inp.value);
+    inp.classList.toggle("fuera", !isNaN(v) && (v < a.min || v > a.max));
+  });
+});
+
+/* ---------- rondas de temperatura: primera hora y cada 2 horas ---------- */
+const CADA_HORAS = 2;
+let rondas = [];
+
+function guardarRonda(){
+  const temps = {};
+  let algo = false;
+  AGUAS.forEach((a,i)=>{
+    const v = $("#agua"+i).value.trim();
+    if(v !== ""){ temps[a.n] = parseFloat(v); algo = true; }
+  });
+  if(!algo){ alert("Anota al menos una temperatura antes de guardar."); return; }
+  rondas.push({hora: new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",hour12:false}),
+               t: temps});
+  AGUAS.forEach((a,i)=>{ $("#agua"+i).value = ""; $("#agua"+i).classList.remove("fuera"); });
+  pintarRondas(); guardar();
+}
+
+function pintarRondas(){
+  const cont = $("#rondas");
+  cont.innerHTML = rondas.length ? '<div class="bloque" style="margin:18px 0 0">Mediciones de hoy</div>' : "";
+  rondas.forEach(r=>{
+    const d = document.createElement("div");
+    d.className = "ronda";
+    const partes = AGUAS.filter(a => r.t[a.n] !== undefined).map(a=>{
+      const v = r.t[a.n], fuera = v < a.min || v > a.max;
+      return `${a.n.replace("Biopiscina","Bio").replace("Hot Tub","HT")} ` +
+             (fuera ? `<i>${v}°</i>` : `${v}°`);
+    });
+    d.innerHTML = `<div class="h">${r.hora} h</div><div class="v">${partes.join(" · ")}</div>`;
+    cont.appendChild(d);
+  });
+  pintarProxima();
+}
+
+function pintarProxima(){
+  const el = $("#proxima");
+  if(!rondas.length){
+    el.className = "proxima toca";
+    el.innerHTML = "<b>Toca la primera medición del día.</b>";
+    return;
+  }
+  const ult = rondas[rondas.length-1].hora.split(":").map(Number);
+  const prox = new Date(); prox.setHours(ult[0] + CADA_HORAS, ult[1], 0, 0);
+  const hhmm = prox.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",hour12:false});
+  const vencida = new Date() >= prox;
+  el.className = "proxima" + (vencida ? " toca" : "");
+  el.innerHTML = vencida
+    ? `<b>Toca medir.</b> La última fue a las ${rondas[rondas.length-1].hora}.`
+    : `Última medición <b>${rondas[rondas.length-1].hora}</b> · la próxima a las <b>${hhmm}</b>`;
+}
+pintarProxima();
+setInterval(pintarProxima, 60000);
+
+/* id estable y único por tarea. Ojo: truncar un base64 hacía colisionar
+   "… — Piscina 1" con "… — Piscina 2" y la hora se escribía en la fila
+   equivocada. Este hash usa el texto completo. */
+function hashId(s){
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
+  return h.toString(36);
+}
+
+/* ---------- tareas del turno ----------
+   El checklist es por horario, así que la lista depende de qué turno se eligió
+   y de si hoy es lunes (ese día solo hay cierre, con su propia lista).
+
+   El id de cada tarea incluye turno y hora, no solo el texto: "Avanzar con
+   tareas extras" aparece en los dos turnos y a horas distintas, y si el id
+   fuera solo el texto, marcar una marcaría la otra. Es el mismo problema de
+   colisión que ya nos pasó con "… — Piscina 1/2". */
+function bloquesDelTurno(){
+  const turno = $("#turno").value;
+  if (esLunes()) return {clave:"lunes", bloques: CHECKLIST.lunes, heredadas: HEREDADAS.cierre};
+  return {clave: turno, bloques: CHECKLIST[turno] || [], heredadas: HEREDADAS[turno] || []};
+}
+
+function esLunes(){ return hoy.getDay() === 1; }
+
+function filaTarea(item, idBase){
+  const t     = typeof item === "string" ? item : item.t;
+  const nota  = typeof item === "string" ? ""   : (item.nota  || "");
+  const campo = typeof item === "string" ? ""   : (item.campo || "");
+  const id = "t_" + hashId(idBase + "|" + t);
+  const row = document.createElement("div");
+  row.className = "tarea";
+  row.dataset.tarea = t;
+  row.innerHTML = `
+    <input type="checkbox" id="${id}">
+    <div class="txt">
+      <div class="nom">${t}</div>
+      ${nota ? `<div class="nota">${nota}</div>` : ""}
+      ${campo ? `<div class="meta"><input type="text" id="${id}_d" placeholder="${campo}"
+          style="padding:9px 11px;font-size:15px"></div>` : ""}
+      <div class="meta">
+        <select data-resp="${id}">
+          <option value="">sin asignar</option>
+          ${EQUIPO.map(p=>`<option>${p}</option>`).join("")}
+        </select>
+        <span class="sello" id="s_${id}"></span>
+      </div>
+    </div>`;
+
+  const dato = row.querySelector("input[type=text]");
+  if(dato) dato.addEventListener("input", guardar);
+
+  const chk = row.querySelector("input");
+  chk.addEventListener("change", () => {
+    row.classList.toggle("hecha", chk.checked);
+    const sello = $("#s_" + id);
+    if (chk.checked) {
+      const ahora = new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",hour12:false});
+      sello.textContent = ahora + " h";
+      const sel = row.querySelector("select");
+      if (!sel.value && $("#quien").value) sel.value = $("#quien").value;
+    } else sello.textContent = "";
+    contar(); guardar();
+  });
+  row.querySelector("select").addEventListener("change", guardar);
+  return row;
+}
+
+/* restaura lo marcado en las filas que están dibujadas ahora mismo */
+function restaurarTareas(){
+  if(!estado.tareas) return;
+  document.querySelectorAll("#tareas .tarea").forEach(row=>{
+    const chk = row.querySelector("input[type=checkbox]");
+    const g = estado.tareas[chk.id];
+    if(!g) return;
+    if(g.hecha){ chk.checked = true; row.classList.add("hecha");
+      row.querySelector(".sello").textContent = g.hora; }
+    const sel = row.querySelector("select");
+    if(g.resp && sel) sel.value = g.resp;
+    const dato = row.querySelector("input[type=text]");
+    if(g.dato && dato) dato.value = g.dato;
+  });
+}
+
+function pintarTareas(){
+  const cont = $("#tareas");
+  cont.innerHTML = "";
+  const {clave, bloques, heredadas} = bloquesDelTurno();
+
+  if (esLunes()){
+    const av = document.createElement("div");
+    av.className = "proxima toca";
+    av.style.margin = "22px 0 4px";
+    av.innerHTML = "<b>Lunes:</b> solo turno de cierre. Esta es la lista de mantención mayor, distinta a la del resto de la semana.";
+    cont.appendChild(av);
+  }
+
+  bloques.forEach(b => {
+    const h = document.createElement("div");
+    h.className = "bloque";
+    h.textContent = b.hora + " h";
+    cont.appendChild(h);
+
+    const card = document.createElement("div");
+    card.className = "card";
+    b.tareas.forEach(item => card.appendChild(filaTarea(item, clave + "|" + b.hora)));
+    cont.appendChild(card);
+  });
+
+  /* sin horario: se avanzan en los bloques de "tareas extras" */
+  const hOtras = document.createElement("div");
+  hOtras.className = "bloque";
+  hOtras.textContent = "Otras labores · sin horario";
+  cont.appendChild(hOtras);
+  const cOtras = document.createElement("div");
+  cOtras.className = "card";
+  OTRAS_LABORES.forEach(item => {
+    const row = filaTarea(item, "otras");
+    row.dataset.pool = "1";     /* sin horario: no arrastran al turno siguiente */
+    cOtras.appendChild(row);
+  });
+  cont.appendChild(cOtras);
+
+  /* lo que dictó Lu el 29 y el checklist por horario no cubre: se mantiene */
+  if (heredadas.length){
+    const hH = document.createElement("div");
+    hH.className = "bloque";
+    hH.textContent = TITULO_HEREDADAS[esLunes() ? "cierre" : clave] || "Revisión adicional";
+    cont.appendChild(hH);
+    const cH = document.createElement("div");
+    cH.className = "card";
+    heredadas.forEach(item => cH.appendChild(filaTarea(item, "heredadas|" + clave)));
+    cont.appendChild(cH);
+  }
+
+  restaurarTareas();
+  contar();
+}
+
+/* al cambiar de turno se redibuja: lo marcado no se pierde porque cada tarea
+   guarda su estado por id, y los ids del otro turno son distintos */
+$("#turno").addEventListener("change", () => { pintarTareas(); guardar(); });
+
+/* el lunes no hay turno de apertura: se fija cierre y se bloquea */
+if (esLunes()){
+  $("#turno").value = "cierre";
+  $("#turno").disabled = true;
+} else {
+  /* sugerencia por la hora actual: antes de las 14 es apertura */
+  $("#turno").value = hoy.getHours() < 14 ? "apertura" : "cierre";
+}
+
+pintarTareas();
+
+/* se cuenta mirando la pantalla, no con un acumulador: los bloques de hot tub y
+   sauna se vuelven a dibujar cuando entra una reserva, y un contador que solo
+   suma terminaba inflado */
+function contar(){
+  const hechas = document.querySelectorAll(".tarea.hecha").length;
+  const hay    = document.querySelectorAll(".tarea").length;
+  $("#cuenta").textContent = hechas + " / " + hay;
+}
+contar();
+
+
+/* declarado acá arriba a propósito: pintarFiltrado() lo consulta y con `let`
+   más abajo caía en la zona muerta temporal (ReferenceError al cargar) */
+let dia = null;
+
+/* ---------- calidad del agua y filtrado ----------
+   Regla que dictó Lu el 30-jul-2026:
+     · Base de invierno: filtrado fijo de 21:30 a 23:00.
+     · Si el agua se reporta poco transparente, se busca una ventana más larga:
+       el filtrado parte cuando se van los últimos clientes de biopiscinas, y
+       corre hasta las 23:00. La hora de salida sale de Skedu (EndsAt), no se
+       estima: un servicio de 4 horas que entra a las 18:00 sale a las 22:00.
+     · Si mañana la máxima supera los 9°, se puede estirar hasta las 24:00.
+
+   Dos cosas que puse yo y falta que Lu confirme:
+     · El corte de "poco transparente" está en 90%. Ella pidió el porcentaje
+       pero no dijo desde cuál se gatilla.
+     · La base 21:30 es "en invierno". No sé qué corresponde en verano. */
+const TRANSP_CORTE  = 90;      // % — bajo esto se considera poco transparente
+const FILTRA_DESDE  = "21:30";
+const FILTRA_HASTA  = "23:00";
+const FILTRA_HASTA_TEMPLADO = "24:00";
+const TEMP_MANANA_CORTE = 9;   // grados
+
+function aMin(hhmm){ const [h,m]=hhmm.split(":").map(Number); return h*60+m; }
+function aHora(min){ return String(Math.floor(min/60)).padStart(2,"0")+":"+String(min%60).padStart(2,"0"); }
+
+/* a qué hora se va el último cliente de biopiscinas, según Skedu */
+function salidaUltimoBio(){
+  if(!dia) return null;
+  const bios = ["hot_tubs","saunas","otros"].flatMap(g => (dia[g]||[]))
+                 .filter(rv => rv.es_bio && rv.fin);
+  if(!bios.length) return null;
+  const fin = bios.map(rv => rv.fin).sort().pop();
+  return {hora: fin, cuantas: bios.length};
+}
+
+function pintarFiltrado(){
+  const el = $("#filtrado");
+  if(!el) return;
+
+  const transp   = parseInt(($("#cal_transp")||{}).value ?? 100, 10);
+  const turbia   = transp < TRANSP_CORTE;
+  const salida   = salidaUltimoBio();
+  const tmanana  = window.__tmaxManana;
+
+  /* hasta cuándo: 23:00, o 24:00 si mañana viene sobre 9° */
+  let hasta = FILTRA_HASTA, porHasta = "";
+  if(typeof tmanana === "number"){
+    if(tmanana > TEMP_MANANA_CORTE){
+      hasta = FILTRA_HASTA_TEMPLADO;
+      porHasta = `mañana se esperan <b>${Math.round(tmanana)}°</b> de máxima — sobre ${TEMP_MANANA_CORTE}°, así que se puede estirar hasta las 24:00`;
+    } else {
+      porHasta = `mañana se esperan <b>${Math.round(tmanana)}°</b> de máxima — ${TEMP_MANANA_CORTE}° o menos, así que se corta a las 23:00`;
+    }
+  } else {
+    porHasta = "sin dato del clima de mañana: se corta a las 23:00";
+  }
+
+  /* desde cuándo */
+  let desde = FILTRA_DESDE, porDesde = "", alerta = false;
+  if(turbia && salida){
+    desde = salida.hora;
+    alerta = true;
+    porDesde = `agua bajo ${TRANSP_CORTE}% de transparencia: se adelanta el filtrado a la salida de los últimos clientes de bios`;
+  } else if(salida && aMin(salida.hora) > aMin(FILTRA_DESDE)){
+    /* no se puede filtrar con gente adentro */
+    desde = salida.hora;
+    alerta = true;
+    porDesde = `hoy los últimos clientes de bios salen a las <b>${salida.hora}</b>, más tarde que las ${FILTRA_DESDE}: no se puede partir antes`;
+  } else if(turbia && !salida){
+    porDesde = `agua bajo ${TRANSP_CORTE}% de transparencia, pero hoy no hay reservas de bios con hora de salida: partir apenas se pueda`;
+  } else {
+    porDesde = "agua en buen estado: va el horario fijo de invierno";
+  }
+
+  const horas = ((aMin(hasta) - aMin(desde)) / 60);
+  window.__filtrado = `${desde}–${hasta} (${horas.toFixed(1).replace(".0","")} h)`;
+
+  el.className = alerta ? "proxima toca" : "proxima";
+  el.innerHTML = `
+    <b>Dejar el filtrado de ${desde} a ${hasta}</b>
+    <div style="font-size:14px;margin-top:6px">${horas.toFixed(1).replace(".0","")} horas</div>
+    <div style="font-size:13px;color:var(--gris);margin-top:8px">
+      ${porDesde}<br>${porHasta}
+    </div>
+    ${alerta ? `<div style="margin-top:10px;padding:10px;border-radius:8px;
+        background:var(--blanco);border:1px solid var(--alerta)">
+        <b style="font-size:15px">Acordarse:</b> ir a poner el filtrado a las
+        <b>${desde}</b>${salida ? `, cuando salgan los últimos clientes de biopiscinas` : ""}.
+      </div>` : ""}`;
+}
+
+/* el porcentaje se muestra al lado del control, y todo recalcula el filtrado */
+(function(){
+  const r = $("#cal_transp");
+  if(!r) return;
+  const pintarPct = () => { $("#cal_transp_v").textContent = r.value + "%"; };
+  r.addEventListener("input", () => { pintarPct(); pintarFiltrado(); guardar(); });
+  ["#cal_susp","#cal_dec"].forEach(sel => $(sel).addEventListener("change", () => {
+    pintarFiltrado(); pintarAccionesAgua(); guardar(); }));
+  ["#cal_obs","#cal_medidas"].forEach(sel => $(sel).addEventListener("input", guardar));
+  pintarPct();
+})();
+pintarFiltrado();
+
+
+/* ---------- lo que gatillan las partículas ----------
+   Lu, 30-jul-2026: partículas decantadas piden aspirado; partículas en
+   suspensión piden pasar el colador. Se marcan igual que cualquier tarea, para
+   que quede la hora y el responsable en el reporte. */
+const ACCIONES_AGUA = {
+  dec:  {t:"Aspirar la piscina",  por:"hay partículas decantadas"},
+  susp: {t:"Pasar el colador",    por:"hay partículas en suspensión"},
+};
+
+function pintarAccionesAgua(){
+  const cont = $("#cal_acciones");
+  if(!cont) return;
+  const activas = [];
+  ["dec","susp"].forEach(k => {
+    const v = ($("#cal_" + k)||{}).value;
+    if(v && v !== "ausente") activas.push({k, ...ACCIONES_AGUA[k], cuantas:v});
+  });
+
+  if(!activas.length){ cont.innerHTML = ""; contar(); return; }
+
+  cont.innerHTML = `<div class="bloque" style="margin:4px 4px 8px">Hay que hacer</div>`;
+  activas.forEach(a => {
+    const id = "t_agua_" + a.k;
+    const row = document.createElement("div");
+    row.className = "tarea";
+    row.dataset.tarea = a.t;
+    row.innerHTML = `
+      <input type="checkbox" id="${id}">
+      <div class="txt">
+        <div class="nom">${a.t}</div>
+        <div class="nota">${a.por} (${a.cuantas})</div>
+        <div class="meta">
+          <select data-resp="${id}">
+            <option value="">sin asignar</option>
+            ${EQUIPO.map(p=>`<option>${p}</option>`).join("")}
+          </select>
+          <span class="sello" id="s_${id}"></span>
+        </div>
+      </div>`;
+    cont.appendChild(row);
+    const chk = row.querySelector("input[type=checkbox]");
+    chk.addEventListener("change", ()=>{
+      row.classList.toggle("hecha", chk.checked);
+      const sel = row.querySelector("select");
+      $("#s_"+id).textContent = chk.checked
+        ? new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",hour12:false}) + " h" : "";
+      if(chk.checked && !sel.value && $("#quien").value) sel.value = $("#quien").value;
+      contar(); guardar();
+    });
+    row.querySelector("select").addEventListener("change", guardar);
+    /* si ya venía marcada, recuperarla */
+    const g = (estado.tareas||{})[id];
+    if(g && g.hecha){ chk.checked = true; row.classList.add("hecha");
+                      $("#s_"+id).textContent = g.hora; }
+    if(g && g.resp) row.querySelector("select").value = g.resp;
+  });
+  contar();
+}
+
+/* ---------- traspaso entre turnos ----------
+   Lu, 30-jul-2026: lo que queda pendiente pasa al turno siguiente, con un
+   espacio para notas. Se guarda aparte del turno en curso: si se guardara en la
+   misma llave, "Borrar" se llevaría también lo que dejó el turno anterior. */
+const KEY_TRASPASO = KEY + "-traspaso";
+
+function leerTraspaso(){
+  try{ return JSON.parse(localStorage.getItem(KEY_TRASPASO) || "null"); }
+  catch(e){ return null; }
+}
+
+function pintarTraspaso(){
+  const cont = $("#traspaso");
+  const tr = leerTraspaso();
+  if(!cont || !tr){ if(cont) cont.innerHTML = ""; return; }
+
+  const pend = tr.pendientes || [];
+  cont.innerHTML = `
+    <div class="alerta" style="border-color:var(--alerta);background:var(--blanco)">
+      <div class="tit" style="color:var(--alerta)">Viene del turno anterior</div>
+      <div class="cuando">${tr.turno} del ${tr.fecha} · cerrado por ${tr.quien || "—"} a las ${tr.hora}</div>
+      ${tr.notas ? `<div class="item"><b>Nota</b><div class="d" style="color:var(--tinta);font-size:15px;white-space:pre-wrap">${tr.notas}</div></div>` : ""}
+      ${pend.length
+        ? `<div class="item"><b>${pend.length} ${pend.length===1?"tarea quedó":"tareas quedaron"} pendientes</b>
+             <div class="d">${pend.slice(0,8).map(p=>`• ${p}`).join("<br>")}</div>
+             ${pend.length > 8
+               ? `<details style="margin-top:6px"><summary style="font-size:13px;color:var(--gris);cursor:pointer">ver las otras ${pend.length-8}</summary>
+                    <div class="d">${pend.slice(8).map(p=>`• ${p}`).join("<br>")}</div></details>`
+               : ""}
+           </div>`
+        : `<div class="item"><b>Sin tareas pendientes</b></div>`}
+    </div>`;
+}
+
+function guardarTraspaso(pendientes){
+  const tr = {
+    fecha: $("#fecha").value,
+    turno: $("#turno").selectedOptions[0].textContent,
+    quien: $("#quien").value,
+    hora:  new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",hour12:false}),
+    notas: $("#notas_turno").value.trim(),
+    pendientes: pendientes,
+  };
+  localStorage.setItem(KEY_TRASPASO, JSON.stringify(tr));
+}
+pintarTraspaso();
+
+/* ---------- el día, armado desde Skedu ----------
+   Un cron corre generar_dia.py: a las 7:45 fija la línea base y arma el
+   formulario del día, y de ahí vuelve a mirar cada 15 minutos. Lo que entró
+   después de esa línea base viene marcado `nueva` y aparece en el banner rojo,
+   además de sumarse solo a los ciclos de más abajo.
+   La página NO consulta Skedu directo — eso obligaría a poner las credenciales
+   en el navegador, donde cualquiera las ve. Acá solo se lee el JSON ya listo. */
+
+async function cargarDia(){
+  try{
+    const r = await fetch("dia.json", {cache:"no-store"});
+    const j = await r.json();
+    /* si el JSON quedó de ayer, no sirve: mejor sin banner que con datos viejos */
+    const hoyISO = new Date().toLocaleDateString("sv-SE");   // AAAA-MM-DD local
+    dia = (j && j.fecha === hoyISO) ? j : null;
+  }catch(e){ dia = null; }
+  return dia;
+}
+
+/* respaldo para cuando el cron todavía no ha corrido: los archivos sueltos
+   del borrador, que no traen la marca de "nueva" */
+async function respaldo(archivo){
+  try{
+    const r = await fetch(archivo, {cache:"no-store"});
+    return await r.json();
+  }catch(e){ return []; }
+}
+
+/* Identidad estable de una reserva. NO se puede usar la posición en la lista:
+   si a media mañana entra una reserva de las 10:00, todo lo de más abajo se
+   corre un lugar y lo ya marcado quedaría pegado a la reserva equivocada. */
+function ponerClaves(reservas){
+  const vistas = {};
+  reservas.forEach(rv => {
+    const base = `${rv.hora}|${rv.servicio}|${rv.variante || ""}`;
+    const n = vistas[base] = (vistas[base] || 0) + 1;
+    rv.clave = `${base}#${n}`;
+  });
+  return reservas;
+}
+
+function pintarBanner(){
+  const cont = $("#banner");
+  if(!dia){ cont.innerHTML = ""; return; }
+
+  const nuevas = [];
+  ["hot_tubs","saunas","otros"].forEach(g =>
+    (dia[g] || []).forEach(rv => { if(rv.nueva) nuevas.push(rv); }));
+  nuevas.sort((a,b) => a.hora.localeCompare(b.hora));
+
+  if(!nuevas.length){
+    cont.innerHTML = `<p class="aldia">Sin reservas nuevas desde que se armó el
+      formulario. Última revisión: <b>${dia.actualizado} h</b>.</p>`;
+    return;
+  }
+  const base = (dia.linea_base || "").slice(11,16);
+  cont.innerHTML = `
+    <div class="alerta">
+      <div class="tit">${nuevas.length} ${nuevas.length===1
+        ? "reserva de última hora" : "reservas de última hora"}</div>
+      <div class="cuando">Entraron después de armarse el formulario${base ? ` de las ${base}` : ""}
+        · revisado a las ${dia.actualizado} h</div>
+      ${nuevas.map(rv => `
+        <div class="item">
+          <b>${rv.hora}</b> · ${rv.servicio}${rv.tamano ? ` · ${rv.tamano}` : ""}
+          <div class="d">${rv.variante || ""}${rv.creada ? ` — entró a las ${rv.creada} h` : ""}</div>
+        </div>`).join("")}
+    </div>`;
+}
+
+/* ---------- hot tubs: un ciclo por reserva ---------- */
+const ESTADIA_MIN = 150;   // 2,5 horas
+const LLENADO_MIN = 30;    // se llena media hora antes
+
+/* Cómo se reparten los hot tubs, según Lu (29-jul-2026). Tres tandas al día
+   y dentro de cada una tres horarios escalonados, dos tinas por horario.
+   El orden no es capricho: la 2 se llena más lento y la 4 queda más cerca.
+   Las seis tinas admiten hasta 10 personas, así que el tamaño del grupo no
+   condiciona el reparto — manda solo el horario. */
+const REPARTO = {
+  "10:00": {tinas:[6,5], por:"primero la 6, después la 5"},
+  "14:00": {tinas:[6,5], por:"primero la 6, después la 5"},
+  "18:00": {tinas:[6,5], por:"primero la 6, después la 5"},
+  "10:30": {tinas:[4,3], por:"la 3 y la 4 dan lo mismo; suele salir antes la 4, que está más cerca"},
+  "14:30": {tinas:[4,3], por:"la 3 y la 4 dan lo mismo; suele salir antes la 4, que está más cerca"},
+  "18:30": {tinas:[4,3], por:"la 3 y la 4 dan lo mismo; suele salir antes la 4, que está más cerca"},
+  "11:00": {tinas:[1,2], por:"primero la 1: la 2 se llena más lento"},
+  "15:00": {tinas:[1,2], por:"primero la 1: la 2 se llena más lento"},
+  "19:00": {tinas:[1,2], por:"primero la 1: la 2 se llena más lento"},
+};
+
+function menos(hhmm, min){
+  const [h,m] = hhmm.split(":").map(Number);
+  const d = new Date(); d.setHours(h, m - min, 0, 0);
+  return d.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",hour12:false});
+}
+function mas(hhmm, min){ return menos(hhmm, -min); }
+
+let htEstado = {};
+
+async function cargarHotTubs(){
+  const reservas = ponerClaves(
+    (dia && Array.isArray(dia.hot_tubs)) ? dia.hot_tubs : await respaldo("reservas_hoy.json"));
+
+  window.__reservasHT = reservas;
+  const cont = $("#hottubs");
+  cont.innerHTML = '<div class="bloque">Hot tubs de hoy — según reservas</div>';
+
+  if(!reservas.length){
+    const c = document.createElement("div");
+    c.className = "card";
+    c.innerHTML = '<p class="hint" style="margin:0">Hoy no hay hot tubs reservados.</p>';
+    cont.appendChild(c);
+    return;
+  }
+
+  /* la tina sugerida sale del reparto: la 1ª reserva de ese horario toma la
+     primera tina, la 2ª toma la siguiente */
+  const usadasPorHora = {};
+  reservas.forEach(rv => {
+    const r = REPARTO[rv.hora];
+    if(!r) return;
+    const n = (usadasPorHora[rv.hora] = (usadasPorHora[rv.hora] || 0));
+    rv.sugerida = r.tinas[n] ? `Hot Tub ${r.tinas[n]}` : "";
+    rv.porque = r.por;
+    usadasPorHora[rv.hora] = n + 1;
+  });
+
+  reservas.forEach((rv, i) => {
+    const c = document.createElement("div");
+    c.className = "card" + (rv.nueva ? " esNueva" : "");
+    const pasos = [
+      {k:"llenar",   t:`Llenar`,                  h:menos(rv.hora, LLENADO_MIN), temp:"Temperatura de llenado"},
+      {k:"entrega",  t:`Entrega al cliente`,      h:rv.hora,                     temp:"Temperatura entregada"},
+      {k:"vaciar",   t:`Vaciar`,                  h:mas(rv.hora, ESTADIA_MIN),   temp:null},
+      {k:"higiene",  t:`Higienizar`,              h:"",                          temp:null},
+      {k:"rellenar", t:`Volver a llenar`,         h:"",                          temp:null},
+    ];
+    c.innerHTML = `
+      <h2>${rv.hora} · ${rv.tamano}${rv.nueva ? '<span class="chip">nueva</span>' : ""}</h2>
+      <p class="hint">${rv.servicio} · estadía 2,5 h${rv.nueva && rv.creada ? ` · entró a las ${rv.creada} h` : ""}</p>
+      <label class="f">¿En qué hot tub?</label>
+      <select id="ht_tina_${i}">
+        <option value="">— asignar —</option>
+        ${[1,2,3,4,5,6].map(n=>`<option>Hot Tub ${n}</option>`).join("")}
+      </select>
+      ${rv.sugerida ? `<div class="nota" style="margin-top:6px">Le toca la <b>${rv.sugerida.replace("Hot Tub ","")}</b> — ${rv.porque}. Cámbiala si fue otra.</div>`
+                    : `<div class="nota" style="margin-top:6px">Horario fuera de los bloques habituales: asignar a mano.</div>`}
+      <div id="ht_pasos_${i}" style="margin-top:6px"></div>`;
+    cont.appendChild(c);
+
+    const cp = c.querySelector(`#ht_pasos_${i}`);
+    pasos.forEach(pa=>{
+      const id = `ht_${i}_${pa.k}`;
+      const row = document.createElement("div");
+      row.className = "tarea";
+      row.innerHTML = `
+        <input type="checkbox" id="${id}">
+        <div class="txt">
+          <div class="nom">${pa.t}${pa.h ? ` · <span style="font-family:ui-monospace,monospace;font-size:14px;color:var(--gris)">${pa.h}</span>` : ""}</div>
+          ${pa.temp ? `<div class="meta"><input type="number" step="0.1" inputmode="decimal"
+              id="${id}_t" placeholder="${pa.temp}" style="width:190px;padding:8px 10px;font-size:15px"><span class="u" style="color:var(--gris)">°</span></div>` : ""}
+          <div class="meta"><span class="sello" id="s_${id}"></span></div>
+        </div>`;
+      cp.appendChild(row);
+      const chk = row.querySelector("input[type=checkbox]");
+      chk.addEventListener("change", ()=>{
+        row.classList.toggle("hecha", chk.checked);
+        $("#s_"+id).textContent = chk.checked
+          ? new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",hour12:false}) + " h" : "";
+        guardarHT(); contar();
+      });
+      const it = row.querySelector("input[type=number]");
+      if(it) it.addEventListener("input", guardarHT);
+    });
+    const selTina = c.querySelector(`#ht_tina_${i}`);
+    if(rv.sugerida) selTina.value = rv.sugerida;   // restaurarHT pisa esto si ya eligieron otra
+    selTina.addEventListener("change", guardarHT);
+  });
+
+  window.__reservasHT = reservas;
+  restaurarHT();
+  contar();
+}
+
+/* lo marcado se guarda por `clave` de la reserva, no por su posición: así una
+   reserva que entra a media mañana no le roba lo hecho a la de más abajo */
+const PASOS_HT = ["llenar","entrega","vaciar","higiene","rellenar"];
+
+function guardarHT(){
+  const d = JSON.parse(localStorage.getItem(KEY+"-ht") || "{}");
+  (window.__reservasHT||[]).forEach((rv,i)=>{
+    const v = {tina: ($("#ht_tina_"+i)||{}).value || ""};
+    PASOS_HT.forEach(k=>{
+      const c = $(`#ht_${i}_${k}`); if(!c) return;
+      const t = $(`#ht_${i}_${k}_t`);
+      v[k] = {hecha:c.checked, hora:$(`#s_ht_${i}_${k}`).textContent, temp: t ? t.value : ""};
+    });
+    d[rv.clave] = v;
+  });
+  htEstado = d;
+  localStorage.setItem(KEY+"-ht", JSON.stringify(d));
+}
+function restaurarHT(){
+  const g = JSON.parse(localStorage.getItem(KEY+"-ht") || "{}");
+  (window.__reservasHT||[]).forEach((rv,i)=>{
+    const v = g[rv.clave]; if(!v) return;
+    if($("#ht_tina_"+i) && v.tina) $("#ht_tina_"+i).value = v.tina;
+    PASOS_HT.forEach(k=>{
+      const c = $(`#ht_${i}_${k}`); if(!c || !v[k]) return;
+      if(v[k].hecha){ c.checked = true; c.closest(".tarea").classList.add("hecha");
+                      $(`#s_ht_${i}_${k}`).textContent = v[k].hora; }
+      const t = $(`#ht_${i}_${k}_t`); if(t && v[k].temp) t.value = v[k].temp;
+    });
+  });
+  htEstado = g;
+}
+
+/* ---------- sauna: encendido según la temperatura de afuera ----------
+   Regla de Lu (29-jul-2026, corregida por ella el mismo día de 9° a 5°):
+   encender 1 hora antes si hay más de 5°, y 1 hora y media antes si hay 5° o
+   menos. La temperatura de entrega al cliente se toma 10 minutos antes de la
+   reserva. */
+const SAUNA_CORTE = 5;          // grados
+const SAUNA_ANTES_TEMPLADO = 60;
+const SAUNA_ANTES_FRIO = 90;
+const SAUNA_ENTREGA_MIN = 10;
+
+function tempALaHora(hhmm){
+  const h = window.__horas;
+  if(!h || !h.time) return null;
+  const hora = parseInt(hhmm.split(":")[0], 10);
+  const i = h.time.findIndex(t => parseInt(t.slice(11,13), 10) === hora);
+  return i >= 0 ? h.temperature_2m[i] : null;
+}
+
+async function cargarSaunas(){
+  const reservas = ponerClaves(
+    (dia && Array.isArray(dia.saunas)) ? dia.saunas : await respaldo("saunas_hoy.json"));
+
+  window.__reservasSA = reservas;
+  const cont = $("#saunas");
+  cont.innerHTML = '<div class="bloque">Sauna — reservas de hoy</div>';
+  if(!reservas.length){
+    const c = document.createElement("div");
+    c.className = "card";
+    c.innerHTML = '<p class="hint" style="margin:0">Hoy no hay sauna reservado.</p>';
+    cont.appendChild(c);
+    return;
+  }
+
+  reservas.forEach((rv, i) => {
+    const t = tempALaHora(rv.hora);
+    const frio = (t === null) ? null : t <= SAUNA_CORTE;
+    const antes = frio === null ? SAUNA_ANTES_FRIO : (frio ? SAUNA_ANTES_FRIO : SAUNA_ANTES_TEMPLADO);
+    const motivo = t === null
+      ? "sin dato de clima: se toma el margen largo por seguridad"
+      : (frio ? `hay ${Math.round(t)}° a esa hora — ${SAUNA_CORTE}° o menos, así que va con hora y media`
+              : `hay ${Math.round(t)}° a esa hora — sobre ${SAUNA_CORTE}°, basta con una hora`);
+
+    const c = document.createElement("div");
+    c.className = "card" + (rv.nueva ? " esNueva" : "");
+    c.innerHTML = `
+      <h2>${rv.hora} · ${rv.servicio}${rv.nueva ? '<span class="chip">nueva</span>' : ""}</h2>
+      <p class="hint">${rv.variante || ""}${rv.nueva && rv.creada ? ` · entró a las ${rv.creada} h` : ""}</p>
+      <div class="proxima" style="margin-bottom:12px">
+        <b>Encender a las ${menos(rv.hora, antes)}</b><br>${motivo}
+      </div>
+      <div id="sa_pasos_${i}"></div>`;
+    cont.appendChild(c);
+
+    const pasos = [
+      {k:"encender", t:"Encender el sauna", h:menos(rv.hora, antes), temp:null},
+      {k:"entrega",  t:"Temperatura de entrega", h:menos(rv.hora, SAUNA_ENTREGA_MIN),
+       temp:"Temperatura entregada"},
+    ];
+    const cp = c.querySelector(`#sa_pasos_${i}`);
+    pasos.forEach(pa=>{
+      const id = `sa_${i}_${pa.k}`;
+      const row = document.createElement("div");
+      row.className = "tarea";
+      row.innerHTML = `
+        <input type="checkbox" id="${id}">
+        <div class="txt">
+          <div class="nom">${pa.t} · <span style="font-family:ui-monospace,monospace;font-size:14px;color:var(--gris)">${pa.h}</span></div>
+          ${pa.temp ? `<div class="meta"><input type="number" step="0.1" inputmode="decimal"
+              id="${id}_t" placeholder="${pa.temp}" style="width:190px;padding:8px 10px;font-size:15px"><span class="u" style="color:var(--gris)">°</span></div>` : ""}
+          <div class="meta"><span class="sello" id="s_${id}"></span></div>
+        </div>`;
+      cp.appendChild(row);
+      const chk = row.querySelector("input[type=checkbox]");
+      chk.addEventListener("change", ()=>{
+        row.classList.toggle("hecha", chk.checked);
+        $("#s_"+id).textContent = chk.checked
+          ? new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",hour12:false}) + " h" : "";
+        guardarSA(); contar();
+      });
+      const it = row.querySelector("input[type=number]");
+      if(it) it.addEventListener("input", guardarSA);
+    });
+    rv.encender = menos(rv.hora, antes);
+  });
+
+  window.__reservasSA = reservas;
+  restaurarSA();
+  contar();
+}
+
+function guardarSA(){
+  const d = JSON.parse(localStorage.getItem(KEY+"-sa") || "{}");
+  (window.__reservasSA||[]).forEach((rv,i)=>{
+    const v = {};
+    ["encender","entrega"].forEach(k=>{
+      const c = $(`#sa_${i}_${k}`); if(!c) return;
+      const t = $(`#sa_${i}_${k}_t`);
+      v[k] = {hecha:c.checked, hora:$(`#s_sa_${i}_${k}`).textContent, temp: t ? t.value : ""};
+    });
+    d[rv.clave] = v;
+  });
+  localStorage.setItem(KEY+"-sa", JSON.stringify(d));
+}
+function restaurarSA(){
+  const g = JSON.parse(localStorage.getItem(KEY+"-sa") || "{}");
+  (window.__reservasSA||[]).forEach((rv,i)=>{
+    const v = g[rv.clave]; if(!v) return;
+    ["encender","entrega"].forEach(k=>{
+      const c = $(`#sa_${i}_${k}`); if(!c || !v[k]) return;
+      if(v[k].hecha){ c.checked = true; c.closest(".tarea").classList.add("hecha");
+        $(`#s_sa_${i}_${k}`).textContent = v[k].hora; }
+      const t = $(`#sa_${i}_${k}_t`); if(t && v[k].temp) t.value = v[k].temp;
+    });
+  });
+}
+
+/* ---------- clima y filtrado ---------- */
+async function clima(){
+  /* forecast_days=2: la regla de filtrado necesita la máxima de MAÑANA */
+  const url = "https://api.open-meteo.com/v1/forecast?latitude=-41.125&longitude=-73.058"
+    + "&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max"
+    + "&hourly=temperature_2m"
+    + "&timezone=America%2FSantiago&forecast_days=2";
+  try{
+    const r = await fetch(url);
+    const j = await r.json();
+    const d = j.daily;
+    window.__horas = j.hourly || null;   // lo usa el sauna para decidir el encendido
+    const tmax = d.temperature_2m_max[0], tmin = d.temperature_2m_min[0];
+    const lluvia = d.precipitation_sum[0], pp = d.precipitation_probability_max[0];
+    window.__tmaxManana = d.temperature_2m_max[1];
+
+    $("#climaEstado").textContent = "Datos de hoy, se cargan solos.";
+    $("#climaDatos").innerHTML = `
+      <div><b>${Math.round(tmax)}°</b>máxima</div>
+      <div><b>${Math.round(tmin)}°</b>mínima</div>
+      <div><b>${pp}%</b>prob. lluvia</div>
+      <div><b>${lluvia.toFixed(1)}</b>mm esperados</div>
+      <div><b>${Math.round(window.__tmaxManana)}°</b>máxima mañana</div>`;
+
+    /* la sugerencia de filtrado por clima que había antes era invento mío;
+       la reemplaza la regla que dictó Lu, que vive en pintarFiltrado() */
+    $("#sugerencia").style.display = "none";
+    pintarFiltrado();
+  }catch(e){
+    $("#climaEstado").textContent = "No se pudo cargar el clima.";
+    window.__tmaxManana = undefined;
+    pintarFiltrado();
+  }
+}
+/* ---------- arranque y refresco ----------
+   Primero el día (lo que hay reservado), después el clima, y al final el sauna:
+   el sauna necesita saber cuántos grados hace a esa hora para decidir si
+   enciende con una hora o con hora y media. */
+cargarDia()
+  .then(() => { pintarBanner(); pintarFiltrado(); return cargarHotTubs(); })
+  .then(clima)
+  .then(cargarSaunas);
+
+/* El cron reescribe dia.json cada 15 minutos. La ficha se queda abierta todo el
+   turno en el teléfono, así que vuelve a mirar sola: si cambió lo reservado,
+   redibuja los ciclos. Lo ya marcado se recupera de localStorage por clave. */
+function firma(d){
+  if(!d) return "";
+  return ["hot_tubs","saunas","otros"]
+    .map(g => (d[g]||[]).map(r => `${r.hora}|${r.servicio}|${r.variante||""}`).join(";"))
+    .join("||");
+}
+
+async function refrescarDia(){
+  const antes = firma(dia);
+  await cargarDia();
+  pintarBanner();
+  if(firma(dia) !== antes){
+    await cargarHotTubs();
+    await cargarSaunas();
+  }
+}
+setInterval(refrescarDia, 5*60*1000);
+/* al volver a la ficha desde otra app, mirar de inmediato */
+document.addEventListener("visibilitychange", () => {
+  if(document.visibilityState === "visible") refrescarDia();
+});
+
+/* ---------- guardar / restaurar ---------- */
+function guardar(){
+  /* se parte de lo ya guardado: en pantalla solo están las tareas del turno
+     elegido, y arrancar de cero borraría lo marcado en el otro turno */
+  const previo = JSON.parse(localStorage.getItem(KEY) || "{}");
+  const d = {fecha:$("#fecha").value, turno:$("#turno").value, quien:$("#quien").value,
+             obs:$("#obs").value, rondas:rondas, tareas: previo.tareas || {},
+             calidad: {transp:$("#cal_transp").value, susp:$("#cal_susp").value,
+                       dec:$("#cal_dec").value, obs:$("#cal_obs").value,
+                       medidas:$("#cal_medidas").value}};
+  /* ojo: las filas de hot tub no llevan selector de responsable */
+  document.querySelectorAll("#tareas .tarea, #cal_acciones .tarea").forEach(row=>{
+    const chk = row.querySelector("input[type=checkbox]");
+    const sel = row.querySelector("select");
+    const dato = row.querySelector("input[type=text]");
+    d.tareas[chk.id] = {hecha:chk.checked, hora:row.querySelector(".sello").textContent,
+                        resp: sel ? sel.value : "", dato: dato ? dato.value : ""};
+  });
+  d.notas = $("#notas_turno").value;
+  localStorage.setItem(KEY, JSON.stringify(d));
+  estado = d;
+}
+function restaurar(){
+  if(!estado.tareas) return;
+  /* el lunes el turno está fijo en cierre; los demás días vale lo guardado */
+  if(!esLunes() && (estado.turno === "apertura" || estado.turno === "cierre")){
+    $("#turno").value = estado.turno;
+  }
+  $("#quien").value = estado.quien || "";
+  $("#obs").value = estado.obs || "";
+  rondas = estado.rondas || [];
+  pintarRondas();
+  if(estado.calidad){
+    $("#cal_transp").value  = estado.calidad.transp ?? 100;
+    $("#cal_transp_v").textContent = ($("#cal_transp").value) + "%";
+    $("#cal_susp").value    = estado.calidad.susp || "ausente";
+    $("#cal_dec").value     = estado.calidad.dec  || "ausente";
+    $("#cal_obs").value     = estado.calidad.obs  || "";
+    $("#cal_medidas").value = estado.calidad.medidas || "";
+    pintarFiltrado();
+  }
+  $("#notas_turno").value = estado.notas || "";
+  pintarAccionesAgua();
+  pintarTareas();     /* redibuja el turno correcto y restaura sus marcas */
+}
+restaurar();
+["#turno","#quien","#obs"].forEach(s=>$(s).addEventListener("change",guardar));
+$("#notas_turno").addEventListener("input", guardar);
+
+function limpiar(){
+  if(!confirm("¿Borrar todo lo marcado de este turno?")) return;
+  localStorage.removeItem(KEY); location.reload();
+}
+
+/* ---------- cerrar turno ---------- */
+function cerrar(){
+  if(!$("#quien").value){ alert("Primero elige tu nombre."); return; }
+
+  let t = `*CANCAGUA — Mantención*\n${$("#fecha").value} · Turno ${$("#turno").selectedOptions[0].textContent}\nResponsable: ${$("#quien").value}\n`;
+  t += `\n*Filtrado:* ${window.__filtrado || "—"}\n`;
+
+  /* temperaturas: van las rondas guardadas, no los campos en pantalla */
+  t += `\n*Temperaturas — ${rondas.length} ${rondas.length===1?"medición":"mediciones"}*\n`;
+  if(!rondas.length){
+    t += `Sin mediciones registradas.\n`;
+  }else{
+    rondas.forEach(r=>{
+      const partes = AGUAS.filter(a=>r.t[a.n]!==undefined).map(a=>{
+        const v = r.t[a.n], fuera = v < a.min || v > a.max;
+        return `${a.n} ${v}°${fuera ? " ⚠️" : ""}`;
+      });
+      t += `${r.hora} — ${partes.join(", ")}\n`;
+    });
+    const noMedidos = AGUAS.filter(a => !rondas.some(r => r.t[a.n] !== undefined)).map(a=>a.n);
+    if(noMedidos.length) t += `Sin medir en todo el turno: ${noMedidos.join(", ")}\n`;
+  }
+
+  /* calidad del agua: es lo que manda el filtrado, así que va arriba */
+  t += `\n*Calidad del agua*\n`;
+  t += `Transparencia: ${$("#cal_transp").value}%\n`;
+  t += `Partículas en suspensión: ${$("#cal_susp").value}\n`;
+  t += `Partículas decantadas: ${$("#cal_dec").value}\n`;
+  if($("#cal_obs").value.trim())     t += `Observación: ${$("#cal_obs").value.trim()}\n`;
+  if($("#cal_medidas").value.trim()) t += `Medidas a tomar: ${$("#cal_medidas").value.trim()}\n`;
+  document.querySelectorAll("#cal_acciones .tarea").forEach(row=>{
+    const nom = row.dataset.tarea;
+    const hecha = row.classList.contains("hecha");
+    const hora = row.querySelector(".sello").textContent.replace(" h","");
+    const resp = row.querySelector("select").value;
+    t += hecha ? `✅ ${nom} — ${hora}${resp ? " · "+resp : ""}\n` : `⬜ ${nom}\n`;
+  });
+
+  /* hot tubs del día */
+  (window.__reservasHT||[]).forEach((rv,i)=>{
+    const tina = ($("#ht_tina_"+i)||{}).value || "sin asignar";
+    t += `\n*Hot tub ${rv.hora} · ${rv.tamano}* (${tina})\n`;
+    [["llenar","Llenar"],["entrega","Entrega al cliente"],["vaciar","Vaciar"],
+     ["higiene","Higienizar"],["rellenar","Volver a llenar"]].forEach(([k,lbl])=>{
+      const c = $(`#ht_${i}_${k}`); if(!c) return;
+      const hora = $(`#s_ht_${i}_${k}`).textContent.replace(" h","");
+      const tp = $(`#ht_${i}_${k}_t`);
+      const tempTxt = tp && tp.value ? ` · ${tp.value}°` : "";
+      t += c.checked ? `✅ ${lbl} — ${hora}${tempTxt}\n` : `⬜ ${lbl}\n`;
+    });
+  });
+
+  /* sauna del día */
+  (window.__reservasSA||[]).forEach((rv,i)=>{
+    t += `\n*Sauna ${rv.hora}* (encender ${rv.encender})\n`;
+    [["encender","Encender"],["entrega","Temperatura de entrega"]].forEach(([k,lbl])=>{
+      const c = $(`#sa_${i}_${k}`); if(!c) return;
+      const hora = $(`#s_sa_${i}_${k}`).textContent.replace(" h","");
+      const tp = $(`#sa_${i}_${k}_t`);
+      const tempTxt = tp && tp.value ? ` · ${tp.value}°` : "";
+      t += c.checked ? `✅ ${lbl} — ${hora}${tempTxt}\n` : `⬜ ${lbl}\n`;
+    });
+  });
+
+  /* Se recorre lo que está en pantalla, bloque por bloque, en el mismo orden
+     del checklist. Antes se cruzaba contra la lista de tareas por nombre, y
+     con el checklist por horario eso duplicaba las que se repiten a distintas
+     horas ("Avanzar con tareas extras" salía dos veces). */
+  const pendientes = [];
+  $("#tareas").querySelectorAll(".bloque, .card").forEach(el=>{
+    if(el.classList.contains("bloque")){ t += `\n*${el.textContent}*\n`; return; }
+    el.querySelectorAll(".tarea").forEach(row=>{
+      const nom   = row.dataset.tarea || row.querySelector(".nom").textContent;
+      const hecha = row.classList.contains("hecha");
+      const hora  = row.querySelector(".sello").textContent.replace(" h","");
+      const sel   = row.querySelector("select");
+      const resp  = sel ? sel.value : "";
+      const campo = row.querySelector("input[type=text]");
+      const dato  = campo && campo.value ? ` · ${campo.value}` : "";
+      if(hecha) t += `✅ ${nom} — ${hora}${resp ? " · "+resp : ""}${dato}\n`;
+      else {
+        t += `⬜ ${nom}${dato}\n`;
+        /* "Otras labores" no tiene horario: es una bolsa en la que se avanza
+           cuando se puede. Si contara como pendiente, cada día le pasaría al
+           turno siguiente las mismas 19 y el traspaso dejaría de servir. */
+        if(row.dataset.pool !== "1") pendientes.push(nom);
+      }
+    });
+  });
+
+  /* las acciones del agua también cuentan como pendientes si no se hicieron */
+  document.querySelectorAll("#cal_acciones .tarea").forEach(row=>{
+    if(!row.classList.contains("hecha")) pendientes.push(row.dataset.tarea);
+  });
+
+  if($("#obs").value.trim()) t += `\n*Observaciones*\n${$("#obs").value.trim()}\n`;
+
+  const notas = $("#notas_turno").value.trim();
+  if(notas) t += `\n*Para el turno siguiente*\n${notas}\n`;
+
+  t += `\n${pendientes.length ? "Quedaron "+pendientes.length+" tareas pendientes." : "Turno completo."}`;
+  if(pendientes.length) t += `\n${pendientes.map(p=>`• ${p}`).join("\n")}`;
+
+  /* el traspaso se guarda ANTES de abrir WhatsApp: si el teléfono se va a la
+     otra app y no vuelve, igual quedó registrado para el turno siguiente */
+  guardarTraspaso(pendientes);
+  pintarTraspaso();
+
+  window.__ultimoReporte = t;
+
+  /* el reporte estructurado, que es lo que el Apps Script convierte en PDF y
+     anota en la planilla. Se arma leyendo la pantalla, igual que el texto. */
+  const bloques = [];
+  let actual = null;
+  $("#tareas").querySelectorAll(".bloque, .card").forEach(el=>{
+    if(el.classList.contains("bloque")){ actual = {titulo: el.textContent, lineas: []};
+                                         bloques.push(actual); return; }
+    if(!actual) return;
+    el.querySelectorAll(".tarea").forEach(row=>{
+      const nom = row.dataset.tarea || row.querySelector(".nom").textContent;
+      const hecha = row.classList.contains("hecha");
+      const hora = row.querySelector(".sello").textContent.replace(" h","");
+      const sel = row.querySelector("select");
+      const campo = row.querySelector("input[type=text]");
+      const dato = campo && campo.value ? " · " + campo.value : "";
+      actual.lineas.push((hecha ? "✅ " : "⬜ ") + nom +
+        (hecha && hora ? " — " + hora : "") +
+        (hecha && sel && sel.value ? " · " + sel.value : "") + dato);
+    });
+  });
+
+  const payload = {
+    clave: ENVIO.clave,
+    fecha: $("#fecha").value,
+    fechaISO: new Date().toLocaleDateString("sv-SE"),
+    turno: $("#turno").selectedOptions[0].textContent,
+    quien: $("#quien").value,
+    filtrado: window.__filtrado || "",
+    calidad: {
+      transparencia: $("#cal_transp").value,
+      suspension:    $("#cal_susp").value,
+      decantadas:    $("#cal_dec").value,
+      observacion:   $("#cal_obs").value.trim(),
+      medidas:       $("#cal_medidas").value.trim(),
+    },
+    temperaturas: rondas.map(r => r.hora + " — " + AGUAS
+      .filter(a => r.t[a.n] !== undefined)
+      .map(a => a.n + " " + String(r.t[a.n]).replace(".", ",") + "°").join(", ")),
+    bloques,
+    observaciones: $("#obs").value.trim(),
+    notas: $("#notas_turno").value.trim(),
+    pendientes,
+    hechas: document.querySelectorAll(".tarea.hecha").length,
+    totales: document.querySelectorAll(".tarea").length,
+  };
+
+  enviarReporte(payload);
+  window.open("https://wa.me/?text=" + encodeURIComponent(t), "_blank");
+}
+
+/* ---------- mandar el reporte al Apps Script ----------
+   Va como text/plain a propósito: así el navegador lo trata como envío simple y
+   no pide permiso previo al servidor de Google, que es donde esto se atasca.
+   El Apps Script igual lee el JSON del cuerpo. */
+async function enviarReporte(payload){
+  const aviso = $("#envio");
+  if(!ENVIO.url){
+    aviso.className = "proxima toca";
+    aviso.innerHTML = "<b>El reporte no se envió.</b> Todavía falta conectar la " +
+      "dirección de envío. Por ahora queda el resumen de WhatsApp.";
+    return;
+  }
+  aviso.className = "proxima";
+  aviso.innerHTML = "Enviando el reporte…";
+  try{
+    const r = await fetch(ENVIO.url, {
+      method: "POST",
+      headers: {"Content-Type": "text/plain;charset=utf-8"},
+      body: JSON.stringify(payload),
+    });
+    const j = await r.json();
+    if(j && j.ok){
+      aviso.className = "proxima";
+      aviso.innerHTML = "<b>Reporte enviado.</b> Quedó guardado en Drive y salió por correo.";
+    }else{
+      throw new Error((j && j.error) || "respuesta inesperada");
+    }
+  }catch(e){
+    /* que no se pierda: si el envío falla, el turno igual quedó en el teléfono
+       y en el resumen de WhatsApp, y se dice con todas sus letras */
+    aviso.className = "proxima toca";
+    aviso.innerHTML = "<b>No se pudo enviar el reporte.</b> " +
+      "Manda el resumen por WhatsApp y avísale a Lu.<br>" +
+      "<span style=\"font-size:13px;color:var(--gris)\">Detalle: " +
+      String(e.message || e) + "</span>";
+  }
+}
+</script>

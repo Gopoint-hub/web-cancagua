@@ -12,6 +12,11 @@ Disallow: /admin/
 Disallow: /cms/
 Disallow: /cms/*
 Disallow: /dashboard/
+
+# Páginas internas de mantención (uso del equipo, no van a buscadores)
+Disallow: /mantencion.html
+Disallow: /mantencion-dashboard.html
+Disallow: /dia.json
 Disallow: /tienda-regalos-preview
 Disallow: /_next/
 Disallow: /static/
