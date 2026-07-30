@@ -149,6 +149,17 @@
    "es_bio": true,
    "creada": "21:45",
    "nueva": false
+  },
+  {
+   "hora": "23:59",
+   "servicio": "PRUEBA publicacion automatica",
+   "variante": "",
+   "tamano": "",
+   "fin": "",
+   "duracion_min": 0,
+   "es_bio": false,
+   "creada": "14:55",
+   "nueva": true
   }
  ]
 }
