@@ -1,7 +1,7 @@
 {
  "fecha": "2026-07-30",
  "linea_base": "2026-07-30T00:00:14.817667-04:00",
- "actualizado": "12:30",
+ "actualizado": "14:51",
  "hot_tubs": [
   {
    "hora": "14:00",
@@ -129,6 +129,39 @@
    "nueva": true
   },
   {
+   "hora": "14:00",
+   "servicio": "Biopiscinas Geotermales",
+   "variante": "Ticket 4 Adultos",
+   "tamano": "4 adultos",
+   "fin": "18:00",
+   "duracion_min": 240,
+   "es_bio": true,
+   "creada": "13:56",
+   "nueva": true
+  },
+  {
+   "hora": "15:00",
+   "servicio": "Biopiscinas Geotermales",
+   "variante": "Ticket 1 Adulto",
+   "tamano": "1 adulto",
+   "fin": "19:00",
+   "duracion_min": 240,
+   "es_bio": true,
+   "creada": "14:46",
+   "nueva": true
+  },
+  {
+   "hora": "15:00",
+   "servicio": "Biopiscinas Geotermales",
+   "variante": "Ticket 2 Adultos",
+   "tamano": "2 adultos",
+   "fin": "19:00",
+   "duracion_min": 240,
+   "es_bio": true,
+   "creada": "14:46",
+   "nueva": true
+  },
+  {
    "hora": "16:00",
    "servicio": "Biopiscinas en Familia",
    "variante": "4 adultos + 2 niños",
@@ -140,6 +173,17 @@
    "nueva": false
   },
   {
+   "hora": "17:00",
+   "servicio": "Biopiscinas Geotermales",
+   "variante": "Ticket 1 Adulto",
+   "tamano": "1 adulto",
+   "fin": "21:00",
+   "duracion_min": 240,
+   "es_bio": true,
+   "creada": "13:30",
+   "nueva": true
+  },
+  {
    "hora": "18:00",
    "servicio": "Biopiscinas Geotermales",
    "variante": "Ticket 3 Adultos",
@@ -149,17 +193,6 @@
    "es_bio": true,
    "creada": "21:45",
    "nueva": false
-  },
-  {
-   "hora": "23:59",
-   "servicio": "PRUEBA publicacion automatica",
-   "variante": "",
-   "tamano": "",
-   "fin": "",
-   "duracion_min": 0,
-   "es_bio": false,
-   "creada": "14:55",
-   "nueva": true
   }
  ]
 }
