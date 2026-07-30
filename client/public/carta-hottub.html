@@ -15,15 +15,23 @@
     font-weight:400;font-style:italic;font-display:swap}
 
   :root{
-    /* paleta del sistema de Cancagua */
+    /* Playbook Cancagua (Remo). Los cinco colores de marca, con su nombre:
+       Azul Cielo #648596 · Verde Musgo #899169 · Gris Cancagua #827D78
+       Naranjo Corteza #967B64 · Púrpura Hortensia #667594
+       El playbook dice que el color soporta elementos gráficos: la base es
+       neutra y el color aparece donde hay que destacar algo. */
     --paper:#F4F2ED; --canvas:#FCF9F9; --ink:#222221;
-    --stone-200:#D7D4D1; --stone-500:#827D78; --stone-700:#46423F;
+    --gris-cancagua:#827D78; --verde-musgo:#899169;
+    --stone-200:#D7D4D1; --stone-500:var(--gris-cancagua); --stone-700:#46423F;
     --clay-800:#2E231A; --clay-400:#AD9A8A;
-    --sage-200:#D8DACD; --sage-600:#696F4D; --sage-700:#4A4F35;
+    --sage-200:#E7E9E0; --sage-600:var(--verde-musgo); --sage-700:#6F7654;
     --linea:var(--stone-200); --tenue:rgba(0,0,0,.035);
     --serif:"P22 Mackinac Pro",Georgia,"Times New Roman",serif;
     --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    /* El playbook usa CoFo Sans Mono y manda usarla SOLO EN MAYÚSCULAS.
+       Como no está en el sitio, va la misma cadena de reemplazo que ya usa
+       cancagua.cl, y la regla de mayúsculas se respeta igual. */
+    --mono:"CoFo Sans Mono","Spline Sans Mono","IBM Plex Mono",ui-monospace,Menlo,monospace;
     --logo:invert(0);
   }
   @media (prefers-color-scheme: dark){
@@ -48,8 +56,8 @@
   body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
     font-size:16.5px;line-height:1.6;padding-bottom:106px;
     -webkit-font-smoothing:antialiased}
-  .maqueta{background:var(--clay-800);color:var(--paper);font-size:12px;text-align:center;
-    padding:8px 14px;font-family:var(--mono);letter-spacing:.03em}
+  .maqueta{background:var(--clay-800);color:var(--paper);font-size:10.5px;text-align:center;
+    padding:9px 14px;font-family:var(--mono);letter-spacing:.13em;text-transform:uppercase}
 
   header{padding:34px 22px 26px;text-align:center;border-bottom:1px solid var(--linea)}
   header img{width:min(230px,62vw);height:auto;filter:var(--logo)}
@@ -65,8 +73,8 @@
   .modo{display:flex;gap:0;border:1px solid var(--linea);border-radius:999px;
     background:var(--canvas);padding:4px;margin-bottom:18px}
   .modo button{flex:1;border:0;background:transparent;color:var(--stone-500);
-    font-family:var(--sans);font-size:14.5px;padding:11px 8px;border-radius:999px;cursor:pointer;
-    transition:background .2s,color .2s}
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    padding:13px 8px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
   .modo button[aria-selected="true"]{background:var(--clay-800);color:var(--paper)}
   label.f{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
     text-transform:uppercase;color:var(--stone-500);margin:0 0 10px}
@@ -84,8 +92,9 @@
     border-bottom:1px solid var(--linea);margin:0 -18px;padding:11px 18px}
   .navsec .fila{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}
   .navsec .fila::-webkit-scrollbar{display:none}
-  .chip{flex:none;padding:8px 15px;border:1px solid var(--linea);border-radius:999px;
-    background:var(--canvas);font-size:13.5px;color:var(--stone-700);cursor:pointer;white-space:nowrap}
+  .chip{flex:none;padding:9px 15px;border:1px solid var(--linea);border-radius:999px;
+    background:var(--canvas);font-family:var(--mono);font-size:11px;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--stone-700);cursor:pointer;white-space:nowrap}
 
   h2.sec{font-family:var(--serif);font-weight:400;font-size:27px;margin:34px 0 2px;
     scroll-margin-top:130px;text-wrap:balance}
@@ -99,8 +108,8 @@
   .item .nom{font-family:var(--serif);font-size:19px;line-height:1.3}
   .item .nom .sub{font-family:var(--sans);font-size:13.5px;color:var(--stone-500)}
   .item .desc{font-size:13.5px;color:var(--stone-500);margin-top:5px;line-height:1.5}
-  .item .precio{font-family:var(--mono);font-size:14px;margin-top:8px;color:var(--clay-800);
-    font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .item .precio{font-family:var(--mono);font-size:14px;margin-top:8px;color:var(--stone-700);
+    font-variant-numeric:tabular-nums;letter-spacing:.04em}
   .mas{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--clay-800);
     background:transparent;color:var(--clay-800);font-size:25px;line-height:1;cursor:pointer;
     display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s}
@@ -117,7 +126,7 @@
     display:flex;gap:14px;align-items:center;z-index:40;
     box-shadow:0 -8px 30px -18px rgba(0,0,0,.4)}
   .barra .resumen{flex:1;min-width:0}
-  .barra .n{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  .barra .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
     color:var(--stone-500)}
   .barra .t{font-family:var(--serif);font-size:23px;font-variant-numeric:tabular-nums;margin-top:1px}
   button.principal{background:var(--clay-800);color:var(--paper);border:0;border-radius:12px;
@@ -142,7 +151,7 @@
   .msg .a{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--stone-500);margin-bottom:9px}
   .msg pre{margin:0;white-space:pre-wrap;font-family:var(--sans);font-size:15px;line-height:1.55}
-  .fudo{background:var(--sage-200);border:1px solid var(--sage-600);border-radius:14px;
+  .fudo{background:var(--sage-200);border:1px solid var(--verde-musgo);border-radius:14px;
     padding:16px 17px;margin-top:14px;font-size:15px}
   .cerrar{background:none;border:0;color:var(--stone-500);font-size:14.5px;cursor:pointer;
     padding:8px 0;font-family:var(--sans)}
