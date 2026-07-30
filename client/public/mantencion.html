@@ -738,7 +738,10 @@ let dia = null;
        el filtrado se ADELANTA a la salida de los últimos clientes de bios, si
        esa salida es antes de las 21:30. La hora sale de Skedu (EndsAt), no se
        estima: un servicio de 4 horas que entra a las 14:00 sale a las 18:00.
-     · Si mañana la máxima supera los 9°, se puede estirar hasta las 24:00.
+     · Si mañana a primera hora supera los 9°, se puede estirar hasta las 24:00.
+       Lu lo precisó el 30-jul-2026: **la referencia es la temperatura de las
+       08:00 de mañana, no la máxima del día**. El agua se enfría de noche, así
+       que lo que importa es con cuánto frío amanece, no cuánto sube a mediodía.
 
    ⚠️ Las 21:30 son un TECHO, nunca se atrasan. Lu lo corrigió el 30-jul-2026:
    aunque una reserva diga 22:00, el filtrado igual parte a las 21:30, porque el
@@ -755,6 +758,18 @@ const FILTRA_DESDE  = "21:30";
 const FILTRA_HASTA  = "23:00";
 const FILTRA_HASTA_TEMPLADO = "24:00";
 const TEMP_MANANA_CORTE = 9;   // grados
+const HORA_REFERENCIA = 8;     // se mira la temperatura de mañana a esta hora
+
+/* busca en el pronóstico por hora la temperatura de MAÑANA a la hora de
+   referencia. open-meteo entrega `time` como "AAAA-MM-DDTHH:00" en hora local. */
+function tempMananaTemprano(hourly, respaldo){
+  if(!hourly || !hourly.time) return respaldo;
+  const m = new Date(); m.setDate(m.getDate() + 1);
+  const dia = m.toLocaleDateString("sv-SE");                     // AAAA-MM-DD
+  const buscado = `${dia}T${String(HORA_REFERENCIA).padStart(2,"0")}:00`;
+  const i = hourly.time.findIndex(t => t.startsWith(buscado));
+  return i >= 0 ? hourly.temperature_2m[i] : respaldo;
+}
 
 function aMin(hhmm){ const [h,m]=hhmm.split(":").map(Number); return h*60+m; }
 function aHora(min){ return String(Math.floor(min/60)).padStart(2,"0")+":"+String(min%60).padStart(2,"0"); }
@@ -776,16 +791,16 @@ function pintarFiltrado(){
   const transp   = parseInt(($("#cal_transp")||{}).value ?? 100, 10);
   const turbia   = transp < TRANSP_CORTE;
   const salida   = salidaUltimoBio();
-  const tmanana  = window.__tmaxManana;
+  const tmanana  = window.__tempManana;
 
   /* hasta cuándo: 23:00, o 24:00 si mañana viene sobre 9° */
   let hasta = FILTRA_HASTA, porHasta = "";
   if(typeof tmanana === "number"){
     if(tmanana > TEMP_MANANA_CORTE){
       hasta = FILTRA_HASTA_TEMPLADO;
-      porHasta = `mañana se esperan <b>${Math.round(tmanana)}°</b> de máxima — sobre ${TEMP_MANANA_CORTE}°, así que se puede estirar hasta las 24:00`;
+      porHasta = `mañana a las ${HORA_REFERENCIA}:00 se esperan <b>${Math.round(tmanana)}°</b> — sobre ${TEMP_MANANA_CORTE}°, así que se puede estirar hasta las 24:00`;
     } else {
-      porHasta = `mañana se esperan <b>${Math.round(tmanana)}°</b> de máxima — ${TEMP_MANANA_CORTE}° o menos, así que se corta a las 23:00`;
+      porHasta = `mañana a las ${HORA_REFERENCIA}:00 se esperan <b>${Math.round(tmanana)}°</b> — ${TEMP_MANANA_CORTE}° o menos, así que se corta a las 23:00`;
     }
   } else {
     porHasta = "sin dato del clima de mañana: se corta a las 23:00";
@@ -1293,7 +1308,10 @@ async function clima(){
     window.__horas = j.hourly || null;   // lo usa el sauna para decidir el encendido
     const tmax = d.temperature_2m_max[0], tmin = d.temperature_2m_min[0];
     const lluvia = d.precipitation_sum[0], pp = d.precipitation_probability_max[0];
-    window.__tmaxManana = d.temperature_2m_max[1];
+    /* La referencia es mañana temprano, no la máxima del día: se busca en el
+       pronóstico por hora el valor de mañana a las 08:00. Si no estuviera, se
+       cae a la máxima de mañana para no quedarse sin dato. */
+    window.__tempManana = tempMananaTemprano(j.hourly, d.temperature_2m_max[1]);
 
     $("#climaEstado").textContent = "Datos de hoy, se cargan solos.";
     $("#climaDatos").innerHTML = `
@@ -1301,7 +1319,7 @@ async function clima(){
       <div><b>${Math.round(tmin)}°</b>mínima</div>
       <div><b>${pp}%</b>prob. lluvia</div>
       <div><b>${lluvia.toFixed(1)}</b>mm esperados</div>
-      <div><b>${Math.round(window.__tmaxManana)}°</b>máxima mañana</div>`;
+      <div><b>${Math.round(window.__tempManana)}°</b>mañana a las ${HORA_REFERENCIA}:00</div>`;
 
     /* la sugerencia de filtrado por clima que había antes era invento mío;
        la reemplaza la regla que dictó Lu, que vive en pintarFiltrado() */
@@ -1309,7 +1327,7 @@ async function clima(){
     pintarFiltrado();
   }catch(e){
     $("#climaEstado").textContent = "No se pudo cargar el clima.";
-    window.__tmaxManana = undefined;
+    window.__tempManana = undefined;
     pintarFiltrado();
   }
 }
