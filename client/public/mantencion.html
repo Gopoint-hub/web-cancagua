@@ -735,10 +735,16 @@ let dia = null;
    Regla que dictó Lu el 30-jul-2026:
      · Base de invierno: filtrado fijo de 21:30 a 23:00.
      · Si el agua se reporta poco transparente, se busca una ventana más larga:
-       el filtrado parte cuando se van los últimos clientes de biopiscinas, y
-       corre hasta las 23:00. La hora de salida sale de Skedu (EndsAt), no se
-       estima: un servicio de 4 horas que entra a las 18:00 sale a las 22:00.
+       el filtrado se ADELANTA a la salida de los últimos clientes de bios, si
+       esa salida es antes de las 21:30. La hora sale de Skedu (EndsAt), no se
+       estima: un servicio de 4 horas que entra a las 14:00 sale a las 18:00.
      · Si mañana la máxima supera los 9°, se puede estirar hasta las 24:00.
+
+   ⚠️ Las 21:30 son un TECHO, nunca se atrasan. Lu lo corrigió el 30-jul-2026:
+   aunque una reserva diga 22:00, el filtrado igual parte a las 21:30, porque el
+   agua tarda en enfriarse una vez que empieza a filtrar y porque en la práctica
+   nadie se queda más allá de esa hora. La versión anterior atrasaba el inicio
+   hasta la salida del último cliente: estaba mal.
 
    Dos cosas que puse yo y falta que Lu confirme:
      · El corte de "poco transparente" está en 90%. Ella pidió el porcentaje
@@ -785,19 +791,19 @@ function pintarFiltrado(){
     porHasta = "sin dato del clima de mañana: se corta a las 23:00";
   }
 
-  /* desde cuándo */
+  /* desde cuándo. Las 21:30 nunca se atrasan: solo se pueden adelantar, y solo
+     si el agua salió turbia y los clientes ya se fueron antes. */
   let desde = FILTRA_DESDE, porDesde = "", alerta = false;
-  if(turbia && salida){
+  const saleAntes = salida && aMin(salida.hora) < aMin(FILTRA_DESDE);
+
+  if(turbia && saleAntes){
     desde = salida.hora;
     alerta = true;
-    porDesde = `agua bajo ${TRANSP_CORTE}% de transparencia: se adelanta el filtrado a la salida de los últimos clientes de bios`;
-  } else if(salida && aMin(salida.hora) > aMin(FILTRA_DESDE)){
-    /* no se puede filtrar con gente adentro */
-    desde = salida.hora;
-    alerta = true;
-    porDesde = `hoy los últimos clientes de bios salen a las <b>${salida.hora}</b>, más tarde que las ${FILTRA_DESDE}: no se puede partir antes`;
-  } else if(turbia && !salida){
-    porDesde = `agua bajo ${TRANSP_CORTE}% de transparencia, pero hoy no hay reservas de bios con hora de salida: partir apenas se pueda`;
+    porDesde = `agua bajo ${TRANSP_CORTE}% de transparencia y los últimos clientes de bios salen a las <b>${salida.hora}</b>: se adelanta el filtrado para ganar horas`;
+  } else if(turbia && salida){
+    porDesde = `agua bajo ${TRANSP_CORTE}% de transparencia, pero la última reserva de bios va hasta las ${salida.hora}: igual parte a las ${FILTRA_DESDE}, que es lo más temprano que corresponde`;
+  } else if(turbia){
+    porDesde = `agua bajo ${TRANSP_CORTE}% de transparencia, pero hoy no hay reservas de bios: partir a las ${FILTRA_DESDE}`;
   } else {
     porDesde = "agua en buen estado: va el horario fijo de invierno";
   }
@@ -815,7 +821,7 @@ function pintarFiltrado(){
     ${alerta ? `<div style="margin-top:10px;padding:10px;border-radius:8px;
         background:var(--blanco);border:1px solid var(--alerta)">
         <b style="font-size:15px">Acordarse:</b> ir a poner el filtrado a las
-        <b>${desde}</b>${salida ? `, cuando salgan los últimos clientes de biopiscinas` : ""}.
+        <b>${desde}</b>, cuando se vayan los últimos clientes de biopiscinas.
       </div>` : ""}`;
 }
 
