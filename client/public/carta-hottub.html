@@ -1,0 +1,351 @@
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Café Cancagua — Pide desde tu hot tub</title>
+<style>
+  :root{
+    --crema:#F4F2ED; --papel:#FBFAF7; --tinta:#222221; --clay:#2E231A;
+    --gris:#7C7873; --linea:rgba(0,0,0,.12); --tenue:rgba(0,0,0,.04);
+    --verde:#3D5A45; --verde-claro:#EAF0EB; --ambar:#8A5A2B;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --crema:#16171A; --papel:#1E2024; --tinta:#ECEAE5; --clay:#C9B79F;
+      --gris:#9A958C; --linea:rgba(255,255,255,.15); --tenue:rgba(255,255,255,.05);
+      --verde:#8FB79A; --verde-claro:rgba(143,183,154,.14); --ambar:#D9A46C; }
+  }
+  :root[data-theme="dark"]{ --crema:#16171A; --papel:#1E2024; --tinta:#ECEAE5; --clay:#C9B79F;
+    --gris:#9A958C; --linea:rgba(255,255,255,.15); --tenue:rgba(255,255,255,.05);
+    --verde:#8FB79A; --verde-claro:rgba(143,183,154,.14); --ambar:#D9A46C; }
+  :root[data-theme="light"]{ --crema:#F4F2ED; --papel:#FBFAF7; --tinta:#222221; --clay:#2E231A;
+    --gris:#7C7873; --linea:rgba(0,0,0,.12); --tenue:rgba(0,0,0,.04);
+    --verde:#3D5A45; --verde-claro:#EAF0EB; --ambar:#8A5A2B; }
+
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:var(--crema);color:var(--tinta);
+    font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+    font-size:17px;line-height:1.55;padding-bottom:104px}
+  .maqueta{background:var(--ambar);color:#fff;font-size:12.5px;text-align:center;
+    padding:7px 14px;letter-spacing:.02em}
+  header{background:var(--papel);border-bottom:1px solid var(--linea);padding:20px 18px 16px;
+    text-align:center}
+  .marca{font-family:Georgia,serif;font-size:25px;letter-spacing:.02em;color:var(--clay)}
+  .bajada{font-size:14px;color:var(--gris);margin-top:2px}
+  .env{padding:0 14px}
+
+  /* quién pide */
+  .quien{background:var(--papel);border:1px solid var(--linea);border-radius:12px;
+    padding:16px;margin:16px 0}
+  .quien h2{font-family:Georgia,serif;font-weight:400;font-size:18px;margin:0 0 3px}
+  .quien p{font-size:13.5px;color:var(--gris);margin:0 0 14px}
+  label.f{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--gris);margin:0 0 7px;font-family:ui-monospace,Menlo,monospace}
+  .tinas{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tina{flex:1;min-width:62px;padding:13px 4px;border:1px solid var(--linea);border-radius:10px;
+    background:var(--crema);font-family:Georgia,serif;font-size:19px;text-align:center;
+    cursor:pointer;transition:border-color .18s,background .18s}
+  .tina[aria-pressed="true"]{background:var(--verde-claro);border-color:var(--verde);
+    box-shadow:0 0 0 1px var(--verde) inset}
+  input[type=text],input[type=number],input[type=search]{width:100%;padding:14px 13px;font-size:17px;
+    border:1px solid var(--linea);border-radius:10px;background:var(--crema);color:var(--tinta);
+    font-family:inherit}
+
+  /* navegación de secciones */
+  .navsec{position:sticky;top:0;z-index:20;background:var(--crema);
+    border-bottom:1px solid var(--linea);margin:0 -14px;padding:10px 14px}
+  .navsec .fila{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .navsec .fila::-webkit-scrollbar{display:none}
+  .chip{flex:none;padding:8px 14px;border:1px solid var(--linea);border-radius:999px;
+    background:var(--papel);font-size:14px;color:var(--tinta);cursor:pointer;white-space:nowrap}
+  .chip[aria-current="true"]{background:var(--clay);border-color:var(--clay);color:var(--crema)}
+  .buscar{margin-top:9px}
+
+  /* carta */
+  h2.sec{font-family:Georgia,serif;font-weight:400;font-size:22px;margin:28px 0 3px;
+    scroll-margin-top:120px}
+  .sec-nota{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--gris);margin-bottom:12px}
+  .item{display:flex;gap:13px;align-items:flex-start;padding:14px 0;
+    border-bottom:1px solid var(--linea)}
+  .item:last-child{border-bottom:0}
+  .item .txt{flex:1;min-width:0}
+  .item .nom{font-family:Georgia,serif;font-size:18px;line-height:1.25}
+  .item .desc{font-size:13.5px;color:var(--gris);margin-top:3px}
+  .item .precio{font-family:ui-monospace,Menlo,monospace;font-size:15px;margin-top:5px;
+    font-variant-numeric:tabular-nums}
+  .mas{flex:none;width:46px;height:46px;border-radius:50%;border:1px solid var(--clay);
+    background:var(--papel);color:var(--clay);font-size:26px;line-height:1;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:background .18s,color .18s}
+  .mas:hover,.mas:focus-visible{background:var(--clay);color:var(--crema)}
+  .cant{flex:none;display:flex;align-items:center;gap:10px}
+  .cant b{font-family:Georgia,serif;font-size:19px;min-width:20px;text-align:center;
+    font-variant-numeric:tabular-nums}
+  .menos{width:38px;height:38px;border-radius:50%;border:1px solid var(--linea);
+    background:var(--papel);color:var(--tinta);font-size:22px;line-height:1;cursor:pointer}
+  .vacio{color:var(--gris);font-size:15px;padding:26px 0;text-align:center}
+
+  /* barra del pedido */
+  .barra{position:fixed;left:0;right:0;bottom:0;background:var(--papel);
+    border-top:1px solid var(--linea);padding:12px 14px calc(12px + env(safe-area-inset-bottom));
+    display:flex;gap:12px;align-items:center;z-index:40;
+    box-shadow:0 -6px 24px -14px rgba(0,0,0,.35)}
+  .barra .resumen{flex:1;min-width:0}
+  .barra .n{font-size:13px;color:var(--gris)}
+  .barra .t{font-family:Georgia,serif;font-size:22px;font-variant-numeric:tabular-nums}
+  button.principal{background:var(--clay);color:var(--crema);border:0;border-radius:10px;
+    padding:16px 22px;font-family:ui-monospace,Menlo,monospace;font-size:12px;
+    letter-spacing:.11em;text-transform:uppercase;cursor:pointer}
+  button.principal[disabled]{opacity:.4;cursor:default}
+  button.sec2{background:transparent;color:var(--clay);border:1px solid var(--clay)}
+
+  /* pantalla de confirmación */
+  .capa{position:fixed;inset:0;background:var(--crema);z-index:60;overflow-y:auto;
+    padding:0 0 40px;display:none}
+  .capa.abierta{display:block}
+  .capa .env2{padding:22px 18px}
+  .capa h1{font-family:Georgia,serif;font-weight:400;font-size:27px;margin:6px 0 4px;
+    text-wrap:balance}
+  .lin{display:flex;justify-content:space-between;gap:14px;padding:11px 0;
+    border-bottom:1px solid var(--linea);font-size:16px}
+  .lin .q{font-family:ui-monospace,Menlo,monospace;color:var(--gris);font-size:14px}
+  .lin .v{font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .total{display:flex;justify-content:space-between;padding:15px 0 0;font-family:Georgia,serif;
+    font-size:22px}
+  .msg{background:var(--papel);border:1px solid var(--linea);border-radius:12px;
+    padding:15px 16px;margin-top:14px}
+  .msg .a{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--gris);margin-bottom:8px}
+  .msg pre{margin:0;white-space:pre-wrap;font-family:inherit;font-size:15px;line-height:1.5}
+  .fudo{background:var(--verde-claro);border:1px solid var(--verde);border-radius:12px;
+    padding:15px 16px;margin-top:14px;font-size:15px}
+  .cerrar{background:none;border:0;color:var(--gris);font-size:15px;cursor:pointer;padding:8px 0}
+  a{color:var(--verde)}
+  :focus-visible{outline:2px solid var(--verde);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="maqueta">Maqueta para revisión — ningún pedido se envía de verdad</div>
+
+<header>
+  <div class="marca">Café Cancagua</div>
+  <div class="bajada">Pide sin salir del agua</div>
+</header>
+
+<div class="env">
+  <div class="quien">
+    <h2>¿Dónde estás?</h2>
+    <p>Para llevarte el pedido y cargarlo a tu llavero.</p>
+
+    <label class="f" id="lbl-tina">Tu hot tub</label>
+    <div class="tinas" role="group" aria-labelledby="lbl-tina" id="tinas"></div>
+
+    <label class="f" for="llavero">Número de tu llavero</label>
+    <input type="number" id="llavero" inputmode="numeric" placeholder="Ej: 14" min="1" max="99">
+  </div>
+
+  <nav class="navsec" aria-label="Secciones de la carta">
+    <div class="fila" id="chips"></div>
+    <input type="search" class="buscar" id="buscar" placeholder="Buscar en la carta…"
+           aria-label="Buscar en la carta">
+  </nav>
+
+  <div id="carta"></div>
+  <p class="vacio" id="sinResultados" hidden>No encontramos nada con eso.</p>
+</div>
+
+<div class="barra">
+  <div class="resumen">
+    <div class="n" id="cuenta">Tu pedido está vacío</div>
+    <div class="t" id="total">$0</div>
+  </div>
+  <button class="principal" id="btnPedir" disabled>Revisar pedido</button>
+</div>
+
+<div class="capa" id="capa" role="dialog" aria-modal="true" aria-labelledby="capaTitulo">
+  <div class="env2">
+    <button class="cerrar" id="btnVolver">← Volver a la carta</button>
+    <h1 id="capaTitulo">Tu pedido</h1>
+    <div id="detalle"></div>
+    <div id="simulacion"></div>
+    <button class="principal" id="btnConfirmar" style="width:100%;margin-top:22px">Enviar pedido</button>
+    <p style="font-size:13px;color:var(--gris);text-align:center;margin-top:12px">
+      Esto es una maqueta: al enviar verás lo que le llegaría a cada área, pero no sale nada.</p>
+  </div>
+</div>
+
+<script>
+const CARTA = [{"titulo": "Café y té", "destino": "bebestible", "items": [{"id": "127", "n": "Americano", "d": "Espresso alargado con agua caliente. Sabor suave, ligero y aromático.", "p": 2700, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/127", "fav": false}, {"id": "180", "n": "Bebida vegetal", "d": "", "p": 700, "img": "", "fav": false}, {"id": "130", "n": "Capuccino Doble", "d": "Doble espresso con leche vaporizada y espuma generosa. Más cuerpo e intensidad.", "p": 3900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/130", "fav": false}, {"id": "311", "n": "Capuccino Doble Almendra", "d": "", "p": 4600, "img": "", "fav": false}, {"id": "302", "n": "Capuccino Doble Sin Lactosa", "d": "", "p": 3900, "img": "", "fav": false}, {"id": "129", "n": "Capuccino Simple", "d": "Espresso con leche vaporizada y abundante espuma. Equilibrado y cremoso.", "p": 3700, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/129", "fav": false}, {"id": "310", "n": "Capuccino Simple Almendra", "d": "", "p": 4400, "img": "", "fav": false}, {"id": "301", "n": "Capuccino Simple Sin Lactosa", "d": "", "p": 3700, "img": "", "fav": false}, {"id": "193", "n": "Ceylon Tetera", "d": "Té negro clásico de fuerte y envolvente sabor.", "p": 5000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/193", "fav": false}, {"id": "200", "n": "Chocolate Caliente", "d": "Contamos con cacao puro endulzado con alulosa para disfrutar de los días fríos", "p": 4300, "img": "", "fav": false}, {"id": "133", "n": "Cortado Doble", "d": "Doble espresso con un toque de leche. Más fuerza, manteniendo el balance.", "p": 3900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/133", "fav": false}, {"id": "315", "n": "Cortado Doble Almendra", "d": "", "p": 4600, "img": "", "fav": false}, {"id": "306", "n": "Cortado Doble Sin Lactosa", "d": "", "p": 3900, "img": "", "fav": false}, {"id": "132", "n": "Cortado Simple", "d": "Espresso con un toque de leche caliente. Sabor intenso con suavidad sutil.", "p": 3700, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/132", "fav": false}, {"id": "314", "n": "Cortado Simple Almendra", "d": "", "p": 4400, "img": "", "fav": false}, {"id": "305", "n": "Cortado Simple Sin Lactosa", "d": "", "p": 3700, "img": "", "fav": false}, {"id": "194", "n": "Earl Grey Special Tetera", "d": "Té negro especial con aceite de bergamota y pétalos de rosa.", "p": 5000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/194", "fav": false}, {"id": "192", "n": "English Breakfast Tetera", "d": "Ideal para comenzar el día. Té negro fuerte y aromático de efecto estimulante.", "p": 5000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/192", "fav": false}, {"id": "126", "n": "Espresso Doble", "d": "2 shot de café corto e intenso, preparado con una extracción concentrada que resalta todo el sabor y aroma del grano. Ideal para los amantes del café fuerte.", "p": 2900, "img": "", "fav": false}, {"id": "122", "n": "Espresso Simple", "d": "1 Shot de café corto e intenso, preparado con una extracción concentrada que resalta todo el sabor y aroma del grano. Ideal para los amantes del café fuerte.", "p": 2500, "img": "", "fav": false}, {"id": "195", "n": "Golden Milk Latte", "d": "Bebida rica en antioxidantes que estimula el sistema inmunológico. Disfruta nuestra Golden Milk con tu leche a elección.", "p": 4200, "img": "", "fav": false}, {"id": "196", "n": "Golden Milk Puro", "d": "Bebida rica en antioxidantes que estimula el sistema inmunológico. Disfruta nuestro Golden Milk Puro, es decir sin leche.", "p": 3900, "img": "", "fav": false}, {"id": "179", "n": "Latte Doble", "d": "Doble carga de espresso con leche vaporizada y espuma ligera. Más intensidad, sin perder suavidad.", "p": 3900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/179", "fav": false}, {"id": "313", "n": "Latte Doble Almendra", "d": "", "p": 4600, "img": "", "fav": false}, {"id": "304", "n": "Latte Doble Sin Lactosa", "d": "", "p": 3900, "img": "", "fav": false}, {"id": "131", "n": "Latte Simple", "d": "Café espresso con abundante leche vaporizada y una ligera capa de espuma. Suave, cremoso y equilibrado.", "p": 3700, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/131", "fav": false}, {"id": "312", "n": "Latte Simple Almendra", "d": "", "p": 4400, "img": "", "fav": false}, {"id": "303", "n": "Latte Simple Sin Lactosa", "d": "", "p": 3700, "img": "", "fav": false}, {"id": "128", "n": "Macchiato", "d": "Shot de espresso con una pequeña cantidad de leche vaporizada.", "p": 2800, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/128", "fav": false}, {"id": "316", "n": "Macchiato Almendra", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "307", "n": "Macchiato Sin Lactosa", "d": "", "p": 2800, "img": "", "fav": false}, {"id": "197", "n": "Masala Chai Latte", "d": "Aprovechalo para una tarde fría, como bebida de relax o como alternativa al café. Disfrutalo con leche a elección.", "p": 4200, "img": "", "fav": false}, {"id": "198", "n": "Masala Chai Puro", "d": "Aprovechalo para una tarde fría, como bebida de relax o como alternativa al café. Disfrutalo puro sin leche!", "p": 3900, "img": "", "fav": false}, {"id": "369", "n": "Matcha Latte", "d": "Té verde japonés molido, de sabor intenso y herbal, rico en antioxidantes. Versión con leche", "p": 4200, "img": "", "fav": false}, {"id": "368", "n": "Matcha Puro", "d": "Té verde japonés molido, de sabor intenso y herbal rico en antioxidantes", "p": 3900, "img": "", "fav": false}, {"id": "204", "n": "Mocaccino", "d": "Espresso con leche vaporizada y un toque de chocolate. Cremoso, dulce y con un final intenso de cacao.", "p": 3700, "img": "", "fav": false}, {"id": "317", "n": "Mocaccino Almendra", "d": "", "p": 4400, "img": "", "fav": false}, {"id": "308", "n": "Mocaccino Sin Lactosa", "d": "", "p": 3700, "img": "", "fav": false}, {"id": "139", "n": "Rooibos Arcoiris Tetera", "d": "Rooibos, coco, cáscaras de naranja, frambuesa, hojas de mora, pétalos de aciano.", "p": 5000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/139", "fav": false}, {"id": "137", "n": "Rooibos Naranja Tetera", "d": "Infusión sudafricana y Naranja.", "p": 5000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/137", "fav": false}, {"id": "134", "n": "Rooibos Organic Tetera", "d": "Tetera de Infusión sudafricana orgánica", "p": 5000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/134", "fav": false}, {"id": "135", "n": "Rooibos Spicy Tetera", "d": "Infusión sudafricana, canela, cardamomo, pimienta, clavos de olor y un toque de naranja", "p": 5000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/135", "fav": false}, {"id": "136", "n": "Rooibos Vainilla Tetera", "d": "Infusión sudafricana y Vainilla", "p": 5000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/136", "fav": false}, {"id": "199", "n": "Shot Masala Chai", "d": "Pensado en fortificar el sistema inmunológico, digestivo, cardiovascular y un shot energético para tu día.", "p": 3800, "img": "", "fav": false}, {"id": "138", "n": "Tetera Yogui", "d": "Mezcla orgánica de canela, cardamomo, jengibre, pimienta y clavos de olor.", "p": 5000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/138", "fav": false}, {"id": "328", "n": "Tetera de hierbas", "d": "", "p": 5000, "img": "", "fav": false}, {"id": "43", "n": "Té Solei Boldo", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "42", "n": "Té Solei Cedrón", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "37", "n": "Té Solei Manzanilla", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "40", "n": "Té Solei Matico", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "41", "n": "Té Solei Melisa", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "38", "n": "Té Solei Menta", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "39", "n": "Té Solei Ortiga", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "36", "n": "Té Solei Poleo", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "367", "n": "Té Verde Tetera", "d": "", "p": 5000, "img": "", "fav": false}, {"id": "182", "n": "Té individual", "d": "", "p": 3000, "img": "", "fav": false}]}, {"titulo": "Jugos y batidos", "destino": "bebestible", "items": [{"id": "332", "n": "Batido Antiinflamatorio", "d": "", "p": 6498, "img": "", "fav": false}, {"id": "331", "n": "Batido Antioxidante", "d": "", "p": 5500, "img": "", "fav": false}, {"id": "364", "n": "Batido Frutilla con Plátano", "d": "", "p": 5900, "img": "", "fav": false}, {"id": "75", "n": "Batido Frutillar", "d": "Batido a base de frutilla, jugo de naranja natural y colágeno en polvo.", "p": 5500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/75", "fav": false}, {"id": "330", "n": "Batido Proteico", "d": "", "p": 5500, "img": "", "fav": false}, {"id": "78", "n": "Batido Verde", "d": "Batido de kale, apio, jengibre, manzana verde, limón y aloe vera natural.", "p": 5500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/78", "fav": false}, {"id": "12", "n": "Jugo 100% natural Ruben Aviles Manzana-Cranberry", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/12", "fav": false}, {"id": "14", "n": "Jugo 100% natural Rubén Avilés Manzana", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/14", "fav": false}, {"id": "321", "n": "Jugo 100% natural Rubén Avilés Manzana Naranja", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "13", "n": "Jugo 100% natural Rubén Avilés Manzana-Maqui", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/13", "fav": false}, {"id": "119", "n": "Jugo Arándano Bayazul", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/119", "fav": false}, {"id": "362", "n": "Leche con Plátano", "d": "", "p": 5500, "img": "", "fav": false}, {"id": "363", "n": "Milkshake", "d": "", "p": 5900, "img": "", "fav": false}]}, {"titulo": "Kombucha", "destino": "bebestible", "items": [{"id": "377", "n": "Ginger Beer Maqui", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "376", "n": "Ginger Beer Original", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "378", "n": "Ginger Beer Piña", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "379", "n": "Ginger berr Maracuya", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "157", "n": "Kombucha LA IDA - Piña Albahaca", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "63", "n": "Kombucha La IDA - Arandano", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/63", "fav": false}, {"id": "18", "n": "Kombucha La IDA - Berry Menta", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/18", "fav": false}, {"id": "15", "n": "Kombucha La IDA - Lemon Fresh", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/15", "fav": false}, {"id": "19", "n": "Kombucha La IDA - Mango Ají", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/19", "fav": false}, {"id": "158", "n": "Kombucha La IDA - Mango Merken", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "17", "n": "Kombucha La IDA - Maqui Lupulo", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/17", "fav": false}, {"id": "16", "n": "Kombucha La IDA - Maracuyá Cardamomo", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/16", "fav": false}, {"id": "72", "n": "Kombucha La IDA - Original", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "159", "n": "Kombucha La IDA - Strawberry", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "411", "n": "Kombucha La IDA Te verde", "d": "", "p": 4000, "img": "", "fav": false}]}, {"titulo": "Mocktails", "destino": "bebestible", "items": [{"id": "152", "n": "Ginger Beer Mocktail", "d": "Refrescante Ginger beer con jugo de limón y un toque de menta.", "p": 5900, "img": "", "fav": false}, {"id": "327", "n": "Limonada Menta jengibre", "d": "En base a jugo de limón natural, menta, jengibre, hielo, agua y miel para endulzar", "p": 5900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/327", "fav": false}, {"id": "201", "n": "Limonada Tradicional", "d": "Refrescante mezcla de jugo natural de limón, agua purificada y un toque justo de dulzura. Perfecta para acompañar cualquier comida o disfrutar en los días soleados.", "p": 5900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/201", "fav": false}, {"id": "202", "n": "Limonada de Frutilla", "d": "Nuestra versión más frutal y colorida: jugo de limón natural combinado con frutillas frescas. Equilibrio ideal entre acidez y dulzura, llena de sabor y frescura.", "p": 5900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/202", "fav": false}, {"id": "161", "n": "Narambucha Mocktail", "d": "Jugo de Naranja, Goma, Menta, Jengibre y toque de kombucha.", "p": 5900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/161", "fav": false}, {"id": "171", "n": "Sunset Sprit", "d": "Jugo de limón, frambuesa o frutilla natural, toques de jengibre fresco, miel, agua con gas y cubos de hielo.", "p": 5900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/171", "fav": false}]}, {"titulo": "Aguas y bebidas", "destino": "bebestible", "items": [{"id": "11", "n": "Agua mineral con gas", "d": "", "p": 3000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/11", "fav": false}, {"id": "10", "n": "Agua mineral sin gas", "d": "", "p": 3000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/10", "fav": false}]}, {"titulo": "Con alcohol", "destino": "bebestible", "items": [{"id": "120", "n": "Aperol Spritz", "d": "", "p": 6500, "img": "", "fav": false}, {"id": "22", "n": "Cerveza Tropera Bota Sucia", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/22", "fav": false}, {"id": "26", "n": "Cerveza Tropera Crazy Juan", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/26", "fav": false}, {"id": "24", "n": "Cerveza Tropera Don Manu", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/24", "fav": false}, {"id": "23", "n": "Cerveza Tropera Guadalina", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/23", "fav": false}, {"id": "388", "n": "Cerveza Tropera Hazy Meni", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "212", "n": "Cerveza Tropera Patagonia", "d": "", "p": 4800, "img": "", "fav": false}, {"id": "28", "n": "Cerveza Tropera Patagonia Multicolor", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/28", "fav": false}, {"id": "214", "n": "Cerveza Tropera Perros de Mackay", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "25", "n": "Cerveza Tropera Perros del Mackay", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/25", "fav": false}, {"id": "213", "n": "Cerveza Tropera Ranita de Darwin", "d": "", "p": 4500, "img": "", "fav": false}, {"id": "27", "n": "Cerveza Tropera Strong", "d": "", "p": 4000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/27", "fav": false}, {"id": "166", "n": "Chelada Bota Sucia", "d": "", "p": 5900, "img": "", "fav": false}, {"id": "393", "n": "Chester Chilean Pale Ale", "d": "\"Rustic 99\". Clásica con amargor floral y complejo, cuerpo maltoso y notas caramelizadas. Debido a su balance es posible consumirla con todo tipo de alimentos! 5,2° gl / IBU 26", "p": 4000, "img": "", "fav": false}, {"id": "394", "n": "Chester Indian Pale Ale", "d": "\"CHE´S IPA\". Cerveza amarga floral con notas y aromas a lúpulos. Recomendable para disfrutarla lentamente. 6,8° gl / IBU 55", "p": 4000, "img": "", "fav": false}, {"id": "406", "n": "Chester Shop Rustic Pale Ale", "d": "", "p": 5000, "img": "", "fav": false}, {"id": "405", "n": "Chester Shop Summer Ale", "d": "", "p": 5000, "img": "", "fav": false}, {"id": "395", "n": "Chester Stout", "d": "\"OBAMA´S REDEMPTION\". Cerveza negra con suaves notas a café tostado y cacao amargo. Blando amargor y y dulzor seco ideal para consumirla a una temperatura ligeramente fría. 5,5° gl / IBU 28", "p": 4000, "img": "", "fav": false}, {"id": "392", "n": "Chester Summer Ale", "d": "\"Dos Kombis\", Ligera, fresca y recomendable para consumirla con alimentos frescos. 4,8° gl / IBU 21", "p": 4000, "img": "", "fav": false}, {"id": "165", "n": "Copa de Vino Blanco", "d": "", "p": 5900, "img": "", "fav": false}, {"id": "164", "n": "Copa de Vino Tinto", "d": "", "p": 5900, "img": "", "fav": false}, {"id": "219", "n": "Copa espumante", "d": "", "p": 5900, "img": "", "fav": false}, {"id": "32", "n": "Espumante Berta Extra Brut", "d": "", "p": 15900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/32", "fav": false}, {"id": "380", "n": "Licor de Arrayan", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "188", "n": "Licor de Maqui", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "381", "n": "Licor de Murta", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "386", "n": "Menta jengibre sour Catedral", "d": "", "p": 7900, "img": "", "fav": false}, {"id": "385", "n": "Menta jengibre sour copa tradicional", "d": "", "p": 5900, "img": "", "fav": false}, {"id": "170", "n": "Murta Sour Catedral", "d": "", "p": 7900, "img": "", "fav": false}, {"id": "169", "n": "Murta Sour Copa Tradicional", "d": "", "p": 5900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/169", "fav": false}, {"id": "404", "n": "Navegado Especial", "d": "", "p": 5900, "img": "", "fav": false}, {"id": "408", "n": "Promo Shop x2", "d": "", "p": 7000, "img": "", "fav": false}, {"id": "121", "n": "Ramazzoti", "d": "", "p": 6500, "img": "", "fav": false}, {"id": "29", "n": "Ulmo Sour Catedral", "d": "", "p": 7900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/29", "fav": false}, {"id": "167", "n": "Ulmo Sour Copa Tradicional", "d": "", "p": 5900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/167", "fav": false}, {"id": "30", "n": "Vino - Chardonnay Moscatel", "d": "", "p": 15000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/30", "fav": false}, {"id": "31", "n": "Vino - Cinsault", "d": "", "p": 15000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/31", "fav": false}]}, {"titulo": "Tablas", "destino": "comida", "items": [{"id": "374", "n": "Tabla 14 F", "d": "", "p": 16650, "img": "", "fav": false}, {"id": "48", "n": "Tabla Charcuteria y Quesos 2 a 3 personas", "d": "Quesos DCabra y DVaca, de los bajos, charcutería La Vikinga Puerto Varas, Salame, jamón curado, salsas untables, galletitas sacapita de sal de mar y/o romero, papitas Gololo nativas y camote, fruta de la estación", "p": 28000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/48", "fav": false}, {"id": "49", "n": "Tabla Charcutería y Quesos 4 a 6 personas", "d": "Quesos DCabra y DVaca, de los bajos, charcutería La Vikinga Puerto Varas, Salame, jamón curado, salsas untables, galletitas sacapita de sal de mar y/o romero, papitas Gololo nativas y camote, fruta de la estación", "p": 38000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/49", "fav": false}, {"id": "51", "n": "Tabla Otoño (Vegana) 2 a 3 personas", "d": "3 Tipos de salsas y/o hummus (hummus de garbanzo de la casa, pesto de pimiento piquillo, salsa de aceitunas o alcachofa). Frutos secos (plátano deshidratado, maíz cancha o haba). Pepinillo Dill, Tomate Cherry, Fruta de la estación. Aceitunas aliñadas y pepinillos. Papas fritas golololo (versión camote, nativas o rústicas) y galletas horneadas Sacapitas.", "p": 28000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/51", "fav": false}, {"id": "52", "n": "Tabla Otoño (Vegana) 4 a 6 personas", "d": "3 Tipos de salsas y/o hummus (hummus de garbanzo de la casa, pesto de pimiento piquillo, salsa de aceitunas o alcachofa). Frutos secos (plátano deshidratado, maíz cancha o haba). Pepinillo Dill, Tomate Cherry, Fruta de la estación. Aceitunas aliñadas y pepinillos. Papas fritas golololo (versión camote, nativas o rústicas) y galletas horneadas Sacapitas.", "p": 38000, "img": "", "fav": false}, {"id": "50", "n": "Tabla de Niños 2 a 4 personas", "d": "Queso DVaca Los bajos, salame, pepinillos dill, tomates Cherry, fruta de la estación, pocillo de mermelada, galletas bañadas en chocolate, galletas saladas, papitas regionales gololo nativas y camote, palomitas, frutos secos (plátano, habas o choclo deshidratado).", "p": 28000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/50", "fav": false}, {"id": "383", "n": "Tabla día de la mamá", "d": "", "p": 20000, "img": "", "fav": false}]}, {"titulo": "Para almorzar", "destino": "comida", "items": [{"id": "94", "n": "TIMBAL DE QUINOA", "d": "Timbal de Quinoa y alcachofa, montada sobre mix de hojas verdes, rabanitos, rollitos de salmón ahumado con un toque de sésamo negro, chip de kale hechos en casa y dressing limón, naranja y oliva.", "p": 12500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/94", "fav": true}, {"id": "82", "n": "Chía Pudding", "d": "Elaborado con bebida de almendras y chía, endulzada con dátiles, yogurt natural, topping de granola de la casa, frutas de estación y mix de semillas Piwen.", "p": 5000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/82", "fav": false}, {"id": "92", "n": "Ensalada Verde Dcabra", "d": "Mix de hojas verdes, queso tradicional DCabra Los Bajos, pepino, tomatitos cherry, cranberries, slice de coco, castañas de cajú, dressing de oliva, mostaza y miel.", "p": 11500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/92", "fav": false}, {"id": "85", "n": "Maqui Bowl", "d": "Contiene mix de frutos rojos (frutilla, frambuesa, arándanos, mora y maqui), con topping de granola de la casa, frutas de la estación y semillas.", "p": 6500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/85", "fav": false}, {"id": "189", "n": "Mechada Tegualda Al Plato", "d": "Carne mechada con ensalada mix verde, tomate Cherry, queso de cabra y pepino o papas gololo, acompañado con guacamole y salsa barbecue natural de la zona.", "p": 17900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/189", "fav": false}, {"id": "113", "n": "Sopa de Hueso y Zapallo", "d": "Elaborada con caldo de hueso de “El Reinal” (granja regenerativa), para nutrirte. Acompañado de tostadas integrales y un topping de mix de semillas Piwen.", "p": 7500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/113", "fav": false}, {"id": "191", "n": "Sopa del día", "d": "Hecha como en casa, con verduras frescas y todo el cariño de una cocina tradicional. Perfecta para disfrutar en días fríos o cuando buscas algo liviano y sabroso.", "p": 6500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/191", "fav": false}, {"id": "205", "n": "Trucha al Plato", "d": "Trucha al horno con pesto de albahaca acompañado con mix verde, tomate Cherry, queso de cabra y pepino, dressing de oliva, limón y naranja o papas gololo", "p": 17900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/205", "fav": false}]}, {"titulo": "Sandwiches", "destino": "comida", "items": [{"id": "103", "n": "CAPRESSE", "d": "Sándwich de queso DCabra, pesto de albahaca y pasta de tomate casera, en pan focaccia de aceituna tomate, elaborada con masa madre. Acompañado con papas gololo.", "p": 13000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/103", "fav": true}, {"id": "104", "n": "MECHADA", "d": "Sándwich de carne mechada “El Reinal” (granja regenerativa), queso mantecoso DVaca y salsa Barbecue natural elaborada en la zona, en crujiente pan ciabatta, acompañado con papas gololo y guacamole.", "p": 15500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/104", "fav": true}, {"id": "105", "n": "SALMÓN Y QUESO DE CABRA", "d": "Sándwich de salmón ahumado, queso crema DCabra, mix verde, dressing de limón, naranja y oliva, en pan ciabatta de masa madre.", "p": 13500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/105", "fav": true}, {"id": "98", "n": "SHAKSHUKA", "d": "Nuestra versión de Shakshuka o Mezcla en árabe, a base de passata natural elaborada en la zona, con huevos escalfados de gallina libre, queso DVaca, palta y brotes, acompañado de crujientes tostadas integrales de masa madre.", "p": 12000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/98", "fav": true}, {"id": "329", "n": "Desayuno Proteíco", "d": "3 huevos revueltos con pastrami, acompañado con palta y tostadas integrales", "p": 12000, "img": "", "fav": false}, {"id": "101", "n": "PIZZA ARTESANAL", "d": "Masa con salsa de tomate natural y queso de campo DVaca Los Bajos. Acompañado de papas gololo", "p": 10500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/101", "fav": false}, {"id": "102", "n": "PLANCHADITO DE QUESO", "d": "Sándwich en pan integral con Pastrami elaborado artesanalmente con carne de libre pastoreo de la zona y queso DVaca mantecoso de Los Bajos, acompañado de fruta natural de la estación o papas gololo.", "p": 8500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/102", "fav": false}, {"id": "409", "n": "Pizza Promo Agosto Familiar", "d": "", "p": 16500, "img": "", "fav": false}, {"id": "410", "n": "Pizza individual promo agosto", "d": "", "p": 10000, "img": "", "fav": false}, {"id": "107", "n": "Tostada Dulce", "d": "Tostadas en pan sin gluten, cubierto de mantequilla de almendras, frutas de estación, pipocas de quinoa, frutos secos y miel de la zona", "p": 6500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/107", "fav": false}, {"id": "111", "n": "Tostada Salmón Ahumado", "d": "Tostadas en pan masa madre integral, queso crema DCabra, salmón ahumado, mix de hojas verdes con un dressing de mostaza", "p": 8500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/111", "fav": false}, {"id": "110", "n": "Tostada Vegetariana", "d": "Tostadas en pan masa madre integral, pesto de pimiento y nuez, pepino, mix de hojas verdes y brotes.", "p": 6500, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/110", "fav": false}, {"id": "322", "n": "Tostadas con Huevo", "d": "Tostadas integrales con palta fresca, huevo revuelto suave y tomates cherry, acompañadas de un pocillo de frutas de estación.", "p": 12000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/322", "fav": false}]}, {"titulo": "Dulce", "destino": "comida", "items": [{"id": "148", "n": "Aires de Suspiro", "d": "", "p": 5800, "img": "", "fav": false}, {"id": "143", "n": "Alfajor KETO", "d": "", "p": 3900, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/143", "fav": false}, {"id": "141", "n": "Barritas KETO", "d": "", "p": 3300, "img": "", "fav": false}, {"id": "144", "n": "Bomb Trufa KETO", "d": "", "p": 3000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/144", "fav": false}, {"id": "181", "n": "Brownie Keto", "d": "", "p": 3500, "img": "", "fav": false}, {"id": "140", "n": "Carrot Cake KETO", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "142", "n": "Cheescake KETO", "d": "", "p": 5200, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/142", "fav": false}, {"id": "209", "n": "Crumble miga", "d": "", "p": 5100, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/209", "fav": false}, {"id": "151", "n": "Galletas Keto 200g", "d": "", "p": 5200, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/151", "fav": false}, {"id": "175", "n": "Helado Pudú Chocolate 80%", "d": "Helado artesanal de chocolate 80%. Pote de 133ml.", "p": 4200, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/175", "fav": false}, {"id": "176", "n": "Helado Pudú Cookies and Cream", "d": "Helado de crema artesanal sabor de cookies and cream. Pote de 133ml.", "p": 4200, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/176", "fav": false}, {"id": "172", "n": "Helado Pudú Frambuesa Maracuyá", "d": "Helado artesanal en base a frambuesa y maracuyá. Pote de 133ml.", "p": 4200, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/172", "fav": false}, {"id": "174", "n": "Helado Pudú Frutos del Bosque", "d": "Helado artesanal de agua de frutos del bosque. Pote de 133ml.", "p": 4200, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/174", "fav": false}, {"id": "177", "n": "Helado Pudú Menta Chips", "d": "Helado artesanal sabor menta chips. Pote de 133ml.", "p": 4200, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/177", "fav": false}, {"id": "173", "n": "Helado Pudú Vainilla", "d": "Helado artesanal cremoso de vainilla, pote de 133 ml.", "p": 4200, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/173", "fav": false}, {"id": "186", "n": "Keto box", "d": "", "p": 8000, "img": "", "fav": false}, {"id": "210", "n": "Kuchen de frambuesa", "d": "", "p": 5100, "img": "", "fav": false}, {"id": "208", "n": "Kuchen nuez", "d": "", "p": 5100, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/208", "fav": false}, {"id": "168", "n": "Lemon Cake", "d": "", "p": 4000, "img": "", "fav": false}, {"id": "149", "n": "Manjarate con Toffe de Chocolate", "d": "", "p": 5800, "img": "", "fav": false}, {"id": "211", "n": "Pie de Limón", "d": "", "p": 5100, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/211", "fav": false}, {"id": "145", "n": "Tarrina Frutos Rojos", "d": "", "p": 5800, "img": "", "fav": false}, {"id": "146", "n": "Tarrina Maracuyá", "d": "", "p": 5800, "img": "", "fav": false}, {"id": "293", "n": "Volcan chocolate", "d": "", "p": 3000, "img": "https://fudo-apps-storage.s3.sa-east-1.amazonaws.com/production/231453/common/products/293", "fav": false}]}];
+const TINAS = [1001,1002,1003,1004,1005,1006];
+const DESTINOS = {
+  bebestible: "Recepción",
+  comida: "Café Cancagua",
+};
+
+const $ = s => document.querySelector(s);
+const plata = n => "$" + n.toLocaleString("es-CL");
+const pedido = new Map();   // id -> {item, seccion, cant}
+let tina = null;
+
+/* ---- hot tubs ---- */
+$("#tinas").innerHTML = TINAS.map(n =>
+  `<button class="tina" type="button" aria-pressed="false" data-tina="${n}">${n}</button>`).join("");
+$("#tinas").addEventListener("click", e => {
+  const b = e.target.closest(".tina"); if(!b) return;
+  tina = Number(b.dataset.tina);
+  $("#tinas").querySelectorAll(".tina").forEach(x =>
+    x.setAttribute("aria-pressed", String(x === b)));
+  pintarBarra();
+});
+
+/* ---- carta ---- */
+function pintarCarta(filtro=""){
+  const f = filtro.trim().toLowerCase();
+  let algo = false;
+  $("#carta").innerHTML = CARTA.map((s, si) => {
+    const items = s.items.filter(i =>
+      !f || i.n.toLowerCase().includes(f) || (i.d||"").toLowerCase().includes(f));
+    if(!items.length) return "";
+    algo = true;
+    return `<h2 class="sec" id="sec${si}">${s.titulo}</h2>
+      <div class="sec-nota">Va a ${DESTINOS[s.destino]}</div>
+      ${items.map(i => fila(i, si)).join("")}`;
+  }).join("");
+  $("#sinResultados").hidden = algo;
+}
+
+function fila(i, si){
+  const enPedido = pedido.get(i.id);
+  return `<div class="item" data-id="${i.id}" data-sec="${si}">
+    <div class="txt">
+      <div class="nom">${i.n}</div>
+      ${i.d ? `<div class="desc">${i.d}</div>` : ""}
+      <div class="precio">${plata(i.p)}</div>
+    </div>
+    ${enPedido
+      ? `<div class="cant">
+           <button class="menos" type="button" data-quitar="${i.id}" aria-label="Quitar uno">−</button>
+           <b>${enPedido.cant}</b>
+           <button class="mas" type="button" data-sumar="${i.id}" aria-label="Agregar otro">+</button>
+         </div>`
+      : `<button class="mas" type="button" data-sumar="${i.id}" aria-label="Agregar ${i.n}">+</button>`}
+  </div>`;
+}
+
+$("#carta").addEventListener("click", e => {
+  const sumar = e.target.closest("[data-sumar]"), quitar = e.target.closest("[data-quitar]");
+  if(!sumar && !quitar) return;
+  const fila = e.target.closest(".item");
+  const id = (sumar || quitar).dataset.sumar || (sumar || quitar).dataset.quitar;
+  const si = Number(fila.dataset.sec);
+  const item = CARTA[si].items.find(x => x.id === id);
+  const actual = pedido.get(id);
+  if(sumar){
+    pedido.set(id, {item, seccion: si, cant: (actual ? actual.cant : 0) + 1});
+  }else if(actual){
+    actual.cant -= 1;
+    if(actual.cant <= 0) pedido.delete(id);
+  }
+  pintarCarta($("#buscar").value);
+  pintarBarra();
+});
+
+$("#buscar").addEventListener("input", e => pintarCarta(e.target.value));
+
+/* ---- chips de sección ---- */
+$("#chips").innerHTML = CARTA.map((s, i) =>
+  `<button class="chip" type="button" data-ir="sec${i}">${s.titulo}</button>`).join("");
+$("#chips").addEventListener("click", e => {
+  const c = e.target.closest("[data-ir]"); if(!c) return;
+  const destino = document.getElementById(c.dataset.ir);
+  if(destino) destino.scrollIntoView({behavior:"smooth", block:"start"});
+});
+
+/* ---- barra ---- */
+function totales(){
+  let n = 0, t = 0;
+  pedido.forEach(p => { n += p.cant; t += p.cant * p.item.p; });
+  return {n, t};
+}
+function pintarBarra(){
+  const {n, t} = totales();
+  $("#cuenta").textContent = n === 0 ? "Tu pedido está vacío"
+    : n === 1 ? "1 producto" : `${n} productos`;
+  $("#total").textContent = plata(t);
+  $("#btnPedir").disabled = n === 0;
+}
+
+/* ---- confirmación ---- */
+$("#btnPedir").addEventListener("click", () => {
+  if(!tina){ alert("Primero dinos en qué hot tub estás."); return; }
+  if(!$("#llavero").value.trim()){ alert("Falta el número de tu llavero."); return; }
+  pintarDetalle();
+  $("#capa").classList.add("abierta");
+  window.scrollTo(0,0);
+});
+$("#btnVolver").addEventListener("click", () => {
+  $("#capa").classList.remove("abierta");
+  $("#capaTitulo").style.display = "";
+  $("#btnVolver").textContent = "← Volver a la carta";
+  $("#btnConfirmar").style.display = "";
+  $("#simulacion").innerHTML = "";
+});
+
+function porDestino(){
+  const g = {bebestible: [], comida: []};
+  pedido.forEach(p => g[CARTA[p.seccion].destino].push(p));
+  return g;
+}
+
+function pintarDetalle(){
+  const {t} = totales();
+  let h = "";
+  pedido.forEach(p => {
+    h += `<div class="lin"><span><span class="q">${p.cant}×</span> ${p.item.n}</span>
+          <span class="v">${plata(p.cant * p.item.p)}</span></div>`;
+  });
+  h += `<div class="total"><span>Total</span><span>${plata(t)}</span></div>`;
+  h += `<p style="font-size:14px;color:var(--gris);margin-top:14px">
+        Hot tub <b>${tina}</b> · llavero <b>${$("#llavero").value}</b> ·
+        se carga a tu cuenta y lo pagas al salir.</p>`;
+  $("#detalle").innerHTML = h;
+  $("#simulacion").innerHTML = "";
+}
+
+$("#btnConfirmar").addEventListener("click", () => {
+  const g = porDestino();
+  const llavero = $("#llavero").value;
+  const hora = new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",hour12:false});
+  const lista = arr => arr.map(p => `• ${p.cant}× ${p.item.n}`).join("\n");
+
+  let h = `<h1 style="margin-top:26px">Listo, ya lo estamos preparando</h1>
+    <p style="color:var(--gris);margin-top:0">Te lo llevamos al hot tub ${tina}.</p>
+    <div class="fudo"><b>Entra a Fudo</b><br>
+      Mesa <b>${tina}</b> (sala Hot-tub) · llavero <b>${llavero}</b> ·
+      ${totales().n} productos · ${plata(totales().t)}</div>`;
+
+  if(g.comida.length){
+    h += `<div class="msg"><div class="a">WhatsApp de Café Cancagua</div><pre>`
+      + `Pedido hot tub ${tina} · llavero ${llavero} · ${hora}\n${lista(g.comida)}</pre></div>`;
+  }
+  if(g.bebestible.length){
+    h += `<div class="msg"><div class="a">WhatsApp de Recepción</div><pre>`
+      + `Pedido hot tub ${tina} · llavero ${llavero} · ${hora}\n${lista(g.bebestible)}</pre></div>`;
+  }
+  h += `<div class="msg"><div class="a">WhatsApp de Cancagua — todo</div><pre>`
+    + `Pedido hot tub ${tina} · llavero ${llavero} · ${hora}\n`
+    + `${lista([...g.comida, ...g.bebestible])}\nTotal ${plata(totales().t)}</pre></div>`;
+
+  h += `<p style="font-size:13.5px;color:var(--gris);margin-top:18px">
+        Arriba está lo que le llegaría a cada área. <b>En esta maqueta no se envía
+        nada</b>: es para que vean cómo se ve y cómo se siente.</p>`;
+
+  $("#detalle").innerHTML = "";
+  $("#capaTitulo").style.display = "none";   /* la confirmación trae su propio título */
+  $("#btnVolver").textContent = "← Hacer otro pedido";
+  $("#simulacion").innerHTML = h;
+  $("#btnConfirmar").style.display = "none";
+  window.scrollTo(0,0);
+});
+
+pintarCarta();
+pintarBarra();
+</script>
