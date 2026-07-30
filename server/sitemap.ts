@@ -36,9 +36,13 @@ const PUBLIC_ROUTES = [
   { url: "/experiencias/pase-bioreconecta-detox", changefreq: "weekly", priority: 0.7 },
   { url: "/navega-relax", changefreq: "monthly", priority: 0.6 },
 
+  // Preguntas frecuentes
+  { url: "/preguntas-frecuentes", changefreq: "monthly", priority: 0.8 },
+
   // Blog
   { url: "/blog", changefreq: "weekly", priority: 0.8 },
   { url: "/blog/promo-agosto-familia-hot-tub-biopiscinas-pizza", changefreq: "weekly", priority: 0.9 },
+  { url: "/blog/turismo-regenerativo-cancagua-travesia-circular", changefreq: "monthly", priority: 0.7 },
   { url: "/blog/cuando-el-cuerpo-recuerda-bienestar-cancagua", changefreq: "monthly", priority: 0.7 },
   { url: "/blog/escucha-cuerpo-ciencia-bienestar-puerto-varas", changefreq: "monthly", priority: 0.7 },
   { url: "/blog/itinerarios-dia-frio-spa-cancagua-frutillar", changefreq: "monthly", priority: 0.7 },
