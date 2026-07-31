@@ -497,7 +497,7 @@ export default function Page() {
                     ))}
                     {item.schedules.length === 0 && <p className="rounded-xl border border-dashed bg-white p-3 font-cg-soft text-sm text-[#827D78]">Próximamente publicaremos nuevos horarios.</p>}
                   </div>
-                  <div className="mt-auto flex flex-wrap gap-4 pt-4 font-cg-soft text-xs text-[#827D78]">{item.location && <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{item.location}</span>}{item.capacity && <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5" />Cupos: {item.capacity}</span>}</div>
+                  {item.location && <div className="mt-auto pt-4 font-cg-soft text-xs text-[#827D78]"><span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{item.location}</span></div>}
                 </div>
               </article>
             ))}
