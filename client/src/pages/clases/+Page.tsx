@@ -486,6 +486,28 @@ export default function Page() {
               })}
             </div>
           )}
+          {!isLoading && !hasError && catalog && (
+            <aside className="mt-8 rounded-2xl border border-[#D7D4D1] bg-white p-5 shadow-sm md:p-6" aria-labelledby="programa-pulso-title">
+              <div className="grid gap-5 lg:grid-cols-[220px_repeat(3,1fr)] lg:items-start lg:gap-0">
+                <div className="lg:pr-6">
+                  <p className="font-cg-mono text-[10px] uppercase tracking-[0.2em] text-[#4B5872]">Beneficios de continuidad</p>
+                  <h3 id="programa-pulso-title" className="mt-2 font-cg-serif text-2xl leading-tight text-[#222221]">Conoce el Programa Pulso</h3>
+                </div>
+                <div className="border-l-4 border-[#4B5872] pl-4 lg:border-l lg:px-5">
+                  <p className="font-cg-mono text-xs uppercase tracking-[0.16em] text-[#4B5872]">Pulso 3</p>
+                  <p className="mt-2 font-cg-soft text-sm leading-relaxed text-[#635E5A]">Bono de 3 ingresos a biopiscina pensado para quien quiere probar el ritual de reconexión.</p>
+                </div>
+                <div className="border-l-4 border-[#745D49] pl-4 lg:border-l lg:px-5">
+                  <p className="font-cg-mono text-xs uppercase tracking-[0.16em] text-[#745D49]">Pulso 5</p>
+                  <p className="mt-2 font-cg-soft text-sm leading-relaxed text-[#635E5A]">Bono de 5 ingresos que invita a instalar el hábito de la biopiscina como parte regular del autocuidado.</p>
+                </div>
+                <div className="border-l-4 border-[#324853] pl-4 lg:border-l lg:px-5">
+                  <p className="font-cg-mono text-xs uppercase tracking-[0.16em] text-[#324853]">Pulso 10</p>
+                  <p className="mt-2 font-cg-soft text-sm leading-relaxed text-[#635E5A]">Bono de 10 ingresos, la opción de mayor valor y conveniencia para quien ya hizo de Cancagua parte de su rutina de bienestar.</p>
+                </div>
+              </div>
+            </aside>
+          )}
         </div>
       </section>
 
