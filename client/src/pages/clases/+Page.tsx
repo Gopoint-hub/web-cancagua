@@ -25,7 +25,7 @@ import { getMassageCheckoutId } from "@/lib/massageAnalytics";
 
 const CMS_CLASSES_URL = "https://cms.cancagua.cl/api/public/clases/catalog";
 const CMS_MASSAGES_URL = "https://cms.cancagua.cl/api/public/masajes/techniques";
-const HERO_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp";
+const HERO_IMAGE = "/images/yoga-2025-hero.jpg";
 const FALLBACK_CLASS_IMAGE = "/images/clases-regulares-hero.jpg";
 const DAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
