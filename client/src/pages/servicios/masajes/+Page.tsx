@@ -163,7 +163,7 @@ function MassageCartDrawer({
   const [isValidatingDiscount, setIsValidatingDiscount] = useState(false);
   const totalUnits = items.reduce((sum, item) => sum + item.quantity, 0);
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const combinedTotal = (discount?.finalTotal ?? total) + (classPlan?.priceClp ?? 0);
+  const combinedTotal = discount?.finalTotal ?? total + (classPlan?.priceClp ?? 0);
   const hasItems = items.length > 0 || Boolean(classPlan);
 
   useEffect(() => {
@@ -178,7 +178,7 @@ function MassageCartDrawer({
   useEffect(() => {
     setDiscount(null);
     setDiscountError("");
-  }, [items]);
+  }, [items, classPlan?.id]);
 
   const applyDiscount = async () => {
     setIsValidatingDiscount(true);
@@ -189,6 +189,7 @@ function MassageCartDrawer({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           code: discountCode,
+          classPlanId: classPlan?.id,
           items: items.map(({ techniqueId, duration, quantity }) => ({ techniqueId, duration, quantity })),
         }),
       });
@@ -303,10 +304,10 @@ function MassageCartDrawer({
 
         {hasItems && (
           <div className="border-t border-[#D7D4D1] bg-white p-6">
-            {items.length > 0 && <button type="button" onClick={() => setShowDiscount((value) => !value)} className="mb-4 font-cg-soft text-sm font-medium text-[#4B5872] underline underline-offset-4">
-              ¿Tienes un código de descuento?
+            {hasItems && <button type="button" onClick={() => setShowDiscount((value) => !value)} className="mb-4 font-cg-soft text-sm font-medium text-[#4B5872] underline underline-offset-4">
+              Aplicar código de descuento
             </button>}
-            {items.length > 0 && showDiscount && (
+            {hasItems && showDiscount && (
               <div className="mb-4">
                 <div className="flex gap-2">
                   <input value={discountCode} onChange={(event) => { setDiscountCode(event.target.value.toUpperCase()); setDiscount(null); setDiscountError(""); }} placeholder="Ingresa tu código" className="min-w-0 flex-1 rounded-full border border-[#BCBAB8] bg-white px-4 py-2 font-cg-mono text-sm uppercase outline-none focus:border-[#4B5872]" />
