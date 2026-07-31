@@ -404,22 +404,22 @@ export default function Page() {
       <section id="clases" className="bg-white py-20 md:py-24">
         <div className="container max-w-7xl">
           <div className="mb-12 max-w-3xl"><p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#4B5872]">Programa vigente</p><h2 className="mt-3 font-cg-serif text-4xl text-[#222221] md:text-5xl">Clases y horarios</h2><p className="mt-4 font-cg-soft text-[#635E5A]">Encuentra la disciplina y el horario que mejor acompañen tu bienestar.</p></div>
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {catalog?.classes.map((item) => (
-              <article key={item.id} className="overflow-hidden rounded-3xl border border-[#E1DEDA] bg-[#F8F6F1]">
-                <div className="relative h-56 overflow-hidden"><img src={item.imageUrl || FALLBACK_CLASS_IMAGE} alt={item.name} className="h-full w-full object-cover" loading="lazy" /><div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent" /><h3 className="absolute bottom-5 left-5 right-5 font-cg-serif text-3xl text-white">{item.name}</h3></div>
-                <div className="p-6">
-                  <p className="font-cg-soft leading-relaxed text-[#635E5A]">{item.description || item.shortDescription || "Una práctica guiada para conectar cuerpo, respiración y bienestar."}</p>
-                  <div className="mt-5 space-y-2">
+              <article key={item.id} className="group flex h-full flex-col rounded-lg border border-[#DBD3CC] bg-[#F8F6F1] p-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div className="relative h-56 shrink-0 overflow-hidden rounded-md bg-[#222221]"><img src={item.imageUrl || FALLBACK_CLASS_IMAGE} alt={item.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" /><div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/65" /><h3 className="absolute bottom-5 left-5 right-5 font-cg-serif text-xl leading-[1.12] text-white md:text-2xl">{item.name}</h3></div>
+                <div className="flex flex-1 flex-col p-4">
+                  <p className="font-cg-soft text-sm leading-relaxed text-[#635E5A]">{item.shortDescription || "Una práctica guiada para conectar cuerpo, respiración y bienestar."}</p>
+                  <div className="mt-4 space-y-2">
                     {item.schedules.map((schedule) => (
-                      <div key={schedule.id} className="grid gap-2 rounded-xl bg-white p-3 text-sm sm:grid-cols-[1fr_auto] sm:items-center">
-                        <div className="flex items-center gap-2 font-cg-soft text-[#33312F]"><Clock className="h-4 w-4 text-[#4B5872]" /><strong>{DAY_NAMES[schedule.dayOfWeek]}</strong> · {schedule.startTime}–{schedule.endTime}</div>
-                        <div className="flex items-center gap-2 font-cg-soft text-[#635E5A]"><UserRound className="h-4 w-4" />{schedule.teacherName}</div>
+                      <div key={schedule.id} className="rounded-xl bg-white p-3 text-sm">
+                        <div className="flex items-center gap-2 font-cg-soft text-[#33312F]"><Clock className="h-4 w-4 shrink-0 text-[#4B5872]" /><strong>{DAY_NAMES[schedule.dayOfWeek]}</strong> · {schedule.startTime}–{schedule.endTime}</div>
+                        <div className="mt-1.5 flex items-center gap-2 font-cg-soft text-[#635E5A]"><UserRound className="h-4 w-4 shrink-0" />{schedule.teacherName}</div>
                       </div>
                     ))}
                     {item.schedules.length === 0 && <p className="rounded-xl border border-dashed bg-white p-3 font-cg-soft text-sm text-[#827D78]">Próximamente publicaremos nuevos horarios.</p>}
                   </div>
-                  <div className="mt-4 flex flex-wrap gap-4 font-cg-soft text-xs text-[#827D78]">{item.location && <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{item.location}</span>}{item.capacity && <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5" />Cupos: {item.capacity}</span>}</div>
+                  <div className="mt-auto flex flex-wrap gap-4 pt-4 font-cg-soft text-xs text-[#827D78]">{item.location && <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{item.location}</span>}{item.capacity && <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5" />Cupos: {item.capacity}</span>}</div>
                 </div>
               </article>
             ))}
