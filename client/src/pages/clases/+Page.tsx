@@ -73,6 +73,82 @@ const formatPrice = (value: number) => new Intl.NumberFormat("es-CL", {
   style: "currency", currency: "CLP", maximumFractionDigits: 0,
 }).format(value);
 
+const WEEK_DAYS = [
+  { value: 1, label: "Lunes" },
+  { value: 2, label: "Martes" },
+  { value: 3, label: "Miércoles" },
+  { value: 4, label: "Jueves" },
+  { value: 5, label: "Viernes" },
+  { value: 6, label: "Sábado" },
+  { value: 0, label: "Domingo" },
+];
+
+const SCHEDULE_COLORS = [
+  { background: "#DDE8EC", border: "#648596" },
+  { background: "#E6E0EA", border: "#806A8C" },
+  { background: "#EEE2C9", border: "#A1844F" },
+  { background: "#DFE9D8", border: "#718760" },
+  { background: "#EEDDD7", border: "#A16C5C" },
+  { background: "#E2E4EE", border: "#6D7694" },
+];
+
+function WeeklySchedule({ classes }: { classes: RegularClass[] }) {
+  const entries = classes.flatMap((regularClass, classIndex) => regularClass.schedules.map((schedule) => ({
+    ...schedule,
+    classId: regularClass.id,
+    className: regularClass.name,
+    color: SCHEDULE_COLORS[classIndex % SCHEDULE_COLORS.length],
+  })));
+  const timeSlots = Array.from(new Set(entries.map((entry) => entry.startTime))).sort((a, b) => a.localeCompare(b));
+  if (entries.length === 0) return null;
+
+  return (
+    <section id="horario-semanal" className="bg-[#F4F2ED] py-20 md:py-24">
+      <div className="container max-w-7xl">
+        <div className="mx-auto mb-10 max-w-3xl text-center">
+          <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#4B5872]">Organiza tu semana</p>
+          <h2 className="mt-3 font-cg-serif text-4xl text-[#222221] md:text-5xl">Horario semanal</h2>
+          <p className="mt-4 font-cg-soft text-[#635E5A]">Revisa nuestras clases disponibles y encuentra el momento que mejor se adapte a tu rutina.</p>
+        </div>
+        <p className="mb-3 font-cg-soft text-xs text-[#827D78] lg:hidden">Desliza horizontalmente para revisar la semana completa.</p>
+        <div className="overflow-x-auto rounded-3xl border border-[#D7D4D1] bg-white p-3 shadow-sm md:p-5">
+          <div className="grid min-w-[1120px] grid-cols-[82px_repeat(7,minmax(132px,1fr))] gap-2">
+            <div className="flex items-center justify-center rounded-xl bg-[#333D51] px-2 py-3 font-cg-mono text-[10px] uppercase tracking-wider text-white/75">Hora</div>
+            {WEEK_DAYS.map((day) => (
+              <div key={day.value} className="rounded-xl bg-[#333D51] px-2 py-3 text-center font-cg-mono text-xs uppercase tracking-wider text-white">{day.label}</div>
+            ))}
+            {timeSlots.map((time) => (
+              <div key={time} className="contents">
+                <div className="flex min-h-24 items-start justify-center rounded-xl bg-[#ECE9E3] px-2 py-3 font-cg-mono text-xs font-medium text-[#33312F]">{time}</div>
+                {WEEK_DAYS.map((day) => {
+                  const slotEntries = entries.filter((entry) => entry.dayOfWeek === day.value && entry.startTime === time);
+                  return (
+                    <div key={`${time}-${day.value}`} className="min-h-24 space-y-2 rounded-xl border border-[#ECE9E3] bg-[#FAF9F6] p-1.5">
+                      {slotEntries.map((entry) => (
+                        <a
+                          key={entry.id}
+                          href={`#clase-${entry.classId}`}
+                          className="block rounded-lg border-l-4 p-2.5 transition-transform hover:-translate-y-0.5 hover:shadow-md"
+                          style={{ backgroundColor: entry.color.background, borderLeftColor: entry.color.border }}
+                        >
+                          <p className="font-cg-mono text-[10px] font-medium text-[#33312F]">{entry.startTime}–{entry.endTime}</p>
+                          <p className="mt-1 font-cg-serif text-sm leading-tight text-[#222221]">{entry.className}</p>
+                          <p className="mt-1.5 font-cg-soft text-[11px] leading-tight text-[#635E5A]">{entry.teacherName}</p>
+                        </a>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+        <p className="mt-4 text-center font-cg-soft text-xs text-[#827D78]">Selecciona una clase del horario para conocer sus detalles.</p>
+      </div>
+    </section>
+  );
+}
+
 function CartDrawer({
   open,
   checkoutId,
@@ -401,12 +477,14 @@ export default function Page() {
         </div>
       </section>
 
+      {catalog && <WeeklySchedule classes={catalog.classes} />}
+
       <section id="clases" className="bg-white py-20 md:py-24">
         <div className="container max-w-7xl">
           <div className="mb-12 max-w-3xl"><p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#4B5872]">Programa vigente</p><h2 className="mt-3 font-cg-serif text-4xl text-[#222221] md:text-5xl">Clases y horarios</h2><p className="mt-4 font-cg-soft text-[#635E5A]">Encuentra la disciplina y el horario que mejor acompañen tu bienestar.</p></div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {catalog?.classes.map((item) => (
-              <article key={item.id} className="group flex h-full flex-col rounded-lg border border-[#DBD3CC] bg-[#F8F6F1] p-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <article id={`clase-${item.id}`} key={item.id} className="group flex h-full scroll-mt-28 flex-col rounded-lg border border-[#DBD3CC] bg-[#F8F6F1] p-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <div className="relative h-56 shrink-0 overflow-hidden rounded-md bg-[#222221]"><img src={item.imageUrl || FALLBACK_CLASS_IMAGE} alt={item.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" /><div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/65" /><h3 className="absolute bottom-5 left-5 right-5 font-cg-serif text-xl leading-[1.12] text-white md:text-2xl">{item.name}</h3></div>
                 <div className="flex flex-1 flex-col p-4">
                   <p className="font-cg-soft text-sm leading-relaxed text-[#635E5A]">{item.shortDescription || "Una práctica guiada para conectar cuerpo, respiración y bienestar."}</p>
