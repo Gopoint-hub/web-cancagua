@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
+<title>Evaluación Cafetería Cancagua</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f5f0eb;padding:12px;max-width:600px;margin:auto;color:#333}
+h1{text-align:center;color:#5d4037;font-size:1.3rem;margin:8px 0 2px}
+.sub{text-align:center;font-size:.75rem;color:#8d6e63;margin-bottom:12px}
+.card{background:white;border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.card h2{font-size:.9rem;color:#5d4037;border-bottom:2px solid #d7ccc8;padding-bottom:6px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.badge{font-size:.65rem;background:#5d4037;color:white;padding:2px 8px;border-radius:10px}
+.item{display:flex;align-items:center;padding:7px 0;border-bottom:1px solid #f5f0eb;gap:8px}
+.item:last-child{border-bottom:none}
+.item span{flex:1;font-size:.82rem;min-width:100px}
+.opts{display:flex;gap:6px;flex-shrink:0}
+.opts label{font-size:.75rem;cursor:pointer;padding:5px 10px;border:1.5px solid #d7ccc8;border-radius:6px;text-align:center;transition:all .15s;user-select:none}
+.opts input{display:none}
+.opts input:checked+label{background:#5d4037;color:white;border-color:#5d4037}
+.time-inp{width:44px;border:1px solid #d7ccc8;border-radius:5px;padding:4px 2px;font-size:.75rem;text-align:center}
+.result{background:#5d4037;color:white;border-radius:10px;padding:16px;text-align:center;margin-top:10px}
+.result .big{font-size:2.5rem;font-weight:bold;line-height:1}
+.result .info{font-size:.75rem;opacity:.85;margin-top:4px}
+.btn{display:block;width:100%;padding:14px;background:#8d6e63;color:white;border:none;border-radius:8px;font-size:1rem;font-weight:bold;margin-top:10px;cursor:pointer}
+.btn2{background:#388e3c;margin-top:6px}
+.footer{text-align:center;font-size:.65rem;color:#a1887f;margin:12px 0}
+.info-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.info-row input,.info-row select{border:1px solid #d7ccc8;border-radius:6px;padding:8px;font-size:.8rem;flex:1;min-width:80px}
+.notes{width:100%;border:1px solid #d7ccc8;border-radius:8px;padding:10px;font-size:.8rem;min-height:70px;font-family:inherit;margin-top:6px}
+</style>
+</head>
+<body>
+<h1>EVALUACIÓN DE SERVICIO</h1>
+<div class="sub">Cafetería Cancagua · Modelo F&B</div>
+
+<div class="card">
+  <div class="info-row">
+    <input type="date" id="fecha" style="min-width:110px">
+    <input type="time" id="hora" style="min-width:80px">
+    <input type="text" id="evaluador" placeholder="Nombre" style="min-width:90px">
+    <select id="temporada" style="min-width:70px"><option value="baja">Baja</option><option value="alta">Alta</option></select>
+  </div>
+</div>
+
+<div id="formulario"></div>
+
+<div class="card">
+  <label style="font-weight:bold;font-size:.82rem">📝 Observaciones:</label>
+  <textarea class="notes" id="obs" placeholder="Comentarios, incidentes..."></textarea>
+</div>
+
+<div class="result">
+  <div class="big" id="puntaje">—</div>
+  <div class="info" id="detalle">Completá los ítems para ver el resultado</div>
+</div>
+<div style="text-align:center;font-size:.7rem;color:#e65100;margin:6px 0">&lt;80% pierde 50% del bono · &lt;70% pierde 100%</div>
+<button class="btn btn2" onclick="enviarWhatsapp()">ENVIAR POR WHATSAPP</button>
+<button class="btn" onclick="copiar()">COPIAR RESUMEN</button>
+<button class="btn" style="background:#a1887f" onclick="window.print()">IMPRIMIR / PDF</button>
+<button class="btn" style="background:#bdbdbd;color:#5d4037" onclick="borrar()">BORRAR Y EMPEZAR DE NUEVO</button>
+<div class="footer">Se guarda solo en este teléfono mientras lo llenas.<br>Basado en Sistema de Gestión y Bonificación F&amp;B Cancagua</div>
+
+<script>
+const secciones=[
+  {titulo:"1. PROFESIONALISMO Y ORDEN",peso:30,items:[
+    "Uniforme limpio y completo","Pelo tomado o gorro","Guantes en preparaciones",
+    "Manos limpias, uñas cortas","Pisos secos, sin arena","Superficies y utensilios ordenados",
+    "Mesas limpias, sillas alineadas (sala)","Mesas, sillas y cojines OK terraza"
+  ]},
+  {titulo:"2. ATENCIÓN AL CLIENTE",peso:25,items:[
+    "Saludo cordial y sonrisa","Contacto visual y tono amable","Disposición a ayudar",
+    "Explicación clara del menú","Actitud positiva del equipo"
+  ]},
+  {titulo:"3. TIEMPO DE SERVICIO",peso:20,items:[
+    "Bebestible ≤ 5 min","Plato simple ≤ 12 min","Plato elaborado ≤ 18 min"
+  ],tiempo:true},
+  {titulo:"4. UPSELLING / VENTAS",peso:15,items:[
+    "Ofrecieron postre","Sugirieron café adicional","Recomendaron jugo natural","Propusieron acompañamientos"
+  ]},
+  {titulo:"5. EXPERIENCIA GENERAL",peso:10,items:[
+    "Música ambiente adecuada","Temperatura agradable","Limpieza general","Clima laboral positivo","Baños limpios con papel/jabón"
+  ]}
+];
+
+let html='';
+secciones.forEach((s,si)=>{
+  html+=`<div class="card"><h2>${s.titulo} <span class="badge">${s.peso}%</span></h2>`;
+  s.items.forEach((it,ii)=>{
+    html+=`<div class="item"><span>${it}</span><div class="opts">`;
+    ['✅','⚠️','❌'].forEach(v=>{
+      html+=`<input type="radio" name="i${si}_${ii}" value="${v==='✅'?1:v==='⚠️'?0.5:0}" id="r${si}_${ii}_${v}"><label for="r${si}_${ii}_${v}">${v}</label>`;
+    });
+    html+=`</div>${s.tiempo?`<input class="time-inp" placeholder="min">`:''}</div>`;
+  });
+  html+=`</div>`;
+});
+document.getElementById('formulario').innerHTML=html;
+
+function calc(){
+  let total=0,max=0,resp=0,totalItems=0;
+  secciones.forEach((s,si)=>{
+    let sum=0,rc=0;
+    s.items.forEach((_,ii)=>{
+      const r=document.querySelector(`input[name="i${si}_${ii}"]:checked`);
+      if(r){sum+=parseFloat(r.value);rc++}
+    });
+    totalItems+=s.items.length;
+    if(rc>0){
+      resp+=rc;
+      total+=(sum/s.items.length)*s.peso;
+      max+=s.peso;
+    }
+  });
+  if(resp===0){document.getElementById('puntaje').textContent='—';document.getElementById('detalle').textContent='Completá los ítems para ver el resultado';return}
+  /* El numero grande es el % sobre lo YA evaluado. Antes mostraba el puntaje
+     sobre 100 con el formulario a medio llenar, y eso hacia aparecer un
+     "pierde 100% del bono" que era solo falta de datos. */
+  const pctReal=Math.round((total/max)*100);
+  document.getElementById('puntaje').textContent=pctReal+'%';
+  const completo = resp===totalItems;
+  let bono = completo
+    ? (pctReal>=80?'✅ Aplica bono completo':pctReal>=70?'⚠️ Pierde 50% del bono':'❌ Pierde 100% del bono')
+    : `⏳ Faltan ${totalItems-resp} ítems por evaluar — el bono se define al completar`;
+  document.getElementById('detalle').innerHTML=`${resp}/${totalItems} ítems evaluados${completo?` · Puntaje final: ${Math.round(total)}/100`:''}<br>${bono}`;
+}
+</script>
+
+<script>
+/* --- Agregado por Julia, 31-jul-2026 ---
+   Tres cosas que le faltaban para usarlo en terreno:
+   1. Guarda solo en el telefono: si se cierra o se bloquea, no se pierde nada.
+   2. Calcula al tocar, sin apretar boton.
+   3. Arma un resumen para enviar por WhatsApp. */
+const LS = "eval-cafeteria-v1";
+
+function estado(){
+  const d = {campos:{}, radios:{}, tiempos:[]};
+  ["fecha","hora","evaluador","temporada","obs"].forEach(id=>{
+    const e=document.getElementById(id); if(e) d.campos[id]=e.value;
+  });
+  document.querySelectorAll('input[type=radio]:checked').forEach(r=>{ d.radios[r.name]=r.value; });
+  document.querySelectorAll('.time-inp').forEach((t,i)=>{ d.tiempos[i]=t.value; });
+  return d;
+}
+function guardar(){ try{ localStorage.setItem(LS, JSON.stringify(estado())); }catch(e){} }
+function restaurar(){
+  let d; try{ d=JSON.parse(localStorage.getItem(LS)||"null"); }catch(e){}
+  if(!d) return;
+  Object.entries(d.campos||{}).forEach(([id,v])=>{ const e=document.getElementById(id); if(e&&v) e.value=v; });
+  Object.entries(d.radios||{}).forEach(([name,v])=>{
+    const r=document.querySelector('input[name="'+name+'"][value="'+v+'"]'); if(r) r.checked=true;
+  });
+  document.querySelectorAll('.time-inp').forEach((t,i)=>{ if((d.tiempos||[])[i]) t.value=d.tiempos[i]; });
+}
+
+/* Fecha y hora de hoy si vienen vacias */
+(function(){
+  const f=document.getElementById('fecha'), h=document.getElementById('hora');
+  const n=new Date(), p=x=>String(x).padStart(2,'0');
+  if(f && !f.value) f.value = n.getFullYear()+'-'+p(n.getMonth()+1)+'-'+p(n.getDate());
+  if(h && !h.value) h.value = p(n.getHours())+':'+p(n.getMinutes());
+})();
+
+restaurar();
+document.addEventListener('input', ()=>{ guardar(); calc(); });
+document.addEventListener('change', ()=>{ guardar(); calc(); });
+calc();
+
+/* Resumen de texto para mandar por WhatsApp */
+function resumen(){
+  const d = estado();
+  let out = "EVALUACION CAFETERIA CANCAGUA\n";
+  out += (d.campos.fecha||"") + " " + (d.campos.hora||"") + " - " + (d.campos.evaluador||"sin nombre");
+  out += " - temporada " + (d.campos.temporada||"") + "\n\n";
+  secciones.forEach((s,si)=>{
+    let sum=0, rc=0;
+    s.items.forEach((it,ii)=>{
+      const r=document.querySelector('input[name="i'+si+'_'+ii+'"]:checked');
+      if(r){ sum+=parseFloat(r.value); rc++; }
+    });
+    const pct = rc>0 ? Math.round((sum/s.items.length)*100) : null;
+    out += s.titulo + " (" + s.peso + "%): " + (pct===null? "sin evaluar" : pct+"%") + "\n";
+    s.items.forEach((it,ii)=>{
+      const r=document.querySelector('input[name="i'+si+'_'+ii+'"]:checked');
+      const marca = !r ? "-" : r.value==="1" ? "OK" : r.value==="0.5" ? "REGULAR" : "MAL";
+      if(r && r.value!=="1") out += "   [" + marca + "] " + it + "\n";
+    });
+  });
+  out += "\nPUNTAJE: " + (document.getElementById('puntaje').textContent||"-") + "\n";
+  out += (document.getElementById('detalle').textContent||"") + "\n";
+  if(d.campos.obs) out += "\nObservaciones: " + d.campos.obs + "\n";
+  return out;
+}
+function enviarWhatsapp(){
+  window.open("https://wa.me/?text=" + encodeURIComponent(resumen()), "_blank");
+}
+function copiar(){
+  const t = resumen();
+  if(navigator.clipboard){ navigator.clipboard.writeText(t).then(()=>alert("Resumen copiado")); }
+  else { const a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select();
+         document.execCommand('copy'); a.remove(); alert("Resumen copiado"); }
+}
+function borrar(){
+  if(!confirm("¿Borrar todo lo llenado?")) return;
+  localStorage.removeItem(LS); location.reload();
+}
+</script>
+
+</body>
+</html>

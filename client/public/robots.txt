@@ -16,6 +16,7 @@ Disallow: /dashboard/
 # Páginas internas de mantención (uso del equipo, no van a buscadores)
 Disallow: /mantencion.html
 Disallow: /mantencion-dashboard.html
+Disallow: /evaluacion-cafeteria.html
 Disallow: /carta-hottub.html
 Disallow: /dia.json
 Disallow: /tienda-regalos-preview
