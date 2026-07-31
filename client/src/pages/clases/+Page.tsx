@@ -312,7 +312,7 @@ export default function Page() {
           <div className="mx-auto mb-12 max-w-3xl text-center">
             <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#4B5872]">Elige tu ritmo</p>
             <h2 className="mt-3 font-cg-serif text-4xl text-[#222221] md:text-5xl">Planes y clase suelta</h2>
-            <p className="mt-4 font-cg-soft text-[#635E5A]">Todos los precios, incentivos y cantidades vienen directamente del CMS.</p>
+            <p className="mt-4 font-cg-soft text-[#635E5A]">Elige la frecuencia que mejor se adapte a tu ritmo y disfruta una práctica constante en Cancagua.</p>
           </div>
           {isLoading ? (
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{[1,2,3,4,5,6].map((item) => <div key={item} className="h-80 animate-pulse rounded-3xl bg-white/70" />)}</div>
@@ -339,7 +339,7 @@ export default function Page() {
 
       <section id="clases" className="bg-white py-20 md:py-24">
         <div className="container max-w-7xl">
-          <div className="mb-12 max-w-3xl"><p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#4B5872]">Programa vigente</p><h2 className="mt-3 font-cg-serif text-4xl text-[#222221] md:text-5xl">Clases y horarios</h2><p className="mt-4 font-cg-soft text-[#635E5A]">Si una clase u horario cambia en el CMS, esta sección se actualiza automáticamente.</p></div>
+          <div className="mb-12 max-w-3xl"><p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#4B5872]">Programa vigente</p><h2 className="mt-3 font-cg-serif text-4xl text-[#222221] md:text-5xl">Clases y horarios</h2><p className="mt-4 font-cg-soft text-[#635E5A]">Encuentra la disciplina y el horario que mejor acompañen tu bienestar.</p></div>
           <div className="grid gap-6 md:grid-cols-2">
             {catalog?.classes.map((item) => (
               <article key={item.id} className="overflow-hidden rounded-3xl border border-[#E1DEDA] bg-[#F8F6F1]">
