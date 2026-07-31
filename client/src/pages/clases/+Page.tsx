@@ -1,320 +1,402 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Clock, Users, Sparkles } from "lucide-react";
-import { ReservaClasesForm } from "@/components/ReservaClasesForm";
+import {
+  CalendarDays,
+  Check,
+  Clock,
+  MapPin,
+  Minus,
+  Plus,
+  ShoppingBag,
+  Sparkles,
+  Trash2,
+  UserRound,
+  Users,
+  X,
+} from "lucide-react";
+import { toast } from "sonner";
+import {
+  readWellnessCart,
+  writeWellnessCart,
+  type WellnessClassPlan,
+  type WellnessMassageItem,
+} from "@/lib/wellnessCart";
+import { getMassageCheckoutId } from "@/lib/massageAnalytics";
 
-interface ClassInfo {
+const CMS_CLASSES_URL = "https://cms.cancagua.cl/api/public/clases/catalog";
+const CMS_MASSAGES_URL = "https://cms.cancagua.cl/api/public/masajes/techniques";
+const HERO_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp";
+const FALLBACK_CLASS_IMAGE = "/images/clases-regulares-hero.jpg";
+const DAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
+type ClassPlan = WellnessClassPlan & { displayOrder: number };
+type ClassSchedule = {
+  id: number;
+  teacherId: number;
+  teacherName: string;
+  teacherBio?: string | null;
+  teacherImageUrl?: string | null;
+  teacherColor?: string | null;
+  dayOfWeek: number;
+  startTime: string;
+  endTime: string;
+};
+type RegularClass = {
+  id: number;
   name: string;
-  subtitle: string;
-  description: string;
-  schedule: string;
-  duration: string;
-  level: string;
-  bookingUrl: string;
-  icon: string;
-  image?: string;
+  shortDescription?: string | null;
+  description?: string | null;
+  imageUrl?: string | null;
+  location?: string | null;
+  capacity?: number | null;
+  schedules: ClassSchedule[];
+};
+type Teacher = {
+  id: number;
+  name: string;
+  bio?: string | null;
+  imageUrl?: string | null;
+  color?: string | null;
+};
+type ClassesCatalog = { plans: ClassPlan[]; classes: RegularClass[]; teachers: Teacher[] };
+type MassagePrice = { duration: number; price: number | null };
+type MassageTechnique = {
+  id: number;
+  name: string;
+  shortDescription?: string | null;
+  imageUrl?: string | null;
+  durations: number[];
+  prices: MassagePrice[];
+};
+
+const formatPrice = (value: number) => new Intl.NumberFormat("es-CL", {
+  style: "currency", currency: "CLP", maximumFractionDigits: 0,
+}).format(value);
+
+function CartDrawer({
+  open,
+  checkoutId,
+  plan,
+  massages,
+  suggestions,
+  onClose,
+  onRemovePlan,
+  onAddMassage,
+  onQuantityChange,
+  onRemoveMassage,
+}: {
+  open: boolean;
+  checkoutId: string;
+  plan: ClassPlan | null;
+  massages: WellnessMassageItem[];
+  suggestions: MassageTechnique[];
+  onClose: () => void;
+  onRemovePlan: () => void;
+  onAddMassage: (technique: MassageTechnique, duration: number) => void;
+  onQuantityChange: (key: string, quantity: number) => void;
+  onRemoveMassage: (key: string) => void;
+}) {
+  const massageTotal = massages.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = massageTotal + (plan?.priceClp ?? 0);
+  const itemCount = massages.reduce((sum, item) => sum + item.quantity, 0) + (plan ? 1 : 0);
+  const params = new URLSearchParams();
+  if (plan) params.set("plan", String(plan.id));
+  if (massages.length > 0) {
+    params.set("cart", JSON.stringify(massages.map(({ techniqueId, duration, quantity }) => ({ techniqueId, duration, quantity }))));
+  }
+  if (checkoutId) params.set("checkout_id", checkoutId);
+  const checkoutUrl = `https://cms.cancagua.cl/reservar/masajes?${params.toString()}`;
+
+  return (
+    <>
+      <button
+        type="button"
+        aria-label="Cerrar carrito"
+        onClick={onClose}
+        className={`fixed inset-0 z-[70] bg-black/45 transition-opacity ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
+      />
+      <aside
+        aria-label="Carrito Cancagua"
+        className={`fixed inset-y-0 right-0 z-[80] flex w-full max-w-md flex-col bg-[#F8F6F1] shadow-2xl transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}`}
+      >
+        <div className="flex items-start justify-between border-b border-[#D7D4D1] p-6">
+          <div>
+            <p className="font-cg-mono text-xs uppercase tracking-[0.16em] text-[#4B5872]">Tu selección</p>
+            <h2 className="mt-1 font-cg-serif text-3xl text-[#222221]">Carrito Cancagua</h2>
+          </div>
+          <button type="button" onClick={onClose} className="rounded-full border border-[#BCBAB8] p-2" aria-label="Cerrar">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="flex-1 space-y-4 overflow-y-auto p-5">
+          {plan && (
+            <article className="rounded-2xl border border-[#9BA7BA] bg-white p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-cg-mono text-xs uppercase tracking-wider text-[#4B5872]">Plan de clases</p>
+                  <h3 className="mt-1 font-cg-serif text-xl text-[#222221]">{plan.name}</h3>
+                  <p className="mt-1 font-cg-soft text-sm text-[#635E5A]">{plan.creditsPerPeriod} clase{plan.creditsPerPeriod === 1 ? "" : "s"} por mes</p>
+                </div>
+                <button type="button" onClick={onRemovePlan} className="p-2 text-red-700" aria-label="Quitar plan"><Trash2 className="h-4 w-4" /></button>
+              </div>
+              <p className="mt-3 text-right font-cg-serif text-xl">{formatPrice(plan.priceClp)}</p>
+            </article>
+          )}
+
+          {massages.map((item) => (
+            <article key={item.key} className="rounded-2xl border border-[#D7D4D1] bg-white p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-cg-serif text-lg text-[#222221]">{item.techniqueName}</p>
+                  <p className="font-cg-soft text-sm text-[#635E5A]">{item.duration} minutos · {formatPrice(item.price)}</p>
+                </div>
+                <button type="button" onClick={() => onRemoveMassage(item.key)} className="p-2 text-red-700" aria-label="Quitar masaje"><Trash2 className="h-4 w-4" /></button>
+              </div>
+              <div className="mt-3 flex items-center justify-between">
+                <span className="font-cg-soft text-sm text-[#635E5A]">Cantidad</span>
+                <div className="flex items-center rounded-full border border-[#BCBAB8]">
+                  <button type="button" onClick={() => onQuantityChange(item.key, item.quantity - 1)} className="p-2"><Minus className="h-4 w-4" /></button>
+                  <span className="w-8 text-center font-cg-mono text-sm">{item.quantity}</span>
+                  <button type="button" disabled={item.quantity >= 4} onClick={() => onQuantityChange(item.key, item.quantity + 1)} className="p-2 disabled:opacity-30"><Plus className="h-4 w-4" /></button>
+                </div>
+              </div>
+            </article>
+          ))}
+
+          {plan && (
+            <section className="rounded-2xl bg-[#E7EBE3] p-4">
+              <div className="flex items-start gap-3">
+                <Sparkles className="mt-0.5 h-5 w-5 text-[#44580E]" />
+                <div>
+                  <h3 className="font-cg-serif text-xl text-[#222221]">¿Quieres agregar otro servicio?</h3>
+                  <p className="mt-1 font-cg-soft text-sm leading-relaxed text-[#635E5A]">Completa tu experiencia con un masaje. Podrás elegir su fecha y hora antes de pagar.</p>
+                </div>
+              </div>
+              <div className="mt-4 space-y-3">
+                {suggestions.slice(0, 3).map((technique) => (
+                  <div key={technique.id} className="rounded-xl bg-white p-3">
+                    <p className="font-cg-serif text-base text-[#222221]">{technique.name}</p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {technique.prices.filter((price): price is MassagePrice & { price: number } => Boolean(price.price)).map((price) => (
+                        <button key={price.duration} type="button" onClick={() => onAddMassage(technique, price.duration)} className="rounded-full border border-[#4B5872] px-3 py-1.5 font-cg-mono text-[11px] text-[#333D51] hover:bg-[#4B5872] hover:text-white">
+                          + {price.duration} min · {formatPrice(price.price)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        {itemCount > 0 && (
+          <div className="border-t border-[#D7D4D1] bg-white p-6">
+            <div className="mb-4 flex items-end justify-between">
+              <span className="font-cg-soft text-sm text-[#635E5A]">Total</span>
+              <span className="font-cg-serif text-2xl text-[#222221]">{formatPrice(total)}</span>
+            </div>
+            <a
+              href={checkoutUrl}
+              className="flex h-12 w-full items-center justify-center rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] text-white hover:bg-[#333D51]"
+            >
+              Continuar reserva y pago
+            </a>
+            <p className="mt-3 text-center font-cg-soft text-xs text-[#827D78]">Pago seguro por Getnet. Si agregaste masajes, primero elegirás sus horarios.</p>
+          </div>
+        )}
+      </aside>
+    </>
+  );
 }
 
-const classes: ClassInfo[] = [
-  {
-    name: "Hatha Yoga",
-    subtitle: "Moderado a Intenso",
-    description: "Práctica dinámica que combina posturas, respiración y meditación. Ideal para quienes buscan un desafío físico y mental, mejorando fuerza, flexibilidad y concentración. Imparte Andrea Ortúzar.",
-    schedule: "Lunes, Miércoles y Viernes 8:30 - 9:45",
-    duration: "75 minutos",
-    level: "Intermedio - Avanzado",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/7be8a0f0-1b7a-4b7a-819f-9fe38d26bca7",
-    icon: "🧘",
-    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_600/cancagua/clases/clase-hatha-intenso"
-  },
-  {
-    name: "Hatha Yoga",
-    subtitle: "Suave",
-    description: "Práctica gentil enfocada en la relajación y el estiramiento. Perfecta para principiantes o quienes buscan una experiencia más restaurativa y meditativa. Imparte Andrea Ortúzar.",
-    schedule: "Lunes y Miércoles 10:15 - 11:30",
-    duration: "75 minutos",
-    level: "Principiante - Todos los niveles",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/f57b8d75-45e8-4811-b705-1a72637a1a50",
-    icon: "🌿",
-    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_600/cancagua/clases/clase-hatha-suave"
-  },
-  {
-    name: "Entrenamiento Funcional",
-    subtitle: "& Movilidad",
-    description: "Entrenamiento dinámico que mejora tu fuerza, movilidad y coordinación de forma integral. Sesiones desafiantes y adaptables a todos los niveles. Imparte Bernardita Mir.",
-    schedule: "Martes 8:30 - 9:30 | Jueves 8:00 - 9:00",
-    duration: "60 minutos",
-    level: "Moderado a Intenso",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/3a52ff0c-89cb-48cb-b2e5-f1395a6daf71",
-    icon: "💪"
-  },
-  {
-    name: "Natación en Aguas Abiertas",
-    subtitle: "En el Lago Llanquihue",
-    description: "Entrena natación en las aguas del Lago Llanquihue. Una experiencia única de conexión con la naturaleza mientras mejoras tu técnica y resistencia. Imparte Marco Santana.",
-    schedule: "Martes y Jueves 8:30 - 9:30",
-    duration: "60 minutos",
-    level: "Todos los niveles",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/c6922cd2-76e3-49ab-b8c6-53f0dfa8bcd1",
-    icon: "🏊",
-    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_600/cancagua/clases/clase-natacion"
-  },
-  {
-    name: "Danza y Movimiento Consciente",
-    subtitle: "Moderado a Intenso",
-    description: "Explora el movimiento libre y consciente a través de la danza. Una práctica que conecta cuerpo, mente y emociones en un espacio seguro y liberador. Imparte Javiera Anabalón.",
-    schedule: "Jueves 9:15 - 10:30",
-    duration: "75 minutos",
-    level: "Moderado a Intenso",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/7ca0b0a5-1282-48b7-b6ae-4b5b32eb90b5",
-    icon: "💃",
-    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_600/cancagua/clases/clase-danza-consciente"
-  },
-  {
-    name: "Meditación y Respiración",
-    subtitle: "Suave",
-    description: "Sesión guiada de meditación y técnicas de respiración para calmar la mente, reducir el estrés y cultivar la presencia. Ideal para cerrar el día en paz. Imparte Claudia Silva.",
-    schedule: "Martes 19:00 - 20:00",
-    duration: "60 minutos",
-    level: "Suave - Todos los niveles",
-    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/431fdc0d-c672-4dc9-a3ba-c4850ddd4504",
-    icon: "🧘‍♀️",
-    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_600/cancagua/clases/clase-meditacion"
-  }
-];
-
 export default function Page() {
+  const [catalog, setCatalog] = useState<ClassesCatalog | null>(null);
+  const [massages, setMassages] = useState<MassageTechnique[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<ClassPlan | null>(null);
+  const [massageCart, setMassageCart] = useState<WellnessMassageItem[]>([]);
+  const [cartReady, setCartReady] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [checkoutId, setCheckoutId] = useState("");
+
+  useEffect(() => {
+    setCheckoutId(getMassageCheckoutId());
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([
+      fetch(CMS_CLASSES_URL, { cache: "no-store" }).then((response) => {
+        if (!response.ok) throw new Error(`Classes catalog ${response.status}`);
+        return response.json() as Promise<ClassesCatalog>;
+      }),
+      fetch(CMS_MASSAGES_URL, { cache: "no-store" }).then((response) => response.ok ? response.json() : { techniques: [] }),
+    ]).then(([classesData, massageData]) => {
+      if (cancelled) return;
+      setCatalog(classesData);
+      setMassages((massageData as { techniques?: MassageTechnique[] }).techniques ?? []);
+    }).catch((error) => {
+      console.error("[Clases] No se pudo cargar el catálogo CMS:", error);
+      if (!cancelled) setHasError(true);
+    }).finally(() => {
+      if (!cancelled) setIsLoading(false);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    const storedCart = readWellnessCart();
+    setSelectedPlan(storedCart.classPlan as ClassPlan | null);
+    setMassageCart(storedCart.massages);
+    setCartReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!cartReady) return;
+    writeWellnessCart({ classPlan: selectedPlan, massages: massageCart });
+  }, [cartReady, selectedPlan, massageCart]);
+
+  const choosePlan = (plan: ClassPlan) => {
+    setSelectedPlan(plan);
+    setIsCartOpen(true);
+    toast.success(`${plan.name} agregado al carrito`, { position: "top-center" });
+  };
+
+  const addMassage = (technique: MassageTechnique, duration: number) => {
+    const price = technique.prices.find((item) => item.duration === duration)?.price;
+    if (!price) return;
+    setMassageCart((current) => {
+      const existing = current.find((item) => item.techniqueId === technique.id && item.duration === duration);
+      if (existing) return current.map((item) => item.key === existing.key ? { ...item, quantity: Math.min(4, item.quantity + 1) } : item);
+      return [...current, {
+        key: `${technique.id}-${duration}-${Date.now()}`,
+        techniqueId: technique.id,
+        techniqueName: technique.name,
+        duration,
+        price,
+        quantity: 1,
+      }];
+    });
+    toast.success("Masaje agregado al carrito", { position: "top-center" });
+  };
+
+  const availableMassages = massages.filter((technique) => technique.prices.some((price) => Boolean(price.price)));
+  const cartCount = massageCart.reduce((sum, item) => sum + item.quantity, 0) + (selectedPlan ? 1 : 0);
+
   return (
     <div className="min-h-screen bg-[#F4F2ED]">
-      {/* Hero Section */}
-      <section className="relative h-[70vh] min-h-[500px]">
-        <div className="absolute inset-0">
-          <img
-            src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309082/cancagua/images/12_yoga-clases.webp"
-            alt="Clases en Cancagua"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
-        </div>
-
-        <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
-          <h1 className="text-5xl md:text-7xl font-light mb-4 tracking-wide">
-            Clases Regulares
-          </h1>
-          <p className="font-cg-mono text-xl md:text-2xl font-light tracking-wide mb-8 max-w-2xl">
-            Hatha Yoga, Entrenamiento Funcional, Natación, Danza Consciente, Meditación y más
-          </p>
-          <a href="#clases">
-            <Button
-              size="lg"
-              className="bg-[#4B5872] hover:bg-[#333D51] text-[#FCF9F9] font-cg-mono tracking-wider text-lg px-10 py-6"
-            >
-              VER CLASES
-            </Button>
-          </a>
+      <section className="relative min-h-[620px] overflow-hidden">
+        <img src={HERO_IMAGE} alt="Clases regulares en Cancagua" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/30 to-black/70" />
+        <div className="container relative flex min-h-[620px] max-w-6xl flex-col items-center justify-center px-4 text-center text-white">
+          <p className="mb-5 font-cg-mono text-xs uppercase tracking-[0.24em] text-white/85">Movimiento · comunidad · naturaleza</p>
+          <h1 className="max-w-4xl font-cg-serif text-5xl font-normal leading-[0.98] md:text-7xl">Clases regulares en Cancagua</h1>
+          <p className="mt-6 max-w-2xl font-cg-soft text-lg leading-relaxed text-white/90 md:text-xl">Elige tu plan mensual, participa en distintas disciplinas y vive una práctica constante junto al Lago Llanquihue.</p>
+          <a href="#planes" className="mt-9 inline-flex h-12 items-center rounded-full bg-white px-8 font-cg-mono text-xs uppercase tracking-[0.16em] text-[#222221] hover:bg-[#F4F2ED]">Ver planes y reservar</a>
         </div>
       </section>
 
-      {/* Introducción */}
-      <section className="py-16 bg-white">
-        <div className="container max-w-4xl text-center">
-          <p className="font-cg-sans text-lg text-[#635E5A] leading-relaxed mb-6">
-            Únete a nuestra comunidad y descubre el poder transformador del movimiento consciente.
-            Nuestras clases están diseñadas para todos los niveles, en un ambiente acogedor
-            con vista al Lago Llanquihue.
-          </p>
-          <div className="flex flex-wrap justify-center gap-8 mt-8">
-            <div className="flex items-center gap-2 text-[#4B5872]">
-              <Users className="h-5 w-5" />
-              <span className="font-cg-sans text-sm text-[#635E5A]">Grupos reducidos</span>
-            </div>
-            <div className="flex items-center gap-2 text-[#4B5872]">
-              <Sparkles className="h-5 w-5" />
-              <span className="font-cg-sans text-sm text-[#635E5A]">Instructores certificados</span>
-            </div>
-            <div className="flex items-center gap-2 text-[#4B5872]">
-              <Calendar className="h-5 w-5" />
-              <span className="font-cg-sans text-sm text-[#635E5A]">Horarios flexibles</span>
-            </div>
+      <section className="bg-white py-14">
+        <div className="container grid max-w-5xl gap-6 text-center sm:grid-cols-3">
+          {[{ icon: Users, title: "Comunidad cercana", text: "Grupos acogedores y acompañamiento profesional." }, { icon: CalendarDays, title: "Horarios flexibles", text: "Combina las disciplinas incluidas en tu plan." }, { icon: Sparkles, title: "Beneficios crecientes", text: "Más frecuencia, más experiencias y descuentos." }].map((item) => (
+            <div key={item.title} className="px-4"><item.icon className="mx-auto h-6 w-6 text-[#4B5872]" /><h2 className="mt-3 font-cg-serif text-xl">{item.title}</h2><p className="mt-2 font-cg-soft text-sm leading-relaxed text-[#635E5A]">{item.text}</p></div>
+          ))}
+        </div>
+      </section>
+
+      <section id="planes" className="py-20 md:py-24">
+        <div className="container max-w-7xl">
+          <div className="mx-auto mb-12 max-w-3xl text-center">
+            <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#4B5872]">Elige tu ritmo</p>
+            <h2 className="mt-3 font-cg-serif text-4xl text-[#222221] md:text-5xl">Planes y clase suelta</h2>
+            <p className="mt-4 font-cg-soft text-[#635E5A]">Todos los precios, incentivos y cantidades vienen directamente del CMS.</p>
           </div>
+          {isLoading ? (
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{[1,2,3,4,5,6].map((item) => <div key={item} className="h-80 animate-pulse rounded-3xl bg-white/70" />)}</div>
+          ) : hasError || !catalog ? (
+            <div className="rounded-3xl bg-white p-10 text-center font-cg-soft text-[#635E5A]">Estamos actualizando los planes. Por favor intenta nuevamente en unos minutos.</div>
+          ) : (
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {catalog.plans.map((plan, index) => (
+                <article key={plan.id} className={`relative flex min-h-80 flex-col rounded-3xl border p-6 shadow-sm ${index === 2 ? "border-[#4B5872] bg-[#333D51] text-white" : "border-[#D7D4D1] bg-white text-[#222221]"}`}>
+                  {index === 2 && <span className="absolute right-5 top-5 rounded-full bg-white/15 px-3 py-1 font-cg-mono text-[10px] uppercase tracking-wider">Recomendado</span>}
+                  <p className={`font-cg-mono text-xs uppercase tracking-[0.18em] ${index === 2 ? "text-white/70" : "text-[#4B5872]"}`}>{plan.code === "drop_in" ? "Sin mensualidad" : plan.code}</p>
+                  <h3 className="mt-3 max-w-[80%] font-cg-serif text-3xl leading-tight">{plan.name}</h3>
+                  <p className="mt-4 font-cg-serif text-4xl">{formatPrice(plan.priceClp)}</p>
+                  <p className={`mt-1 font-cg-soft text-sm ${index === 2 ? "text-white/70" : "text-[#827D78]"}`}>{plan.creditsPerPeriod} clase{plan.creditsPerPeriod === 1 ? "" : "s"} por período · {formatPrice(Math.round(plan.priceClp / plan.creditsPerPeriod))} c/u</p>
+                  <div className={`my-5 h-px ${index === 2 ? "bg-white/20" : "bg-[#E5E2DF]"}`} />
+                  <div className="flex gap-3 font-cg-soft text-sm leading-relaxed"><Check className="mt-0.5 h-4 w-4 shrink-0" /><span>{plan.benefits || "Acceso a las clases regulares del programa"}</span></div>
+                  <Button type="button" onClick={() => choosePlan(plan)} className={`mt-auto h-12 rounded-full font-cg-mono text-xs uppercase tracking-[0.14em] ${index === 2 ? "bg-white text-[#333D51] hover:bg-[#F4F2ED]" : "bg-[#4B5872] text-white hover:bg-[#333D51]"}`}>Reservar plan</Button>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Clases */}
-      <section id="clases" className="py-20 bg-[#F4F2ED]">
-        <div className="container max-w-6xl">
-          <h2 className="text-3xl md:text-4xl text-[#222221] text-center mb-4">
-            Nuestras Clases
-          </h2>
-          <p className="font-cg-sans text-[#635E5A] text-center mb-12">
-            Elige la clase que mejor se adapte a tus objetivos
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {classes.map((classInfo, index) => (
-              <Card key={index} className="bg-white border-none shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-                {classInfo.image ? (
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={classInfo.image}
-                      alt={classInfo.name}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <CardTitle className="font-cg-mono text-xl tracking-wide text-white">
-                        {classInfo.name}
-                      </CardTitle>
-                      <p className="font-cg-sans text-white/80 text-sm">
-                        {classInfo.subtitle}
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <CardHeader className="bg-gradient-to-r from-[#222221] to-[#46423F] text-white pb-4">
-                    <div className="flex items-center gap-4">
-                      <span className="text-4xl">{classInfo.icon}</span>
-                      <div>
-                        <CardTitle className="font-cg-mono text-xl tracking-wide">
-                          {classInfo.name}
-                        </CardTitle>
-                        <p className="font-cg-sans text-white/80 text-sm">
-                          {classInfo.subtitle}
-                        </p>
+      <section id="clases" className="bg-white py-20 md:py-24">
+        <div className="container max-w-7xl">
+          <div className="mb-12 max-w-3xl"><p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#4B5872]">Programa vigente</p><h2 className="mt-3 font-cg-serif text-4xl text-[#222221] md:text-5xl">Clases y horarios</h2><p className="mt-4 font-cg-soft text-[#635E5A]">Si una clase u horario cambia en el CMS, esta sección se actualiza automáticamente.</p></div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {catalog?.classes.map((item) => (
+              <article key={item.id} className="overflow-hidden rounded-3xl border border-[#E1DEDA] bg-[#F8F6F1]">
+                <div className="relative h-56 overflow-hidden"><img src={item.imageUrl || FALLBACK_CLASS_IMAGE} alt={item.name} className="h-full w-full object-cover" loading="lazy" /><div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent" /><h3 className="absolute bottom-5 left-5 right-5 font-cg-serif text-3xl text-white">{item.name}</h3></div>
+                <div className="p-6">
+                  <p className="font-cg-soft leading-relaxed text-[#635E5A]">{item.description || item.shortDescription || "Una práctica guiada para conectar cuerpo, respiración y bienestar."}</p>
+                  <div className="mt-5 space-y-2">
+                    {item.schedules.map((schedule) => (
+                      <div key={schedule.id} className="grid gap-2 rounded-xl bg-white p-3 text-sm sm:grid-cols-[1fr_auto] sm:items-center">
+                        <div className="flex items-center gap-2 font-cg-soft text-[#33312F]"><Clock className="h-4 w-4 text-[#4B5872]" /><strong>{DAY_NAMES[schedule.dayOfWeek]}</strong> · {schedule.startTime}–{schedule.endTime}</div>
+                        <div className="flex items-center gap-2 font-cg-soft text-[#635E5A]"><UserRound className="h-4 w-4" />{schedule.teacherName}</div>
                       </div>
-                    </div>
-                  </CardHeader>
-                )}
-                <CardContent className="p-6">
-                  <p className="font-cg-sans text-[#635E5A] mb-6 leading-relaxed">
-                    {classInfo.description}
-                  </p>
-
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-3 text-[#635E5A]">
-                      <Calendar className="h-4 w-4 text-[#4B5872]" />
-                      <span className="font-cg-sans text-sm">{classInfo.schedule}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-[#635E5A]">
-                      <Clock className="h-4 w-4 text-[#4B5872]" />
-                      <span className="font-cg-sans text-sm">{classInfo.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-[#635E5A]">
-                      <Users className="h-4 w-4 text-[#4B5872]" />
-                      <span className="font-cg-sans text-sm">{classInfo.level}</span>
-                    </div>
+                    ))}
+                    {item.schedules.length === 0 && <p className="rounded-xl border border-dashed bg-white p-3 font-cg-soft text-sm text-[#827D78]">Próximamente publicaremos nuevos horarios.</p>}
                   </div>
-
-                  <a href={classInfo.bookingUrl} target="_blank" rel="noopener noreferrer" className="block">
-                    <Button
-                      className="w-full bg-[#4B5872] hover:bg-[#333D51] text-[#FCF9F9] font-cg-mono tracking-wider"
-                    >
-                      RESERVAR CLASE
-                    </Button>
-                  </a>
-                </CardContent>
-              </Card>
+                  <div className="mt-4 flex flex-wrap gap-4 font-cg-soft text-xs text-[#827D78]">{item.location && <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{item.location}</span>}{item.capacity && <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5" />Cupos: {item.capacity}</span>}</div>
+                </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Beneficios */}
-      <section className="py-20 bg-white">
-        <div className="container max-w-4xl">
-          <h2 className="text-3xl md:text-4xl text-[#222221] text-center mb-12">
-            Beneficios de practicar con nosotros
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="w-16 h-16 bg-[#4B5872]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🌊</span>
-              </div>
-              <h3 className="font-cg-mono text-lg text-[#222221] mb-2">Entorno Natural</h3>
-              <p className="font-cg-sans text-sm text-[#635E5A]">
-                Practica con vista al Lago Llanquihue y los volcanes de la Patagonia
-              </p>
-            </div>
-            <div>
-              <div className="w-16 h-16 bg-[#4B5872]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">👥</span>
-              </div>
-              <h3 className="font-cg-mono text-lg text-[#222221] mb-2">Comunidad</h3>
-              <p className="font-cg-sans text-sm text-[#635E5A]">
-                Únete a un grupo de personas que comparten tu pasión por el bienestar
-              </p>
-            </div>
-            <div>
-              <div className="w-16 h-16 bg-[#4B5872]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">✨</span>
-              </div>
-              <h3 className="font-cg-mono text-lg text-[#222221] mb-2">Experiencia Integral</h3>
-              <p className="font-cg-sans text-sm text-[#635E5A]">
-                Combina tu clase con nuestras biopiscinas, hot tubs o cafetería
-              </p>
+      {catalog && catalog.teachers.length > 0 && (
+        <section className="py-20 md:py-24">
+          <div className="container max-w-7xl">
+            <div className="mb-12 text-center"><p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#4B5872]">Quienes te acompañan</p><h2 className="mt-3 font-cg-serif text-4xl text-[#222221] md:text-5xl">Profesores</h2></div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {catalog.teachers.map((teacher) => (
+                <article key={teacher.id} className="rounded-3xl bg-white p-6 shadow-sm">
+                  {teacher.imageUrl ? <img src={teacher.imageUrl} alt={teacher.name} className="h-24 w-24 rounded-full object-cover" loading="lazy" /> : <div className="flex h-24 w-24 items-center justify-center rounded-full font-cg-serif text-3xl text-white" style={{ backgroundColor: teacher.color || "#648596" }}>{teacher.name.split(" ").map((part) => part[0]).slice(0,2).join("")}</div>}
+                  <h3 className="mt-5 font-cg-serif text-2xl text-[#222221]">{teacher.name}</h3>
+                  <p className="mt-3 font-cg-soft text-sm leading-relaxed text-[#635E5A]">{teacher.bio || "Profesor/a del programa de Clases Regulares Cancagua."}</p>
+                </article>
+              ))}
             </div>
           </div>
-        </div>
+        </section>
+      )}
+
+      <section className="bg-[#222221] py-20 text-center text-white">
+        <div className="container max-w-3xl"><h2 className="font-cg-serif text-4xl md:text-5xl">Empieza tu práctica este mes</h2><p className="mx-auto mt-5 max-w-2xl font-cg-soft text-lg leading-relaxed text-white/75">Elige el plan que mejor acompaña tu ritmo. Puedes sumar un masaje y pagar todo junto de forma segura.</p><a href="#planes" className="mt-8 inline-flex h-12 items-center rounded-full bg-white px-8 font-cg-mono text-xs uppercase tracking-[0.15em] text-[#222221]">Elegir mi plan</a></div>
       </section>
 
-      {/* Pases y Membresías */}
-      <section className="py-20 bg-[#222221] text-white">
-        <div className="container max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl mb-6">
-            Pases y Membresías
-          </h2>
-          <p className="font-cg-sans text-white/80 mb-8 max-w-2xl mx-auto">
-            Consulta por nuestros pases mensuales y descuentos para clases regulares.
-            Contáctanos para más información sobre planes personalizados.
-          </p>
-          <a href="https://wa.me/56940073999?text=Hola!%20Me%20gustaría%20consultar%20por%20los%20pases%20y%20membresías%20de%20clases" target="_blank" rel="noopener noreferrer">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-[#4B5872] text-[#4B5872] hover:bg-[#4B5872] hover:text-[#FCF9F9] font-cg-mono tracking-wider text-lg px-10 py-6"
-            >
-              CONSULTAR POR WHATSAPP
-            </Button>
-          </a>
-        </div>
-      </section>
-
-      {/* Formulario de Reserva */}
-      <section className="py-20 bg-white">
-        <div className="container max-w-2xl">
-          <h2 className="text-3xl md:text-4xl text-[#222221] text-center mb-12">
-            Reserva tu clase directamente
-          </h2>
-          <ReservaClasesForm
-            classes={classes.map(c => ({ name: c.name, subtitle: c.subtitle }))}
-          />
-        </div>
-      </section>
-
-      {/* CTA Final */}
-      <section className="py-20 bg-[#F4F2ED]">
-        <div className="container text-center">
-          <h2 className="text-3xl md:text-4xl text-[#222221] mb-6">
-            Comienza tu práctica hoy
-          </h2>
-          <p className="font-cg-sans text-lg text-[#635E5A] mb-8 max-w-2xl mx-auto">
-            No necesitas experiencia previa. Nuestros instructores te guiarán en cada paso del camino.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            {classes.slice(0, 2).map((classInfo, index) => (
-              <a key={index} href={classInfo.bookingUrl} target="_blank" rel="noopener noreferrer">
-                <Button
-                  size="lg"
-                  className="bg-[#4B5872] hover:bg-[#333D51] text-[#FCF9F9] font-cg-mono tracking-wider px-8 py-6"
-                >
-                  {classInfo.name} {classInfo.subtitle}
-                </Button>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+      {!isCartOpen && cartCount > 0 && <button type="button" onClick={() => setIsCartOpen(true)} className="fixed right-5 top-28 z-40 flex items-center gap-3 rounded-full bg-[#333D51] px-5 py-3 font-cg-mono text-xs uppercase tracking-[0.12em] text-white shadow-xl"><ShoppingBag className="h-4 w-4" />Carrito ({cartCount})</button>}
+      <CartDrawer
+        open={isCartOpen}
+        checkoutId={checkoutId}
+        plan={selectedPlan}
+        massages={massageCart}
+        suggestions={availableMassages}
+        onClose={() => setIsCartOpen(false)}
+        onRemovePlan={() => setSelectedPlan(null)}
+        onAddMassage={addMassage}
+        onQuantityChange={(key, quantity) => setMassageCart((current) => quantity <= 0 ? current.filter((item) => item.key !== key) : current.map((item) => item.key === key ? { ...item, quantity: Math.min(4, quantity) } : item))}
+        onRemoveMassage={(key) => setMassageCart((current) => current.filter((item) => item.key !== key))}
+      />
     </div>
   );
 }

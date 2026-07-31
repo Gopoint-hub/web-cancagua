@@ -2,6 +2,18 @@ import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Clock, Sparkles, Heart, Leaf, Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
+import {
+  getMassageCheckoutId,
+  persistCheckoutStart,
+  pushMassageEvent,
+  toAnalyticsItem,
+} from "@/lib/massageAnalytics";
+import {
+  readWellnessCart,
+  writeWellnessCart,
+  type WellnessClassPlan,
+  type WellnessMassageItem,
+} from "@/lib/wellnessCart";
 
 const CMS_MASSAGE_CATALOG_URL = "https://cms.cancagua.cl/api/public/masajes/techniques";
 const FALLBACK_IMAGE = "/images/masajes-hero-cancagua.jpg";
@@ -21,14 +33,7 @@ interface MassageTechnique {
   bookingUrl: string;
 }
 
-interface MassageCartItem {
-  key: string;
-  techniqueId: number;
-  techniqueName: string;
-  duration: number;
-  price: number;
-  quantity: number;
-}
+type MassageCartItem = WellnessMassageItem;
 
 const beneficios = [
   {
@@ -134,16 +139,22 @@ function MassageTechniqueCard({ technique, onAdd }: {
 
 function MassageCartDrawer({
   items,
+  classPlan,
   open,
+  checkoutId,
   onClose,
   onQuantityChange,
   onRemove,
+  onRemoveClassPlan,
 }: {
   items: MassageCartItem[];
+  classPlan: WellnessClassPlan | null;
   open: boolean;
+  checkoutId: string;
   onClose: () => void;
   onQuantityChange: (key: string, quantity: number) => void;
   onRemove: (key: string) => void;
+  onRemoveClassPlan: () => void;
 }) {
   const [showDiscount, setShowDiscount] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
@@ -152,6 +163,17 @@ function MassageCartDrawer({
   const [isValidatingDiscount, setIsValidatingDiscount] = useState(false);
   const totalUnits = items.reduce((sum, item) => sum + item.quantity, 0);
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const combinedTotal = (discount?.finalTotal ?? total) + (classPlan?.priceClp ?? 0);
+  const hasItems = items.length > 0 || Boolean(classPlan);
+
+  useEffect(() => {
+    if (!open || items.length === 0) return;
+    pushMassageEvent("view_cart", {
+      currency: "CLP",
+      value: discount?.finalTotal ?? total,
+      items: items.map(toAnalyticsItem),
+    }, { checkout_id: checkoutId });
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setDiscount(null);
@@ -182,11 +204,31 @@ function MassageCartDrawer({
     }
   };
 
+  const cartPayload = items.map(({ techniqueId, duration, quantity }) => ({ techniqueId, duration, quantity }));
+  const bookingParams = new URLSearchParams({ cart: JSON.stringify(cartPayload), checkout_id: checkoutId });
+  if (classPlan) bookingParams.set("plan", String(classPlan.id));
+  if (discount?.code) bookingParams.set("discount", discount.code);
+  const bookingUrl = `https://cms.cancagua.cl/reservar/masajes?${bookingParams.toString()}`;
+
   const handleBooking = () => {
-    const cart = items.map(({ techniqueId, duration, quantity }) => ({ techniqueId, duration, quantity }));
-    const params = new URLSearchParams({ cart: JSON.stringify(cart) });
-    if (discount?.code) params.set("discount", discount.code);
-    window.location.href = `https://cms.cancagua.cl/reservar/masajes?${params.toString()}`;
+    const analyticsItems = items.map(toAnalyticsItem);
+    const finalTotal = combinedTotal;
+    pushMassageEvent("begin_checkout", {
+      currency: "CLP",
+      value: finalTotal,
+      coupon: discount?.code,
+      items: analyticsItems,
+    }, { checkout_id: checkoutId });
+    if (analyticsItems.length > 0) {
+      persistCheckoutStart({
+        checkoutId,
+        items: analyticsItems,
+        coupon: discount?.code,
+        originalTotal: total + (classPlan?.priceClp ?? 0),
+        discountTotal: discount?.discountTotal ?? 0,
+        finalTotal,
+      });
+    }
   };
 
   return (
@@ -214,7 +256,19 @@ function MassageCartDrawer({
         </div>
 
         <div className="flex-1 space-y-4 overflow-y-auto p-6">
-          {items.length === 0 ? (
+          {classPlan && (
+            <article className="rounded-lg border border-[#9BA7BA] bg-white p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="font-cg-mono text-xs uppercase tracking-wider text-[#4B5872]">Plan de clases</p>
+                  <h3 className="mt-1 font-cg-serif text-xl text-[#222221]">{classPlan.name}</h3>
+                  <p className="mt-1 font-cg-soft text-sm text-[#635E5A]">{classPlan.creditsPerPeriod} clase{classPlan.creditsPerPeriod === 1 ? "" : "s"} por mes · {formatPrice(classPlan.priceClp)}</p>
+                </div>
+                <button type="button" onClick={onRemoveClassPlan} className="p-1 text-[#827D78] hover:text-red-700" aria-label="Quitar plan de clases"><Trash2 className="h-4 w-4" /></button>
+              </div>
+            </article>
+          )}
+          {items.length === 0 && !classPlan ? (
             <div className="flex h-full flex-col items-center justify-center text-center text-[#635E5A]">
               <ShoppingBag className="mb-4 h-8 w-8" />
               <p className="font-cg-soft">Aún no has agregado masajes.</p>
@@ -247,12 +301,12 @@ function MassageCartDrawer({
           ))}
         </div>
 
-        {items.length > 0 && (
+        {hasItems && (
           <div className="border-t border-[#D7D4D1] bg-white p-6">
-            <button type="button" onClick={() => setShowDiscount((value) => !value)} className="mb-4 font-cg-soft text-sm font-medium text-[#4B5872] underline underline-offset-4">
+            {items.length > 0 && <button type="button" onClick={() => setShowDiscount((value) => !value)} className="mb-4 font-cg-soft text-sm font-medium text-[#4B5872] underline underline-offset-4">
               ¿Tienes un código de descuento?
-            </button>
-            {showDiscount && (
+            </button>}
+            {items.length > 0 && showDiscount && (
               <div className="mb-4">
                 <div className="flex gap-2">
                   <input value={discountCode} onChange={(event) => { setDiscountCode(event.target.value.toUpperCase()); setDiscount(null); setDiscountError(""); }} placeholder="Ingresa tu código" className="min-w-0 flex-1 rounded-full border border-[#BCBAB8] bg-white px-4 py-2 font-cg-mono text-sm uppercase outline-none focus:border-[#4B5872]" />
@@ -265,13 +319,17 @@ function MassageCartDrawer({
               </div>
             )}
             <div className="mb-1 flex items-end justify-between">
-              <span className="font-cg-soft text-sm text-[#635E5A]">{totalUnits} masaje{totalUnits === 1 ? "" : "s"}</span>
-              <span className={discount ? "font-cg-mono text-sm text-[#827D78] line-through" : "font-cg-serif text-2xl text-[#222221]"}>{formatPrice(total)}</span>
+              <span className="font-cg-soft text-sm text-[#635E5A]">{totalUnits + (classPlan ? 1 : 0)} producto{totalUnits + (classPlan ? 1 : 0) === 1 ? "" : "s"}</span>
+              <span className={discount ? "font-cg-mono text-sm text-[#827D78] line-through" : "font-cg-serif text-2xl text-[#222221]"}>{formatPrice(total + (classPlan?.priceClp ?? 0))}</span>
             </div>
-            {discount && <><div className="flex justify-between font-cg-soft text-sm text-green-700"><span>Descuento</span><span>−{formatPrice(discount.discountTotal)}</span></div><div className="mb-4 mt-2 flex justify-between border-t border-[#D7D4D1] pt-2"><span className="font-cg-soft text-sm text-[#635E5A]">Total</span><span className="font-cg-serif text-2xl text-[#222221]">{formatPrice(discount.finalTotal)}</span></div></>}
-            <Button type="button" onClick={handleBooking} className="h-12 w-full rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] text-white hover:bg-[#333D51]">
+            {discount && <><div className="flex justify-between font-cg-soft text-sm text-green-700"><span>Descuento</span><span>−{formatPrice(discount.discountTotal)}</span></div><div className="mb-4 mt-2 flex justify-between border-t border-[#D7D4D1] pt-2"><span className="font-cg-soft text-sm text-[#635E5A]">Total</span><span className="font-cg-serif text-2xl text-[#222221]">{formatPrice(combinedTotal)}</span></div></>}
+            <a
+              href={bookingUrl}
+              onClick={handleBooking}
+              className="flex h-12 w-full items-center justify-center rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] text-white hover:bg-[#333D51]"
+            >
               Reservar y elegir horarios
-            </Button>
+            </a>
             <p className="mt-3 text-center font-cg-soft text-xs leading-relaxed text-[#827D78]">En el siguiente paso podrás asignar fecha y hora a cada selección.</p>
           </div>
         )}
@@ -285,7 +343,14 @@ export default function Page() {
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
   const [catalogError, setCatalogError] = useState(false);
   const [cart, setCart] = useState<MassageCartItem[]>([]);
+  const [classPlan, setClassPlan] = useState<WellnessClassPlan | null>(null);
+  const [cartReady, setCartReady] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [checkoutId, setCheckoutId] = useState("");
+
+  useEffect(() => {
+    setCheckoutId(getMassageCheckoutId());
+  }, []);
 
   const addToCart = (technique: MassageTechnique, duration: number) => {
     const price = getPriceForDuration(technique, duration);
@@ -307,6 +372,16 @@ export default function Page() {
         quantity: 1,
       }];
     });
+    pushMassageEvent("add_to_cart", {
+      currency: "CLP",
+      value: price,
+      items: [toAnalyticsItem({
+        techniqueId: technique.id,
+        techniqueName: technique.name,
+        duration,
+        price,
+      })],
+    }, { checkout_id: checkoutId });
     setIsCartOpen(true);
     toast.success("Masaje agregado al carrito", { position: "top-center" });
   };
@@ -335,10 +410,73 @@ export default function Page() {
     };
   }, []);
 
+  useEffect(() => {
+    const storedCart = readWellnessCart();
+    setCart(storedCart.massages);
+    setClassPlan(storedCart.classPlan);
+    setCartReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!cartReady) return;
+    writeWellnessCart({ classPlan, massages: cart });
+  }, [cartReady, classPlan, cart]);
+
   const visibleTechniques = useMemo(
     () => techniques.filter((technique) => technique.durations.length > 0),
     [techniques]
   );
+
+  useEffect(() => {
+    if (visibleTechniques.length === 0) return;
+    pushMassageEvent("view_item_list", {
+      item_list_id: "masajes_cancagua",
+      item_list_name: "Masajes Cancagua",
+      items: visibleTechniques.flatMap((technique) =>
+        technique.prices
+          .filter((price): price is MassagePrice & { price: number } => Boolean(price.price))
+          .map((price) => toAnalyticsItem({
+            techniqueId: technique.id,
+            techniqueName: technique.name,
+            duration: price.duration,
+            price: price.price,
+          })),
+      ),
+    });
+  }, [visibleTechniques]);
+
+  const changeCartQuantity = (key: string, quantity: number) => {
+    setCart((current) => {
+      const existing = current.find((item) => item.key === key);
+      if (!existing) return current;
+      const boundedQuantity = Math.min(4, Math.max(0, quantity));
+      const delta = boundedQuantity - existing.quantity;
+      if (delta !== 0) {
+        pushMassageEvent(delta > 0 ? "add_to_cart" : "remove_from_cart", {
+          currency: "CLP",
+          value: existing.price * Math.abs(delta),
+          items: [{ ...toAnalyticsItem(existing), quantity: Math.abs(delta) }],
+        }, { checkout_id: checkoutId });
+      }
+      return boundedQuantity === 0
+        ? current.filter((item) => item.key !== key)
+        : current.map((item) => item.key === key ? { ...item, quantity: boundedQuantity } : item);
+    });
+  };
+
+  const removeCartItem = (key: string) => {
+    setCart((current) => {
+      const existing = current.find((item) => item.key === key);
+      if (existing) {
+        pushMassageEvent("remove_from_cart", {
+          currency: "CLP",
+          value: existing.price * existing.quantity,
+          items: [toAnalyticsItem(existing)],
+        }, { checkout_id: checkoutId });
+      }
+      return current.filter((item) => item.key !== key);
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#F4F2ED]">
@@ -416,19 +554,22 @@ export default function Page() {
         </div>
       </section>
 
-      {!isCartOpen && cart.length > 0 && (
+      {!isCartOpen && (cart.length > 0 || classPlan) && (
         <button type="button" onClick={() => setIsCartOpen(true)} className="fixed right-5 top-28 z-40 flex items-center gap-3 rounded-full bg-[#333D51] px-5 py-3 font-cg-mono text-xs uppercase tracking-[0.12em] text-white shadow-xl hover:bg-[#1B212D]">
           <ShoppingBag className="h-4 w-4" />
-          Carrito ({cart.reduce((sum, item) => sum + item.quantity, 0)})
+          Carrito ({cart.reduce((sum, item) => sum + item.quantity, 0) + (classPlan ? 1 : 0)})
         </button>
       )}
 
       <MassageCartDrawer
         items={cart}
+        classPlan={classPlan}
         open={isCartOpen}
+        checkoutId={checkoutId}
         onClose={() => setIsCartOpen(false)}
-        onQuantityChange={(key, quantity) => setCart((current) => quantity <= 0 ? current.filter((item) => item.key !== key) : current.map((item) => item.key === key ? { ...item, quantity: Math.min(4, quantity) } : item))}
-        onRemove={(key) => setCart((current) => current.filter((item) => item.key !== key))}
+        onQuantityChange={changeCartQuantity}
+        onRemove={removeCartItem}
+        onRemoveClassPlan={() => setClassPlan(null)}
       />
 
       {/* Galería */}
