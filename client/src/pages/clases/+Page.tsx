@@ -153,6 +153,7 @@ function WeeklySchedule({ classes }: { classes: RegularClass[] }) {
 function CartDrawer({
   open,
   checkoutId,
+  invitationToken,
   plan,
   massages,
   suggestions,
@@ -164,6 +165,7 @@ function CartDrawer({
 }: {
   open: boolean;
   checkoutId: string;
+  invitationToken: string;
   plan: ClassPlan | null;
   massages: WellnessMassageItem[];
   suggestions: MassageTechnique[];
@@ -219,6 +221,7 @@ function CartDrawer({
     params.set("cart", JSON.stringify(massages.map(({ techniqueId, duration, quantity }) => ({ techniqueId, duration, quantity }))));
   }
   if (checkoutId) params.set("checkout_id", checkoutId);
+  if (/^[a-f0-9]{32}$/i.test(invitationToken)) params.set("inscripcion", invitationToken);
   if (discount?.code) params.set("discount", discount.code);
   const checkoutUrl = `https://cms.cancagua.cl/reservar/masajes?${params.toString()}`;
 
@@ -362,9 +365,11 @@ export default function Page() {
   const [cartReady, setCartReady] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [checkoutId, setCheckoutId] = useState("");
+  const [invitationToken, setInvitationToken] = useState("");
 
   useEffect(() => {
     setCheckoutId(getMassageCheckoutId());
+    setInvitationToken(new URLSearchParams(window.location.search).get("inscripcion")?.trim() ?? "");
   }, []);
 
   useEffect(() => {
@@ -488,7 +493,9 @@ export default function Page() {
                     <p className={`mt-1 font-cg-soft text-sm ${isFeatured ? "text-white/70" : "text-[#827D78]"}`}>{plan.creditsPerPeriod} clase{plan.creditsPerPeriod === 1 ? "" : "s"} por período · {formatPrice(Math.round(plan.priceClp / plan.creditsPerPeriod))} c/u</p>
                     <div className={`my-5 h-px ${isFeatured ? "bg-white/20" : "bg-[#E5E2DF]"}`} />
                     <div className="flex gap-3 font-cg-soft text-sm leading-relaxed"><Check className="mt-0.5 h-4 w-4 shrink-0" /><span>{plan.benefits || "Acceso a las clases regulares del programa"}</span></div>
-                    <Button type="button" onClick={() => choosePlan(plan)} className={`mt-auto h-12 rounded-full font-cg-mono text-xs uppercase tracking-[0.14em] ${featuredStyle ? `bg-white ${featuredStyle.button} hover:bg-[#F4F2ED]` : "bg-[#4B5872] text-white hover:bg-[#333D51]"}`}>Reservar plan</Button>
+                    <div className="mt-auto pt-6">
+                      <Button type="button" onClick={() => choosePlan(plan)} className={`h-12 w-full rounded-full font-cg-mono text-xs uppercase tracking-[0.14em] ${featuredStyle ? `bg-white ${featuredStyle.button} hover:bg-[#F4F2ED]` : "bg-[#4B5872] text-white hover:bg-[#333D51]"}`}>Reservar plan</Button>
+                    </div>
                   </article>
                 );
               })}
@@ -572,6 +579,7 @@ export default function Page() {
       <CartDrawer
         open={isCartOpen}
         checkoutId={checkoutId}
+        invitationToken={invitationToken}
         plan={selectedPlan}
         massages={massageCart}
         suggestions={availableMassages}
