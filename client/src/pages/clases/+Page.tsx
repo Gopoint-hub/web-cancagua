@@ -28,6 +28,7 @@ const CMS_MASSAGES_URL = "https://cms.cancagua.cl/api/public/masajes/techniques"
 const HERO_IMAGE = "/images/yoga-2025-hero.jpg";
 const FALLBACK_CLASS_IMAGE = "/images/clases-regulares-hero.jpg";
 const DAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const PUBLIC_PLAN_ORDER = ["drop_in", "1x", "2x", "3x", "4x", "5x"];
 
 type ClassPlan = WellnessClassPlan & { displayOrder: number };
 type ClassSchedule = {
@@ -460,7 +461,14 @@ export default function Page() {
             <div className="rounded-3xl bg-white p-10 text-center font-cg-soft text-[#635E5A]">Estamos actualizando los planes. Por favor intenta nuevamente en unos minutos.</div>
           ) : (
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {catalog.plans.map((plan) => {
+              {[...catalog.plans].sort((a, b) => {
+                const aIndex = PUBLIC_PLAN_ORDER.indexOf(a.code);
+                const bIndex = PUBLIC_PLAN_ORDER.indexOf(b.code);
+                if (aIndex === -1 && bIndex === -1) return a.displayOrder - b.displayOrder;
+                if (aIndex === -1) return 1;
+                if (bIndex === -1) return -1;
+                return aIndex - bIndex;
+              }).map((plan) => {
                 const featuredStyle = plan.code === "3x"
                   ? { card: "border-[#4B5872] bg-[#333D51]", button: "text-[#333D51]" }
                   : plan.code === "4x"
