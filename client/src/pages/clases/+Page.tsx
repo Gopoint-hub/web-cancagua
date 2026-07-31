@@ -461,19 +461,26 @@ export default function Page() {
           ) : (
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {catalog.plans.map((plan) => {
-                const isFeatured = plan.code === "3x" || plan.code === "4x";
+                const featuredStyle = plan.code === "3x"
+                  ? { card: "border-[#4B5872] bg-[#333D51]", button: "text-[#333D51]" }
+                  : plan.code === "4x"
+                    ? { card: "border-[#745D49] bg-[#745D49]", button: "text-[#745D49]" }
+                    : plan.code === "5x"
+                      ? { card: "border-[#324853] bg-[#324853]", button: "text-[#324853]" }
+                      : null;
+                const isFeatured = featuredStyle !== null;
                 const badge = plan.code === "3x" ? "Recomendado" : plan.code === "4x" ? "Plan Pro" : plan.code === "5x" ? "Plan Plus" : null;
 
                 return (
-                  <article key={plan.id} className={`relative flex min-h-80 flex-col rounded-3xl border p-6 shadow-sm ${isFeatured ? "border-[#4B5872] bg-[#333D51] text-white" : "border-[#D7D4D1] bg-white text-[#222221]"}`}>
-                    {badge && <span className={`absolute right-5 top-5 rounded-full px-3 py-1 font-cg-mono text-[10px] uppercase tracking-wider ${isFeatured ? "bg-white/15 text-white" : "bg-[#4B5872] text-white"}`}>{badge}</span>}
+                  <article key={plan.id} className={`relative flex min-h-80 flex-col rounded-3xl border p-6 shadow-sm ${featuredStyle ? `${featuredStyle.card} text-white` : "border-[#D7D4D1] bg-white text-[#222221]"}`}>
+                    {badge && <span className="absolute right-5 top-5 rounded-full bg-white/15 px-3 py-1 font-cg-mono text-[10px] uppercase tracking-wider text-white">{badge}</span>}
                     <p className={`font-cg-mono text-xs uppercase tracking-[0.18em] ${isFeatured ? "text-white/70" : "text-[#4B5872]"}`}>{plan.code === "drop_in" ? "Sin mensualidad" : plan.code}</p>
                     <h3 className="mt-3 max-w-[80%] font-cg-serif text-3xl leading-tight">{plan.name}</h3>
                     <p className="mt-4 font-cg-serif text-4xl">{formatPrice(plan.priceClp)}</p>
                     <p className={`mt-1 font-cg-soft text-sm ${isFeatured ? "text-white/70" : "text-[#827D78]"}`}>{plan.creditsPerPeriod} clase{plan.creditsPerPeriod === 1 ? "" : "s"} por período · {formatPrice(Math.round(plan.priceClp / plan.creditsPerPeriod))} c/u</p>
                     <div className={`my-5 h-px ${isFeatured ? "bg-white/20" : "bg-[#E5E2DF]"}`} />
                     <div className="flex gap-3 font-cg-soft text-sm leading-relaxed"><Check className="mt-0.5 h-4 w-4 shrink-0" /><span>{plan.benefits || "Acceso a las clases regulares del programa"}</span></div>
-                    <Button type="button" onClick={() => choosePlan(plan)} className={`mt-auto h-12 rounded-full font-cg-mono text-xs uppercase tracking-[0.14em] ${isFeatured ? "bg-white text-[#333D51] hover:bg-[#F4F2ED]" : "bg-[#4B5872] text-white hover:bg-[#333D51]"}`}>Reservar plan</Button>
+                    <Button type="button" onClick={() => choosePlan(plan)} className={`mt-auto h-12 rounded-full font-cg-mono text-xs uppercase tracking-[0.14em] ${featuredStyle ? `bg-white ${featuredStyle.button} hover:bg-[#F4F2ED]` : "bg-[#4B5872] text-white hover:bg-[#333D51]"}`}>Reservar plan</Button>
                   </article>
                 );
               })}
