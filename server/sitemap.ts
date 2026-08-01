@@ -57,6 +57,7 @@ const PUBLIC_ROUTES = [
   { url: "/contacto", changefreq: "monthly", priority: 0.8 },
   { url: "/cafeteria", changefreq: "weekly", priority: 0.7 },
   { url: "/carta", changefreq: "weekly", priority: 0.6 },
+  { url: "/cartahottubs", changefreq: "monthly", priority: 0.6 },
   { url: "/clases", changefreq: "weekly", priority: 0.6 },
   { url: "/masajes", changefreq: "weekly", priority: 0.7 },
   { url: "/spa-hotel-cabanas-del-lago", changefreq: "monthly", priority: 0.5 },
