@@ -1,3 +1,5 @@
+import { MENU_SECTIONS } from "./menuData";
+
 export default function Head() {
   const seoData = {
     title: "Menú Hot Tubs | Carta y precios — Cancagua Spa, Frutillar",
@@ -25,104 +27,23 @@ export default function Head() {
       url: "https://cancagua.cl",
       telephone: "+56 9 4007 3999",
     },
-    hasMenuSection: [
-      {
-        "@type": "MenuSection",
-        name: "Tablas",
-        hasMenuItem: [
-          {
-            "@type": "MenuItem",
-            name: "Charcutería & Quesos (2 a 3 personas)",
-            offers: { "@type": "Offer", price: "28000", priceCurrency: "CLP" },
-          },
-          {
-            "@type": "MenuItem",
-            name: "Charcutería & Quesos (4 a 6 personas)",
-            offers: { "@type": "Offer", price: "38000", priceCurrency: "CLP" },
-          },
-          {
-            "@type": "MenuItem",
-            name: "Tabla de Niños (3 personas)",
-            offers: { "@type": "Offer", price: "28000", priceCurrency: "CLP" },
-          },
-          {
-            "@type": "MenuItem",
-            name: "Tabla Otoño vegana (2 a 3 personas)",
-            suitableForDiet: "https://schema.org/VeganDiet",
-            offers: { "@type": "Offer", price: "28000", priceCurrency: "CLP" },
-          },
-          {
-            "@type": "MenuItem",
-            name: "Tabla Otoño vegana (4 a 6 personas)",
-            suitableForDiet: "https://schema.org/VeganDiet",
-            offers: { "@type": "Offer", price: "38000", priceCurrency: "CLP" },
-          },
-        ],
-      },
-      {
-        "@type": "MenuSection",
-        name: "Vinos y espumante",
-        hasMenuItem: [
-          {
-            "@type": "MenuItem",
-            name: "Espumante Berla Extra Brut 750 cc",
-            offers: { "@type": "Offer", price: "13000", priceCurrency: "CLP" },
-          },
-          {
-            "@type": "MenuItem",
-            name: "Vino Berla Chardonnay Moscatel 750 cc",
-            offers: { "@type": "Offer", price: "12000", priceCurrency: "CLP" },
-          },
-          {
-            "@type": "MenuItem",
-            name: "Vino Berla Cinsault 750 cc",
-            offers: { "@type": "Offer", price: "12000", priceCurrency: "CLP" },
-          },
-        ],
-      },
-      {
-        "@type": "MenuSection",
-        name: "Cervezas artesanales",
-        hasMenuItem: [
-          {
-            "@type": "MenuItem",
-            name: "Cervezas Chester 473 cc",
-            offers: { "@type": "Offer", price: "4000", priceCurrency: "CLP" },
-          },
-          {
-            "@type": "MenuItem",
-            name: "Cervezas Tropera 473 cc",
-            offers: { "@type": "Offer", price: "4000", priceCurrency: "CLP" },
-          },
-        ],
-      },
-      {
-        "@type": "MenuSection",
-        name: "Bebestibles",
-        hasMenuItem: [
-          {
-            "@type": "MenuItem",
-            name: "Jugos naturales Rubén Avilés 300 cc",
-            offers: { "@type": "Offer", price: "4000", priceCurrency: "CLP" },
-          },
-          {
-            "@type": "MenuItem",
-            name: "Kombucha La IDA 355 cc",
-            offers: { "@type": "Offer", price: "4000", priceCurrency: "CLP" },
-          },
-          {
-            "@type": "MenuItem",
-            name: "Sour Catedral 330 cc",
-            offers: { "@type": "Offer", price: "7900", priceCurrency: "CLP" },
-          },
-          {
-            "@type": "MenuItem",
-            name: "Aguas Puyehue 330 cc",
-            offers: { "@type": "Offer", price: "3000", priceCurrency: "CLP" },
-          },
-        ],
-      },
-    ],
+    hasMenuSection: MENU_SECTIONS.map(section => ({
+      "@type": "MenuSection",
+      name: section.titulo,
+      hasMenuItem: section.items.map(item => ({
+        "@type": "MenuItem",
+        name: item.nombre,
+        ...(item.descripcion ? { description: item.descripcion } : {}),
+        ...(item.aptoVegano
+          ? { suitableForDiet: "https://schema.org/VeganDiet" }
+          : {}),
+        offers: {
+          "@type": "Offer",
+          price: String(item.precio),
+          priceCurrency: "CLP",
+        },
+      })),
+    })),
   };
 
   return (
@@ -136,7 +57,10 @@ export default function Head() {
       <meta property="og:title" content={seoData.title} />
       <meta property="og:description" content={seoData.description} />
       <meta property="og:image" content={seoData.image} />
-      <meta property="og:url" content={`https://cancagua.cl${seoData.canonical}`} />
+      <meta
+        property="og:url"
+        content={`https://cancagua.cl${seoData.canonical}`}
+      />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="Cancagua Spa & Retreat Center" />
       <meta property="og:locale" content="es_CL" />
