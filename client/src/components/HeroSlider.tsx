@@ -159,7 +159,10 @@ export function HeroSlider() {
             <span className="w-5 h-px bg-white/70" />
           </div>
         )}
-        <h1
+        {/* Titular del slide: va como h2 y no como h1. Rota con cada slide, asi
+            que como h1 dejaba a la home con un encabezado promocional distinto
+            en cada carga ("Agosto en familia"). El h1 estable vive en la pagina. */}
+        <h2
           key={`title-${currentSlide}`}
           className="font-cg-serif text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light tracking-[-0.02em] mb-3 md:mb-6 max-w-4xl animate-fade-in px-2"
         >
@@ -167,7 +170,7 @@ export function HeroSlider() {
           {slide.titleLine2 && (
             <><br />{slide.titleLine2}</>
           )}
-        </h1>
+        </h2>
         <p
           key={`subtitle-${currentSlide}`}
           className="font-cg-soft text-sm sm:text-base md:text-xl mb-4 md:mb-6 max-w-2xl animate-fade-in animation-delay-200 font-light opacity-90 px-4"

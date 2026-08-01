@@ -72,6 +72,14 @@ export default function HomePage() {
 
   return (
     <AutoTranslateProvider pageId="home">
+      {/* H1 estable de la home. El titular del hero rota con cada slide, asi que
+          no sirve como encabezado principal: describe la promo del mes, no lo
+          que es Cancagua. Este dice la categoria en la que competimos. */}
+      <h1 className="sr-only">
+        Cancagua Spa &amp; Retreat Center — biopiscinas geotermales, termas y
+        spa de bienestar en Frutillar
+      </h1>
+
       {/* Hero Slider */}
       <HeroSlider />
 

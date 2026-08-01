@@ -13,7 +13,7 @@ export default function Head() {
     name: 'Cancagua Spa & Retreat Center',
     description: seoData.description,
     url: seoData.url,
-    telephone: '+56 9 7557 2690',
+    telephone: '+56 9 4007 3999',
     email: 'contacto@cancagua.cl',
     address: {
       '@type': 'PostalAddress',
@@ -28,11 +28,17 @@ export default function Head() {
       latitude: -41.118242,
       longitude: -73.011405,
     },
-    priceRange: '$$$',
+    priceRange: '$25.000 - $170.000 CLP',
     image: seoData.image,
+    // Antes decia 'cancaguaspa'. El handle de Instagram esta verificado como
+    // cancaguachile (es la cuenta conectada que responde como tal); el de
+    // Facebook viene de la configuracion interna del equipo, no lo pude
+    // comprobar en vivo. Se cambian porque el footer del sitio ya usa
+    // cancaguachile y declarar dos perfiles distintos para el mismo negocio es
+    // justo lo que baja la confianza del modelo sobre quien es Cancagua.
     sameAs: [
-      'https://www.instagram.com/cancaguaspa',
-      'https://www.facebook.com/cancaguaspa',
+      'https://www.instagram.com/cancaguachile',
+      'https://www.facebook.com/Cancaguachile',
     ],
   };
 

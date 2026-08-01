@@ -49,7 +49,7 @@ export function generateLocalBusinessSchema() {
     name: 'Cancagua Spa & Retreat Center',
     description: 'Las primeras biopiscinas geotermales del mundo. Disfruta de una experiencia única de bienestar en aguas termales naturales.',
     url: 'https://cancagua.cl',
-    telephone: '+56 9 7557 2690',
+    telephone: '+56 9 4007 3999',
     email: 'contacto@cancagua.cl',
     address: {
       '@type': 'PostalAddress',
@@ -64,11 +64,19 @@ export function generateLocalBusinessSchema() {
       latitude: -41.118242,
       longitude: -73.011405,
     },
-    priceRange: '$$$',
+    // Rango real por ticket: sauna 2 personas $25.000 hasta Pase Reconecta
+    // $170.000. Un rango concreto es citable; '$$$' no dice nada.
+    priceRange: '$25.000 - $170.000 CLP',
     image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
+    // Antes decia 'cancaguaspa'. El handle de Instagram esta verificado como
+    // cancaguachile (es la cuenta conectada que responde como tal); el de
+    // Facebook viene de la configuracion interna del equipo, no lo pude
+    // comprobar en vivo. Se cambian porque el footer del sitio ya usa
+    // cancaguachile y declarar dos perfiles distintos para el mismo negocio es
+    // justo lo que baja la confianza del modelo sobre quien es Cancagua.
     sameAs: [
-      'https://www.instagram.com/cancaguaspa',
-      'https://www.facebook.com/cancaguaspa',
+      'https://www.instagram.com/cancaguachile',
+      'https://www.facebook.com/Cancaguachile',
     ],
   };
 }
