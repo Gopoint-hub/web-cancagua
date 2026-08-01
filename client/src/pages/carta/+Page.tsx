@@ -23,26 +23,78 @@ export default function Carta() {
     return new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", minimumFractionDigits: 0 }).format(price);
   };
 
-  const renderPrices = (prices: any) => {
-    if (!prices) return null;
-    if (prices.for_2 || prices.for_4 || prices.for_6) {
+  // El CMS entrega `dietaryTags` y `prices` como TEXTO JSON, no como array/objeto.
+  // Por eso `dietaryTags.map(...)` lanzaba "map is not a function" y React
+  // desmontaba la pagina entera: la carta se veia completamente en blanco.
+  // Aceptamos las dos formas para no depender de como responda el CMS.
+  const parseTags = (value: any): string[] => {
+    if (Array.isArray(value)) return value;
+    if (typeof value === "string") {
+      try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  };
+
+  const parsePrices = (value: any): Record<string, number> => {
+    if (value && typeof value === "object") return value;
+    if (typeof value === "string") {
+      try {
+        const parsed = JSON.parse(value);
+        return parsed && typeof parsed === "object" ? parsed : {};
+      } catch {
+        return {};
+      }
+    }
+    return {};
+  };
+
+  const priceLabels: Record<string, string> = {
+    for_2: "Para 2",
+    for_4: "Para 4",
+    for_6: "Para 6",
+    for_2_4: "Para 2-4",
+    for_4_6: "Para 4-6",
+  };
+
+  // Generico a proposito: la Tabla de Charcuteria usa `for_2_4`/`for_4_6`, que la
+  // version anterior no contemplaba y dejaba sin precio a la vista.
+  const priceLabel = (key: string) =>
+    priceLabels[key] ?? `Para ${key.replace(/^for_/, "").replace(/_/g, "-")}`;
+
+  const renderPrices = (rawPrices: any) => {
+    const prices = parsePrices(rawPrices);
+    const entries = Object.entries(prices).filter(
+      ([, value]) => typeof value === "number" && value > 0
+    );
+    if (entries.length === 0) return null;
+
+    if (entries.length === 1 && entries[0][0] === "default") {
       return (
-        <div className="space-y-1">
-          {prices.for_2 && <p className="text-sm text-gray-700">Para 2: {formatPrice(prices.for_2)}</p>}
-          {prices.for_4 && <p className="text-sm text-gray-700">Para 4: {formatPrice(prices.for_4)}</p>}
-          {prices.for_6 && <p className="text-sm text-gray-700">Para 6: {formatPrice(prices.for_6)}</p>}
-        </div>
+        <p className="text-lg font-semibold text-[#4A4F35] whitespace-nowrap">
+          {formatPrice(entries[0][1])}
+        </p>
       );
     }
-    if (prices.default) {
-      return <p className="text-lg font-semibold text-[#4A4F35]">{formatPrice(prices.default)}</p>;
-    }
-    return null;
+
+    return (
+      <div className="space-y-1">
+        {entries.map(([key, value]) => (
+          <p key={key} className="text-sm text-gray-700 whitespace-nowrap">
+            {key === "default" ? formatPrice(value) : `${priceLabel(key)}: ${formatPrice(value)}`}
+          </p>
+        ))}
+      </div>
+    );
   };
 
   const filterItems = (items: any[]) => {
     if (!selectedDietaryFilter) return items;
-    return items.filter((item) => item.dietaryTags && item.dietaryTags.includes(selectedDietaryFilter));
+    return items.filter((item) => parseTags(item.dietaryTags).includes(selectedDietaryFilter));
   };
 
   return (
@@ -103,7 +155,7 @@ export default function Carta() {
             )}
 
             {!isLoading && menuData && menuData.map((category: any) => {
-              const filteredItems = filterItems(category.items);
+              const filteredItems = filterItems(category.items ?? []);
               if (filteredItems.length === 0) return null;
 
               return (
@@ -121,7 +173,9 @@ export default function Carta() {
                   </div>
 
                   <div className="space-y-8">
-                    {filteredItems.map((item: any) => (
+                    {filteredItems.map((item: any) => {
+                      const tags = parseTags(item.dietaryTags);
+                      return (
                       <div key={item.id} className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
                         <div className="flex flex-col md:flex-row gap-4">
                           {item.imageUrl && (
@@ -137,12 +191,12 @@ export default function Carta() {
                             {item.description && (
                               <p className="text-gray-600 mb-3 leading-relaxed">{item.description}</p>
                             )}
-                            {item.dietaryTags && item.dietaryTags.length > 0 && (
+                            {tags.length > 0 && (
                               <div className="flex flex-wrap gap-2 mb-3">
-                                {item.dietaryTags.map((tag: string) => (
+                                {tags.map((tag: string) => (
                                   <Badge key={tag} variant="outline" className="bg-sage-100 text-sage-700 border-sage-300">
                                     {dietaryIcons[tag]}
-                                    <span className="ml-1">{dietaryLabels[tag]}</span>
+                                    <span className="ml-1">{dietaryLabels[tag] ?? tag}</span>
                                   </Badge>
                                 ))}
                               </div>
@@ -155,7 +209,8 @@ export default function Carta() {
                           </div>
                         </div>
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               );
