@@ -236,7 +236,7 @@ export default function HotTubs() {
                 <p className="font-cg-sans text-sm text-[#827D78] mb-8">
                   <T>No está permitido el ingreso de comida a Biopiscinas.</T>
                 </p>
-                <a href="/carta">
+                <a href="/cartahottubs">
                   <Button 
                     variant="outline"
                     size="lg" 

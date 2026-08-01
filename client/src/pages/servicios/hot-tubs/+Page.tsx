@@ -232,7 +232,7 @@ export default function HotTubsPage() {
               <p className="font-cg-sans text-sm text-[#827D78] mb-8">
                 No está permitido el ingreso de comida a Biopiscinas.
               </p>
-              <a href="/carta">
+              <a href="/cartahottubs">
                 <Button
                   variant="outline"
                   size="lg"

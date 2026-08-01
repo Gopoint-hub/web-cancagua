@@ -61,8 +61,8 @@ export const seoConfig: Record<string, PageSEO> = {
     keywords: 'cafetería saludable frutillar, cafetería frutillar, opciones veganas frutillar, brunch frutillar, cafe especialidad lago llanquihue',
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
   },
-  '/carta': {
-    title: 'Carta Cafetería Cancagua | Brunch, Café y Comida Saludable',
+  '/cartahottubs': {
+    title: 'Menú Hot Tubs | Carta y precios - Cancagua Spa, Frutillar',
     description: 'Descubre nuestra carta de alimentación saludable con productos locales de la cuenca del Lago Llanquihue. Opciones veganas, vegetarianas, sin gluten, keto y sin lactosa.',
     keywords: 'menu cancagua, carta saludable frutillar, comida healthy lago llanquihue, menu vegano chile, brunch frutillar',
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',

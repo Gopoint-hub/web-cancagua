@@ -33,8 +33,8 @@ const redirectMap: Record<string, string> = {
   "/sonoterapia/": "/servicios/masajes",
   "/categoria/giftcards": "/",
   "/categoria/giftcards/": "/",
-  "/menu": "/carta",
-  "/menu/": "/carta",
+  "/menu": "/cartahottubs",
+  "/menu/": "/cartahottubs",
   "/yoga-nueva": "/clases",
   "/yoga-nueva/": "/clases",
 
@@ -131,7 +131,12 @@ const redirectMap: Record<string, string> = {
   "/cafeteria/": "/cafeteria",
   "/blog/": "/blog",
   "/clases/": "/clases",
-  "/carta/": "/carta",
+  // La carta general de cafeteria se retiro el 1-ago-2026 (pedido de Mario):
+  // mostraba precios de enero que ya no se cobran. Va a la carta de hot tubs,
+  // que es la unica con precios vigentes. Se redirige y no se borra a secas
+  // porque /carta lleva meses indexada y ese link ya anda circulando.
+  "/carta": "/cartahottubs",
+  "/carta/": "/cartahottubs",
 };
 
 /**
