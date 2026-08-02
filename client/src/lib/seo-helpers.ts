@@ -104,6 +104,44 @@ export function generateBlogPostSchema(post: {
   };
 }
 
+/**
+ * Extrae el bloque de preguntas frecuentes de un articulo y lo devuelve como
+ * FAQPage. Es lo que hace que un motor de IA cite la respuesta CON nuestro
+ * nombre en vez de parafrasearla sin atribucion.
+ *
+ * Convencion del markdown: un encabezado que diga "Preguntas frecuentes" y
+ * debajo pares de pregunta en **negrita** seguida de su respuesta en el
+ * parrafo siguiente. Si el articulo no la tiene, devuelve null.
+ */
+export function generateArticleFaqSchema(content: string) {
+  const section = content.match(
+    /#{2,3}[ \t]+preguntas[ \t]+frecuentes[ \t]*\r?\n([\s\S]*?)(?=\r?\n#{2,3}[ \t]|$)/i
+  );
+  if (!section) return null;
+
+  const entries: { question: string; answer: string }[] = [];
+  const pattern = /^\*\*(.+?)\*\*\s*$\n+([^\n#*][^\n]*(?:\n(?!\s*$)[^\n#*][^\n]*)*)/gm;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(section[1])) !== null) {
+    const question = match[1].trim();
+    const answer = match[2].replace(/\s+/g, ' ').replace(/\*\*/g, '').trim();
+    if (question && answer) entries.push({ question, answer });
+  }
+
+  if (entries.length === 0) return null;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: entries.map(entry => ({
+      '@type': 'Question',
+      name: entry.question,
+      acceptedAnswer: { '@type': 'Answer', text: entry.answer },
+    })),
+  };
+}
+
 export function generateServiceSchema(service: {
   name: string;
   description: string;

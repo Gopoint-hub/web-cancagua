@@ -452,6 +452,23 @@
   .cg-blog-prose li { line-height: 1.75; margin: 0.45rem 0; padding-left: 0.35rem; }
   .cg-blog-prose li::marker { color: #696F4D; }
   .cg-blog-prose strong { color: #222221; font-weight: 600; }
+  .cg-blog-prose hr { border: 0; border-top: 1px solid rgba(34, 34, 33, 0.14); margin: 3rem 0; }
+  .cg-blog-figure { margin: 2.75rem 0; }
+  .cg-blog-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+  }
+  .cg-blog-figure figcaption {
+    margin-top: 0.75rem;
+    font-family: "IBM Plex Mono", "Courier New", monospace;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: #6B6763;
+  }
   .cg-blog-prose a { color: #4B5872; text-decoration: underline; text-underline-offset: 3px; }
   .cg-blog-prose a.cg-reservation-cta {
     display: inline-flex;
