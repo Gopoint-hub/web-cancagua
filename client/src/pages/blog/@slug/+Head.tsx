@@ -1,6 +1,6 @@
 import { usePageContext } from "vike-react/usePageContext";
 import { getArticleBySlug } from "@/lib/blog-articles";
-import { generateBlogPostSchema } from "@/lib/seo-helpers";
+import { generateArticleFaqSchema, generateBlogPostSchema } from "@/lib/seo-helpers";
 
 export function Head() {
   const pageContext = usePageContext();
@@ -43,6 +43,8 @@ export function Head() {
     },
   };
 
+  const faqSchema = generateArticleFaqSchema(article.content);
+
   return (
     <>
       <title>{article.seoTitle}</title>
@@ -70,6 +72,11 @@ export function Head() {
       <script type="application/ld+json">
         {JSON.stringify(blogPostSchema)}
       </script>
+      {faqSchema && (
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      )}
     </>
   );
 }

@@ -6,8 +6,8 @@ author: "Cancagua"
 category: "Bienestar"
 metaDescription: "Un circuito hídrico es un recorrido guiado por agua a distintas temperaturas: calor, frío y reposo, en ese orden y repetido. Cuánto dura, en qué orden se hace, cuánto cuesta y para quién no está recomendado."
 keywords: ["que es un circuito hidrico", "circuito termal", "contraste frio calor spa", "termas puerto varas", "biopiscinas geotermales", "sauna y hot tub orden", "circuito hidrico chile", "turismo de bienestar sur de chile", "spa lago llanquihue"]
-image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309133/cancagua/images/blog/termas-geometricas-hero.webp"
-status: "draft"
+image: "https://res.cloudinary.com/dhuln9b1n/image/upload/c_fill,w_1920,h_1080,q_auto,f_auto/cancagua/images/fullday-biopiscinas-hero"
+status: "published"
 ---
 
 ## Qué es un circuito hídrico
@@ -56,15 +56,21 @@ Ante la duda, la regla simple: si algo se siente mal, se sale. El circuito no se
 
 Estamos a orillas del **lago Llanquihue**, y el circuito acá tiene un elemento que no todos los spa tienen: **el frío es natural**. No hace falta una piscina de hielo, está el lago.
 
+![Las biopiscinas geotermales de Cancagua, a orillas del lago Llanquihue: agua entre 37° y 40° sin cloro, filtrada por plantas.](https://res.cloudinary.com/dhuln9b1n/image/upload/c_fill,w_1400,h_875,q_auto,f_auto/cancagua/images/junio-en-familia-biopiscinas-hero)
+
 **El calor** puede venir de tres lugares:
 
 - **Biopiscinas geotermales** — las primeras biopiscinas geotermales del mundo. Agua entre **37° y 40°**, sin cloro, filtrada por plantas. La estadía es de **4 horas**, que es exactamente el tiempo de un circuito completo. Incluye bata, gorro de nado, bolso y locker por persona. **$36.000 por adulto**, $24.000 niños de 5 a 12 años.
 - **Hot tub privado** — una tinaja sólo para tu grupo, con terraza techada y camarín propio. **2,5 horas** de agua caliente más 1,5 horas de cafetería o playa. **$80.000** para 1 o 2 personas, $120.000 para 3 o 4, $150.000 de 5 a 10. Los horarios de ingreso son fijos, porque entre grupo y grupo el agua se vacía, se limpia y se vuelve a calentar.
 - **Sauna Nativo** — 60 minutos de calor seco, que es el complemento clásico del agua caliente. Desde **$15.000** por persona; para grupos, el sauna privado de hasta 6 personas cuesta **$40.000**.
 
+![El hot tub privado: 2,5 horas de agua caliente con terraza techada y camarín propio.](https://res.cloudinary.com/dhuln9b1n/image/upload/c_fill,w_1400,h_875,q_auto,f_auto/cancagua/cancagua/images/wordpress/Cancagua-Hot-Tub-alternativa-termas-sur-de-chile)
+
 **El frío**: el lago, o simplemente el aire del sur. En invierno la diferencia entre el agua a 38° y el aire exterior ya hace el contraste sin que tengas que meterte a ninguna parte.
 
 **El reposo**: la terraza, la cafetería, o el masaje. Un **masaje de relajación de 50 minutos ($45.000)** después de la segunda vuelta de calor es, para nosotros, la mejor manera de cerrar un circuito.
+
+![Desde el Sauna Nativo se sale directo a la playa: el frío del circuito lo pone el lago Llanquihue.](https://res.cloudinary.com/dhuln9b1n/image/upload/c_fill,w_1400,h_875,q_auto,f_auto/cancagua/images/pase-reconecta-sauna)
 
 ## Los formatos que ya vienen armados
 

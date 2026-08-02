@@ -78,6 +78,29 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
       return;
     }
 
+    // Imagen en su propia línea: ![pie de foto](url)
+    const image = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (image) {
+      flushParagraph();
+      flushList();
+
+      const [, alt, src] = image;
+      blocks.push(
+        <figure key={`fig-${blocks.length}`} className="cg-blog-figure">
+          <img src={src} alt={alt} loading="lazy" />
+          {alt ? <figcaption>{alt}</figcaption> : null}
+        </figure>
+      );
+      return;
+    }
+
+    if (/^(---|\*\*\*|___)$/.test(trimmed)) {
+      flushParagraph();
+      flushList();
+      blocks.push(<hr key={`hr-${blocks.length}`} />);
+      return;
+    }
+
     const heading = trimmed.match(/^(#{1,6})\s+(.+)$/);
     if (heading) {
       flushParagraph();
