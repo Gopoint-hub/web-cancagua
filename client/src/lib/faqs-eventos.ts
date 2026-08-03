@@ -57,7 +57,7 @@ export const FAQS_EVENTOS: FaqEvento[] = [
   {
     question: "¿Dónde queda Cancagua?",
     answer:
-      "En Frutillar, Región de Los Lagos, frente al Lago Llanquihue y con vista a los volcanes Osorno y Calbuco. Está a poco más de una hora de Puerto Montt y del aeropuerto El Tepual.",
+      "En Ruta V-155, Km 2, camino a Los Bajos, Frutillar, Región de Los Lagos. Estamos frente al Lago Llanquihue y con vista a los volcanes Osorno y Calbuco, a pocos minutos del centro de Frutillar y a poco más de una hora de Puerto Montt y del aeropuerto El Tepual.",
   },
   {
     question: "¿Cómo pido una cotización?",
