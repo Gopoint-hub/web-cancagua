@@ -70,13 +70,13 @@ export function Navbar() {
   ];
 
   const eventos = [
-    { name: "Todos los panoramas", href: "/eventos" },
+    { name: "Todos los panoramas", href: "/panoramas" },
     { name: "Círculo de Mujeres — 14 de agosto", href: "https://reservas.cancagua.cl/cancaguaspa/s/dc01f461-86e6-47a8-8467-0b899eb6812d" },
     { name: "Concierto & Biopiscina — 15 de agosto", href: "https://reservas.cancagua.cl/cancaguaspa/s/203139c0-f3d8-42d6-a996-15c5ed74c511" },
     { name: "Sonoterapia — 22 de agosto", href: "https://reservas.cancagua.cl/cancaguaspa/s/8dc087fd-67d9-40f0-944c-0872e64e8b0a" },
     { name: "Encuentro de Inmersión — 30 de agosto", href: "https://reservas.cancagua.cl/cancaguaspa/s/29ee2d1b-a529-4ad4-857b-c0e45facec62" },
-    { name: "Celebraciones", href: "/eventos/sociales" },
-    { name: "Corporativos", href: "/eventos/empresas" },
+    { name: "Celebraciones", href: "/panoramas/celebraciones" },
+    { name: "Corporativos", href: "/panoramas/corporativos" },
   ];
 
   return (

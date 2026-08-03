@@ -3,7 +3,7 @@ export default function Head() {
     title: "Concierto Equinoccio de Otoño - Cambio de Piel | Cancagua Spa Frutillar",
     description: "Concierto íntimo acústico en Cancagua Spa. Daniela Conejero y Ítalo Aguilera celebran el equinoccio de otoño con música junto a las biopiscinas geotermales. 11 de abril, 19:00 hrs.",
     keywords: "concierto frutillar, concierto acústico spa, equinoccio otoño, biopiscinas concierto, cancagua eventos, música en vivo lago llanquihue",
-    canonical: "/eventos/concierto",
+    canonical: "/panoramas/concierto",
     image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/a5ac625d2db04b39a004b6b2851d0995.jpeg",
   };
 

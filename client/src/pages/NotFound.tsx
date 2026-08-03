@@ -30,7 +30,7 @@ export default function NotFound() {
     {
       title: "Eventos",
       description: "Celebra momentos especiales en un entorno único",
-      href: "/eventos",
+      href: "/panoramas",
       icon: Calendar,
     },
     {

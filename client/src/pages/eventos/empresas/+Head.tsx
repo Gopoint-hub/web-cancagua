@@ -7,14 +7,14 @@ export default function Head() {
       "Eventos corporativos y team building en Cancagua, Frutillar. Hasta 30 personas, biopiscinas geotermales desde $36.000 por persona, hot tubs privados y masajes. Cotización en menos de 24 horas.",
     keywords:
       "eventos para empresas, eventos empresariales frutillar, evento corporativo sur de chile, team building lago llanquihue, retiros corporativos frutillar",
-    canonical: "/eventos/empresas",
+    canonical: "/panoramas/corporativos",
     image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309165/cancagua/images/eventos-empresas-hero.jpg",
   };
 
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "@id": "https://cancagua.cl/eventos/empresas#faq",
+    "@id": "https://cancagua.cl/panoramas/corporativos#faq",
     mainEntity: FAQS_EVENTOS.map(faq => ({
       "@type": "Question",
       name: faq.question,
@@ -28,7 +28,7 @@ export default function Head() {
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "@id": "https://cancagua.cl/eventos/empresas#service",
+    "@id": "https://cancagua.cl/panoramas/corporativos#service",
     name: "Eventos corporativos y team building en Cancagua",
     serviceType: "Eventos para empresas",
     description: seoData.description,

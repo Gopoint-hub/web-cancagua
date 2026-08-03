@@ -93,10 +93,18 @@ const redirectMap: Record<string, string> = {
   "/termas-del-sur-vs-experiencia-natural/": "/blog/termas-vs-experiencia-natural",
 
   // ============================================
-  // EVENTOS - URLs existentes
+  // PANORAMAS - URLs antiguas y migración desde /eventos
   // ============================================
-  "/eventos-empresas": "/eventos/empresas",
-  "/eventos-empresas/": "/eventos/empresas",
+  "/eventos": "/panoramas",
+  "/eventos/": "/panoramas",
+  "/eventos/sociales": "/panoramas/celebraciones",
+  "/eventos/sociales/": "/panoramas/celebraciones",
+  "/eventos/empresas": "/panoramas/corporativos",
+  "/eventos/empresas/": "/panoramas/corporativos",
+  "/eventos/concierto": "/panoramas/concierto",
+  "/eventos/concierto/": "/panoramas/concierto",
+  "/eventos-empresas": "/panoramas/corporativos",
+  "/eventos-empresas/": "/panoramas/corporativos",
 
   // ============================================
   // GIFT CARDS - URLs existentes
@@ -125,7 +133,10 @@ const redirectMap: Record<string, string> = {
   // ============================================
   // Trailing slash normalization
   // ============================================
-  "/eventos/": "/eventos",
+  "/panoramas/": "/panoramas",
+  "/panoramas/celebraciones/": "/panoramas/celebraciones",
+  "/panoramas/corporativos/": "/panoramas/corporativos",
+  "/panoramas/concierto/": "/panoramas/concierto",
   "/contacto/": "/contacto",
   "/nosotros/": "/nosotros",
   "/cafeteria/": "/cafeteria",

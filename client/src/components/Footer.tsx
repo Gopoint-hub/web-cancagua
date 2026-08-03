@@ -47,7 +47,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="/eventos"
+                  href="/panoramas"
                   className="text-white/70 hover:text-[#4B5872] transition-colors"
                 >
                   {t('nav.events')}

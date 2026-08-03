@@ -22,7 +22,7 @@ export function WhatsAppButton() {
       return "Hola, me interesa el Pase Reconecta";
     } else if (location.startsWith("/servicios")) {
       return "Hola, me interesa información sobre los servicios";
-    } else if (location.startsWith("/eventos")) {
+    } else if (location.startsWith("/panoramas") || location.startsWith("/eventos")) {
       return "Hola, quiero información sobre los eventos";
     } else if (location === "/cafeteria") {
       return "Hola, quiero reservar mesa en la cafetería";

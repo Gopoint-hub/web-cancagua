@@ -82,7 +82,7 @@ export function HeroSlider() {
       titleKey: "hero.eventos.title",
       subtitleKey: "hero.eventos.subtitle",
       ctaKey: "hero.eventos.cta1",
-      ctaLink: "/eventos",
+      ctaLink: "/panoramas",
     },
   ];
 

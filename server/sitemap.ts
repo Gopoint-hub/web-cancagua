@@ -22,11 +22,11 @@ const PUBLIC_ROUTES = [
   { url: "/servicios/full-day-hot-tubs", changefreq: "weekly", priority: 0.7 },
   { url: "/servicios/full-day-biopiscinas", changefreq: "weekly", priority: 0.7 },
 
-  // Eventos
-  { url: "/eventos", changefreq: "weekly", priority: 0.8 },
-  { url: "/eventos/sociales", changefreq: "weekly", priority: 0.7 },
-  { url: "/eventos/empresas", changefreq: "weekly", priority: 0.7 },
-  { url: "/eventos/concierto", changefreq: "monthly", priority: 0.7 },
+  // Panoramas
+  { url: "/panoramas", changefreq: "weekly", priority: 0.8 },
+  { url: "/panoramas/celebraciones", changefreq: "weekly", priority: 0.7 },
+  { url: "/panoramas/corporativos", changefreq: "weekly", priority: 0.7 },
+  { url: "/panoramas/concierto", changefreq: "monthly", priority: 0.7 },
 
   // Experiencias
   { url: "/experiencias/pases-reconecta", changefreq: "weekly", priority: 0.7 },

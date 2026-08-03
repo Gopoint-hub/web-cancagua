@@ -18,7 +18,7 @@ const featuredEvents = [
     time: "19:00 - 20:30",
     location: "Cancagua Spa & Retreat Center",
     price: "",
-    href: "/eventos/concierto",
+    href: "/panoramas/concierto",
   },
 ];
 

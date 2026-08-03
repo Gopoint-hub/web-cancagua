@@ -69,19 +69,19 @@ export const seoConfig: Record<string, PageSEO> = {
   eventos: {
     title: "Eventos en Cancagua | Empresas, Cumpleaños y Celebraciones",
     description: "Organiza tu evento corporativo, cumpleaños o celebración especial en un entorno natural único a orillas del Lago Llanquihue.",
-    canonical: "/eventos",
+    canonical: "/panoramas",
     keywords: "eventos, eventos corporativos, cumpleaños, celebraciones, team building, frutillar"
   },
   eventosEmpresas: {
     title: "Eventos Corporativos | Team Building | Cancagua",
     description: "Eventos corporativos y team building en un entorno natural único. Biopiscinas, actividades y servicios exclusivos para empresas.",
-    canonical: "/eventos/empresas",
+    canonical: "/panoramas/corporativos",
     keywords: "eventos corporativos, team building, empresas, retiros corporativos, frutillar"
   },
   eventosSociales: {
     title: "Cumpleaños y Celebraciones | Cancagua Spa",
     description: "Celebra tu cumpleaños, despedida de soltera o evento especial en Cancagua. Paquetes personalizados con biopiscinas y servicios de spa.",
-    canonical: "/eventos/sociales",
+    canonical: "/panoramas/celebraciones",
     keywords: "cumpleaños, celebraciones, despedida de soltera, eventos sociales, spa"
   },
   

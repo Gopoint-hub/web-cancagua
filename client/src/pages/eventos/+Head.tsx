@@ -5,7 +5,7 @@ export default function Head() {
     title: "Próximos Eventos y Talleres | Cancagua",
     description: "Descubre la agenda de agosto 2026 en Cancagua: Círculo de Mujeres, Concierto & Biopiscina, Sonoterapia y Encuentro de Inmersión en Frutillar.",
     keywords: "eventos Cancagua, eventos agosto Frutillar, sonoterapia Frutillar, concierto biopiscina, círculo de mujeres, inmersión Lago Llanquihue",
-    canonical: "/eventos",
+    canonical: "/panoramas",
     image: "https://cdn.skedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/cf46e105d6da465a984a26845d9c3166.png",
   };
 
