@@ -92,10 +92,10 @@ export const seoConfig: Record<string, PageSEO> = {
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
   },
   '/eventos/empresas': {
-    title: 'Eventos Corporativos en Frutillar | Team Building y Reuniones - Cancagua',
-    description: 'Retiros empresariales, team building y experiencias únicas para tu equipo en un entorno natural privilegiado frente al Lago Llanquihue.',
-    keywords: 'eventos corporativos frutillar, team building chile, retiros empresariales lago llanquihue, reuniones corporativas spa',
-    image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
+    title: 'Eventos para Empresas en Frutillar | Cancagua',
+    description: 'Eventos corporativos y team building en Cancagua, Frutillar. Hasta 30 personas, biopiscinas geotermales desde $36.000 por persona, hot tubs privados y masajes. Cotización en menos de 24 horas.',
+    keywords: 'eventos para empresas, eventos empresariales frutillar, evento corporativo sur de chile, team building lago llanquihue, retiros corporativos frutillar',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309165/cancagua/images/eventos-empresas-hero.jpg',
   },
   '/eventos/sociales': {
     title: 'Eventos Sociales en Frutillar | Cumpleaños, Celebraciones - Cancagua',

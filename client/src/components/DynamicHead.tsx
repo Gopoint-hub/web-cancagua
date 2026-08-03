@@ -26,7 +26,11 @@ export function DynamicHead() {
     // Obtener datos SEO para la ruta actual
     const seoData = getSEOForPath(pathname);
     const fullCanonical = `https://cancagua.cl${pathname}`;
-    const fullImage = seoData.image || 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg';
+    // Ojo: esta URL venia con el dominio pegado adelante
+    // ('https://cancagua.cl' + 'https://res.cloudinary...'), lo que rompia la
+    // imagen al compartir en redes. Corregido el 3-ago-2026. El mismo error
+    // sigue en 18 entradas de seo-config.ts.
+    const fullImage = seoData.image || 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg';
 
     // Función para actualizar o crear un meta tag único
     const updateOrCreateMeta = (name: string, content: string, isProperty: boolean = false) => {
