@@ -1,10 +1,10 @@
 export default function Head() {
   const seoData = {
-    title: "Eventos Sociales en Frutillar | Cumpleaños, Celebraciones - Cancagua",
-    description: "Celebra momentos especiales en Cancagua Spa. Cumpleaños, despedidas de soltera, baby showers y celebraciones privadas con vista al Lago Llanquihue.",
-    keywords: "eventos sociales frutillar, cumpleaños spa, celebraciones privadas lago llanquihue, despedida soltera sur chile",
+    title: "Celebraciones en Frutillar | Cumpleaños y Grupos - Cancagua",
+    description: "Celebra cumpleaños, aniversarios, despedidas y reuniones familiares en Cancagua, con biopiscinas, hot tubs, masajes, sauna y gastronomía.",
+    keywords: "celebraciones frutillar, cumpleaños spa, celebraciones privadas lago llanquihue, despedida soltera sur chile, aniversarios frutillar",
     canonical: "/eventos/sociales",
-    image: "https://cancagua.cl/images/eventos-sociales-hero.jpg",
+    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };
 
   return (

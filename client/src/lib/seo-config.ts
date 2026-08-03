@@ -98,10 +98,10 @@ export const seoConfig: Record<string, PageSEO> = {
     image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309165/cancagua/images/eventos-empresas-hero.jpg',
   },
   '/eventos/sociales': {
-    title: 'Eventos Sociales en Frutillar | Cumpleaños, Celebraciones - Cancagua',
-    description: 'Celebra cumpleaños, despedidas de soltera, aniversarios y eventos especiales en un entorno único con vista al lago y volcanes.',
-    keywords: 'eventos sociales frutillar, cumpleaños spa chile, despedida soltera termas, celebraciones lago llanquihue',
-    image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
+    title: 'Celebraciones en Frutillar | Cumpleaños y Grupos - Cancagua',
+    description: 'Celebra cumpleaños, aniversarios, despedidas y reuniones familiares en Cancagua, con biopiscinas, hot tubs, masajes, sauna y gastronomía.',
+    keywords: 'celebraciones frutillar, cumpleaños spa chile, despedida soltera termas, aniversarios lago llanquihue',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
   },
   '/eventos/concierto': {
     title: 'Concierto Equinoccio de Otoño - Cambio de Piel | Cancagua Spa Frutillar',
