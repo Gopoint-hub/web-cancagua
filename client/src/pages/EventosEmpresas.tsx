@@ -8,6 +8,7 @@ import { Users, Target, Award, Calendar, Coffee, Waves, Sparkles, CheckCircle2, 
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
+import { FAQS_EVENTOS } from "@/lib/faqs-eventos";
 
 export default function EventosEmpresas() {
   const [formData, setFormData] = useState({
@@ -68,10 +69,10 @@ export default function EventosEmpresas() {
               <div className="max-w-4xl">
               <p className="font-cg-mono flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-[#CCD1DB]"><Building2 className="h-4 w-4" /><T>BIENESTAR EN EQUIPO</T></p>
               <h1 className="font-cg-serif mt-8 max-w-3xl text-5xl font-normal leading-[1.03] tracking-[-0.025em] md:text-7xl lg:text-[5.25rem]">
-                <T>Encuentros que transforman la manera de trabajar juntos.</T>
+                <T>Eventos para empresas frente al Lago Llanquihue.</T>
               </h1>
               <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1] md:text-xl">
-                <T>Retiros empresariales, team building y experiencias únicas para tu equipo en un entorno natural privilegiado</T>
+                <T>Retiros corporativos, team building y jornadas de bienestar para tu equipo en Frutillar. Hasta 30 personas, con biopiscinas geotermales, hot tubs privados, sauna y masajes.</T>
               </p>
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <Button size="lg" className="font-cg-mono rounded-full bg-[#FCF9F9] px-8 py-6 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] hover:bg-white" onClick={() => document.getElementById('cotizacion')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -83,6 +84,29 @@ export default function EventosEmpresas() {
                 </Button>
               </div>
               </div>
+            </div>
+          </section>
+
+          {/* Datos concretos — respuesta primero */}
+          <section className="border-b border-black/10 bg-[#F4F2ED] px-6 py-12 md:py-16">
+            <div className="mx-auto max-w-6xl">
+              <div className="grid gap-px overflow-hidden rounded-[24px] border border-black/10 bg-black/10 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  { label: "CAPACIDAD", value: "Hasta 30 personas", detail: "en biopiscinas; hot tubs privados de hasta 10" },
+                  { label: "DESDE", value: "$36.000 por persona", detail: "biopiscinas, 4 horas de estadía" },
+                  { label: "DURACIÓN", value: "4 horas o día completo", detail: "según el programa que armemos" },
+                  { label: "RESPUESTA", value: "Menos de 24 horas", detail: "con una propuesta y valores" },
+                ].map((item) => (
+                  <div key={item.label} className="bg-[#FCF9F9] p-7 md:p-8">
+                    <p className="font-cg-mono text-[11px] uppercase tracking-[0.16em] text-[#827D78]"><T>{item.label}</T></p>
+                    <p className="font-cg-serif mt-3 text-2xl font-normal leading-tight"><T>{item.value}</T></p>
+                    <p className="font-cg-soft mt-2 text-sm leading-relaxed text-[#635E5A]"><T>{item.detail}</T></p>
+                  </div>
+                ))}
+              </div>
+              <p className="font-cg-soft mt-6 text-sm leading-relaxed text-[#635E5A]">
+                <T>Estamos en Frutillar, frente al Lago Llanquihue, a poco más de una hora de Puerto Montt. Para grupos hacemos tarifas especiales.</T>
+              </p>
             </div>
           </section>
 
@@ -173,6 +197,24 @@ export default function EventosEmpresas() {
                     <p className="mt-4 text-sm font-light leading-relaxed text-[#635E5A]"><T>Celebraciones corporativas, premiaciones y eventos especiales para reconocer logros</T></p>
                   </CardContent>
                 </Card>
+              </div>
+            </div>
+          </section>
+
+          {/* Preguntas frecuentes */}
+          <section className="px-6 py-20 md:py-28">
+            <div className="mx-auto max-w-4xl">
+              <div className="mb-12">
+                <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]"><T>ANTES DE COTIZAR</T></p>
+                <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl"><T>Preguntas frecuentes</T></h2>
+              </div>
+              <div className="divide-y divide-black/10 border-y border-black/10">
+                {FAQS_EVENTOS.map((faq) => (
+                  <div key={faq.question} className="py-7 md:py-8">
+                    <h3 className="font-cg-serif text-xl font-normal leading-snug md:text-2xl"><T>{faq.question}</T></h3>
+                    <p className="font-cg-soft mt-3 text-sm leading-relaxed text-[#635E5A] md:text-base"><T>{faq.answer}</T></p>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
