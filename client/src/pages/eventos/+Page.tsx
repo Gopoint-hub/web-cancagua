@@ -1,26 +1,50 @@
 import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
 
-// Próximos eventos — Julio 2026
+// Próximos eventos — Agosto 2026
 const featuredEvents = [
   {
     id: 1,
+    title: "Círculo de Mujeres",
+    description: "Un espacio íntimo y contenido, facilitado por Andrea Ortúzar, para encontrarnos desde la autenticidad, honrar lo vivido y reconectar con nuestra energía creadora. Incluye cuento medicina, cacao ceremonial y una reflexión guiada.",
+    image: "https://cdn.skedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/811b6e8dbdd04765b6f01c4c9b713fcf.png",
+    imagePosition: "center 48%",
+    date: "Viernes 14 de agosto de 2026",
+    time: "Check-in 18:15 · Inicio 18:30",
+    location: "Yurt de Cancagua",
+    price: "$25.000",
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/dc01f461-86e6-47a8-8467-0b899eb6812d",
+  },
+  {
+    id: 2,
+    title: "Concierto & Biopiscina",
+    description: "Una velada luminosa junto al agua y el bosque nativo para honrar la imaginación y al niño interior. El Dúo Daniela Conejero + Ítalo Aguilera recorrerá melodías alegres y creativas, con opción de extender la experiencia en las biopiscinas.",
+    image: "https://cdn.skedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/e0b2972eae0c49219f541837b8aa3fe6.png",
+    imagePosition: "center 46%",
+    date: "Sábado 15 de agosto de 2026",
+    time: "Llegada 18:30 · Concierto 19:00–20:30",
+    location: "Biopiscinas de Cancagua",
+    price: "Desde $15.000",
+    bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/203139c0-f3d8-42d6-a996-15c5ed74c511",
+  },
+  {
+    id: 3,
     title: "Sonoterapia",
     description: "Una sesión grupal en la calidez del yurt, guiada por Sebastián Diez con cuencos, gong, didgeridoo y otros instrumentos para entrar en un estado de relajación y calma. Incluye té del día y opción de extender la experiencia en las biopiscinas.",
-    image: "https://cdn.skedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/29598e93ddc94c3f83f84f8e5afac156.png",
-    imagePosition: "center top",
-    date: "Sábado 25 de julio de 2026",
+    image: "https://cdn.skedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/cf46e105d6da465a984a26845d9c3166.png",
+    imagePosition: "center 48%",
+    date: "Sábado 22 de agosto de 2026",
     time: "Llegada 10:00 · Sesión 10:15–11:15",
     location: "Yurt de Cancagua",
     price: "Desde $15.000",
     bookingUrl: "https://reservas.cancagua.cl/cancaguaspa/s/8dc087fd-67d9-40f0-944c-0872e64e8b0a",
   },
   {
-    id: 2,
-    title: "Encuentro de Inmersión Julio",
+    id: 4,
+    title: "Encuentro de Inmersión",
     description: "Un ritual de reconexión que integra aromaterapia, respiración, movimiento consciente, inmersión en el Lago Llanquihue y recuperación en sauna nativo. Una experiencia acompañada para despertar los sentidos y cultivar presencia.",
-    image: "https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/0d6784633a564379a3f4dc5de2c3f18b.png",
-    imagePosition: "center 42%",
-    date: "Domingo 26 de julio de 2026",
+    image: "https://cdn.skedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/b3dadbd80138402ea35b7733ad747efa.png",
+    imagePosition: "center 48%",
+    date: "Domingo 30 de agosto de 2026",
     time: "Check-in 10:00 · Inicio 10:30",
     location: "Yurt, Lago Llanquihue y sauna nativo",
     price: "Desde $10.000",
@@ -78,13 +102,13 @@ export default function EventosPage() {
           <div className="mx-auto max-w-6xl">
             <div className="grid gap-8 border-b border-black/10 pb-12 md:grid-cols-[1fr_1fr] md:items-end">
               <div>
-                <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">AGENDA · JULIO 2026</p>
+                <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">AGENDA · AGOSTO 2026</p>
                 <h2 className="font-cg-sans mt-5 text-4xl font-light leading-tight tracking-[-0.02em] md:text-6xl">
                   Próximos eventos
                 </h2>
               </div>
               <p className="max-w-xl text-base font-light leading-relaxed text-[#635E5A] md:justify-self-end md:text-lg">
-                Dos invitaciones a detener el ritmo cotidiano y abrir espacio a la respiración, el movimiento y la naturaleza.
+                Cuatro invitaciones para conectar con la música, el movimiento, la comunidad y la naturaleza durante agosto.
               </p>
             </div>
 
@@ -95,7 +119,7 @@ export default function EventosPage() {
                   <img
                     src={event.image}
                     alt={event.title}
-                    className={`h-full w-full object-cover transition-transform duration-700 ${event.id === 1 ? "scale-[1.4] group-hover:scale-[1.44]" : "group-hover:scale-[1.03]"}`}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     style={{ objectPosition: event.imagePosition }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1B212D]/45 via-transparent to-transparent" />
