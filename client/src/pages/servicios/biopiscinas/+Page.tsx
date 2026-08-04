@@ -47,7 +47,7 @@ export default function ServicioBiopiscinas() {
           <div className="inline-block bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold mb-4">
             <T>Primeras del Mundo</T>
           </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4">
+          <h1 className="font-cg-serif mb-4 text-4xl font-light tracking-[-0.02em] md:text-6xl lg:text-7xl">
             <T>Biopiscinas Geotermales</T>
           </h1>
           <p className="text-lg md:text-2xl mb-8 max-w-3xl">
