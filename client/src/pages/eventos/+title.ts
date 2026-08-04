@@ -1,1 +1,1 @@
-export default "Eventos Corporativos y Privados en Frutillar - Cancagua";
+export default "Panoramas y Talleres en Frutillar | Cancagua";

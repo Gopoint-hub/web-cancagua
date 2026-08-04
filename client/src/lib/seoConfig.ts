@@ -67,10 +67,10 @@ export const seoConfig: Record<string, PageSEO> = {
   
   // Eventos
   eventos: {
-    title: "Eventos en Cancagua | Empresas, Cumpleaños y Celebraciones",
-    description: "Organiza tu evento corporativo, cumpleaños o celebración especial en un entorno natural único a orillas del Lago Llanquihue.",
+    title: "Panoramas y Talleres en Frutillar | Cancagua",
+    description: "Descubre panoramas, talleres, conciertos y celebraciones en un entorno natural único a orillas del Lago Llanquihue.",
     canonical: "/panoramas",
-    keywords: "eventos, eventos corporativos, cumpleaños, celebraciones, team building, frutillar"
+    keywords: "panoramas, talleres, cumpleaños, celebraciones, bienestar, frutillar"
   },
   eventosEmpresas: {
     title: "Eventos Corporativos | Team Building | Cancagua",

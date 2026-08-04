@@ -64,7 +64,7 @@ const corporateEventsList = [
   "Team building y dinámicas de grupo",
   "Retiros de liderazgo",
   "Conferencias y workshops",
-  "Eventos de incentivo",
+  "Jornadas de incentivo",
   "Jornadas de bienestar corporativo",
 ];
 
@@ -104,7 +104,7 @@ export default function EventosPage() {
               <div>
                 <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">AGENDA · AGOSTO 2026</p>
                 <h2 className="font-cg-sans mt-5 text-4xl font-light leading-tight tracking-[-0.02em] md:text-6xl">
-                  Próximos eventos
+                  Próximos panoramas
                 </h2>
               </div>
               <p className="max-w-xl text-base font-light leading-relaxed text-[#635E5A] md:justify-self-end md:text-lg">
@@ -160,12 +160,12 @@ export default function EventosPage() {
         <section className="border-y border-black/10 bg-[#FCF9F9] px-6 py-20 md:py-28">
           <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-20">
             <div className="relative aspect-[4/3] overflow-hidden rounded-[24px]">
-              <img src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp" alt="Eventos sociales en Cancagua" className="h-full w-full object-cover" />
+              <img src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp" alt="Celebraciones en Cancagua" className="h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1B212D]/30 to-transparent" />
             </div>
             <div>
               <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">CELEBRAR CON OTROS</p>
-              <h2 className="font-cg-sans mt-5 text-4xl font-light leading-tight tracking-[-0.02em] md:text-5xl">Eventos sociales</h2>
+              <h2 className="font-cg-sans mt-5 text-4xl font-light leading-tight tracking-[-0.02em] md:text-5xl">Celebraciones</h2>
               <p className="mt-6 text-lg font-light leading-relaxed text-[#635E5A]">
                 Celebra momentos especiales en nuestro espacio único. Cumpleaños, aniversarios, reuniones familiares y más, en el ambiente perfecto rodeado de naturaleza.
               </p>
@@ -177,8 +177,8 @@ export default function EventosPage() {
                   </li>
                 ))}
               </ul>
-              <a href={whatsappLink("Hola, me gustaría cotizar un evento social en Cancagua")} target="_blank" rel="noopener noreferrer" className="font-cg-mono mt-9 inline-flex items-center gap-3 rounded-full border border-[#333D51] px-7 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] transition-colors hover:bg-[#333D51] hover:text-white">
-                COTIZAR EVENTO <ArrowRight className="h-4 w-4" />
+              <a href={whatsappLink("Hola, me gustaría cotizar una celebración en Cancagua")} target="_blank" rel="noopener noreferrer" className="font-cg-mono mt-9 inline-flex items-center gap-3 rounded-full border border-[#333D51] px-7 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] transition-colors hover:bg-[#333D51] hover:text-white">
+                COTIZAR CELEBRACIÓN <ArrowRight className="h-4 w-4" />
               </a>
             </div>
           </div>
@@ -188,9 +188,9 @@ export default function EventosPage() {
           <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-20">
             <div>
               <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#696F4D]">BIENESTAR EN EQUIPO</p>
-              <h2 className="font-cg-sans mt-5 text-4xl font-light leading-tight tracking-[-0.02em] md:text-5xl">Eventos corporativos</h2>
+              <h2 className="font-cg-sans mt-5 text-4xl font-light leading-tight tracking-[-0.02em] md:text-5xl">Corporativos</h2>
               <p className="mt-6 text-lg font-light leading-relaxed text-[#635E5A]">
-                Diseñamos experiencias corporativas únicas para tu equipo. Team building, retiros de liderazgo, conferencias y eventos de incentivo en un ambiente inspirador.
+                Diseñamos experiencias corporativas únicas para tu equipo. Team building, retiros de liderazgo, conferencias y jornadas de incentivo en un ambiente inspirador.
               </p>
               <ul className="font-cg-soft mt-7 grid gap-3 text-sm text-[#635E5A] sm:grid-cols-2">
                 {corporateEventsList.map((item, i) => (
@@ -200,12 +200,12 @@ export default function EventosPage() {
                   </li>
                 ))}
               </ul>
-              <a href={whatsappLink("Hola, me gustaría cotizar un evento corporativo en Cancagua")} target="_blank" rel="noopener noreferrer" className="font-cg-mono mt-9 inline-flex items-center gap-3 rounded-full border border-[#333D51] px-7 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] transition-colors hover:bg-[#333D51] hover:text-white">
-                COTIZAR EVENTO <ArrowRight className="h-4 w-4" />
+              <a href={whatsappLink("Hola, me gustaría cotizar una experiencia corporativa en Cancagua")} target="_blank" rel="noopener noreferrer" className="font-cg-mono mt-9 inline-flex items-center gap-3 rounded-full border border-[#333D51] px-7 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] transition-colors hover:bg-[#333D51] hover:text-white">
+                COTIZAR EXPERIENCIA <ArrowRight className="h-4 w-4" />
               </a>
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-[24px]">
-              <img src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309226/cancagua/images/navega-relax-header.jpg" alt="Eventos corporativos en Cancagua" className="h-full w-full object-cover" />
+              <img src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309226/cancagua/images/navega-relax-header.jpg" alt="Experiencias corporativas en Cancagua" className="h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1B212D]/30 to-transparent" />
             </div>
           </div>
@@ -217,9 +217,9 @@ export default function EventosPage() {
           <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]">UNA EXPERIENCIA A TU MEDIDA</p>
           <h2 className="font-cg-sans mt-6 text-4xl font-light leading-tight tracking-[-0.02em] md:text-6xl">¿Imaginamos tu próximo encuentro?</h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1]">
-            Contáctanos para diseñar la experiencia perfecta para ti. Nuestro equipo está listo para hacer realidad tu evento.
+            Contáctanos para diseñar la experiencia perfecta para ti. Nuestro equipo está listo para hacer realidad tu próximo encuentro.
           </p>
-          <a href={whatsappLink("Hola, me gustaría información sobre eventos en Cancagua")} target="_blank" rel="noopener noreferrer" className="font-cg-mono mt-10 inline-flex items-center gap-3 rounded-full bg-[#FCF9F9] px-8 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] transition-transform hover:-translate-y-0.5">
+          <a href={whatsappLink("Hola, me gustaría información sobre los panoramas de Cancagua")} target="_blank" rel="noopener noreferrer" className="font-cg-mono mt-10 inline-flex items-center gap-3 rounded-full bg-[#FCF9F9] px-8 py-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] transition-transform hover:-translate-y-0.5">
             CONVERSEMOS <ArrowRight className="h-4 w-4" />
           </a>
         </div>

@@ -86,9 +86,9 @@ export const seoConfig: Record<string, PageSEO> = {
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
   },
   '/panoramas': {
-    title: 'Eventos Corporativos y Privados en Frutillar - Cancagua',
-    description: 'Organiza eventos corporativos, retiros empresariales y celebraciones privadas en un entorno natural único. Team building, reuniones y más.',
-    keywords: 'eventos corporativos frutillar, retiros empresariales chile, team building lago llanquihue, eventos privados spa',
+    title: 'Panoramas y Talleres en Frutillar | Cancagua',
+    description: 'Descubre panoramas, talleres, conciertos y celebraciones en un entorno natural único frente al Lago Llanquihue.',
+    keywords: 'panoramas frutillar, talleres bienestar, conciertos lago llanquihue, celebraciones cancagua',
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
   },
   '/corporativos': {
