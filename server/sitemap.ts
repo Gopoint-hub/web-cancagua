@@ -25,8 +25,10 @@ const PUBLIC_ROUTES = [
   // Panoramas
   { url: "/panoramas", changefreq: "weekly", priority: 0.8 },
   { url: "/panoramas/celebraciones", changefreq: "weekly", priority: 0.7 },
-  { url: "/panoramas/corporativos", changefreq: "weekly", priority: 0.7 },
   { url: "/panoramas/concierto", changefreq: "monthly", priority: 0.7 },
+
+  // Corporativos
+  { url: "/corporativos", changefreq: "weekly", priority: 0.8 },
 
   // Experiencias
   { url: "/experiencias/pases-reconecta", changefreq: "weekly", priority: 0.7 },

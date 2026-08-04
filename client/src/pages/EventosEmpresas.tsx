@@ -72,7 +72,7 @@ export default function EventosEmpresas() {
                 <T>Eventos para empresas frente al Lago Llanquihue.</T>
               </h1>
               <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1] md:text-xl">
-                <T>Retiros corporativos, team building y jornadas de bienestar para tu equipo en Frutillar. Hasta 30 personas, con biopiscinas geotermales, hot tubs privados, sauna y masajes.</T>
+                <T>Retiros corporativos, team building y jornadas de bienestar para tu equipo en Frutillar. Hasta 80 personas, con biopiscinas geotermales, hot tubs privados, sauna y masajes.</T>
               </p>
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <Button size="lg" className="font-cg-mono rounded-full bg-[#FCF9F9] px-8 py-6 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] hover:bg-white" onClick={() => document.getElementById('cotizacion')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -92,7 +92,7 @@ export default function EventosEmpresas() {
             <div className="mx-auto max-w-6xl">
               <div className="grid gap-px overflow-hidden rounded-[24px] border border-black/10 bg-black/10 sm:grid-cols-2 lg:grid-cols-4">
                 {[
-                  { label: "CAPACIDAD", value: "Hasta 30 personas", detail: "en biopiscinas; hot tubs privados de hasta 10" },
+                  { label: "CAPACIDAD", value: "Hasta 80 personas", detail: "biopiscinas hasta 40; 6 hot tubs de hasta 10 cada uno" },
                   { label: "DESDE", value: "$36.000 por persona", detail: "biopiscinas, 4 horas de estadía" },
                   { label: "DURACIÓN", value: "4 horas o día completo", detail: "según el programa que armemos" },
                   { label: "RESPUESTA", value: "Menos de 24 horas", detail: "con una propuesta y valores" },
@@ -253,7 +253,7 @@ export default function EventosEmpresas() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <Label htmlFor="numberOfPeople" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Número de Personas</T></Label>
-                        <Input id="numberOfPeople" type="number" placeholder="Ej: 25" value={formData.numberOfPeople} onChange={(e) => setFormData({ ...formData, numberOfPeople: e.target.value })} className="mt-2 h-12 rounded-xl border-black/15 bg-white focus:border-[#333D51]" />
+                        <Input id="numberOfPeople" type="number" min="1" max="80" placeholder="Ej: 25" value={formData.numberOfPeople} onChange={(e) => setFormData({ ...formData, numberOfPeople: e.target.value })} className="mt-2 h-12 rounded-xl border-black/15 bg-white focus:border-[#333D51]" />
                       </div>
                       <div>
                         <Label htmlFor="eventDate" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Fecha Estimada del Evento</T></Label>

@@ -22,6 +22,8 @@ export function WhatsAppButton() {
       return "Hola, me interesa el Pase Reconecta";
     } else if (location.startsWith("/servicios")) {
       return "Hola, me interesa información sobre los servicios";
+    } else if (location === "/corporativos") {
+      return "Hola, quiero cotizar una experiencia corporativa en Cancagua";
     } else if (location.startsWith("/panoramas") || location.startsWith("/eventos")) {
       return "Hola, quiero información sobre los eventos";
     } else if (location === "/cafeteria") {

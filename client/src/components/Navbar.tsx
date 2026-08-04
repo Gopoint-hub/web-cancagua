@@ -76,7 +76,6 @@ export function Navbar() {
     { name: "Sonoterapia — 22 de agosto", href: "https://reservas.cancagua.cl/cancaguaspa/s/8dc087fd-67d9-40f0-944c-0872e64e8b0a" },
     { name: "Encuentro de Inmersión — 30 de agosto", href: "https://reservas.cancagua.cl/cancaguaspa/s/29ee2d1b-a529-4ad4-857b-c0e45facec62" },
     { name: "Celebraciones", href: "/panoramas/celebraciones" },
-    { name: "Corporativos", href: "/panoramas/corporativos" },
   ];
 
   return (
@@ -202,6 +201,14 @@ export function Navbar() {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
+
+            <a
+              href="/corporativos"
+              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/corporativos") ? "text-[#4B5872]" : "text-[#222221]"
+                }`}
+            >
+              {t('nav.corporate')}
+            </a>
 
             <a
               href="/cafeteria"
@@ -376,6 +383,14 @@ export function Navbar() {
               </div>
 
               {/* Enlaces directos */}
+              <a
+                href="/corporativos"
+                className="py-3 text-sm tracking-wider uppercase text-[#222221] border-b border-[#4B5872]/10 hover:text-[#4B5872]"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.corporate')}
+              </a>
+
               <a
                 href="/cafeteria"
                 className="py-3 text-sm tracking-wider uppercase text-[#222221] border-b border-[#4B5872]/10 hover:text-[#4B5872]"

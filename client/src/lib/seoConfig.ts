@@ -75,7 +75,7 @@ export const seoConfig: Record<string, PageSEO> = {
   eventosEmpresas: {
     title: "Eventos Corporativos | Team Building | Cancagua",
     description: "Eventos corporativos y team building en un entorno natural único. Biopiscinas, actividades y servicios exclusivos para empresas.",
-    canonical: "/panoramas/corporativos",
+    canonical: "/corporativos",
     keywords: "eventos corporativos, team building, empresas, retiros corporativos, frutillar"
   },
   eventosSociales: {

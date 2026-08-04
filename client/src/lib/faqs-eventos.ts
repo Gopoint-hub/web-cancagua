@@ -1,11 +1,12 @@
 /**
  * Preguntas frecuentes de eventos corporativos.
  *
- * Fuente única: alimenta la sección visible de /eventos/empresas y el marcado
+ * Fuente única: alimenta la sección visible de /corporativos y el marcado
  * FAQPage de su +Head.tsx. Igual que en `faqs.ts`, no prometer aquí nada que la
  * operación no pueda cumplir: esto es lo que Google y los motores de IA citan.
  *
- * Precios y capacidades verificados en Skedu el 3-ago-2026.
+ * Precios verificados en Skedu el 3-ago-2026. Capacidades actualizadas por
+ * Marketing el 3-ago-2026.
  */
 
 export interface FaqEvento {
@@ -17,7 +18,7 @@ export const FAQS_EVENTOS: FaqEvento[] = [
   {
     question: "¿Para cuántas personas se puede hacer un evento de empresa en Cancagua?",
     answer:
-      "Las biopiscinas geotermales admiten hasta 30 personas, y es el formato que permite grupos más grandes. Los hot tubs son privados y reciben hasta 10 personas cada uno. El sauna va de 1 a 6 personas. Para grupos de más de 30 armamos el programa por bloques a lo largo del día.",
+      "Recibimos grupos corporativos de hasta 80 personas. Las biopiscinas geotermales admiten hasta 40 personas y contamos con 6 hot tubs privados, cada uno con capacidad para hasta 10 personas. El sauna recibe de 1 a 6 personas. Para grupos grandes coordinamos los servicios por bloques a lo largo del día.",
   },
   {
     question: "¿Cuánto cuesta un evento corporativo en Cancagua?",

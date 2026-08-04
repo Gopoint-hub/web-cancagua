@@ -99,12 +99,14 @@ const redirectMap: Record<string, string> = {
   "/eventos/": "/panoramas",
   "/eventos/sociales": "/panoramas/celebraciones",
   "/eventos/sociales/": "/panoramas/celebraciones",
-  "/eventos/empresas": "/panoramas/corporativos",
-  "/eventos/empresas/": "/panoramas/corporativos",
+  "/eventos/empresas": "/corporativos",
+  "/eventos/empresas/": "/corporativos",
   "/eventos/concierto": "/panoramas/concierto",
   "/eventos/concierto/": "/panoramas/concierto",
-  "/eventos-empresas": "/panoramas/corporativos",
-  "/eventos-empresas/": "/panoramas/corporativos",
+  "/eventos-empresas": "/corporativos",
+  "/eventos-empresas/": "/corporativos",
+  "/panoramas/corporativos": "/corporativos",
+  "/panoramas/corporativos/": "/corporativos",
 
   // ============================================
   // GIFT CARDS - URLs existentes
@@ -135,8 +137,8 @@ const redirectMap: Record<string, string> = {
   // ============================================
   "/panoramas/": "/panoramas",
   "/panoramas/celebraciones/": "/panoramas/celebraciones",
-  "/panoramas/corporativos/": "/panoramas/corporativos",
   "/panoramas/concierto/": "/panoramas/concierto",
+  "/corporativos/": "/corporativos",
   "/contacto/": "/contacto",
   "/nosotros/": "/nosotros",
   "/cafeteria/": "/cafeteria",
