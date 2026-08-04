@@ -98,15 +98,7 @@ export function Navbar() {
           </a>
 
           {/* Navegación Desktop */}
-          <nav className="hidden flex-wrap items-center justify-center gap-x-2 gap-y-1 font-cg-mono uppercase md:col-span-3 md:row-start-2 md:flex md:w-full md:border-t md:border-[#4B5872]/10 md:pt-2 lg:gap-x-3 2xl:w-auto 2xl:flex-nowrap 2xl:gap-4 2xl:border-0 2xl:pt-0 [&>a]:whitespace-nowrap [&>a]:text-[11px] xl:[&>a]:text-xs 2xl:[&>a]:text-sm [&_[data-slot=navigation-menu-trigger]]:px-1.5 [&_[data-slot=navigation-menu-trigger]]:text-[11px] lg:[&_[data-slot=navigation-menu-trigger]]:px-2 xl:[&_[data-slot=navigation-menu-trigger]]:px-3 xl:[&_[data-slot=navigation-menu-trigger]]:text-xs 2xl:[&_[data-slot=navigation-menu-trigger]]:px-4 2xl:[&_[data-slot=navigation-menu-trigger]]:text-sm">
-            <a
-              href="/"
-              className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/") ? "text-[#4B5872]" : "text-[#222221]"
-                }`}
-            >
-              {t('nav.home')}
-            </a>
-
+          <nav className="hidden flex-wrap items-center justify-center gap-x-2 gap-y-1 font-cg-mono uppercase md:col-span-3 md:row-start-2 md:flex md:w-full md:border-t md:border-[#4B5872]/10 md:pt-2 lg:gap-x-3 2xl:w-auto 2xl:flex-nowrap 2xl:gap-4 2xl:border-0 2xl:pt-0 [&>a]:whitespace-nowrap [&>a]:text-[11px] xl:[&>a]:text-xs 2xl:[&>a]:text-sm [&_[data-slot=navigation-menu-trigger]]:px-0 [&_[data-slot=navigation-menu-trigger]]:text-[11px] xl:[&_[data-slot=navigation-menu-trigger]]:text-xs 2xl:[&_[data-slot=navigation-menu-trigger]]:text-sm">
             {/* Dropdown Servicios */}
             <NavigationMenu>
               <NavigationMenuList>
@@ -247,7 +239,7 @@ export function Navbar() {
               className={`text-sm tracking-wider uppercase transition-colors hover:text-[#4B5872] ${isActive("/gift-cards") ? "text-[#4B5872]" : "text-[#222221]"
                 }`}
             >
-              Gift Cards
+              GIFTCARD
             </a>
           </nav>
 
@@ -298,15 +290,6 @@ export function Navbar() {
         {mobileMenuOpen && (
           <div className="border-t border-[#4B5872]/20 bg-white max-h-[70vh] overflow-y-auto md:hidden">
             <nav className="container py-4 flex flex-col">
-              {/* Inicio */}
-              <a
-                href="/"
-                className="py-3 text-sm tracking-wider uppercase text-[#222221] border-b border-[#4B5872]/10"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('nav.home')}
-              </a>
-
               {/* Servicios - Acordeón */}
               <div className="border-b border-[#4B5872]/10">
                 <button
@@ -428,7 +411,7 @@ export function Navbar() {
                 className="py-3 text-sm tracking-wider uppercase text-[#222221] border-b border-[#4B5872]/10 hover:text-[#4B5872]"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Gift Cards
+                GIFTCARD
               </a>
 
               {/* Selector de idioma y botón reservar */}
