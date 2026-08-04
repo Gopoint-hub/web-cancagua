@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,35 +11,102 @@ import { toast } from "sonner";
 import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
 import { FAQS_EVENTOS } from "@/lib/faqs-eventos";
 
+const corporateQuoteServices = [
+  { id: "hot-tubs", label: "Hot-tubs", maxPeople: 60 },
+  { id: "biopiscinas", label: "Biopiscinas", maxPeople: 40 },
+  { id: "masajes", label: "Masajes", maxPeople: 80 },
+  { id: "sauna", label: "Sauna", maxPeople: 6 },
+  { id: "team-building", label: "Taller de team building", maxPeople: 80 },
+  { id: "almuerzo-grupo", label: "Almuerzo de grupo", maxPeople: 80 },
+  { id: "coffee-break", label: "Coffee break", maxPeople: 80 },
+  { id: "desayuno", label: "Desayuno", maxPeople: 80 },
+  { id: "tablas-picoteo", label: "Tablas de picoteo", maxPeople: 80 },
+  { id: "bebestibles", label: "Bebestibles", maxPeople: 80 },
+] as const;
+
+type CorporateServiceId = (typeof corporateQuoteServices)[number]["id"];
+type CorporateServiceQuantities = Partial<Record<CorporateServiceId, string>>;
+
+const emptyCorporateForm = {
+  companyName: "",
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  numberOfPeople: "",
+  eventDate: "",
+  objective: "",
+  message: "",
+};
+
 export default function EventosEmpresas() {
-  const [formData, setFormData] = useState({
-    companyName: "",
-    contactName: "",
-    email: "",
-    phone: "",
-    numberOfPeople: "",
-    eventDate: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState(emptyCorporateForm);
+  const [serviceQuantities, setServiceQuantities] = useState<CorporateServiceQuantities>({});
 
   const sendQuoteRequestMutation = trpc.contactMessages.send.useMutation({
     onSuccess: () => {
       toast.success("¡Solicitud enviada! Te contactaremos pronto con una cotización personalizada.");
-      setFormData({ companyName: "", contactName: "", email: "", phone: "", numberOfPeople: "", eventDate: "", message: "" });
+      setFormData(emptyCorporateForm);
+      setServiceQuantities({});
     },
     onError: (error) => {
       toast.error(error.message || "Error al enviar solicitud. Inténtalo nuevamente.");
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.companyName || !formData.contactName || !formData.email || !formData.phone || !formData.message) {
-      toast.error("Por favor completa todos los campos obligatorios");
+  const toggleService = (serviceId: CorporateServiceId, checked: boolean) => {
+    setServiceQuantities((current) => {
+      const next = { ...current };
+      if (checked) next[serviceId] = "";
+      else delete next[serviceId];
+      return next;
+    });
+  };
+
+  const scrollToQuoteForm = () => {
+    document.getElementById("cotizacion")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const selectedServices = corporateQuoteServices.filter(({ id }) => id in serviceQuantities);
+    const totalPeople = Number(formData.numberOfPeople);
+
+    if (!formData.companyName.trim() || !formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.objective.trim()) {
+      toast.error("Por favor completa todos los campos obligatorios.");
       return;
     }
-    const fullMessage = `SOLICITUD DE COTIZACIÓN EMPRESARIAL\n\nEmpresa: ${formData.companyName}\nContacto: ${formData.contactName}\nNúmero de personas: ${formData.numberOfPeople || "Por definir"}\nFecha estimada: ${formData.eventDate || "Por definir"}\n\nMensaje:\n${formData.message}`;
-    sendQuoteRequestMutation.mutate({ name: `${formData.contactName} (${formData.companyName})`, email: formData.email, phone: formData.phone, message: fullMessage, recipient: "eventos" });
+    if (!Number.isInteger(totalPeople) || totalPeople < 1 || totalPeople > 80) {
+      toast.error("Indica un número total de personas entre 1 y 80.");
+      return;
+    }
+    if (selectedServices.length === 0) {
+      toast.error("Selecciona al menos un servicio para cotizar.");
+      return;
+    }
+
+    const invalidService = selectedServices.find(({ id, maxPeople }) => {
+      const quantity = Number(serviceQuantities[id]);
+      return !Number.isInteger(quantity) || quantity < 1 || quantity > totalPeople || quantity > maxPeople;
+    });
+    if (invalidService) {
+      toast.error(`Revisa la cantidad para ${invalidService.label}. Debe estar entre 1 y ${Math.min(totalPeople, invalidService.maxPeople)} personas.`);
+      return;
+    }
+
+    const servicesSummary = selectedServices
+      .map(({ id, label }) => `- ${label}: ${serviceQuantities[id]} personas`)
+      .join("\n");
+    const fullMessage = `SOLICITUD DE COTIZACIÓN — CORPORATIVOS\n\nEmpresa: ${formData.companyName.trim()}\nContacto: ${formData.firstName.trim()} ${formData.lastName.trim()}\nNúmero total de personas: ${totalPeople}\nFecha estimada: ${formData.eventDate || "Por definir"}\nQué está buscando la empresa: ${formData.objective.trim()}\n\nServicios solicitados:\n${servicesSummary}\n\nMensaje adicional:\n${formData.message.trim() || "Sin mensaje adicional"}`;
+
+    sendQuoteRequestMutation.mutate({
+      name: `${formData.firstName.trim()} ${formData.lastName.trim()} (${formData.companyName.trim()})`,
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      message: fullMessage,
+      recipient: "eventos",
+    });
   };
 
   const services = [
@@ -75,7 +143,7 @@ export default function EventosEmpresas() {
                 <T>Retiros corporativos, team building y jornadas de bienestar para tu equipo en Frutillar. Hasta 80 personas, con biopiscinas geotermales, hot tubs privados, sauna y masajes.</T>
               </p>
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <Button size="lg" className="font-cg-mono rounded-full bg-[#FCF9F9] px-8 py-6 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] hover:bg-white" onClick={() => document.getElementById('cotizacion')?.scrollIntoView({ behavior: 'smooth' })}>
+                <Button size="lg" className="font-cg-mono rounded-full bg-[#FCF9F9] px-8 py-6 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] hover:bg-white" onClick={scrollToQuoteForm}>
                   <T>Solicitar Cotización</T>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -107,6 +175,10 @@ export default function EventosEmpresas() {
               <p className="font-cg-soft mt-6 text-sm leading-relaxed text-[#635E5A]">
                 <T>Estamos en Frutillar, frente al Lago Llanquihue, a poco más de una hora de Puerto Montt. Para grupos hacemos tarifas especiales.</T>
               </p>
+              <Button size="lg" variant="outline" className="font-cg-mono mt-8 rounded-full border-[#333D51] bg-transparent px-8 py-6 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] hover:bg-[#333D51] hover:text-white" onClick={scrollToQuoteForm}>
+                <T>Solicitar cotización</T>
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
             </div>
           </section>
 
@@ -161,6 +233,12 @@ export default function EventosEmpresas() {
                     </Card>
                   );
                 })}
+              </div>
+              <div className="mt-10 text-center">
+                <Button size="lg" className="font-cg-mono rounded-full bg-[#333D51] px-8 py-6 text-xs font-semibold uppercase tracking-[0.15em] text-[#FCF9F9] hover:bg-[#1B212D]" onClick={scrollToQuoteForm}>
+                  <T>Solicitar cotización</T>
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </div>
             </div>
           </section>
@@ -227,56 +305,84 @@ export default function EventosEmpresas() {
                 <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl"><T>Diseñemos tu evento juntos.</T></h2>
                 <p className="mt-6 text-lg font-light leading-relaxed text-[#D7D4D1]"><T>Completa el formulario y te contactaremos en menos de 24 horas con una propuesta personalizada.</T></p>
               </div>
-              <Card className="rounded-[24px] border border-white/10 bg-[#FCF9F9] text-[#222221] shadow-none">
-                <CardContent className="p-7 md:p-10">
-                  <form className="space-y-6" onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="companyName" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Nombre de la Empresa</T> *</Label>
-                        <Input id="companyName" placeholder="Tu empresa" value={formData.companyName} onChange={(e) => setFormData({ ...formData, companyName: e.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white focus:border-[#333D51]" />
-                      </div>
-                      <div>
-                        <Label htmlFor="contactName" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Nombre del Contacto</T> *</Label>
-                        <Input id="contactName" placeholder="Tu nombre" value={formData.contactName} onChange={(e) => setFormData({ ...formData, contactName: e.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white focus:border-[#333D51]" />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="email" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Email Corporativo</T> *</Label>
-                        <Input id="email" type="email" placeholder="contacto@empresa.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white focus:border-[#333D51]" />
-                      </div>
-                      <div>
-                        <Label htmlFor="phone" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Teléfono</T> *</Label>
-                        <Input id="phone" type="tel" placeholder="+56 9 1234 5678" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white focus:border-[#333D51]" />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="numberOfPeople" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Número de Personas</T></Label>
-                        <Input id="numberOfPeople" type="number" min="1" max="80" placeholder="Ej: 25" value={formData.numberOfPeople} onChange={(e) => setFormData({ ...formData, numberOfPeople: e.target.value })} className="mt-2 h-12 rounded-xl border-black/15 bg-white focus:border-[#333D51]" />
-                      </div>
-                      <div>
-                        <Label htmlFor="eventDate" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Fecha Estimada del Evento</T></Label>
-                        <Input id="eventDate" type="date" value={formData.eventDate} onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })} className="mt-2 h-12 rounded-xl border-black/15 bg-white focus:border-[#333D51]" />
-                      </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="message" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Cuéntanos sobre tu evento</T> *</Label>
-                      <Textarea id="message" placeholder="Describe el tipo de evento, objetivos, servicios de interés, etc." rows={6} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} required className="mt-2 rounded-xl border-black/15 bg-white focus:border-[#333D51]" />
-                    </div>
-                    <Button size="lg" className="font-cg-mono h-14 w-full rounded-full bg-[#333D51] text-xs font-semibold uppercase tracking-[0.15em] text-[#FCF9F9] hover:bg-[#1B212D]" type="submit" disabled={sendQuoteRequestMutation.isPending}>
-                      {sendQuoteRequestMutation.isPending && <Loader2 className="w-5 h-5 mr-2 animate-spin" />}
-                      <T>Solicitar Cotización</T>
-                    </Button>
-                    <p className="font-cg-soft text-center text-sm text-[#827D78]">
-                      <T>También puedes contactarnos directamente al</T>{" "}
-                      <a href="tel:+56940073999" className="text-[#333D51] underline underline-offset-4">+56 9 4007 3999</a>
-                      {" "}<T>o escribirnos a</T>{" "}
-                      <a href="mailto:eventos@cancagua.cl" className="text-[#333D51] underline underline-offset-4">eventos@cancagua.cl</a>
-                    </p>
-                  </form>
-                </CardContent>
-              </Card>
+              <form className="space-y-8 rounded-[24px] border border-white/10 bg-[#FCF9F9] p-7 text-[#222221] md:p-10" onSubmit={handleSubmit}>
+                <div>
+                  <Label htmlFor="corporate-company" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Nombre de la empresa</T> *</Label>
+                  <Input id="corporate-company" autoComplete="organization" placeholder="Tu empresa" value={formData.companyName} onChange={(event) => setFormData({ ...formData, companyName: event.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div>
+                    <Label htmlFor="corporate-first-name" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Nombre</T> *</Label>
+                    <Input id="corporate-first-name" autoComplete="given-name" placeholder="Tu nombre" value={formData.firstName} onChange={(event) => setFormData({ ...formData, firstName: event.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+                  </div>
+                  <div>
+                    <Label htmlFor="corporate-last-name" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Apellido</T> *</Label>
+                    <Input id="corporate-last-name" autoComplete="family-name" placeholder="Tu apellido" value={formData.lastName} onChange={(event) => setFormData({ ...formData, lastName: event.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+                  </div>
+                  <div>
+                    <Label htmlFor="corporate-email" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Email corporativo</T> *</Label>
+                    <Input id="corporate-email" type="email" autoComplete="email" placeholder="contacto@empresa.com" value={formData.email} onChange={(event) => setFormData({ ...formData, email: event.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+                  </div>
+                  <div>
+                    <Label htmlFor="corporate-phone" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Teléfono</T> *</Label>
+                    <Input id="corporate-phone" type="tel" autoComplete="tel" placeholder="+56 9 1234 5678" value={formData.phone} onChange={(event) => setFormData({ ...formData, phone: event.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+                  </div>
+                  <div>
+                    <Label htmlFor="corporate-total-people" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Número total de personas</T> *</Label>
+                    <Input id="corporate-total-people" type="number" min="1" max="80" step="1" inputMode="numeric" placeholder="Ej: 25" value={formData.numberOfPeople} onChange={(event) => setFormData({ ...formData, numberOfPeople: event.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+                  </div>
+                  <div>
+                    <Label htmlFor="corporate-date" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Fecha estimada</T></Label>
+                    <Input id="corporate-date" type="date" value={formData.eventDate} onChange={(event) => setFormData({ ...formData, eventDate: event.target.value })} className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="corporate-objective" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>¿Qué experiencia está buscando tu empresa?</T> *</Label>
+                  <Input id="corporate-objective" placeholder="Ej: team building, retiro o jornada de bienestar" value={formData.objective} onChange={(event) => setFormData({ ...formData, objective: event.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+                </div>
+
+                <fieldset>
+                  <legend className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Servicios que deseas cotizar</T> *</legend>
+                  <p className="font-cg-soft mt-2 text-sm text-[#827D78]"><T>Al seleccionar un servicio, indica para cuántas personas lo necesitas.</T></p>
+                  <div className="mt-5 grid gap-4 md:grid-cols-2">
+                    {corporateQuoteServices.map(({ id, label, maxPeople }) => {
+                      const selected = id in serviceQuantities;
+                      const totalPeople = Number(formData.numberOfPeople);
+                      const quantityLimit = totalPeople > 0 ? Math.min(totalPeople, maxPeople) : maxPeople;
+                      return (
+                        <div key={id} className={`rounded-2xl border p-4 transition-colors ${selected ? "border-[#4B5872] bg-[#F4F2ED]" : "border-black/10 bg-white"}`}>
+                          <div className="flex items-center gap-3">
+                            <Checkbox id={`corporate-service-${id}`} checked={selected} onCheckedChange={(checked) => toggleService(id, checked === true)} className="data-[state=checked]:border-[#333D51] data-[state=checked]:bg-[#333D51]" />
+                            <Label htmlFor={`corporate-service-${id}`} className="font-cg-soft cursor-pointer text-base font-medium text-[#222221]"><T>{label}</T></Label>
+                          </div>
+                          {selected && (
+                            <div className="mt-4 pl-7">
+                              <Label htmlFor={`corporate-quantity-${id}`} className="font-cg-mono text-[10px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Cantidad de personas</T> *</Label>
+                              <Input id={`corporate-quantity-${id}`} type="number" min="1" max={quantityLimit} step="1" inputMode="numeric" placeholder={`Máximo ${quantityLimit}`} value={serviceQuantities[id] || ""} onChange={(event) => setServiceQuantities((current) => ({ ...current, [id]: event.target.value }))} required className="mt-2 h-11 rounded-xl border-black/15 bg-white" />
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </fieldset>
+
+                <div>
+                  <Label htmlFor="corporate-message" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Mensaje adicional</T></Label>
+                  <Textarea id="corporate-message" rows={5} placeholder="Cuéntanos objetivos, horarios u otros detalles que debamos considerar" value={formData.message} onChange={(event) => setFormData({ ...formData, message: event.target.value })} className="mt-2 rounded-xl border-black/15 bg-white" />
+                </div>
+
+                <Button size="lg" className="font-cg-mono h-14 w-full rounded-full bg-[#333D51] text-xs font-semibold uppercase tracking-[0.15em] text-[#FCF9F9] hover:bg-[#1B212D]" type="submit" disabled={sendQuoteRequestMutation.isPending}>
+                  {sendQuoteRequestMutation.isPending && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                  <T>Solicitar cotización</T>
+                </Button>
+                <p className="font-cg-soft text-center text-sm text-[#827D78]">
+                  <T>Tu solicitud será enviada a</T>{" "}
+                  <a href="mailto:eventos@cancagua.cl" className="text-[#333D51] underline underline-offset-4">eventos@cancagua.cl</a>
+                </p>
+              </form>
             </div>
           </section>
 
@@ -287,8 +393,8 @@ export default function EventosEmpresas() {
               <p className="font-cg-mono mt-6 text-xs uppercase tracking-[0.2em] text-[#CCD1DB]"><T>EL PRÓXIMO ENCUENTRO</T></p>
               <h2 className="font-cg-serif mt-6 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl"><T>¿Listo para crear una experiencia memorable?</T></h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1]"><T>Nuestro equipo está listo para diseñar el evento corporativo perfecto para tu empresa.</T></p>
-              <Button size="lg" className="font-cg-mono mt-10 rounded-full bg-[#FCF9F9] px-8 py-6 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] hover:bg-white" onClick={() => document.getElementById('cotizacion')?.scrollIntoView({ behavior: 'smooth' })}>
-                <T>Solicitar Cotización Ahora</T>
+              <Button size="lg" className="font-cg-mono mt-10 rounded-full bg-[#FCF9F9] px-8 py-6 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] hover:bg-white" onClick={scrollToQuoteForm}>
+                <T>Solicitar cotización</T>
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
