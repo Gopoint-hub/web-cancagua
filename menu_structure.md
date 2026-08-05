@@ -11,7 +11,6 @@
 - Navega Relax → /experiencias/navega-relax
 - Pases Reconecta → /experiencias/pases-reconecta
 - Full Day Hot Tubs + Biopiscinas → /experiencias/full-day-hot-tubs-biopiscinas
-- Full Day Biopiscinas + Playa → /experiencias/full-day-biopiscinas-playa
 
 ## EVENTS
 - Todos los Eventos → /eventos

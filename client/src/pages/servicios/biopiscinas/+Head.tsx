@@ -3,8 +3,8 @@ import { generateServiceSchema } from '@/lib/seo-helpers';
 export default function Head() {
   const seoData = {
     title: "Biopiscinas Geotermales en Frutillar | Cancagua",
-    description: "Reserva biopiscinas geotermales en Frutillar: agua natural a 37-40°C, sin cloro, vista al Lago Llanquihue y alternativa a termas cerca de Puerto Varas.",
-    keywords: "biopiscinas geotermales frutillar, biopiscinas cancagua, termas frutillar, termas cerca de frutillar, bio piscinas geotermales, aguas termales lago llanquihue, biopiscinas puerto varas",
+    description: "Reserva 4 horas o un Full Day de 8 horas en las biopiscinas geotermales de Cancagua: agua natural sin cloro, playa en verano y bosque esclerófilo en invierno.",
+    keywords: "biopiscinas geotermales frutillar, full day biopiscinas, termas frutillar, termas cerca de frutillar, bio piscinas geotermales, aguas termales lago llanquihue, biopiscinas puerto varas",
     canonical: "/servicios/biopiscinas",
     image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
   };

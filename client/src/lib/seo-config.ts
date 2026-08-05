@@ -21,8 +21,8 @@ export const seoConfig: Record<string, PageSEO> = {
   },
   '/servicios/biopiscinas': {
     title: 'Biopiscinas Geotermales Frutillar | Las Primeras del Mundo - Cancagua',
-    description: 'Descubre las primeras biopiscinas geotermales del mundo en Cancagua, Frutillar. Disfruta de una experiencia relajante con aguas a 35-41°C, rodeado de naturaleza y con vista al Lago Llanquihue.',
-    keywords: 'biopiscinas geotermales, termas frutillar, spa chile, aguas termales, biopiscina, termas naturales, spa lago llanquihue',
+    description: 'Elige 4 horas o un Full Day de 8 horas en las biopiscinas geotermales de Cancagua: playa en verano y bosque esclerófilo en invierno.',
+    keywords: 'biopiscinas geotermales, full day biopiscinas, termas frutillar, spa chile, aguas termales, biopiscina, termas naturales, spa lago llanquihue',
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
   },
   '/servicios/hot-tubs': {
@@ -42,12 +42,6 @@ export const seoConfig: Record<string, PageSEO> = {
     description: 'Experimenta los beneficios del sauna finlandés en Cancagua. Desintoxicación natural, mejora la circulación y relaja tus músculos con vista al lago.',
     keywords: 'sauna frutillar, sauna finlandés chile, spa sauna lago llanquihue, desintoxicación natural',
     image: 'https://cancagua.cl/images/sauna-hero.jpg',
-  },
-  '/servicios/full-day-biopiscinas': {
-    title: 'Full Day Biopiscinas | Experiencia Completa de Bienestar - Cancagua',
-    description: 'Vive un día completo de bienestar con acceso ilimitado a biopiscinas geotermales, almuerzo gourmet y servicios de spa. La experiencia más completa en Frutillar.',
-    keywords: 'full day spa frutillar, día completo termas, experiencia bienestar chile, paquete spa lago llanquihue',
-    image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
   },
   '/servicios/full-day-hot-tubs': {
     title: 'Full Day Hot Tubs | Spa Completo al Aire Libre - Cancagua',

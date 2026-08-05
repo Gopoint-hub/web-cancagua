@@ -68,13 +68,6 @@ export default function Servicios() {
       href: "/servicios/full-day-hot-tubs",
       badge: "Full Day",
     },
-    {
-      title: "Full Day Biopiscinas + Playa",
-      description: "Disfruta de las Biopiscinas Geotermales y relájate en nuestra playa privada con vista al Lago Llanquihue.",
-      image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp",
-      href: "/servicios/full-day-biopiscinas",
-      badge: "Full Day",
-    },
   ];
 
   return (
@@ -118,7 +111,7 @@ export default function Servicios() {
                   <T>Combina nuestros servicios en experiencias únicas diseñadas para maximizar tu bienestar</T>
                 </p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {experiencias.map((exp) => (
                   <ServiceCard 
                     key={exp.title} 

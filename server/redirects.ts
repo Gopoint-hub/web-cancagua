@@ -131,6 +131,8 @@ const redirectMap: Record<string, string> = {
   "/masajes/": "/servicios/masajes",
   "/sauna": "/servicios/sauna",
   "/sauna/": "/servicios/sauna",
+  "/servicios/full-day-biopiscinas": "/servicios/biopiscinas?modalidad=full-day",
+  "/servicios/full-day-biopiscinas/": "/servicios/biopiscinas?modalidad=full-day",
 
   // ============================================
   // Trailing slash normalization
@@ -173,8 +175,11 @@ function redirectMiddleware(req: Request, res: Response, next: NextFunction) {
 
   if (redirectTo) {
     // Preservar query strings en la redireccion
-    const queryString = req.originalUrl.includes("?")
-      ? req.originalUrl.substring(req.originalUrl.indexOf("?"))
+    const originalQuery = req.originalUrl.includes("?")
+      ? req.originalUrl.substring(req.originalUrl.indexOf("?") + 1)
+      : "";
+    const queryString = originalQuery
+      ? `${redirectTo.includes("?") ? "&" : "?"}${originalQuery}`
       : "";
 
     // Redireccion 301 (permanente) para SEO

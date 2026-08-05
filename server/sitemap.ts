@@ -20,7 +20,6 @@ const PUBLIC_ROUTES = [
   { url: "/servicios/masajes", changefreq: "weekly", priority: 0.8 },
   { url: "/servicios/sauna", changefreq: "weekly", priority: 0.7 },
   { url: "/servicios/full-day-hot-tubs", changefreq: "weekly", priority: 0.7 },
-  { url: "/servicios/full-day-biopiscinas", changefreq: "weekly", priority: 0.7 },
 
   // Panoramas
   { url: "/panoramas", changefreq: "weekly", priority: 0.8 },

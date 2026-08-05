@@ -66,7 +66,6 @@ export function Navbar() {
     { name: "Navega Relax", href: "/navega-relax" },
     { name: "Pases Reconecta", href: "/experiencias/pases-reconecta" },
     { name: "Full Day Hot Tubs + Biopiscinas", href: "/servicios/full-day-hot-tubs" },
-    { name: "Full Day Biopiscinas + Playa", href: "/servicios/full-day-biopiscinas" },
   ];
 
   const eventos = [

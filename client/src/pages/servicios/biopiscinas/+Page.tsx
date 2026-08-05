@@ -19,18 +19,21 @@ export default function ServicioBiopiscinas() {
     retry: 2,
   });
   const catalogResponse = catalogQuery.data as BiopoolCatalogResponse | undefined;
-  const catalog = catalogResponse as BiopoolCatalog | undefined;
-  const catalogs = catalogResponse?.services?.length ? catalogResponse.services : catalog ? [catalog] : [];
+  const legacyCatalog = catalogResponse?.service ? catalogResponse as BiopoolCatalog : undefined;
+  const catalogs = catalogResponse?.services?.length ? catalogResponse.services : legacyCatalog ? [legacyCatalog] : [];
+  const catalog = catalogs.find(item => item.service.slug === "biopiscinas-geotermales") ?? catalogs[0];
+  const fullDayCatalog = catalogs.find(item => item.service.slug === "full-day-biopiscinas");
   useEffect(() => {
     const isFullDay = new URLSearchParams(window.location.search).get("modalidad") === "full-day";
     setRequestedServiceSlug(isFullDay ? "full-day-biopiscinas" : "biopiscinas-geotermales");
     if (catalog && window.location.hash === "#reservar") setCartOpen(true);
   }, [catalog]);
-  const openCart = () => {
+  const openCart = (serviceSlug = "biopiscinas-geotermales") => {
     if (!catalog) {
       toast.error(catalogQuery.isLoading ? "Estamos cargando horarios y precios…" : "La venta de Biopiscinas no está disponible en este momento");
       return;
     }
+    if (catalogs.some(item => item.service.slug === serviceSlug)) setRequestedServiceSlug(serviceSlug);
     setCartOpen(true);
   };
   const heroImage = catalog?.images?.[0]?.url || "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp";
@@ -82,9 +85,58 @@ export default function ServicioBiopiscinas() {
           <p className="text-lg md:text-2xl mb-8 max-w-3xl">
             <T>Cuatro horas de experiencia natural a 37º-40º: una alternativa a las termas cerca de Frutillar y Puerto Varas, sin cloro y con vista al Lago Llanquihue</T>
           </p>
-          <Button id="reservar" type="button" onClick={openCart} size="lg" className="font-cg-mono tracking-wider text-lg px-8 py-6">
+          <Button id="reservar" type="button" onClick={() => openCart()} size="lg" className="font-cg-mono tracking-wider text-lg px-8 py-6">
             <T>Reservar Ahora</T>
           </Button>
+        </div>
+      </section>
+
+      {/* Modalidades */}
+      <section className="border-b border-[#D7D4D1] bg-[#F8F6F1] py-16 md:py-20">
+        <div className="container">
+          <div className="mx-auto max-w-5xl text-center">
+            <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#4B5872]">
+              <T>Elige tu ritmo</T>
+            </p>
+            <h2 className="mt-3 font-cg-serif text-3xl font-light text-[#222221] md:text-5xl">
+              <T>Una experiencia, dos formas de vivirla</T>
+            </h2>
+            <p className="mx-auto mt-5 max-w-3xl font-cg-soft text-lg leading-relaxed text-[#635E5A]">
+              <T>Puedes elegir una estadía de 4 horas o un Full Day de 8 horas. En verano, disfruta de la playa a orillas del Lago Llanquihue; en invierno, aprovecha los beneficios del bosque esclerófilo que rodea Cancagua.</T>
+            </p>
+          </div>
+
+          <div className="mx-auto mt-10 grid max-w-4xl gap-5 md:grid-cols-2">
+            <article className="flex flex-col rounded-3xl border border-[#D7D4D1] bg-white p-7 shadow-sm">
+              <p className="font-cg-mono text-xs uppercase tracking-[0.16em] text-[#4B5872]">
+                <T>Estadía de 4 horas</T>
+              </p>
+              <h3 className="mt-3 font-cg-serif text-3xl text-[#222221]">
+                <T>Biopiscinas</T>
+              </h3>
+              <p className="mt-3 flex-1 font-cg-soft leading-relaxed text-[#635E5A]">
+                <T>Una pausa de medio día para disfrutar las aguas geotermales, la cafetería y el entorno natural.</T>
+              </p>
+              <Button type="button" onClick={() => openCart("biopiscinas-geotermales")} className="mt-7 rounded-full bg-[#4B5872] font-cg-mono uppercase tracking-[0.12em] hover:bg-[#333D51]">
+                <T>Elegir 4 horas</T>
+              </Button>
+            </article>
+
+            <article className="flex flex-col rounded-3xl border border-[#4B5872] bg-[#4B5872] p-7 text-white shadow-sm">
+              <p className="font-cg-mono text-xs uppercase tracking-[0.16em] text-white/75">
+                <T>Estadía de 8 horas</T>
+              </p>
+              <h3 className="mt-3 font-cg-serif text-3xl">
+                <T>Full Day Biopiscinas</T>
+              </h3>
+              <p className="mt-3 flex-1 font-cg-soft leading-relaxed text-white/80">
+                <T>Un día completo para vivir Cancagua sin apuros y conectar con cada estación del paisaje.</T>
+              </p>
+              <Button type="button" disabled={!fullDayCatalog} onClick={() => openCart("full-day-biopiscinas")} className="mt-7 rounded-full bg-white font-cg-mono uppercase tracking-[0.12em] text-[#333D51] hover:bg-[#F4F2ED]">
+                <T>Elegir Full Day</T>
+              </Button>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -239,7 +291,7 @@ export default function ServicioBiopiscinas() {
             <T>Reserva tu entrada y descubre por qué somos las primeras biopiscinas geotermales del mundo</T>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button type="button" onClick={openCart} size="lg" variant="secondary" className="font-cg-mono tracking-wider text-lg px-8">
+            <Button type="button" onClick={() => openCart()} size="lg" variant="secondary" className="font-cg-mono tracking-wider text-lg px-8">
               <T>Reservar Ahora</T>
             </Button>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
