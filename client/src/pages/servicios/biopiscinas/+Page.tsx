@@ -34,7 +34,9 @@ export default function ServicioBiopiscinas() {
     setCartOpen(true);
   };
   const heroImage = catalog?.images?.[0]?.url || "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp";
-  const serviceName = catalog?.service?.name || "Biopiscinas Geotermales";
+  const serviceName = (catalog?.service?.name || "Biopiscinas Geotermales")
+    .replace(/\s*\(\s*estad[ií]a de 4 horas\s*\)\s*/i, "")
+    .trim();
   const beneficios = [
     "Relajación muscular profunda",
     "Mejora la circulación sanguínea",

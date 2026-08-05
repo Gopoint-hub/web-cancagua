@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Clock, Users, Waves, MessageCircle } from "lucide-react";
 import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
+import { BIOPOOLS_BOOKING_PATH } from "@/lib/bookingLinks";
 
-const BOOKING_URL = "https://reservas.cancagua.cl/cancaguaspa/s/3daa00ec-4c8d-41d5-995a-79ad4cbd8380";
 const WHATSAPP_URL = "https://wa.me/56940073999?text=Hola,%20quiero%20consultar%20sobre%20las%20Biopiscinas%20Geotermales";
 const PHONE_NUMBER = "+56 9 4007 3999";
 
@@ -60,7 +60,7 @@ export default function ServicioBiopiscinas() {
               <p className="text-lg md:text-2xl mb-8 max-w-3xl">
                 <T>Cuatro horas de una maravillosa experiencia a 37º-40º en las primeras biopiscinas geotermales del mundo</T>
               </p>
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              <a href={BIOPOOLS_BOOKING_PATH}>
                 <Button size="lg" className="text-lg px-8 py-6">
                   <T>Reservar Ahora</T>
                 </Button>
@@ -210,7 +210,7 @@ export default function ServicioBiopiscinas() {
                 <T>Reserva tu entrada y descubre por qué somos las primeras biopiscinas geotermales del mundo</T>
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                <a href={BIOPOOLS_BOOKING_PATH}>
                   <Button size="lg" variant="secondary" className="text-lg px-8">
                     <T>Reservar Ahora</T>
                   </Button>

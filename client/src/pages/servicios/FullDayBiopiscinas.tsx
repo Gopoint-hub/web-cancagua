@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Clock, Users, Waves, Leaf, Shirt, Coffee } from "lucide-react";
+import { BIOPOOLS_FULL_DAY_BOOKING_PATH } from "@/lib/bookingLinks";
 import { Navbar } from "@/components/Navbar";
 
 export default function FullDayBiopiscinas() {
@@ -29,9 +30,7 @@ export default function FullDayBiopiscinas() {
             Estadía de 8 horas aproximadamente
           </p>
           <a 
-            href="https://reservas.cancagua.cl/cancaguaspa/s/efd93bde-d6f9-45cd-8588-dda2658cb5fe" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href={BIOPOOLS_FULL_DAY_BOOKING_PATH}
           >
             <Button 
               size="lg" 
@@ -267,9 +266,7 @@ export default function FullDayBiopiscinas() {
             Un espacio donde la naturaleza y comodidad se encuentran
           </p>
           <a 
-            href="https://reservas.cancagua.cl/cancaguaspa/s/efd93bde-d6f9-45cd-8588-dda2658cb5fe" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href={BIOPOOLS_FULL_DAY_BOOKING_PATH}
           >
             <Button 
               size="lg" 

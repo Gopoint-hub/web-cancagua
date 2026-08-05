@@ -143,7 +143,7 @@ export default function NotFound() {
                   </p>
                 </div>
               </div>
-              <Link href="/servicios/biopiscinas">
+              <Link href="/servicios/biopiscinas#reservar">
                 <Button variant="secondary" size="lg" className="gap-2">
                   Reservar ahora
                   <ArrowRight className="w-5 h-5" />

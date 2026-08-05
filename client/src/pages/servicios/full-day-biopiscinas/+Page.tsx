@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Check, Clock, Users, Waves, Leaf, Shirt, Coffee } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import type { BiopoolCatalogResponse } from "@/components/BiopoolCart";
+import { BIOPOOLS_FULL_DAY_BOOKING_PATH } from "@/lib/bookingLinks";
 
 export default function Page() {
   const catalogQuery = trpc.biopools.public.catalog.useQuery(undefined, {
@@ -37,7 +38,7 @@ export default function Page() {
             Estadía de 8 horas aproximadamente
           </p>
           <a 
-            href="/servicios/biopiscinas?modalidad=full-day#reservar"
+            href={BIOPOOLS_FULL_DAY_BOOKING_PATH}
           >
             <Button 
               size="lg" 
@@ -279,7 +280,7 @@ export default function Page() {
             Un espacio donde la naturaleza y comodidad se encuentran
           </p>
           <a 
-            href="/servicios/biopiscinas?modalidad=full-day#reservar"
+            href={BIOPOOLS_FULL_DAY_BOOKING_PATH}
           >
             <Button 
               size="lg" 

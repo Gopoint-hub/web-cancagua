@@ -45,7 +45,7 @@ Las **primeras biopiscinas geotermales del mundo**: agua entre 37° y 40°, sin 
 - **4 adultos + 2 niños** — **$142.000**
 - **4 adultos + 3 niños** — **$173.000**
 
-[Reservar experiencia con Biopiscinas](https://reservas.cancagua.cl/cancaguaspa/s/52ac62ba-1fc2-4c81-8daf-9d3b55c3e7a3)
+[Reservar experiencia con Biopiscinas](/servicios/biopiscinas#reservar)
 
 ## ¿Cuál de las dos me conviene?
 

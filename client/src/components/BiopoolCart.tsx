@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { CalendarDays, Check, Clock, Minus, Plus, ShieldCheck, ShoppingBag, Waves, X } from "lucide-react";
+import { CalendarDays, Check, ChevronLeft, ChevronRight, Clock, Minus, Plus, ShieldCheck, ShoppingBag, Waves, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
@@ -25,6 +25,29 @@ export interface BiopoolCatalogResponse extends BiopoolCatalog {
 
 const formatPrice = (value: number) => new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", maximumFractionDigits: 0 }).format(value);
 const chileToday = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
+const currentMonth = () => chileToday().slice(0, 7);
+
+function shiftMonth(month: string, amount: number): string {
+  const [year, monthNumber] = month.split("-").map(Number);
+  const shifted = new Date(Date.UTC(year, monthNumber - 1 + amount, 1));
+  return `${shifted.getUTCFullYear()}-${String(shifted.getUTCMonth() + 1).padStart(2, "0")}`;
+}
+
+function monthCells(month: string): Array<string | null> {
+  const [year, monthNumber] = month.split("-").map(Number);
+  const firstDay = new Date(Date.UTC(year, monthNumber - 1, 1));
+  const leadingEmptyCells = (firstDay.getUTCDay() + 6) % 7;
+  const totalDays = new Date(Date.UTC(year, monthNumber, 0)).getUTCDate();
+  return [
+    ...Array.from({ length: leadingEmptyCells }, () => null),
+    ...Array.from({ length: totalDays }, (_, index) => `${month}-${String(index + 1).padStart(2, "0")}`),
+  ];
+}
+
+function monthLabel(month: string): string {
+  return new Intl.DateTimeFormat("es-CL", { month: "long", year: "numeric", timeZone: "UTC" })
+    .format(new Date(`${month}-01T12:00:00Z`));
+}
 
 function Quantity({ value, min, max, onChange }: { value: number; min: number; max: number; onChange: (value: number) => void }) {
   return <div className="flex items-center rounded-full border border-[#BCBAB8] bg-white">
@@ -42,7 +65,8 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
   const childTicket = catalog.tickets.find(ticket => ticket.code === "child");
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
-  const [date, setDate] = useState(chileToday());
+  const [calendarMonth, setCalendarMonth] = useState(currentMonth());
+  const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [customer, setCustomer] = useState({ name: "", email: "", phone: "+56" });
   const [accepted, setAccepted] = useState(false);
@@ -62,15 +86,33 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
     }
   }, [catalogs, initialServiceSlug]);
   useEffect(() => {
+    setCalendarMonth(currentMonth());
+    setDate("");
     setStartTime("");
     setDiscount(null);
     setDiscountError("");
   }, [catalog.service.id]);
+  const availableDates = trpc.biopools.public.availableDates.useQuery(
+    { serviceId: catalog.service.id, month: calendarMonth, guestCount: totalGuests },
+    { enabled: open, refetchInterval: 30_000 }
+  );
+  const availableDateSet = useMemo(
+    () => new Set((availableDates.data?.dates ?? []) as string[]),
+    [availableDates.data]
+  );
+  const calendarDays = useMemo(() => monthCells(calendarMonth), [calendarMonth]);
+  useEffect(() => {
+    if (!availableDates.isSuccess) return;
+    const dates = (availableDates.data?.dates ?? []) as string[];
+    if (date && date.startsWith(calendarMonth) && dates.includes(date)) return;
+    setDate(dates[0] ?? "");
+    setStartTime("");
+  }, [availableDates.data, availableDates.isSuccess, calendarMonth, date]);
   const availability = trpc.biopools.public.availability.useQuery(
-    { serviceId: catalog.service.id, date },
+    { serviceId: catalog.service.id, date, guestCount: totalGuests },
     { enabled: open && Boolean(date), refetchInterval: 30_000 }
   );
-  const slots = useMemo(() => ((availability.data?.slots ?? []) as Array<{ startTime: string; endTime: string; availableSeats: number }>).filter(slot => slot.availableSeats >= totalGuests), [availability.data, totalGuests]);
+  const slots = useMemo(() => (availability.data?.slots ?? []) as Array<{ startTime: string; endTime: string }>, [availability.data]);
   useEffect(() => {
     if (!slots.some(slot => slot.startTime === startTime)) setStartTime(slots[0]?.startTime ?? "");
   }, [slots, startTime]);
@@ -123,6 +165,14 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
     });
   };
 
+  const changeMonth = (amount: number) => {
+    const nextMonth = shiftMonth(calendarMonth, amount);
+    if (nextMonth < currentMonth()) return;
+    setCalendarMonth(nextMonth);
+    setDate("");
+    setStartTime("");
+  };
+
   return <>
     {!open && <button type="button" onClick={onOpen} className="fixed right-5 top-28 z-40 flex items-center gap-3 rounded-full bg-[#333D51] px-5 py-3 font-cg-mono text-xs uppercase tracking-[0.12em] text-white shadow-xl"><ShoppingBag className="h-4 w-4" />Reservar Biopiscinas</button>}
     <button type="button" aria-label="Cerrar carrito" onClick={onClose} className={`fixed inset-0 z-[70] bg-black/45 backdrop-blur-[2px] transition-opacity ${open ? "opacity-100" : "pointer-events-none opacity-0"}`} />
@@ -133,10 +183,20 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
           {catalogs.length > 1 && <section className="rounded-2xl border border-[#D7D4D1] bg-white p-5"><h3 className="font-cg-serif text-xl">Elige tu experiencia</h3><div className="mt-4 grid grid-cols-2 gap-3">{catalogs.map(item => { const duration = (item.service.standardDurationMinutes ?? 240) / 60; const adult = item.tickets.find(ticket => ticket.code === "adult"); const selected = item.service.id === catalog.service.id; const label = item.service.slug === "full-day-biopiscinas" ? "Full Day" : item.service.slug === "biopiscinas-geotermales" ? "Biopiscinas" : item.service.name; return <button type="button" key={item.service.id} onClick={() => setSelectedServiceId(item.service.id)} className={`rounded-2xl border p-4 text-left transition ${selected ? "border-[#4B5872] bg-[#4B5872] text-white" : "border-[#D7D4D1] bg-[#F8F6F1] text-[#222221]"}`}><span className="block font-cg-serif text-lg">{label}</span><span className="mt-1 block font-cg-soft text-xs opacity-75">{Number.isInteger(duration) ? duration : duration.toFixed(1)} horas</span><span className="mt-2 block font-cg-mono text-sm">Desde {formatPrice(adult?.priceClp ?? 0)}</span></button>; })}</div></section>}
           <section className="rounded-2xl border border-[#D7D4D1] bg-white p-5"><h3 className="flex items-center gap-2 font-cg-serif text-xl"><Waves className="h-5 w-5 text-[#4B5872]" />Entradas</h3>
             <div className="mt-4 flex items-center justify-between gap-4"><div><p className="font-cg-soft font-medium">{adultTicket?.name || "Adulto"}</p><p className="font-cg-soft text-sm text-[#635E5A]">Desde {adultTicket?.minimumAge ?? 13} años · {formatPrice(adultTicket?.priceClp ?? 0)}</p></div><Quantity value={adults} min={1} max={Math.max(1, maxGuests - children)} onChange={setAdults} /></div>
-            <div className="mt-4 flex items-center justify-between gap-4 border-t pt-4"><div><p className="font-cg-soft font-medium">{childTicket?.name || "Niño"}</p><p className="font-cg-soft text-sm text-[#635E5A]">{childTicket?.minimumAge ?? 5} a {childTicket?.maximumAge ?? 12} años · siempre con un adulto</p></div><Quantity value={children} min={0} max={Math.max(0, maxGuests - adults)} onChange={setChildren} /></div>
+            <div className="mt-4 flex items-center justify-between gap-4 border-t pt-4"><div><p className="font-cg-soft font-medium">{childTicket?.name || "Niño"}</p><p className="font-cg-soft text-sm text-[#635E5A]">{childTicket?.minimumAge ?? 5} a {childTicket?.maximumAge ?? 12} años · {formatPrice(childTicket?.priceClp ?? 0)} · siempre con un adulto</p></div><Quantity value={children} min={0} max={Math.max(0, maxGuests - adults)} onChange={setChildren} /></div>
           </section>
-          <section className="rounded-2xl border border-[#D7D4D1] bg-white p-5"><h3 className="flex items-center gap-2 font-cg-serif text-xl"><CalendarDays className="h-5 w-5 text-[#4B5872]" />Fecha y hora</h3><label className="mt-4 block font-cg-soft text-sm text-[#635E5A]">Fecha de visita<input type="date" required min={chileToday()} value={date} onChange={event => setDate(event.target.value)} className="mt-1 block w-full rounded-xl border border-[#BCBAB8] px-4 py-3 text-[#222221]" /></label>
-            {availability.isLoading ? <p className="mt-4 font-cg-soft text-sm text-[#635E5A]">Consultando cupos…</p> : slots.length ? <div className="mt-4 grid grid-cols-2 gap-2">{slots.map(slot => <button type="button" key={slot.startTime} onClick={() => setStartTime(slot.startTime)} className={`rounded-xl border p-3 text-left ${startTime === slot.startTime ? "border-[#4B5872] bg-[#4B5872] text-white" : "border-[#D7D4D1]"}`}><span className="flex items-center gap-2 font-cg-mono text-sm"><Clock className="h-4 w-4" />{slot.startTime}</span><span className="mt-1 block font-cg-soft text-xs opacity-75">hasta {slot.endTime} · {slot.availableSeats} cupos</span></button>)}</div> : <p className="mt-4 rounded-xl bg-amber-50 p-3 font-cg-soft text-sm text-amber-800">No hay horarios disponibles para esta cantidad de personas.</p>}
+          <section className="rounded-2xl border border-[#D7D4D1] bg-white p-5"><h3 className="flex items-center gap-2 font-cg-serif text-xl"><CalendarDays className="h-5 w-5 text-[#4B5872]" />Fecha y hora</h3>
+            <div className="mt-4 rounded-2xl border border-[#D7D4D1] bg-[#F8F6F1] p-3">
+              <div className="flex items-center justify-between px-1 pb-3">
+                <button type="button" aria-label="Mes anterior" disabled={calendarMonth <= currentMonth()} onClick={() => changeMonth(-1)} className="rounded-full p-2 text-[#4B5872] disabled:invisible"><ChevronLeft className="h-4 w-4" /></button>
+                <p className="font-cg-soft text-sm font-semibold capitalize text-[#222221]">{monthLabel(calendarMonth)}</p>
+                <button type="button" aria-label="Mes siguiente" onClick={() => changeMonth(1)} className="rounded-full p-2 text-[#4B5872]"><ChevronRight className="h-4 w-4" /></button>
+              </div>
+              <div className="grid grid-cols-7 gap-1 text-center font-cg-mono text-[10px] uppercase text-[#827D78]">{["Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Do"].map(day => <span key={day} className="py-1">{day}</span>)}</div>
+              <div className="mt-1 grid grid-cols-7 gap-1">{calendarDays.map((calendarDate, index) => calendarDate ? <button type="button" key={calendarDate} disabled={!availableDateSet.has(calendarDate)} onClick={() => { setDate(calendarDate); setStartTime(""); }} aria-label={`Seleccionar ${calendarDate}`} className={`aspect-square rounded-full font-cg-soft text-sm transition ${date === calendarDate ? "bg-[#4B5872] font-semibold text-white" : availableDateSet.has(calendarDate) ? "bg-white text-[#222221] shadow-sm hover:bg-[#E4E8EF]" : "cursor-not-allowed text-[#BCBAB8]"}`}>{Number(calendarDate.slice(-2))}</button> : <span key={`empty-${index}`} />)}</div>
+              <p className="mt-3 text-center font-cg-soft text-xs text-[#827D78]">Elige uno de los días disponibles.</p>
+            </div>
+            {availableDates.isLoading ? <p className="mt-4 font-cg-soft text-sm text-[#635E5A]">Consultando fechas disponibles…</p> : !date ? <p className="mt-4 rounded-xl bg-amber-50 p-3 font-cg-soft text-sm text-amber-800">No hay fechas disponibles en este mes para la cantidad de personas seleccionada.</p> : availability.isLoading ? <p className="mt-4 font-cg-soft text-sm text-[#635E5A]">Consultando horarios…</p> : slots.length ? <div className="mt-4 grid grid-cols-2 gap-2">{slots.map(slot => <button type="button" key={slot.startTime} onClick={() => setStartTime(slot.startTime)} className={`rounded-xl border p-3 text-left ${startTime === slot.startTime ? "border-[#4B5872] bg-[#4B5872] text-white" : "border-[#D7D4D1]"}`}><span className="flex items-center gap-2 font-cg-mono text-sm"><Clock className="h-4 w-4" />{slot.startTime}</span><span className="mt-1 block font-cg-soft text-xs opacity-75">hasta {slot.endTime}</span></button>)}</div> : <p className="mt-4 rounded-xl bg-amber-50 p-3 font-cg-soft text-sm text-amber-800">No hay horarios disponibles para esta cantidad de personas.</p>}
           </section>
           <section className="rounded-2xl border border-[#D7D4D1] bg-white p-5"><h3 className="font-cg-serif text-xl">Datos de quien reserva</h3><div className="mt-4 space-y-3"><input required minLength={2} placeholder="Nombre completo" value={customer.name} onChange={event => setCustomer({ ...customer, name: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required type="email" placeholder="Correo" value={customer.email} onChange={event => setCustomer({ ...customer, email: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required minLength={8} type="tel" placeholder="WhatsApp" value={customer.phone} onChange={event => setCustomer({ ...customer, phone: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /></div></section>
           <section className="rounded-2xl bg-[#E7EBE3] p-4"><ul className="space-y-2 font-cg-soft text-sm text-[#4D5148]"><li className="flex gap-2"><Check className="h-4 w-4 text-[#44580E]" />Estadía de {Number.isInteger(standardHours) ? standardHours : standardHours.toFixed(1)} horas según el horario elegido.</li><li className="flex gap-2"><Check className="h-4 w-4 text-[#44580E]" />Bata o toalla, gorra de nado y locker.</li><li className="flex gap-2"><ShieldCheck className="h-4 w-4 text-[#44580E]" />Pago seguro mediante Transbank Webpay Plus.</li></ul></section>
@@ -146,7 +206,7 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
           {showDiscount && <div className="mb-4"><div className="flex gap-2"><input value={discountCode} onChange={event => { setDiscountCode(event.target.value.toUpperCase()); setDiscount(null); setDiscountError(""); }} placeholder="Ingresa tu código" className="min-w-0 flex-1 rounded-full border border-[#BCBAB8] px-4 py-2 font-cg-mono text-sm uppercase" /><Button type="button" variant="outline" className="rounded-full" disabled={!discountCode.trim() || validateDiscount.isPending} onClick={applyDiscount}>{validateDiscount.isPending ? "Validando…" : "Aplicar"}</Button></div>{discountError && <p className="mt-2 text-sm text-red-700">{discountError}</p>}{discount && <p className="mt-2 text-sm text-green-700">Código {discount.code} aplicado.</p>}</div>}
           <div className="flex items-end justify-between"><span className="font-cg-soft text-sm text-[#635E5A]">{totalGuests} entrada{totalGuests === 1 ? "" : "s"}</span><span className={discount ? "font-cg-mono text-sm text-[#827D78] line-through" : "font-cg-serif text-2xl"}>{formatPrice(subtotal)}</span></div>{discount && <><div className="mt-1 flex justify-between text-sm text-green-700"><span>Descuento</span><span>−{formatPrice(discount.discountTotal)}</span></div><div className="mt-2 flex justify-between border-t pt-2"><span>Total</span><span className="font-cg-serif text-2xl">{formatPrice(total)}</span></div></>}
           <label className="mt-4 flex items-start gap-3 font-cg-soft text-xs leading-relaxed text-[#635E5A]"><input type="checkbox" checked={accepted} onChange={event => setAccepted(event.target.checked)} className="mt-0.5" /><span>Acepto las <a href={catalog.service.rulesUrl || "#"} target="_blank" rel="noreferrer" className="underline">condiciones y el reglamento</a>. Los niños deben asistir acompañados por un adulto.</span></label>
-          <Button type="submit" disabled={!startTime || startPayment.isPending} className="mt-4 h-12 w-full rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] hover:bg-[#333D51]">{startPayment.isPending ? "Conectando con Transbank…" : `Pagar ${formatPrice(total)}`}</Button><p className="mt-2 text-center font-cg-soft text-xs text-[#827D78]">Los cupos se reservan por 30 minutos mientras completas el pago.</p>
+          <Button type="submit" disabled={!startTime || startPayment.isPending} className="mt-4 h-12 w-full rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] hover:bg-[#333D51]">{startPayment.isPending ? "Conectando con Transbank…" : `Pagar ${formatPrice(total)}`}</Button><p className="mt-2 text-center font-cg-soft text-xs text-[#827D78]">Tu horario se mantendrá reservado por 30 minutos mientras completas el pago.</p>
         </div>
       </form>
     </aside>

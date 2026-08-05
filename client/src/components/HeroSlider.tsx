@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { BIOPOOLS_BOOKING_PATH } from "@/lib/bookingLinks";
 
 interface Slide {
   image: string;
@@ -34,7 +35,7 @@ export function HeroSlider() {
       bookingCtas: [
         {
           labelKey: "hero.promoAgosto.ctaBiopiscinas",
-          link: "https://reservas.cancagua.cl/cancaguaspa/s/52ac62ba-1fc2-4c81-8daf-9d3b55c3e7a3",
+          link: BIOPOOLS_BOOKING_PATH,
         },
         {
           labelKey: "hero.promoAgosto.ctaHotTub",
@@ -47,7 +48,7 @@ export function HeroSlider() {
       titleKey: "hero.biopiscinas.title",
       subtitleKey: "hero.biopiscinas.subtitle",
       ctaKey: "hero.biopiscinas.cta1",
-      ctaLink: "/servicios/biopiscinas",
+      ctaLink: BIOPOOLS_BOOKING_PATH,
     },
     {
       image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309079/cancagua/images/11_hottub-service.webp",
@@ -202,8 +203,8 @@ export function HeroSlider() {
                 <a
                   key={cta.link}
                   href={cta.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={cta.link.startsWith("http") ? "_blank" : undefined}
+                  rel={cta.link.startsWith("http") ? "noopener noreferrer" : undefined}
                   className="text-xs sm:text-sm px-6 py-3 md:px-8 md:py-5 bg-transparent backdrop-blur-sm border border-white/60 text-white hover:bg-white hover:text-[#222221] tracking-widest uppercase cursor-pointer font-medium transition-colors w-full sm:w-auto"
                 >
                   {t(cta.labelKey)}
