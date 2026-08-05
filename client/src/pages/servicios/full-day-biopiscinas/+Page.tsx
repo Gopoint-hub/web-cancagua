@@ -1,8 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Clock, Users, Waves, Leaf, Shirt, Coffee } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+import type { BiopoolCatalogResponse } from "@/components/BiopoolCart";
 
 export default function Page() {
+  const catalogQuery = trpc.biopools.public.catalog.useQuery(undefined, {
+    staleTime: 60_000,
+    refetchInterval: 60_000,
+    retry: 2,
+  });
+  const response = catalogQuery.data as BiopoolCatalogResponse | undefined;
+  const fullDay = response?.services?.find(item => item.service.slug === "full-day-biopiscinas");
+  const heroImage = fullDay?.images?.[0]?.url || "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp";
   return (
     <div className="min-h-screen bg-[#F4F2ED]">
       {/* Hero Section */}
@@ -10,7 +20,7 @@ export default function Page() {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp')",
+            backgroundImage: `url('${heroImage}')`,
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
@@ -18,7 +28,7 @@ export default function Page() {
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 className="font-cg-serif text-5xl md:text-7xl font-light mb-6 tracking-wide">
-            Full Day Biopiscinas + Playa
+            {fullDay?.service.name || "Full Day Biopiscinas + Playa"}
           </h1>
           <p className="font-cg-sans text-xl md:text-2xl mb-4 text-white/90">
             ¡Descubre una experiencia única a orillas del Lago Llanquihue!
@@ -27,9 +37,7 @@ export default function Page() {
             Estadía de 8 horas aproximadamente
           </p>
           <a 
-            href="https://reservas.cancagua.cl/cancaguaspa/s/efd93bde-d6f9-45cd-8588-dda2658cb5fe" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href="/servicios/biopiscinas?modalidad=full-day#reservar"
           >
             <Button 
               size="lg" 
@@ -49,6 +57,11 @@ export default function Page() {
           </h2>
           
           <div className="bg-white rounded-lg shadow-lg p-8 md:p-12 mb-8">
+            {fullDay?.service.description ? (
+              <div className="whitespace-pre-line font-cg-sans text-lg leading-relaxed text-[#222221]/80">
+                {fullDay.service.description}
+              </div>
+            ) : (<>
             <div className="flex items-start gap-4 mb-6">
               <div className="w-12 h-12 bg-[#4B5872]/20 rounded-full flex items-center justify-center flex-shrink-0">
                 <Leaf className="w-6 h-6 text-[#4B5872]" />
@@ -66,6 +79,7 @@ export default function Page() {
               paisajes espectaculares. Además, contamos con baños, ducha y camarín completamente 
               equipados para garantizar tu comodidad.
             </p>
+            </>)}
           </div>
 
           <div className="text-center">
@@ -265,9 +279,7 @@ export default function Page() {
             Un espacio donde la naturaleza y comodidad se encuentran
           </p>
           <a 
-            href="https://reservas.cancagua.cl/cancaguaspa/s/efd93bde-d6f9-45cd-8588-dda2658cb5fe" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href="/servicios/biopiscinas?modalidad=full-day#reservar"
           >
             <Button 
               size="lg" 

@@ -1,13 +1,40 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Clock, Users, Waves, MessageCircle } from "lucide-react";
 import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
+import { BiopoolCart, type BiopoolCatalog, type BiopoolCatalogResponse } from "@/components/BiopoolCart";
+import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 
-const BOOKING_URL = "https://reservas.cancagua.cl/cancaguaspa/s/3daa00ec-4c8d-41d5-995a-79ad4cbd8380";
 const WHATSAPP_URL = "https://wa.me/56940073999?text=Hola,%20quiero%20consultar%20sobre%20las%20Biopiscinas%20Geotermales";
 const PHONE_NUMBER = "+56 9 4007 3999";
 
 export default function ServicioBiopiscinas() {
+  const [cartOpen, setCartOpen] = useState(false);
+  const [requestedServiceSlug, setRequestedServiceSlug] = useState("biopiscinas-geotermales");
+  const catalogQuery = trpc.biopools.public.catalog.useQuery(undefined, {
+    staleTime: 60_000,
+    refetchInterval: 60_000,
+    retry: 2,
+  });
+  const catalogResponse = catalogQuery.data as BiopoolCatalogResponse | undefined;
+  const catalog = catalogResponse as BiopoolCatalog | undefined;
+  const catalogs = catalogResponse?.services?.length ? catalogResponse.services : catalog ? [catalog] : [];
+  useEffect(() => {
+    const isFullDay = new URLSearchParams(window.location.search).get("modalidad") === "full-day";
+    setRequestedServiceSlug(isFullDay ? "full-day-biopiscinas" : "biopiscinas-geotermales");
+    if (catalog && window.location.hash === "#reservar") setCartOpen(true);
+  }, [catalog]);
+  const openCart = () => {
+    if (!catalog) {
+      toast.error(catalogQuery.isLoading ? "Estamos cargando horarios y precios…" : "La venta de Biopiscinas no está disponible en este momento");
+      return;
+    }
+    setCartOpen(true);
+  };
+  const heroImage = catalog?.images?.[0]?.url || "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp";
+  const serviceName = catalog?.service?.name || "Biopiscinas Geotermales";
   const beneficios = [
     "Relajación muscular profunda",
     "Mejora la circulación sanguínea",
@@ -40,7 +67,7 @@ export default function ServicioBiopiscinas() {
       <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url(https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp)" }}
+          style={{ backgroundImage: `url(${heroImage})` }}
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
@@ -48,16 +75,14 @@ export default function ServicioBiopiscinas() {
             <T>Primeras del Mundo</T>
           </div>
           <h1 className="font-cg-serif mb-4 text-4xl font-light tracking-[-0.02em] md:text-6xl lg:text-7xl">
-            <T>Biopiscinas Geotermales</T>
+            {serviceName}
           </h1>
           <p className="text-lg md:text-2xl mb-8 max-w-3xl">
             <T>Cuatro horas de experiencia natural a 37º-40º: una alternativa a las termas cerca de Frutillar y Puerto Varas, sin cloro y con vista al Lago Llanquihue</T>
           </p>
-          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-            <Button size="lg" className="font-cg-mono tracking-wider text-lg px-8 py-6">
-              <T>Reservar Ahora</T>
-            </Button>
-          </a>
+          <Button id="reservar" type="button" onClick={openCart} size="lg" className="font-cg-mono tracking-wider text-lg px-8 py-6">
+            <T>Reservar Ahora</T>
+          </Button>
         </div>
       </section>
 
@@ -68,6 +93,11 @@ export default function ServicioBiopiscinas() {
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">
               <T>Una Experiencia Única en el Mundo</T>
             </h2>
+            {catalog?.service.description ? (
+              <div className="prose prose-lg max-w-none whitespace-pre-line text-lg leading-relaxed text-muted-foreground">
+                {catalog.service.description}
+              </div>
+            ) : (
             <div className="prose prose-lg max-w-none text-muted-foreground">
               <p className="text-lg leading-relaxed mb-4">
                 <T>Las biopiscinas de Cancagua son las primeras en su tipo a nivel mundial. Combinan la tecnología de purificación natural del agua con el calor geotérmico, creando un ecosistema acuático vivo que se mantiene entre 37º y 40º durante todo el año.</T>
@@ -82,6 +112,7 @@ export default function ServicioBiopiscinas() {
                 <T>Para quienes buscan termas cerca de Frutillar, Cancagua propone una experiencia distinta: biopiscinas naturales sin cloro, temperatura confortable todo el año y cupos controlados para mantener un ambiente tranquilo.</T>
               </p>
             </div>
+            )}
           </div>
         </div>
       </section>
@@ -206,11 +237,9 @@ export default function ServicioBiopiscinas() {
             <T>Reserva tu entrada y descubre por qué somos las primeras biopiscinas geotermales del mundo</T>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" variant="secondary" className="font-cg-mono tracking-wider text-lg px-8">
-                <T>Reservar Ahora</T>
-              </Button>
-            </a>
+            <Button type="button" onClick={openCart} size="lg" variant="secondary" className="font-cg-mono tracking-wider text-lg px-8">
+              <T>Reservar Ahora</T>
+            </Button>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
               <Button
                 size="lg"
@@ -227,6 +256,7 @@ export default function ServicioBiopiscinas() {
           </p>
         </div>
       </section>
+      {catalog && <BiopoolCart catalogs={catalogs} initialServiceSlug={requestedServiceSlug} open={cartOpen} onOpen={() => setCartOpen(true)} onClose={() => setCartOpen(false)} />}
     </AutoTranslateProvider>
   );
 }
