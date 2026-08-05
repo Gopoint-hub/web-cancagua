@@ -198,8 +198,12 @@ export default function Page() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Te Esperamos
             </h2>
-            <p className="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg opacity-90 mb-4 max-w-2xl mx-auto">
               Ven a disfrutar de un momento de paz con comida nutritiva y las mejores vistas del sur de Chile
+            </p>
+            <p className="text-base opacity-90 mb-8 max-w-2xl mx-auto">
+              <strong>Puedes venir solo a la cafetería</strong>, sin pagar entrada ni tomar
+              ningún otro servicio. Te recomendamos reservar mesa por si ese día hay algún grupo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -214,6 +218,8 @@ export default function Page() {
             </div>
             <p className="mt-6 text-sm opacity-75">
               Martes a Domingo · 09:30 a 21:30
+              <br />
+              Temporada: del 15 de marzo al 15 de diciembre
             </p>
           </div>
         </section>
