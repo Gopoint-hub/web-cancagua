@@ -16,11 +16,11 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const subscribeMutation = trpc.subscribers.subscribe.useMutation({
-    onSuccess: (data: any) => {
+    onSuccess: () => {
       setIsSubscribed(true);
       setEmail("");
       setName("");
-      toast.success(data?.state === "active" ? "Este correo ya está confirmado" : "Revisa tu correo para confirmar la suscripción");
+      toast.success("¡Te has suscrito exitosamente!");
     },
     onError: (error) => {
       if (error.message.includes("already subscribed") || error.message.includes("ya está suscrito")) {
@@ -60,10 +60,10 @@ export function NewsletterForm({ variant = "default", className = "" }: Newslett
           </div>
           <div>
             <h3 className={`text-xl font-light tracking-wide mb-2 ${variant === "dark" ? "text-[#222221]" : "text-[#222221]"}`}>
-              ¡Revisa tu correo!
+              ¡Gracias por suscribirte!
             </h3>
             <p className={`${variant === "dark" ? "text-[#222221]/70" : "text-[#827D78]"}`}>
-              Enviamos un enlace de confirmación. Solo después de confirmarlo recibirás nuestras novedades.
+              Pronto recibirás nuestras novedades en tu correo
             </p>
           </div>
           <Button
