@@ -171,7 +171,7 @@ export default function ServicioBiopiscinas() {
           </div>
           <div className="relative">
             <div className="absolute -left-5 -top-5 h-24 w-24 rounded-full bg-[#D3BC8D]/30 md:-left-9 md:-top-9 md:h-36 md:w-36" />
-            <img src={UNIQUE_IMAGE} alt="Visitante recorriendo las biopiscinas frente al Lago Llanquihue" className="relative mx-auto aspect-[3/4] max-h-[760px] w-full rounded-[2rem] object-cover" />
+            <img src={UNIQUE_IMAGE} alt="Visitante recorriendo las biopiscinas frente al Lago Llanquihue" className="relative mx-auto aspect-[3/4] max-h-[760px] w-full rounded-[2rem] object-cover object-top" />
           </div>
         </div>
       </section>
