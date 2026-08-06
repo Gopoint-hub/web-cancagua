@@ -19,9 +19,11 @@ import { toast } from "sonner";
 const WHATSAPP_URL = "https://wa.me/56940073999?text=Hola,%20quiero%20consultar%20sobre%20las%20Biopiscinas%20Geotermales";
 const PHONE_NUMBER = "+56 9 4007 3999";
 
-const FOUR_HOURS_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_1400/v1779721207/newsletter-images/newsletter-images/newsletter-body-1779721201253-amigas%20en%20biopiscinas.jpg";
-const FULL_DAY_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_1400/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp";
-const PEOPLE_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_1600/v1785954044/newsletter-images/newsletter-images/newsletter-body-1785954039398-amigas%20biopiscinas%20%281%29.jpg";
+const HERO_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_2400/v1786051974/cancagua/images/biopiscinas/hero-amigas-2026.jpg";
+const FOUR_HOURS_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_1400/v1786052035/cancagua/images/biopiscinas/modalidad-4-horas-2026.jpg";
+const FULL_DAY_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_1400/v1786052110/cancagua/images/biopiscinas/modalidad-full-day-2026.jpg";
+const UNIQUE_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_1400/v1786052214/cancagua/images/biopiscinas/experiencia-unica-2026.jpg";
+const BENEFITS_IMAGE = "https://res.cloudinary.com/dhuln9b1n/image/upload/f_auto,q_auto,w_1600/v1786051883/cancagua/images/biopiscinas/beneficios-amigas-2026.jpg";
 
 const beneficios = [
   "Relaja la musculatura y alivia tensiones",
@@ -75,7 +77,6 @@ export default function ServicioBiopiscinas() {
     setCartOpen(true);
   };
 
-  const heroImage = catalog?.images?.[0]?.url || FOUR_HOURS_IMAGE;
   const serviceName = (catalog?.service?.name || "Biopiscinas Geotermales")
     .replace(/\s*\(\s*estad[ií]a de 4 horas\s*\)\s*/i, "")
     .trim();
@@ -83,7 +84,7 @@ export default function ServicioBiopiscinas() {
   return (
     <AutoTranslateProvider pageId="servicio-biopiscinas">
       <section className="relative min-h-[620px] overflow-hidden md:min-h-[720px]">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${heroImage})` }} />
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${HERO_IMAGE})` }} />
         <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/35 to-black/65" />
         <div className="container relative flex min-h-[620px] items-end pb-16 text-white md:min-h-[720px] md:pb-24">
           <div className="max-w-4xl">
@@ -119,7 +120,7 @@ export default function ServicioBiopiscinas() {
           <div className="mx-auto mt-12 grid max-w-6xl gap-6 lg:grid-cols-2">
             <article className="group overflow-hidden rounded-[2rem] border border-[#D7D4D1] bg-white">
               <div className="relative aspect-[4/3] overflow-hidden">
-                <img src={FOUR_HOURS_IMAGE} alt="Biopiscinas geotermales frente al Lago Llanquihue" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+                <img src={FOUR_HOURS_IMAGE} alt="Dos personas disfrutando las biopiscinas geotermales frente al Lago Llanquihue" className="h-full w-full object-cover object-[center_45%] transition-transform duration-700 group-hover:scale-[1.03]" />
                 <span className="absolute left-5 top-5 rounded-full bg-white/95 px-4 py-2 font-cg-mono text-[11px] uppercase tracking-[0.16em] text-[#333D51]">
                   <T>4 horas</T>
                 </span>
@@ -170,7 +171,7 @@ export default function ServicioBiopiscinas() {
           </div>
           <div className="relative">
             <div className="absolute -left-5 -top-5 h-24 w-24 rounded-full bg-[#D3BC8D]/30 md:-left-9 md:-top-9 md:h-36 md:w-36" />
-            <img src={PEOPLE_IMAGE} alt="Personas relajándose en las biopiscinas de Cancagua" className="relative aspect-[4/3] w-full rounded-[2rem] object-cover" />
+            <img src={UNIQUE_IMAGE} alt="Visitante recorriendo las biopiscinas frente al Lago Llanquihue" className="relative mx-auto aspect-[3/4] max-h-[760px] w-full rounded-[2rem] object-cover" />
           </div>
         </div>
       </section>
@@ -195,7 +196,7 @@ export default function ServicioBiopiscinas() {
       <section className="bg-[#333D51] py-20 text-white md:py-28">
         <div className="container grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="overflow-hidden rounded-[2rem]">
-            <img src={PEOPLE_IMAGE} alt="Momento de descanso en las biopiscinas" className="aspect-[4/3] h-full w-full object-cover" />
+            <img src={BENEFITS_IMAGE} alt="Grupo de amigas descansando en las biopiscinas" className="aspect-[4/3] h-full w-full object-cover" />
           </div>
           <div>
             <p className="font-cg-mono text-xs uppercase tracking-[0.22em] text-[#D3BC8D]"><T>Bienestar que se siente</T></p>
