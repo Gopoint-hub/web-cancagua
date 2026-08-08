@@ -1,7 +1,7 @@
 export default function Head() {
-  const title = "Biopiscinas Geotermales con Traslado desde Puerto Varas | Cancagua";
-  const description = "Disfruta de las primeras biopiscinas geotermales del mundo con traslado incluido desde Puerto Varas. Salida desde Hotel Cabañas del Lago de martes a domingo a las 10:00 hrs. Reserva ahora.";
-  const keywords = "biopiscinas puerto varas, termas con traslado, biopiscinas geotermales, cancagua frutillar, spa puerto varas, termas sur chile, traslado hotel cabañas del lago";
+  const title = "Biopiscinas Geotermales cerca de Puerto Varas | Cancagua";
+  const description = "Las primeras biopiscinas geotermales del mundo, a 30 minutos de Puerto Varas, 40 de Puerto Montt y 45 de Osorno. Te contamos cómo llegar en auto o en transporte público.";
+  const keywords = "biopiscinas puerto varas, biopiscinas geotermales, cancagua frutillar, spa puerto varas, termas sur chile, como llegar a cancagua";
   const canonical = "https://cancagua.cl/servicios/biopiscinas-puerto-varas";
   const image = "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp";
 

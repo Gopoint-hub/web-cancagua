@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check, Clock, Users, Waves, MessageCircle, Bus, MapPin, Calendar } from "lucide-react";
+import { Check, Users, Waves, MessageCircle, Bus, MapPin, Car } from "lucide-react";
 import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
 
-const BOOKING_URL = "https://reservas.cancagua.cl/cancaguaspa/s/80aa8817-d08d-4db4-a4cd-1ca089b568e9";
-const WHATSAPP_URL = "https://wa.me/56940073999?text=Hola,%20quiero%20consultar%20sobre%20las%20Biopiscinas%20con%20traslado%20desde%20Puerto%20Varas";
+const BOOKING_URL = "https://reservas.cancagua.cl/cancaguaspa/s/3daa00ec-4c8d-41d5-995a-79ad4cbd8380";
+const WHATSAPP_URL = "https://wa.me/56940073999?text=Hola,%20quiero%20consultar%20sobre%20las%20Biopiscinas%20Geotermales";
 const PHONE_NUMBER = "+56 9 4007 3999";
 
 export default function BiopiscnasPuertoVaras() {
@@ -20,7 +20,6 @@ export default function BiopiscnasPuertoVaras() {
   ];
 
   const incluye = [
-    "Traslado ida y vuelta desde Hotel Cabañas del Lago, Puerto Varas",
     "4 horas de acceso a biopiscinas geotermales",
     "Batas para adultos",
     "Gorro de nado por persona",
@@ -36,12 +35,14 @@ export default function BiopiscnasPuertoVaras() {
     "Alimentación (cafetería disponible en el lugar)",
   ];
 
-  const horarios = {
-    salida: "10:00 hrs",
-    regreso: "15:00 hrs",
-    dias: "Martes a Domingo",
-    punto: "Hotel Cabañas del Lago, Puerto Varas"
+  const comoLlegar = {
+    puertoVaras: "30 minutos",
+    puertoMontt: "40 minutos",
+    osorno: "45 minutos",
+    direccion: "Ruta V-155, Km 2, camino a Los Bajos, Frutillar"
   };
+
+  const MAPS_URL = "https://maps.google.com/?q=-41.118242,-73.013595";
 
   return (
     <AutoTranslateProvider pageId="biopiscinas-puerto-varas">
@@ -55,13 +56,13 @@ export default function BiopiscnasPuertoVaras() {
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative h-full container flex flex-col items-center justify-center text-center text-white">
             <div className="inline-block bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold mb-4">
-              <T>Traslado Incluido desde Puerto Varas</T>
+              <T>A 30 minutos de Puerto Varas</T>
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4">
               <T>Biopiscinas Geotermales</T>
             </h1>
             <p className="text-lg md:text-2xl mb-8 max-w-3xl">
-              <T>Vive una experiencia única en las primeras biopiscinas geotermales del mundo con traslado incluido desde Puerto Varas</T>
+              <T>Vive una experiencia única en las primeras biopiscinas geotermales del mundo, a 30 minutos de Puerto Varas</T>
             </p>
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="text-lg px-8 py-6">
@@ -71,29 +72,29 @@ export default function BiopiscnasPuertoVaras() {
           </div>
         </section>
 
-        {/* Info Traslado */}
+        {/* Distancias */}
         <section className="py-8 bg-primary/10 border-y border-primary/20">
           <div className="container">
             <div className="grid md:grid-cols-4 gap-6 text-center">
               <div className="flex flex-col items-center">
+                <Car className="h-8 w-8 text-primary mb-2" />
+                <h3 className="font-semibold"><T>Desde Puerto Varas</T></h3>
+                <p className="text-sm text-muted-foreground">{comoLlegar.puertoVaras}</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <Car className="h-8 w-8 text-primary mb-2" />
+                <h3 className="font-semibold"><T>Desde Puerto Montt</T></h3>
+                <p className="text-sm text-muted-foreground">{comoLlegar.puertoMontt}</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <Car className="h-8 w-8 text-primary mb-2" />
+                <h3 className="font-semibold"><T>Desde Osorno</T></h3>
+                <p className="text-sm text-muted-foreground">{comoLlegar.osorno}</p>
+              </div>
+              <div className="flex flex-col items-center">
                 <MapPin className="h-8 w-8 text-primary mb-2" />
-                <h3 className="font-semibold"><T>Punto de Encuentro</T></h3>
-                <p className="text-sm text-muted-foreground">{horarios.punto}</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <Bus className="h-8 w-8 text-primary mb-2" />
-                <h3 className="font-semibold"><T>Salida</T></h3>
-                <p className="text-sm text-muted-foreground">{horarios.salida}</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <Clock className="h-8 w-8 text-primary mb-2" />
-                <h3 className="font-semibold"><T>Regreso</T></h3>
-                <p className="text-sm text-muted-foreground">{horarios.regreso}</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <Calendar className="h-8 w-8 text-primary mb-2" />
-                <h3 className="font-semibold"><T>Días Disponibles</T></h3>
-                <p className="text-sm text-muted-foreground">{horarios.dias}</p>
+                <h3 className="font-semibold"><T>Dónde estamos</T></h3>
+                <p className="text-sm text-muted-foreground">{comoLlegar.direccion}</p>
               </div>
             </div>
           </div>
@@ -108,7 +109,7 @@ export default function BiopiscnasPuertoVaras() {
               </h2>
               <div className="prose prose-lg max-w-none text-muted-foreground">
                 <p className="text-lg leading-relaxed mb-4">
-                  <T>Si te hospedas en Puerto Varas, ahora puedes disfrutar de las primeras biopiscinas geotermales del mundo sin preocuparte por el transporte. Te recogemos directamente en el Hotel Cabañas del Lago y te llevamos a vivir una experiencia inolvidable en Cancagua, Frutillar.</T>
+                  <T>Si te hospedas en Puerto Varas, tienes las primeras biopiscinas geotermales del mundo a media hora de camino. Estamos en Frutillar, a orillas del Lago Llanquihue, y se llega fácil tanto en auto como en transporte público.</T>
                 </p>
                 <p className="text-lg leading-relaxed mb-4">
                   <T>Las biopiscinas de Cancagua combinan la tecnología de purificación natural del agua con el calor geotérmico, creando un ecosistema acuático vivo que se mantiene entre 37º y 40º durante todo el año. A diferencia de las piscinas tradicionales, no utilizamos cloro ni químicos.</T>
@@ -130,10 +131,10 @@ export default function BiopiscnasPuertoVaras() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card>
                 <CardContent className="p-6 text-center">
-                  <Bus className="h-12 w-12 mx-auto mb-4 text-primary" />
-                  <h3 className="font-semibold text-lg mb-2"><T>Traslado Incluido</T></h3>
+                  <Car className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <h3 className="font-semibold text-lg mb-2"><T>Cerca de todo</T></h3>
                   <p className="text-muted-foreground">
-                    <T>Ida y vuelta desde Puerto Varas</T>
+                    <T>A 30 min de Puerto Varas y 40 de Puerto Montt</T>
                   </p>
                 </CardContent>
               </Card>
@@ -224,7 +225,6 @@ export default function BiopiscnasPuertoVaras() {
                     <li><T>• Traer traje de baño</T></li>
                     <li><T>• No se permite el ingreso con alimentos externos</T></li>
                     <li><T>• Cafetería disponible en el lugar</T></li>
-                    <li><T>• Estar en el punto de encuentro 10 minutos antes de la salida</T></li>
                   </ul>
                 </div>
               </div>
@@ -232,42 +232,49 @@ export default function BiopiscnasPuertoVaras() {
           </div>
         </section>
 
-        {/* Info Horarios Detallada */}
+        {/* Cómo llegar */}
         <section className="py-16 bg-muted/50">
           <div className="container">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
-                <T>Información del Traslado</T>
+                <T>Cómo llegar</T>
               </h2>
               <Card>
                 <CardContent className="p-8">
                   <div className="space-y-6">
                     <div className="flex items-start gap-4">
-                      <MapPin className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                      <Car className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                       <div>
-                        <h3 className="font-semibold text-lg"><T>Punto de Encuentro</T></h3>
-                        <p className="text-muted-foreground">Hotel Cabañas del Lago, Puerto Varas</p>
+                        <h3 className="font-semibold text-lg"><T>Si vienes en auto</T></h3>
+                        <ul className="mt-2 space-y-1 text-muted-foreground">
+                          <li><T>30 minutos desde Puerto Varas</T></li>
+                          <li><T>40 minutos desde Puerto Montt</T></li>
+                          <li><T>45 minutos desde Osorno</T></li>
+                        </ul>
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
                       <Bus className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                       <div>
-                        <h3 className="font-semibold text-lg"><T>Horario de Salida</T></h3>
-                        <p className="text-muted-foreground"><T>10:00 hrs - Por favor estar 10 minutos antes</T></p>
+                        <h3 className="font-semibold text-lg"><T>Si vienes en transporte público</T></h3>
+                        <p className="mt-2 text-muted-foreground">
+                          <T>Desde Puerto Varas, Puerto Montt u Osorno, toma un Thae Bus hasta Frutillar Alto y bájate en el Unimarc. Desde ahí, un colectivo te deja en Cancagua por $3.000 a $5.000. El mismo camino sirve para volver.</T>
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
-                      <Clock className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                      <MapPin className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                       <div>
-                        <h3 className="font-semibold text-lg"><T>Horario de Regreso</T></h3>
-                        <p className="text-muted-foreground"><T>15:00 hrs - Llegada aproximada al Hotel</T></p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <Calendar className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-                      <div>
-                        <h3 className="font-semibold text-lg"><T>Días Disponibles</T></h3>
-                        <p className="text-muted-foreground"><T>Martes a Domingo (no disponible los lunes)</T></p>
+                        <h3 className="font-semibold text-lg"><T>Dirección</T></h3>
+                        <p className="text-muted-foreground">Ruta V-155, Km 2, camino a Los Bajos, Frutillar, Región de Los Lagos</p>
+                        <a
+                          href={MAPS_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary underline text-sm"
+                        >
+                          <T>Abrir en Google Maps</T>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -284,7 +291,7 @@ export default function BiopiscnasPuertoVaras() {
               <T>¿Listo para vivir esta experiencia única?</T>
             </h2>
             <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-              <T>Reserva tu entrada con traslado incluido desde Puerto Varas y descubre las primeras biopiscinas geotermales del mundo</T>
+              <T>Reserva tu entrada y descubre las primeras biopiscinas geotermales del mundo, a 30 minutos de Puerto Varas</T>
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">

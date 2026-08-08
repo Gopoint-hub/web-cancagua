@@ -1,1 +1,1 @@
-export default "Biopiscinas Geotermales con Traslado desde Puerto Varas | Cancagua";
+export default "Biopiscinas Geotermales cerca de Puerto Varas | Cancagua";

@@ -23,7 +23,7 @@ export const seoConfig: Record<string, PageSEO> = {
     title: 'Biopiscinas Geotermales Frutillar | Las Primeras del Mundo - Cancagua',
     description: 'Elige 4 horas o un Full Day de 8 horas en las biopiscinas geotermales de Cancagua: playa en verano y bosque esclerófilo en invierno.',
     keywords: 'biopiscinas geotermales, full day biopiscinas, termas frutillar, spa chile, aguas termales, biopiscina, termas naturales, spa lago llanquihue',
-    image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
   },
   '/servicios/hot-tubs': {
     title: 'Hot Tubs Frutillar | Spa al Aire Libre con Vista al Lago - Cancagua',
@@ -134,10 +134,10 @@ export const seoConfig: Record<string, PageSEO> = {
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
   },
   '/servicios/biopiscinas-puerto-varas': {
-    title: 'Biopiscinas Geotermales con Traslado desde Puerto Varas | Cancagua',
-    description: 'Disfruta de las primeras biopiscinas geotermales del mundo con traslado incluido desde Puerto Varas. Salida desde Hotel Cabañas del Lago de martes a domingo a las 10:00 hrs.',
-    keywords: 'biopiscinas puerto varas, termas con traslado, biopiscinas geotermales, cancagua frutillar, spa puerto varas, termas sur chile, traslado hotel cabañas del lago',
-    image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
+    title: 'Biopiscinas Geotermales cerca de Puerto Varas | Cancagua',
+    description: 'Las primeras biopiscinas geotermales del mundo, a 30 minutos de Puerto Varas, 40 de Puerto Montt y 45 de Osorno. Te contamos cómo llegar en auto o en transporte público.',
+    keywords: 'biopiscinas puerto varas, biopiscinas geotermales, cancagua frutillar, spa puerto varas, termas sur chile, como llegar a cancagua',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309169/cancagua/images/fullday-biopiscinas-hero.webp',
   },
 };
 
