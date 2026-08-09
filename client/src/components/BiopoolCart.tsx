@@ -174,7 +174,9 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
   };
 
   return <>
-    {!open && <button type="button" onClick={onOpen} className="fixed right-5 top-28 z-40 flex items-center gap-3 rounded-full bg-[#333D51] px-5 py-3 font-cg-mono text-xs uppercase tracking-[0.12em] text-white shadow-xl"><ShoppingBag className="h-4 w-4" />Reservar Biopiscinas</button>}
+    {/* md:top-36 despeja el header sticky (118 px, z-50), que desde 768px tapaba
+        el botón y se comía el clic. En móvil el header es más bajo y top-28 anda bien. */}
+    {!open && <button type="button" onClick={onOpen} className="fixed right-5 top-28 z-40 flex items-center gap-3 rounded-full bg-[#333D51] px-5 py-3 font-cg-mono text-xs uppercase tracking-[0.12em] text-white shadow-xl md:top-36"><ShoppingBag className="h-4 w-4" />Reservar Biopiscinas</button>}
     <button type="button" aria-label="Cerrar carrito" onClick={onClose} className={`fixed inset-0 z-[70] bg-black/45 backdrop-blur-[2px] transition-opacity ${open ? "opacity-100" : "pointer-events-none opacity-0"}`} />
     <aside role="dialog" aria-modal="true" aria-label="Carrito de Biopiscinas" className={`fixed inset-y-0 right-0 z-[80] flex w-full max-w-lg flex-col bg-[#F8F6F1] shadow-2xl transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}`}>
       <div className="flex items-start justify-between border-b border-[#D7D4D1] p-6"><div><p className="font-cg-mono text-xs uppercase tracking-[0.16em] text-[#4B5872]">Tu reserva</p><h2 className="mt-1 font-cg-serif text-3xl text-[#222221]">Carrito Biopiscinas</h2></div><button type="button" onClick={onClose} className="rounded-full border border-[#BCBAB8] p-2"><X className="h-5 w-5" /></button></div>
