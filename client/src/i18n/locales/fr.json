@@ -2,7 +2,7 @@
   "nav": {
     "home": "Accueil",
     "services": "Services",
-    "events": "Événements",
+    "events": "Activités",
     "corporate": "Entreprises",
     "cafeteria": "Cafétéria",
     "giftCards": "Cartes Cadeaux",
@@ -48,10 +48,10 @@
       "cta1": "Voir Menu",
       "cta2": "Réserver Table"
     },
-    "eventos": {
-      "title": "Événements & Ateliers",
+    "panoramas": {
+      "title": "Activités & Ateliers",
       "subtitle": "Sonothérapie, concerts, ateliers et expériences transformatrices",
-      "cta1": "Voir Événements",
+      "cta1": "Voir les Activités",
       "cta2": "Découvrir Programme"
     }
   },
@@ -63,9 +63,9 @@
     "welcomeSubtitle": "Services qui invitent au calme, à la connexion avec la nature et avec les profondeurs de l'Être.",
     "servicesTitle": "Nos Services",
     "servicesSubtitle": "Découvrez des expériences uniques de bien-être et connexion",
-    "eventsTitle": "Événements à Venir",
+    "eventsTitle": "Activités à Venir",
     "eventsSubtitle": "Ateliers, cérémonies et expériences transformatrices",
-    "seeAllEvents": "Voir Tous les Événements",
+    "seeAllEvents": "Voir Toutes les Activités",
     "cafeteriaTitle": "Cafétéria Saine",
     "cafeteriaDescription": "Profitez du mardi au dimanche de 10h00 à 21h00 de notre cafétéria saine avec des options de nourriture consciente à base de produits locaux. Nous proposons un brunch toute la journée et d'excellentes options de boissons. Notre menu comprend des alternatives véganes, végétariennes, keto, sans produits laitiers et sans gluten.",
     "cafeteriaOpen": "Cafétéria ouverte au public",
@@ -116,10 +116,10 @@
     }
   },
   "events": {
-    "title": "Événements & Ateliers",
+    "title": "Activités & Ateliers",
     "subtitle": "Expériences transformatrices qui nourrissent l'âme",
-    "upcomingEvents": "Événements à Venir",
-    "noEvents": "Aucun événement programmé pour le moment. Revenez bientôt pour voir nos prochaines activités.",
+    "upcomingEvents": "Activités à Venir",
+    "noEvents": "Aucune activité programmée pour le moment. Revenez bientôt pour découvrir la suite.",
     "filterAll": "Tous",
     "filterWorkshop": "Ateliers",
     "filterCeremony": "Cérémonies",

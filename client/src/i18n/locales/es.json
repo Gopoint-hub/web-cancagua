@@ -48,15 +48,15 @@
       "cta1": "Ver Carta",
       "cta2": "Reservar Mesa"
     },
-    "eventos": {
-      "title": "Eventos & Talleres",
+    "panoramas": {
+      "title": "Panoramas & Talleres",
       "subtitle": "Sonoterapia, conciertos, workshops y experiencias transformadoras",
-      "cta1": "Ver Eventos",
+      "cta1": "Ver Panoramas",
       "cta2": "Conocer Cartelera"
     },
     "concierto": {
       "title": "Concierto en biopiscinas",
-      "subtitle": "Cambio de Piel ✨ Sábado 25 abr, 19:00. Aprovecha Promo 2x1 en entradas y Happy Hour 2x1 Casawer desde las 17:00.",
+      "subtitle": "Cambio de Piel ✨ Sábado 25 abr, 19:00. Aprovecha Promo 2x1 en accesos y Happy Hour 2x1 Casawer desde las 17:00.",
       "cta1": "Reservar 2x1"
     }
   },
@@ -68,9 +68,9 @@
     "welcomeSubtitle": "Servicios que invitan a la calma, a la conexión con la naturaleza, y con lo profundo del Ser.",
     "servicesTitle": "Nuestros Servicios",
     "servicesSubtitle": "Descubre experiencias únicas de bienestar y conexión",
-    "eventsTitle": "Próximos Eventos",
+    "eventsTitle": "Próximos Panoramas",
     "eventsSubtitle": "Talleres, ceremonias y experiencias transformadoras",
-    "seeAllEvents": "Ver Todos los Eventos",
+    "seeAllEvents": "Ver Todos los Panoramas",
     "cafeteriaTitle": "Cafetería Saludable",
     "cafeteriaDescription": "Disfruta de martes a domingo de 10:00 a 21:00 nuestra cafetería saludable con opciones de comida consciente y en base a productos locales. Contamos con brunch todo el día y exquisitas opciones para beber. Nuestra carta incluye alternativas veganas, vegetarianas, keto, sin lácteos y sin gluten.",
     "cafeteriaOpen": "Cafetería abierta al público",
@@ -121,10 +121,10 @@
     }
   },
   "events": {
-    "title": "Eventos & Talleres",
+    "title": "Panoramas & Talleres",
     "subtitle": "Experiencias transformadoras que nutren el alma",
-    "upcomingEvents": "Próximos Eventos",
-    "noEvents": "No hay eventos programados en este momento. Vuelve pronto para ver nuestras próximas actividades.",
+    "upcomingEvents": "Próximos Panoramas",
+    "noEvents": "No hay actividades programadas en este momento. Vuelve pronto para conocer nuestra próxima cartelera.",
     "filterAll": "Todos",
     "filterWorkshop": "Talleres",
     "filterCeremony": "Ceremonias",
@@ -225,7 +225,7 @@
     "home": "Hola, me gustaría obtener más información sobre Cancagua",
     "services": "Hola, me gustaría reservar un servicio en Cancagua",
     "biopiscinas": "Hola, me gustaría reservar las Biopiscinas Geotermales",
-    "events": "Hola, me gustaría información sobre los eventos de Cancagua",
+    "events": "Hola, me gustaría información sobre los panoramas de Cancagua",
     "cafeteria": "Hola, me gustaría reservar una mesa en la cafetería",
     "giftCards": "Hola, me gustaría comprar una tarjeta de regalo",
     "contact": "Hola, tengo una consulta sobre Cancagua"
@@ -287,24 +287,24 @@
       "badge": "Full Day"
     }
   },
-  "eventos": {
+  "panoramas": {
     "landing": {
-      "title": "Eventos & Experiencias",
-      "subtitle": "Descubre nuestros próximos eventos, talleres y experiencias transformadoras",
-      "upcoming": "Próximos Eventos",
-      "upcoming_desc": "Explora nuestros eventos especiales y talleres de bienestar",
-      "noEvents": "No hay eventos próximos en este momento",
+      "title": "Panoramas & Experiencias",
+      "subtitle": "Descubre nuestros próximos panoramas, talleres y experiencias transformadoras",
+      "upcoming": "Próximos Panoramas",
+      "upcoming_desc": "Explora nuestras actividades especiales y talleres de bienestar",
+      "noEvents": "No hay actividades próximas en este momento",
       "social": {
-        "title": "Eventos Sociales",
+        "title": "Celebraciones",
         "description": "Celebra tus momentos especiales en Cancagua. Ofrecemos espacios únicos para cumpleaños, aniversarios, despedidas de soltero/a y reuniones familiares.",
-        "cta": "Cotizar Evento Social"
+        "cta": "Cotizar Celebración"
       },
       "corporate": {
-        "title": "Eventos Corporativos",
-        "description": "Organiza tu próximo team building, retiro corporativo o evento empresarial en nuestras instalaciones. Contamos con espacios adaptables y servicios personalizados.",
-        "cta": "Cotizar Evento Corporativo"
+        "title": "Corporativos",
+        "description": "Organiza tu próximo team building, retiro o jornada corporativa en nuestras instalaciones. Contamos con espacios adaptables y servicios personalizados.",
+        "cta": "Cotizar Jornada Corporativa"
       },
-      "cta_title": "¿Listo para crear tu evento?",
+      "cta_title": "¿Listo para crear tu experiencia?",
       "cta_desc": "Contáctanos y diseñaremos una experiencia única para ti"
     }
   }

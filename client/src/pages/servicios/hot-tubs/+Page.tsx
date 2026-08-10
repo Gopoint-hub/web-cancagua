@@ -112,7 +112,7 @@ export default function HotTubsPage() {
                 Combina nuestros servicios para una experiencia full day
               </h2>
               <p className="font-cg-sans text-lg text-[#635E5A] leading-relaxed mb-6">
-                Familia, eventos de empresa, celebraciones de cumpleaños, matrimonio y mucho más. Conecta con la naturaleza y disfruta de un lugar único para adquirir experiencias inolvidables.
+                Familia, actividades de empresa, celebraciones de cumpleaños, matrimonio y mucho más. Conecta con la naturaleza y disfruta de un lugar único para adquirir experiencias inolvidables.
               </p>
               <p className="font-cg-sans text-sm text-[#827D78] mb-8">
                 *Niños menores de 12 años entran gratis a hot tubs.

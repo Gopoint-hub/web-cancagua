@@ -86,10 +86,10 @@ export const seoConfig: Record<string, PageSEO> = {
     image: 'https://cancagua.clhttps://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
   },
   '/corporativos': {
-    title: 'Eventos para Empresas en Frutillar | Cancagua',
-    description: 'Eventos corporativos y team building en Cancagua, Frutillar. Hasta 80 personas, biopiscinas geotermales para 40 y 6 hot tubs privados para hasta 10 personas cada uno.',
-    keywords: 'eventos para empresas, eventos empresariales frutillar, evento corporativo sur de chile, team building lago llanquihue, retiros corporativos frutillar',
-    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309165/cancagua/images/eventos-empresas-hero.jpg',
+    title: 'Jornadas Corporativas en Frutillar | Cancagua',
+    description: 'Jornadas corporativas y team building en Cancagua, Frutillar. Programas de bienestar para equipos, biopiscinas geotermales, hot tubs, talleres y gastronomía.',
+    keywords: 'jornadas corporativas frutillar, actividades para empresas, team building lago llanquihue, retiros corporativos frutillar, bienestar para equipos',
+    image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/cancagua/images/corporativos-hero.jpg',
   },
   '/panoramas/celebraciones': {
     title: 'Celebraciones en Frutillar | Cumpleaños y Grupos - Cancagua',
@@ -100,7 +100,7 @@ export const seoConfig: Record<string, PageSEO> = {
   '/panoramas/concierto': {
     title: 'Concierto Equinoccio de Otoño - Cambio de Piel | Cancagua Spa Frutillar',
     description: 'Concierto íntimo acústico en Cancagua Spa. Daniela Conejero y Ítalo Aguilera celebran el equinoccio de otoño con música junto a las biopiscinas geotermales.',
-    keywords: 'concierto frutillar, concierto acústico spa, equinoccio otoño, biopiscinas concierto, cancagua eventos',
+    keywords: 'concierto frutillar, concierto acústico spa, equinoccio otoño, biopiscinas concierto, panoramas cancagua',
     image: 'https://cdn.getskedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/a5ac625d2db04b39a004b6b2851d0995.jpeg',
   },
   '/experiencias/pases-reconecta': {

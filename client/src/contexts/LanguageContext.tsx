@@ -31,7 +31,7 @@ export const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
 // Esto permite que /en/services se mapee a /es/servicios
 const SLUG_TRANSLATIONS: Record<string, Record<SupportedLanguage, string>> = {
   'servicios': { es: 'servicios', en: 'services', pt: 'servicos', fr: 'services', de: 'dienstleistungen' },
-  'eventos': { es: 'eventos', en: 'events', pt: 'eventos', fr: 'evenements', de: 'veranstaltungen' },
+  'panoramas': { es: 'panoramas', en: 'activities', pt: 'programacao', fr: 'activites', de: 'aktivitaeten' },
   'cafeteria': { es: 'cafeteria', en: 'cafe', pt: 'cafeteria', fr: 'cafe', de: 'cafe' },
   'contacto': { es: 'contacto', en: 'contact', pt: 'contato', fr: 'contact', de: 'kontakt' },
   'nosotros': { es: 'nosotros', en: 'about-us', pt: 'sobre-nos', fr: 'a-propos', de: 'uber-uns' },

@@ -65,24 +65,24 @@ export const seoConfig: Record<string, PageSEO> = {
     keywords: "full day spa, pase día, experiencia completa, bienestar, cancagua"
   },
   
-  // Eventos
-  eventos: {
+  // Panoramas y corporativos
+  panoramas: {
     title: "Panoramas y Talleres en Frutillar | Cancagua",
     description: "Descubre panoramas, talleres, conciertos y celebraciones en un entorno natural único a orillas del Lago Llanquihue.",
     canonical: "/panoramas",
     keywords: "panoramas, talleres, cumpleaños, celebraciones, bienestar, frutillar"
   },
-  eventosEmpresas: {
-    title: "Eventos Corporativos | Team Building | Cancagua",
-    description: "Eventos corporativos y team building en un entorno natural único. Biopiscinas, actividades y servicios exclusivos para empresas.",
+  corporativos: {
+    title: "Jornadas Corporativas | Team Building | Cancagua",
+    description: "Jornadas corporativas y team building en un entorno natural único. Biopiscinas, actividades y servicios exclusivos para empresas.",
     canonical: "/corporativos",
-    keywords: "eventos corporativos, team building, empresas, retiros corporativos, frutillar"
+    keywords: "jornadas corporativas, team building, empresas, retiros corporativos, frutillar"
   },
-  eventosSociales: {
+  celebraciones: {
     title: "Cumpleaños y Celebraciones | Cancagua Spa",
-    description: "Celebra tu cumpleaños, despedida de soltera o evento especial en Cancagua. Paquetes personalizados con biopiscinas y servicios de spa.",
+    description: "Celebra tu cumpleaños, despedida de soltera o actividad especial en Cancagua. Paquetes personalizados con biopiscinas y servicios de spa.",
     canonical: "/panoramas/celebraciones",
-    keywords: "cumpleaños, celebraciones, despedida de soltera, eventos sociales, spa"
+    keywords: "cumpleaños, celebraciones, despedida de soltera, actividades sociales, spa"
   },
   
   // Información

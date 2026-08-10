@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Clock, MapPin, Calendar, Music, Sparkles, Ticket, Waves, ArrowRight
+  Clock, MapPin, Calendar, Music, Sparkles, BadgeCheck, Waves, ArrowRight
 } from "lucide-react";
 
 const proximasFechas = [
@@ -69,7 +69,7 @@ export default function ConciertoEquinoccio() {
               <Sparkles className="h-6 w-6" />
             </h3>
             <p className="text-lg text-stone-700">
-              <strong>Promo 2x1 en Concierto + Biopiscinas:</strong> Compras tu entrada y traes a un acompañante <strong>GRATIS</strong>.
+              <strong>Promo 2x1 en Concierto + Biopiscinas:</strong> Reservas tu acceso y traes a un acompañante <strong>GRATIS</strong>.
             </p>
             <p className="text-lg text-stone-700">
               <strong>Happy Hour 2x1 desde las 17:00 hrs:</strong> A cargo de Casawer. ¡No te pierdas el Sour de Murta y Menta Jengibre!
@@ -169,16 +169,16 @@ export default function ConciertoEquinoccio() {
         </div>
       </section>
 
-      {/* Modalidades de entrada */}
+      {/* Formas de vivir la experiencia */}
       <section className="py-20 bg-gradient-to-br from-clay-100 to-stone-50">
         <div className="container">
           <div className="max-w-4xl mx-auto space-y-12">
             <div className="text-center space-y-4">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-clay-100 mb-4">
-                <Ticket className="h-8 w-8 text-clay-600" />
+                <BadgeCheck className="h-8 w-8 text-clay-600" />
               </div>
               <h2 className="text-4xl font-cg-mono font-bold text-stone-800">
-                🎟 Modalidades de Entrada
+                🎟 Formas de vivir la experiencia
               </h2>
             </div>
 
@@ -189,7 +189,7 @@ export default function ConciertoEquinoccio() {
                     <Music className="h-8 w-8 text-stone-600" />
                   </div>
                   <h3 className="text-2xl font-cg-mono font-bold text-stone-800">
-                    Ticket Concierto
+                    Acceso al concierto
                   </h3>
                   <p className="text-stone-600 leading-relaxed">
                     Acceso al concierto en vivo, en cómodos sillones bordeando las biopiscinas.
@@ -215,7 +215,7 @@ export default function ConciertoEquinoccio() {
                     <Waves className="h-8 w-8 text-clay-600" />
                   </div>
                   <h3 className="text-2xl font-cg-mono font-bold text-stone-800">
-                    Ticket Concierto + Biopiscinas
+                    Concierto + Biopiscinas
                   </h3>
                   <p className="text-stone-600 leading-relaxed">
                     Concierto + acceso a biopiscinas geotermales para extender la experiencia de relajo y conexión.
@@ -249,16 +249,16 @@ export default function ConciertoEquinoccio() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
-            {proximasFechas.map((evento, index) => (
+            {proximasFechas.map((actividad, index) => (
               <Card key={index} className="border-0 shadow-md hover:shadow-lg transition-shadow">
                 <CardContent className="p-6 flex items-center gap-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-clay-100 flex items-center justify-center">
                     <Calendar className="h-5 w-5 text-clay-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-clay-700">{evento.fecha}</p>
-                    <p className="text-lg font-cg-mono font-bold text-stone-800">{evento.titulo}</p>
-                    <p className="text-sm text-stone-500">{evento.subtitulo}</p>
+                    <p className="text-sm font-semibold text-clay-700">{actividad.fecha}</p>
+                    <p className="text-lg font-cg-mono font-bold text-stone-800">{actividad.titulo}</p>
+                    <p className="text-sm text-stone-500">{actividad.subtitulo}</p>
                   </div>
                 </CardContent>
               </Card>

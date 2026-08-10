@@ -68,7 +68,7 @@ export function Navbar() {
     { name: "Full Day Hot Tubs + Biopiscinas", href: "/servicios/full-day-hot-tubs" },
   ];
 
-  const eventos = [
+  const panoramas = [
     { name: "Todos los panoramas", href: "/panoramas" },
     { name: "Círculo de Mujeres — 14 de agosto", href: "https://reservas.cancagua.cl/cancaguaspa/s/dc01f461-86e6-47a8-8467-0b899eb6812d" },
     { name: "Concierto & Biopiscina — 15 de agosto", href: "https://reservas.cancagua.cl/cancaguaspa/s/203139c0-f3d8-42d6-a996-15c5ed74c511" },
@@ -164,7 +164,7 @@ export function Navbar() {
               </NavigationMenuList>
             </NavigationMenu>
 
-            {/* Dropdown Eventos */}
+            {/* Dropdown Panoramas */}
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
@@ -173,15 +173,15 @@ export function Navbar() {
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[300px] gap-2 p-4 bg-white border border-[#4B5872]/20">
-                      {eventos.map((evento) => (
-                        <li key={evento.href}>
+                      {panoramas.map((panorama) => (
+                        <li key={panorama.href}>
                           <NavigationMenuLink asChild>
                             <a
-                              href={evento.href}
+                              href={panorama.href}
                               className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-[#F4F2ED] text-[#222221]"
                             >
                               <div className="text-sm tracking-wide">
-                                {evento.name}
+                                {panorama.name}
                               </div>
                             </a>
                           </NavigationMenuLink>
@@ -339,25 +339,25 @@ export function Navbar() {
                 )}
               </div>
 
-              {/* Eventos - Acordeón */}
+              {/* Panoramas - Acordeón */}
               <div className="border-b border-[#4B5872]/10">
                 <button
                   className="w-full py-3 flex items-center justify-between text-sm tracking-wider uppercase text-[#222221]"
-                  onClick={() => toggleSection('eventos')}
+                  onClick={() => toggleSection('panoramas')}
                 >
                   <span>{t('nav.events')}</span>
-                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSection === 'eventos' ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSection === 'panoramas' ? 'rotate-180' : ''}`} />
                 </button>
-                {expandedSection === 'eventos' && (
+                {expandedSection === 'panoramas' && (
                   <div className="pb-3 pl-4 space-y-1 animate-in slide-in-from-top-2 duration-200">
-                    {eventos.map((evento) => (
+                    {panoramas.map((panorama) => (
                       <a
-                        key={evento.href}
-                        href={evento.href}
+                        key={panorama.href}
+                        href={panorama.href}
                         className="block py-2 text-sm text-[#222221] hover:text-[#4B5872]"
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        {evento.name}
+                        {panorama.name}
                       </a>
                     ))}
                   </div>

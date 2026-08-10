@@ -359,7 +359,7 @@ export default function Home() {
                 <T>Quiero enterarme de las novedades de Cancagua</T>
               </h2>
               <p className="text-lg mb-10 text-[#222221]/80">
-                <T>Recibe ofertas exclusivas, eventos especiales y novedades directamente en tu correo</T>
+                <T>Recibe ofertas exclusivas, panoramas y novedades directamente en tu correo</T>
               </p>
               <NewsletterForm variant="dark" />
             </div>

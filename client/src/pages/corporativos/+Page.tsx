@@ -1,1 +1,5 @@
-export { default } from "@/pages/eventos/empresas/+Page";
+import Corporativos from '@/pages/Corporativos';
+
+export default function Page() {
+  return <Corporativos />;
+}

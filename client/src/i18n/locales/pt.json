@@ -2,7 +2,7 @@
   "nav": {
     "home": "Início",
     "services": "Serviços",
-    "events": "Eventos",
+    "events": "Programação",
     "corporate": "Corporativo",
     "cafeteria": "Cafeteria",
     "giftCards": "Gift Cards",
@@ -48,10 +48,10 @@
       "cta1": "Ver Cardápio",
       "cta2": "Reservar Mesa"
     },
-    "eventos": {
-      "title": "Eventos & Workshops",
+    "panoramas": {
+      "title": "Programação & Workshops",
       "subtitle": "Sonoterapia, concertos, workshops e experiências transformadoras",
-      "cta1": "Ver Eventos",
+      "cta1": "Ver Programação",
       "cta2": "Conhecer Programação"
     }
   },
@@ -63,9 +63,9 @@
     "welcomeSubtitle": "Serviços que convidam à calma, à conexão com a natureza e com o profundo do Ser.",
     "servicesTitle": "Nossos Serviços",
     "servicesSubtitle": "Descubra experiências únicas de bem-estar e conexão",
-    "eventsTitle": "Próximos Eventos",
+    "eventsTitle": "Próximas Atividades",
     "eventsSubtitle": "Workshops, cerimônias e experiências transformadoras",
-    "seeAllEvents": "Ver Todos os Eventos",
+    "seeAllEvents": "Ver Toda a Programação",
     "cafeteriaTitle": "Cafeteria Saudável",
     "cafeteriaDescription": "Desfrute de terça a domingo das 10:00 às 21:00 nossa cafeteria saudável com opções de comida consciente à base de produtos locais. Temos brunch o dia todo e deliciosas opções de bebidas. Nosso cardápio inclui alternativas veganas, vegetarianas, keto, sem laticínios e sem glúten.",
     "cafeteriaOpen": "Cafeteria aberta ao público",
@@ -116,10 +116,10 @@
     }
   },
   "events": {
-    "title": "Eventos & Workshops",
+    "title": "Programação & Workshops",
     "subtitle": "Experiências transformadoras que nutrem a alma",
-    "upcomingEvents": "Próximos Eventos",
-    "noEvents": "Não há eventos programados no momento. Volte em breve para ver nossas próximas atividades.",
+    "upcomingEvents": "Próximas Atividades",
+    "noEvents": "Não há atividades programadas no momento. Volte em breve para ver nossa programação.",
     "filterAll": "Todos",
     "filterWorkshop": "Workshops",
     "filterCeremony": "Cerimônias",
@@ -220,7 +220,7 @@
     "home": "Olá, gostaria de obter mais informações sobre Cancagua",
     "services": "Olá, gostaria de reservar um serviço em Cancagua",
     "biopiscinas": "Olá, gostaria de reservar as Biopiscinas Geotermais",
-    "events": "Olá, gostaria de informações sobre os eventos de Cancagua",
+    "events": "Olá, gostaria de informações sobre a programação de Cancagua",
     "cafeteria": "Olá, gostaria de reservar uma mesa na cafeteria",
     "giftCards": "Olá, gostaria de comprar um gift card",
     "contact": "Olá, tenho uma dúvida sobre Cancagua"

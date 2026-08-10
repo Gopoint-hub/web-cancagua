@@ -1,1 +1,1 @@
-export { default } from "@/pages/eventos/sociales/+title";
+export default "Celebraciones en Frutillar | Cumpleaños y Grupos - Cancagua";

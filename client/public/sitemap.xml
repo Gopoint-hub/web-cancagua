@@ -83,36 +83,30 @@
     <priority>0.8</priority>
   </url>
   
-  <!-- Eventos -->
+  <!-- Panoramas y corporativos -->
   <url>
-    <loc>https://cancagua.cl/eventos</loc>
-    <lastmod>2026-02-01</lastmod>
+    <loc>https://cancagua.cl/panoramas</loc>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cancagua.cl/eventos/empresas</loc>
-    <lastmod>2026-02-01</lastmod>
+    <loc>https://cancagua.cl/panoramas/celebraciones</loc>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cancagua.cl/eventos/sociales</loc>
-    <lastmod>2026-02-01</lastmod>
+    <loc>https://cancagua.cl/panoramas/concierto</loc>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cancagua.cl/eventos/heart-coherence-workshop</loc>
-    <lastmod>2026-02-01</lastmod>
+    <loc>https://cancagua.cl/corporativos</loc>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://cancagua.cl/eventos/taller-wim-hof</loc>
-    <lastmod>2026-02-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   
   <!-- Información -->

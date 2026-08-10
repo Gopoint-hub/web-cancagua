@@ -28,7 +28,7 @@ export default function NotFound() {
       icon: Sparkles,
     },
     {
-      title: "Eventos",
+      title: "Panoramas",
       description: "Celebra momentos especiales en un entorno único",
       href: "/panoramas",
       icon: Calendar,

@@ -2,7 +2,7 @@
   "nav": {
     "home": "Startseite",
     "services": "Dienstleistungen",
-    "events": "Veranstaltungen",
+    "events": "Aktivitäten",
     "corporate": "Unternehmen",
     "cafeteria": "Cafeteria",
     "giftCards": "Geschenkkarten",
@@ -48,10 +48,10 @@
       "cta1": "Speisekarte Ansehen",
       "cta2": "Tisch Reservieren"
     },
-    "eventos": {
-      "title": "Veranstaltungen & Workshops",
+    "panoramas": {
+      "title": "Aktivitäten & Workshops",
       "subtitle": "Klangtherapie, Konzerte, Workshops und transformative Erlebnisse",
-      "cta1": "Veranstaltungen Ansehen",
+      "cta1": "Aktivitäten Ansehen",
       "cta2": "Programm Entdecken"
     }
   },
@@ -63,9 +63,9 @@
     "welcomeSubtitle": "Dienstleistungen, die zur Ruhe, zur Verbindung mit der Natur und mit den Tiefen des Seins einladen.",
     "servicesTitle": "Unsere Dienstleistungen",
     "servicesSubtitle": "Entdecken Sie einzigartige Wellness- und Verbindungserlebnisse",
-    "eventsTitle": "Kommende Veranstaltungen",
+    "eventsTitle": "Kommende Aktivitäten",
     "eventsSubtitle": "Workshops, Zeremonien und transformative Erlebnisse",
-    "seeAllEvents": "Alle Veranstaltungen Ansehen",
+    "seeAllEvents": "Alle Aktivitäten Ansehen",
     "cafeteriaTitle": "Gesunde Cafeteria",
     "cafeteriaDescription": "Genießen Sie von Dienstag bis Sonntag von 10:00 bis 21:00 Uhr unsere gesunde Cafeteria mit bewussten Essensoptionen auf Basis lokaler Produkte. Wir bieten den ganzen Tag Brunch und exquisite Getränkeoptionen. Unsere Speisekarte umfasst vegane, vegetarische, Keto-, milchfreie und glutenfreie Alternativen.",
     "cafeteriaOpen": "Cafeteria öffentlich zugänglich",
@@ -116,10 +116,10 @@
     }
   },
   "events": {
-    "title": "Veranstaltungen & Workshops",
+    "title": "Aktivitäten & Workshops",
     "subtitle": "Transformative Erlebnisse, die die Seele nähren",
-    "upcomingEvents": "Kommende Veranstaltungen",
-    "noEvents": "Derzeit sind keine Veranstaltungen geplant. Schauen Sie bald wieder vorbei, um unsere kommenden Aktivitäten zu sehen.",
+    "upcomingEvents": "Kommende Aktivitäten",
+    "noEvents": "Derzeit sind keine Aktivitäten geplant. Schauen Sie bald wieder vorbei.",
     "filterAll": "Alle",
     "filterWorkshop": "Workshops",
     "filterCeremony": "Zeremonien",

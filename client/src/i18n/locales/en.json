@@ -2,7 +2,7 @@
   "nav": {
     "home": "Home",
     "services": "Services",
-    "events": "Events",
+    "events": "Activities",
     "corporate": "Corporate",
     "cafeteria": "Cafeteria",
     "giftCards": "Gift Cards",
@@ -48,15 +48,15 @@
       "cta1": "View Menu",
       "cta2": "Reserve Table"
     },
-    "eventos": {
-      "title": "Events & Workshops",
+    "panoramas": {
+      "title": "Activities & Workshops",
       "subtitle": "Sound therapy, concerts, workshops and transformative experiences",
-      "cta1": "View Events",
+      "cta1": "View Activities",
       "cta2": "Explore Calendar"
     },
     "concierto": {
       "title": "Bio-pools Concert",
-      "subtitle": "Cambio de Piel ✨ Sat Apr 25, 19:00. Special 2x1 tickets & 2x1 Casawer Happy Hour from 17:00.",
+      "subtitle": "Cambio de Piel ✨ Sat Apr 25, 19:00. Special 2x1 access & 2x1 Casawer Happy Hour from 17:00.",
       "cta1": "Book 2x1"
     }
   },
@@ -68,9 +68,9 @@
     "welcomeSubtitle": "Services that invite calmness, connection with nature, and with the depths of Being.",
     "servicesTitle": "Our Services",
     "servicesSubtitle": "Discover unique wellness and connection experiences",
-    "eventsTitle": "Upcoming Events",
+    "eventsTitle": "Upcoming Activities",
     "eventsSubtitle": "Workshops, ceremonies and transformative experiences",
-    "seeAllEvents": "View All Events",
+    "seeAllEvents": "View All Activities",
     "cafeteriaTitle": "Healthy Cafeteria",
     "cafeteriaDescription": "Enjoy from Tuesday to Sunday from 10:00 to 21:00 our healthy cafeteria with conscious food options based on local products. We offer all-day brunch and exquisite beverage options. Our menu includes vegan, vegetarian, keto, dairy-free and gluten-free alternatives.",
     "cafeteriaOpen": "Cafeteria open to the public",
@@ -121,10 +121,10 @@
     }
   },
   "events": {
-    "title": "Events & Workshops",
+    "title": "Activities & Workshops",
     "subtitle": "Transformative experiences that nourish the soul",
-    "upcomingEvents": "Upcoming Events",
-    "noEvents": "No events scheduled at this time. Come back soon to see our upcoming activities.",
+    "upcomingEvents": "Upcoming Activities",
+    "noEvents": "No activities are scheduled at this time. Come back soon to see what is coming next.",
     "filterAll": "All",
     "filterWorkshop": "Workshops",
     "filterCeremony": "Ceremonies",

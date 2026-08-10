@@ -71,7 +71,7 @@ export default function Page() {
                 Nuestro proyecto comenzó con la visión de ofrecer una alternativa de bienestar que fuera completamente natural y sostenible. Las biopiscinas utilizan un sistema de purificación biológica, sin cloro ni químicos, manteniendo el agua a una temperatura constante de 37º-40º gracias a la energía geotérmica.
               </p>
               <p className="text-lg leading-relaxed">
-                Con el tiempo, Cancagua ha crecido para convertirse en un centro integral de bienestar, ofreciendo hot tubs, masajes, clases de yoga y movimiento, eventos especiales y una cafetería saludable. Todo esto en un entorno natural privilegiado, rodeado de bosque nativo y con vistas espectaculares al lago y los volcanes.
+                Con el tiempo, Cancagua ha crecido para convertirse en un centro integral de bienestar, ofreciendo hot tubs, masajes, clases de yoga y movimiento, panoramas especiales y una cafetería saludable. Todo esto en un entorno natural privilegiado, rodeado de bosque nativo y con vistas espectaculares al lago y los volcanes.
               </p>
             </div>
           </div>

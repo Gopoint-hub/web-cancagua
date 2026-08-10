@@ -33,7 +33,7 @@ const emptyForm = {
   message: "",
 };
 
-export default function EventosSociales() {
+export default function Celebraciones() {
   const [formData, setFormData] = useState(emptyForm);
   const [serviceQuantities, setServiceQuantities] = useState<ServiceQuantities>({});
 
@@ -94,7 +94,7 @@ export default function EventosSociales() {
   };
 
   return (
-    <AutoTranslateProvider pageId="eventos-sociales">
+    <AutoTranslateProvider pageId="celebraciones">
       <div className="font-cg-sans min-h-screen bg-[#F4F2ED] text-[#222221]">
         <section className="relative flex min-h-[680px] items-end overflow-hidden bg-[#1B212D] px-6 pb-20 pt-32 text-[#FCF9F9] md:pb-28">
           <img

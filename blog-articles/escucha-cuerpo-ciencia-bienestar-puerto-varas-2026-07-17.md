@@ -68,11 +68,11 @@ La principal diferencia radica en la conexión con la naturaleza. Mientras una p
 
 Sí, y es lo que a veces se llama un “dolor bueno”. Cuando un terapeuta trabaja sobre una contractura muscular profunda, es normal sentir una molestia o una presión intensa. Este es un indicador de que se está llegando al origen de la tensión para liberarla. La clave es la comunicación: siempre debes sentirte con la confianza de decirle a tu masajista si la presión es demasiada. El objetivo no es sufrir, sino liberar.
 
-### Más Allá del Relax: Retiros de Bienestar y Eventos que Inspiran
+### Más Allá del Relax: Retiros y Jornadas de Bienestar que Inspiran
 
 Una visita a Cancagua puede cambiar tu día, pero una inmersión más profunda puede cambiar tu perspectiva. Por eso, hemos diseñado retiros de bienestar para quienes buscan una desconexión total. Son experiencias que combinan terapias de spa, contacto con la naturaleza, alimentación consciente y talleres que te entregan herramientas para llevar el bienestar a tu vida diaria. Un retiro de desconexión cerca del Lago Llanquihue es el regalo perfecto para tu salud mental y física.
 
-También hemos llevado esta filosofía al mundo corporativo. Organizamos eventos y jornadas de bienestar para empresas que entienden que un equipo sano, motivado y sin burnout es un equipo más productivo y creativo. Es una forma de decir “gracias” que va más allá de un bono y que tiene un impacto real en el clima laboral.
+También hemos llevado esta filosofía al mundo corporativo. Organizamos actividades y jornadas de bienestar para empresas que entienden que un equipo sano, motivado y sin burnout es un equipo más productivo y creativo. Es una forma de decir “gracias” que va más allá de un bono y que tiene un impacto real en el clima laboral.
 
 ### Conclusión: Es Hora de Escuchar
 

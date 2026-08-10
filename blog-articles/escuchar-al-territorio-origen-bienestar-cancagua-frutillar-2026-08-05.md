@@ -6,7 +6,7 @@ date: "2026-08-05"
 author: "Cancagua"
 category: "Bienestar"
 metaDescription: "Descubre cómo Cancagua nace de un diálogo con la naturaleza de Frutillar. Una pausa de bienestar en el sur de Chile, donde cada detalle respeta su origen."
-keywords: ["bienestar sur de Chile", "spa Frutillar", "biopiscinas geotermales", "retiro de bienestar Chile", "masajes terapéuticos Puerto Varas", "turismo sustentable región de los lagos", "eventos corporativos Frutillar", "terapias holísticas sur de Chile", "qué hacer en Frutillar para relajarse", "spa con vista al volcán Osorno"]
+keywords: ["bienestar sur de Chile", "spa Frutillar", "biopiscinas geotermales", "retiro de bienestar Chile", "masajes terapéuticos Puerto Varas", "turismo sustentable región de los lagos", "jornadas corporativas Frutillar", "terapias holísticas sur de Chile", "qué hacer en Frutillar para relajarse", "spa con vista al volcán Osorno"]
 image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1785954504/blog/blog/1785954503796-rzk0ve.jpg"
 status: "published"
 ---
@@ -55,7 +55,7 @@ La sustentabilidad es el pilar de nuestra existencia. Más que una etiqueta, es 
 
 ### Tu retiro de bienestar: una conversación con la naturaleza
 
-Cuando nos visitas, ya sea para un masaje de fin de semana, un completo Retiro de Bienestar o un evento corporativo que busca inspiración, te sumas a esta conversación. La calma que sientes no es artificial; es el resultado de un espacio que vive en paz con su entorno.
+Cuando nos visitas, ya sea para un masaje de fin de semana, un completo Retiro de Bienestar o una jornada corporativa que busca inspiración, te sumas a esta conversación. La calma que sientes no es artificial; es el resultado de un espacio que vive en paz con su entorno.
 
 Aquí, la pausa no es una ausencia de actividad, sino una presencia plena. Es el momento en que tu propio ritmo interno se sincroniza con el ritmo de la tierra. Es sentir el calor geotermal, oler la madera húmeda después de la lluvia, ver cómo la niebla se levanta sobre el lago al amanecer. Es darte cuenta de que tú también eres parte de este territorio.
 

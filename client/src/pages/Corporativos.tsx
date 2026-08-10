@@ -9,7 +9,7 @@ import { Users, Target, Award, Calendar, Coffee, Waves, Sparkles, CheckCircle2, 
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { AutoTranslateProvider, T } from "@/components/AutoTranslate";
-import { FAQS_EVENTOS } from "@/lib/faqs-eventos";
+import { FAQS_CORPORATIVOS } from "@/lib/faqs-corporativos";
 
 const corporateQuoteServices = [
   { id: "hot-tubs", label: "Hot-tubs", maxPeople: 60 },
@@ -37,12 +37,12 @@ const emptyCorporateForm = {
   email: "",
   phone: "",
   numberOfPeople: "",
-  eventDate: "",
+  preferredDate: "",
   objective: "",
   message: "",
 };
 
-export default function EventosEmpresas() {
+export default function Corporativos() {
   const [formData, setFormData] = useState(emptyCorporateForm);
   const [serviceQuantities, setServiceQuantities] = useState<CorporateServiceQuantities>({});
 
@@ -101,7 +101,7 @@ export default function EventosEmpresas() {
     const servicesSummary = selectedServices
       .map(({ id, label }) => `- ${label}: ${serviceQuantities[id]} personas`)
       .join("\n");
-    const fullMessage = `SOLICITUD DE COTIZACIÓN — CORPORATIVOS\n\nEmpresa: ${formData.companyName.trim()}\nContacto: ${formData.firstName.trim()} ${formData.lastName.trim()}\nNúmero total de personas: ${totalPeople}\nFecha estimada: ${formData.eventDate || "Por definir"}\nQué está buscando la empresa: ${formData.objective.trim()}\n\nServicios solicitados:\n${servicesSummary}\n\nMensaje adicional:\n${formData.message.trim() || "Sin mensaje adicional"}`;
+    const fullMessage = `SOLICITUD DE COTIZACIÓN — CORPORATIVOS\n\nEmpresa: ${formData.companyName.trim()}\nContacto: ${formData.firstName.trim()} ${formData.lastName.trim()}\nNúmero total de personas: ${totalPeople}\nFecha estimada: ${formData.preferredDate || "Por definir"}\nQué está buscando la empresa: ${formData.objective.trim()}\n\nServicios solicitados:\n${servicesSummary}\n\nMensaje adicional:\n${formData.message.trim() || "Sin mensaje adicional"}`;
 
     sendQuoteRequestMutation.mutate({
       name: `${formData.firstName.trim()} ${formData.lastName.trim()} (${formData.companyName.trim()})`,
@@ -115,32 +115,32 @@ export default function EventosEmpresas() {
   const services = [
     { icon: Waves, title: "Biopiscinas Geotermales", description: "Experiencia única en las primeras biopiscinas geotermales del mundo con vista al lago" },
     { icon: Sparkles, title: "Masajes & Spa", description: "Sesiones de relajación y bienestar para tu equipo con terapeutas profesionales" },
-    { icon: Coffee, title: "Catering Gourmet", description: "Menús personalizados con productos locales y opciones para todo tipo de eventos" },
+    { icon: Coffee, title: "Catering Gourmet", description: "Menús personalizados con productos locales y opciones para todo tipo de jornadas" },
     { icon: Target, title: "Talleres Team Building", description: "Actividades diseñadas para fortalecer la cohesión y comunicación del equipo" },
   ];
 
   const benefits = [
     "Entorno natural privilegiado frente al Lago Llanquihue",
-    "Instalaciones modernas y equipadas para eventos corporativos",
+    "Instalaciones modernas y equipadas para jornadas corporativas",
     "Programas personalizados según objetivos de tu empresa",
-    "Coordinación integral del evento de principio a fin",
+    "Coordinación integral de la jornada de principio a fin",
     "Experiencias únicas que generan impacto duradero",
     "Ubicación estratégica en la Región de Los Lagos",
   ];
 
   return (
-    <AutoTranslateProvider pageId="eventos-empresas">
+    <AutoTranslateProvider pageId="corporativos">
       <div className="font-cg-sans min-h-screen bg-[#F4F2ED] text-[#222221]">
           {/* Hero */}
           <section className="relative min-h-[680px] overflow-hidden bg-[#1B212D] px-6 pb-20 pt-32 text-[#FCF9F9] md:pb-28">
-            <img src="https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309165/cancagua/images/eventos-empresas-hero.jpg" alt="Equipo compartiendo una experiencia corporativa en Cancagua" className="absolute inset-0 h-full w-full object-cover opacity-55" />
+            <img src="https://res.cloudinary.com/dhuln9b1n/image/upload/cancagua/images/corporativos-hero.jpg" alt="Equipo compartiendo una experiencia corporativa en Cancagua" className="absolute inset-0 h-full w-full object-cover opacity-55" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#1B212D] via-[#1B212D]/80 to-[#1B212D]/20" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1B212D] via-transparent to-[#1B212D]/25" />
             <div className="relative mx-auto flex min-h-[500px] max-w-6xl items-end">
               <div className="max-w-4xl">
               <p className="font-cg-mono flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-[#CCD1DB]"><Building2 className="h-4 w-4" /><T>BIENESTAR EN EQUIPO</T></p>
               <h1 className="font-cg-serif mt-8 max-w-3xl text-5xl font-normal leading-[1.03] tracking-[-0.025em] md:text-7xl lg:text-[5.25rem]">
-                <T>Eventos para empresas frente al Lago Llanquihue.</T>
+                <T>Jornadas corporativas frente al Lago Llanquihue.</T>
               </h1>
               <p className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1] md:text-xl">
                 <T>Retiros corporativos, team building y jornadas de bienestar para tu equipo en Frutillar. Hasta 80 personas, con biopiscinas geotermales, hot tubs privados, sauna y masajes.</T>
@@ -246,7 +246,7 @@ export default function EventosEmpresas() {
             </div>
           </section>
 
-          {/* Tipos de Eventos */}
+          {/* Formatos corporativos */}
           <section className="border-y border-black/10 bg-[#FCF9F9] px-6 py-20 md:py-28">
             <div className="mx-auto max-w-6xl">
               <div className="mb-12 max-w-3xl">
@@ -274,8 +274,8 @@ export default function EventosEmpresas() {
                   <CardContent className="p-8">
                     <Award className="mb-8 h-8 w-8 text-[#696F4D]" />
                     <p className="font-cg-mono text-[11px] uppercase tracking-[0.16em] text-[#827D78]">03 · CELEBRACIÓN</p>
-                    <h3 className="font-cg-serif mt-4 text-2xl font-normal leading-tight"><T>Eventos de Reconocimiento</T></h3>
-                    <p className="mt-4 text-sm font-light leading-relaxed text-[#635E5A]"><T>Celebraciones corporativas, premiaciones y eventos especiales para reconocer logros</T></p>
+                    <h3 className="font-cg-serif mt-4 text-2xl font-normal leading-tight"><T>Celebraciones de Reconocimiento</T></h3>
+                    <p className="mt-4 text-sm font-light leading-relaxed text-[#635E5A]"><T>Celebraciones corporativas, premiaciones y actividades especiales para reconocer logros</T></p>
                   </CardContent>
                 </Card>
               </div>
@@ -290,7 +290,7 @@ export default function EventosEmpresas() {
                 <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl"><T>Preguntas frecuentes</T></h2>
               </div>
               <div className="divide-y divide-black/10 border-y border-black/10">
-                {FAQS_EVENTOS.map((faq) => (
+                {FAQS_CORPORATIVOS.map((faq) => (
                   <div key={faq.question} className="py-7 md:py-8">
                     <h3 className="font-cg-serif text-xl font-normal leading-snug md:text-2xl"><T>{faq.question}</T></h3>
                     <p className="font-cg-soft mt-3 text-sm leading-relaxed text-[#635E5A] md:text-base"><T>{faq.answer}</T></p>
@@ -305,7 +305,7 @@ export default function EventosEmpresas() {
             <div className="mx-auto max-w-5xl">
               <div className="mb-12 max-w-3xl">
                 <p className="font-cg-mono text-xs uppercase tracking-[0.2em] text-[#CCD1DB]"><T>SOLICITA TU COTIZACIÓN</T></p>
-                <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl"><T>Diseñemos tu evento juntos.</T></h2>
+                <h2 className="font-cg-serif mt-5 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl"><T>Diseñemos tu jornada juntos.</T></h2>
                 <p className="mt-6 text-lg font-light leading-relaxed text-[#D7D4D1]"><T>Completa el formulario y te contactaremos en menos de 24 horas con una propuesta personalizada.</T></p>
               </div>
               <form className="space-y-8 rounded-[24px] border border-white/10 bg-[#FCF9F9] p-7 text-[#222221] md:p-10" onSubmit={handleSubmit}>
@@ -337,7 +337,7 @@ export default function EventosEmpresas() {
                   </div>
                   <div>
                     <Label htmlFor="corporate-date" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Fecha estimada</T></Label>
-                    <Input id="corporate-date" type="date" value={formData.eventDate} onChange={(event) => setFormData({ ...formData, eventDate: event.target.value })} className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+                    <Input id="corporate-date" type="date" value={formData.preferredDate} onChange={(inputEvent) => setFormData({ ...formData, preferredDate: inputEvent.target.value })} className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
                   </div>
                 </div>
 
@@ -395,7 +395,7 @@ export default function EventosEmpresas() {
               <Calendar className="mx-auto h-6 w-6 text-[#CCD1DB]" />
               <p className="font-cg-mono mt-6 text-xs uppercase tracking-[0.2em] text-[#CCD1DB]"><T>EL PRÓXIMO ENCUENTRO</T></p>
               <h2 className="font-cg-serif mt-6 text-4xl font-normal leading-tight tracking-[-0.02em] md:text-6xl"><T>¿Listo para crear una experiencia memorable?</T></h2>
-              <p className="mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1]"><T>Nuestro equipo está listo para diseñar el evento corporativo perfecto para tu empresa.</T></p>
+              <p className="mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-[#D7D4D1]"><T>Nuestro equipo está listo para diseñar la jornada corporativa ideal para tu empresa.</T></p>
               <Button size="lg" className="font-cg-mono mt-10 rounded-full bg-[#FCF9F9] px-8 py-6 text-xs font-semibold uppercase tracking-[0.15em] text-[#333D51] hover:bg-white" onClick={scrollToQuoteForm}>
                 <T>Solicitar cotización</T>
                 <ArrowRight className="ml-2 h-4 w-4" />

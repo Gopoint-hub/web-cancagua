@@ -1,1 +1,1 @@
-export { default } from "@/pages/eventos/+title";
+export default "Panoramas y Talleres en Frutillar | Cancagua";

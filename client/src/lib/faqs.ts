@@ -167,9 +167,9 @@ export const FAQS: Faq[] = [
   },
   {
     category: "Otros servicios",
-    question: "Quiero hacer un evento, taller o retiro. ¿Con quién hablo?",
+    question: "Quiero organizar una actividad, taller o retiro. ¿Con quién hablo?",
     answer:
-      "Escríbele a Bernardita Mir, nuestra encargada de Eventos, a eventos@cancagua.cl y te ayudará a armar la propuesta.",
+      "Escríbele a Bernardita Mir, nuestra encargada de Corporativos y Panoramas, a eventos@cancagua.cl y te ayudará a armar la propuesta.",
   },
   {
     category: "Otros servicios",

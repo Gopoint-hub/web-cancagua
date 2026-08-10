@@ -24,8 +24,8 @@ export function WhatsAppButton() {
       return "Hola, me interesa información sobre los servicios";
     } else if (location === "/corporativos") {
       return "Hola, quiero cotizar una experiencia corporativa en Cancagua";
-    } else if (location.startsWith("/panoramas") || location.startsWith("/eventos")) {
-      return "Hola, quiero información sobre los eventos";
+    } else if (location.startsWith("/panoramas")) {
+      return "Hola, quiero información sobre los panoramas";
     } else if (location === "/cafeteria") {
       return "Hola, quiero reservar mesa en la cafetería";
     /* OCULTO - GIFT CARDS - RESTAURAR:

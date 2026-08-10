@@ -3,7 +3,7 @@
  *
  * Genera el sitemap con todas las rutas publicas del sitio.
  * Las rutas estaticas estan definidas aqui; en el futuro se puede
- * extender para consultar al CMS por rutas dinamicas (blog posts, eventos, etc.)
+ * extender para consultar al CMS por rutas dinámicas (blog posts, panoramas, etc.)
  */
 
 import type { Express } from "express";
