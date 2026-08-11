@@ -35,6 +35,9 @@ const redirectMap: Record<string, string> = {
   "/categoria/giftcards/": "/",
   "/menu": "/cartahottubs",
   "/menu/": "/cartahottubs",
+  "/carta-hottub.html": "/cartahottubs",
+  "/carta-hottub": "/cartahottubs",
+  "/carta-hottub/": "/cartahottubs",
   "/yoga-nueva": "/clases",
   "/yoga-nueva/": "/clases",
 
@@ -156,6 +159,7 @@ const redirectMap: Record<string, string> = {
   // porque /carta lleva meses indexada y ese link ya anda circulando.
   "/carta": "/cartahottubs",
   "/carta/": "/cartahottubs",
+  "/cartahottubs/": "/cartahottubs",
 };
 
 /**

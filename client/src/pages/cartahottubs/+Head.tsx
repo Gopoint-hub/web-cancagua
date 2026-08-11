@@ -4,7 +4,7 @@ export default function Head() {
   const seoData = {
     title: "Menú Hot Tubs | Carta y precios — Cancagua Spa, Frutillar",
     description:
-      "Carta exclusiva para los hot tubs de Cancagua: tablas de picoteo, vinos, cervezas artesanales, kombucha, jugos naturales y sours, con precios.",
+      "Carta exclusiva para los hot tubs de Cancagua: tablas de picoteo, vinos, cervezas artesanales, kombucha, jugos naturales y sours, con precios y preorden.",
     keywords:
       "carta hot tubs cancagua, menu tinajas frutillar, tablas de picoteo frutillar, precios cafeteria cancagua",
     canonical: "/cartahottubs",
@@ -12,9 +12,6 @@ export default function Head() {
       "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309079/cancagua/images/11_hottub-service.webp",
   };
 
-  // Menu de schema.org: le dice a la IA que esto es una carta con precios, no
-  // una pagina cualquiera. "cuales son los valores" es la consulta #1 en todos
-  // los canales y hasta ahora no habia ni un precio publicado en la web.
   const menuSchema = {
     "@context": "https://schema.org",
     "@type": "Menu",
@@ -52,26 +49,17 @@ export default function Head() {
       <meta name="description" content={seoData.description} />
       <meta name="keywords" content={seoData.keywords} />
       <link rel="canonical" href={`https://cancagua.cl${seoData.canonical}`} />
-
-      {/* Open Graph */}
       <meta property="og:title" content={seoData.title} />
       <meta property="og:description" content={seoData.description} />
       <meta property="og:image" content={seoData.image} />
-      <meta
-        property="og:url"
-        content={`https://cancagua.cl${seoData.canonical}`}
-      />
+      <meta property="og:url" content={`https://cancagua.cl${seoData.canonical}`} />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="Cancagua Spa & Retreat Center" />
       <meta property="og:locale" content="es_CL" />
-
-      {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={seoData.title} />
       <meta name="twitter:description" content={seoData.description} />
       <meta name="twitter:image" content={seoData.image} />
-
-      {/* Schema.org */}
       <script type="application/ld+json">{JSON.stringify(menuSchema)}</script>
     </>
   );
