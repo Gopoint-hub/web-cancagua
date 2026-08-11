@@ -168,6 +168,22 @@ const redirectMap: Record<string, string> = {
 function redirectMiddleware(req: Request, res: Response, next: NextFunction) {
   const path = req.path.toLowerCase();
 
+  // El prototipo histórico de la carta se mantiene accesible para revisión.
+  // La URL original tuvo un 301 y algunos navegadores pueden conservarlo;
+  // esta segunda URL reescribe internamente al mismo HTML sin redirigir.
+  if (path === "/prototipo-carta-hottub.html") {
+    res.setHeader("Cache-Control", "no-store, max-age=0");
+    req.url = req.originalUrl.replace(
+      /^\/prototipo-carta-hottub\.html/i,
+      "/carta-hottub.html",
+    );
+    return next();
+  }
+
+  if (path === "/carta-hottub.html") {
+    res.setHeader("Cache-Control", "no-store, max-age=0");
+  }
+
   // Redirigir /cms y /cms/* al CMS externo
   if (path === "/cms" || path.startsWith("/cms/")) {
     const cmsPath = path === "/cms" ? "/" : path.substring(4); // quitar "/cms" del inicio
