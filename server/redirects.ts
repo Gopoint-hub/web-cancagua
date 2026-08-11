@@ -35,7 +35,6 @@ const redirectMap: Record<string, string> = {
   "/categoria/giftcards/": "/",
   "/menu": "/cartahottubs",
   "/menu/": "/cartahottubs",
-  "/carta-hottub.html": "/cartahottubs",
   "/carta-hottub": "/cartahottubs",
   "/carta-hottub/": "/cartahottubs",
   "/yoga-nueva": "/clases",
