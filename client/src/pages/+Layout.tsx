@@ -55,12 +55,18 @@ export default function Layout({ children }: { children: ReactNode }) {
               <DynamicHead />
 
               <div className="min-h-screen flex flex-col bg-[#FCF9F9]">
-                <Navbar />
+                <div className="site-navigation-shell">
+                  <Navbar />
+                </div>
                 <main className="flex-1">
                   {children}
                 </main>
-                <Footer />
-                <WhatsAppButton />
+                <div className="site-footer-shell">
+                  <Footer />
+                </div>
+                <div className="site-whatsapp-shell">
+                  <WhatsAppButton />
+                </div>
               </div>
             </TooltipProvider>
           </LanguageProvider>

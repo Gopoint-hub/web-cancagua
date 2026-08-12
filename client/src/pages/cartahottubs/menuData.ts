@@ -10,132 +10,68 @@ export type MenuSection = {
   items: MenuItem[];
 };
 
-// Datos contrastados con los productos activos de FUDO el 1 de agosto de 2026.
-// Esta carta conserva los productos que ya estaban publicados y agrega únicamente
-// Ulmo Sour Catedral, según lo solicitado por Operaciones.
+const charcuteria =
+  "Quesos de Los Bajos, charcutería Nueva Braun, 3 tipos de salsa untable, galletitas sacapita, papitas Gololo, fruta de la estación y aceitunas.";
+const vegana =
+  "Quesos veganos Pepilú, pepinillos dill, tomates cherry, fruta de la estación, salsas untables veganas, papitas Gololo, galletitas sacapita y frutos secos.";
+
+// Copia estática para SEO de la carta aprobada. La interfaz y el pedido obtienen
+// este mismo catálogo desde el CMS para respetar disponibilidad en tiempo real.
 export const MENU_SECTIONS: MenuSection[] = [
   {
     titulo: "Tablas",
     items: [
+      { nombre: "Charcutería & Quesos para 2 a 3 personas", precio: 28000, descripcion: charcuteria },
+      { nombre: "Charcutería & Quesos para 4 a 6 personas", precio: 38000, descripcion: charcuteria },
       {
-        nombre: "Tabla Charcuteria y Quesos 2 a 3 personas",
+        nombre: "Tabla de Niños para 3 personas",
         precio: 28000,
         descripcion:
-          "Quesos DCabra y DVaca, de Los Bajos; charcutería La Vikinga Puerto Varas; salame; jamón curado; salsas untables; galletitas Sacapita de sal de mar y/o romero; papitas Gololo nativas y camote; y fruta de la estación.",
+          "Queso de Los Bajos, salame, pepinillos dill, tomates cherry, fruta de la estación, pocillo de mermelada, galletas bañadas en chocolate, galletas saladas, papitas Gololo, palomitas y frutos secos.",
       },
-      {
-        nombre: "Tabla Charcutería y Quesos 4 a 6 personas",
-        precio: 38000,
-        descripcion:
-          "Quesos DCabra y DVaca, de Los Bajos; charcutería La Vikinga Puerto Varas; salame; jamón curado; salsas untables; galletitas Sacapita de sal de mar y/o romero; papitas Gololo nativas y camote; y fruta de la estación.",
-      },
-      {
-        nombre: "Tabla de Niños 2 a 4 personas",
-        precio: 28000,
-        descripcion:
-          "Queso DVaca Los Bajos, salame, pepinillos dill, tomates cherry, fruta de la estación, mermelada, galletas bañadas en chocolate, galletas saladas, papitas regionales Gololo nativas y camote, palomitas y frutos secos (plátano, habas o choclo deshidratado).",
-      },
-      {
-        nombre: "Tabla Otoño (Vegana) 2 a 3 personas",
-        precio: 28000,
-        aptoVegano: true,
-        descripcion:
-          "Tres tipos de salsas y/o hummus (hummus de garbanzo de la casa, pesto de pimiento piquillo, salsa de aceitunas o alcachofa), frutos secos, pepinillo dill, tomate cherry, fruta de la estación, aceitunas aliñadas, papas Gololo y galletas horneadas Sacapitas.",
-      },
-      {
-        nombre: "Tabla Otoño (Vegana) 4 a 6 personas",
-        precio: 38000,
-        aptoVegano: true,
-        descripcion:
-          "Tres tipos de salsas y/o hummus (hummus de garbanzo de la casa, pesto de pimiento piquillo, salsa de aceitunas o alcachofa), frutos secos, pepinillo dill, tomate cherry, fruta de la estación, aceitunas aliñadas, papas Gololo y galletas horneadas Sacapitas.",
-      },
+      { nombre: "Tabla Otoño (vegana) para 2 a 3 personas", precio: 28000, descripcion: vegana, aptoVegano: true },
+      { nombre: "Tabla Otoño (vegana) para 4 a 6 personas", precio: 38000, descripcion: vegana, aptoVegano: true },
     ],
   },
   {
     titulo: "Vinos y espumante",
     items: [
-      { nombre: "Espumante Berta Extra Brut", precio: 15900 },
-      { nombre: "Vino - Chardonnay Moscatel", precio: 15000 },
-      { nombre: "Vino - Cinsault", precio: 15000 },
-    ],
-  },
-  {
-    titulo: "Cervezas Chester",
-    items: [
-      {
-        nombre: "Chester Summer Ale",
-        precio: 4000,
-        descripcion:
-          '"Dos Kombis". Ligera, fresca y recomendable para consumir con alimentos frescos. 4,8° gl / IBU 21.',
-      },
-      {
-        nombre: "Chester Chilean Pale Ale",
-        precio: 4000,
-        descripcion:
-          '"Rustic 99". Clásica, con amargor floral y complejo, cuerpo maltoso y notas caramelizadas. Debido a su balance, es posible consumirla con todo tipo de alimentos. 5,2° gl / IBU 26.',
-      },
-      {
-        nombre: "Chester Stout",
-        precio: 4000,
-        descripcion:
-          '"Obama’s Redemption". Cerveza negra con suaves notas a café tostado y cacao amargo. Blando amargor y dulzor seco, ideal para consumir a una temperatura ligeramente fría. 5,5° gl / IBU 28.',
-      },
-      {
-        nombre: "Chester Indian Pale Ale",
-        precio: 4000,
-        descripcion:
-          '"Che’s IPA". Cerveza amarga floral con notas y aromas a lúpulos. Recomendable para disfrutar lentamente. 6,8° gl / IBU 55.',
-      },
-    ],
-  },
-  {
-    titulo: "Cervezas Tropera",
-    items: [
-      { nombre: "Cerveza Tropera Crazy Juan", precio: 4000 },
-      { nombre: "Cerveza Tropera Strong", precio: 4000 },
-      { nombre: "Cerveza Tropera Don Manu", precio: 4000 },
-      { nombre: "Cerveza Tropera Guadalina", precio: 4000 },
-      { nombre: "Cerveza Tropera Bota Sucia", precio: 4000 },
+      { nombre: "Espumante Berla Extra Brut · botella 750 cc", precio: 13000 },
+      { nombre: "Vino Berla Chardonnay Moscatel · botella 750 cc", precio: 12000 },
+      { nombre: "Vino Berla Cinsault · botella 750 cc", precio: 12000 },
     ],
   },
   {
     titulo: "Jugos Rubén Avilés",
-    items: [
-      { nombre: "Jugo 100% natural Rubén Avilés Manzana-Maqui", precio: 4000 },
-      {
-        nombre: "Jugo 100% natural Rubén Avilés Manzana Naranja",
-        precio: 4000,
-      },
-      {
-        nombre: "Jugo 100% natural Ruben Aviles Manzana-Cranberry",
-        precio: 4000,
-      },
-      { nombre: "Jugo 100% natural Rubén Avilés Manzana", precio: 4000 },
-    ],
+    items: ["Manzana - Maqui", "Manzana - Naranja", "Manzana - Cranberry", "Manzana"].map(nombre => ({ nombre, precio: 4000 })),
   },
   {
-    titulo: "Kombucha La IDA",
-    items: [
-      { nombre: "Kombucha La IDA - Maracuyá Cardamomo", precio: 4000 },
-      { nombre: "Kombucha La IDA - Maqui Lupulo", precio: 4000 },
-      { nombre: "Kombucha La IDA - Lemon Fresh", precio: 4000 },
-      { nombre: "Kombucha La IDA Te verde", precio: 4000 },
-      { nombre: "Kombucha LA IDA - Piña Albahaca", precio: 4000 },
-    ],
+    titulo: "Kombucha La Ida",
+    items: ["Maracuyá Cardamomo", "Maqui Hops", "Lemon Fresh", "Té verde y lúpulo", "Piña Albahaca"].map(nombre => ({ nombre, precio: 4000 })),
+  },
+  {
+    titulo: "Aguas Puyehue",
+    items: ["Agua con gas", "Agua sin gas"].map(nombre => ({ nombre, precio: 3000 })),
+  },
+  {
+    titulo: "Cervezas Tropera",
+    items: ["Crazy Juan · Brown Ale", "Strong #47 · Strong Ale", "Don Manu · Classic IPA", "Guadalina · Blonde Ale", "Blanché · bota sucia"].map(nombre => ({ nombre, precio: 4000 })),
+  },
+  {
+    titulo: "Cervezas Chester",
+    items: ["Dos Kombis · Summer Ale", "Rustic 99 · Chilean Pale Ale", "Obama´s Redemption · Stout", "Che´s IPA · India Pale Ale"].map(nombre => ({ nombre, precio: 4000 })),
   },
   {
     titulo: "Sour Catedral",
-    items: [
-      { nombre: "Menta jengibre sour Catedral", precio: 7900 },
-      { nombre: "Murta Sour Catedral", precio: 7900 },
-      { nombre: "Ulmo Sour Catedral", precio: 7900 },
-    ],
+    items: ["Menta jengibre", "Murta"].map(nombre => ({ nombre, precio: 7900 })),
   },
   {
-    titulo: "Aguas minerales",
+    titulo: "Postres",
     items: [
-      { nombre: "Agua mineral con gas", precio: 3000 },
-      { nombre: "Agua mineral sin gas", precio: 3000 },
+      { nombre: "Helados Pucía", precio: 6000 },
+      { nombre: "Cheesecake de Chocolate", precio: 5500 },
+      { nombre: "Postres Keto", precio: 5500 },
+      { nombre: "Postres Fraguitos", precio: 5000 },
     ],
   },
 ];
