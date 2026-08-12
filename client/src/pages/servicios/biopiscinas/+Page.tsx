@@ -61,10 +61,11 @@ export default function ServicioBiopiscinas() {
   const catalogs = catalogResponse?.services?.length ? catalogResponse.services : legacyCatalog ? [legacyCatalog] : [];
   const catalog = catalogs.find(item => item.service.slug === "biopiscinas-geotermales") ?? catalogs[0];
   const fullDayCatalog = catalogs.find(item => item.service.slug === "full-day-biopiscinas");
+  const lateHourCatalog = catalogs.find(item => item.service.slug === "late-hour-biopiscinas");
 
   useEffect(() => {
-    const isFullDay = new URLSearchParams(window.location.search).get("modalidad") === "full-day";
-    setRequestedServiceSlug(isFullDay ? "full-day-biopiscinas" : "biopiscinas-geotermales");
+    const modalidad = new URLSearchParams(window.location.search).get("modalidad");
+    setRequestedServiceSlug(modalidad === "full-day" ? "full-day-biopiscinas" : modalidad === "late-hour" ? "late-hour-biopiscinas" : "biopiscinas-geotermales");
     if (catalog && window.location.hash === "#reservar") setCartOpen(true);
   }, [catalog]);
 
@@ -105,19 +106,29 @@ export default function ServicioBiopiscinas() {
         </div>
       </section>
 
+      <section className="border-b border-[#D7D4D1] bg-[#333D51] py-6 text-white">
+        <button type="button" onClick={() => openCart("late-hour-biopiscinas")} disabled={!lateHourCatalog} className="container flex w-full flex-col items-center justify-between gap-4 text-center disabled:cursor-not-allowed disabled:opacity-60 sm:flex-row sm:text-left">
+          <div>
+            <p className="font-cg-mono text-[11px] uppercase tracking-[0.2em] text-[#D3BC8D]"><T>Nuevo horario de Biopiscinas</T></p>
+            <p className="mt-1 font-cg-serif text-2xl font-light md:text-3xl"><T>Late Hour · 20:00 a 21:30</T></p>
+          </div>
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/50 px-5 py-3 font-cg-mono text-xs uppercase tracking-[0.14em]"><T>Adultos $24.000</T><ArrowRight className="h-4 w-4" /></span>
+        </button>
+      </section>
+
       <section className="border-b border-[#D7D4D1] bg-[#F8F6F1] py-20 md:py-28">
         <div className="container">
           <div className="mx-auto max-w-3xl text-center">
             <p className="font-cg-mono text-xs uppercase tracking-[0.22em] text-[#4B5872]"><T>Elige tu ritmo</T></p>
             <h2 className="mt-4 font-cg-serif text-4xl font-light leading-tight text-[#222221] md:text-6xl">
-              <T>Una experiencia, dos formas de vivirla</T>
+              <T>Una experiencia, tres formas de vivirla</T>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl font-cg-soft text-lg leading-relaxed text-[#635E5A]">
-              <T>Una pausa de medio día o una jornada completa. Ambas modalidades invitan a disfrutar las biopiscinas, el paisaje y los espacios de Cancagua sin apuro.</T>
+              <T>Una pausa de medio día, una jornada completa o un momento nocturno. Elige la modalidad que mejor acompañe tu ritmo.</T>
             </p>
           </div>
 
-          <div className="mx-auto mt-12 grid max-w-6xl gap-6 lg:grid-cols-2">
+          <div className="mx-auto mt-12 grid max-w-7xl gap-6 lg:grid-cols-3">
             <article className="group overflow-hidden rounded-[2rem] border border-[#D7D4D1] bg-white">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img src={FOUR_HOURS_IMAGE} alt="Dos personas disfrutando las biopiscinas geotermales frente al Lago Llanquihue" className="h-full w-full object-cover object-[center_45%] transition-transform duration-700 group-hover:scale-[1.03]" />
@@ -148,6 +159,25 @@ export default function ServicioBiopiscinas() {
                 <p className="mt-4 font-cg-soft leading-relaxed text-white/75"><T>Ocho horas para vivir Cancagua con calma, alternando aguas geotermales, descanso y naturaleza durante toda la jornada.</T></p>
                 <button type="button" disabled={!fullDayCatalog} onClick={() => openCart("full-day-biopiscinas")} className="mt-7 inline-flex items-center gap-2 border-b border-white/70 pb-1 font-cg-mono text-xs uppercase tracking-[0.14em] text-white disabled:cursor-not-allowed disabled:opacity-50">
                   <T>Elegir Full Day</T><ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            </article>
+
+            <article className="group overflow-hidden rounded-[2rem] border border-[#D3BC8D] bg-[#F1E7D9] text-[#222221]">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img src={BENEFITS_IMAGE} alt="Late Hour en las biopiscinas geotermales de Cancagua" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#222A39]/55 to-transparent" />
+                <span className="absolute left-5 top-5 rounded-full bg-[#D3BC8D] px-4 py-2 font-cg-mono text-[11px] uppercase tracking-[0.16em] text-[#222221]">
+                  <T>Nuevo · solo adultos</T>
+                </span>
+              </div>
+              <div className="p-7 md:p-9">
+                <p className="font-cg-mono text-xs uppercase tracking-[0.18em] text-[#745D49]"><T>20:00 a 21:30</T></p>
+                <h3 className="mt-3 font-cg-serif text-4xl font-light"><T>Late Hour</T></h3>
+                <p className="mt-3 font-cg-serif text-2xl font-light text-[#333D51]"><T>$24.000 por adulto</T></p>
+                <p className="mt-4 font-cg-soft leading-relaxed text-[#635E5A]"><T>Noventa minutos para cerrar el día en aguas cálidas, con cupos controlados y la calma nocturna del Lago Llanquihue.</T></p>
+                <button type="button" disabled={!lateHourCatalog} onClick={() => openCart("late-hour-biopiscinas")} className="mt-7 inline-flex items-center gap-2 border-b border-[#333D51] pb-1 font-cg-mono text-xs uppercase tracking-[0.14em] text-[#333D51] disabled:cursor-not-allowed disabled:opacity-50">
+                  <T>Elegir Late Hour</T><ArrowRight className="h-4 w-4" />
                 </button>
               </div>
             </article>
