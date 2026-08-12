@@ -133,7 +133,6 @@ export default function CartaHotTubs() {
       hotTubCode: mode === "hot_tub" ? hotTubCode : undefined,
       keyFobNumber: mode === "key_fob" ? keyFobNumber.trim() : undefined,
       serviceDate: String(form.get("serviceDate") || "") || undefined,
-      desiredTime: String(form.get("desiredTime") || "") || undefined,
       notes: String(form.get("notes") || "") || undefined,
       source:
         typeof window !== "undefined" &&
@@ -394,13 +393,23 @@ export default function CartaHotTubs() {
                 : `Llavero ${keyFobNumber}`}
             </div>
 
+            <p className="hot-tub-form-instructions">
+              Completa los campos marcados como obligatorios para enviar tu pedido.
+            </p>
+
             <div className="hot-tub-form-grid">
               <div className="full">
-                <Label htmlFor="customerName">Nombre *</Label>
-                <Input id="customerName" name="customerName" required minLength={2} />
+                <Label htmlFor="customerName">Nombre · obligatorio</Label>
+                <Input
+                  id="customerName"
+                  name="customerName"
+                  required
+                  minLength={2}
+                  placeholder="Escribe tu nombre"
+                />
               </div>
               <div>
-                <Label htmlFor="customerPhone">WhatsApp *</Label>
+                <Label htmlFor="customerPhone">WhatsApp · obligatorio</Label>
                 <Input
                   id="customerPhone"
                   name="customerPhone"
@@ -411,16 +420,18 @@ export default function CartaHotTubs() {
                 />
               </div>
               <div>
-                <Label htmlFor="serviceDate">Fecha</Label>
+                <Label htmlFor="serviceDate">Fecha · opcional</Label>
                 <Input id="serviceDate" name="serviceDate" type="date" min={minDate} />
               </div>
-              <div>
-                <Label htmlFor="desiredTime">Hora deseada</Label>
-                <Input id="desiredTime" name="desiredTime" type="time" />
-              </div>
               <div className="full">
-                <Label htmlFor="notes">Notas o alergias</Label>
-                <Textarea id="notes" name="notes" maxLength={500} rows={3} />
+                <Label htmlFor="notes">Notas o alergias · opcional</Label>
+                <Textarea
+                  id="notes"
+                  name="notes"
+                  maxLength={500}
+                  rows={3}
+                  placeholder="Cuéntanos si tienes alguna alergia o indicación especial"
+                />
               </div>
             </div>
 

@@ -526,6 +526,13 @@ html.hot-tub-order-page body > #root > div > div > main {
   font-size: 18px;
 }
 
+.hot-tub-form-instructions {
+  margin: -2px 0 -4px;
+  color: #5d5752;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .hot-tub-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -538,15 +545,28 @@ html.hot-tub-order-page body > #root > div > div > main {
 
 .hot-tub-form-grid label {
   display: block;
-  margin-bottom: 5px;
-  color: var(--muted);
-  font-size: 12px;
+  margin-bottom: 7px;
+  color: #4f4944 !important;
+  font-family: var(--font-cg-mono), monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  opacity: 1 !important;
+  text-transform: uppercase;
 }
 
 .hot-tub-form-grid input,
 .hot-tub-form-grid textarea {
   border-color: var(--line) !important;
   background: rgba(252, 249, 249, 0.72) !important;
+  color: var(--ink) !important;
+}
+
+.hot-tub-form-grid input::placeholder,
+.hot-tub-form-grid textarea::placeholder {
+  color: #8a847f !important;
+  opacity: 1;
 }
 
 .hot-tub-order-notice {
