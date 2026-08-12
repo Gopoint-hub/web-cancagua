@@ -2,6 +2,10 @@ html.hot-tub-order-page {
   scroll-behavior: smooth;
 }
 
+html.hot-tub-order-page body {
+  overflow-x: hidden;
+}
+
 html.hot-tub-order-page .site-navigation-shell,
 html.hot-tub-order-page .site-footer-shell,
 html.hot-tub-order-page .site-whatsapp-shell {
@@ -36,6 +40,13 @@ html.hot-tub-order-page body > #root > div > div > main {
     var(--paper);
   background-attachment: fixed;
   font-family: var(--font-cg-sans), "IBM Plex Sans", sans-serif;
+}
+
+.hot-tub-menu-shell,
+.hot-tub-menu-shell *,
+.hot-tub-menu-shell *::before,
+.hot-tub-menu-shell *::after {
+  box-sizing: border-box;
 }
 
 .hot-tub-menu-shell::before {
@@ -396,7 +407,8 @@ html.hot-tub-order-page body > #root > div > div > main {
   bottom: 0;
   left: 0;
   z-index: 40;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
   border-top: 1px solid var(--line);
@@ -404,6 +416,8 @@ html.hot-tub-order-page body > #root > div > div > main {
   background: rgba(252, 249, 249, 0.93);
   box-shadow: 0 -8px 30px -18px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(14px);
+  width: 100%;
+  max-width: 100vw;
 }
 
 .hot-tub-order-bar > div {
