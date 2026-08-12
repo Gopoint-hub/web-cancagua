@@ -89,13 +89,13 @@ export default function ServicioBiopiscinas() {
         <div className="container relative flex min-h-[620px] items-end pb-16 text-white md:min-h-[720px] md:pb-24">
           <div className="max-w-4xl">
             <p className="font-cg-mono text-xs uppercase tracking-[0.24em] text-white/80">
-              <T>Las primeras del mundo</T>
+              <T>Las únicas del mundo</T>
             </p>
             <h1 className="mt-4 font-cg-serif text-5xl font-light leading-[0.98] tracking-[-0.03em] md:text-7xl lg:text-8xl">
               {serviceName}
             </h1>
             <p className="mt-6 max-w-2xl font-cg-soft text-lg leading-relaxed text-white/90 md:text-xl">
-              <T>Aguas geotermales entre 37º y 40º, sin cloro y con vista al Lago Llanquihue. Una experiencia natural para detenerse, respirar y volver al cuerpo.</T>
+              <T>Aguas geotermales con temperaturas entre 36 y 40 grados, sin cloro y con vista al Lago Llanquihue. Una experiencia natural para detenerse, respirar y volver al cuerpo.</T>
             </p>
             <Button id="reservar" type="button" onClick={() => openCart()} size="lg" className="mt-8 rounded-full bg-white px-7 font-cg-mono uppercase tracking-[0.14em] text-[#333D51] hover:bg-[#F1E7D9]">
               <T>Reservar experiencia</T>
