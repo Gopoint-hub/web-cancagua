@@ -338,8 +338,16 @@ export default function CartaHotTubs() {
           </span>
           <strong>{money(subtotal)}</strong>
         </div>
-        <button type="button" disabled={!itemCount} onClick={openReview}>
-          Revisar pedido
+        <button
+          type="button"
+          disabled={!itemCount}
+          onClick={openReview}
+          aria-label="Revisar pedido"
+        >
+          <span className="hot-tub-review-label-full">Revisar pedido</span>
+          <span className="hot-tub-review-label-short" aria-hidden="true">
+            Revisar
+          </span>
         </button>
       </div>
 

@@ -440,6 +440,10 @@ html.hot-tub-order-page body > #root > div > div > main {
   opacity: 0.35;
 }
 
+.hot-tub-order-bar .hot-tub-review-label-short {
+  display: none;
+}
+
 .hot-tub-review-dialog {
   border-color: var(--line) !important;
   background:
@@ -579,6 +583,14 @@ html.hot-tub-order-page body > #root > div > div > main {
 
   .hot-tub-order-bar button {
     padding-inline: 17px;
+  }
+
+  .hot-tub-order-bar .hot-tub-review-label-full {
+    display: none;
+  }
+
+  .hot-tub-order-bar .hot-tub-review-label-short {
+    display: inline;
   }
 }
 
