@@ -151,6 +151,14 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
       utmCampaign: params.get("utm_campaign") || undefined,
     }, {
       onSuccess: (result: any) => {
+        if (!result.paymentRequired) {
+          if (!result.resultUrl) {
+            toast.error("La reserva fue confirmada, pero no pudimos abrir el comprobante");
+            return;
+          }
+          window.location.assign(result.resultUrl);
+          return;
+        }
         const form = document.createElement("form");
         form.method = "POST";
         form.action = result.paymentUrl;
