@@ -50,9 +50,9 @@ export const seoConfig: Record<string, PageSEO> = {
     image: 'https://cancagua.cl/images/hot-tubs-hero.jpg',
   },
   '/cafeteria': {
-    title: 'Cafetería Saludable Frutillar - Cancagua',
-    description: 'Disfruta de nuestra Cafetería Saludable frente al Lago Llanquihue. Brunch todo el día, café de especialidad y opciones Veganas, Keto y Sin Gluten. Ingredientes locales y vista al volcán.',
-    keywords: 'cafetería saludable frutillar, cafetería frutillar, opciones veganas frutillar, brunch frutillar, cafe especialidad lago llanquihue',
+    title: 'Cafetería en Frutillar | Brunch, almuerzo y café - Cancagua',
+    description: 'Cafetería frente al Lago Llanquihue, en Frutillar. Desayuno y brunch todo el día, pizzas artesanales, sándwiches, ensaladas y tablas para compartir, con productos de productores del sur. Opciones veganas, keto y sin gluten. Puedes venir solo a la cafetería, sin entrada.',
+    keywords: 'cafetería frutillar, donde almorzar en frutillar, brunch frutillar, pizza frutillar, cafetería saludable frutillar, opciones veganas frutillar, cafe especialidad lago llanquihue',
     image: 'https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309075/cancagua/images/10_cancagua-header.jpg',
   },
   '/cartahottubs': {
