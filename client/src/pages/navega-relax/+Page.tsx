@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Clock, Users, Anchor, Compass } from "lucide-react";
 
-const RESERVA_URL = "https://tickets.catamaranbandurria.cl/";
+const RESERVA_URL = "https://reservas.catamaranbandurria.cl/";
 
 export default function Page() {
   const incluye = [
@@ -149,6 +149,83 @@ export default function Page() {
                 ))}
               </ul>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Salidas por temporada */}
+      <section className="py-16 bg-[#FCF9F9]">
+        <div className="container max-w-5xl">
+          <div className="text-center mb-10">
+            <h2 className="font-cg-mono text-3xl md:text-4xl mb-3 tracking-wide text-[#222221]">
+              Salidas por Temporada
+            </h2>
+            <p className="font-cg-sans text-[#222221]/70 max-w-2xl mx-auto">
+              El zarpe es desde el Muelle de Frutillar. Preséntate en la escalera del muelle
+              10 minutos antes de la hora.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="border border-clay-200">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Clock className="h-5 w-5 text-[#4B5872]" />
+                  <h3 className="font-cg-mono font-semibold text-lg text-[#222221]">
+                    Enero y febrero
+                  </h3>
+                </div>
+                <p className="font-cg-sans text-sm text-[#222221]/60 mb-4">
+                  Temporada alta, con salidas hasta el atardecer
+                </p>
+                <p className="font-cg-sans text-[#222221] mb-1">
+                  <strong>Martes a domingo</strong>
+                </p>
+                <p className="font-cg-sans text-[#222221]/80 mb-3">
+                  11:30 · 13:00 · 15:15 · 16:45 · 18:15 · 19:30
+                </p>
+                <p className="font-cg-sans text-[#222221] mb-1">
+                  <strong>Lunes</strong>
+                </p>
+                <p className="font-cg-sans text-[#222221]/80">15:15 · 16:45 · 18:15 · 19:30</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border border-clay-200">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Clock className="h-5 w-5 text-[#4B5872]" />
+                  <h3 className="font-cg-mono font-semibold text-lg text-[#222221]">
+                    Marzo a diciembre
+                  </h3>
+                </div>
+                <p className="font-cg-sans text-sm text-[#222221]/60 mb-4">
+                  Resto del año
+                </p>
+                <p className="font-cg-sans text-[#222221] mb-1">
+                  <strong>Martes a domingo</strong>
+                </p>
+                <p className="font-cg-sans text-[#222221]/80 mb-3">
+                  11:30 · 13:00 · 15:30 · 17:00
+                </p>
+                <p className="font-cg-sans text-[#222221] mb-1">
+                  <strong>Lunes</strong>
+                </p>
+                <p className="font-cg-sans text-[#222221]/80">15:30 · 17:00</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-8 p-6 bg-[#F4F2ED] rounded-lg">
+            <h3 className="font-cg-mono font-semibold text-lg mb-3 text-[#222221]">Valores</h3>
+            <p className="font-cg-sans text-[#222221]">
+              Adulto <strong>$50.400</strong> · Niños de 5 a 11 años <strong>$28.450</strong>
+            </p>
+            <p className="font-cg-sans text-sm text-[#222221]/70 mt-3">
+              Incluye la navegación de 30 minutos y las 4 horas de biopiscinas. Algunos fines de
+              semana de primavera y verano se agregan zarpes; los horarios exactos y el cupo de cada
+              día los ves al reservar.
+            </p>
           </div>
         </div>
       </section>
