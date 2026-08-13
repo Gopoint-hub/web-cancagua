@@ -181,13 +181,9 @@ export default function Page() {
                 <p className="font-cg-sans text-[#222221] mb-1">
                   <strong>Martes a domingo</strong>
                 </p>
-                <p className="font-cg-sans text-[#222221]/80 mb-3">
+                <p className="font-cg-sans text-[#222221]/80">
                   11:30 · 13:00 · 15:15 · 16:45 · 18:15 · 19:30
                 </p>
-                <p className="font-cg-sans text-[#222221] mb-1">
-                  <strong>Lunes</strong>
-                </p>
-                <p className="font-cg-sans text-[#222221]/80">15:15 · 16:45 · 18:15 · 19:30</p>
               </CardContent>
             </Card>
 
@@ -205,13 +201,9 @@ export default function Page() {
                 <p className="font-cg-sans text-[#222221] mb-1">
                   <strong>Martes a domingo</strong>
                 </p>
-                <p className="font-cg-sans text-[#222221]/80 mb-3">
+                <p className="font-cg-sans text-[#222221]/80">
                   11:30 · 13:00 · 15:30 · 17:00
                 </p>
-                <p className="font-cg-sans text-[#222221] mb-1">
-                  <strong>Lunes</strong>
-                </p>
-                <p className="font-cg-sans text-[#222221]/80">15:30 · 17:00</p>
               </CardContent>
             </Card>
           </div>
@@ -222,9 +214,10 @@ export default function Page() {
               Adulto <strong>$50.400</strong> · Niños de 5 a 11 años <strong>$28.450</strong>
             </p>
             <p className="font-cg-sans text-sm text-[#222221]/70 mt-3">
-              Incluye la navegación de 30 minutos y las 4 horas de biopiscinas. Algunos fines de
-              semana de primavera y verano se agregan zarpes; los horarios exactos y el cupo de cada
-              día los ves al reservar.
+              Incluye la navegación de 30 minutos y las 4 horas de biopiscinas.{" "}
+              <strong>Los lunes no operamos esta experiencia.</strong> Algunos fines de semana de
+              primavera y verano se agregan zarpes; los horarios exactos y el cupo de cada día los
+              ves al reservar.
             </p>
           </div>
         </div>
