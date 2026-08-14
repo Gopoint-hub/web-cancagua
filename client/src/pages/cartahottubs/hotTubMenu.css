@@ -239,6 +239,16 @@ html.hot-tub-order-page body > #root > div > div > main {
   white-space: nowrap;
 }
 
+.hot-tub-stock-note {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-family: var(--font-cg-mono), "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .hot-tub-section {
   scroll-margin-top: 74px;
   padding-top: 33px;

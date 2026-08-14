@@ -256,6 +256,10 @@ export default function CartaHotTubs() {
           </nav>
         )}
 
+        {sections.length > 0 && (
+          <p className="hot-tub-stock-note">Productos sujetos a stock</p>
+        )}
+
         <main>
           {sections.map(section => (
             <section
