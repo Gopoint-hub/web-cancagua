@@ -1,17 +1,21 @@
-import type { Config } from 'vike/types';
-import vikeReact from 'vike-react/config';
+import type { Config } from "vike/types";
+import vikeReact from "vike-react/config";
 
 export default {
   // Usar la integración oficial de Vike con React
   extends: [vikeReact],
 
+  // El contenido que se entrega desde el servidor está escrito en español de
+  // Chile. Sin esta configuración Vike usa `en` por defecto en <html lang>.
+  lang: "es-CL",
+
   // Configuración global - datos que se pasan del servidor al cliente
   passToClient: [
-    'pageProps',
-    'urlPathname',
-    'urlParsed',
-    'trpcState', // Para pasar estado de tRPC desde servidor
-    'initialLanguage', // Para i18n
+    "pageProps",
+    "urlPathname",
+    "urlParsed",
+    "trpcState", // Para pasar estado de tRPC desde servidor
+    "initialLanguage", // Para i18n
   ],
 
   // Nota: title y description se definen en cada página via +title.ts y +Head.tsx

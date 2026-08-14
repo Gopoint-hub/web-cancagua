@@ -1,8 +1,8 @@
-import type { Config } from 'vike/types';
+import type { Config } from "vike/types";
 
 export default {
-  // Deshabilitar SSR para Gift Cards
-  // Es una página transaccional que requiere integración con WebPay
-  // y funciona mejor como SPA interactivo
-  ssr: false,
+  // El formulario sigue siendo interactivo en el cliente, pero el contenido
+  // principal (incluido el H1) debe existir en el HTML inicial para que la
+  // página sea accesible e indexable sin ejecutar JavaScript.
+  ssr: true,
 } satisfies Config;
