@@ -48,7 +48,8 @@ const HOT_TUBS = [
 ] as const;
 
 const money = (amount: number) =>
-  "$" + new Intl.NumberFormat("es-CL", { maximumFractionDigits: 0 }).format(amount);
+  "$" +
+  new Intl.NumberFormat("es-CL", { maximumFractionDigits: 0 }).format(amount);
 
 export default function CartaHotTubs() {
   const menuApi = (trpc as any).menu;
@@ -59,10 +60,14 @@ export default function CartaHotTubs() {
   const [keyFobNumber, setKeyFobNumber] = useState("");
   const [reviewOpen, setReviewOpen] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<string | null>(null);
+  const [completedWhatsAppUrl, setCompletedWhatsAppUrl] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     document.documentElement.classList.add("hot-tub-order-page");
-    return () => document.documentElement.classList.remove("hot-tub-order-page");
+    return () =>
+      document.documentElement.classList.remove("hot-tub-order-page");
   }, []);
 
   const sections = (catalog.data ?? []) as CatalogSection[];
@@ -70,7 +75,7 @@ export default function CartaHotTubs() {
   const itemCount = lines.reduce((sum, line) => sum + line.quantity, 0);
   const subtotal = lines.reduce(
     (sum, line) => sum + line.priceClp * line.quantity,
-    0,
+    0
   );
   const minDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const identificationReady =
@@ -84,12 +89,13 @@ export default function CartaHotTubs() {
     }) => {
       setReviewOpen(false);
       setCompletedOrder(data.orderNumber);
+      setCompletedWhatsAppUrl(data.whatsappUrl);
       setCart({});
-      window.location.href = data.whatsappUrl;
+      window.location.assign(data.whatsappUrl);
     },
     onError: (error: { message?: string }) =>
       toast.error(
-        error.message || "No pudimos registrar tu pedido. Inténtalo nuevamente.",
+        error.message || "No pudimos registrar tu pedido. Inténtalo nuevamente."
       ),
   });
 
@@ -117,7 +123,7 @@ export default function CartaHotTubs() {
       return toast.error(
         mode === "hot_tub"
           ? "Primero elige tu Hot Tub."
-          : "Primero escribe el número de tu llavero.",
+          : "Primero escribe el número de tu llavero."
       );
     }
     setReviewOpen(true);
@@ -213,7 +219,9 @@ export default function CartaHotTubs() {
                 placeholder="Ej: 14"
                 value={keyFobNumber}
                 onChange={event =>
-                  setKeyFobNumber(event.target.value.replace(/\D/g, "").slice(0, 3))
+                  setKeyFobNumber(
+                    event.target.value.replace(/\D/g, "").slice(0, 3)
+                  )
                 }
                 className="hot-tub-key-input"
               />
@@ -236,17 +244,22 @@ export default function CartaHotTubs() {
         )}
 
         {sections.length > 0 && (
-          <nav className="hot-tub-section-nav" aria-label="Secciones de la carta">
+          <nav
+            className="hot-tub-section-nav"
+            aria-label="Secciones de la carta"
+          >
             <div>
               {sections.map(section => (
                 <button
                   key={section.key}
                   type="button"
                   onClick={() =>
-                    document.getElementById(`menu-${section.key}`)?.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    })
+                    document
+                      .getElementById(`menu-${section.key}`)
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                      })
                   }
                 >
                   {section.title}
@@ -290,7 +303,9 @@ export default function CartaHotTubs() {
                         </h3>
                         {item.description && <p>{item.description}</p>}
                         <strong>{money(item.priceClp)}</strong>
-                        {!item.inStock && <small>Momentáneamente agotado</small>}
+                        {!item.inStock && (
+                          <small>Momentáneamente agotado</small>
+                        )}
                       </div>
 
                       {quantity > 0 ? (
@@ -372,81 +387,91 @@ export default function CartaHotTubs() {
           </DialogHeader>
 
           <form onSubmit={submitOrder} className="hot-tub-review-form">
-            <div className="hot-tub-review-lines">
-              {lines.map(line => (
-                <div key={line.key}>
-                  <span>
-                    <b>{line.quantity}×</b> {line.name}
-                    {line.subtitle ? ` · ${line.subtitle}` : ""}
-                  </span>
-                  <strong>{money(line.priceClp * line.quantity)}</strong>
+            <div className="hot-tub-review-form-body">
+              <div className="hot-tub-review-lines">
+                {lines.map(line => (
+                  <div key={line.key}>
+                    <span>
+                      <b>{line.quantity}×</b> {line.name}
+                      {line.subtitle ? ` · ${line.subtitle}` : ""}
+                    </span>
+                    <strong>{money(line.priceClp * line.quantity)}</strong>
+                  </div>
+                ))}
+                <div className="hot-tub-review-total">
+                  <span>Total</span>
+                  <strong>{money(subtotal)}</strong>
                 </div>
-              ))}
-              <div className="hot-tub-review-total">
-                <span>Total</span>
-                <strong>{money(subtotal)}</strong>
               </div>
-            </div>
 
-            <div className="hot-tub-review-identification">
-              {mode === "hot_tub"
-                ? (() => {
-                    const tub = HOT_TUBS.find(entry => entry.code === hotTubCode);
-                    return `Hot Tub ${tub?.code} — ${tub?.name}`;
-                  })()
-                : `Llavero ${keyFobNumber}`}
-            </div>
+              <div className="hot-tub-review-identification">
+                {mode === "hot_tub"
+                  ? (() => {
+                      const tub = HOT_TUBS.find(
+                        entry => entry.code === hotTubCode
+                      );
+                      return `Hot Tub ${tub?.code} — ${tub?.name}`;
+                    })()
+                  : `Llavero ${keyFobNumber}`}
+              </div>
 
-            <p className="hot-tub-form-instructions">
-              Completa los campos marcados como obligatorios para enviar tu pedido.
-            </p>
-
-            <div className="hot-tub-form-grid">
-              <div className="full">
-                <Label htmlFor="customerName">Nombre · obligatorio</Label>
-                <Input
-                  id="customerName"
-                  name="customerName"
-                  required
-                  minLength={2}
-                  placeholder="Escribe tu nombre"
-                />
-              </div>
-              <div>
-                <Label htmlFor="customerPhone">WhatsApp · obligatorio</Label>
-                <Input
-                  id="customerPhone"
-                  name="customerPhone"
-                  type="tel"
-                  required
-                  minLength={8}
-                  placeholder="+56 9 1234 5678"
-                />
-              </div>
-              <div>
-                <Label htmlFor="serviceDate">Fecha · opcional</Label>
-                <Input id="serviceDate" name="serviceDate" type="date" min={minDate} />
-              </div>
-              <div className="full">
-                <Label htmlFor="notes">Notas o alergias · opcional</Label>
-                <Textarea
-                  id="notes"
-                  name="notes"
-                  maxLength={500}
-                  rows={3}
-                  placeholder="Cuéntanos si tienes alguna alergia o indicación especial"
-                />
-              </div>
-            </div>
-
-            <div className="hot-tub-order-notice">
-              <p>
-                <Check /> El pedido se carga a tu cuenta y se paga al salir.
+              <p className="hot-tub-form-instructions">
+                Completa los campos marcados como obligatorios para enviar tu
+                pedido.
               </p>
-              <p>
-                <Check /> Al continuar se abrirá WhatsApp; debes presionar Enviar
-                para avisar a recepción.
-              </p>
+
+              <div className="hot-tub-form-grid">
+                <div className="full">
+                  <Label htmlFor="customerName">Nombre · obligatorio</Label>
+                  <Input
+                    id="customerName"
+                    name="customerName"
+                    required
+                    minLength={2}
+                    placeholder="Escribe tu nombre"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="customerPhone">WhatsApp · obligatorio</Label>
+                  <Input
+                    id="customerPhone"
+                    name="customerPhone"
+                    type="tel"
+                    required
+                    minLength={8}
+                    placeholder="+56 9 1234 5678"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="serviceDate">Fecha · opcional</Label>
+                  <Input
+                    id="serviceDate"
+                    name="serviceDate"
+                    type="date"
+                    min={minDate}
+                  />
+                </div>
+                <div className="full">
+                  <Label htmlFor="notes">Notas o alergias · opcional</Label>
+                  <Textarea
+                    id="notes"
+                    name="notes"
+                    maxLength={500}
+                    rows={3}
+                    placeholder="Cuéntanos si tienes alguna alergia o indicación especial"
+                  />
+                </div>
+              </div>
+
+              <div className="hot-tub-order-notice">
+                <p>
+                  <Check /> El pedido se carga a tu cuenta y se paga al salir.
+                </p>
+                <p>
+                  <Check /> Se abrirá el WhatsApp de Cancagua +56 9 4007 3999;
+                  debes presionar Enviar para avisar a recepción.
+                </p>
+              </div>
             </div>
 
             <Button type="submit" disabled={orderMutation.isPending}>
@@ -455,22 +480,35 @@ export default function CartaHotTubs() {
                   <Loader2 className="animate-spin" /> Registrando…
                 </>
               ) : (
-                "Enviar pedido"
+                "Enviar pedido por WhatsApp"
               )}
             </Button>
           </form>
         </DialogContent>
       </Dialog>
 
-      <Dialog open={Boolean(completedOrder)} onOpenChange={open => !open && setCompletedOrder(null)}>
-        <DialogContent>
+      <Dialog
+        open={Boolean(completedOrder)}
+        onOpenChange={open => {
+          if (!open) {
+            setCompletedOrder(null);
+            setCompletedWhatsAppUrl(null);
+          }
+        }}
+      >
+        <DialogContent className="hot-tub-completed-dialog">
           <DialogHeader>
             <DialogTitle>Pedido registrado</DialogTitle>
             <DialogDescription>
-              Tu número es {completedOrder}. Si WhatsApp no se abrió, revisa las
-              aplicaciones abiertas de tu teléfono.
+              Tu número es {completedOrder}. Presiona el botón para enviar el
+              detalle al WhatsApp de Cancagua.
             </DialogDescription>
           </DialogHeader>
+          {completedWhatsAppUrl && (
+            <Button asChild>
+              <a href={completedWhatsAppUrl}>Abrir WhatsApp de Cancagua</a>
+            </Button>
+          )}
         </DialogContent>
       </Dialog>
     </div>
