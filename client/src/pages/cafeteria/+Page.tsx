@@ -189,12 +189,16 @@ export default function Page() {
                 <CardContent className="pt-6">
                   <h3 className="font-bold text-lg mb-4">Para almorzar</h3>
                   <ul className="space-y-2 text-muted-foreground text-sm">
+                    <li>Mechada — $15.500</li>
+                    <li>Salmón y queso de cabra — $13.500</li>
+                    <li>Capresse — $13.000</li>
+                    <li>Timbal de quinoa — $12.500</li>
+                    <li>Shakshuka — $12.000</li>
+                    <li>Ensalada verde con queso de cabra — $11.500</li>
+                    <li>Sopa de hueso y zapallo — $7.500</li>
                     <li>Pizza artesanal — $10.500</li>
                     <li>Pizza con rúcula — $12.500</li>
                     <li>Sándwich de salmón — $10.500</li>
-                    <li>Caprese — $13.000</li>
-                    <li>Ensalada verde con queso de cabra — $11.500</li>
-                    <li>Sopa del día — $6.500</li>
                   </ul>
                 </CardContent>
               </Card>
