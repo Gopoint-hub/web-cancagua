@@ -115,8 +115,12 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
   );
   const slots = useMemo(() => (availability.data?.slots ?? []) as Array<{ startTime: string; endTime: string }>, [availability.data]);
   useEffect(() => {
+    // React Query puede dejar los slots vacíos mientras actualiza cupos. En ese
+    // intervalo no debemos reemplazar el horario que la persona ya eligió por
+    // el primer horario del día.
+    if (!availability.isSuccess || availability.isFetching) return;
     if (!slots.some(slot => slot.startTime === startTime)) setStartTime(slots[0]?.startTime ?? "");
-  }, [slots, startTime]);
+  }, [availability.isFetching, availability.isSuccess, slots, startTime]);
   useEffect(() => {
     setDiscount(null);
     setDiscountError("");
@@ -132,6 +136,7 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
   };
   const pay = (event: FormEvent) => {
     event.preventDefault();
+    if (availability.isFetching) return toast.error("Estamos confirmando la disponibilidad del horario elegido");
     if (!startTime) return toast.error("Selecciona un horario disponible");
     if (!accepted) return toast.error("Debes aceptar el reglamento y las condiciones");
     const params = new URLSearchParams(window.location.search);
@@ -219,8 +224,9 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
           <button type="button" onClick={() => setShowDiscount(value => !value)} className="mb-3 font-cg-soft text-sm font-medium text-[#4B5872] underline underline-offset-4">Aplicar código de descuento</button>
           {showDiscount && <div className="mb-4"><div className="flex gap-2"><input value={discountCode} onChange={event => { setDiscountCode(event.target.value.toUpperCase()); setDiscount(null); setDiscountError(""); }} placeholder="Ingresa tu código" className="min-w-0 flex-1 rounded-full border border-[#BCBAB8] px-4 py-2 font-cg-mono text-sm uppercase" /><Button type="button" variant="outline" className="rounded-full" disabled={!discountCode.trim() || validateDiscount.isPending} onClick={applyDiscount}>{validateDiscount.isPending ? "Validando…" : "Aplicar"}</Button></div>{discountError && <p className="mt-2 text-sm text-red-700">{discountError}</p>}{discount && <p className="mt-2 text-sm text-green-700">Código {discount.code} aplicado.</p>}</div>}
           <div className="flex items-end justify-between"><span className="font-cg-soft text-sm text-[#635E5A]">{totalGuests} entrada{totalGuests === 1 ? "" : "s"}</span><span className={discount ? "font-cg-mono text-sm text-[#827D78] line-through" : "font-cg-serif text-2xl"}>{formatPrice(subtotal)}</span></div>{discount && <><div className="mt-1 flex justify-between text-sm text-green-700"><span>Descuento</span><span>−{formatPrice(discount.discountTotal)}</span></div><div className="mt-2 flex justify-between border-t pt-2"><span>Total</span><span className="font-cg-serif text-2xl">{formatPrice(total)}</span></div></>}
+          {date && startTime && <div className="mt-3 flex items-center justify-between rounded-xl bg-[#F4F2ED] px-4 py-3 font-cg-soft text-sm text-[#333D51]"><span>Fecha y hora elegidas</span><strong>{date} · {startTime}</strong></div>}
           <label className="mt-4 flex items-start gap-3 font-cg-soft text-xs leading-relaxed text-[#635E5A]"><input type="checkbox" checked={accepted} onChange={event => setAccepted(event.target.checked)} className="mt-0.5" /><span>Acepto las <a href={catalog.service.rulesUrl || "#"} target="_blank" rel="noreferrer" className="underline">condiciones y el reglamento</a>. {childTicket ? "Los niños deben asistir acompañados por un adulto." : "Declaro que todas las personas asistentes son mayores de 18 años."}</span></label>
-          <Button type="submit" disabled={!startTime || startPayment.isPending} className="mt-4 h-12 w-full rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] hover:bg-[#333D51]">{startPayment.isPending ? "Conectando con Transbank…" : `Pagar ${formatPrice(total)}`}</Button><p className="mt-2 text-center font-cg-soft text-xs text-[#827D78]">Tu horario se mantendrá reservado por 30 minutos mientras completas el pago.</p>
+          <Button type="submit" disabled={!startTime || availability.isFetching || startPayment.isPending} className="mt-4 h-12 w-full rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] hover:bg-[#333D51]">{availability.isFetching ? "Confirmando horario…" : startPayment.isPending ? "Conectando con Transbank…" : `Pagar ${formatPrice(total)}`}</Button><p className="mt-2 text-center font-cg-soft text-xs text-[#827D78]">Tu horario se mantendrá reservado por 30 minutos mientras completas el pago.</p>
         </div>
       </form>
     </aside>
