@@ -53,7 +53,11 @@ const money = (amount: number) =>
 
 export default function CartaHotTubs() {
   const menuApi = (trpc as any).menu;
-  const catalog = menuApi.getHotTubCatalog.useQuery();
+  const catalog = menuApi.getHotTubCatalog.useQuery(undefined, {
+    staleTime: 0,
+    refetchInterval: 30_000,
+    refetchOnWindowFocus: true,
+  });
   const [cart, setCart] = useState<Record<string, CartLine>>({});
   const [mode, setMode] = useState<IdentificationMode>("hot_tub");
   const [hotTubCode, setHotTubCode] = useState("");
@@ -71,6 +75,28 @@ export default function CartaHotTubs() {
   }, []);
 
   const sections = (catalog.data ?? []) as CatalogSection[];
+
+  useEffect(() => {
+    if (!catalog.data) return;
+    const currentItems = new Map(
+      sections.flatMap(section => section.items).map(item => [item.key, item]),
+    );
+    setCart(current => {
+      let changed = false;
+      const next: Record<string, CartLine> = {};
+      for (const [key, line] of Object.entries(current)) {
+        const latest = currentItems.get(key);
+        if (!latest || !latest.inStock) {
+          changed = true;
+          continue;
+        }
+        next[key] = { ...latest, quantity: line.quantity };
+        if (latest.priceClp !== line.priceClp) changed = true;
+      }
+      return changed ? next : current;
+    });
+  }, [catalog.data]);
+
   const lines = Object.values(cart);
   const itemCount = lines.reduce((sum, line) => sum + line.quantity, 0);
   const subtotal = lines.reduce(
