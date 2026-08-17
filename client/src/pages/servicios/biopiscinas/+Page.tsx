@@ -38,7 +38,7 @@ const incluye = [
   "Gorro de nado por persona",
   "Casillero de seguridad",
   "Duchas, vestuarios y zona de descanso",
-  "Acceso a cafetería y borde del Lago Llanquihue",
+  "Acceso a cafetería y borde del Lago Llanquihue (el consumo no está incluido)",
 ];
 
 const preparacion = [
