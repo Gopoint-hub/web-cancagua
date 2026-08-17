@@ -7,7 +7,7 @@ author: "Cancagua"
 category: "Bienestar"
 metaDescription: "Descubre cómo un fin de semana en Cancagua, Frutillar, puede ser la pausa que necesitas. Con biopiscinas geotermales y masajes en el sur de Chile."
 keywords: ["retiro de bienestar sur de chile", "spa frutillar", "biopiscinas geotermales", "masajes terapéuticos puerto varas", "escapada de fin de semana", "turismo de bienestar", "cancagua spa", "retiros espirituales chile"]
-image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1786993929/blog/blog/1786993928829-9k80y9.png"
+image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1786999789/blog/blog/1786999788509-vqc56e.png"
 status: "published"
 ---
 
