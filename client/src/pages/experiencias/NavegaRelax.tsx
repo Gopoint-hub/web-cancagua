@@ -75,7 +75,7 @@ export default function NavegaRelax() {
               <p className="font-cg-sans text-lg md:text-2xl mb-8 max-w-3xl text-white/90">
                 <T>Descubre el Lago Llanquihue desde una perspectiva única navegando en Catamarán Bandurria para luego disfrutar de una relajante estadía en nuestras Biopiscinas Geotermales</T>
               </p>
-              <a href="https://tickets.catamaranbandurria.cl/" target="_blank" rel="noopener noreferrer">
+              <a href="https://reservas.catamaranbandurria.cl/" target="_blank" rel="noopener noreferrer">
                 <Button size="lg" className="bg-[#4B5872] text-[#FCF9F9] hover:bg-[#333D51] text-lg px-8 py-6">
                   <T>Reserva aquí</T>
                 </Button>

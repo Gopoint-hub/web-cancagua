@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Clock, Users, Anchor, Compass } from "lucide-react";
 
-const RESERVA_URL = "https://tickets.catamaranbandurria.cl/";
+const RESERVA_URL = "https://reservas.catamaranbandurria.cl/";
 
 export default function Page() {
   const incluye = [
