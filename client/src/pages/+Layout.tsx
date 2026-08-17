@@ -17,6 +17,7 @@ import { httpBatchLink } from "@trpc/client";
 import superjson from "superjson";
 import { useState } from 'react';
 import type { ReactNode } from 'react';
+import { ServiceCartProvider } from "@/components/ServiceCart";
 
 // URL de la API del CMS
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://cms.cancagua.cl";
@@ -47,6 +48,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <ThemeProvider defaultTheme="light">
           <LanguageProvider>
             <TooltipProvider>
+              <ServiceCartProvider>
               <Analytics />
               <Toaster />
               <ScrollToTop />
@@ -68,6 +70,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                   <WhatsAppButton />
                 </div>
               </div>
+              </ServiceCartProvider>
             </TooltipProvider>
           </LanguageProvider>
         </ThemeProvider>

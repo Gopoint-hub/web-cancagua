@@ -2,15 +2,15 @@ import { generateServiceSchema } from '@/lib/seo-helpers';
 
 export default function Head() {
   const seoData = {
-    title: "Sauna Nativa | Cancagua",
-    description: "Reserva tu experiencia en nuestro Sauna Nativo con vista al bosque nativo. Calor terapéutico, relajación profunda y renovación a orillas del Lago Llanquihue. Combina con biopiscinas y hot tubs.",
+    title: "Sauna Nativo frente al Lago Llanquihue | Cancagua",
+    description: "Reserva online una sesión de 60 minutos en el Sauna Nativo de Cancagua. Elige fecha y horario entre 10:00 y 20:00, combina con Biopiscinas y paga con Transbank.",
     keywords: "sauna frutillar, sauna nativa chile, baño finlandés lago llanquihue, spa sauna puerto varas",
     canonical: "/servicios/sauna",
-    image: "https://res.cloudinary.com/dhuln9b1n/image/upload/v1770309297/cancagua/images/sauna-nativo-hero.png",
+    image: "https://cancagua.cl/images/reels/sauna-nativo.jpg",
   };
 
   const serviceSchema = generateServiceSchema({
-    name: "Sauna Nativa Cancagua",
+    name: "Sauna Nativo Cancagua",
     description: seoData.description,
     image: seoData.image,
   });

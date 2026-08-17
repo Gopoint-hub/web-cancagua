@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { CalendarDays, Check, ChevronLeft, ChevronRight, Clock, Minus, Plus, ShieldCheck, ShoppingBag, Waves, X } from "lucide-react";
+import { CalendarDays, Check, ChevronLeft, ChevronRight, Clock, Minus, Plus, ShieldCheck, Waves, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
+import { useServiceCart } from "@/components/ServiceCart";
 
 export interface BiopoolCatalog {
   service: {
@@ -57,7 +58,8 @@ function Quantity({ value, min, max, onChange }: { value: number; min: number; m
   </div>;
 }
 
-export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClose }: { catalogs: BiopoolCatalog[]; initialServiceSlug?: string; open: boolean; onOpen: () => void; onClose: () => void }) {
+export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen: _onOpen, onClose }: { catalogs: BiopoolCatalog[]; initialServiceSlug?: string; open: boolean; onOpen: () => void; onClose: () => void }) {
+  const { addItem } = useServiceCart();
   const preferredCatalog = catalogs.find(item => item.service.slug === initialServiceSlug) ?? catalogs[0];
   const [selectedServiceId, setSelectedServiceId] = useState(preferredCatalog.service.id);
   const catalog = catalogs.find(item => item.service.id === selectedServiceId) ?? preferredCatalog;
@@ -68,8 +70,6 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
   const [calendarMonth, setCalendarMonth] = useState(currentMonth());
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
-  const [customer, setCustomer] = useState({ name: "", email: "", phone: "+56" });
-  const [accepted, setAccepted] = useState(false);
   const [showDiscount, setShowDiscount] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
   const [discount, setDiscount] = useState<{ code: string; discountTotal: number; finalTotal: number } | null>(null);
@@ -127,7 +127,6 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
   }, [adults, children]);
 
   const validateDiscount = trpc.biopools.public.validateDiscount.useMutation();
-  const startPayment = trpc.biopools.public.startPayment.useMutation();
   const applyDiscount = () => {
     validateDiscount.mutate({ serviceId: catalog.service.id, adultQuantity: adults, childQuantity: children, code: discountCode }, {
       onSuccess: (result: any) => { setDiscount({ code: result.code, discountTotal: result.discountTotal, finalTotal: result.finalTotal }); setDiscountCode(result.code); setDiscountError(""); },
@@ -138,45 +137,22 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
     event.preventDefault();
     if (availability.isFetching) return toast.error("Estamos confirmando la disponibilidad del horario elegido");
     if (!startTime) return toast.error("Selecciona un horario disponible");
-    if (!accepted) return toast.error("Debes aceptar el reglamento y las condiciones");
-    const params = new URLSearchParams(window.location.search);
-    startPayment.mutate({
+    const selectedSlot = slots.find(slot => slot.startTime === startTime);
+    if (!selectedSlot) return toast.error("El horario elegido dejó de estar disponible");
+    addItem({
+      module: "biopools",
       serviceId: catalog.service.id,
-      clientName: customer.name,
-      clientEmail: customer.email,
-      clientPhone: customer.phone,
+      serviceName: catalog.service.name,
       bookingDate: date,
       startTime,
+      endTime: selectedSlot.endTime,
       adultQuantity: adults,
       childQuantity: children,
       discountCode: discount?.code,
-      acceptedTerms: true,
-      utmSource: params.get("utm_source") || undefined,
-      utmMedium: params.get("utm_medium") || undefined,
-      utmCampaign: params.get("utm_campaign") || undefined,
-    }, {
-      onSuccess: (result: any) => {
-        if (!result.paymentRequired) {
-          if (!result.resultUrl) {
-            toast.error("La reserva fue confirmada, pero no pudimos abrir el comprobante");
-            return;
-          }
-          window.location.assign(result.resultUrl);
-          return;
-        }
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = result.paymentUrl;
-        const token = document.createElement("input");
-        token.type = "hidden";
-        token.name = "token_ws";
-        token.value = result.token;
-        form.appendChild(token);
-        document.body.appendChild(form);
-        form.submit();
-      },
-      onError: (error: any) => toast.error(error.message || "No pudimos iniciar el pago"),
+      totalClp: total,
     });
+    onClose();
+    toast.success("Biopiscinas quedó guardado en tu carrito");
   };
 
   const changeMonth = (amount: number) => {
@@ -188,14 +164,9 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
   };
 
   return <>
-    {/* md:top-40 despeja el header sticky, que desde 768px tapaba el botón y se
-        comía el clic. Arriba del todo el header ocupa de 36 a 154 px, así que 160
-        lo deja libre; al hacer scroll sube a 0-118 y queda más holgado todavía.
-        En móvil el header es más bajo y top-28 anda bien. */}
-    {!open && <button type="button" onClick={onOpen} className="fixed right-5 top-28 z-40 flex items-center gap-3 rounded-full bg-[#333D51] px-5 py-3 font-cg-mono text-xs uppercase tracking-[0.12em] text-white shadow-xl md:top-40"><ShoppingBag className="h-4 w-4" />Reservar Biopiscinas</button>}
     <button type="button" aria-label="Cerrar carrito" onClick={onClose} className={`fixed inset-0 z-[70] bg-black/45 backdrop-blur-[2px] transition-opacity ${open ? "opacity-100" : "pointer-events-none opacity-0"}`} />
     <aside role="dialog" aria-modal="true" aria-label="Carrito de Biopiscinas" className={`fixed inset-y-0 right-0 z-[80] flex w-full max-w-lg flex-col bg-[#F8F6F1] shadow-2xl transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}`}>
-      <div className="flex items-start justify-between border-b border-[#D7D4D1] p-6"><div><p className="font-cg-mono text-xs uppercase tracking-[0.16em] text-[#4B5872]">Tu reserva</p><h2 className="mt-1 font-cg-serif text-3xl text-[#222221]">Carrito Biopiscinas</h2></div><button type="button" onClick={onClose} className="rounded-full border border-[#BCBAB8] p-2"><X className="h-5 w-5" /></button></div>
+      <div className="flex items-start justify-between border-b border-[#D7D4D1] p-6"><div><p className="font-cg-mono text-xs uppercase tracking-[0.16em] text-[#4B5872]">Configura tu visita</p><h2 className="mt-1 font-cg-serif text-3xl text-[#222221]">Biopiscinas</h2></div><button type="button" onClick={onClose} className="rounded-full border border-[#BCBAB8] p-2"><X className="h-5 w-5" /></button></div>
       <form onSubmit={pay} className="flex min-h-0 flex-1 flex-col">
         <div className="flex-1 space-y-5 overflow-y-auto p-5">
           {catalogs.length > 1 && <section className="rounded-2xl border border-[#D7D4D1] bg-white p-5"><h3 className="font-cg-serif text-xl">Elige tu experiencia</h3><div className="mt-4 grid gap-3 sm:grid-cols-3">{catalogs.map(item => { const duration = (item.service.standardDurationMinutes ?? 240) / 60; const adult = item.tickets.find(ticket => ticket.code === "adult"); const selected = item.service.id === catalog.service.id; const label = item.service.slug === "full-day-biopiscinas" ? "Full Day" : item.service.slug === "late-hour-biopiscinas" ? "Late Hour" : item.service.slug === "biopiscinas-geotermales" ? "Biopiscinas" : item.service.name; return <button type="button" key={item.service.id} onClick={() => setSelectedServiceId(item.service.id)} className={`rounded-2xl border p-4 text-left transition ${selected ? "border-[#4B5872] bg-[#4B5872] text-white" : "border-[#D7D4D1] bg-[#F8F6F1] text-[#222221]"}`}><span className="block font-cg-serif text-lg">{label}</span><span className="mt-1 block font-cg-soft text-xs opacity-75">{Number.isInteger(duration) ? duration : duration.toFixed(1)} horas</span><span className="mt-2 block font-cg-mono text-sm">{formatPrice(adult?.priceClp ?? 0)}</span></button>; })}</div></section>}
@@ -217,7 +188,6 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
             </div>
             {availableDates.isLoading ? <p className="mt-4 font-cg-soft text-sm text-[#635E5A]">Consultando fechas disponibles…</p> : !date ? <p className="mt-4 rounded-xl bg-amber-50 p-3 font-cg-soft text-sm text-amber-800">No hay fechas disponibles en este mes para la cantidad de personas seleccionada.</p> : availability.isLoading ? <p className="mt-4 font-cg-soft text-sm text-[#635E5A]">Consultando horarios…</p> : slots.length ? <div className="mt-4 grid grid-cols-2 gap-2">{slots.map(slot => <button type="button" key={slot.startTime} onClick={() => setStartTime(slot.startTime)} className={`rounded-xl border p-3 text-left ${startTime === slot.startTime ? "border-[#4B5872] bg-[#4B5872] text-white" : "border-[#D7D4D1]"}`}><span className="flex items-center gap-2 font-cg-mono text-sm"><Clock className="h-4 w-4" />{slot.startTime}</span><span className="mt-1 block font-cg-soft text-xs opacity-75">hasta {slot.endTime}</span></button>)}</div> : <p className="mt-4 rounded-xl bg-amber-50 p-3 font-cg-soft text-sm text-amber-800">No hay horarios disponibles para esta cantidad de personas.</p>}
           </section>
-          <section className="rounded-2xl border border-[#D7D4D1] bg-white p-5"><h3 className="font-cg-serif text-xl">Datos de quien reserva</h3><div className="mt-4 space-y-3"><input required minLength={2} placeholder="Nombre completo" value={customer.name} onChange={event => setCustomer({ ...customer, name: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required type="email" placeholder="Correo" value={customer.email} onChange={event => setCustomer({ ...customer, email: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required minLength={8} type="tel" placeholder="WhatsApp" value={customer.phone} onChange={event => setCustomer({ ...customer, phone: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /></div></section>
           <section className="rounded-2xl bg-[#E7EBE3] p-4"><ul className="space-y-2 font-cg-soft text-sm text-[#4D5148]"><li className="flex gap-2"><Check className="h-4 w-4 text-[#44580E]" />Estadía de {Number.isInteger(standardHours) ? standardHours : standardHours.toFixed(1)} horas según el horario elegido.</li><li className="flex gap-2"><Check className="h-4 w-4 text-[#44580E]" />Bata o toalla, gorra de nado y locker.</li><li className="flex gap-2"><ShieldCheck className="h-4 w-4 text-[#44580E]" />Pago seguro mediante Transbank Webpay Plus.</li></ul></section>
         </div>
         <div className="border-t border-[#D7D4D1] bg-white p-6">
@@ -225,8 +195,8 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen, onClos
           {showDiscount && <div className="mb-4"><div className="flex gap-2"><input value={discountCode} onChange={event => { setDiscountCode(event.target.value.toUpperCase()); setDiscount(null); setDiscountError(""); }} placeholder="Ingresa tu código" className="min-w-0 flex-1 rounded-full border border-[#BCBAB8] px-4 py-2 font-cg-mono text-sm uppercase" /><Button type="button" variant="outline" className="rounded-full" disabled={!discountCode.trim() || validateDiscount.isPending} onClick={applyDiscount}>{validateDiscount.isPending ? "Validando…" : "Aplicar"}</Button></div>{discountError && <p className="mt-2 text-sm text-red-700">{discountError}</p>}{discount && <p className="mt-2 text-sm text-green-700">Código {discount.code} aplicado.</p>}</div>}
           <div className="flex items-end justify-between"><span className="font-cg-soft text-sm text-[#635E5A]">{totalGuests} entrada{totalGuests === 1 ? "" : "s"}</span><span className={discount ? "font-cg-mono text-sm text-[#827D78] line-through" : "font-cg-serif text-2xl"}>{formatPrice(subtotal)}</span></div>{discount && <><div className="mt-1 flex justify-between text-sm text-green-700"><span>Descuento</span><span>−{formatPrice(discount.discountTotal)}</span></div><div className="mt-2 flex justify-between border-t pt-2"><span>Total</span><span className="font-cg-serif text-2xl">{formatPrice(total)}</span></div></>}
           {date && startTime && <div className="mt-3 flex items-center justify-between rounded-xl bg-[#F4F2ED] px-4 py-3 font-cg-soft text-sm text-[#333D51]"><span>Fecha y hora elegidas</span><strong>{date} · {startTime}</strong></div>}
-          <label className="mt-4 flex items-start gap-3 font-cg-soft text-xs leading-relaxed text-[#635E5A]"><input type="checkbox" checked={accepted} onChange={event => setAccepted(event.target.checked)} className="mt-0.5" /><span>Acepto las <a href={catalog.service.rulesUrl || "#"} target="_blank" rel="noreferrer" className="underline">condiciones y el reglamento</a>. {childTicket ? "Los niños deben asistir acompañados por un adulto." : "Declaro que todas las personas asistentes son mayores de 18 años."}</span></label>
-          <Button type="submit" disabled={!startTime || availability.isFetching || startPayment.isPending} className="mt-4 h-12 w-full rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] hover:bg-[#333D51]">{availability.isFetching ? "Confirmando horario…" : startPayment.isPending ? "Conectando con Transbank…" : `Pagar ${formatPrice(total)}`}</Button><p className="mt-2 text-center font-cg-soft text-xs text-[#827D78]">Tu horario se mantendrá reservado por 30 minutos mientras completas el pago.</p>
+          <p className="mt-4 font-cg-soft text-xs leading-relaxed text-[#635E5A]">Al pagar aceptarás las <a href={catalog.service.rulesUrl || "#"} target="_blank" rel="noreferrer" className="underline">condiciones y el reglamento</a>. {childTicket ? "Los niños deben asistir acompañados por un adulto." : "Esta modalidad es exclusiva para mayores de 18 años."}</p>
+          <Button type="submit" disabled={!startTime || availability.isFetching} className="mt-4 h-12 w-full rounded-full bg-[#4B5872] font-cg-mono text-sm uppercase tracking-[0.14em] hover:bg-[#333D51]">{availability.isFetching ? "Confirmando horario…" : `Agregar al carrito · ${formatPrice(total)}`}</Button><p className="mt-2 text-center font-cg-soft text-xs text-[#827D78]">Puedes seguir a Sauna: esta reserva permanecerá guardada en tu carrito.</p>
         </div>
       </form>
     </aside>

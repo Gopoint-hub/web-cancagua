@@ -38,10 +38,10 @@ export const seoConfig: Record<string, PageSEO> = {
     image: 'https://cancagua.cl/images/masajes-hero.jpg',
   },
   '/servicios/sauna': {
-    title: 'Sauna en Frutillar | Desintoxicación Natural - Cancagua',
-    description: 'Experimenta los beneficios del sauna finlandés en Cancagua. Desintoxicación natural, mejora la circulación y relaja tus músculos con vista al lago.',
-    keywords: 'sauna frutillar, sauna finlandés chile, spa sauna lago llanquihue, desintoxicación natural',
-    image: 'https://cancagua.cl/images/sauna-hero.jpg',
+    title: 'Sauna Nativo frente al Lago Llanquihue | Cancagua',
+    description: 'Reserva online una sesión de 60 minutos en el Sauna Nativo de Cancagua. Elige fecha y horario entre 10:00 y 20:00, combina con Biopiscinas y paga con Transbank.',
+    keywords: 'sauna frutillar, sauna nativo chile, spa sauna lago llanquihue, sauna frente al lago',
+    image: 'https://cancagua.cl/images/reels/sauna-nativo.jpg',
   },
   '/servicios/full-day-hot-tubs': {
     title: 'Full Day Hot Tubs | Spa Completo al Aire Libre - Cancagua',

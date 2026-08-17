@@ -33,8 +33,8 @@ export const seoConfig: Record<string, PageSEO> = {
     keywords: "hot tubs, jacuzzi, spa privado, bosque nativo, lago llanquihue, relajación"
   },
   sauna: {
-    title: "Sauna Nativo | Cancagua Spa",
-    description: "Sauna tradicional con vista al lago y bosque nativo. Experiencia de desintoxicación y relajación profunda en un entorno natural único.",
+    title: "Sauna Nativo frente al Lago Llanquihue | Cancagua",
+    description: "Reserva online una sesión de 60 minutos en el Sauna Nativo de Cancagua, elige horario y paga con Transbank.",
     canonical: "/servicios/sauna",
     keywords: "sauna, sauna nativo, desintoxicación, relajación, spa, frutillar"
   },
