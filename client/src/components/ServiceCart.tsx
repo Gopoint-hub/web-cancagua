@@ -27,6 +27,7 @@ export type SaunaCartItem = {
   startTime: string;
   endTime: string;
   privateGuestCount?: number;
+  discountCode?: string;
   guests: number;
   totalClp: number;
 };
@@ -117,6 +118,7 @@ function ServiceCartDrawer() {
         bookingDate: item.bookingDate,
         startTime: item.startTime,
         privateGuestCount: item.privateGuestCount,
+        discountCode: item.discountCode,
       }),
       acceptedTerms: true,
       utmSource: params.get("utm_source") || undefined,
