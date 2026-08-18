@@ -59,7 +59,10 @@ function Quantity({ value, min, max, onChange }: { value: number; min: number; m
 }
 
 export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen: _onOpen, onClose }: { catalogs: BiopoolCatalog[]; initialServiceSlug?: string; open: boolean; onOpen: () => void; onClose: () => void }) {
-  const { addItem } = useServiceCart();
+  const { addItem, items: cartItems } = useServiceCart();
+  // Mismo criterio que en Sauna: si ya hay algo en el carrito, se asume el mismo
+  // día. El efecto que valida disponibilidad la corrige si no tuviera cupo.
+  const fechaEnCarrito = cartItems.find(item => item.bookingDate)?.bookingDate ?? "";
   const preferredCatalog = catalogs.find(item => item.service.slug === initialServiceSlug) ?? catalogs[0];
   const [selectedServiceId, setSelectedServiceId] = useState(preferredCatalog.service.id);
   const catalog = catalogs.find(item => item.service.id === selectedServiceId) ?? preferredCatalog;
@@ -67,8 +70,8 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen: _onOpe
   const childTicket = catalog.tickets.find(ticket => ticket.code === "child");
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
-  const [calendarMonth, setCalendarMonth] = useState(currentMonth());
-  const [date, setDate] = useState("");
+  const [calendarMonth, setCalendarMonth] = useState(fechaEnCarrito ? fechaEnCarrito.slice(0, 7) : currentMonth());
+  const [date, setDate] = useState(fechaEnCarrito);
   const [startTime, setStartTime] = useState("");
   const [showDiscount, setShowDiscount] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
@@ -86,13 +89,13 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen: _onOpe
     }
   }, [catalogs, initialServiceSlug]);
   useEffect(() => {
-    setCalendarMonth(currentMonth());
-    setDate("");
+    setCalendarMonth(fechaEnCarrito ? fechaEnCarrito.slice(0, 7) : currentMonth());
+    setDate(fechaEnCarrito);
     setStartTime("");
     if (!childTicket) setChildren(0);
     setDiscount(null);
     setDiscountError("");
-  }, [catalog.service.id, childTicket]);
+  }, [catalog.service.id, childTicket, fechaEnCarrito]);
   const availableDates = trpc.biopools.public.availableDates.useQuery(
     { serviceId: catalog.service.id, month: calendarMonth, guestCount: totalGuests },
     { enabled: open, refetchInterval: 30_000 }

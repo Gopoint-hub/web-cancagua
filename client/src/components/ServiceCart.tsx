@@ -92,7 +92,9 @@ function ServiceCartDrawer() {
   const { items, open, setOpen, removeItem } = useServiceCart();
   const [customer, setCustomer] = useState({ name: "", email: "", phone: "+56" });
   const [accepted, setAccepted] = useState(false);
+  const [showDiscount, setShowDiscount] = useState(false);
   const [codeInput, setCodeInput] = useState("");
+  const [codeError, setCodeError] = useState("");
   const [discountState, setDiscountState] = useState<{
     signature: string;
     code: string;
@@ -127,10 +129,12 @@ function ServiceCartDrawer() {
 
   const applyCode = () => {
     const code = codeInput.trim();
-    if (!code) return toast.error("Escribe un código de descuento");
-    if (items.length === 0) return toast.error("Agrega un servicio antes de aplicar el código");
+    if (!code) return setCodeError("Escribe un código de descuento");
+    if (items.length === 0) return setCodeError("Agrega un servicio antes de aplicar el código");
+    setCodeError("");
     validateDiscount.mutate({ code, items: cartItemsForApi() }, {
       onSuccess: result => {
+        setCodeError("");
         setDiscountState({
           signature: cartSignature,
           code: result.code,
@@ -142,7 +146,7 @@ function ServiceCartDrawer() {
       },
       onError: error => {
         setDiscountState(null);
-        toast.error(error.message || "Código inválido");
+        setCodeError(error.message || "Código inválido");
       },
     });
   };
@@ -202,7 +206,7 @@ function ServiceCartDrawer() {
       {items.length > 0 && <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#D3BC8D] px-1 text-[10px] text-[#222221]">{items.length}</span>}
     </button>
     <button type="button" aria-label="Cerrar carrito" onClick={() => setOpen(false)} className={`fixed inset-0 z-[70] bg-black/45 backdrop-blur-[2px] transition-opacity ${open ? "opacity-100" : "pointer-events-none opacity-0"}`} />
-    <aside role="dialog" aria-modal="true" aria-label="Carrito de servicios" className={`fixed inset-y-0 right-0 z-[80] flex w-full max-w-lg flex-col bg-[#F8F6F1] shadow-2xl transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}`}>
+    <aside role="dialog" aria-modal="true" aria-label="Carrito de servicios" className={`fixed inset-y-0 right-0 z-[80] flex w-full max-w-lg flex-col bg-[#F8F6F1] shadow-2xl transition-transform duration-300 md:max-w-5xl ${open ? "translate-x-0" : "translate-x-full"}`}>
       <div className="flex items-start justify-between border-b border-[#D7D4D1] p-6">
         <div><p className="font-cg-mono text-xs uppercase tracking-[0.16em] text-[#4B5872]">Compra compartida</p><h2 className="mt-1 font-cg-serif text-3xl text-[#222221]">Tu carrito Cancagua</h2></div>
         <button type="button" onClick={() => setOpen(false)} className="rounded-full border border-[#BCBAB8] p-2"><X className="h-5 w-5" /></button>
@@ -218,46 +222,29 @@ function ServiceCartDrawer() {
           {items.length > 0 && <section className="rounded-[1.5rem] border border-[#D7D4D1] bg-white p-5"><h3 className="font-cg-serif text-xl">Datos de quien reserva</h3><div className="mt-4 space-y-3"><input required minLength={2} placeholder="Nombre completo" value={customer.name} onChange={event => setCustomer({ ...customer, name: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required type="email" placeholder="Correo" value={customer.email} onChange={event => setCustomer({ ...customer, email: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required minLength={8} type="tel" placeholder="WhatsApp" value={customer.phone} onChange={event => setCustomer({ ...customer, phone: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /></div></section>}
         </div>
         {items.length > 0 && <div className="border-t border-[#D7D4D1] bg-white p-6">
-          {items.length > 0 && (
-            <div className="mb-4 rounded-[1.25rem] border border-[#D7D4D1] bg-[#FAF9F8] p-4">
-              <div className="flex flex-col gap-2 sm:flex-row">
-                <input
-                  value={codeInput}
-                  onChange={event => setCodeInput(event.target.value.toUpperCase())}
-                  placeholder="Código de descuento"
-                  className="w-full rounded-xl border border-[#BCBAB8] bg-white px-4 py-3 font-cg-mono text-sm uppercase tracking-[0.08em]"
-                />
-                <Button
-                  type="button"
-                  onClick={applyCode}
-                  disabled={validateDiscount.isPending}
-                  className="h-12 shrink-0 rounded-full bg-[#635E5A] px-5 font-cg-mono text-xs uppercase tracking-[0.14em] text-white hover:bg-[#4B4744]"
-                >
-                  {validateDiscount.isPending ? "Validando…" : "Aplicar código de descuento"}
+          {items.length > 0 && <button type="button" onClick={() => setShowDiscount(value => !value)} className="mb-4 font-cg-soft text-sm font-medium text-[#4B5872] underline underline-offset-4">
+            Aplicar código de descuento
+          </button>}
+          {items.length > 0 && showDiscount && (
+            <div className="mb-4">
+              <div className="flex gap-2">
+                <input value={codeInput} onChange={event => { setCodeInput(event.target.value.toUpperCase()); setDiscountState(null); setCodeError(""); }} placeholder="Ingresa tu código" className="min-w-0 flex-1 rounded-full border border-[#BCBAB8] bg-white px-4 py-2 font-cg-mono text-sm uppercase outline-none focus:border-[#4B5872]" />
+                <Button type="button" variant="outline" onClick={applyCode} disabled={!codeInput.trim() || validateDiscount.isPending} className="rounded-full">
+                  {validateDiscount.isPending ? "Validando…" : "Aplicar"}
                 </Button>
               </div>
+              {codeError && <p className="mt-2 font-cg-soft text-sm text-red-700">{codeError}</p>}
               {appliedDiscount && (
-                <div className="mt-3 font-cg-soft text-sm text-[#635E5A]">
-                  <p className="text-[#333D51]">
-                    Código <strong className="font-cg-mono">{appliedDiscount.code}</strong> aplicado · <strong>−{formatPrice(appliedDiscount.discountTotal)}</strong>
-                  </p>
-                  <ul className="mt-2 space-y-1 text-xs">
+                <div className="mt-2 font-cg-soft text-sm text-green-700">
+                  <p>Código {appliedDiscount.code} aplicado correctamente.</p>
+                  <ul className="mt-1 space-y-0.5 text-xs text-[#635E5A]">
                     {appliedDiscount.lines.map((line, index) => (
                       <li key={`${line.itemName}-${index}`} className="flex justify-between gap-3">
                         <span>{line.itemName}</span>
-                        <span className={line.applied ? "font-cg-mono text-[#333D51]" : "font-cg-mono"}>
-                          {line.applied ? `−${formatPrice(line.discountClp)}` : "sin descuento"}
-                        </span>
+                        <span className="font-cg-mono">{line.applied ? `−${formatPrice(line.discountClp)}` : "sin descuento"}</span>
                       </li>
                     ))}
                   </ul>
-                  <button
-                    type="button"
-                    onClick={() => { setDiscountState(null); setCodeInput(""); }}
-                    className="mt-2 font-cg-mono text-xs uppercase tracking-[0.12em] underline"
-                  >
-                    Quitar código
-                  </button>
                 </div>
               )}
             </div>

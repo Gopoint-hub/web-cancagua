@@ -38,10 +38,14 @@ function monthLabel(month: string) {
 }
 
 export function SaunaBookingDrawer({ services, selectedPurchaseKey, open, onClose }: { services: SaunaCatalogService[]; selectedPurchaseKey: string; open: boolean; onClose: () => void }) {
-  const { addItem } = useServiceCart();
+  const { addItem, items } = useServiceCart();
+  // Si ya hay un servicio en el carrito, se asume que viene el mismo día: no
+  // tiene sentido volver a preguntárselo. Si esa fecha no tuviera cupo para
+  // sauna, el efecto de más abajo la corrige sola por la primera disponible.
+  const fechaEnCarrito = items.find(item => item.bookingDate)?.bookingDate ?? "";
   const selected = services.find(service => service.purchaseKey === selectedPurchaseKey) ?? services[0];
-  const [month, setMonth] = useState(currentMonth());
-  const [date, setDate] = useState("");
+  const [month, setMonth] = useState(fechaEnCarrito ? fechaEnCarrito.slice(0, 7) : currentMonth());
+  const [date, setDate] = useState(fechaEnCarrito);
   const [startTime, setStartTime] = useState("");
   const isPrivate = selected?.kind === "private" || selected?.partySize >= 4;
   const guests = selected?.partySize ?? 1;
@@ -52,10 +56,10 @@ export function SaunaBookingDrawer({ services, selectedPurchaseKey, open, onClos
   const slots = useMemo(() => ((availability.data?.slots ?? []) as Array<{ startTime: string; endTime: string }>).filter(slot => slot.startTime >= "10:00" && slot.startTime <= "20:00"), [availability.data]);
 
   useEffect(() => {
-    setMonth(currentMonth());
-    setDate("");
+    setMonth(fechaEnCarrito ? fechaEnCarrito.slice(0, 7) : currentMonth());
+    setDate(fechaEnCarrito);
     setStartTime("");
-  }, [selected?.purchaseKey]);
+  }, [selected?.purchaseKey, fechaEnCarrito]);
   useEffect(() => {
     if (!availableDates.isSuccess) return;
     const dates = (availableDates.data?.dates ?? []) as string[];
