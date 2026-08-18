@@ -92,8 +92,60 @@ function ServiceCartDrawer() {
   const { items, open, setOpen, removeItem } = useServiceCart();
   const [customer, setCustomer] = useState({ name: "", email: "", phone: "+56" });
   const [accepted, setAccepted] = useState(false);
-  const total = items.reduce((sum, item) => sum + item.totalClp, 0);
+  const [codeInput, setCodeInput] = useState("");
+  const [discountState, setDiscountState] = useState<{
+    signature: string;
+    code: string;
+    discountTotal: number;
+    finalTotal: number;
+    lines: Array<{ itemName: string; discountClp: number; applied: boolean }>;
+  } | null>(null);
+  const subtotal = items.reduce((sum, item) => sum + item.totalClp, 0);
   const startPayment = trpc.serviceCart.public.startPayment.useMutation();
+  const validateDiscount = trpc.serviceCart.public.validateDiscount.useMutation();
+
+  // Si el carrito cambió, el código validado sobre los productos anteriores ya
+  // no vale. Se descarta comparando la firma, sin tocar estado en el render.
+  const cartSignature = items.map(item => `${item.module}:${item.serviceId}:${item.totalClp}`).join("|");
+  const appliedDiscount = discountState && discountState.signature === cartSignature ? discountState : null;
+  const total = appliedDiscount ? appliedDiscount.finalTotal : subtotal;
+
+  const cartItemsForApi = () => items.map(item => item.module === "biopools" ? {
+    module: "biopools" as const,
+    serviceId: item.serviceId,
+    bookingDate: item.bookingDate,
+    startTime: item.startTime,
+    adultQuantity: item.adultQuantity,
+    childQuantity: item.childQuantity,
+  } : {
+    module: "sauna" as const,
+    serviceId: item.serviceId,
+    bookingDate: item.bookingDate,
+    startTime: item.startTime,
+    privateGuestCount: item.privateGuestCount,
+  });
+
+  const applyCode = () => {
+    const code = codeInput.trim();
+    if (!code) return toast.error("Escribe un código de descuento");
+    if (items.length === 0) return toast.error("Agrega un servicio antes de aplicar el código");
+    validateDiscount.mutate({ code, items: cartItemsForApi() }, {
+      onSuccess: result => {
+        setDiscountState({
+          signature: cartSignature,
+          code: result.code,
+          discountTotal: result.discountTotal,
+          finalTotal: result.finalTotal,
+          lines: result.lines.map(line => ({ itemName: line.itemName, discountClp: line.discountClp, applied: line.applied })),
+        });
+        toast.success("Código aplicado");
+      },
+      onError: error => {
+        setDiscountState(null);
+        toast.error(error.message || "Código inválido");
+      },
+    });
+  };
 
   const pay = (event: FormEvent) => {
     event.preventDefault();
@@ -120,6 +172,7 @@ function ServiceCartDrawer() {
         privateGuestCount: item.privateGuestCount,
         discountCode: item.discountCode,
       }),
+      discountCode: appliedDiscount?.code,
       acceptedTerms: true,
       utmSource: params.get("utm_source") || undefined,
       utmMedium: params.get("utm_medium") || undefined,
@@ -165,6 +218,53 @@ function ServiceCartDrawer() {
           {items.length > 0 && <section className="rounded-[1.5rem] border border-[#D7D4D1] bg-white p-5"><h3 className="font-cg-serif text-xl">Datos de quien reserva</h3><div className="mt-4 space-y-3"><input required minLength={2} placeholder="Nombre completo" value={customer.name} onChange={event => setCustomer({ ...customer, name: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required type="email" placeholder="Correo" value={customer.email} onChange={event => setCustomer({ ...customer, email: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required minLength={8} type="tel" placeholder="WhatsApp" value={customer.phone} onChange={event => setCustomer({ ...customer, phone: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /></div></section>}
         </div>
         {items.length > 0 && <div className="border-t border-[#D7D4D1] bg-white p-6">
+          {items.length > 0 && (
+            <div className="mb-4 rounded-[1.25rem] border border-[#D7D4D1] bg-[#FAF9F8] p-4">
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <input
+                  value={codeInput}
+                  onChange={event => setCodeInput(event.target.value.toUpperCase())}
+                  placeholder="Código de descuento"
+                  className="w-full rounded-xl border border-[#BCBAB8] bg-white px-4 py-3 font-cg-mono text-sm uppercase tracking-[0.08em]"
+                />
+                <Button
+                  type="button"
+                  onClick={applyCode}
+                  disabled={validateDiscount.isPending}
+                  className="h-12 shrink-0 rounded-full bg-[#635E5A] px-5 font-cg-mono text-xs uppercase tracking-[0.14em] text-white hover:bg-[#4B4744]"
+                >
+                  {validateDiscount.isPending ? "Validando…" : "Aplicar código de descuento"}
+                </Button>
+              </div>
+              {appliedDiscount && (
+                <div className="mt-3 font-cg-soft text-sm text-[#635E5A]">
+                  <p className="text-[#333D51]">
+                    Código <strong className="font-cg-mono">{appliedDiscount.code}</strong> aplicado · <strong>−{formatPrice(appliedDiscount.discountTotal)}</strong>
+                  </p>
+                  <ul className="mt-2 space-y-1 text-xs">
+                    {appliedDiscount.lines.map((line, index) => (
+                      <li key={`${line.itemName}-${index}`} className="flex justify-between gap-3">
+                        <span>{line.itemName}</span>
+                        <span className={line.applied ? "font-cg-mono text-[#333D51]" : "font-cg-mono"}>
+                          {line.applied ? `−${formatPrice(line.discountClp)}` : "sin descuento"}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    type="button"
+                    onClick={() => { setDiscountState(null); setCodeInput(""); }}
+                    className="mt-2 font-cg-mono text-xs uppercase tracking-[0.12em] underline"
+                  >
+                    Quitar código
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+          {appliedDiscount && (
+            <div className="flex items-end justify-between font-cg-soft text-sm text-[#635E5A]"><span>Subtotal</span><span className="font-cg-mono">{formatPrice(subtotal)}</span></div>
+          )}
           <div className="flex items-end justify-between"><span className="font-cg-soft text-sm text-[#635E5A]">Total · {items.length} servicio{items.length === 1 ? "" : "s"}</span><strong className="font-cg-serif text-3xl font-light text-[#222221]">{formatPrice(total)}</strong></div>
           <label className="mt-4 flex items-start gap-3 font-cg-soft text-xs leading-relaxed text-[#635E5A]"><input type="checkbox" checked={accepted} onChange={event => setAccepted(event.target.checked)} className="mt-0.5 h-4 w-4" /><span>Acepto las condiciones de compra y los reglamentos de los servicios seleccionados.</span></label>
           <Button type="submit" disabled={startPayment.isPending} className="mt-4 h-12 w-full rounded-full bg-[#333D51] font-cg-mono uppercase tracking-[0.14em] text-white hover:bg-[#4B5872]">{startPayment.isPending ? "Protegiendo tus cupos…" : <><LockKeyhole className="mr-2 h-4 w-4" />Pagar con Transbank</>}</Button>
