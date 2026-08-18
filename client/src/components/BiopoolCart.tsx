@@ -131,7 +131,7 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen: _onOpe
 
   const validateDiscount = trpc.biopools.public.validateDiscount.useMutation();
   const applyDiscount = () => {
-    validateDiscount.mutate({ serviceId: catalog.service.id, adultQuantity: adults, childQuantity: children, code: discountCode }, {
+    validateDiscount.mutate({ serviceId: catalog.service.id, adultQuantity: adults, childQuantity: children, code: discountCode, bookingDate: date || undefined }, {
       onSuccess: (result: any) => { setDiscount({ code: result.code, discountTotal: result.discountTotal, finalTotal: result.finalTotal }); setDiscountCode(result.code); setDiscountError(""); },
       onError: (error: any) => { setDiscount(null); setDiscountError(error.message || "El código no es válido"); },
     });
