@@ -29,14 +29,14 @@ Sumergirse en ellas es más que un acto físico. Es un rito de conexión. Los m�
 
 ## Una invitación a nuestros vecinos: este agosto, la pausa es compartida
 
-Como un eco del calor que emerge de la tierra, queremos extender una invitación especial a quienes son parte de nuestro entorno más cercano. Durante todo el mes de agosto, los residentes de las regiones de Los Lagos y Los Ríos podrán disfrutar de una experiencia 2x1 en el acceso a nuestras Biopiscinas Geotermales.
+Como un eco del calor que emerge de la tierra, queremos extender una invitación especial a quienes son parte de nuestro entorno más cercano. De martes a viernes durante todo agosto de 2026, los residentes de las regiones de Los Lagos y Los Ríos podrán disfrutar de una experiencia 2x1 en el acceso a nuestras Biopiscinas Geotermales.
 
 Es nuestra manera de decir gracias, de fortalecer los lazos con nuestra comunidad y de compartir el bienestar que la naturaleza nos regala. Creemos que la sanación y el equilibrio son más potentes cuando se comparten. Ven con un amigo, tu pareja o un familiar y permitan que el invierno se transforme en un recuerdo de calidez y conexión.
 
 **BENEFICIO AGOSTO**
 - **QUÉ:** 2x1 en acceso a Biopiscinas Geotermales.
 - **QUIÉNES:** Exclusivo para residentes de la Región de Los Lagos y la Región de Los Ríos.
-- **CUÁNDO:** Válido desde el 1 al 31 de agosto de 2024.
+- **CUÁNDO:** De martes a viernes, del 1 al 31 de agosto de 2026.
 - **CÓMO:** Presentando un documento que acredite residencia al momento de tu llegada.
 
 ## Preguntas que nos invitan a la calma
@@ -44,7 +44,7 @@ Es nuestra manera de decir gracias, de fortalecer los lazos con nuestra comunida
 Sabemos que la anticipación a una pausa también trae consigo algunas dudas. Aquí respondemos a las más frecuentes, para que tu única ocupación sea entregarte al descanso.
 
 ### ¿Qué necesito para acceder al beneficio 2x1?
-Para hacer válida esta invitación, solo necesitas realizar tu reserva previa a través de nuestro sitio web y, al llegar a Cancagua, presentar tu cédula de identidad o un comprobante de domicilio (como una boleta de servicios a tu nombre) que acredite tu residencia en alguna de las comunas de la Región de Los Lagos o de Los Ríos. El beneficio se aplica directamente en tu reserva.
+Para hacer válida esta invitación, solo necesitas realizar tu reserva previa a través de nuestro sitio web y, al llegar a Cancagua, presentar tu cédula de identidad o un comprobante de domicilio (como una boleta de servicios a tu nombre) que acredite tu residencia en alguna de las comunas de la Región de Los Lagos o de Los Ríos. Recuerda que el beneficio corre de martes a viernes. El beneficio se aplica directamente en tu reserva.
 
 ### ¿Cuál es la diferencia entre una biopiscina geotermal y una piscina temperada convencional?
 La diferencia es fundamental y reside en el origen y la esencia. Una piscina convencional utiliza sistemas artificiales y químicos para calentar y limpiar el agua. Nuestras biopiscinas extraen su calor directamente de la energía de la tierra, y su agua, cargada de minerales, se mantiene pura a través de un proceso de filtración biológico. Es una experiencia más orgánica, saludable y en total armonía con el entorno, un baño en la naturaleza misma.
