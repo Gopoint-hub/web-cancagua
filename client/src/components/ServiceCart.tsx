@@ -92,6 +92,30 @@ function ServiceCartDrawer() {
   const { items, open, setOpen, removeItem } = useServiceCart();
   const [customer, setCustomer] = useState({ name: "", email: "", phone: "+56" });
   const [accepted, setAccepted] = useState(false);
+  // Prellenado de quien ya compro antes: se dispara al terminar de escribir el
+  // correo, no en cada tecla, para no consultar diez veces por direccion.
+  const [emailConsultado, setEmailConsultado] = useState("");
+  const [nombreConocido, setNombreConocido] = useState<string | null>(null);
+  const perfil = trpc.serviceCart.public.perfilPorEmail.useQuery(
+    { email: emailConsultado },
+    { enabled: /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(emailConsultado), staleTime: 5 * 60_000, retry: false }
+  );
+
+  useEffect(() => {
+    const datos = perfil.data;
+    if (!datos?.encontrado) return;
+    setCustomer(actual => {
+      const sinNombre = actual.name.trim().length < 2;
+      const sinTelefono = actual.phone.replace(/\D/g, "").length <= 3;
+      if (!sinNombre && !sinTelefono) return actual;
+      return {
+        ...actual,
+        name: sinNombre ? datos.nombre : actual.name,
+        phone: sinTelefono && datos.telefono ? datos.telefono : actual.phone,
+      };
+    });
+    setNombreConocido(datos.nombre);
+  }, [perfil.data]);
   const [showDiscount, setShowDiscount] = useState(false);
   const [codeInput, setCodeInput] = useState("");
   const [codeError, setCodeError] = useState("");
@@ -219,7 +243,7 @@ function ServiceCartDrawer() {
             <div className="mt-4 grid grid-cols-2 gap-3 font-cg-soft text-sm text-[#635E5A]"><span className="flex items-center gap-2"><CalendarDays className="h-4 w-4" />{formatDate(item.bookingDate)}</span><span className="flex items-center gap-2"><Clock className="h-4 w-4" />{item.startTime}–{item.endTime}</span><span className="flex items-center gap-2"><Users className="h-4 w-4" />{item.module === "biopools" ? item.adultQuantity + item.childQuantity : item.guests} persona{(item.module === "biopools" ? item.adultQuantity + item.childQuantity : item.guests) === 1 ? "" : "s"}</span><strong className="text-right font-cg-mono text-[#333D51]">{formatPrice(item.totalClp)}</strong></div>
           </article>)}
           {items.length > 0 && items.length < 2 && <a href={items[0].module === "biopools" ? "/servicios/sauna#opciones" : "/servicios/biopiscinas#reservar"} className="block rounded-[1.5rem] border border-dashed border-[#4B5872] p-4 text-center font-cg-mono text-xs uppercase tracking-[0.12em] text-[#333D51]">+ Agregar {items[0].module === "biopools" ? "Sauna" : "Biopiscinas"}</a>}
-          {items.length > 0 && <section className="rounded-[1.5rem] border border-[#D7D4D1] bg-white p-5"><h3 className="font-cg-serif text-xl">Datos de quien reserva</h3><div className="mt-4 space-y-3"><input required minLength={2} placeholder="Nombre completo" value={customer.name} onChange={event => setCustomer({ ...customer, name: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required type="email" placeholder="Correo" value={customer.email} onChange={event => setCustomer({ ...customer, email: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required minLength={8} type="tel" placeholder="WhatsApp" value={customer.phone} onChange={event => setCustomer({ ...customer, phone: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /></div></section>}
+          {items.length > 0 && <section className="rounded-[1.5rem] border border-[#D7D4D1] bg-white p-5"><h3 className="font-cg-serif text-xl">Datos de quien reserva</h3><div className="mt-4 space-y-3"><input required minLength={2} placeholder="Nombre completo" value={customer.name} onChange={event => setCustomer({ ...customer, name: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required type="email" placeholder="Correo" value={customer.email} onChange={event => setCustomer({ ...customer, email: event.target.value })} onBlur={event => setEmailConsultado(event.target.value.trim().toLowerCase())} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" />{nombreConocido && customer.name.trim().length > 1 && nombreConocido.trim().toLowerCase() !== customer.name.trim().toLowerCase() && (<p className="text-sm text-[#5B5854]">La última vez reservaste como <strong>{nombreConocido}</strong>. <button type="button" className="underline" onClick={() => setCustomer(actual => ({ ...actual, name: nombreConocido }))}>Usar ese nombre</button></p>)}<input required minLength={8} type="tel" placeholder="WhatsApp" value={customer.phone} onChange={event => setCustomer({ ...customer, phone: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /></div></section>}
         </div>
         {items.length > 0 && <div className="border-t border-[#D7D4D1] bg-white p-6">
           {items.length > 0 && <button type="button" onClick={() => setShowDiscount(value => !value)} className="mb-4 font-cg-soft text-sm font-medium text-[#4B5872] underline underline-offset-4">
