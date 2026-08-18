@@ -53,7 +53,13 @@ La diferencia es fundamental y reside en el origen y la esencia. Una piscina con
 Tu pausa puede ser tan profunda como lo desees. Puedes complementar tu día de biopiscinas con uno de nuestros masajes, como el Masaje de Tejido Profundo para liberar tensiones arraigadas o un Masaje de Relajación para inducir un estado de calma total. También puedes explorar nuestros retiros de bienestar o simplemente regalarte tiempo para caminar por nuestros jardines y sentir la conexión con el paisaje del sur de Chile.
 
 ### ¿Es un espacio recomendado para niños?
-Cancagua está diseñado como un santuario de silencio y tranquilidad para adultos, orientado a la introspección y el descanso profundo. Para preservar esta atmósfera, el acceso a nuestras instalaciones es para mayores de 16 años. Es un espacio para que los adultos puedan desconectar y reconectar consigo mismos sin distracciones.
+Sí, las familias son bienvenidas. Lo que cambia es dónde.
+
+En los **hot tubs privados** el panorama es familiar: la tina es solo para tu grupo, y durante agosto los **menores de 12 años no pagan**. Al ser un espacio reservado, los más pequeños pueden entrar al agua contigo.
+
+En las **biopiscinas geotermales**, que son de uso compartido, el valor para niños es de **$24.000** y el acceso al agua es **desde los 4 años**. Por la temperatura del agua, entre 36 y 40 grados, los menores de esa edad no pueden ingresar a las piscinas.
+
+Si vienes con niños pequeños, nuestra recomendación es el hot tub: es más resguardado, más cálido y no comparten espacio con otros visitantes.
 
 ### ¿Qué debo llevar para mi día en Cancagua?
 Te recomendamos traer tu traje de baño, sandalias y las ganas de soltar. Nosotros te proporcionaremos toallas y un locker para tus pertenencias. Muchos de nuestros visitantes disfrutan de traer un libro o un cuaderno para aprovechar los momentos de quietud antes o después de sumergirse en las aguas.
