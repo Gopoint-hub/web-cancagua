@@ -31,6 +31,17 @@ export default function Head() {
         image: seoData.image,
         url: canonical,
         category: "Tarjeta de regalo de bienestar",
+        offers: {
+          "@type": "AggregateOffer",
+          priceCurrency: "CLP",
+          lowPrice: 20000,
+          availability: "https://schema.org/InStock",
+          url: canonical,
+          seller: {
+            "@type": "Organization",
+            name: "Cancagua Spa & Retreat Center",
+          },
+        },
         brand: {
           "@type": "Brand",
           name: "Cancagua",
