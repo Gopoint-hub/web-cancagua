@@ -58,8 +58,8 @@ export default function Page() {
 
   const handleComprar = async () => {
     const amount = getMontoFinal();
-    if (amount < 5000) {
-      alert("El monto mínimo es $5.000");
+    if (amount < 15000) {
+      alert("El monto mínimo es $15.000");
       return;
     }
 
@@ -341,12 +341,12 @@ export default function Page() {
                   {montoSeleccionado === "personalizado" && (
                     <div className="mt-4">
                       <Label htmlFor="montoPersonalizado">
-                        Ingresa el monto (mínimo $5.000)
+                        Ingresa el monto (mínimo $15.000)
                       </Label>
                       <Input
                         id="montoPersonalizado"
                         type="number"
-                        min="5000"
+                        min="15000"
                         step="1000"
                         placeholder="Ej: 45000"
                         value={montoPersonalizado}
@@ -512,7 +512,7 @@ export default function Page() {
                 <Button
                   size="lg"
                   className="w-full"
-                  disabled={!getMontoFinal() || getMontoFinal() < 5000 || initiatePayment.isPending || isProcessingPayment}
+                  disabled={!getMontoFinal() || getMontoFinal() < 15000 || initiatePayment.isPending || isProcessingPayment}
                   onClick={handleComprar}
                 >
                   {initiatePayment.isPending || isProcessingPayment ? (
