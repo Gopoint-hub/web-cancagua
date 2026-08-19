@@ -34,7 +34,7 @@ export default function Head() {
         offers: {
           "@type": "AggregateOffer",
           priceCurrency: "CLP",
-          lowPrice: 20000,
+          lowPrice: 15000,
           availability: "https://schema.org/InStock",
           url: canonical,
           seller: {
