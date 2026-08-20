@@ -54,7 +54,7 @@ export function ServiceCartProvider({ children }: { children: ReactNode }) {
     const syncWellness = (event: Event) => {
       const detail = (event as CustomEvent<WellnessCart>).detail;
       setItems(current => [...current.filter(item => item.module === "biopools" || item.module === "sauna"), ...wellnessItems(detail)]);
-      setOpen(true);
+      if (detail.classPlan || detail.massages?.length) setOpen(true);
     };
     window.addEventListener("cancagua:cart-updated", syncWellness);
     return () => window.removeEventListener("cancagua:cart-updated", syncWellness);
