@@ -31,6 +31,8 @@ interface MassageTechnique {
   durations: number[];
   prices: MassagePrice[];
   bookingUrl: string;
+  monthlyOnly?: boolean;
+  monthlyFeatureMonth?: string | null;
 }
 
 type MassageCartItem = WellnessMassageItem;
@@ -135,6 +137,40 @@ function MassageTechniqueCard({ technique, onAdd }: {
       </div>
     </article>
   );
+}
+
+function MonthlyMassageFeature({ technique, onAdd }: {
+  technique: MassageTechnique;
+  onAdd: (technique: MassageTechnique, duration: number) => void;
+}) {
+  const defaultDuration = technique.durations[0] ?? technique.prices[0]?.duration;
+  const [selectedDuration, setSelectedDuration] = useState<number | undefined>(defaultDuration);
+  const selectedPrice = selectedDuration ? getPriceForDuration(technique, selectedDuration) : technique.prices[0]?.price;
+  const month = technique.monthlyFeatureMonth
+    ? new Intl.DateTimeFormat("es-CL", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${technique.monthlyFeatureMonth}-01T12:00:00Z`))
+    : "este mes";
+
+  return <section className="bg-white py-16 md:py-20" aria-labelledby="monthly-massage-title">
+    <div className="container max-w-6xl">
+      <article className="grid overflow-hidden rounded-[2rem] border border-[#D8DACD] bg-[#F5F6F4] shadow-[0_4px_6px_rgba(0,0,0,0.04),0_10px_18px_rgba(0,0,0,0.05)] md:grid-cols-[1.05fr_0.95fr]">
+        <div className="relative min-h-[320px] overflow-hidden md:min-h-[470px]">
+          <img src={technique.imageUrl || FALLBACK_IMAGE} alt={technique.name} className="absolute inset-0 h-full w-full object-cover transition duration-700 hover:scale-[1.02]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+        </div>
+        <div className="flex flex-col justify-center p-8 md:p-12 lg:p-14">
+          <p className="font-cg-mono text-xs uppercase tracking-[0.22em] text-[#696F4D]">Masaje del mes · <span className="capitalize">{month}</span></p>
+          <h2 id="monthly-massage-title" className="mt-4 font-cg-serif text-4xl font-light leading-tight text-[#222221] md:text-5xl">{technique.name}</h2>
+          <p className="mt-5 font-cg-soft text-lg leading-relaxed text-[#635E5A]">{technique.description || "Una experiencia creada especialmente para acompañar el ritmo de este mes."}</p>
+          <p className="mt-4 font-cg-soft text-sm leading-relaxed text-[#696F4D]">Disponible únicamente durante este mes.</p>
+          <div className="mt-7 flex flex-wrap gap-2">{technique.durations.map(duration => <button type="button" key={duration} onClick={() => setSelectedDuration(duration)} aria-pressed={selectedDuration === duration} className={`rounded-full border px-4 py-2 font-cg-mono text-xs uppercase tracking-[0.12em] transition ${selectedDuration === duration ? "border-[#4A4F35] bg-[#4A4F35] text-white" : "border-[#A4A98E] bg-white text-[#4A4F35] hover:bg-[#D8DACD]"}`}><Clock className="mr-1 inline h-3 w-3" />{duration} min</button>)}</div>
+          <div className="mt-8 flex flex-col gap-5 border-t border-[#BFC2B2] pt-7 sm:flex-row sm:items-center sm:justify-between">
+            <strong className="font-cg-serif text-3xl font-light text-[#222221]">{formatPrice(selectedPrice)}</strong>
+            <Button type="button" onClick={() => selectedDuration && onAdd(technique, selectedDuration)} disabled={!selectedDuration || !selectedPrice} className="rounded-full bg-[#333D51] px-7 font-cg-mono text-xs uppercase tracking-[0.14em] text-white hover:bg-[#4B5872]">Reservar servicio →</Button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>;
 }
 
 function MassageCartDrawer({
@@ -341,6 +377,7 @@ function MassageCartDrawer({
 
 export default function Page() {
   const [techniques, setTechniques] = useState<MassageTechnique[]>([]);
+  const [featuredTechnique, setFeaturedTechnique] = useState<MassageTechnique | null>(null);
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
   const [catalogError, setCatalogError] = useState(false);
   const [cart, setCart] = useState<MassageCartItem[]>([]);
@@ -395,8 +432,11 @@ export default function Page() {
         if (!res.ok) throw new Error(`CMS catalog error ${res.status}`);
         return res.json();
       })
-      .then((data: { techniques?: MassageTechnique[] }) => {
-        if (!cancelled) setTechniques(data.techniques ?? []);
+      .then((data: { techniques?: MassageTechnique[]; featuredTechnique?: MassageTechnique | null }) => {
+        if (!cancelled) {
+          setTechniques(data.techniques ?? []);
+          setFeaturedTechnique(data.featuredTechnique ?? null);
+        }
       })
       .catch((error) => {
         console.error("[Masajes] Error cargando catálogo CMS:", error);
@@ -437,13 +477,17 @@ export default function Page() {
     () => techniques.filter((technique) => technique.durations.length > 0),
     [techniques]
   );
+  const analyticsTechniques = useMemo(
+    () => featuredTechnique ? [featuredTechnique, ...visibleTechniques] : visibleTechniques,
+    [featuredTechnique, visibleTechniques]
+  );
 
   useEffect(() => {
-    if (visibleTechniques.length === 0) return;
+    if (analyticsTechniques.length === 0) return;
     pushMassageEvent("view_item_list", {
       item_list_id: "masajes_cancagua",
       item_list_name: "Masajes Cancagua",
-      items: visibleTechniques.flatMap((technique) =>
+      items: analyticsTechniques.flatMap((technique) =>
         technique.prices
           .filter((price): price is MassagePrice & { price: number } => Boolean(price.price))
           .map((price) => toAnalyticsItem({
@@ -454,7 +498,7 @@ export default function Page() {
           })),
       ),
     });
-  }, [visibleTechniques]);
+  }, [analyticsTechniques]);
 
   const changeCartQuantity = (key: string, quantity: number) => {
     setCart((current) => {
@@ -534,6 +578,8 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      {featuredTechnique && <MonthlyMassageFeature technique={featuredTechnique} onAdd={addToCart} />}
 
       {/* Lista de Servicios */}
       <section id="tecnicas" className="py-20 bg-[#F4F2ED]">
