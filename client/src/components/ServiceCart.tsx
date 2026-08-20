@@ -3,6 +3,8 @@ import { CalendarDays, Clock, LockKeyhole, ShoppingBag, Trash2, Users, X } from 
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
+import { CustomerAcquisitionFields } from "@/components/CustomerAcquisitionFields";
+import { EMPTY_CUSTOMER_ACQUISITION, normalizeCustomerAcquisition, validateCustomerAcquisition } from "@/lib/customerAcquisition";
 
 const STORAGE_KEY = "cancagua-service-cart-v1";
 
@@ -91,6 +93,7 @@ const formatDate = (value: string) => new Intl.DateTimeFormat("es-CL", { weekday
 function ServiceCartDrawer() {
   const { items, open, setOpen, removeItem } = useServiceCart();
   const [customer, setCustomer] = useState({ name: "", email: "", phone: "+56" });
+  const [acquisition, setAcquisition] = useState(EMPTY_CUSTOMER_ACQUISITION);
   const [accepted, setAccepted] = useState(false);
   // Prellenado de quien ya compro antes: se dispara al terminar de escribir el
   // correo, no en cada tecla, para no consultar diez veces por direccion.
@@ -178,12 +181,15 @@ function ServiceCartDrawer() {
   const pay = (event: FormEvent) => {
     event.preventDefault();
     if (!items.length) return toast.error("Agrega al menos un servicio al carrito");
+    const acquisitionError = validateCustomerAcquisition(acquisition);
+    if (acquisitionError) return toast.error(acquisitionError);
     if (!accepted) return toast.error("Debes aceptar las condiciones de compra");
     const params = new URLSearchParams(window.location.search);
     startPayment.mutate({
       clientName: customer.name,
       clientEmail: customer.email,
       clientPhone: customer.phone,
+      acquisition: normalizeCustomerAcquisition(acquisition),
       items: items.map(item => item.module === "biopools" ? {
         module: "biopools" as const,
         serviceId: item.serviceId,
@@ -243,7 +249,7 @@ function ServiceCartDrawer() {
             <div className="mt-4 grid grid-cols-2 gap-3 font-cg-soft text-sm text-[#635E5A]"><span className="flex items-center gap-2"><CalendarDays className="h-4 w-4" />{formatDate(item.bookingDate)}</span><span className="flex items-center gap-2"><Clock className="h-4 w-4" />{item.startTime}–{item.endTime}</span><span className="flex items-center gap-2"><Users className="h-4 w-4" />{item.module === "biopools" ? item.adultQuantity + item.childQuantity : item.guests} persona{(item.module === "biopools" ? item.adultQuantity + item.childQuantity : item.guests) === 1 ? "" : "s"}</span><strong className="text-right font-cg-mono text-[#333D51]">{formatPrice(item.totalClp)}</strong></div>
           </article>)}
           {items.length > 0 && items.length < 2 && <a href={items[0].module === "biopools" ? "/servicios/sauna#opciones" : "/servicios/biopiscinas#reservar"} className="block rounded-[1.5rem] border border-dashed border-[#4B5872] p-4 text-center font-cg-mono text-xs uppercase tracking-[0.12em] text-[#333D51]">+ Agregar {items[0].module === "biopools" ? "Sauna" : "Biopiscinas"}</a>}
-          {items.length > 0 && <section className="rounded-[1.5rem] border border-[#D7D4D1] bg-white p-5"><h3 className="font-cg-serif text-xl">Datos de quien reserva</h3><div className="mt-4 space-y-3"><input required minLength={2} placeholder="Nombre completo" value={customer.name} onChange={event => setCustomer({ ...customer, name: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required type="email" placeholder="Correo" value={customer.email} onChange={event => setCustomer({ ...customer, email: event.target.value })} onBlur={event => setEmailConsultado(event.target.value.trim().toLowerCase())} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" />{nombreConocido && customer.name.trim().length > 1 && nombreConocido.trim().toLowerCase() !== customer.name.trim().toLowerCase() && (<p className="text-sm text-[#5B5854]">La última vez reservaste como <strong>{nombreConocido}</strong>. <button type="button" className="underline" onClick={() => setCustomer(actual => ({ ...actual, name: nombreConocido }))}>Usar ese nombre</button></p>)}<input required minLength={8} type="tel" placeholder="WhatsApp" value={customer.phone} onChange={event => setCustomer({ ...customer, phone: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /></div></section>}
+          {items.length > 0 && <section className="rounded-[1.5rem] border border-[#D7D4D1] bg-white p-5"><h3 className="font-cg-serif text-xl">Datos de quien reserva</h3><div className="mt-4 space-y-3"><input required minLength={2} placeholder="Nombre completo" value={customer.name} onChange={event => setCustomer({ ...customer, name: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /><input required type="email" placeholder="Correo" value={customer.email} onChange={event => setCustomer({ ...customer, email: event.target.value })} onBlur={event => setEmailConsultado(event.target.value.trim().toLowerCase())} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" />{nombreConocido && customer.name.trim().length > 1 && nombreConocido.trim().toLowerCase() !== customer.name.trim().toLowerCase() && (<p className="text-sm text-[#5B5854]">La última vez reservaste como <strong>{nombreConocido}</strong>. <button type="button" className="underline" onClick={() => setCustomer(actual => ({ ...actual, name: nombreConocido }))}>Usar ese nombre</button></p>)}<input required minLength={8} type="tel" placeholder="WhatsApp" value={customer.phone} onChange={event => setCustomer({ ...customer, phone: event.target.value })} className="w-full rounded-xl border border-[#BCBAB8] px-4 py-3" /></div><div className="mt-6 border-t border-[#D7D4D1] pt-5"><CustomerAcquisitionFields value={acquisition} onChange={setAcquisition} idPrefix="cart" compact /></div></section>}
         </div>
         {items.length > 0 && <div className="border-t border-[#D7D4D1] bg-white p-6">
           {items.length > 0 && <button type="button" onClick={() => setShowDiscount(value => !value)} className="mb-4 font-cg-soft text-sm font-medium text-[#4B5872] underline underline-offset-4">
@@ -279,7 +285,7 @@ function ServiceCartDrawer() {
           <div className="flex items-end justify-between"><span className="font-cg-soft text-sm text-[#635E5A]">Total · {items.length} servicio{items.length === 1 ? "" : "s"}</span><strong className="font-cg-serif text-3xl font-light text-[#222221]">{formatPrice(total)}</strong></div>
           <label className="mt-4 flex items-start gap-3 font-cg-soft text-xs leading-relaxed text-[#635E5A]"><input type="checkbox" checked={accepted} onChange={event => setAccepted(event.target.checked)} className="mt-0.5 h-4 w-4" /><span>Acepto las condiciones de compra y los reglamentos de los servicios seleccionados.</span></label>
           <Button type="submit" disabled={startPayment.isPending} className="mt-4 h-12 w-full rounded-full bg-[#333D51] font-cg-mono uppercase tracking-[0.14em] text-white hover:bg-[#4B5872]">{startPayment.isPending ? "Protegiendo tus cupos…" : <><LockKeyhole className="mr-2 h-4 w-4" />Pagar con Transbank</>}</Button>
-          <p className="mt-2 text-center font-cg-soft text-[11px] text-[#827D78]">Los cupos quedan reservados por 30 minutos al iniciar el pago.</p>
+          <p className="mt-2 text-center font-cg-soft text-[11px] text-[#827D78]">Los cupos quedan reservados por 40 minutos al iniciar el pago.</p>
         </div>}
       </form>
     </aside>

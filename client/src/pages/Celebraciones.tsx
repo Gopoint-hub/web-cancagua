@@ -30,6 +30,7 @@ const emptyForm = {
   email: "",
   phone: "",
   celebration: "",
+  preferredDate: "",
   message: "",
 };
 
@@ -61,7 +62,7 @@ export default function Celebraciones() {
     event.preventDefault();
 
     const selectedServices = celebrationServices.filter(({ id }) => id in serviceQuantities);
-    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.celebration.trim()) {
+    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.celebration.trim() || !formData.preferredDate) {
       toast.error("Por favor completa todos los campos obligatorios.");
       return;
     }
@@ -82,7 +83,7 @@ export default function Celebraciones() {
     const servicesSummary = selectedServices
       .map(({ id, label }) => `- ${label}: ${serviceQuantities[id]} personas`)
       .join("\n");
-    const fullMessage = `SOLICITUD DE COTIZACIÓN — CELEBRACIONES\n\nQué está celebrando: ${formData.celebration.trim()}\n\nServicios solicitados:\n${servicesSummary}\n\nMensaje adicional:\n${formData.message.trim() || "Sin mensaje adicional"}`;
+    const fullMessage = `SOLICITUD DE COTIZACIÓN — CELEBRACIONES\n\nQué está celebrando: ${formData.celebration.trim()}\nFecha tentativa: ${formData.preferredDate}\n\nServicios solicitados:\n${servicesSummary}\n\nMensaje adicional:\n${formData.message.trim() || "Sin mensaje adicional"}`;
 
     sendQuoteRequestMutation.mutate({
       name: `${formData.firstName.trim()} ${formData.lastName.trim()}`,
@@ -190,6 +191,11 @@ export default function Celebraciones() {
               <div>
                 <Label htmlFor="celebration-type" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>¿Qué estás celebrando?</T> *</Label>
                 <Input id="celebration-type" placeholder="Ej: cumpleaños, aniversario o reunión familiar" value={formData.celebration} onChange={(event) => setFormData({ ...formData, celebration: event.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+              </div>
+
+              <div>
+                <Label htmlFor="celebration-date" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Fecha tentativa del evento</T> *</Label>
+                <Input id="celebration-date" type="date" min={new Date().toISOString().slice(0, 10)} value={formData.preferredDate} onChange={(event) => setFormData({ ...formData, preferredDate: event.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
               </div>
 
               <fieldset>

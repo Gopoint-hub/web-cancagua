@@ -76,7 +76,7 @@ export default function Corporativos() {
     const selectedServices = corporateQuoteServices.filter(({ id }) => id in serviceQuantities);
     const totalPeople = Number(formData.numberOfPeople);
 
-    if (!formData.companyName.trim() || !formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.objective.trim()) {
+    if (!formData.companyName.trim() || !formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.preferredDate || !formData.objective.trim()) {
       toast.error("Por favor completa todos los campos obligatorios.");
       return;
     }
@@ -101,7 +101,7 @@ export default function Corporativos() {
     const servicesSummary = selectedServices
       .map(({ id, label }) => `- ${label}: ${serviceQuantities[id]} personas`)
       .join("\n");
-    const fullMessage = `SOLICITUD DE COTIZACIÓN — CORPORATIVOS\n\nEmpresa: ${formData.companyName.trim()}\nContacto: ${formData.firstName.trim()} ${formData.lastName.trim()}\nNúmero total de personas: ${totalPeople}\nFecha estimada: ${formData.preferredDate || "Por definir"}\nQué está buscando la empresa: ${formData.objective.trim()}\n\nServicios solicitados:\n${servicesSummary}\n\nMensaje adicional:\n${formData.message.trim() || "Sin mensaje adicional"}`;
+    const fullMessage = `SOLICITUD DE COTIZACIÓN — CORPORATIVOS\n\nEmpresa: ${formData.companyName.trim()}\nContacto: ${formData.firstName.trim()} ${formData.lastName.trim()}\nNúmero total de personas: ${totalPeople}\nFecha tentativa: ${formData.preferredDate}\nQué está buscando la empresa: ${formData.objective.trim()}\n\nServicios solicitados:\n${servicesSummary}\n\nMensaje adicional:\n${formData.message.trim() || "Sin mensaje adicional"}`;
 
     sendQuoteRequestMutation.mutate({
       name: `${formData.firstName.trim()} ${formData.lastName.trim()} (${formData.companyName.trim()})`,
@@ -336,8 +336,8 @@ export default function Corporativos() {
                     <Input id="corporate-total-people" type="number" min="1" max="80" step="1" inputMode="numeric" placeholder="Ej: 25" value={formData.numberOfPeople} onChange={(event) => setFormData({ ...formData, numberOfPeople: event.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
                   </div>
                   <div>
-                    <Label htmlFor="corporate-date" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Fecha estimada</T></Label>
-                    <Input id="corporate-date" type="date" value={formData.preferredDate} onChange={(inputEvent) => setFormData({ ...formData, preferredDate: inputEvent.target.value })} className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
+                    <Label htmlFor="corporate-date" className="font-cg-mono text-[11px] uppercase tracking-[0.12em] text-[#635E5A]"><T>Fecha tentativa del evento</T> *</Label>
+                    <Input id="corporate-date" type="date" min={new Date().toISOString().slice(0, 10)} value={formData.preferredDate} onChange={(inputEvent) => setFormData({ ...formData, preferredDate: inputEvent.target.value })} required className="mt-2 h-12 rounded-xl border-black/15 bg-white" />
                   </div>
                 </div>
 

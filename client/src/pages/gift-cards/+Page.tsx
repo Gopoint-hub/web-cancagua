@@ -7,6 +7,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Check, Gift, Download, Share2, Loader2, CreditCard, ShieldCheck, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
+import { CustomerAcquisitionFields } from "@/components/CustomerAcquisitionFields";
+import { EMPTY_CUSTOMER_ACQUISITION, normalizeCustomerAcquisition, validateCustomerAcquisition } from "@/lib/customerAcquisition";
 
 export default function Page() {
   const [montoSeleccionado, setMontoSeleccionado] = useState<string>("50000");
@@ -20,6 +22,7 @@ export default function Page() {
   const [compraExitosa, setCompraExitosa] = useState(false);
   const [giftCardId, setGiftCardId] = useState<number | null>(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [acquisition, setAcquisition] = useState(EMPTY_CUSTOMER_ACQUISITION);
 
   const { data: backgroundImages } = trpc.giftCards.getBackgroundImages.useQuery();
   const initiatePayment = trpc.giftCards.initiatePayment.useMutation();
@@ -80,6 +83,12 @@ export default function Page() {
       return;
     }
 
+    const acquisitionError = validateCustomerAcquisition(acquisition);
+    if (acquisitionError) {
+      alert(acquisitionError);
+      return;
+    }
+
     setIsProcessingPayment(true);
 
     try {
@@ -93,6 +102,7 @@ export default function Page() {
         senderEmail: emailRemitente || undefined,
         personalMessage: mensaje || undefined,
         deliveryMethod: "email",
+        acquisition: normalizeCustomerAcquisition(acquisition),
       });
 
       if (result.success && result.paymentUrl) {
@@ -481,6 +491,15 @@ export default function Page() {
                       {mensaje.length}/150 caracteres
                     </p>
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <h2 className="text-xl font-semibold">4. Cuéntanos un poco de ti</h2>
+                </CardHeader>
+                <CardContent>
+                  <CustomerAcquisitionFields value={acquisition} onChange={setAcquisition} idPrefix="gift-card" />
                 </CardContent>
               </Card>
 
