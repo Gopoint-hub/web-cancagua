@@ -4,12 +4,18 @@ import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { CustomerAcquisitionFields } from "@/components/CustomerAcquisitionFields";
-import { EMPTY_CUSTOMER_ACQUISITION, normalizeCustomerAcquisition, validateCustomerAcquisition } from "@/lib/customerAcquisition";
+import { CHILE_REGIONS, EMPTY_CUSTOMER_ACQUISITION, normalizeCustomerAcquisition, validateCustomerAcquisition, type CustomerAcquisitionFormValue } from "@/lib/customerAcquisition";
 import type { WellnessCart } from "@/lib/wellnessCart";
 import { paymentGatewayForModules } from "@/lib/serviceCartRules";
 
 const STORAGE_KEY = "cancagua-service-cart-v1";
 const WELLNESS_STORAGE_KEY = "cancagua-wellness-cart-v1";
+const CHECKOUT_PROFILE_STORAGE_KEY = "cancagua-checkout-profile-v1";
+
+type StoredCheckoutProfile = {
+  customer: { name: string; email: string; phone: string };
+  acquisition: CustomerAcquisitionFormValue;
+};
 
 export type BiopoolCartItem = { module: "biopools"; serviceId: number; serviceName: string; bookingDate: string; startTime: string; endTime: string; adultQuantity: number; childQuantity: number; discountCode?: string; totalClp: number };
 export type SaunaCartItem = { module: "sauna"; serviceId: number; serviceName: string; bookingDate: string; startTime: string; endTime: string; privateGuestCount?: number; discountCode?: string; guests: number; totalClp: number };
@@ -101,6 +107,7 @@ function ServiceCartDrawer() {
   const { items, open, setOpen, removeItem } = useServiceCart();
   const [customer, setCustomer] = useState({ name: "", email: "", phone: "+56" });
   const [acquisition, setAcquisition] = useState(EMPTY_CUSTOMER_ACQUISITION);
+  const [profileHydrated, setProfileHydrated] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [showDiscount, setShowDiscount] = useState(false);
   const [codeInput, setCodeInput] = useState("");
@@ -108,6 +115,7 @@ function ServiceCartDrawer() {
   const [discountState, setDiscountState] = useState<{ signature: string; code: string; finalTotal: number } | null>(null);
   const startPayment = trpc.serviceCart.public.startPayment.useMutation();
   const validateDiscount = trpc.serviceCart.public.validateDiscount.useMutation();
+  const createCheckoutHandoff = trpc.serviceCart.public.createCheckoutHandoff.useMutation();
   const hasWellness = items.some(item => item.module === "massages" || item.module === "regular_classes");
   const hasMassages = items.some(item => item.module === "massages");
   const usesTransbank = paymentGatewayForModules(items.map(item => item.module)) === "transbank";
@@ -115,6 +123,35 @@ function ServiceCartDrawer() {
   const cartSignature = items.map(item => `${item.module}:${item.module === "massages" ? item.key : item.module}:${item.totalClp}`).join("|");
   const appliedDiscount = discountState?.signature === cartSignature ? discountState : null;
   const total = appliedDiscount?.finalTotal ?? subtotal;
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(window.localStorage.getItem(CHECKOUT_PROFILE_STORAGE_KEY) ?? "null") as StoredCheckoutProfile | null;
+      if (saved?.customer) {
+        setCustomer({
+          name: String(saved.customer.name ?? ""),
+          email: String(saved.customer.email ?? ""),
+          phone: String(saved.customer.phone ?? "+56") || "+56",
+        });
+      }
+      if (saved?.acquisition) {
+        const storedRegion = String(saved.acquisition.region ?? "");
+        const normalizedRegion = storedRegion
+          ? CHILE_REGIONS.find(region => region === storedRegion || region.endsWith(storedRegion)) ?? storedRegion
+          : "";
+        setAcquisition({ ...EMPTY_CUSTOMER_ACQUISITION, ...saved.acquisition, region: normalizedRegion });
+      }
+    } catch {
+      window.localStorage.removeItem(CHECKOUT_PROFILE_STORAGE_KEY);
+    } finally {
+      setProfileHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!profileHydrated) return;
+    window.localStorage.setItem(CHECKOUT_PROFILE_STORAGE_KEY, JSON.stringify({ customer, acquisition } satisfies StoredCheckoutProfile));
+  }, [acquisition, customer, profileHydrated]);
   const apiItems = () => items.reduce<Array<
     | { module: "biopools"; serviceId: number; bookingDate: string; startTime: string; adultQuantity: number; childQuantity: number }
     | { module: "sauna"; serviceId: number; bookingDate: string; startTime: string; privateGuestCount?: number }
@@ -140,13 +177,33 @@ function ServiceCartDrawer() {
     });
   };
 
-  const continueWellnessCheckout = () => {
+  const continueWellnessCheckout = async () => {
     const massages = items.filter((item): item is MassageCartItem => item.module === "massages");
     const plan = items.find((item): item is RegularClassCartItem => item.module === "regular_classes");
     const params = new URLSearchParams();
     if (massages.length) params.set("cart", JSON.stringify(massages.map(item => ({ techniqueId: item.techniqueId, duration: item.duration, quantity: item.quantity }))));
     if (plan) params.set("plan", String(plan.planId));
     if (usesTransbank) params.set("service_cart", JSON.stringify(items.filter(item => item.module === "biopools" || item.module === "sauna")));
+    if (appliedDiscount?.code) params.set("discount", appliedDiscount.code);
+    const acquisitionError = validateCustomerAcquisition(acquisition);
+    const hasReusableProfile = customer.name.trim().length >= 2
+      && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email.trim())
+      && customer.phone.replace(/\D/g, "").length >= 8
+      && !acquisitionError;
+    if (hasReusableProfile) {
+      try {
+        const handoff = await createCheckoutHandoff.mutateAsync({
+          clientName: customer.name.trim(),
+          clientEmail: customer.email.trim(),
+          clientPhone: customer.phone.trim(),
+          acquisition: normalizeCustomerAcquisition(acquisition),
+        });
+        params.set("customer_handoff", handoff.token);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : "No pudimos conservar tus datos para el siguiente paso");
+        return;
+      }
+    }
     params.set("checkout_id", `cart-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`);
     window.location.assign(`https://cms.cancagua.cl/reservar/masajes?${params.toString()}`);
   };
@@ -154,7 +211,7 @@ function ServiceCartDrawer() {
   const pay = (event: FormEvent) => {
     event.preventDefault();
     if (!items.length) return toast.error("Agrega al menos un servicio al carrito");
-    if (hasWellness) return continueWellnessCheckout();
+    if (hasWellness) return void continueWellnessCheckout();
     const acquisitionError = validateCustomerAcquisition(acquisition);
     if (acquisitionError) return toast.error(acquisitionError);
     if (!accepted) return toast.error("Debes aceptar las condiciones de compra");
@@ -192,7 +249,7 @@ function ServiceCartDrawer() {
         {!hasWellness && showDiscount && <div className="mb-4"><div className="flex gap-2"><input value={codeInput} onChange={event => { setCodeInput(event.target.value.toUpperCase()); setDiscountState(null); setCodeError(""); }} placeholder="Ingresa tu código" className="min-w-0 flex-1 rounded-full border border-[#BCBAB8] px-4 py-2 font-cg-mono text-sm uppercase" /><Button type="button" variant="outline" onClick={applyCode} disabled={!codeInput.trim() || validateDiscount.isPending} className="rounded-full">{validateDiscount.isPending ? "Validando…" : "Aplicar"}</Button></div>{codeError && <p className="mt-2 font-cg-soft text-sm text-red-700">{codeError}</p>}{appliedDiscount && <p className="mt-2 font-cg-soft text-sm text-green-700">Código {appliedDiscount.code} aplicado.</p>}</div>}
         <div className="flex items-end justify-between"><div><span className="font-cg-soft text-sm text-[#635E5A]">Total · {items.length} {items.length === 1 ? "selección" : "selecciones"}</span><p className="mt-1 font-cg-mono text-[10px] uppercase tracking-[0.12em] text-[#696F4D]">Pago por {usesTransbank ? "Transbank" : "Getnet"}</p></div><strong className="font-cg-serif text-3xl font-light text-[#222221]">{formatPrice(total)}</strong></div>
         {!hasWellness && <label className="mt-4 flex items-start gap-3 font-cg-soft text-xs leading-relaxed text-[#635E5A]"><input type="checkbox" checked={accepted} onChange={event => setAccepted(event.target.checked)} className="mt-0.5 h-4 w-4" /><span>Acepto las condiciones de compra y los reglamentos de los servicios seleccionados.</span></label>}
-        <Button type="submit" disabled={startPayment.isPending} className="mt-4 h-12 w-full rounded-full bg-[#333D51] font-cg-mono uppercase tracking-[0.14em] text-white hover:bg-[#4B5872]">{startPayment.isPending ? "Protegiendo tus cupos…" : <><LockKeyhole className="mr-2 h-4 w-4" />{hasWellness ? (hasMassages ? "Continuar y elegir horarios" : "Continuar al pago") : `Pagar con ${usesTransbank ? "Transbank" : "Getnet"}`}</>}</Button>
+        <Button type="submit" disabled={startPayment.isPending || createCheckoutHandoff.isPending} className="mt-4 h-12 w-full rounded-full bg-[#333D51] font-cg-mono uppercase tracking-[0.14em] text-white hover:bg-[#4B5872]">{startPayment.isPending || createCheckoutHandoff.isPending ? "Protegiendo tus cupos…" : <><LockKeyhole className="mr-2 h-4 w-4" />{hasWellness ? (hasMassages ? "Continuar y elegir horarios" : "Continuar al pago") : `Pagar con ${usesTransbank ? "Transbank" : "Getnet"}`}</>}</Button>
         <p className="mt-2 text-center font-cg-soft text-[11px] text-[#827D78]">{hasWellness ? `El pago final será por ${usesTransbank ? "Transbank" : "Getnet"}.` : "Los cupos quedan reservados por 40 minutos al iniciar el pago."}</p>
       </div>}
       </form>

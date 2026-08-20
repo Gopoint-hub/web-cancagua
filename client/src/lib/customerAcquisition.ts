@@ -8,22 +8,22 @@ export const DISCOVERY_SOURCE_OPTIONS = [
 ] as const;
 
 export const CHILE_REGIONS = [
-  "Arica y Parinacota",
-  "Tarapacá",
-  "Antofagasta",
-  "Atacama",
-  "Coquimbo",
-  "Valparaíso",
-  "Metropolitana de Santiago",
-  "Libertador General Bernardo O'Higgins",
-  "Maule",
-  "Ñuble",
-  "Biobío",
-  "La Araucanía",
-  "Los Ríos",
-  "Los Lagos",
-  "Aysén del General Carlos Ibáñez del Campo",
-  "Magallanes y de la Antártica Chilena",
+  "Región de Arica y Parinacota",
+  "Región de Tarapacá",
+  "Región de Antofagasta",
+  "Región de Atacama",
+  "Región de Coquimbo",
+  "Región de Valparaíso",
+  "Región Metropolitana de Santiago",
+  "Región del Libertador General Bernardo O'Higgins",
+  "Región del Maule",
+  "Región de Ñuble",
+  "Región del Biobío",
+  "Región de La Araucanía",
+  "Región de Los Ríos",
+  "Región de Los Lagos",
+  "Región de Aysén del General Carlos Ibáñez del Campo",
+  "Región de Magallanes y de la Antártica Chilena",
 ] as const;
 
 export type CustomerAcquisitionFormValue = {
