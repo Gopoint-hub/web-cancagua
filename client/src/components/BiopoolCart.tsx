@@ -62,7 +62,7 @@ export function BiopoolCart({ catalogs, initialServiceSlug, open, onOpen: _onOpe
   const { addItem, items: cartItems } = useServiceCart();
   // Mismo criterio que en Sauna: si ya hay algo en el carrito, se asume el mismo
   // día. El efecto que valida disponibilidad la corrige si no tuviera cupo.
-  const fechaEnCarrito = cartItems.find(item => item.bookingDate)?.bookingDate ?? "";
+  const fechaEnCarrito = cartItems.find(item => item.module === "biopools" || item.module === "sauna")?.bookingDate ?? "";
   const preferredCatalog = catalogs.find(item => item.service.slug === initialServiceSlug) ?? catalogs[0];
   const [selectedServiceId, setSelectedServiceId] = useState(preferredCatalog.service.id);
   const catalog = catalogs.find(item => item.service.id === selectedServiceId) ?? preferredCatalog;

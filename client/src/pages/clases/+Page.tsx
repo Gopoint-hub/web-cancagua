@@ -405,6 +405,16 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
+    const syncFromGlobalCart = (event: Event) => {
+      const detail = (event as CustomEvent<{ classPlan: ClassPlan | null; massages: WellnessMassageItem[] }>).detail;
+      setSelectedPlan(current => JSON.stringify(current) === JSON.stringify(detail.classPlan) ? current : detail.classPlan);
+      setMassageCart(current => JSON.stringify(current) === JSON.stringify(detail.massages) ? current : detail.massages);
+    };
+    window.addEventListener("cancagua:global-cart-synced", syncFromGlobalCart);
+    return () => window.removeEventListener("cancagua:global-cart-synced", syncFromGlobalCart);
+  }, []);
+
+  useEffect(() => {
     if (!cartReady) return;
     writeWellnessCart({ classPlan: selectedPlan, massages: massageCart });
   }, [cartReady, selectedPlan, massageCart]);
@@ -557,20 +567,6 @@ export default function Page() {
         <div className="container max-w-3xl"><h2 className="font-cg-serif text-4xl md:text-5xl">Empieza tu práctica este mes</h2><p className="mx-auto mt-5 max-w-2xl font-cg-soft text-lg leading-relaxed text-white/75">Elige el plan que mejor acompaña tu ritmo. Puedes sumar un masaje y pagar todo junto de forma segura.</p><a href="#planes" className="mt-8 inline-flex h-12 items-center rounded-full bg-white px-8 font-cg-mono text-xs uppercase tracking-[0.15em] text-[#222221]">Elegir mi plan</a></div>
       </section>
 
-      {!isCartOpen && cartCount > 0 && <button type="button" onClick={() => setIsCartOpen(true)} className="fixed right-5 top-28 z-40 flex items-center gap-3 rounded-full bg-[#333D51] px-5 py-3 font-cg-mono text-xs uppercase tracking-[0.12em] text-white shadow-xl"><ShoppingBag className="h-4 w-4" />Carrito ({cartCount})</button>}
-      <CartDrawer
-        open={isCartOpen}
-        checkoutId={checkoutId}
-        invitationToken={invitationToken}
-        plan={selectedPlan}
-        massages={massageCart}
-        suggestions={availableMassages}
-        onClose={() => setIsCartOpen(false)}
-        onRemovePlan={() => setSelectedPlan(null)}
-        onAddMassage={addMassage}
-        onQuantityChange={(key, quantity) => setMassageCart((current) => quantity <= 0 ? current.filter((item) => item.key !== key) : current.map((item) => item.key === key ? { ...item, quantity: Math.min(4, quantity) } : item))}
-        onRemoveMassage={(key) => setMassageCart((current) => current.filter((item) => item.key !== key))}
-      />
     </div>
   );
 }

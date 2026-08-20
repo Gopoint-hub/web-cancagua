@@ -419,6 +419,16 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
+    const syncFromGlobalCart = (event: Event) => {
+      const detail = (event as CustomEvent<{ classPlan: WellnessClassPlan | null; massages: MassageCartItem[] }>).detail;
+      setClassPlan(current => JSON.stringify(current) === JSON.stringify(detail.classPlan) ? current : detail.classPlan);
+      setCart(current => JSON.stringify(current) === JSON.stringify(detail.massages) ? current : detail.massages);
+    };
+    window.addEventListener("cancagua:global-cart-synced", syncFromGlobalCart);
+    return () => window.removeEventListener("cancagua:global-cart-synced", syncFromGlobalCart);
+  }, []);
+
+  useEffect(() => {
     if (!cartReady) return;
     writeWellnessCart({ classPlan, massages: cart });
   }, [cartReady, classPlan, cart]);
@@ -554,24 +564,6 @@ export default function Page() {
           )}
         </div>
       </section>
-
-      {!isCartOpen && (cart.length > 0 || classPlan) && (
-        <button type="button" onClick={() => setIsCartOpen(true)} className="fixed right-5 top-28 z-40 flex items-center gap-3 rounded-full bg-[#333D51] px-5 py-3 font-cg-mono text-xs uppercase tracking-[0.12em] text-white shadow-xl hover:bg-[#1B212D]">
-          <ShoppingBag className="h-4 w-4" />
-          Carrito ({cart.reduce((sum, item) => sum + item.quantity, 0) + (classPlan ? 1 : 0)})
-        </button>
-      )}
-
-      <MassageCartDrawer
-        items={cart}
-        classPlan={classPlan}
-        open={isCartOpen}
-        checkoutId={checkoutId}
-        onClose={() => setIsCartOpen(false)}
-        onQuantityChange={changeCartQuantity}
-        onRemove={removeCartItem}
-        onRemoveClassPlan={() => setClassPlan(null)}
-      />
 
       {/* Galería */}
       <section className="py-20 bg-white">
