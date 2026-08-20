@@ -20,7 +20,7 @@ const featuredPanoramas = [
     description: "Una velada luminosa junto al agua y el bosque nativo para honrar la imaginación y al niño interior. El Dúo Daniela Conejero + Ítalo Aguilera recorrerá melodías alegres y creativas, con opción de extender la experiencia en las biopiscinas.",
     image: "https://cdn.skedu.com/skedu-v2/5d59ea78-5b85-4274-b771-5ca34e689061/e0b2972eae0c49219f541837b8aa3fe6.png",
     imagePosition: "center 46%",
-    date: "Sábado 15 de agosto de 2026",
+    date: "Viernes 21 de agosto de 2026",
     time: "Llegada 18:30 · Concierto 19:00–20:30",
     location: "Biopiscinas de Cancagua",
     price: "Desde $15.000",
