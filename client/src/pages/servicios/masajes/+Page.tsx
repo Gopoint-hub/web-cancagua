@@ -150,20 +150,23 @@ function MonthlyMassageFeature({ technique, onAdd }: {
     ? new Intl.DateTimeFormat("es-CL", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${technique.monthlyFeatureMonth}-01T12:00:00Z`))
     : "este mes";
 
-  return <section className="bg-white py-16 md:py-20" aria-labelledby="monthly-massage-title">
+  return <section className="bg-white pb-8 pt-4 md:pb-10 md:pt-6" aria-labelledby="monthly-massage-title">
     <div className="container max-w-6xl">
+      <div className="mb-5 text-center md:mb-6">
+        <p className="font-cg-mono text-xs uppercase tracking-[0.22em] text-[#696F4D]">Masaje del mes</p>
+        <p className="mt-2 font-cg-soft text-sm capitalize text-[#635E5A]">{month}</p>
+      </div>
       <article className="grid overflow-hidden rounded-[2rem] border border-[#D8DACD] bg-[#F5F6F4] shadow-[0_4px_6px_rgba(0,0,0,0.04),0_10px_18px_rgba(0,0,0,0.05)] md:grid-cols-[1.05fr_0.95fr]">
-        <div className="relative min-h-[320px] overflow-hidden md:min-h-[470px]">
+        <div className="relative min-h-[280px] overflow-hidden md:min-h-[370px]">
           <img src={technique.imageUrl || FALLBACK_IMAGE} alt={technique.name} className="absolute inset-0 h-full w-full object-cover transition duration-700 hover:scale-[1.02]" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
         </div>
-        <div className="flex flex-col justify-center p-8 md:p-12 lg:p-14">
-          <p className="font-cg-mono text-xs uppercase tracking-[0.22em] text-[#696F4D]">Masaje del mes · <span className="capitalize">{month}</span></p>
-          <h2 id="monthly-massage-title" className="mt-4 font-cg-serif text-4xl font-light leading-tight text-[#222221] md:text-5xl">{technique.name}</h2>
-          <p className="mt-5 font-cg-soft text-lg leading-relaxed text-[#635E5A]">{technique.description || "Una experiencia creada especialmente para acompañar el ritmo de este mes."}</p>
-          <p className="mt-4 font-cg-soft text-sm leading-relaxed text-[#696F4D]">Disponible únicamente durante este mes.</p>
-          <div className="mt-7 flex flex-wrap gap-2">{technique.durations.map(duration => <button type="button" key={duration} onClick={() => setSelectedDuration(duration)} aria-pressed={selectedDuration === duration} className={`rounded-full border px-4 py-2 font-cg-mono text-xs uppercase tracking-[0.12em] transition ${selectedDuration === duration ? "border-[#4A4F35] bg-[#4A4F35] text-white" : "border-[#A4A98E] bg-white text-[#4A4F35] hover:bg-[#D8DACD]"}`}><Clock className="mr-1 inline h-3 w-3" />{duration} min</button>)}</div>
-          <div className="mt-8 flex flex-col gap-5 border-t border-[#BFC2B2] pt-7 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col justify-center p-7 md:p-8">
+          <h2 id="monthly-massage-title" className="font-cg-serif text-4xl font-light leading-tight text-[#222221] md:text-5xl">{technique.name}</h2>
+          <p className="mt-4 font-cg-soft text-base leading-relaxed text-[#635E5A] md:text-lg">{technique.description || "Una experiencia creada especialmente para acompañar el ritmo de este mes."}</p>
+          <p className="mt-3 font-cg-soft text-sm leading-relaxed text-[#696F4D]">Disponible únicamente durante este mes.</p>
+          <div className="mt-5 flex flex-wrap gap-2">{technique.durations.map(duration => <button type="button" key={duration} onClick={() => setSelectedDuration(duration)} aria-pressed={selectedDuration === duration} className={`rounded-full border px-4 py-2 font-cg-mono text-xs uppercase tracking-[0.12em] transition ${selectedDuration === duration ? "border-[#4A4F35] bg-[#4A4F35] text-white" : "border-[#A4A98E] bg-white text-[#4A4F35] hover:bg-[#D8DACD]"}`}><Clock className="mr-1 inline h-3 w-3" />{duration} min</button>)}</div>
+          <div className="mt-5 flex flex-col gap-4 border-t border-[#BFC2B2] pt-5 sm:flex-row sm:items-center sm:justify-between">
             <strong className="font-cg-serif text-3xl font-light text-[#222221]">{formatPrice(selectedPrice)}</strong>
             <Button type="button" onClick={() => selectedDuration && onAdd(technique, selectedDuration)} disabled={!selectedDuration || !selectedPrice} className="rounded-full bg-[#333D51] px-7 font-cg-mono text-xs uppercase tracking-[0.14em] text-white hover:bg-[#4B5872]">Reservar servicio →</Button>
           </div>
@@ -557,12 +560,12 @@ export default function Page() {
       </section>
 
       {/* Descripción */}
-      <section className="py-16 bg-white">
+      <section className="bg-white pb-5 pt-12 md:pb-6 md:pt-14">
         <div className="container max-w-4xl text-center">
-          <p className="mb-6 font-cg-sans text-lg leading-relaxed text-[#635E5A]">
+          <p className="font-cg-sans text-lg leading-relaxed text-[#635E5A]">
             Tu bienestar es nuestro compromiso. Tenemos diversos tipos de masajes diseñados para renovar tu cuerpo y mente en un entorno natural único.
           </p>
-          <div className="flex justify-center gap-8 mt-8 flex-wrap">
+          <div className="mt-6 flex flex-wrap justify-center gap-x-8 gap-y-3">
             <div className="flex items-center gap-2 text-[#4B5872]">
               <Sparkles className="h-5 w-5" />
               <span className="font-cg-sans text-sm text-[#635E5A]">Ambiente relajante</span>
@@ -582,7 +585,7 @@ export default function Page() {
       {featuredTechnique && <MonthlyMassageFeature technique={featuredTechnique} onAdd={addToCart} />}
 
       {/* Lista de Servicios */}
-      <section id="tecnicas" className="py-20 bg-[#F4F2ED]">
+      <section id="tecnicas" className="bg-[#F4F2ED] pb-16 pt-10 md:pb-[4.5rem] md:pt-12">
         <div className="container max-w-6xl">
           <h2 className="mb-4 text-center font-cg-serif text-4xl font-normal tracking-[-0.01em] text-[#222221] md:text-5xl">
             Selecciona tu experiencia
